@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: elastic-standalone
+spec:
+  serviceName: elastic-svc
+  replicas: 1
+  selector:
+    matchLabels:
+      app: elastic
+  template:
+    metadata:
+      labels:
+        app: elastic
+        selector: elastic-standalone
+    spec:
+      containers:
+        - name: elastic-standalone
+          image: docker.elastic.co/elasticsearch/elasticsearch:7.0.1
+          env:
+            - name: discovery.type
+              value: single-node
+            - name: bootstrap.memory_lock
+              value: "true"
+            - name: ES_JAVA_OPTS
+              value: "-Xms512m -Xmx512m"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: elastic-svc
+spec:
+  type: NodePort
+  selector:
+    app: elastic
+  ports:
+    - port: 9200
+      targetPort: 9200
+      nodePort: 32200

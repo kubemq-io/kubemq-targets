@@ -1,0 +1,4 @@
+helm repo update
+helm install  mssql stable/mssql-linux --set acceptEula.value=Y --set sapassword=n8x2Nz!f --set edition.value=Developer
+kubectl port-forward --namespace default svc/mssql-mssql-linux 1433:1433
+helm delete mssql
