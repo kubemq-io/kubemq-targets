@@ -22,7 +22,7 @@ func TestClient_Init(t *testing.T) {
 				Name: "memcached-target",
 				Kind: "",
 				Properties: map[string]string{
-					"hosts":                   "localhost:2985",
+					"hosts":                   "localhost:11211",
 					"max_idle_connections":    "2",
 					"default_timeout_seconds": "10",
 				},
@@ -60,7 +60,7 @@ func TestClient_Init(t *testing.T) {
 				Name: "memcached-target",
 				Kind: "",
 				Properties: map[string]string{
-					"hosts":                   "localhost:2985",
+					"hosts":                   "localhost:11211",
 					"max_idle_connections":    "-1",
 					"default_timeout_seconds": "10",
 				},
@@ -73,7 +73,7 @@ func TestClient_Init(t *testing.T) {
 				Name: "memcached-target",
 				Kind: "",
 				Properties: map[string]string{
-					"hosts":                   "localhost:2985",
+					"hosts":                   "localhost:11211",
 					"max_idle_connections":    "2",
 					"default_timeout_seconds": "-1",
 				},
@@ -112,7 +112,7 @@ func TestClient_Set_Get(t *testing.T) {
 				Name: "target.memcached",
 				Kind: "target.memcached",
 				Properties: map[string]string{
-					"hosts":                   "localhost:2985",
+					"hosts":                   "localhost:11211",
 					"max_idle_connections":    "2",
 					"default_timeout_seconds": "10",
 				},
@@ -130,7 +130,6 @@ func TestClient_Set_Get(t *testing.T) {
 				SetMetadataKeyValue("result", "ok"),
 			wantGetResponse: types.NewResponse().
 				SetMetadataKeyValue("key", "some-key").
-				SetMetadataKeyValue("error", "false").
 				SetData([]byte("some-data")),
 			wantSetErr: false,
 			wantGetErr: false,
@@ -141,7 +140,7 @@ func TestClient_Set_Get(t *testing.T) {
 				Name: "target.memcached",
 				Kind: "target.memcached",
 				Properties: map[string]string{
-					"hosts":                   "localhost:2985",
+					"hosts":                   "localhost:11211",
 					"max_idle_connections":    "2",
 					"default_timeout_seconds": "10",
 				},
@@ -157,12 +156,9 @@ func TestClient_Set_Get(t *testing.T) {
 			wantSetResponse: types.NewResponse().
 				SetMetadataKeyValue("key", "some-key").
 				SetMetadataKeyValue("result", "ok"),
-			wantGetResponse: types.NewResponse().
-				SetMetadataKeyValue("key", "bad-key").
-				SetMetadataKeyValue("error", "true").
-				SetMetadataKeyValue("message", "no data found for this key"),
+			wantGetResponse: nil,
 			wantSetErr: false,
-			wantGetErr: false,
+			wantGetErr: true,
 		},
 	}
 	for _, tt := range tests {
@@ -200,7 +196,7 @@ func TestClient_Delete(t *testing.T) {
 		Name: "target.memcached",
 		Kind: "target.memcached",
 		Properties: map[string]string{
-			"hosts":                   "localhost:2985",
+			"hosts":                   "localhost:11211",
 			"max_idle_connections":    "2",
 			"default_timeout_seconds": "10",
 		},
@@ -228,10 +224,9 @@ func TestClient_Delete(t *testing.T) {
 	_, err = c.Do(ctx, delRequest)
 	require.NoError(t, err)
 	gotGetResponse, err = c.Do(ctx, getRequest)
-	require.NoError(t, err)
-	require.NotNil(t, gotGetResponse)
-	require.EqualValues(t, []byte(nil), gotGetResponse.Data)
-}
+	require.Error(t, err)
+	require.Nil(t, gotGetResponse)
+	}
 func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name    string
@@ -245,7 +240,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "target.memcached",
 				Kind: "target.memcached",
 				Properties: map[string]string{
-					"hosts":                   "localhost:2985",
+					"hosts":                   "localhost:11211",
 					"max_idle_connections":    "2",
 					"default_timeout_seconds": "10",
 				},
@@ -262,7 +257,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "target.memcached",
 				Kind: "target.memcached",
 				Properties: map[string]string{
-					"hosts":                   "localhost:2985",
+					"hosts":                   "localhost:11211",
 					"max_idle_connections":    "2",
 					"default_timeout_seconds": "10",
 				},
@@ -279,7 +274,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "target.memcached",
 				Kind: "target.memcached",
 				Properties: map[string]string{
-					"hosts":                   "localhost:2985",
+					"hosts":                   "localhost:11211",
 					"max_idle_connections":    "2",
 					"default_timeout_seconds": "10",
 				},

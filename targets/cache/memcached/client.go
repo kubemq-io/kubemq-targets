@@ -7,7 +7,6 @@ import (
 	"github.com/bradfitz/gomemcache/memcache"
 
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 
 	"time"
@@ -18,7 +17,6 @@ type Client struct {
 	name   string
 	client *memcache.Client
 	opts   options
-	log    *logger.Logger
 }
 
 func New() *Client {
@@ -29,7 +27,6 @@ func (c *Client) Name() string {
 }
 func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	c.name = cfg.Name
-	c.log = logger.NewLogger(cfg.Name)
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
@@ -67,18 +64,13 @@ func (c *Client) Get(ctx context.Context, meta metadata) (*types.Response, error
 	if err != nil {
 		// Return nil for status 204
 		if errors.Is(err, memcache.ErrCacheMiss) {
-			return types.NewResponse().
-				SetMetadataKeyValue("key", meta.key).
-				SetMetadataKeyValue("error", "true").
-				SetMetadataKeyValue("message", "no data found for this key"), nil
+			return nil, fmt.Errorf("no data found for this key")
 		}
 		return nil, err
 	}
 	return types.NewResponse().
 		SetData(item.Value).
-		SetMetadataKeyValue("error", "false").
 		SetMetadataKeyValue("key", meta.key), nil
-
 }
 
 func (c *Client) Set(ctx context.Context, meta metadata, value []byte) (*types.Response, error) {
