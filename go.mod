@@ -3,6 +3,8 @@ module github.com/kubemq-hub/kubemq-target-connectors
 go 1.14
 
 require (
+	cloud.google.com/go/bigquery v1.8.0
+	cloud.google.com/go/bigtable v1.4.0
 	cloud.google.com/go/firestore v1.2.0
 	cloud.google.com/go/pubsub v1.4.0
 	github.com/aws/aws-sdk-go v1.32.4
@@ -21,6 +23,7 @@ require (
 	github.com/jinzhu/gorm v1.9.14 // indirect
 	github.com/jjeffery/stomp v0.0.0-20160907031752-b994bda931e1 // indirect
 	github.com/json-iterator/go v1.1.10
+	github.com/kubemq-hub/components v0.0.0-20200617145717-b6065f0cbbd0
 	github.com/kubemq-io/kubemq-go v1.4.0
 	github.com/labstack/echo/v4 v4.1.16
 	github.com/lib/pq v1.1.1
@@ -34,7 +37,7 @@ require (
 	go.mongodb.org/mongo-driver v1.3.4
 	go.uber.org/zap v1.10.0
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d // indirect
-	google.golang.org/api v0.25.0
+	google.golang.org/api v0.28.0
 	google.golang.org/grpc v1.30.0
 	google.golang.org/grpc/examples v0.0.0-20200627230533-68098483a7af // indirect
 	sigs.k8s.io/yaml v1.2.0 // indirect
