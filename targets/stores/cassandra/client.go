@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/gocql/gocql"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 )
 
@@ -16,7 +15,6 @@ type Client struct {
 	cluster *gocql.ClusterConfig
 	table   string
 	opts    options
-	log     *logger.Logger
 }
 
 func New() *Client {
@@ -27,7 +25,6 @@ func (c *Client) Name() string {
 }
 func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	c.name = cfg.Name
-	c.log = logger.NewLogger(cfg.Name)
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
@@ -193,9 +190,7 @@ func (c *Client) Query(ctx context.Context, meta metadata, value []byte) (*types
 		return nil, err
 	}
 	if len(results) == 0 {
-		return types.NewResponse().
-				SetMetadataKeyValue("result", "ok"),
-			nil
+		return nil, fmt.Errorf("no results for this query")
 
 	}
 	return types.NewResponse().
