@@ -84,9 +84,8 @@ func TestClient_Do(t *testing.T) {
 			wantReq: types.NewRequest().
 				SetData([]byte("data")),
 			wantResp: types.NewResponse().
-				SetMetadataKeyValue("error", "").
-				SetMetadataKeyValue("sent", "true").
-				SetMetadataKeyValue("event_store_id", "id"),
+				SetMetadataKeyValue("result", "ok").
+				SetMetadataKeyValue("id", "id"),
 			wantErr: false,
 		},
 		{

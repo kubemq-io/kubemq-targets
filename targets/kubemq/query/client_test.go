@@ -94,11 +94,8 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("channel", "queries").
 				SetMetadataKeyValue("timeout_seconds", "5"),
 			wantResp: types.NewResponse().
-				SetMetadataKeyValue("error", "").
-				SetMetadataKeyValue("query_id", "id").
-				SetMetadataKeyValue("response_client_id", "response-id").
-				SetMetadataKeyValue("executed", "true").
-				SetMetadataKeyValue("executed_at", time.Unix(1000, 0).String()).
+				SetMetadataKeyValue("result", "ok").
+				SetMetadataKeyValue("id", "id").
 				SetData([]byte("data")),
 			wantErr: false,
 		},
@@ -125,13 +122,8 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("id", "id").
 				SetMetadataKeyValue("channel", "queries").
 				SetMetadataKeyValue("timeout_seconds", "5"),
-			wantResp: types.NewResponse().
-				SetMetadataKeyValue("error", "error").
-				SetMetadataKeyValue("query_id", "id").
-				SetMetadataKeyValue("response_client_id", "response-id").
-				SetMetadataKeyValue("executed", "false").
-				SetMetadataKeyValue("executed_at", time.Unix(0, 0).String()),
-			wantErr: false,
+			wantResp: nil,
+			wantErr:  true,
 		},
 		{
 			name: "request error - empty body",

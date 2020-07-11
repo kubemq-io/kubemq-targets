@@ -80,11 +80,8 @@ func TestClient_Do(t *testing.T) {
 			wantReq: types.NewRequest().
 				SetData([]byte("data")),
 			wantResp: types.NewResponse().
-				SetMetadataKeyValue("error", "").
-				SetMetadataKeyValue("queue_id", "id").
-				SetMetadataKeyValue("delayed_to", "0").
-				SetMetadataKeyValue("expire_at", "0").
-				SetMetadataKeyValue("is_error", "false"),
+				SetMetadataKeyValue("id", "id").
+				SetMetadataKeyValue("result", "ok"),
 
 			wantErr: false,
 		},

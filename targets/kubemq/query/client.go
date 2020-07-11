@@ -4,8 +4,6 @@ import (
 	"context"
 	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
-	"github.com/kubemq-hub/kubemq-target-connectors/targets"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"github.com/kubemq-io/kubemq-go"
 )
@@ -14,8 +12,6 @@ type Client struct {
 	name   string
 	opts   options
 	client *kubemq.Client
-	log    *logger.Logger
-	target targets.Target
 }
 
 func New() *Client {
@@ -27,18 +23,21 @@ func (c *Client) Name() string {
 }
 func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	c.name = cfg.Name
-	c.log = logger.NewLogger(cfg.Name)
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
 		return err
 	}
-	c.client, _ = kubemq.NewClient(ctx,
+	c.client, err = kubemq.NewClient(ctx,
 		kubemq.WithAddress(c.opts.host, c.opts.port),
 		kubemq.WithClientId(c.opts.clientId),
 		kubemq.WithTransportType(kubemq.TransportTypeGRPC),
-		kubemq.WithAuthToken(c.opts.authToken))
-
+		kubemq.WithAuthToken(c.opts.authToken),
+		kubemq.WithCheckConnection(true),
+	)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -57,12 +56,12 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 	if err != nil {
 		return nil, err
 	}
+	if !queryResponse.Executed {
+		return nil, fmt.Errorf(queryResponse.Error)
+	}
 	return types.NewResponse().
-			SetMetadataKeyValue("error", queryResponse.Error).
-			SetMetadataKeyValue("query_id", queryResponse.QueryId).
-			SetMetadataKeyValue("response_client_id", queryResponse.ResponseClientId).
-			SetMetadataKeyValue("executed", fmt.Sprintf("%t", queryResponse.Executed)).
-			SetMetadataKeyValue("executed_at", fmt.Sprintf("%s", queryResponse.ExecutedAt)).
+			SetMetadataKeyValue("id", queryResponse.QueryId).
+			SetMetadataKeyValue("result", "ok").
 			SetData(queryResponse.Body),
 		nil
 }
