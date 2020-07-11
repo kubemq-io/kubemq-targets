@@ -9,10 +9,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sqs"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
-	"github.com/kubemq-hub/kubemq-target-connectors/targets"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
-	
+
 	"strconv"
 )
 
@@ -20,8 +18,6 @@ type Client struct {
 	name   string
 	opts   options
 	client *sqs.SQS
-	log    *logger.Logger
-	target targets.Target
 }
 
 func New() *Client {
@@ -34,7 +30,6 @@ func (c *Client) Name() string {
 
 func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	c.name = cfg.Name
-	c.log = logger.NewLogger(cfg.Name)
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
