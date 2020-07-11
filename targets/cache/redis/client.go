@@ -5,7 +5,6 @@ import (
 	"crypto/tls"
 	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"strconv"
 	"strings"
@@ -28,7 +27,6 @@ type Client struct {
 	redis    *redisClient.Client
 	opts     options
 	replicas int
-	log      *logger.Logger
 }
 
 func New() *Client {
@@ -39,7 +37,6 @@ func (c *Client) Name() string {
 }
 func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	c.name = cfg.Name
-	c.log = logger.NewLogger(cfg.Name)
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
@@ -90,8 +87,6 @@ func (c *Client) getConnectedSlaves(ctx context.Context) (int, error) {
 		return 0, err
 	}
 
-	// Response example: https://redis.io/commands/info#return-value
-	// # Replication\c\nrole:master\c\nconnected_slaves:1\c\n
 	s, _ := strconv.Unquote(fmt.Sprintf("%q", res))
 	if len(s) == 0 {
 		return 0, nil
@@ -114,32 +109,22 @@ func (c *Client) parseConnectedSlaves(res string) int {
 func (c *Client) Get(ctx context.Context, meta metadata) (*types.Response, error) {
 	res, err := c.redis.DoContext(ctx, "HGETALL", meta.key).Result() // Prefer values with ETags
 	if err != nil {
-		return c.directGet(meta.key) //Falls back to original get
+		return c.directGet(ctx,meta.key) //Falls back to original get
 	}
 	if res == nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("key", meta.key).
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", "no data found for this key"), nil
+		return nil,fmt.Errorf("no data found for this key")
 	}
 	vals := res.([]interface{})
 	if len(vals) == 0 {
-		return types.NewResponse().
-			SetMetadataKeyValue("key", meta.key).
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", "no data found for this key"), nil
+		return nil,fmt.Errorf("no data found for this key")
 	}
 
 	data, _, err := c.getKeyVersion(vals)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("key", meta.key).
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil,fmt.Errorf("error found for get this key, %w",err)
 	}
 	return types.NewResponse().
 		SetData([]byte(data)).
-		SetMetadataKeyValue("error", "false").
 		SetMetadataKeyValue("key", meta.key), nil
 }
 
@@ -162,21 +147,14 @@ func (c *Client) getKeyVersion(vals []interface{}) (data string, version string,
 	}
 	return data, version, nil
 }
-func (c *Client) directGet(key string) (*types.Response, error) {
-	res, err := c.redis.DoContext(context.Background(), "GET", key).Result()
+func (c *Client) directGet(ctx context.Context, key string) (*types.Response, error) {
+	res, err := c.redis.DoContext(ctx, "GET", key).Result()
 	if err != nil {
 		return nil, err
 	}
-
-	return types.NewResponse().
-		SetMetadataKeyValue("key", key).
-		SetMetadataKeyValue("error", "true").
-		SetMetadataKeyValue("message", "no data found for this key"), nil
-
 	s, _ := strconv.Unquote(fmt.Sprintf("%q", res))
 	return types.NewResponse().
 		SetMetadataKeyValue("key", key).
-		SetMetadataKeyValue("error", "false").
 		SetData([]byte(s)), nil
 }
 
