@@ -6,12 +6,6 @@ import (
 	"github.com/go-stomp/stomp"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
-
-	"time"
-)
-
-const (
-	defaultConnectTimeout = 5 * time.Second
 )
 
 type Client struct {
