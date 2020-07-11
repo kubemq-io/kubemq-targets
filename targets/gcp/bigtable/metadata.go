@@ -28,7 +28,7 @@ var methodsMap = map[string]string{
 
 func getValidMethodTypes() string {
 	s := fmt.Sprintf("invalid method type, method type should be one of the following:")
-	for k, _ := range methodsMap {
+	for k:= range methodsMap {
 		s = fmt.Sprintf("%s :%s,", s, k)
 	}
 	return s

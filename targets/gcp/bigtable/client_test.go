@@ -8,7 +8,8 @@ import (
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"github.com/stretchr/testify/require"
 	"io/ioutil"
-	"math/rand"
+	"crypto/rand"
+	"math/big"
 	"testing"
 	"time"
 )
@@ -21,7 +22,13 @@ type testStructure struct {
 	columnFamily string
 	rowKeyPrefix string
 }
-
+func getRandInt64() int64 {
+	nBig, err := rand.Int(rand.Reader, big.NewInt(27))
+	if err != nil {
+		panic(err)
+	}
+	return nBig.Int64()
+}
 func getTestStructure() (*testStructure, error) {
 	t := &testStructure{}
 	dat, err := ioutil.ReadFile("./../../../credentials/instance.txt")
@@ -113,7 +120,9 @@ func TestClient_Init(t *testing.T) {
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
 				return
 			}
-			defer c.CloseAdminClient()
+			defer func() {
+				_=c.CloseAdminClient()
+			}()
 			require.NoError(t, err)
 			require.EqualValues(t, tt.cfg.Name, c.Name())
 			err = c.CloseAdminClient()
@@ -340,10 +349,10 @@ func TestClient_Create_Delete_Table(t *testing.T) {
 func TestClient_write(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
-	singleRow := map[string]interface{}{"set_row_key": fmt.Sprintf("%d", rand.Int()), "id": 1, "name": "test1"}
+	singleRow := map[string]interface{}{"set_row_key": fmt.Sprintf("%d", getRandInt64()), "id": 1, "name": "test1"}
 	var rows []map[string]interface{}
-	rowOne := map[string]interface{}{"set_row_key": fmt.Sprintf("%d", rand.Int()), "id": 2, "name": "test2"}
-	rowTwo := map[string]interface{}{"set_row_key": fmt.Sprintf("%d", rand.Int()), "id": 3, "name": "test3"}
+	rowOne := map[string]interface{}{"set_row_key": fmt.Sprintf("%d", getRandInt64()), "id": 2, "name": "test2"}
+	rowTwo := map[string]interface{}{"set_row_key": fmt.Sprintf("%d", getRandInt64()), "id": 3, "name": "test3"}
 	rows = append(rows, rowOne)
 	rows = append(rows, rowTwo)
 
@@ -403,7 +412,9 @@ func TestClient_write(t *testing.T) {
 			defer cancel()
 			c := New()
 			err := c.Init(ctx, tt.cfg)
-			defer c.CloseAdminClient()
+			defer func() {
+				_=c.CloseAdminClient()
+			}()
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.writeRequest)
 			if tt.wantWriteErr {
@@ -497,7 +508,9 @@ func TestClient_Delete_Rows(t *testing.T) {
 			defer cancel()
 			c := New()
 			err := c.Init(ctx, tt.cfg)
-			defer c.CloseAdminClient()
+			defer func() {
+				_=c.CloseAdminClient()
+			}()
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.deleteRequest)
 			if tt.wantErr {
@@ -632,7 +645,9 @@ func TestClient_Read_Rows(t *testing.T) {
 			defer cancel()
 			c := New()
 			err := c.Init(ctx, tt.cfg)
-			defer c.CloseAdminClient()
+			defer func() {
+				_=c.CloseAdminClient()
+			}()
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.writeRequest)
 			if tt.wantErr {

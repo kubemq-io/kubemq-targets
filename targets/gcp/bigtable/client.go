@@ -8,8 +8,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
-	"github.com/kubemq-hub/kubemq-target-connectors/targets"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 )
 
@@ -18,8 +16,6 @@ type Client struct {
 	opts        options
 	adminClient *bigtable.AdminClient
 	client      *bigtable.Client
-	log         *logger.Logger
-	target      targets.Target
 }
 
 func New() *Client {
@@ -32,7 +28,6 @@ func (c *Client) Name() string {
 
 func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	c.name = cfg.Name
-	c.log = logger.NewLogger(cfg.Name)
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
@@ -86,16 +81,16 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 
 func (c *Client) getTables(ctx context.Context) (*types.Response, error) {
 	tables, err := c.adminClient.Tables(ctx)
+	if err!= nil {
+		return nil, err
+	}
 	if len(tables) <= 0 {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", "no tables found for this instance"), nil
+		return nil, fmt.Errorf("no tables found for this instance")
+
 	}
 	b, err := json.Marshal(tables)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	return types.NewResponse().
 			SetData(b).
@@ -106,9 +101,7 @@ func (c *Client) getTables(ctx context.Context) (*types.Response, error) {
 func (c *Client) createTable(ctx context.Context, meta metadata) (*types.Response, error) {
 	err := c.adminClient.CreateTable(ctx, meta.tableName)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok"),
@@ -118,9 +111,7 @@ func (c *Client) createTable(ctx context.Context, meta metadata) (*types.Respons
 func (c *Client) createColumnFamily(ctx context.Context, meta metadata) (*types.Response, error) {
 	err := c.adminClient.CreateColumnFamily(ctx, meta.tableName, meta.columnFamily)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok"),
@@ -130,9 +121,7 @@ func (c *Client) createColumnFamily(ctx context.Context, meta metadata) (*types.
 func (c *Client) deleteTable(ctx context.Context, meta metadata) (*types.Response, error) {
 	err := c.adminClient.DeleteTable(ctx, meta.tableName)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok"),
@@ -142,9 +131,7 @@ func (c *Client) deleteTable(ctx context.Context, meta metadata) (*types.Respons
 func (c *Client) deleteRowRange(ctx context.Context, meta metadata) (*types.Response, error) {
 	err := c.adminClient.DropRowRange(ctx, meta.tableName, meta.rowKeyPrefix)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok"),
@@ -153,18 +140,16 @@ func (c *Client) deleteRowRange(ctx context.Context, meta metadata) (*types.Resp
 
 func (c *Client) readRow(ctx context.Context, meta metadata) (*types.Response, error) {
 	tbl := c.client.Open(meta.tableName)
-	defer c.client.Close()
+	defer func() {
+		_=c.client.Close()
+	}()
 	row, err := tbl.ReadRow(ctx, meta.rowKeyPrefix)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	b, err := json.Marshal(row)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	return types.NewResponse().
 			SetData(b),
@@ -174,9 +159,7 @@ func (c *Client) readRow(ctx context.Context, meta metadata) (*types.Response, e
 func (c *Client) readAllRows(ctx context.Context, meta metadata, body []byte) (*types.Response, error) {
 	prefixes, err := c.getRowKeys(body)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	var rs bigtable.RowSet
 	if len(prefixes) > 0 {
@@ -192,20 +175,14 @@ func (c *Client) readAllRows(ctx context.Context, meta metadata, body []byte) (*
 		return true
 	})
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	if len(rows) == 0 {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", "no rows found for this table"), nil
+		return nil, fmt.Errorf("no rows found for this table")
 	}
 	b, err := json.Marshal(rows)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok").
@@ -216,9 +193,7 @@ func (c *Client) readAllRows(ctx context.Context, meta metadata, body []byte) (*
 func (c *Client) readAllRowsByColumnFilter(ctx context.Context, meta metadata, body []byte) (*types.Response, error) {
 	prefixes, err := c.getRowKeys(body)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	var rs bigtable.RowSet
 	if len(prefixes) > 0 {
@@ -234,20 +209,14 @@ func (c *Client) readAllRowsByColumnFilter(ctx context.Context, meta metadata, b
 		return true
 	}, bigtable.RowFilter(bigtable.ColumnFilter(meta.readColumnName)))
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	if len(rows) == 0 {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", "no rows found for this table"), nil
+		return nil, fmt.Errorf("no rows found for this table")
 	}
 	b, err := json.Marshal(rows)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok").
@@ -257,10 +226,15 @@ func (c *Client) readAllRowsByColumnFilter(ctx context.Context, meta metadata, b
 
 func (c *Client) writeRow(ctx context.Context, meta metadata, body []byte) (*types.Response, error) {
 	tbl := c.client.Open(meta.tableName)
-	defer c.client.Close()
+	defer func() {
+		_=c.client.Close()
+	}()
 	timestamp := bigtable.Now()
 	mut := bigtable.NewMutation()
 	m, err := c.getSingleColumnFromBody(body)
+	if err!=nil {
+		return nil, err
+	}
 	rowKey := ""
 	for k, v := range m {
 		if k == "set_row_key" {
@@ -273,20 +247,16 @@ func (c *Client) writeRow(ctx context.Context, meta metadata, body []byte) (*typ
 					SetMetadataKeyValue("error", "true").
 					SetMetadataKeyValue("message", err.Error()), nil
 			}
-			binary.Write(buf, binary.BigEndian, b)
+			_=binary.Write(buf, binary.BigEndian, b)
 			mut.Set(meta.columnFamily, k, timestamp, buf.Bytes())
 		}
 	}
 	if len(rowKey) == 0 {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", "missing set_row_key value"), nil
+		return nil, fmt.Errorf( "missing set_row_key value")
 	}
 	err = tbl.Apply(ctx, rowKey, mut)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok"),
@@ -295,15 +265,18 @@ func (c *Client) writeRow(ctx context.Context, meta metadata, body []byte) (*typ
 
 func (c *Client) writeBatch(ctx context.Context, meta metadata, body []byte) (*types.Response, error) {
 	tbl := c.client.Open(meta.tableName)
-	defer c.client.Close()
+	defer func() {
+		_=c.client.Close()
+	}()
 	timestamp := bigtable.Now()
 	var muts []*bigtable.Mutation
 	var rowKeys []string
 	s, err := c.getMultipleColumnsFromBody(body)
+	if err!=nil {
+		return nil, err
+	}
 	if len(s) == 0 {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", "column requested must be at least 1"), nil
+		return nil,fmt.Errorf("column requested must be at least 1")
 	}
 	for _, m := range s {
 		mut := bigtable.NewMutation()
@@ -318,22 +291,18 @@ func (c *Client) writeBatch(ctx context.Context, meta metadata, body []byte) (*t
 						SetMetadataKeyValue("error", "true").
 						SetMetadataKeyValue("message", err.Error()), nil
 				}
-				binary.Write(buf, binary.BigEndian, b)
+				_=binary.Write(buf, binary.BigEndian, b)
 				mut.Set(meta.columnFamily, k, timestamp, buf.Bytes())
 			}
 		}
 		muts = append(muts, mut)
 	}
 	if len(s) != len(rowKeys) {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", "set_row_key count does not match column requested"), nil
+		return nil,fmt.Errorf("set_row_key count does not match column requested")
 	}
 	_, err = tbl.ApplyBulk(ctx, rowKeys, muts)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil,err
 	}
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok"),
