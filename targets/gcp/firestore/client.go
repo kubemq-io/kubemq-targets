@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
-	"github.com/kubemq-hub/kubemq-target-connectors/targets"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"google.golang.org/api/iterator"
 )
@@ -16,8 +14,6 @@ type Client struct {
 	name   string
 	opts   options
 	client *firestore.Client
-	log    *logger.Logger
-	target targets.Target
 }
 
 func New() *Client {
@@ -30,7 +26,6 @@ func (c *Client) Name() string {
 
 func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	c.name = cfg.Name
-	c.log = logger.NewLogger(cfg.Name)
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
@@ -67,21 +62,14 @@ func (c *Client) add(ctx context.Context, meta metadata, data []byte) (*types.Re
 	m := make(map[string]interface{})
 	err := json.Unmarshal(data, &m)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("collection", meta.key).
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", "failed to parse data as map"), nil
+		return nil,fmt.Errorf("failed to parse data as map")
 	}
 	_, _, err = c.client.Collection(meta.key).Add(ctx, m)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("collection", meta.key).
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	return types.NewResponse().
 			SetMetadataKeyValue("collection", meta.key).
-			SetMetadataKeyValue("error", "false").
 			SetMetadataKeyValue("result", "ok"),
 		nil
 }
@@ -95,49 +83,33 @@ func (c *Client) documentAll(ctx context.Context, meta metadata) (*types.Respons
 			break
 		}
 		if err != nil {
-			return types.NewResponse().
-				SetMetadataKeyValue("collection", meta.key).
-				SetMetadataKeyValue("error", "true").
-				SetMetadataKeyValue("message", fmt.Sprintf(err.Error())), nil
+			return nil, err
 		}
 		retData = append(retData, doc.Data())
 	}
 	if len(retData) <= 0 {
-		return types.NewResponse().
-			SetMetadataKeyValue("collection", meta.key).
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", "no data found for this key"), nil
+		return nil,fmt.Errorf( "no data found for this key")
 	}
-	byte, err := json.Marshal(retData)
+	data, err := json.Marshal(retData)
 	if err != nil {
 		return nil, err
 	}
 	return types.NewResponse().
-		SetData(byte).
-		SetMetadataKeyValue("error", "false").
+		SetData(data).
 		SetMetadataKeyValue("collection", meta.key), nil
 }
 
 func (c *Client) documentKey(ctx context.Context, meta metadata) (*types.Response, error) {
 	obj, err := c.client.Collection(meta.key).Doc(meta.item).Get(ctx)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("collection", meta.key).
-			SetMetadataKeyValue("item", meta.item).
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
-	byte, err := json.Marshal(obj.Data())
+	data, err := json.Marshal(obj.Data())
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("collection", meta.key).
-			SetMetadataKeyValue("item", meta.item).
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	return types.NewResponse().
-		SetData(byte).
-		SetMetadataKeyValue("error", "false").
+		SetData(data).
 		SetMetadataKeyValue("item", meta.item).
 		SetMetadataKeyValue("collection", meta.key), nil
 }
@@ -145,14 +117,9 @@ func (c *Client) documentKey(ctx context.Context, meta metadata) (*types.Respons
 func (c *Client) deleteDocument(ctx context.Context, meta metadata) (*types.Response, error) {
 	_, err := c.client.Collection(meta.key).Doc(meta.item).Delete(ctx)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("collection", meta.key).
-			SetMetadataKeyValue("item", meta.item).
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	return types.NewResponse().
-		SetMetadataKeyValue("error", "false").
 		SetMetadataKeyValue("item", meta.item).
 		SetMetadataKeyValue("result", "ok").
 		SetMetadataKeyValue("collection", meta.key), nil
@@ -173,18 +140,14 @@ func (c *Client) list(ctx context.Context) (*types.Response, error) {
 		collections = append(collections, collection.ID)
 	}
 	if len(collections)<=0 {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", "no collections found for this project"), nil
+		return nil,fmt.Errorf("no collections found for this project")
 	}
-	b,err:=json.Marshal(collections)
+	data,err:=json.Marshal(collections)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	return types.NewResponse().
-			SetData(b).
+			SetData(data).
 			SetMetadataKeyValue("result", "ok"),
 		nil
 }
