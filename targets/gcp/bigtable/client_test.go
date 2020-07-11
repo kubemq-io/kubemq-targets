@@ -2,13 +2,13 @@ package bigtable
 
 import (
 	"context"
+	"crypto/rand"
 	"encoding/json"
 	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"github.com/stretchr/testify/require"
 	"io/ioutil"
-	"crypto/rand"
 	"math/big"
 	"testing"
 	"time"
