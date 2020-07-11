@@ -22,7 +22,7 @@ func TestClient_Init(t *testing.T) {
 				Name: "mongodb-target",
 				Kind: "",
 				Properties: map[string]string{
-					"host":                      "localhost:32017",
+					"host":                      "localhost:27017",
 					"username":                  "admin",
 					"password":                  "password",
 					"database":                  "admin",
@@ -78,7 +78,7 @@ func TestClient_Init(t *testing.T) {
 				Name: "mongodb-target",
 				Kind: "",
 				Properties: map[string]string{
-					"host":                      "localhost:32017",
+					"host":                      "localhost:27017",
 					"username":                  "admin",
 					"password":                  "password",
 					"collection":                "test",
@@ -96,7 +96,7 @@ func TestClient_Init(t *testing.T) {
 				Name: "mongodb-target",
 				Kind: "",
 				Properties: map[string]string{
-					"host":                      "localhost:32017",
+					"host":                      "localhost:27017",
 					"username":                  "admin",
 					"password":                  "password",
 					"database":                  "admin",
@@ -114,7 +114,7 @@ func TestClient_Init(t *testing.T) {
 				Name: "mongodb-target",
 				Kind: "",
 				Properties: map[string]string{
-					"host":                      "localhost:32017",
+					"host":                      "localhost:27017",
 					"username":                  "admin",
 					"password":                  "password",
 					"database":                  "admin",
@@ -133,7 +133,7 @@ func TestClient_Init(t *testing.T) {
 				Name: "mongodb-target",
 				Kind: "",
 				Properties: map[string]string{
-					"host":                      "localhost:32017",
+					"host":                      "localhost:27017",
 					"username":                  "admin",
 					"password":                  "password",
 					"database":                  "admin",
@@ -152,7 +152,7 @@ func TestClient_Init(t *testing.T) {
 				Name: "mongodb-target",
 				Kind: "",
 				Properties: map[string]string{
-					"host":                      "localhost:32017",
+					"host":                      "localhost:27017",
 					"username":                  "admin",
 					"password":                  "password",
 					"database":                  "admin",
@@ -197,7 +197,7 @@ func TestClient_Set_Get(t *testing.T) {
 				Name: "target.mongodb",
 				Kind: "target.mongodb",
 				Properties: map[string]string{
-					"host":                      "localhost:32017",
+					"host":                      "localhost:27017",
 					"username":                  "admin",
 					"password":                  "password",
 					"database":                  "admin",
@@ -221,7 +221,6 @@ func TestClient_Set_Get(t *testing.T) {
 				SetMetadataKeyValue("result", "ok"),
 			wantGetResponse: types.NewResponse().
 				SetMetadataKeyValue("key", "some-key").
-				SetMetadataKeyValue("error", "false").
 				SetData([]byte("some-data")),
 			wantSetErr: false,
 			wantGetErr: false,
@@ -232,7 +231,7 @@ func TestClient_Set_Get(t *testing.T) {
 				Name: "target.mongodb",
 				Kind: "target.mongodb",
 				Properties: map[string]string{
-					"host":                      "localhost:32017",
+					"host":                      "localhost:27017",
 					"username":                  "admin",
 					"password":                  "password",
 					"database":                  "admin",
@@ -254,12 +253,9 @@ func TestClient_Set_Get(t *testing.T) {
 			wantSetResponse: types.NewResponse().
 				SetMetadataKeyValue("key", "some-key").
 				SetMetadataKeyValue("result", "ok"),
-			wantGetResponse: types.NewResponse().
-				SetMetadataKeyValue("key", "bad-key").
-				SetMetadataKeyValue("error", "true").
-				SetMetadataKeyValue("message", "no data found for this key"),
-			wantSetErr: false,
-			wantGetErr: false,
+			wantGetResponse: nil,
+			wantSetErr:      false,
+			wantGetErr:      true,
 		},
 	}
 	for _, tt := range tests {
@@ -297,7 +293,7 @@ func TestClient_Delete(t *testing.T) {
 		Name: "target.mongodb",
 		Kind: "target.mongodb",
 		Properties: map[string]string{
-			"host":                      "localhost:32017",
+			"host":                      "localhost:27017",
 			"username":                  "admin",
 			"password":                  "password",
 			"database":                  "admin",
@@ -331,9 +327,8 @@ func TestClient_Delete(t *testing.T) {
 	_, err = c.Do(ctx, delRequest)
 	require.NoError(t, err)
 	gotGetResponse, err = c.Do(ctx, getRequest)
-	require.NoError(t, err)
-	require.NotNil(t, gotGetResponse)
-	require.EqualValues(t, []byte(nil), gotGetResponse.Data)
+	require.Error(t, err)
+	require.Nil(t, gotGetResponse)
 }
 func TestClient_Do(t *testing.T) {
 	tests := []struct {
@@ -348,7 +343,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "target.mongodb",
 				Kind: "target.mongodb",
 				Properties: map[string]string{
-					"host":                      "localhost:32017",
+					"host":                      "localhost:27017",
 					"username":                  "admin",
 					"password":                  "password",
 					"database":                  "admin",
@@ -371,7 +366,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "target.mongodb",
 				Kind: "target.mongodb",
 				Properties: map[string]string{
-					"host":                      "localhost:32017",
+					"host":                      "localhost:27017",
 					"username":                  "admin",
 					"password":                  "password",
 					"database":                  "admin",
@@ -394,7 +389,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "target.mongodb",
 				Kind: "target.mongodb",
 				Properties: map[string]string{
-					"host":                      "localhost:32017",
+					"host":                      "localhost:27017",
 					"username":                  "admin",
 					"password":                  "password",
 					"database":                  "admin",

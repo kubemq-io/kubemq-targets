@@ -6,7 +6,6 @@ import (
 	"strconv"
 
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -16,10 +15,6 @@ import (
 )
 
 const (
-	host     = "host"
-	username = "username"
-	password = "password"
-
 	id                  = "_id"
 	value               = "value"
 	connectionURIFormat = "mongodb://%s:%s@%s/%s%s"
@@ -34,7 +29,6 @@ type Client struct {
 	opts       options
 	client     *mongo.Client
 	collection *mongo.Collection
-	log        *logger.Logger
 }
 
 func New() *Client {
@@ -45,7 +39,6 @@ func (c *Client) Name() string {
 }
 func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	c.name = cfg.Name
-	c.log = logger.NewLogger(cfg.Name)
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
@@ -149,14 +142,10 @@ func (c *Client) Get(ctx context.Context, meta metadata) (*types.Response, error
 	filter := bson.M{id: meta.key}
 	err := c.collection.FindOne(ctx, filter).Decode(&result)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("key", meta.key).
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", "no data found for this key"), nil
+		return nil, fmt.Errorf("no data found for this key")
 	}
 	return types.NewResponse().
 		SetData([]byte(result.Value)).
-		SetMetadataKeyValue("error", "false").
 		SetMetadataKeyValue("key", meta.key), nil
 }
 
