@@ -92,7 +92,9 @@ func TestClient_Init(t *testing.T) {
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
 				return
 			}
-			defer c.CloseClient()
+			defer func() {
+				_=c.CloseClient()
+			}()
 			require.NoError(t, err)
 			require.EqualValues(t, tt.cfg.Name, c.Name())
 		})
@@ -162,7 +164,9 @@ func TestClient_Query(t *testing.T) {
 			defer cancel()
 			c := New()
 			err := c.Init(ctx, tt.cfg)
-			defer c.CloseClient()
+			defer func() {
+				_=c.CloseClient()
+			}()
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
 			if tt.wantErr {
@@ -281,7 +285,9 @@ func TestClient_Create_Table(t *testing.T) {
 			defer cancel()
 			c := New()
 			err := c.Init(ctx, tt.cfg)
-			defer c.CloseClient()
+			defer func() {
+				_=c.CloseClient()
+			}()
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
 			if tt.wantErr {

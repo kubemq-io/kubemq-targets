@@ -7,7 +7,6 @@ import (
 
 type options struct {
 	projectID string
-	instance string
 }
 
 func parseOptions(cfg config.Metadata) (options, error) {

@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
-	"github.com/kubemq-hub/kubemq-target-connectors/targets"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"google.golang.org/api/iterator"
 )
@@ -16,8 +14,6 @@ type Client struct {
 	name   string
 	opts   options
 	client *bigquery.Client
-	log    *logger.Logger
-	target targets.Target
 }
 
 func New() *Client {
@@ -30,7 +26,6 @@ func (c *Client) Name() string {
 
 func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	c.name = cfg.Name
-	c.log = logger.NewLogger(cfg.Name)
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
@@ -67,17 +62,11 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 func (c *Client) getTableInfo(ctx context.Context, meta metadata) (*types.Response, error) {
 	m, err := c.client.Dataset(meta.datasetID).Table(meta.tableName).Metadata(ctx)
 	if err != nil {
-		if err != nil {
-			return types.NewResponse().
-				SetMetadataKeyValue("error", "true").
-				SetMetadataKeyValue("message", err.Error()), nil
-		}
+		return nil, err
 	}
 	b, err := json.Marshal(m)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil,err
 	}
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok").
@@ -89,22 +78,14 @@ func (c *Client) getDataSets(ctx context.Context) (*types.Response, error) {
 	i := c.client.Datasets(ctx)
 	s, err := c.getDataSetsFromIterator(i)
 	if err != nil {
-		if err != nil {
-			return types.NewResponse().
-				SetMetadataKeyValue("error", "true").
-				SetMetadataKeyValue("message", err.Error()), nil
-		}
+		return nil, err
 	}
 	b, err := json.Marshal(s)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	if len(s) == 0 {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", "no datasets found"), nil
+		return nil, fmt.Errorf("no datasets found")
 	}
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok").
@@ -116,26 +97,18 @@ func (c *Client) query(ctx context.Context, meta metadata) (*types.Response, err
 	query := c.client.Query(meta.query)
 	i, err := query.Read(ctx)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	rows, err := c.getRowsFromIterator(i)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	if len(rows) == 0 {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", "no rows found for this query"), nil
+		return nil, fmt.Errorf("no rows found for this query")
 	}
 	b, err := json.Marshal(rows)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok").
@@ -145,19 +118,14 @@ func (c *Client) query(ctx context.Context, meta metadata) (*types.Response, err
 
 func (c *Client) createTable(ctx context.Context, meta metadata, body []byte) (*types.Response, error) {
 	metaData := &bigquery.TableMetadata{}
-
 	err := json.Unmarshal(body, &metaData)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	tableRef := c.client.Dataset(meta.datasetID).Table(meta.tableName)
 	err = tableRef.Create(ctx, metaData)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok"),
