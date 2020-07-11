@@ -8,7 +8,6 @@ import (
 )
 
 const (
-	defaultDurability    = 1
 	defaultCas           = 0
 	defaultExpirySeconds = 0
 )

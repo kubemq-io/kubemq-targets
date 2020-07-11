@@ -3,12 +3,10 @@ package couchdb
 import (
 	"context"
 	"fmt"
-	jsoniter "github.com/json-iterator/go"
 	"time"
 
 	"github.com/couchbase/gocb/v2"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 )
 
@@ -20,8 +18,6 @@ type Client struct {
 	cluster    *gocb.Cluster
 	bucket     *gocb.Bucket
 	collection *gocb.Collection
-	log        *logger.Logger
-	json       jsoniter.API
 }
 
 func New() *Client {
@@ -32,7 +28,6 @@ func (c *Client) Name() string {
 }
 func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	c.name = cfg.Name
-	c.log = logger.NewLogger(cfg.Name)
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
@@ -82,7 +77,7 @@ func (c *Client) Get(ctx context.Context, meta metadata) (*types.Response, error
 	var timeout time.Duration
 	deadline, ok := ctx.Deadline()
 	if ok {
-		timeout = deadline.Sub(time.Now())
+		timeout = time.Until(deadline)
 	}
 	result, err := c.collection.Get(meta.key, &gocb.GetOptions{
 		WithExpiry:    false,
@@ -109,7 +104,7 @@ func (c *Client) Set(ctx context.Context, meta metadata, data []byte) (*types.Re
 	var timeout time.Duration
 	deadline, ok := ctx.Deadline()
 	if ok {
-		timeout = deadline.Sub(time.Now())
+		timeout = time.Until(deadline)
 	}
 
 	_, err := c.collection.Upsert(meta.key, data, &gocb.UpsertOptions{
@@ -133,7 +128,7 @@ func (c *Client) Delete(ctx context.Context, meta metadata) (*types.Response, er
 	var timeout time.Duration
 	deadline, ok := ctx.Deadline()
 	if ok {
-		timeout = deadline.Sub(time.Now())
+		timeout = time.Until(deadline)
 	}
 	_, err := c.collection.Remove(meta.key, &gocb.RemoveOptions{
 		Cas:             gocb.Cas(meta.cas),
