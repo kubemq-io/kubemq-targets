@@ -64,7 +64,7 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 		r, err := c.client.SendMessageWithContext(ctx,m)
 		if err == nil {
 			return types.NewResponse().
-					SetMetadataKeyValue("event_id", fmt.Sprintf("%s", *r.MessageId)),
+					SetMetadataKeyValue("event_id",  *r.MessageId),
 				nil
 		}
 		if tries >= c.opts.retries {
