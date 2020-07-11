@@ -6,7 +6,6 @@ import (
 	"fmt"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	_ "github.com/lib/pq"
 	"strings"
@@ -17,12 +16,9 @@ var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 // Client is a Client state store
 type Client struct {
-	name     string
-	db       *sql.DB
-	table    string
-	opts     options
-	replicas int
-	log      *logger.Logger
+	name string
+	db   *sql.DB
+	opts options
 }
 
 func New() *Client {
@@ -33,7 +29,6 @@ func (c *Client) Name() string {
 }
 func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	c.name = cfg.Name
-	c.log = logger.NewLogger(cfg.Name)
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
@@ -84,7 +79,7 @@ func (c *Client) Exec(ctx context.Context, meta metadata, value []byte) (*types.
 		if stmt != "" {
 			_, err := c.db.ExecContext(ctx, stmt)
 			if err != nil {
-				return nil, fmt.Errorf("error on statment %d, %w", i, err)
+				return nil, fmt.Errorf("error on statement %d, %w", i, err)
 			}
 		}
 	}
@@ -107,7 +102,7 @@ func (c *Client) Transaction(ctx context.Context, meta metadata, value []byte) (
 	}
 	defer func() {
 		if r := recover(); r != nil {
-			tx.Rollback()
+			_ = tx.Rollback()
 		}
 	}()
 	for i, stmt := range stmts {
@@ -118,7 +113,7 @@ func (c *Client) Transaction(ctx context.Context, meta metadata, value []byte) (
 				if rollBackErr != nil {
 					return nil, rollBackErr
 				}
-				return nil, fmt.Errorf("error on statment %d, %w", i, err)
+				return nil, fmt.Errorf("error on statement %d, %w", i, err)
 			}
 		}
 	}
