@@ -31,7 +31,7 @@ const mapping = `{
 }`
 
 const (
-	elasticUrl = "http://localhost:32200"
+	elasticUrl = "http://localhost:9200"
 	testIndex  = "log"
 )
 
@@ -44,17 +44,14 @@ func (l *log) marshal() []byte {
 	b, _ := json.Marshal(l)
 	return b
 }
-func unmarshalLog(b []byte) *log {
-	l := &log{}
-	_ = json.Unmarshal(b, l)
-	return l
-}
+
 func newLog(id, data string) *log {
 	return &log{Id: id,
 		Data: data}
 }
 func TestMain(m *testing.M) {
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
 	client, err := elastic.NewClient(elastic.SetURL(elasticUrl), elastic.SetSniff(false))
 	if err != nil {
 		panic(err)
@@ -98,7 +95,7 @@ func TestClient_Init(t *testing.T) {
 				Name: "elastic-target",
 				Kind: "",
 				Properties: map[string]string{
-					"urls":                    "http://localhost:32200",
+					"urls":                    "http://localhost:9200",
 					"sniff":                   "false",
 					"username":                "",
 					"password":                "",
@@ -113,7 +110,7 @@ func TestClient_Init(t *testing.T) {
 				Name: "elastic-target",
 				Kind: "",
 				Properties: map[string]string{
-					"urls":                    "scheme://localhost:32200",
+					"urls":                    "scheme://localhost:9200",
 					"sniff":                   "false",
 					"username":                "",
 					"password":                "",
@@ -143,7 +140,7 @@ func TestClient_Init(t *testing.T) {
 				Name: "elastic-target",
 				Kind: "",
 				Properties: map[string]string{
-					"urls":                    "http://localhost:32200",
+					"urls":                    "http://localhost:9200",
 					"sniff":                   "false",
 					"username":                "",
 					"password":                "",
@@ -185,7 +182,7 @@ func TestClient_Set_Get(t *testing.T) {
 				Name: "elastic-target",
 				Kind: "",
 				Properties: map[string]string{
-					"urls":                    "http://localhost:32200",
+					"urls":                    "http://localhost:9200",
 					"sniff":                   "false",
 					"username":                "",
 					"password":                "",
@@ -217,7 +214,7 @@ func TestClient_Set_Get(t *testing.T) {
 				Name: "elastic-target",
 				Kind: "",
 				Properties: map[string]string{
-					"urls":                    "http://localhost:32200",
+					"urls":                    "http://localhost:9200",
 					"sniff":                   "false",
 					"username":                "",
 					"password":                "",
@@ -249,7 +246,7 @@ func TestClient_Set_Get(t *testing.T) {
 				Name: "elastic-target",
 				Kind: "",
 				Properties: map[string]string{
-					"urls":                    "http://localhost:32200",
+					"urls":                    "http://localhost:9200",
 					"sniff":                   "false",
 					"username":                "",
 					"password":                "",
@@ -274,7 +271,7 @@ func TestClient_Set_Get(t *testing.T) {
 				Name: "elastic-target",
 				Kind: "",
 				Properties: map[string]string{
-					"urls":                    "http://localhost:32200",
+					"urls":                    "http://localhost:9200",
 					"sniff":                   "false",
 					"username":                "",
 					"password":                "",
@@ -335,7 +332,7 @@ func TestClient_Delete(t *testing.T) {
 		Name: "elastic-target",
 		Kind: "",
 		Properties: map[string]string{
-			"urls":                    "http://localhost:32200",
+			"urls":                    "http://localhost:9200",
 			"sniff":                   "false",
 			"username":                "",
 			"password":                "",
@@ -391,7 +388,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "target.elastic",
 				Kind: "target.elastic",
 				Properties: map[string]string{
-					"urls":                    "http://localhost:32200",
+					"urls":                    "http://localhost:9200",
 					"sniff":                   "false",
 					"username":                "",
 					"password":                "",
@@ -409,7 +406,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "target.elastic",
 				Kind: "target.elastic",
 				Properties: map[string]string{
-					"urls":                    "http://localhost:32200",
+					"urls":                    "http://localhost:9200",
 					"sniff":                   "false",
 					"username":                "",
 					"password":                "",
@@ -427,7 +424,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "target.elastic",
 				Kind: "target.elastic",
 				Properties: map[string]string{
-					"urls":                    "http://localhost:32200",
+					"urls":                    "http://localhost:9200",
 					"sniff":                   "false",
 					"username":                "",
 					"password":                "",

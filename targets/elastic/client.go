@@ -4,19 +4,15 @@ import (
 	"context"
 	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"github.com/olivere/elastic/v7"
 )
 
-const ()
 
-// Client is a Client state store
 type Client struct {
 	name    string
 	elastic *elastic.Client
 	opts    options
-	log     *logger.Logger
 }
 
 func New() *Client {
@@ -27,7 +23,6 @@ func (c *Client) Name() string {
 }
 func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	c.name = cfg.Name
-	c.log = logger.NewLogger(cfg.Name)
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
@@ -37,7 +32,6 @@ func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	var elasticOpts []elastic.ClientOptionFunc
 	elasticOpts = append(elasticOpts,
 		elastic.SetURL(c.opts.urls...),
-		elastic.SetErrorLog(c.log),
 		elastic.SetSniff(c.opts.sniff),
 		elastic.SetBasicAuth(c.opts.username, c.opts.password))
 	if c.opts.retryBackoffSeconds > 0 {
