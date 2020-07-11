@@ -6,7 +6,6 @@ import (
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
-	"github.com/streadway/amqp"
 	"time"
 )
 
@@ -15,10 +14,9 @@ const (
 )
 
 type Client struct {
-	name    string
-	opts    options
-	client  mqtt.Client
-	channel *amqp.Channel
+	name   string
+	opts   options
+	client mqtt.Client
 }
 
 func New() *Client {
