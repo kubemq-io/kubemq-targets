@@ -6,8 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
-	"github.com/kubemq-hub/kubemq-target-connectors/targets"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"google.golang.org/api/iterator"
 )
@@ -16,8 +14,6 @@ type Client struct {
 	name   string
 	opts   options
 	client *pubsub.Client
-	log    *logger.Logger
-	target targets.Target
 }
 
 func New() *Client {
@@ -30,15 +26,11 @@ func (c *Client) Name() string {
 
 func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	c.name = cfg.Name
-	c.log = logger.NewLogger(cfg.Name)
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
 		return err
 	}
-
-	
-	
 	client, err := pubsub.NewClient(ctx, c.opts.projectID)
 	if err != nil {
 		return err
@@ -62,7 +54,7 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 		id, err := result.Get(ctx)
 		if err == nil {
 			return types.NewResponse().
-					SetMetadataKeyValue("event_id", fmt.Sprintf("%s", id)),
+					SetMetadataKeyValue("event_id",  id),
 				nil
 		}
 		if tries >= c.opts.retries {
@@ -87,18 +79,14 @@ func (c *Client) list(ctx context.Context) (*types.Response, error) {
 		topics = append(topics, topic.ID())
 	}
 	if len(topics)<=0 {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", "no topics found for this project"), nil
+		return nil, fmt.Errorf( "no topics found for this project")
 	}
-	b,err:=json.Marshal(topics)
+	data,err:=json.Marshal(topics)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", "true").
-			SetMetadataKeyValue("message", err.Error()), nil
+		return nil, err
 	}
 	return types.NewResponse().
-			SetData(b).
+			SetData(data).
 			SetMetadataKeyValue("result", "ok"),
 		nil
 }
