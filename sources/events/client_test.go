@@ -67,7 +67,7 @@ func sendEvent(t *testing.T, ctx context.Context, req *types.Request, sendChanne
 		}
 		select {
 		case event := <-eventCh:
-			return types.ParseResponseFromEvent(event)
+			return types.ParseResponse(event.Body)
 		case err := <-errCh:
 			return nil, err
 		case <-ctx.Done():
@@ -121,7 +121,7 @@ func TestClient_processEvent(t *testing.T) {
 				ResponseError: nil,
 			},
 			req:      types.NewRequest().SetData([]byte("some-data")),
-			wantResp: nil,
+			wantResp: types.NewResponse().SetError(fmt.Errorf("error")),
 			wantErr:  false,
 			sendCh:   "events",
 			respCh:   "events.response",

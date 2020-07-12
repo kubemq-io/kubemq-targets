@@ -87,16 +87,15 @@ func (c *Client) run(ctx context.Context, eventsCh <-chan *kubemq.EventStoreRece
 			go func(event *kubemq.EventStoreReceive) {
 				resp, err := c.processEventStore(ctx, event)
 				if err != nil {
-					c.log.Errorf("error processing request %s", err.Error())
-				} else {
-					if c.opts.responseChannel != "" {
-						sendRes, errSend := c.client.SetEventStore(resp.ToEventStore()).SetChannel(c.opts.responseChannel).Send(ctx)
-						if errSend != nil {
-							c.log.Errorf("error sending event response %s", errSend.Error())
-						} else {
-							if !sendRes.Sent {
-								c.log.Errorf("error sending event response %s", sendRes.Err)
-							}
+					resp = types.NewResponse().SetError(err)
+				}
+				if c.opts.responseChannel != "" {
+					sendRes, errSend := c.client.SetEventStore(resp.ToEventStore()).SetChannel(c.opts.responseChannel).Send(ctx)
+					if errSend != nil {
+						c.log.Errorf("error sending event response %s", errSend.Error())
+					} else {
+						if !sendRes.Sent {
+							c.log.Errorf("error sending event response %s", sendRes.Err)
 						}
 					}
 				}
@@ -113,7 +112,7 @@ func (c *Client) run(ctx context.Context, eventsCh <-chan *kubemq.EventStoreRece
 }
 
 func (c *Client) processEventStore(ctx context.Context, event *kubemq.EventStoreReceive) (*types.Response, error) {
-	req, err := types.ParseRequestFromEventStoreReceive(event)
+	req, err := types.ParseRequest(event.Body)
 	if err != nil {
 		return nil, fmt.Errorf("invalid request format, %w", err)
 	}

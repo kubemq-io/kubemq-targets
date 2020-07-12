@@ -17,7 +17,6 @@ import (
 const (
 	defaultHost          = "localhost"
 	defaultPort          = 50000
-	defaultMaxReconnects = 0
 	defaultAutoReconnect = true
 )
 
@@ -92,13 +91,10 @@ func (c *Client) run(ctx context.Context, queryCh <-chan *kubemq.QueryReceive, e
 					SetResponseTo(query.ResponseTo)
 				resp, err := c.processQuery(ctx, query)
 				if err != nil {
-					queryResponse.SetError(err)
-				} else {
-					queryResponse.
-						SetExecutedAt(time.Now()).
-						SetMetadata(resp.Metadata.String()).
-						SetBody(resp.Data)
+					resp = types.NewResponse().SetError(err)
 				}
+				queryResponse.SetExecutedAt(time.Now()).
+					SetBody(resp.MarshalBinary())
 				err = queryResponse.Send(ctx)
 				if err != nil {
 					c.log.Errorf("error sending query response %s", err.Error())
@@ -116,7 +112,7 @@ func (c *Client) run(ctx context.Context, queryCh <-chan *kubemq.QueryReceive, e
 }
 
 func (c *Client) processQuery(ctx context.Context, query *kubemq.QueryReceive) (*types.Response, error) {
-	req, err := types.ParseRequestFromQueryReceive(query)
+	req, err := types.ParseRequest(query.Body)
 	if err != nil {
 		return nil, fmt.Errorf("invalid request format, %w", err)
 	}

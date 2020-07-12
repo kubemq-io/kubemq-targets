@@ -107,16 +107,13 @@ func (c *Client) getQueueMessages(ctx context.Context) ([]*kubemq.QueueMessage, 
 }
 
 func (c *Client) processQueueMessage(ctx context.Context, msg *kubemq.QueueMessage) *types.Response {
-	req, err := types.ParseRequestFromQueueMessage(msg)
+	req, err := types.ParseRequest(msg.Body)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", fmt.Sprintf("invalid request format, %s", err.Error()))
+		return types.NewResponse().SetError(fmt.Errorf("invalid request format, %w", err))
 	}
-
 	resp, err := c.target.Do(ctx, req)
 	if err != nil {
-		return types.NewResponse().
-			SetMetadataKeyValue("error", err.Error())
+		return types.NewResponse().SetError(err)
 	}
 	return resp
 

@@ -1,11 +1,11 @@
 package types
 
 import (
+	"cloud.google.com/go/pubsub"
 	"fmt"
 	"github.com/aws/aws-sdk-go/service/sqs"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/kubemq-io/kubemq-go"
-	"cloud.google.com/go/pubsub"
 )
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
@@ -54,28 +54,23 @@ func (r *Request) MarshalBinary() []byte {
 }
 func (r *Request) ToEvent() *kubemq.Event {
 	return kubemq.NewEvent().
-		SetMetadata(r.Metadata.String()).
-		SetBody(r.Data)
+		SetBody(r.MarshalBinary())
 }
 func (r *Request) ToEventStore() *kubemq.EventStore {
 	return kubemq.NewEventStore().
-		SetMetadata(r.Metadata.String()).
-		SetBody(r.Data)
+		SetBody(r.MarshalBinary())
 }
 func (r *Request) ToCommand() *kubemq.Command {
 	return kubemq.NewCommand().
-		SetMetadata(r.Metadata.String()).
-		SetBody(r.Data)
+		SetBody(r.MarshalBinary())
 }
 func (r *Request) ToQuery() *kubemq.Query {
 	return kubemq.NewQuery().
-		SetMetadata(r.Metadata.String()).
-		SetBody(r.Data)
+		SetBody(r.MarshalBinary())
 }
 func (r *Request) ToQueueMessage() *kubemq.QueueMessage {
 	return kubemq.NewQueueMessage().
-		SetMetadata(r.Metadata.String()).
-		SetBody(r.Data)
+		SetBody(r.MarshalBinary())
 }
 
 func parseRequest(meta string, body []byte) (*Request, error) {

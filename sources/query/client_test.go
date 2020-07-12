@@ -57,7 +57,7 @@ func sendQuery(ctx context.Context, req *types.Request, sendChannel string, time
 	if err != nil {
 		return nil, err
 	}
-	return types.ParseResponseFromQueryResponse(queryResponse)
+	return types.ParseResponse(queryResponse.Body)
 
 }
 func TestClient_processQuery(t *testing.T) {
@@ -105,7 +105,7 @@ func TestClient_processQuery(t *testing.T) {
 				ResponseError: nil,
 			},
 			req:      types.NewRequest().SetData([]byte("some-data")),
-			wantResp: types.NewResponse().SetMetadataKeyValue("error", "error"),
+			wantResp: types.NewResponse().SetError(fmt.Errorf("error")),
 			timeout:  5 * time.Second,
 			sendCh:   "query",
 

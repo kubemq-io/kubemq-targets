@@ -87,13 +87,12 @@ func (c *Client) run(ctx context.Context, eventsCh <-chan *kubemq.Event, errCh c
 			go func(event *kubemq.Event) {
 				resp, err := c.processEvent(ctx, event)
 				if err != nil {
-					c.log.Errorf("error processing request %s", err.Error())
-				} else {
-					if c.opts.responseChannel != "" {
-						errSend := c.client.SetEvent(resp.ToEvent()).SetChannel(c.opts.responseChannel).Send(ctx)
-						if errSend != nil {
-							c.log.Errorf("error sending event response %s", errSend.Error())
-						}
+					resp = types.NewResponse().SetError(err)
+				}
+				if c.opts.responseChannel != "" {
+					errSend := c.client.SetEvent(resp.ToEvent()).SetChannel(c.opts.responseChannel).Send(ctx)
+					if errSend != nil {
+						c.log.Errorf("error sending event response %s", errSend.Error())
 					}
 				}
 			}(event)
@@ -109,7 +108,7 @@ func (c *Client) run(ctx context.Context, eventsCh <-chan *kubemq.Event, errCh c
 }
 
 func (c *Client) processEvent(ctx context.Context, event *kubemq.Event) (*types.Response, error) {
-	req, err := types.ParseRequestFromEvent(event)
+	req, err := types.ParseRequest(event.Body)
 	if err != nil {
 		return nil, fmt.Errorf("invalid request format, %w", err)
 	}

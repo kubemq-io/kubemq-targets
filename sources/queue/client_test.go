@@ -73,7 +73,7 @@ func sendQueueMessage(t *testing.T, ctx context.Context, req *types.Request, sen
 		if len(respMsgs.Messages) == 0 {
 			return nil, fmt.Errorf("no messages")
 		}
-		return types.ParseResponseFromQueueMessage(respMsgs.Messages[0])
+		return types.ParseResponse(respMsgs.Messages[0].Body)
 	}
 	return nil, nil
 }
@@ -110,7 +110,7 @@ func TestClient_processQueue(t *testing.T) {
 			},
 			respChannel: "queue.response",
 			req:         types.NewRequest().SetData([]byte("some-data")),
-			wantResp:    types.NewResponse().SetMetadataKeyValue("error", "do-error"),
+			wantResp:    types.NewResponse().SetError(fmt.Errorf("do-error")),
 			sendCh:      "queue",
 			wantErr:     false,
 		},

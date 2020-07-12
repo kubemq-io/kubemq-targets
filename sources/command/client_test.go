@@ -53,7 +53,10 @@ func sendCommand(t *testing.T, ctx context.Context, req *types.Request, sendChan
 	require.NoError(t, err)
 	cmdResponse, err := client.SetCommand(req.ToCommand()).SetChannel(sendChannel).SetTimeout(timeout).Send(ctx)
 	require.NoError(t, err)
-	return types.ParseResponseFromCommandResponse(cmdResponse)
+	if !cmdResponse.Executed {
+		return nil, fmt.Errorf(cmdResponse.Error)
+	}
+	return types.NewResponse(), nil
 
 }
 func TestClient_processCommand(t *testing.T) {
@@ -87,11 +90,11 @@ func TestClient_processCommand(t *testing.T) {
 				ResponseError: nil,
 			},
 			req:      types.NewRequest().SetData([]byte("some-data")),
-			wantResp: types.NewResponse().SetMetadataKeyValue("error", "error"),
+			wantResp: nil,
 			timeout:  5 * time.Second,
 			sendCh:   "commands",
 
-			wantErr: false,
+			wantErr: true,
 		},
 		{
 			name: "empty request error",

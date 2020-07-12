@@ -109,7 +109,7 @@ func (c *Client) run(ctx context.Context, commandCh <-chan *kubemq.CommandReceiv
 }
 
 func (c *Client) processCommand(ctx context.Context, command *kubemq.CommandReceive) (*types.Response, error) {
-	req, err := types.ParseRequestFromCommandReceive(command)
+	req, err := types.ParseRequest(command.Body)
 	if err != nil {
 		return nil, fmt.Errorf("invalid request format, %w", err)
 	}

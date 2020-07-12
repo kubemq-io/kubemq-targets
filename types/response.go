@@ -8,6 +8,8 @@ import (
 type Response struct {
 	Metadata Metadata `json:"metadata"`
 	Data     []byte   `json:"data"`
+	IsError  bool     `json:"is_error"`
+	Error    string   `json:"error"`
 }
 
 func NewResponse() *Response {
@@ -30,18 +32,23 @@ func (r *Response) SetData(value []byte) *Response {
 	r.Data = value
 	return r
 }
-
+func (r *Response) SetError(err error) *Response {
+	r.IsError = true
+	r.Error = err.Error()
+	return r
+}
+func (r *Response) MarshalBinary() []byte {
+	data, _ := json.Marshal(r)
+	return data
+}
 func (r *Response) ToEvent() *kubemq.Event {
-
 	return kubemq.NewEvent().
-		SetMetadata(r.Metadata.String()).
-		SetBody(r.Data)
+		SetBody(r.MarshalBinary())
 
 }
 func (r *Response) ToEventStore() *kubemq.EventStore {
 	return kubemq.NewEventStore().
-		SetMetadata(r.Metadata.String()).
-		SetBody(r.Data)
+		SetBody(r.MarshalBinary())
 }
 
 func (r *Response) ToCommand() *kubemq.Command {
@@ -58,8 +65,7 @@ func (r *Response) ToQuery() *kubemq.Query {
 
 func (r *Response) ToQueueMessage() *kubemq.QueueMessage {
 	return kubemq.NewQueueMessage().
-		SetMetadata(r.Metadata.String()).
-		SetBody(r.Data)
+		SetBody(r.MarshalBinary())
 }
 func (r *Response) ToResponse() *kubemq.Response {
 	return kubemq.NewResponse().
@@ -96,4 +102,16 @@ func ParseResponseFromQueryResponse(resp *kubemq.QueryResponse) (*Response, erro
 }
 func ParseResponseFromQueueMessage(resp *kubemq.QueueMessage) (*Response, error) {
 	return parseResponse(resp.Metadata, resp.Body, "")
+}
+
+func ParseResponse(body []byte) (*Response, error) {
+	if body == nil {
+		return nil, fmt.Errorf("empty response")
+	}
+	req := &Response{}
+	err := json.Unmarshal(body, req)
+	if err != nil {
+		return nil, err
+	}
+	return req, nil
 }
