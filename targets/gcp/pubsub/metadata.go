@@ -1,4 +1,4 @@
-package google
+package pubsub
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 
 type metadata struct {
 	topicID string
-	tags  map[string]string
+	tags    map[string]string
 }
 
 func parseMetadata(meta types.Metadata, opts options) (metadata, error) {

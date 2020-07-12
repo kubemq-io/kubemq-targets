@@ -18,23 +18,17 @@ type Binder struct {
 func New() *Binder {
 	return &Binder{}
 }
-
-func (b *Binder) InitTarget(ctx context.Context, cfg config.Metadata, target targets.Target) error {
-	err := target.Init(ctx, cfg)
+func (b *Binder) Init(ctx context.Context, cfg config.BindingConfig) error {
+	var err error
+	b.target, err = targets.Init(ctx, cfg.Target)
 	if err != nil {
 		return err
 	}
-	b.target = target
-	b.md = middleware.Chain(target)
-	return nil
-}
-
-func (b *Binder) InitSource(ctx context.Context, cfg config.Metadata, source sources.Source) error {
-	err := source.Init(ctx, cfg)
+	b.md = middleware.Chain(b.target)
+	b.source, err = sources.Init(ctx, cfg.Source)
 	if err != nil {
 		return err
 	}
-	b.source = source
 	return nil
 }
 
@@ -45,5 +39,8 @@ func (b *Binder) Start(ctx context.Context) error {
 	if b.source == nil {
 		return fmt.Errorf("no valid initialzed source found")
 	}
-
+	return b.source.Start(ctx, b.md)
+}
+func (b *Binder) Stop() error {
+	return b.source.Stop()
 }

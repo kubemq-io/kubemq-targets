@@ -1,4 +1,4 @@
-package event_store
+package events_store
 
 import (
 	"github.com/kubemq-hub/kubemq-target-connectors/config"

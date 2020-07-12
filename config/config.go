@@ -16,36 +16,16 @@ import (
 var configFile = pflag.String("config", "", "set config file name")
 
 type Config struct {
-	Sources  []Metadata
-	Targets  []Metadata
-	Bindings []Binding
+	Bindings []BindingConfig
 }
 
 func (c *Config) Validate() error {
-
-	if len(c.Targets) == 0 {
-		return fmt.Errorf("at least one target must be defined")
-	}
-	for i, target := range c.Targets {
-		if err := target.Validate(); err != nil {
-			return fmt.Errorf("target entry %d configuration error, %w", i, err)
-		}
-	}
-	if len(c.Sources) == 0 {
-		return fmt.Errorf("at least one source must be defined")
-	}
-	for i, source := range c.Sources {
-		if err := source.Validate(); err != nil {
-			return fmt.Errorf("source entry %d configuration error, %w", i, err)
-		}
-	}
-
 	if len(c.Bindings) == 0 {
 		return fmt.Errorf("at least one binding must be defined")
 	}
 	for i, binding := range c.Bindings {
 		if err := binding.Validate(); err != nil {
-			return fmt.Errorf("binding entry %d configuration error, %w", i, err)
+			return err
 		}
 	}
 	return nil

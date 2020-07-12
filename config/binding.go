@@ -2,17 +2,21 @@ package config
 
 import "fmt"
 
-type Binding struct {
-	Source string
-	Target string
+type BindingConfig struct {
+	Name   string
+	Source Metadata
+	Target Metadata
 }
 
-func (b Binding) Validate() error {
-	if b.Source == "" {
-		return fmt.Errorf("binding source cannot be empty")
+func (b BindingConfig) Validate() error {
+	if b.Name != "" {
+		return fmt.Errorf("binding must have name")
 	}
-	if b.Target == "" {
-		return fmt.Errorf("binding target cannot be empty")
+	if err := b.Source.Validate(); err != nil {
+		return fmt.Errorf("binding source error, %w", err)
+	}
+	if err := b.Target.Validate(); err != nil {
+		return fmt.Errorf("binding target error, %w", err)
 	}
 	return nil
 }

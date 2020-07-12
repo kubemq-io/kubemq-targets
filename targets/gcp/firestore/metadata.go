@@ -1,4 +1,4 @@
-package google
+package firestore
 
 import (
 	"fmt"
@@ -6,10 +6,10 @@ import (
 )
 
 var methodsMap = map[string]string{
-	"documents_all":   "documents_all",
-	"document_key":    "document_key",
+	"documents_all":       "documents_all",
+	"document_key":        "document_key",
 	"delete_document_key": "delete_document_key",
-	"add":             "add",
+	"add":                 "add",
 }
 
 type metadata struct {

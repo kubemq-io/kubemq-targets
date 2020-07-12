@@ -1,4 +1,4 @@
-package google
+package pubsub
 
 import (
 	"context"
@@ -27,8 +27,8 @@ func TestClient_Init(t *testing.T) {
 				Name: "google-pubsub-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id":          projectID,
-					"retries":             "0",
+					"project_id": projectID,
+					"retries":    "0",
 				},
 			},
 			wantErr: false,
@@ -69,7 +69,7 @@ func TestClient_Do(t *testing.T) {
 	projectID := string(dat)
 	dat, err = ioutil.ReadFile("./../../../credentials/topicID.txt")
 	require.NoError(t, err)
-	TopicID:= string(dat)
+	TopicID := string(dat)
 	validBody, _ := json.Marshal("valid body")
 	tests := []struct {
 		name    string
@@ -84,8 +84,8 @@ func TestClient_Do(t *testing.T) {
 				Name: "target.google.pubsub",
 				Kind: "target.google.pubsub",
 				Properties: map[string]string{
-					"project_id":          projectID,
-					"retries":             "0",
+					"project_id": projectID,
+					"retries":    "0",
 				},
 			},
 			request: types.NewRequest().
@@ -102,8 +102,8 @@ func TestClient_Do(t *testing.T) {
 				Name: "target.google.pubsub",
 				Kind: "target.google.pubsub",
 				Properties: map[string]string{
-					"project_id":          projectID,
-					"retries":             "0",
+					"project_id": projectID,
+					"retries":    "0",
 				},
 			},
 			request: types.NewRequest().
@@ -149,7 +149,7 @@ func TestClient_list(t *testing.T) {
 				Name: "target.google.pubsub",
 				Kind: "target.google.pubsub",
 				Properties: map[string]string{
-					"project_id":          projectID,
+					"project_id": projectID,
 				},
 			},
 
@@ -170,7 +170,7 @@ func TestClient_list(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-			require.EqualValues(t,"ok",got.Metadata["result"])
+			require.EqualValues(t, "ok", got.Metadata["result"])
 			require.NotNil(t, got)
 		})
 	}

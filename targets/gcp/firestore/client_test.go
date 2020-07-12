@@ -1,4 +1,4 @@
-package google
+package firestore
 
 import (
 	"context"
@@ -35,10 +35,9 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init-missing-project-id",
 			cfg: config.Metadata{
-				Name: "google-firestore-target",
-				Kind: "",
-				Properties: map[string]string{
-				},
+				Name:       "google-firestore-target",
+				Kind:       "",
+				Properties: map[string]string{},
 			},
 			wantErr: true,
 		},

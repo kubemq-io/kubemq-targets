@@ -1,4 +1,4 @@
-package google
+package firestore
 
 import (
 	"cloud.google.com/go/firestore"
@@ -53,7 +53,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "add":
 		return c.add(ctx, meta, req.Data)
 	case "delete_document_key":
-		return c.deleteDocument(ctx,meta)
+		return c.deleteDocument(ctx, meta)
 	}
 	return nil, nil
 }
@@ -62,7 +62,7 @@ func (c *Client) add(ctx context.Context, meta metadata, data []byte) (*types.Re
 	m := make(map[string]interface{})
 	err := json.Unmarshal(data, &m)
 	if err != nil {
-		return nil,fmt.Errorf("failed to parse data as map")
+		return nil, fmt.Errorf("failed to parse data as map")
 	}
 	_, _, err = c.client.Collection(meta.key).Add(ctx, m)
 	if err != nil {
@@ -88,7 +88,7 @@ func (c *Client) documentAll(ctx context.Context, meta metadata) (*types.Respons
 		retData = append(retData, doc.Data())
 	}
 	if len(retData) <= 0 {
-		return nil,fmt.Errorf( "no data found for this key")
+		return nil, fmt.Errorf("no data found for this key")
 	}
 	data, err := json.Marshal(retData)
 	if err != nil {
@@ -125,7 +125,6 @@ func (c *Client) deleteDocument(ctx context.Context, meta metadata) (*types.Resp
 		SetMetadataKeyValue("collection", meta.key), nil
 }
 
-
 func (c *Client) list(ctx context.Context) (*types.Response, error) {
 	var collections []string
 	it := c.client.Collections(ctx)
@@ -139,10 +138,10 @@ func (c *Client) list(ctx context.Context) (*types.Response, error) {
 		}
 		collections = append(collections, collection.ID)
 	}
-	if len(collections)<=0 {
-		return nil,fmt.Errorf("no collections found for this project")
+	if len(collections) <= 0 {
+		return nil, fmt.Errorf("no collections found for this project")
 	}
-	data,err:=json.Marshal(collections)
+	data, err := json.Marshal(collections)
 	if err != nil {
 		return nil, err
 	}

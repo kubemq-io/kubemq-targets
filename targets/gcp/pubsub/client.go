@@ -1,4 +1,4 @@
-package google
+package pubsub
 
 import (
 	"cloud.google.com/go/pubsub"
@@ -18,7 +18,7 @@ type Client struct {
 
 func New() *Client {
 	return &Client{}
-	
+
 }
 func (c *Client) Name() string {
 	return c.name
@@ -46,7 +46,7 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 	}
 	t := c.client.Topic(eventMetadata.topicID)
 	result := t.Publish(ctx, &pubsub.Message{
-		Data: request.Data,
+		Data:       request.Data,
 		Attributes: eventMetadata.tags,
 	})
 	tries := 0
@@ -54,7 +54,7 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 		id, err := result.Get(ctx)
 		if err == nil {
 			return types.NewResponse().
-					SetMetadataKeyValue("event_id",  id),
+					SetMetadataKeyValue("event_id", id),
 				nil
 		}
 		if tries >= c.opts.retries {
@@ -78,10 +78,10 @@ func (c *Client) list(ctx context.Context) (*types.Response, error) {
 		}
 		topics = append(topics, topic.ID())
 	}
-	if len(topics)<=0 {
-		return nil, fmt.Errorf( "no topics found for this project")
+	if len(topics) <= 0 {
+		return nil, fmt.Errorf("no topics found for this project")
 	}
-	data,err:=json.Marshal(topics)
+	data, err := json.Marshal(topics)
 	if err != nil {
 		return nil, err
 	}

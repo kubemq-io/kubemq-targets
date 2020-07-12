@@ -10,7 +10,7 @@ func TestConfig_Validate(t *testing.T) {
 	type fields struct {
 		Sources  []Metadata
 		Targets  []Metadata
-		Bindings []Binding
+		Bindings []BindingConfig
 	}
 	tests := []struct {
 		name    string
@@ -34,7 +34,7 @@ func TestConfig_Validate(t *testing.T) {
 						Properties: nil,
 					},
 				},
-				Bindings: []Binding{
+				Bindings: []BindingConfig{
 					{
 						Source: "source-1",
 						Target: "target-1",
@@ -60,7 +60,7 @@ func TestConfig_Validate(t *testing.T) {
 						Properties: nil,
 					},
 				},
-				Bindings: []Binding{
+				Bindings: []BindingConfig{
 					{
 						Source: "source-1",
 						Target: "target-1",
@@ -86,7 +86,7 @@ func TestConfig_Validate(t *testing.T) {
 						Properties: nil,
 					},
 				},
-				Bindings: []Binding{
+				Bindings: []BindingConfig{
 					{
 						Source: "source-1",
 						Target: "target-1",
@@ -107,7 +107,7 @@ func TestConfig_Validate(t *testing.T) {
 						Properties: nil,
 					},
 				},
-				Bindings: []Binding{
+				Bindings: []BindingConfig{
 					{
 						Source: "source-1",
 						Target: "target-1",
@@ -127,7 +127,7 @@ func TestConfig_Validate(t *testing.T) {
 					},
 				},
 				Targets: nil,
-				Bindings: []Binding{
+				Bindings: []BindingConfig{
 					{
 						Source: "source-1",
 						Target: "target-1",
@@ -174,7 +174,7 @@ func TestConfig_Validate(t *testing.T) {
 						Properties: nil,
 					},
 				},
-				Bindings: []Binding{
+				Bindings: []BindingConfig{
 					{
 						Source: "",
 						Target: "target-1",
@@ -199,7 +199,7 @@ func TestConfig_Validate(t *testing.T) {
 						Properties: nil,
 					},
 				},
-				Bindings: []Binding{
+				Bindings: []BindingConfig{
 					{
 						Source: "source-1",
 						Target: "",
@@ -264,7 +264,7 @@ Bindings:
 						Properties: nil,
 					},
 				},
-				Bindings: []Binding{
+				Bindings: []BindingConfig{
 					{
 						Source: "source-1",
 						Target: "target-1",

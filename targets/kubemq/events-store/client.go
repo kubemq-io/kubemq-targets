@@ -1,7 +1,8 @@
-package event
+package events_store
 
 import (
 	"context"
+	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"github.com/kubemq-io/kubemq-go"
@@ -22,7 +23,6 @@ func (c *Client) Name() string {
 }
 func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	c.name = cfg.Name
-
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
@@ -35,29 +35,31 @@ func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 		kubemq.WithAuthToken(c.opts.authToken),
 		kubemq.WithCheckConnection(true),
 	)
+
 	if err != nil {
 		return err
 	}
-
 	return nil
 }
 
 func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Response, error) {
-	eventMetadata, err := parseMetadata(request.Metadata, c.opts)
+	eventStoreMetadata, err := parseMetadata(request.Metadata, c.opts)
 	if err != nil {
 		return nil, err
 	}
-	err = c.client.E().
-		SetId(eventMetadata.id).
-		SetChannel(eventMetadata.channel).
-		SetMetadata(eventMetadata.metadata).
+	result, err := c.client.ES().
+		SetId(eventStoreMetadata.id).
+		SetChannel(eventStoreMetadata.channel).
+		SetMetadata(eventStoreMetadata.metadata).
 		SetBody(request.Data).
 		Send(ctx)
 	if err != nil {
 		return nil, err
 	}
+	if result.Err != nil {
+		return nil, fmt.Errorf(result.Err.Error())
+	}
 	return types.NewResponse().
-			SetMetadataKeyValue("result", "ok").
-			SetMetadataKeyValue("id", eventMetadata.id),
-		nil
+		SetMetadataKeyValue("result", "ok").
+		SetMetadataKeyValue("id", result.Id), nil
 }

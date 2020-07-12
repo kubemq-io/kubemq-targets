@@ -1,4 +1,4 @@
-package couchdb
+package couchbase
 
 import (
 	"fmt"
