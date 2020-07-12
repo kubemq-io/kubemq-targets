@@ -35,6 +35,7 @@ require (
 	github.com/stretchr/testify v1.6.1
 	go.etcd.io/etcd v3.3.22+incompatible
 	go.mongodb.org/mongo-driver v1.3.4
+	go.uber.org/atomic v1.6.0
 	go.uber.org/zap v1.10.0
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d // indirect
 	google.golang.org/api v0.28.0
