@@ -49,7 +49,7 @@ bindings:
 
 ## Usage
 
-## Get Request
+### Get Request
 
 Get Request metadata setting:
 
@@ -71,7 +71,7 @@ Example:
 }
 ```
 
-## Set Request
+### Set Request
 
 Set Request setting:
 
@@ -106,7 +106,7 @@ Example:
   "data": "c29tZS1kYXRh" 
 }
 ```
-## Delete Request
+### Delete Request
 
 DeleteRequest metadata setting:
 
