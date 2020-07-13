@@ -247,7 +247,12 @@ func (c *Client) writeRow(ctx context.Context, meta metadata, body []byte) (*typ
 					SetMetadataKeyValue("error", "true").
 					SetMetadataKeyValue("message", err.Error()), nil
 			}
-			_=binary.Write(buf, binary.BigEndian, b)
+			err = binary.Write(buf, binary.BigEndian, b)
+			if err != nil {
+				return types.NewResponse().
+					SetMetadataKeyValue("error", "true").
+					SetMetadataKeyValue("message", err.Error()), nil
+			}
 			mut.Set(meta.columnFamily, k, timestamp, buf.Bytes())
 		}
 	}

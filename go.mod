@@ -7,6 +7,7 @@ require (
 	cloud.google.com/go/bigtable v1.4.0
 	cloud.google.com/go/firestore v1.2.0
 	cloud.google.com/go/pubsub v1.4.0
+	cloud.google.com/go/spanner v1.7.0
 	github.com/aws/aws-sdk-go v1.32.4
 	github.com/bradfitz/gomemcache v0.0.0-20190913173617-a41fca850d0b
 	github.com/couchbase/gocb/v2 v2.1.2
@@ -32,6 +33,7 @@ require (
 	go.mongodb.org/mongo-driver v1.3.4
 	go.uber.org/zap v1.10.0
 	google.golang.org/api v0.28.0
+	google.golang.org/genproto v0.0.0-20200626011028-ee7919e894b5
 	google.golang.org/grpc v1.30.0 // indirect
 	gopkg.in/yaml.v2 v2.2.8 // indirect
 )
