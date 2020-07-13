@@ -17,6 +17,7 @@ var methodsMap = map[string]string{
 	"create_table":   "create_table",
 	"get_table_info": "get_table_info",
 	"get_data_sets":  "get_data_sets",
+	"insert":         "insert",
 }
 
 func getValidMethodTypes() string {
@@ -40,7 +41,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 			return metadata{}, fmt.Errorf("error parsing query, %w", err)
 		}
 	}
-	if m.method == "create_table" || m.method == "get_table_info" {
+	if m.method == "create_table" || m.method == "get_table_info" || m.method == "insert" {
 		m.tableName, err = meta.MustParseString("table_name")
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing table_name, %w", err)

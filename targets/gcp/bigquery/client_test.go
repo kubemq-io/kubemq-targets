@@ -16,6 +16,7 @@ type testStructure struct {
 	projectID     string
 	tableName     string
 	query         string
+	dataSetID     string
 	emptyTable    string
 	emptyTableQry string
 }
@@ -47,6 +48,11 @@ func getTestStructure() (*testStructure, error) {
 		return nil, err
 	}
 	t.emptyTableQry = string(dat)
+	dat, err = ioutil.ReadFile("./../../../credentials/dataSetID.txt")
+	if err != nil {
+		return nil, err
+	}
+	t.dataSetID = string(dat)
 	return t, nil
 }
 
@@ -72,10 +78,9 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "google-big-query-target",
 			cfg: config.Metadata{
-				Name: "google-big_table-target",
-				Kind: "",
-				Properties: map[string]string{
-				},
+				Name:       "google-big_table-target",
+				Kind:       "",
+				Properties: map[string]string{},
 			},
 			wantErr: true,
 		},
@@ -93,7 +98,7 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			defer func() {
-				_=c.CloseClient()
+				_ = c.CloseClient()
 			}()
 			require.NoError(t, err)
 			require.EqualValues(t, tt.cfg.Name, c.Name())
@@ -105,12 +110,10 @@ func TestClient_Query(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	tests := []struct {
-		name            string
-		cfg             config.Metadata
-		queryRequest    *types.Request
-		wantErr         bool
-		wantEmptyData   bool
-		wantReaderError bool
+		name         string
+		cfg          config.Metadata
+		queryRequest *types.Request
+		wantErr      bool
 	}{
 		{
 			name: "valid query",
@@ -124,9 +127,7 @@ func TestClient_Query(t *testing.T) {
 			queryRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "query").
 				SetMetadataKeyValue("query", dat.query),
-			wantErr:         false,
-			wantEmptyData:   false,
-			wantReaderError: false,
+			wantErr: false,
 		}, {
 			name: "invalid query - missing query",
 			cfg: config.Metadata{
@@ -138,9 +139,7 @@ func TestClient_Query(t *testing.T) {
 			},
 			queryRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "query"),
-			wantErr:         true,
-			wantEmptyData:   false,
-			wantReaderError: false,
+			wantErr: true,
 		}, {
 			name: "valid query- empty table",
 			cfg: config.Metadata{
@@ -153,36 +152,23 @@ func TestClient_Query(t *testing.T) {
 			queryRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "query").
 				SetMetadataKeyValue("query", dat.emptyTableQry),
-			wantErr:         false,
-			wantEmptyData:   true,
-			wantReaderError: false,
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			ctx, cancel := context.WithCancel(context.Background())
+			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			defer func() {
-				_=c.CloseClient()
+				_ = c.CloseClient()
 			}()
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
 			if tt.wantErr {
 				t.Logf("init() error = %v, wantErr %v", err, tt.wantErr)
 				require.Error(t, err)
-				return
-			}
-			if tt.wantEmptyData {
-				require.EqualValues(t, gotSetResponse.Metadata["error"], "true")
-				require.EqualValues(t, gotSetResponse.Metadata["message"], "no rows found for this query")
-				t.Logf("init() error = %v, wantErr %v", gotSetResponse.Metadata["message"], tt.wantErr)
-				return
-			}
-			if tt.wantReaderError {
-				require.EqualValues(t, gotSetResponse.Metadata["error"], "true")
-				t.Logf("init() error = %v, wantErr %v", gotSetResponse.Metadata["message"], tt.wantErr)
 				return
 			}
 			require.NoError(t, err)
@@ -209,11 +195,10 @@ func TestClient_Create_Table(t *testing.T) {
 	require.NoError(t, err)
 
 	tests := []struct {
-		name           string
-		cfg            config.Metadata
-		queryRequest   *types.Request
-		wantErr        bool
-		wantWriteError bool
+		name         string
+		cfg          config.Metadata
+		queryRequest *types.Request
+		wantErr      bool
 	}{
 		{
 			name: "valid create table",
@@ -229,8 +214,7 @@ func TestClient_Create_Table(t *testing.T) {
 				SetMetadataKeyValue("dataset_id", "my_data_set").
 				SetMetadataKeyValue("table_name", dat.tableName).
 				SetData(bSchema),
-			wantErr:        false,
-			wantWriteError: false,
+			wantErr: false,
 		}, {
 			name: "invalid create_table - missing tableName",
 			cfg: config.Metadata{
@@ -244,8 +228,7 @@ func TestClient_Create_Table(t *testing.T) {
 				SetMetadataKeyValue("method", "create_table").
 				SetMetadataKeyValue("dataset_id", "my_data_set").
 				SetData(bSchema),
-			wantErr:        true,
-			wantWriteError: false,
+			wantErr: true,
 		}, {
 			name: "invalid create_table - table already exists",
 			cfg: config.Metadata{
@@ -260,8 +243,7 @@ func TestClient_Create_Table(t *testing.T) {
 				SetMetadataKeyValue("dataset_id", "my_data_set").
 				SetMetadataKeyValue("table_name", dat.tableName).
 				SetData(bSchema),
-			wantErr:        false,
-			wantWriteError: true,
+			wantErr: true,
 		}, {
 			name: "invalid create_table - missing dataset_id",
 			cfg: config.Metadata{
@@ -275,8 +257,52 @@ func TestClient_Create_Table(t *testing.T) {
 				SetMetadataKeyValue("method", "create_table").
 				SetMetadataKeyValue("table_name", dat.tableName).
 				SetData(bSchema),
-			wantErr:        true,
-			wantWriteError: false,
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
+			defer cancel()
+			c := New()
+			err := c.Init(ctx, tt.cfg)
+			defer func() {
+				_ = c.CloseClient()
+			}()
+			require.NoError(t, err)
+			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
+			if tt.wantErr {
+				t.Logf("init() error = %v, wantErr %v", err, tt.wantErr)
+				require.Error(t, err)
+				return
+			}
+			require.NoError(t, err)
+			require.NotNil(t, gotSetResponse)
+		})
+	}
+}
+
+func TestClient_Get_Data_Sets(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
+	tests := []struct {
+		name         string
+		cfg          config.Metadata
+		queryRequest *types.Request
+		wantErr      bool
+	}{
+		{
+			name: "valid get Data-Sets",
+			cfg: config.Metadata{
+				Name: "google-big-query-target",
+				Kind: "",
+				Properties: map[string]string{
+					"project_id": dat.projectID,
+				},
+			},
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "get_data_sets"),
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
@@ -286,7 +312,7 @@ func TestClient_Create_Table(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			defer func() {
-				_=c.CloseClient()
+				_ = c.CloseClient()
 			}()
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
@@ -295,11 +321,155 @@ func TestClient_Create_Table(t *testing.T) {
 				require.Error(t, err)
 				return
 			}
-			if tt.wantWriteError {
-				require.EqualValues(t, gotSetResponse.Metadata["error"], "true")
-				t.Logf("init() error = %v, wantErr %v", gotSetResponse.Metadata["message"], tt.wantWriteError)
+			require.EqualValues(t, gotSetResponse.Metadata["result"], "ok")
+			require.NoError(t, err)
+			require.NotNil(t, gotSetResponse)
+		})
+	}
+}
+
+func TestClient_Get_Table_Info(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
+	tests := []struct {
+		name         string
+		cfg          config.Metadata
+		queryRequest *types.Request
+		wantErr      bool
+	}{
+		{
+			name: "valid get table-info",
+			cfg: config.Metadata{
+				Name: "google-big-query-target",
+				Kind: "",
+				Properties: map[string]string{
+					"project_id": dat.projectID,
+				},
+			},
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "get_table_info").
+				SetMetadataKeyValue("dataset_id", dat.dataSetID).
+				SetMetadataKeyValue("table_name", dat.tableName),
+			wantErr: false,
+		}, {
+			name: "invalid get table-info - missing dataset_id",
+			cfg: config.Metadata{
+				Name: "google-big-query-target",
+				Kind: "",
+				Properties: map[string]string{
+					"project_id": dat.projectID,
+				},
+			},
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "get_table_info").
+				SetMetadataKeyValue("table_name", dat.tableName),
+			wantErr: true,
+		}, {
+			name: "invalid get table-info - missing table_name",
+			cfg: config.Metadata{
+				Name: "google-big-query-target",
+				Kind: "",
+				Properties: map[string]string{
+					"project_id": dat.projectID,
+				},
+			},
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "get_table_info").
+				SetMetadataKeyValue("dataset_id", dat.dataSetID),
+			wantErr: true,
+		}, {
+			name: "valid get table-info - missing NotExistingTable",
+			cfg: config.Metadata{
+				Name: "google-big-query-target",
+				Kind: "",
+				Properties: map[string]string{
+					"project_id": dat.projectID,
+				},
+			},
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "get_table_info").
+				SetMetadataKeyValue("dataset_id", dat.dataSetID).
+				SetMetadataKeyValue("table_name", "NotExistingTable"),
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			ctx, cancel := context.WithCancel(context.Background())
+			defer cancel()
+			c := New()
+			err := c.Init(ctx, tt.cfg)
+			defer func() {
+				_ = c.CloseClient()
+			}()
+			require.NoError(t, err)
+			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
+			if tt.wantErr {
+				t.Logf("init() error = %v, wantErr %v", err, tt.wantErr)
+				require.Error(t, err)
 				return
 			}
+			require.EqualValues(t, gotSetResponse.Metadata["result"], "ok")
+			require.NoError(t, err)
+			require.NotNil(t, gotSetResponse)
+		})
+	}
+}
+
+func TestClient_Insert_To_Table(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
+	var rows []map[string]bigquery.Value
+	firstRow := make(map[string]bigquery.Value)
+	firstRow["name"] = "myName4"
+	firstRow["age"] = 25
+	rows = append(rows, firstRow)
+	secondRow := make(map[string]bigquery.Value)
+	secondRow["name"] = "myName5"
+	secondRow["age"] = 28
+	rows = append(rows, secondRow)
+	bRows, err := json.Marshal(&rows)
+	require.NoError(t, err)
+	tests := []struct {
+		name         string
+		cfg          config.Metadata
+		queryRequest *types.Request
+		wantErr      bool
+	}{
+		{
+			name: "valid insert to table",
+			cfg: config.Metadata{
+				Name: "google-big-query-target",
+				Kind: "",
+				Properties: map[string]string{
+					"project_id": dat.projectID,
+				},
+			},
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "insert").
+				SetMetadataKeyValue("dataset_id", dat.dataSetID).
+				SetMetadataKeyValue("table_name", dat.tableName).
+				SetData(bRows),
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			ctx, cancel := context.WithCancel(context.Background())
+			defer cancel()
+			c := New()
+			err := c.Init(ctx, tt.cfg)
+			defer func() {
+				_ = c.CloseClient()
+			}()
+			require.NoError(t, err)
+			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
+			if tt.wantErr {
+				t.Logf("init() error = %v, wantErr %v", err, tt.wantErr)
+				require.Error(t, err)
+				return
+			}
+			require.EqualValues(t, gotSetResponse.Metadata["result"], "ok")
 			require.NoError(t, err)
 			require.NotNil(t, gotSetResponse)
 		})

@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
+	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"google.golang.org/api/iterator"
 )
@@ -14,6 +15,7 @@ type Client struct {
 	name   string
 	opts   options
 	client *bigquery.Client
+	log    *logger.Logger
 }
 
 func New() *Client {
@@ -26,6 +28,7 @@ func (c *Client) Name() string {
 
 func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	c.name = cfg.Name
+	c.log = logger.NewLogger(cfg.Name)
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
@@ -54,6 +57,8 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.getTableInfo(ctx, meta)
 	case "get_data_sets":
 		return c.getDataSets(ctx)
+	case "insert":
+		return c.insert(ctx, meta, req.Data)
 	default:
 		return nil, fmt.Errorf(getValidMethodTypes())
 	}
@@ -66,7 +71,7 @@ func (c *Client) getTableInfo(ctx context.Context, meta metadata) (*types.Respon
 	}
 	b, err := json.Marshal(m)
 	if err != nil {
-		return nil,err
+		return nil, err
 	}
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok").
@@ -85,7 +90,7 @@ func (c *Client) getDataSets(ctx context.Context) (*types.Response, error) {
 		return nil, err
 	}
 	if len(s) == 0 {
-		return nil, fmt.Errorf("no datasets found")
+		return nil, fmt.Errorf("no data sets found")
 	}
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok").
@@ -104,7 +109,7 @@ func (c *Client) query(ctx context.Context, meta metadata) (*types.Response, err
 		return nil, err
 	}
 	if len(rows) == 0 {
-		return nil, fmt.Errorf("no rows found for this query")
+		return nil, fmt.Errorf("no rows found")
 	}
 	b, err := json.Marshal(rows)
 	if err != nil {
@@ -116,8 +121,26 @@ func (c *Client) query(ctx context.Context, meta metadata) (*types.Response, err
 		nil
 }
 
+func (c *Client) insert(ctx context.Context, meta metadata, body []byte) (*types.Response, error) {
+	var metaData []genericRecord
+
+	err := json.Unmarshal(body, &metaData)
+	if err != nil {
+		return nil, err
+	}
+	ins := c.client.Dataset(meta.datasetID).Table(meta.tableName).Inserter()
+	err = ins.Put(ctx, metaData)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok"),
+		nil
+}
+
 func (c *Client) createTable(ctx context.Context, meta metadata, body []byte) (*types.Response, error) {
 	metaData := &bigquery.TableMetadata{}
+
 	err := json.Unmarshal(body, &metaData)
 	if err != nil {
 		return nil, err
