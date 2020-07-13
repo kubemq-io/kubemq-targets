@@ -1,0 +1,23 @@
+bindings:
+  - name: kubemq-query-redis
+    source:
+      kind: source.kubemq.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-redis-connector"
+        auth_token: ""
+        channel: "query.redis"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.cache.redis
+      name: target-redis
+      properties:
+        host: "localhost:6379"
+        password: ""
+        enable_tls: "false"

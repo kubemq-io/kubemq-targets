@@ -125,16 +125,16 @@ func TestLoad_Env_Yaml(t *testing.T) {
 		{
 			name: "load from env",
 			cfgString: `
-Bindings:
-- Name: binding-1
-  Source: 
-    Kind: source-1
-    Name: source-1
-    Properties: null
-  Target: 
-    Kind: target-1
-    Name: target-1
-    Properties: null	
+bindings:
+- name: binding-1
+  source: 
+    kind: source-1
+    name: source-1
+    properties: null
+  target: 
+    kind: target-1
+    name: target-1
+    properties: null	
 `,
 			want: &Config{
 				Bindings: []BindingConfig{

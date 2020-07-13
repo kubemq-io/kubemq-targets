@@ -4,13 +4,11 @@ import (
 	"context"
 	"crypto/tls"
 	"fmt"
+	redisClient "github.com/go-redis/redis/v7"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"strconv"
 	"strings"
-	"time"
-
-	redisClient "github.com/go-redis/redis/v7"
 )
 
 const (
@@ -43,11 +41,9 @@ func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 		return err
 	}
 	redisOpts := &redisClient.Options{
-		Addr:            c.opts.host,
-		Password:        c.opts.password,
-		DB:              defaultDB,
-		MaxRetries:      c.opts.maxRetries,
-		MaxRetryBackoff: time.Duration(c.opts.maxRetryBackoffSeconds) * time.Second,
+		Addr:     c.opts.host,
+		Password: c.opts.password,
+		DB:       defaultDB,
 	}
 
 	/* #nosec */
@@ -109,19 +105,19 @@ func (c *Client) parseConnectedSlaves(res string) int {
 func (c *Client) Get(ctx context.Context, meta metadata) (*types.Response, error) {
 	res, err := c.redis.DoContext(ctx, "HGETALL", meta.key).Result() // Prefer values with ETags
 	if err != nil {
-		return c.directGet(ctx,meta.key) //Falls back to original get
+		return c.directGet(ctx, meta.key) //Falls back to original get
 	}
 	if res == nil {
-		return nil,fmt.Errorf("no data found for this key")
+		return nil, fmt.Errorf("no data found for this key")
 	}
 	vals := res.([]interface{})
 	if len(vals) == 0 {
-		return nil,fmt.Errorf("no data found for this key")
+		return nil, fmt.Errorf("no data found for this key")
 	}
 
 	data, _, err := c.getKeyVersion(vals)
 	if err != nil {
-		return nil,fmt.Errorf("error found for get this key, %w",err)
+		return nil, fmt.Errorf("error found for get this key, %w", err)
 	}
 	return types.NewResponse().
 		SetData([]byte(data)).

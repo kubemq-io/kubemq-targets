@@ -16,7 +16,7 @@ import (
 var configFile = pflag.String("config", "", "set config file name")
 
 type Config struct {
-	Bindings []BindingConfig
+	Bindings []BindingConfig `json:"bindings"`
 }
 
 func (c *Config) Validate() error {
@@ -111,7 +111,6 @@ func Load() (*Config, error) {
 	} else {
 		viper.SetConfigFile(loadedConfigFile)
 	}
-	fmt.Println(loadedConfigFile)
 	err = viper.ReadInConfig()
 	if err != nil {
 		return nil, err

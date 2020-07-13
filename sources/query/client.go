@@ -85,6 +85,7 @@ func (c *Client) run(ctx context.Context, queryCh <-chan *kubemq.QueryReceive, e
 	for {
 		select {
 		case query := <-queryCh:
+
 			go func(q *kubemq.QueryReceive) {
 				queryResponse := c.client.R().
 					SetRequestId(query.Id).

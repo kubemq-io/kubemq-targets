@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/binding"
 	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
 
@@ -21,11 +20,18 @@ var (
 var (
 	bindingMap = map[string]*binding.Binder{}
 )
+var (
+	log *logger.Logger
+)
 
 func start(ctx context.Context, cfg *config.Config) error {
 	for _, bindingCfg := range cfg.Bindings {
 		binder := binding.New()
 		err := binder.Init(ctx, bindingCfg)
+		if err != nil {
+			return err
+		}
+		err = binder.Start(ctx)
 		if err != nil {
 			return err
 		}
@@ -45,8 +51,7 @@ func run() error {
 	signal.Notify(gracefulShutdown, syscall.SIGTERM)
 	signal.Notify(gracefulShutdown, syscall.SIGINT)
 	signal.Notify(gracefulShutdown, syscall.SIGQUIT)
-	log := logger.NewLogger("main")
-	log.Infof("starting kubemq targets connector version: %s, commit: %s, date %s", version, commit, date)
+
 	cfg, err := config.Load()
 	if err != nil {
 		return err
@@ -66,8 +71,10 @@ func run() error {
 	return nil
 }
 func main() {
+	log = logger.NewLogger("main")
+	log.Infof("starting kubemq targets connector version: %s, commit: %s, date %s", version, commit, date)
 	if err := run(); err != nil {
-		fmt.Fprintln(os.Stderr, err)
+		log.Error(err)
 		os.Exit(1)
 	}
 }

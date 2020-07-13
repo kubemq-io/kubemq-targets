@@ -22,11 +22,9 @@ func TestClient_Init(t *testing.T) {
 				Name: "redis-target",
 				Kind: "",
 				Properties: map[string]string{
-					"host":                        "localhost:6379",
-					"password":                    "",
-					"enable_tls":                  "false",
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
+					"host":       "localhost:6379",
+					"password":   "",
+					"enable_tls": "false",
 				},
 			},
 			wantErr: false,
@@ -38,10 +36,8 @@ func TestClient_Init(t *testing.T) {
 				Kind: "",
 				Properties: map[string]string{
 
-					"password":                    "",
-					"enable_tls":                  "false",
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
+					"password":   "",
+					"enable_tls": "false",
 				},
 			},
 			wantErr: true,
@@ -52,40 +48,9 @@ func TestClient_Init(t *testing.T) {
 				Name: "redis-target",
 				Kind: "",
 				Properties: map[string]string{
-					"host":                        "localhost:2000",
-					"password":                    "",
-					"enable_tls":                  "false",
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
-				},
-			},
-			wantErr: true,
-		}, {
-			name: "init - bad options - 1",
-			cfg: config.Metadata{
-				Name: "redis-target",
-				Kind: "",
-				Properties: map[string]string{
-					"host":                        "localhost:6397",
-					"password":                    "",
-					"enable_tls":                  "false",
-					"max_retries":                 "-1",
-					"max_retries_backoff_seconds": "0",
-				},
-			},
-			wantErr: true,
-		},
-		{
-			name: "init - bad options - 2",
-			cfg: config.Metadata{
-				Name: "redis-target",
-				Kind: "",
-				Properties: map[string]string{
-					"host":                        "localhost:6397",
-					"password":                    "",
-					"enable_tls":                  "false",
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "-1",
+					"host":       "localhost:2000",
+					"password":   "",
+					"enable_tls": "false",
 				},
 			},
 			wantErr: true,
@@ -171,8 +136,8 @@ func TestClient_Set_Get(t *testing.T) {
 				SetMetadataKeyValue("key", "some-key").
 				SetMetadataKeyValue("result", "ok"),
 			wantGetResponse: nil,
-			wantSetErr: false,
-			wantGetErr: true,
+			wantSetErr:      false,
+			wantGetErr:      true,
 		},
 	}
 	for _, tt := range tests {

@@ -11,8 +11,8 @@ import (
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 type Request struct {
-	Metadata Metadata `json:"metadata"`
-	Data     []byte   `json:"data"`
+	Metadata Metadata `json:"metadata,omitempty"`
+	Data     []byte   `json:"data,omitempty"`
 }
 
 func NewRequest() *Request {

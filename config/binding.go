@@ -3,9 +3,9 @@ package config
 import "fmt"
 
 type BindingConfig struct {
-	Name   string
-	Source Metadata
-	Target Metadata
+	Name   string   `json:"name"`
+	Source Metadata `json:"source"`
+	Target Metadata `json:"target"`
 }
 
 func (b BindingConfig) Validate() error {

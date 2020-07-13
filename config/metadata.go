@@ -8,9 +8,9 @@ import (
 )
 
 type Metadata struct {
-	Name       string
-	Kind       string
-	Properties map[string]string
+	Name       string            `json:"name"`
+	Kind       string            `json:"kind"`
+	Properties map[string]string `json:"properties"`
 }
 
 func (m Metadata) Validate() error {
@@ -149,7 +149,7 @@ func (m Metadata) MustParseJsonMap(key string) (map[string]string, error) {
 }
 
 func (m Metadata) MustParseByteArray(key string) ([]byte, error) {
-	
+
 	if val, ok := m.Properties[key]; ok && val != "" {
 		parsedVal := []byte(val)
 		return parsedVal, nil
@@ -157,4 +157,3 @@ func (m Metadata) MustParseByteArray(key string) ([]byte, error) {
 		return nil, fmt.Errorf("key %s not found for byte coneversion", val)
 	}
 }
-
