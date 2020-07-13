@@ -3,7 +3,6 @@ package middleware
 import (
 	"context"
 	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
-	"github.com/kubemq-hub/kubemq-target-connectors/pkg/ratelimit"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 )
 
@@ -27,16 +26,6 @@ func Log(log *logger.Logger) MiddlewareFunc {
 				log.Error(err.Error())
 			}
 			return result, err
-		})
-	}
-}
-func Limit(rl ratelimit.Limiter) MiddlewareFunc {
-	return func(df Middleware) Middleware {
-		return DoFunc(func(ctx context.Context, request *types.Request) (*types.Response, error) {
-			if rl != nil {
-				_ = rl.Take()
-			}
-			return df.Do(ctx, request)
 		})
 	}
 }
