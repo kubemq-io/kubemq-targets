@@ -22,4 +22,4 @@ jobs:
           # working-directory: somedir
 
           # Optional: golangci-lint command line arguments.
-          args: --issues-exit-code=0 --disable gocritic --enable misspell --enable gosec
+          args: --issues-exit-code=0 --disable gocritic --enable misspell --enable gosec --timeout=30m
