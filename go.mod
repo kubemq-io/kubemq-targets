@@ -29,7 +29,6 @@ require (
 	github.com/streadway/amqp v1.0.0
 	github.com/stretchr/testify v1.6.1
 	go.mongodb.org/mongo-driver v1.3.4
-	go.uber.org/atomic v1.6.0
 	go.uber.org/zap v1.10.0
 	google.golang.org/api v0.28.0
 	google.golang.org/grpc v1.30.0 // indirect
