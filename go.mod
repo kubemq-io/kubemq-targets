@@ -18,6 +18,7 @@ require (
 	github.com/go-sql-driver/mysql v1.5.0
 	github.com/go-stomp/stomp v2.0.6+incompatible
 	github.com/gocql/gocql v0.0.0-20200615160627-420e3b873d91
+	github.com/google/uuid v1.1.1
 	github.com/json-iterator/go v1.1.10
 	github.com/kubemq-io/kubemq-go v1.4.0
 	github.com/labstack/echo/v4 v4.1.16
