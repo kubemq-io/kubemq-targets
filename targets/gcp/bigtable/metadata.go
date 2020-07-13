@@ -18,7 +18,7 @@ var methodsMap = map[string]string{
 	"write_batch":            "write_batch",
 	"get_row":                "get_row",
 	"get_all_rows":           "get_all_rows",
-	"delete_row":            "delete_row",
+	"delete_row":             "delete_row",
 	"get_tables":             "get_tables",
 	"create_table":           "create_table",
 	"delete_table":           "delete_table",
@@ -27,8 +27,8 @@ var methodsMap = map[string]string{
 }
 
 func getValidMethodTypes() string {
-	s := fmt.Sprintf("invalid method type, method type should be one of the following:")
-	for k:= range methodsMap {
+	s := "invalid method type, method type should be one of the following:"
+	for k := range methodsMap {
 		s = fmt.Sprintf("%s :%s,", s, k)
 	}
 	return s

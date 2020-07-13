@@ -16,11 +16,11 @@ var methodsMap = map[string]string{
 	"query":          "query",
 	"create_table":   "create_table",
 	"get_table_info": "get_table_info",
-	"get_data_sets": "get_data_sets",
+	"get_data_sets":  "get_data_sets",
 }
 
 func getValidMethodTypes() string {
-	s := fmt.Sprintf("invalid method type, method type should be one of the following:")
+	s := "invalid method type, method type should be one of the following:"
 	for k := range methodsMap {
 		s = fmt.Sprintf("%s :%s,", s, k)
 	}
@@ -40,7 +40,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 			return metadata{}, fmt.Errorf("error parsing query, %w", err)
 		}
 	}
-	if m.method == "create_table" || m.method == "get_table_info"{
+	if m.method == "create_table" || m.method == "get_table_info" {
 		m.tableName, err = meta.MustParseString("table_name")
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing table_name, %w", err)

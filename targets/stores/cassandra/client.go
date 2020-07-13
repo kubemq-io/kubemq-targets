@@ -117,6 +117,7 @@ func (c *Client) Get(ctx context.Context, meta metadata) (*types.Response, error
 	if table == "" {
 		table = c.table
 	}
+	/* #nosec */
 	stmt := fmt.Sprintf("SELECT value FROM %s WHERE key = ?", table)
 	results, err := session.Query(stmt, meta.key).WithContext(ctx).Iter().SliceMap()
 	if err != nil {
@@ -222,6 +223,7 @@ func (c *Client) Set(ctx context.Context, meta metadata, value []byte) (*types.R
 	if table == "" {
 		table = c.table
 	}
+	/* #nosec */
 	stmt := fmt.Sprintf("INSERT INTO %s (key, value) VALUES (?, ?)", table)
 	err := session.Query(stmt, meta.key, value).WithContext(ctx).Exec()
 	if err != nil {
@@ -238,6 +240,7 @@ func (c *Client) Delete(ctx context.Context, meta metadata) (*types.Response, er
 	if table == "" {
 		table = c.table
 	}
+	/* #nosec */
 	stmt := fmt.Sprintf("DELETE FROM %s WHERE key = ?", table)
 	err := c.session.Query(stmt, meta.key).WithContext(ctx).Exec()
 	if err != nil {

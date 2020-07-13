@@ -26,9 +26,7 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 			return nil, c.DoError
 		}
 		if c.ResponseError != nil {
-			return types.NewResponse().
-					SetMetadataKeyValue("error", c.ResponseError.Error()),
-				nil
+			return nil, c.ResponseError
 		}
 
 		return types.NewResponse().SetData(request.Data), nil

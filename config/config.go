@@ -77,6 +77,7 @@ func getConfigDataFromEnv() (string, error) {
 		if fileExt == "" {
 			return "", fmt.Errorf("invalid environment config format")
 		}
+		/* #nosec */
 		err := ioutil.WriteFile("./config."+fileExt, []byte(envConfigData), 0644)
 		if err != nil {
 			return "", fmt.Errorf("cannot save environment config file")

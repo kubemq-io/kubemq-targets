@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/stretchr/testify/require"
 	"reflect"
 	"testing"
 	"time"
@@ -15,10 +16,6 @@ func TestClient_Do(t *testing.T) {
 		Delay         time.Duration
 		DoError       error
 		ResponseError error
-	}
-	type args struct {
-		ctx     context.Context
-		request *types.Request
 	}
 	tests := []struct {
 		name    string
@@ -57,8 +54,8 @@ func TestClient_Do(t *testing.T) {
 				ResponseError: fmt.Errorf("response-error"),
 			},
 			req:     types.NewRequest().SetData([]byte("data")),
-			want:    types.NewResponse().SetError("response-error"),
-			wantErr: false,
+			want:    nil,
+			wantErr: true,
 		},
 		{
 			name: "do cancel ctx",
@@ -81,7 +78,11 @@ func TestClient_Do(t *testing.T) {
 				DoError:       tt.fields.DoError,
 				ResponseError: tt.fields.ResponseError,
 			}
-			_ = c.Init(ctx, config.Metadata{})
+			_ = c.Init(ctx, config.Metadata{
+				Name:       "null",
+				Kind:       "",
+				Properties: nil,
+			})
 			got, err := c.Do(ctx, tt.req)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Do() error = %v, wantErr %v", err, tt.wantErr)
@@ -90,6 +91,7 @@ func TestClient_Do(t *testing.T) {
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Do() got = %v, want %v", got, tt.want)
 			}
+			require.EqualValues(t, "null", c.Name())
 		})
 	}
 }
