@@ -9,7 +9,7 @@ type BindingConfig struct {
 }
 
 func (b BindingConfig) Validate() error {
-	if b.Name != "" {
+	if b.Name == "" {
 		return fmt.Errorf("binding must have name")
 	}
 	if err := b.Source.Validate(); err != nil {

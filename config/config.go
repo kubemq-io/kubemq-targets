@@ -23,7 +23,7 @@ func (c *Config) Validate() error {
 	if len(c.Bindings) == 0 {
 		return fmt.Errorf("at least one binding must be defined")
 	}
-	for i, binding := range c.Bindings {
+	for _, binding := range c.Bindings {
 		if err := binding.Validate(); err != nil {
 			return err
 		}

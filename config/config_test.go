@@ -7,202 +7,92 @@ import (
 )
 
 func TestConfig_Validate(t *testing.T) {
-	type fields struct {
-		Sources  []Metadata
-		Targets  []Metadata
-		Bindings []BindingConfig
-	}
+
 	tests := []struct {
-		name    string
-		fields  fields
-		wantErr bool
+		name     string
+		Bindings []BindingConfig
+		wantErr  bool
 	}{
 		{
-			name: "valid metadata",
-			fields: fields{
-				Sources: []Metadata{
-					{
+			name: "valid config",
+			Bindings: []BindingConfig{
+				{
+					Name: "binding-1",
+					Source: Metadata{
 						Name:       "source-1",
 						Kind:       "source-1",
 						Properties: nil,
 					},
-				},
-				Targets: []Metadata{
-					{
+
+					Target: Metadata{
+
 						Name:       "target-1",
 						Kind:       "target-1",
 						Properties: nil,
-					},
-				},
-				Bindings: []BindingConfig{
-					{
-						Source: "source-1",
-						Target: "target-1",
 					},
 				},
 			},
 			wantErr: false,
 		},
 		{
-			name: "invalid metadata - sources error",
-			fields: fields{
-				Sources: []Metadata{
-					{
-						Name:       "",
-						Kind:       "source-1",
-						Properties: nil,
-					},
-				},
-				Targets: []Metadata{
-					{
-						Name:       "target-1",
-						Kind:       "target-1",
-						Properties: nil,
-					},
-				},
-				Bindings: []BindingConfig{
-					{
-						Source: "source-1",
-						Target: "target-1",
-					},
-				},
-			},
-			wantErr: true,
+			name:     "invalid config - no bindings",
+			Bindings: []BindingConfig{},
+			wantErr:  true,
 		},
 		{
-			name: "invalid metadata - target error",
-			fields: fields{
-				Sources: []Metadata{
-					{
+			name: "invalid config - binding no name",
+			Bindings: []BindingConfig{
+				{
+					Source: Metadata{
 						Name:       "source-1",
 						Kind:       "source-1",
 						Properties: nil,
 					},
-				},
-				Targets: []Metadata{
-					{
-						Name:       "",
-						Kind:       "target-1",
-						Properties: nil,
-					},
-				},
-				Bindings: []BindingConfig{
-					{
-						Source: "source-1",
-						Target: "target-1",
-					},
-				},
-			},
-			wantErr: true,
-		},
 
-		{
-			name: "invalid metadata - no sources error",
-			fields: fields{
-				Sources: nil,
-				Targets: []Metadata{
-					{
+					Target: Metadata{
+
 						Name:       "target-1",
 						Kind:       "target-1",
 						Properties: nil,
-					},
-				},
-				Bindings: []BindingConfig{
-					{
-						Source: "source-1",
-						Target: "target-1",
 					},
 				},
 			},
 			wantErr: true,
 		},
 		{
-			name: "invalid metadata - no targets error",
-			fields: fields{
-				Sources: []Metadata{
-					{
-						Name:       "source-1",
+			name: "invalid config - invalid source",
+			Bindings: []BindingConfig{
+				{
+					Name: "binding-1",
+					Source: Metadata{
 						Kind:       "source-1",
 						Properties: nil,
 					},
-				},
-				Targets: nil,
-				Bindings: []BindingConfig{
-					{
-						Source: "source-1",
-						Target: "target-1",
+
+					Target: Metadata{
+
+						Name:       "target-1",
+						Kind:       "target-1",
+						Properties: nil,
 					},
 				},
 			},
 			wantErr: true,
 		},
 		{
-			name: "invalid metadata - no binding error",
-			fields: fields{
-				Sources: []Metadata{
-					{
+			name: "invalid config - bad target",
+			Bindings: []BindingConfig{
+				{
+					Name: "binding-1",
+					Source: Metadata{
 						Name:       "source-1",
 						Kind:       "source-1",
 						Properties: nil,
 					},
-				},
-				Targets: []Metadata{
-					{
-						Name:       "target-1",
+
+					Target: Metadata{
 						Kind:       "target-1",
 						Properties: nil,
-					},
-				},
-				Bindings: nil,
-			},
-			wantErr: true,
-		},
-		{
-			name: "invalid metadata - binding error entry 1",
-			fields: fields{
-				Sources: []Metadata{
-					{
-						Name:       "source-1",
-						Kind:       "source-1",
-						Properties: nil,
-					},
-				},
-				Targets: []Metadata{
-					{
-						Name:       "target-1",
-						Kind:       "target-1",
-						Properties: nil,
-					},
-				},
-				Bindings: []BindingConfig{
-					{
-						Source: "",
-						Target: "target-1",
-					},
-				},
-			},
-			wantErr: true,
-		}, {
-			name: "invalid metadata - binding error entry 2",
-			fields: fields{
-				Sources: []Metadata{
-					{
-						Name:       "source-1",
-						Kind:       "source-1",
-						Properties: nil,
-					},
-				},
-				Targets: []Metadata{
-					{
-						Name:       "target-1",
-						Kind:       "target-1",
-						Properties: nil,
-					},
-				},
-				Bindings: []BindingConfig{
-					{
-						Source: "source-1",
-						Target: "",
 					},
 				},
 			},
@@ -212,9 +102,7 @@ func TestConfig_Validate(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			c := &Config{
-				Sources:  tt.fields.Sources,
-				Targets:  tt.fields.Targets,
-				Bindings: tt.fields.Bindings,
+				Bindings: tt.Bindings,
 			}
 			if err := c.Validate(); (err != nil) != tt.wantErr {
 				t.Errorf("Validate() error = %v, wantErr %v", err, tt.wantErr)
@@ -237,37 +125,33 @@ func TestLoad_Env_Yaml(t *testing.T) {
 		{
 			name: "load from env",
 			cfgString: `
-Sources:
-- Kind: source-1
-  Name: source-1
-  Properties: null
-Targets:
-- Kind: target-1
-  Name: target-1
-  Properties: null
 Bindings:
-- Source: source-1
-  Target: target-1	
+- Name: binding-1
+  Source: 
+    Kind: source-1
+    Name: source-1
+    Properties: null
+  Target: 
+    Kind: target-1
+    Name: target-1
+    Properties: null	
 `,
 			want: &Config{
-				Sources: []Metadata{
-					{
-						Name:       "source-1",
-						Kind:       "source-1",
-						Properties: nil,
-					},
-				},
-				Targets: []Metadata{
-					{
-						Name:       "target-1",
-						Kind:       "target-1",
-						Properties: nil,
-					},
-				},
 				Bindings: []BindingConfig{
 					{
-						Source: "source-1",
-						Target: "target-1",
+						Name: "binding-1",
+						Source: Metadata{
+							Name:       "source-1",
+							Kind:       "source-1",
+							Properties: nil,
+						},
+
+						Target: Metadata{
+
+							Name:       "target-1",
+							Kind:       "target-1",
+							Properties: nil,
+						},
 					},
 				},
 			},
