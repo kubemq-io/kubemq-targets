@@ -31,12 +31,12 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Metadata{
-				Name: "couchdb-target",
+				Name: "couchbase-target",
 				Kind: "",
 				Properties: map[string]string{
 					"url":              "localhost",
-					"username":         "couchdb",
-					"password":         "couchdb",
+					"username":         "couchbase",
+					"password":         "couchbase",
 					"bucket":           "bucket",
 					"num_to_replicate": "1",
 					"num_to_persist":   "1",
@@ -48,12 +48,12 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init - bad url",
 			cfg: config.Metadata{
-				Name: "couchdb-target",
+				Name: "couchbase-target",
 				Kind: "",
 				Properties: map[string]string{
-					"url":              "couchdb://localhost",
-					"username":         "couchdb",
-					"password":         "couchdb",
+					"url":              "couch://localhost",
+					"username":         "couchbase",
+					"password":         "couchbase",
 					"bucket":           "bucket",
 					"num_to_replicate": "1",
 					"num_to_persist":   "1",
@@ -65,11 +65,11 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init - no url",
 			cfg: config.Metadata{
-				Name: "couchdb-target",
+				Name: "couchbase-target",
 				Kind: "",
 				Properties: map[string]string{
-					"username":         "couchdb",
-					"password":         "couchdb",
+					"username":         "couchbase",
+					"password":         "couchbase",
 					"bucket":           "bucket",
 					"num_to_replicate": "1",
 					"num_to_persist":   "1",
@@ -81,12 +81,12 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init - bad username and password",
 			cfg: config.Metadata{
-				Name: "couchdb-target",
+				Name: "couchbase-target",
 				Kind: "",
 				Properties: map[string]string{
 					"url":              "localhost",
-					"username":         "bad-couchdb",
-					"password":         "bad-couchdb",
+					"username":         "bad-couchbase",
+					"password":         "bad-couchbase",
 					"bucket":           "bucket",
 					"num_to_replicate": "1",
 					"num_to_persist":   "1",
@@ -98,12 +98,12 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init - no bucket",
 			cfg: config.Metadata{
-				Name: "couchdb-target",
+				Name: "couchbase-target",
 				Kind: "",
 				Properties: map[string]string{
 					"url":              "localhost",
-					"username":         "couchdb",
-					"password":         "couchdb",
+					"username":         "couchbase",
+					"password":         "couchbase",
 					"bucket":           "",
 					"num_to_replicate": "1",
 					"num_to_persist":   "1",
@@ -115,12 +115,12 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init - bad num to replicate",
 			cfg: config.Metadata{
-				Name: "couchdb-target",
+				Name: "couchbase-target",
 				Kind: "",
 				Properties: map[string]string{
 					"url":              "localhost",
-					"username":         "couchdb",
-					"password":         "couchdb",
+					"username":         "couchbase",
+					"password":         "couchbase",
 					"bucket":           "bucket",
 					"num_to_replicate": "-1",
 					"num_to_persist":   "1",
@@ -132,12 +132,12 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init - bad num to persist",
 			cfg: config.Metadata{
-				Name: "couchdb-target",
+				Name: "couchbase-target",
 				Kind: "",
 				Properties: map[string]string{
 					"url":              "localhost",
-					"username":         "couchdb",
-					"password":         "couchdb",
+					"username":         "couchbase",
+					"password":         "couchbase",
 					"bucket":           "bucket",
 					"num_to_replicate": "1",
 					"num_to_persist":   "-1",
@@ -175,12 +175,12 @@ func TestClient_Set_Get(t *testing.T) {
 		{
 			name: "valid set get request",
 			cfg: config.Metadata{
-				Name: "target.couchdb",
-				Kind: "target.couchdb",
+				Name: "target.couchbase",
+				Kind: "target.couchbase",
 				Properties: map[string]string{
 					"url":              "localhost",
-					"username":         "couchdb",
-					"password":         "couchdb",
+					"username":         "couchbase",
+					"password":         "couchbase",
 					"bucket":           "bucket",
 					"num_to_replicate": "1",
 					"num_to_persist":   "1",
@@ -208,12 +208,12 @@ func TestClient_Set_Get(t *testing.T) {
 		{
 			name: "valid set , no key get request",
 			cfg: config.Metadata{
-				Name: "target.couchdb",
-				Kind: "target.couchdb",
+				Name: "target.couchbase",
+				Kind: "target.couchbase",
 				Properties: map[string]string{
 					"url":              "localhost",
-					"username":         "couchdb",
-					"password":         "couchdb",
+					"username":         "couchbase",
+					"password":         "couchbase",
 					"bucket":           "bucket",
 					"num_to_replicate": "1",
 					"num_to_persist":   "1",
@@ -237,12 +237,12 @@ func TestClient_Set_Get(t *testing.T) {
 		{
 			name: "invalid set request",
 			cfg: config.Metadata{
-				Name: "target.couchdb",
-				Kind: "target.couchdb",
+				Name: "target.couchbase",
+				Kind: "target.couchbase",
 				Properties: map[string]string{
 					"url":              "localhost",
-					"username":         "couchdb",
-					"password":         "couchdb",
+					"username":         "couchbase",
+					"password":         "couchbase",
 					"bucket":           "bucket",
 					"num_to_replicate": "100",
 					"num_to_persist":   "100",
@@ -294,12 +294,12 @@ func TestClient_Delete(t *testing.T) {
 	defer cancel()
 	c := New()
 	err := c.Init(ctx, config.Metadata{
-		Name: "target.couchdb",
-		Kind: "target.couchdb",
+		Name: "target.couchbase",
+		Kind: "target.couchbase",
 		Properties: map[string]string{
 			"url":              "localhost",
-			"username":         "couchdb",
-			"password":         "couchdb",
+			"username":         "couchbase",
+			"password":         "couchbase",
 			"bucket":           "bucket",
 			"num_to_replicate": "1",
 			"num_to_persist":   "1",
@@ -343,12 +343,12 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request",
 			cfg: config.Metadata{
-				Name: "target.couchdb",
-				Kind: "target.couchdb",
+				Name: "target.couchbase",
+				Kind: "target.couchbase",
 				Properties: map[string]string{
 					"url":              "localhost",
-					"username":         "couchdb",
-					"password":         "couchdb",
+					"username":         "couchbase",
+					"password":         "couchbase",
 					"bucket":           "bucket",
 					"num_to_replicate": "1",
 					"num_to_persist":   "1",
@@ -364,12 +364,12 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad method",
 			cfg: config.Metadata{
-				Name: "target.couchdb",
-				Kind: "target.couchdb",
+				Name: "target.couchbase",
+				Kind: "target.couchbase",
 				Properties: map[string]string{
 					"url":              "localhost",
-					"username":         "couchdb",
-					"password":         "couchdb",
+					"username":         "couchbase",
+					"password":         "couchbase",
 					"bucket":           "bucket",
 					"num_to_replicate": "1",
 					"num_to_persist":   "1",
@@ -385,12 +385,12 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - no key",
 			cfg: config.Metadata{
-				Name: "target.couchdb",
-				Kind: "target.couchdb",
+				Name: "target.couchbase",
+				Kind: "target.couchbase",
 				Properties: map[string]string{
 					"url":              "localhost",
-					"username":         "couchdb",
-					"password":         "couchdb",
+					"username":         "couchbase",
+					"password":         "couchbase",
 					"bucket":           "bucket",
 					"num_to_replicate": "1",
 					"num_to_persist":   "1",
@@ -405,12 +405,12 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad cas",
 			cfg: config.Metadata{
-				Name: "target.couchdb",
-				Kind: "target.couchdb",
+				Name: "target.couchbase",
+				Kind: "target.couchbase",
 				Properties: map[string]string{
 					"url":              "localhost",
-					"username":         "couchdb",
-					"password":         "couchdb",
+					"username":         "couchbase",
+					"password":         "couchbase",
 					"bucket":           "bucket",
 					"num_to_replicate": "1",
 					"num_to_persist":   "1",
@@ -427,12 +427,12 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad expiry",
 			cfg: config.Metadata{
-				Name: "target.couchdb",
-				Kind: "target.couchdb",
+				Name: "target.couchbase",
+				Kind: "target.couchbase",
 				Properties: map[string]string{
 					"url":              "localhost",
-					"username":         "couchdb",
-					"password":         "couchdb",
+					"username":         "couchbase",
+					"password":         "couchbase",
 					"bucket":           "bucket",
 					"num_to_replicate": "1",
 					"num_to_persist":   "1",

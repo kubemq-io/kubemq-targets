@@ -1,0 +1,27 @@
+bindings:
+  - name: kubemq-query-couchbase
+    source:
+      kind: source.kubemq.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-couchbase-connector"
+        auth_token: ""
+        channel: "query.couchbase"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.stores.couchbase
+      name: target-couchbase
+      properties:
+        url: "localhost"
+        username: "couchbase"
+        password: "couchbase"
+        bucket: "bucket"
+        collection: ""
+        num_to_replicate: "1"
+        num_to_persist: "1"

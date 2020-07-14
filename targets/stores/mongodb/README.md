@@ -90,7 +90,7 @@ Example:
 
 ### Set Request
 
-Set eequest setting:
+Set request setting:
 
 | Metadata Key | Required | Description      | Possible values |
 |:-------------|:---------|:-----------------|:----------------|
