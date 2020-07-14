@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/binding"
 	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
 
@@ -29,13 +30,18 @@ func start(ctx context.Context, cfg *config.Config) error {
 		binder := binding.New()
 		err := binder.Init(ctx, bindingCfg)
 		if err != nil {
-			return err
+			log.Error(err)
+			continue
 		}
 		err = binder.Start(ctx)
 		if err != nil {
-			return err
+			log.Error(err)
+			continue
 		}
 		bindingMap[bindingCfg.Name] = binder
+	}
+	if len(bindingMap) == 0 {
+		return fmt.Errorf("no valid bindings started")
 	}
 	return nil
 }

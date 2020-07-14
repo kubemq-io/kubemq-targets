@@ -21,6 +21,7 @@ import (
 	"github.com/kubemq-hub/kubemq-target-connectors/targets/messaging/activemq"
 	"github.com/kubemq-hub/kubemq-target-connectors/targets/messaging/mqtt"
 	"github.com/kubemq-hub/kubemq-target-connectors/targets/messaging/rabbitmq"
+	"github.com/kubemq-hub/kubemq-target-connectors/targets/serverless/openfass"
 	"github.com/kubemq-hub/kubemq-target-connectors/targets/stores/cassandra"
 	"github.com/kubemq-hub/kubemq-target-connectors/targets/stores/couchbase"
 	"github.com/kubemq-hub/kubemq-target-connectors/targets/stores/mongodb"
@@ -179,6 +180,12 @@ func Init(ctx context.Context, cfg config.Metadata) (Target, error) {
 		return target, nil
 	case "target.stores.postgres":
 		target := postgres.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.serverless.openfaas":
+		target := openfass.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
