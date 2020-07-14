@@ -60,7 +60,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "query":
 		return c.query(ctx, meta)
 	case "read":
-		return c.read(ctx, req.Data)
+		return c.read(ctx,meta, req.Data)
 	case "update_database_ddl":
 		return c.updateDatabaseDdl(ctx, req.Data)
 	case "insert":
@@ -99,6 +99,9 @@ func (c *Client) query(ctx context.Context, meta metadata) (*types.Response, err
 func (c *Client) insert(ctx context.Context, body []byte) (*types.Response, error) {
 	var inserts []InsertOrUpdate
 	err := json.Unmarshal(body, &inserts)
+	if len(inserts) ==0{
+		return nil, fmt.Errorf("failed to get valid InsertOrUpdate struct")
+	}
 	var m []*spanner.Mutation
 	for _, i := range inserts {
 		err = i.validate()
@@ -119,6 +122,9 @@ func (c *Client) insert(ctx context.Context, body []byte) (*types.Response, erro
 func (c *Client) update(ctx context.Context, body []byte) (*types.Response, error) {
 	var updates []InsertOrUpdate
 	err := json.Unmarshal(body, &updates)
+	if len(updates) ==0{
+		return nil, fmt.Errorf("failed to get valid InsertOrUpdate struct")
+	}
 	var m []*spanner.Mutation
 	for _, i := range updates {
 		err = i.validate()
@@ -139,6 +145,9 @@ func (c *Client) update(ctx context.Context, body []byte) (*types.Response, erro
 func (c *Client) insertOrUpdate(ctx context.Context, body []byte) (*types.Response, error) {
 	var insertsOrUpdates []InsertOrUpdate
 	err := json.Unmarshal(body, &insertsOrUpdates)
+	if len(insertsOrUpdates) ==0{
+		return nil, fmt.Errorf("failed to get valid InsertOrUpdate struct")
+	}
 	var m []*spanner.Mutation
 	for _, i := range insertsOrUpdates {
 		err = i.validate()
@@ -156,13 +165,13 @@ func (c *Client) insertOrUpdate(ctx context.Context, body []byte) (*types.Respon
 		nil
 }
 
-func (c *Client) read(ctx context.Context, body []byte) (*types.Response, error) {
+func (c *Client) read(ctx context.Context,meta metadata, body []byte) (*types.Response, error) {
 	var columns []string
 	err := json.Unmarshal(body, &columns)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse body as []strings for columns on error %s", err.Error())
 	}
-	iter := c.client.Single().Read(ctx, c.opts.db, spanner.AllKeys(), columns)
+	iter := c.client.Single().Read(ctx, meta.tableName, spanner.AllKeys(), columns)
 	rows, err := c.getRowsFromIterator(iter)
 	if err != nil {
 		return nil, err

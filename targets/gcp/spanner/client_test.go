@@ -12,8 +12,9 @@ import (
 )
 
 type testStructure struct {
-	db     string
-	query         string
+	db        string
+	query     string
+	tableName string
 }
 
 func getTestStructure() (*testStructure, error) {
@@ -28,6 +29,11 @@ func getTestStructure() (*testStructure, error) {
 		return nil, err
 	}
 	t.db = string(dat)
+	dat, err = ioutil.ReadFile("./../../../credentials/tableName.txt")
+	if err != nil {
+		return nil, err
+	}
+	t.tableName = string(dat)
 	return t, nil
 }
 
@@ -140,64 +146,57 @@ func TestClient_Query(t *testing.T) {
 	}
 }
 
-func TestClient_Insert(t *testing.T) {
+func TestClient_Read(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
-	values := make([]interface{}, 0)
-	values = append(values, "first", 18)
-	firstInsUpd := InsertOrUpdate{"exists_table",[]string{"name","age"},values}
-	values = make([]interface{}, 0)
-	values = append(values, "first", 18)
-	scnInsUpd := InsertOrUpdate{"exists_table",[]string{"name","age"},values}
-	var inputs []InsertOrUpdate
-
-	inputs = append(inputs,firstInsUpd,scnInsUpd)
-
-	bSchema, err := json.Marshal(inputs)
+	columnNames := []string{"id", "name"}
+	b, err := json.Marshal(columnNames)
 	require.NoError(t, err)
-
+	cfg := config.Metadata{
+		Name: "google-spanner-target",
+		Kind: "",
+		Properties: map[string]string{
+			"db": dat.db,
+		},
+	}
 	tests := []struct {
 		name         string
-		cfg          config.Metadata
 		queryRequest *types.Request
 		wantErr      bool
 	}{
 		{
-			name: "valid insert",
-			cfg: config.Metadata{
-				Name: "google-spanner-target",
-				Kind: "",
-				Properties: map[string]string{
-					"db": dat.db,
-				},
-			},
+			name: "valid read",
 			queryRequest: types.NewRequest().
-				SetMetadataKeyValue("method", "insert").
-				SetData(bSchema),
+				SetMetadataKeyValue("method", "read").
+				SetMetadataKeyValue("table_name", dat.tableName).
+				SetData(b),
 			wantErr: false,
-		}, {
-			name: "invalid valid insert - missing data",
-			cfg: config.Metadata{
-				Name: "google-spanner-target",
-				Kind: "",
-				Properties: map[string]string{
-					"db": dat.db,
-				},
-			},
+		},
+		{
+			name: "invalid read - missing data",
 			queryRequest: types.NewRequest().
-				SetMetadataKeyValue("method", "insert"),
+				SetMetadataKeyValue("method", "read").
+				SetMetadataKeyValue("table_name", dat.tableName),
 			wantErr: true,
-		}, 
+		},
+		{
+			name: "invalid read - missing table_name",
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "read"),
+			wantErr: true,
+		},
 	}
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+	c := New()
+	err = c.Init(ctx, cfg)
+	require.NoError(t, err)
+	defer func() {
+		err = c.CloseClient()
+		require.NoError(t, err)
+	}()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
-			defer cancel()
-			c := New()
-			err := c.Init(ctx, tt.cfg)
-			defer func() {
-				_ = c.CloseClient()
-			}()
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
 			if tt.wantErr {
@@ -210,3 +209,195 @@ func TestClient_Insert(t *testing.T) {
 		})
 	}
 }
+
+func TestClient_Insert(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
+	values := make([]interface{}, 0)
+	values = append(values, 17, "name1")
+	firstInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values,[]string{"INT64","STRING"}}
+	values = make([]interface{}, 0)
+	values = append(values, 18, "name2")
+	scnInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values,[]string{"INT64","STRING"}}
+	var inputs []InsertOrUpdate
+	cfg := config.Metadata{
+		Name: "google-spanner-target",
+		Kind: "",
+		Properties: map[string]string{
+			"db": dat.db,
+		},
+	}
+	inputs = append(inputs, firstInsUpd, scnInsUpd)
+
+	bSchema, err := json.Marshal(inputs)
+	require.NoError(t, err)
+
+	tests := []struct {
+		name         string
+		queryRequest *types.Request
+		wantErr      bool
+	}{
+		{
+			name: "valid insert",
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "insert").
+				SetData(bSchema),
+			wantErr: false,
+		}, {
+			name: "invalid insert - missing data",
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "insert"),
+			wantErr: true,
+		},
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	c := New()
+	err = c.Init(ctx, cfg)
+	require.NoError(t, err)
+	defer func() {
+		err = c.CloseClient()
+		require.NoError(t, err)
+	}()
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
+			if tt.wantErr {
+				t.Logf("init() error = %v, wantErr %v", err, tt.wantErr)
+				require.Error(t, err)
+				return
+			}
+			require.NoError(t, err)
+			require.NotNil(t, gotSetResponse)
+		})
+	}
+}
+
+
+func TestClient_Update(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
+	values := make([]interface{}, 0)
+	values = append(values, 17, "name3")
+	firstInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values,[]string{"INT64","STRING"}}
+	values = make([]interface{}, 0)
+	values = append(values, 18, "name4")
+	scnInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values,[]string{"INT64","STRING"}}
+	var inputs []InsertOrUpdate
+	cfg := config.Metadata{
+		Name: "google-spanner-target",
+		Kind: "",
+		Properties: map[string]string{
+			"db": dat.db,
+		},
+	}
+	inputs = append(inputs, firstInsUpd, scnInsUpd)
+
+	bSchema, err := json.Marshal(inputs)
+	require.NoError(t, err)
+
+	tests := []struct {
+		name         string
+		queryRequest *types.Request
+		wantErr      bool
+	}{
+		{
+			name: "valid update",
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "update").
+				SetData(bSchema),
+			wantErr: false,
+		}, {
+			name: "invalid update - missing data",
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "update"),
+			wantErr: true,
+		},
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	c := New()
+	err = c.Init(ctx, cfg)
+	require.NoError(t, err)
+	defer func() {
+		err = c.CloseClient()
+		require.NoError(t, err)
+	}()
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
+			if tt.wantErr {
+				t.Logf("init() error = %v, wantErr %v", err, tt.wantErr)
+				require.Error(t, err)
+				return
+			}
+			require.NoError(t, err)
+			require.NotNil(t, gotSetResponse)
+		})
+	}
+}
+
+func TestClient_InsertOrUpdate(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
+	values := make([]interface{}, 0)
+	values = append(values, 19, "name5")
+	firstInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values,[]string{"INT64","STRING"}}
+	values = make([]interface{}, 0)
+	values = append(values, 20, "name6")
+	scnInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values,[]string{"INT64","STRING"}}
+	var inputs []InsertOrUpdate
+	cfg := config.Metadata{
+		Name: "google-spanner-target",
+		Kind: "",
+		Properties: map[string]string{
+			"db": dat.db,
+		},
+	}
+	inputs = append(inputs, firstInsUpd, scnInsUpd)
+
+	bSchema, err := json.Marshal(inputs)
+	require.NoError(t, err)
+
+	tests := []struct {
+		name         string
+		queryRequest *types.Request
+		wantErr      bool
+	}{
+		{
+			name: "valid InsertOrUpdate",
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "insert_or_update").
+				SetData(bSchema),
+			wantErr: false,
+		}, {
+			name: "invalid InsertOrUpdate - missing data",
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "insert_or_update"),
+			wantErr: true,
+		},
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	c := New()
+	err = c.Init(ctx, cfg)
+	require.NoError(t, err)
+	defer func() {
+		err = c.CloseClient()
+		require.NoError(t, err)
+	}()
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
+			if tt.wantErr {
+				t.Logf("init() error = %v, wantErr %v", err, tt.wantErr)
+				require.Error(t, err)
+				return
+			}
+			require.NoError(t, err)
+			require.NotNil(t, gotSetResponse)
+		})
+	}
+}
+
+

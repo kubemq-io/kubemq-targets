@@ -41,6 +41,12 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 			return metadata{}, fmt.Errorf("error parsing query, %w", err)
 		}
 	}
+	if m.method == "read" {
+		m.tableName, err = meta.MustParseString("table_name")
+		if err != nil {
+			return metadata{}, fmt.Errorf("error parsing query, %w", err)
+		}
+	}
 
 	return m, nil
 }
