@@ -65,3 +65,24 @@ bindings:
         gateway: "http://localhost:31112"
         username: "admin"
         password: "password"
+  - name: kubemq-query-http
+    source:
+      kind: source.kubemq.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-http-connector"
+        auth_token: ""
+        channel: "query.http"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.http
+      name: target-http
+      properties:
+        auth_type: "no-auth"
+        default_headers: '{"Content-Type":"application/json"}'
