@@ -211,6 +211,9 @@ func (c *Client) updateDatabaseDdl(ctx context.Context, body []byte) (*types.Res
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse body as []strings for args on error %s", err.Error())
 	}
+	if len(Statements) ==0{
+		return nil, fmt.Errorf("failed to get valid Statements struct")
+	}
 	op, err := c.adminClient.UpdateDatabaseDdl(ctx, &adminpb.UpdateDatabaseDdlRequest{
 		Database:   c.opts.db,
 		Statements: Statements,

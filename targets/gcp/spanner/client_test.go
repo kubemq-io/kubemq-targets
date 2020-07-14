@@ -215,10 +215,10 @@ func TestClient_Insert(t *testing.T) {
 	require.NoError(t, err)
 	values := make([]interface{}, 0)
 	values = append(values, 17, "name1")
-	firstInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values,[]string{"INT64","STRING"}}
+	firstInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values, []string{"INT64", "STRING"}}
 	values = make([]interface{}, 0)
 	values = append(values, 18, "name2")
-	scnInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values,[]string{"INT64","STRING"}}
+	scnInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values, []string{"INT64", "STRING"}}
 	var inputs []InsertOrUpdate
 	cfg := config.Metadata{
 		Name: "google-spanner-target",
@@ -273,16 +273,15 @@ func TestClient_Insert(t *testing.T) {
 	}
 }
 
-
 func TestClient_Update(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	values := make([]interface{}, 0)
 	values = append(values, 17, "name3")
-	firstInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values,[]string{"INT64","STRING"}}
+	firstInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values, []string{"INT64", "STRING"}}
 	values = make([]interface{}, 0)
 	values = append(values, 18, "name4")
-	scnInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values,[]string{"INT64","STRING"}}
+	scnInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values, []string{"INT64", "STRING"}}
 	var inputs []InsertOrUpdate
 	cfg := config.Metadata{
 		Name: "google-spanner-target",
@@ -337,15 +336,71 @@ func TestClient_Update(t *testing.T) {
 	}
 }
 
+func TestClient_UpdateDatabaseDdl(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
+	statements := []string{"mystatement"}
+	cfg := config.Metadata{
+		Name: "google-spanner-target",
+		Kind: "",
+		Properties: map[string]string{
+			"db": dat.db,
+		},
+	}
+
+	bSchema, err := json.Marshal(statements)
+	require.NoError(t, err)
+
+	tests := []struct {
+		name         string
+		queryRequest *types.Request
+		wantErr      bool
+	}{
+		{
+			name: "valid UpdateDatabaseDdl",
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "update_database_ddl").
+				SetData(bSchema),
+			wantErr: false,
+		}, {
+			name: "invalid InsertOrUpdate - missing data",
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "update_database_ddl"),
+			wantErr: true,
+		},
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 35*time.Second)
+	defer cancel()
+	c := New()
+	err = c.Init(ctx, cfg)
+	require.NoError(t, err)
+	defer func() {
+		err = c.CloseClient()
+		require.NoError(t, err)
+	}()
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
+			if tt.wantErr {
+				t.Logf("init() error = %v, wantErr %v", err, tt.wantErr)
+				require.Error(t, err)
+				return
+			}
+			require.NoError(t, err)
+			require.NotNil(t, gotSetResponse)
+		})
+	}
+}
+
 func TestClient_InsertOrUpdate(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	values := make([]interface{}, 0)
 	values = append(values, 19, "name5")
-	firstInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values,[]string{"INT64","STRING"}}
+	firstInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values, []string{"INT64", "STRING"}}
 	values = make([]interface{}, 0)
 	values = append(values, 20, "name6")
-	scnInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values,[]string{"INT64","STRING"}}
+	scnInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values, []string{"INT64", "STRING"}}
 	var inputs []InsertOrUpdate
 	cfg := config.Metadata{
 		Name: "google-spanner-target",
@@ -399,5 +454,3 @@ func TestClient_InsertOrUpdate(t *testing.T) {
 		})
 	}
 }
-
-
