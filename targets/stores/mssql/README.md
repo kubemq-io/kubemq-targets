@@ -143,15 +143,15 @@ Example:
 
 Transaction string:
 ```sql
-	DROP TABLE IF EXISTS post;
-	CREATE TABLE post (
-	         ID bigint,
-	         TITLE varchar(40),
-	         CONTENT varchar(255),
-			 BIGNUMBER bigint,
-			 BOOLVALUE boolean,
-	         CONSTRAINT pk_post PRIMARY KEY(ID)
-	       );
+DROP TABLE IF EXISTS post;
+CREATE TABLE post (
+         ID bigint,
+         TITLE varchar(40),
+         CONTENT varchar(255),
+         BIGNUMBER bigint,
+         BOOLVALUE boolean,
+         CONSTRAINT pk_post PRIMARY KEY(ID)
+       );
 ```
 ```json
 {
