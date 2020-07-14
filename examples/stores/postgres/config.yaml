@@ -1,0 +1,24 @@
+bindings:
+  - name: kubemq-query-postgres
+    source:
+      kind: source.kubemq.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-postgres-connector"
+        auth_token: ""
+        channel: "query.postgres"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.stores.postgres
+      name: target-postgres
+      properties:
+        connection: "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
+        max_idle_connections: "10"
+        max_open_connections: "100"
+        connection_max_lifetime_seconds: "3600"

@@ -1,4 +1,4 @@
-helm repo update
-helm install  mssql stable/mssql-linux --set acceptEula.value=Y --set sapassword=n8x2Nz!f --set edition.value=Developer
-kubectl port-forward --namespace default svc/mssql-mssql-linux 1433:1433
-helm delete mssql
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install postgres bitnami/postgresql --set postgresqlPassword=postgres --set postgresqlUsername=postgres --set postgresqlDatabase=store
+kubectl port-forward --namespace default svc/postgres-postgresql 5432:5432 & PGPASSWORD="$POSTGRES_PASSWORD" psql --host 127.0.0.1 -U postgres -d postgres -p 5432
+helm delete postgres

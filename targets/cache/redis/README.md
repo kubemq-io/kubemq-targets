@@ -108,7 +108,7 @@ Example:
 ```
 ### Delete Request
 
-DeleteRequest metadata setting:
+Delete Request metadata setting:
 
 | Metadata Key | Required | Description      | Possible values |
 |:-------------|:---------|:-----------------|:----------------|

@@ -86,3 +86,72 @@ bindings:
       properties:
         auth_type: "no-auth"
         default_headers: '{"Content-Type":"application/json"}'
+  - name: kubemq-query-postgres
+    source:
+      kind: source.kubemq.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-postgres-connector"
+        auth_token: ""
+        channel: "query.postgres"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.stores.postgres
+      name: target-postgres
+      properties:
+        connection: "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
+        max_idle_connections: "10"
+        max_open_connections: "100"
+        connection_max_lifetime_seconds: "3600"
+  - name: kubemq-query-mysql
+    source:
+      kind: source.kubemq.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-mysql-connector"
+        auth_token: ""
+        channel: "query.mysql"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.stores.mysql
+      name: target-mysql
+      properties:
+        connection: "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local"
+        max_idle_connections: "10"
+        max_open_connections: "100"
+        connection_max_lifetime_seconds: "3600"
+  - name: kubemq-query-mssql
+    source:
+      kind: source.kubemq.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-mssql-connector"
+        auth_token: ""
+        channel: "query.mssql"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.stores.mssql
+      name: target-mssql
+      properties:
+        connection: "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master"
+        max_idle_connections: "10"
+        max_open_connections: "100"
+        connection_max_lifetime_seconds: "3600"
