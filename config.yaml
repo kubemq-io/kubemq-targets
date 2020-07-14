@@ -155,3 +155,31 @@ bindings:
         max_idle_connections: "10"
         max_open_connections: "100"
         connection_max_lifetime_seconds: "3600"
+  - name: kubemq-query-mongodb
+    source:
+      kind: source.kubemq.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-mongodb-connector"
+        auth_token: ""
+        channel: "query.mongodb"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.stores.mongodb
+      name: target-mongodb
+      properties:
+        host: "localhost:27017"
+        username: "admin"
+        password: "password"
+        database: "admin"
+        collection: "test"
+        write_concurrency: "majority"
+        read_concurrency: ""
+        params: ""
+        operation_timeout_seconds: "2"
