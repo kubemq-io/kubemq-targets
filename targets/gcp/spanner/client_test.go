@@ -1,7 +1,6 @@
 package spanner
 
 import (
-	"cloud.google.com/go/bigquery"
 	"context"
 	"encoding/json"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
@@ -86,60 +85,48 @@ func TestClient_Init(t *testing.T) {
 func TestClient_Query(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
+
+	cfg := config.Metadata{
+		Name: "google-spanner-target",
+		Kind: "",
+		Properties: map[string]string{
+			"db": dat.db,
+		},
+	}
 	tests := []struct {
 		name         string
-		cfg          config.Metadata
 		queryRequest *types.Request
 		wantErr      bool
 	}{
 		{
 			name: "valid query",
-			cfg: config.Metadata{
-				Name: "google-spanner-target",
-				Kind: "",
-				Properties: map[string]string{
-					"db": dat.db,
-				},
-			},
 			queryRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "query").
 				SetMetadataKeyValue("query", dat.query),
 			wantErr: false,
 		}, {
 			name: "invalid query - missing query",
-			cfg: config.Metadata{
-				Name: "google-spanner-target",
-				Kind: "",
-				Properties: map[string]string{
-					"db": dat.db,
-				},
-			},
 			queryRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "query"),
 			wantErr: true,
 		}, {
-			name: "invalid query- missing db",
-			cfg: config.Metadata{
-				Name: "google-big-query-target",
-				Kind: "",
-				Properties: map[string]string{
-				},
-			},
+			name: "invalid query- missing method",
 			queryRequest: types.NewRequest().
-				SetMetadataKeyValue("method", "query").
-				SetMetadataKeyValue("query", dat.emptyTableQry),
+				SetMetadataKeyValue("query", dat.query),
 			wantErr: true,
 		},
 	}
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+	c := New()
+	err = c.Init(ctx, cfg)
+	require.NoError(t, err)
+	defer func() {
+		err = c.CloseClient()
+		require.NoError(t, err)
+	}()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-			defer cancel()
-			c := New()
-			err := c.Init(ctx, tt.cfg)
-			defer func() {
-				_ = c.CloseClient()
-			}()
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
 			if tt.wantErr {

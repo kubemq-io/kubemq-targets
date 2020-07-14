@@ -88,6 +88,8 @@ func (c *Client) query(ctx context.Context, meta metadata) (*types.Response, err
 	if err != nil {
 		return nil, err
 	}
+	var q []spanner.Row
+	err = json.Unmarshal(b,&q)
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok").
 			SetData(b),
@@ -178,8 +180,8 @@ func (c *Client) read(ctx context.Context, body []byte) (*types.Response, error)
 		nil
 }
 
-func (c *Client) getRowsFromIterator(iter *spanner.RowIterator) ([]*spanner.Row, error) {
-	var rows []*spanner.Row
+func (c *Client) getRowsFromIterator(iter *spanner.RowIterator) ([]*Row, error) {
+	var rows []*Row
 	defer iter.Stop()
 	for {
 		row, err := iter.Next()
@@ -189,7 +191,8 @@ func (c *Client) getRowsFromIterator(iter *spanner.RowIterator) ([]*spanner.Row,
 		if err != nil {
 			return rows, fmt.Errorf("error iterating through results: %v", err)
 		}
-		rows = append(rows, row)
+		r , err := extractDataByType(row)
+		rows = append(rows, r)
 	}
 }
 
