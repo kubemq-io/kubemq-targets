@@ -25,8 +25,6 @@ http target connector configuration properties:
 | default_headers    | no       | set any default headers to be add for each call    | map of headers                   |
 
 
-
-
 Example:
 
 ```yaml
@@ -68,8 +66,7 @@ Request metadata setting:
 | headers      | no       | any headers required for method | '{"Content-Type":"application/json"}' |
 
 
-
-Request data setting
+Request data setting:
 
 | Data Key | Required | Description                          | Possible values     |
 |:---------|:---------|:-------------------------------------|:--------------------|

@@ -75,7 +75,6 @@ Get request metadata setting:
 | key          | yes      | mongodb key string | any string      |
 | method       | yes      | get              | "get"           |
 
-
 Example:
 
 ```json
@@ -90,13 +89,14 @@ Example:
 
 ### Set Request
 
-Set request setting:
+Set request metadata setting:
 
 | Metadata Key | Required | Description      | Possible values |
 |:-------------|:---------|:-----------------|:----------------|
 | key          | yes      | mongodb key string | any string      |
 | method       | yes      | set              | "set"           |
 
+Set request data setting:
 
 | Data Key | Required | Description                   | Possible values     |
 |:---------|:---------|:------------------------------|:--------------------|

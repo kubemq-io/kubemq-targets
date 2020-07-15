@@ -83,7 +83,7 @@ Example:
 
 ### Set Request
 
-Set request setting:
+Set request metadata setting:
 
 | Metadata Key   | Required | Description               | Possible values  |
 |:---------------|:---------|:--------------------------|:-----------------|
@@ -92,7 +92,7 @@ Set request setting:
 | cas            | no       | set cas value             | "0"              |
 | expiry_seconds | no       | set key expiry in seconds | "3600"           |
 
-
+Set request data setting:
 
 | Data Key | Required | Description                   | Possible values     |
 |:---------|:---------|:------------------------------|:--------------------|

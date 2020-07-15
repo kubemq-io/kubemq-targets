@@ -60,7 +60,7 @@ Query request metadata setting:
 |:-------------|:---------|:-----------------|:----------------|
 | method          | yes      | set type of request | "query"      |
 
-Query request data setting
+Query request data setting:
 
 | Data Key | Required | Description  | Possible values    |
 |:---------|:---------|:-------------|:-------------------|
@@ -94,7 +94,7 @@ Exec request metadata setting:
 |                 |          |                                        |                    |
 
 
-Exec request data setting
+Exec request data setting:
 
 | Data Key | Required | Description                   | Possible values     |
 |:---------|:---------|:------------------------------|:--------------------|
@@ -133,7 +133,7 @@ Transaction request metadata setting:
 |                 |          |                                        | "serializable"     |
 
 
-Transaction request data setting
+Transaction request data setting:
 
 | Data Key | Required | Description                   | Possible values     |
 |:---------|:---------|:------------------------------|:--------------------|

@@ -51,7 +51,7 @@ bindings:
 
 ### Get Request
 
-Get Request metadata setting:
+Get request metadata setting:
 
 | Metadata Key | Required | Description      | Possible values |
 |:-------------|:---------|:-----------------|:----------------|
@@ -73,12 +73,14 @@ Example:
 
 ### Set Request
 
-Set Request setting:
+Set request metadata setting:
 
 | Metadata Key | Required | Description      | Possible values |
 |:-------------|:---------|:-----------------|:----------------|
 | key          | yes      | memcached key string | any string      |
 | method       | yes      | set              | "set"           |
+
+Set request data setting:
 
 | Data Key | Required | Description                   | Possible values     |
 |:---------|:---------|:------------------------------|:--------------------|
@@ -97,7 +99,7 @@ Example:
 ```
 ### Delete Request
 
-Delete Request metadata setting:
+Delete request metadata setting:
 
 | Metadata Key | Required | Description      | Possible values |
 |:-------------|:---------|:-----------------|:----------------|

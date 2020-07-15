@@ -59,7 +59,7 @@ Request metadata setting:
 | topic        | yes      | OpenFaas function topic | "function/nslookup"      |
 
 
-Request data setting
+Request data setting:
 
 | Data Key | Required | Description                          | Possible values     |
 |:---------|:---------|:-------------------------------------|:--------------------|
