@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/binding"
 	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
+	"sync"
 
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
 
@@ -26,20 +27,31 @@ var (
 )
 
 func start(ctx context.Context, cfg *config.Config) error {
+	var mutex sync.Mutex
+	wg := sync.WaitGroup{}
+	wg.Add(len(cfg.Bindings))
 	for _, bindingCfg := range cfg.Bindings {
-		binder := binding.New()
-		err := binder.Init(ctx, bindingCfg)
-		if err != nil {
-			log.Error(err)
-			continue
-		}
-		err = binder.Start(ctx)
-		if err != nil {
-			log.Error(err)
-			continue
-		}
-		bindingMap[bindingCfg.Name] = binder
+		go func(cfg config.BindingConfig) {
+			defer wg.Done()
+			binder := binding.New()
+			err := binder.Init(ctx, cfg)
+			if err != nil {
+				log.Error(err)
+				return
+			}
+			err = binder.Start(ctx)
+			if err != nil {
+				log.Error(err)
+				return
+			}
+			mutex.Lock()
+			bindingMap[cfg.Name] = binder
+			mutex.Unlock()
+
+		}(bindingCfg)
+
 	}
+	wg.Wait()
 	if len(bindingMap) == 0 {
 		return fmt.Errorf("no valid bindings started")
 	}

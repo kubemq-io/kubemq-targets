@@ -63,7 +63,7 @@ Request data setting:
 
 | Data Key | Required | Description                          | Possible values     |
 |:---------|:---------|:-------------------------------------|:--------------------|
-| data     | yes      | data to set for the OpenFaas request | base 64 bytes array |
+| data     | yes      | data to set for the OpenFaas request | base64 bytes array |
 
 Example:
 
