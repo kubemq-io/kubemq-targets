@@ -9,6 +9,7 @@ require (
 	cloud.google.com/go/pubsub v1.4.0
 	cloud.google.com/go/spanner v1.7.0
 	cloud.google.com/go/storage v1.8.0
+	github.com/Shopify/sarama v1.26.4
 	github.com/aws/aws-sdk-go v1.32.4
 	github.com/bradfitz/gomemcache v0.0.0-20190913173617-a41fca850d0b
 	github.com/couchbase/gocb/v2 v2.1.2
@@ -25,6 +26,7 @@ require (
 	github.com/kubemq-io/kubemq-go v1.4.0
 	github.com/labstack/echo/v4 v4.1.16
 	github.com/lib/pq v1.1.1
+	github.com/minio/minio-go/v7 v7.0.0-20200623213017-e5cd2d129325
 	github.com/nats-io/nuid v1.0.1
 	github.com/olivere/elastic/v7 v7.0.17
 	github.com/openfaas-incubator/connector-sdk v0.0.0-20191214130609-df5d76475412 // indirect

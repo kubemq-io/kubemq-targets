@@ -100,7 +100,7 @@ Set request data setting:
 
 | Data Key | Required | Description                   | Possible values     |
 |:---------|:---------|:------------------------------|:--------------------|
-| data     | yes      | data to set for the mongodb key | base 64 bytes array |
+| data     | yes      | data to set for the mongodb key | base64 bytes array |
 
 Example:
 

@@ -96,7 +96,7 @@ Set request data setting:
 
 | Data Key | Required | Description                   | Possible values     |
 |:---------|:---------|:------------------------------|:--------------------|
-| data     | yes      | data to set for the couchbase key | base 64 bytes array |
+| data     | yes      | data to set for the couchbase key | base64 bytes array |
 
 Example:
 

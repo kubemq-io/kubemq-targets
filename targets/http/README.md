@@ -70,7 +70,7 @@ Request data setting:
 
 | Data Key | Required | Description                          | Possible values     |
 |:---------|:---------|:-------------------------------------|:--------------------|
-| data     | yes      | data to set for the http request | base 64 bytes array |
+| data     | yes      | data to set for the http request | base64 bytes array |
 
 Example:
 

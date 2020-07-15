@@ -98,7 +98,7 @@ Exec request data setting:
 
 | Data Key | Required | Description                   | Possible values     |
 |:---------|:---------|:------------------------------|:--------------------|
-| data     | yes      | exec string | base 64 bytes array |
+| data     | yes      | exec string | base64 bytes array |
 
 Example:
 
@@ -135,7 +135,7 @@ Transaction request data setting:
 
 | Data Key | Required | Description                   | Possible values     |
 |:---------|:---------|:------------------------------|:--------------------|
-| data     | yes      | string string | base 64 bytes array |
+| data     | yes      | string string | base64 bytes array |
 
 Example:
 

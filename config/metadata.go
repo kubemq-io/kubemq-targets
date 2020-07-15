@@ -3,6 +3,7 @@ package config
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -156,4 +157,17 @@ func (m Metadata) MustParseByteArray(key string) ([]byte, error) {
 	} else {
 		return nil, fmt.Errorf("key %s not found for byte coneversion", val)
 	}
+}
+func (m Metadata) MustParseEnv(key, envVar, defaultValue string) (string, error) {
+	envValue := os.Getenv(envVar)
+	if envValue != "" {
+		return envValue, nil
+	}
+	if val, ok := m.Properties[key]; ok && val != "" {
+		return val, nil
+	}
+	if defaultValue != "" {
+		return defaultValue, nil
+	}
+	return "", fmt.Errorf("cannot extract key %s from enviroment variable", key)
 }
