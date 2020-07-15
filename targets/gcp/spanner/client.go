@@ -60,7 +60,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "query":
 		return c.query(ctx, meta)
 	case "read":
-		return c.read(ctx,meta, req.Data)
+		return c.read(ctx, meta, req.Data)
 	case "update_database_ddl":
 		return c.updateDatabaseDdl(ctx, req.Data)
 	case "insert":
@@ -89,7 +89,10 @@ func (c *Client) query(ctx context.Context, meta metadata) (*types.Response, err
 		return nil, err
 	}
 	var q []spanner.Row
-	err = json.Unmarshal(b,&q)
+	err = json.Unmarshal(b, &q)
+	if err != nil {
+		return nil, err
+	}
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok").
 			SetData(b),
@@ -99,7 +102,10 @@ func (c *Client) query(ctx context.Context, meta metadata) (*types.Response, err
 func (c *Client) insert(ctx context.Context, body []byte) (*types.Response, error) {
 	var inserts []InsertOrUpdate
 	err := json.Unmarshal(body, &inserts)
-	if len(inserts) ==0{
+	if err != nil {
+		return nil, err
+	}
+	if len(inserts) == 0 {
 		return nil, fmt.Errorf("failed to get valid InsertOrUpdate struct")
 	}
 	var m []*spanner.Mutation
@@ -122,7 +128,10 @@ func (c *Client) insert(ctx context.Context, body []byte) (*types.Response, erro
 func (c *Client) update(ctx context.Context, body []byte) (*types.Response, error) {
 	var updates []InsertOrUpdate
 	err := json.Unmarshal(body, &updates)
-	if len(updates) ==0{
+	if err != nil {
+		return nil, err
+	}
+	if len(updates) == 0 {
 		return nil, fmt.Errorf("failed to get valid InsertOrUpdate struct")
 	}
 	var m []*spanner.Mutation
@@ -145,7 +154,13 @@ func (c *Client) update(ctx context.Context, body []byte) (*types.Response, erro
 func (c *Client) insertOrUpdate(ctx context.Context, body []byte) (*types.Response, error) {
 	var insertsOrUpdates []InsertOrUpdate
 	err := json.Unmarshal(body, &insertsOrUpdates)
-	if len(insertsOrUpdates) ==0{
+	if err != nil {
+		return nil, err
+	}
+	if err != nil {
+		return nil, err
+	}
+	if len(insertsOrUpdates) == 0 {
 		return nil, fmt.Errorf("failed to get valid InsertOrUpdate struct")
 	}
 	var m []*spanner.Mutation
@@ -165,7 +180,7 @@ func (c *Client) insertOrUpdate(ctx context.Context, body []byte) (*types.Respon
 		nil
 }
 
-func (c *Client) read(ctx context.Context,meta metadata, body []byte) (*types.Response, error) {
+func (c *Client) read(ctx context.Context, meta metadata, body []byte) (*types.Response, error) {
 	var columns []string
 	err := json.Unmarshal(body, &columns)
 	if err != nil {
@@ -200,7 +215,10 @@ func (c *Client) getRowsFromIterator(iter *spanner.RowIterator) ([]*Row, error) 
 		if err != nil {
 			return rows, fmt.Errorf("error iterating through results: %v", err)
 		}
-		r , err := extractDataByType(row)
+		r, err := extractDataByType(row)
+		if err != nil {
+			return nil, err
+		}
 		rows = append(rows, r)
 	}
 }
@@ -211,7 +229,7 @@ func (c *Client) updateDatabaseDdl(ctx context.Context, body []byte) (*types.Res
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse body as []strings for args on error %s", err.Error())
 	}
-	if len(Statements) ==0{
+	if len(Statements) == 0 {
 		return nil, fmt.Errorf("failed to get valid Statements struct")
 	}
 	op, err := c.adminClient.UpdateDatabaseDdl(ctx, &adminpb.UpdateDatabaseDdlRequest{
@@ -221,6 +239,7 @@ func (c *Client) updateDatabaseDdl(ctx context.Context, body []byte) (*types.Res
 	if err != nil {
 		return nil, err
 	}
+	// nolint:staticcheck
 	b, err := json.Marshal(op)
 	if err != nil {
 		return nil, err
@@ -230,7 +249,6 @@ func (c *Client) updateDatabaseDdl(ctx context.Context, body []byte) (*types.Res
 			SetData(b),
 		nil
 }
-
 
 func (c *Client) CloseClient() error {
 	c.client.Close()
