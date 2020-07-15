@@ -68,7 +68,6 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	default:
 		return nil, fmt.Errorf(getValidMethodTypes())
 	}
-	return nil, nil
 }
 
 func (c *Client) createBucket(ctx context.Context, meta metadata) (*types.Response, error) {

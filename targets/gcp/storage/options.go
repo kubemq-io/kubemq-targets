@@ -9,8 +9,7 @@ type options struct {
 
 func parseOptions() (options, error) {
 	o := options{}
-	var err error
-	err = config.MustExistsEnv("GOOGLE_APPLICATION_CREDENTIALS")
+	err := config.MustExistsEnv("GOOGLE_APPLICATION_CREDENTIALS")
 	if err != nil {
 		return options{}, err
 	}
