@@ -5,10 +5,6 @@ import (
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
 )
 
-const (
-	defaultTimoutSeconds = 3600
-)
-
 type options struct {
 	gateway  string
 	username string
