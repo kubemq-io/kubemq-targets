@@ -11,6 +11,7 @@ import (
 	"github.com/kubemq-hub/kubemq-target-connectors/targets/gcp/bigtable"
 	"github.com/kubemq-hub/kubemq-target-connectors/targets/gcp/firestore"
 	"github.com/kubemq-hub/kubemq-target-connectors/targets/gcp/pubsub"
+	"github.com/kubemq-hub/kubemq-target-connectors/targets/gcp/spanner"
 	"github.com/kubemq-hub/kubemq-target-connectors/targets/http"
 	"github.com/kubemq-hub/kubemq-target-connectors/targets/kubemq/command"
 	"github.com/kubemq-hub/kubemq-target-connectors/targets/kubemq/events"
@@ -82,6 +83,12 @@ func Init(ctx context.Context, cfg config.Metadata) (Target, error) {
 		return target, nil
 	case "target.gcp.pubsub":
 		target := pubsub.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.gcp.spanner":
+		target := spanner.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}

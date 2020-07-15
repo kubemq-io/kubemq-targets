@@ -26,8 +26,8 @@ require (
 	github.com/lib/pq v1.1.1
 	github.com/nats-io/nuid v1.0.1
 	github.com/olivere/elastic/v7 v7.0.17
-	github.com/openfaas-incubator/connector-sdk v0.0.0-20191214130609-df5d76475412
-	github.com/openfaas/faas-provider v0.15.1
+	github.com/openfaas-incubator/connector-sdk v0.0.0-20191214130609-df5d76475412 // indirect
+	github.com/openfaas/faas-provider v0.15.1 // indirect
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.7.0
 	github.com/streadway/amqp v1.0.0
