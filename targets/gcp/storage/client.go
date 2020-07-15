@@ -63,8 +63,26 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.copy(ctx, meta)
 	case "move":
 		return c.move(ctx, meta)
+	case "create_bucket":
+		return c.createBucket(ctx, meta)
+	default:
+		return nil, fmt.Errorf(getValidMethodTypes())
 	}
 	return nil, nil
+}
+
+func (c *Client) createBucket(ctx context.Context, meta metadata) (*types.Response, error) {
+	bucket := c.client.Bucket(meta.bucket)
+
+	if err := bucket.Create(ctx, meta.projectID, &storage.BucketAttrs{
+		StorageClass: meta.storageClass,
+		Location:     meta.location,
+	}); err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok"),
+		nil
 }
 
 func (c *Client) upload(ctx context.Context, meta metadata) (*types.Response, error) {
@@ -90,7 +108,6 @@ func (c *Client) download(ctx context.Context, meta metadata) (*types.Response, 
 	if err != nil {
 		return nil, err
 	}
-	defer rc.Close()
 
 	data, err := ioutil.ReadAll(rc)
 	if err != nil {
@@ -165,7 +182,6 @@ func (c *Client) copy(ctx context.Context, meta metadata) (*types.Response, erro
 		nil
 }
 
-
 func (c *Client) move(ctx context.Context, meta metadata) (*types.Response, error) {
 	src := c.client.Bucket(meta.bucket).Object(meta.object)
 	dst := c.client.Bucket(meta.dstBucket).Object(meta.renameObject)
@@ -180,8 +196,6 @@ func (c *Client) move(ctx context.Context, meta metadata) (*types.Response, erro
 			SetMetadataKeyValue("result", "ok"),
 		nil
 }
-
-
 
 func (c *Client) CloseClient() error {
 	return c.client.Close()
