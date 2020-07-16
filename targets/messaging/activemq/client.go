@@ -46,7 +46,6 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return nil, err
 	}
 	err = c.conn.Send(meta.destination, "text/plain", req.Data)
-
 	if err != nil {
 		return nil, err
 	}

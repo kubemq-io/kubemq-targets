@@ -37,7 +37,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.stores.rabbitmq
+      kind: target.messaging.rabbitmq
       name: target-rabbitmq
       properties:
         url: "amqp://rabbitmq:rabbitmq@localhost:5672/"
@@ -67,7 +67,7 @@ Query request data setting:
 
 | Data Key | Required | Description  | Possible values    |
 |:---------|:---------|:-------------|:-------------------|
-| data     | yes      | query string | base64 bytes array |
+| data     | yes      | data to publish | base64 bytes array |
 
 Example:
 
