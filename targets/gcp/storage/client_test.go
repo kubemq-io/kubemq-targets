@@ -1,4 +1,4 @@
-package firestore
+package storage
 
 import (
 	"context"
@@ -76,10 +76,9 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Metadata{
-				Name: "google-storage-target",
-				Kind: "",
-				Properties: map[string]string{
-				},
+				Name:       "google-storage-target",
+				Kind:       "",
+				Properties: map[string]string{},
 			},
 			wantErr: false,
 		},
@@ -105,10 +104,9 @@ func TestClient_Init(t *testing.T) {
 func TestClient_Create_Bucket(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Metadata{
-		Name: "google-storage-target",
-		Kind: "",
-		Properties: map[string]string{
-		},
+		Name:       "google-storage-target",
+		Kind:       "",
+		Properties: map[string]string{},
 	}
 	require.NoError(t, err)
 	tests := []struct {
@@ -151,10 +149,9 @@ func TestClient_Create_Bucket(t *testing.T) {
 func TestClient_Upload_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Metadata{
-		Name: "google-storage-target",
-		Kind: "",
-		Properties: map[string]string{
-		},
+		Name:       "google-storage-target",
+		Kind:       "",
+		Properties: map[string]string{},
 	}
 	require.NoError(t, err)
 	tests := []struct {
@@ -170,14 +167,14 @@ func TestClient_Upload_Object(t *testing.T) {
 				SetMetadataKeyValue("path", dat.filePath).
 				SetMetadataKeyValue("object", dat.object),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid upload object - missing bucket",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "upload").
 				SetMetadataKeyValue("path", dat.filePath).
 				SetMetadataKeyValue("object", dat.object),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid upload object - bucket dont exists",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "upload").
@@ -185,14 +182,14 @@ func TestClient_Upload_Object(t *testing.T) {
 				SetMetadataKeyValue("path", dat.filePath).
 				SetMetadataKeyValue("object", dat.object),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid upload object - missing file path",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "upload").
 				SetMetadataKeyValue("bucket", dat.bucket).
 				SetMetadataKeyValue("object", dat.object),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid upload object - incorrect file path",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "upload").
@@ -200,7 +197,7 @@ func TestClient_Upload_Object(t *testing.T) {
 				SetMetadataKeyValue("path", "not/real/path").
 				SetMetadataKeyValue("object", dat.object),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid upload object - missing object name",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "upload").
@@ -215,7 +212,7 @@ func TestClient_Upload_Object(t *testing.T) {
 	err = c.Init(ctx, cfg2)
 	defer func() {
 		err = c.client.Close()
-		require.NoError(t,err)
+		require.NoError(t, err)
 	}()
 	require.NoError(t, err)
 	for _, tt := range tests {
@@ -235,10 +232,9 @@ func TestClient_Upload_Object(t *testing.T) {
 func TestClient_Delete_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Metadata{
-		Name: "google-storage-target",
-		Kind: "",
-		Properties: map[string]string{
-		},
+		Name:       "google-storage-target",
+		Kind:       "",
+		Properties: map[string]string{},
 	}
 	require.NoError(t, err)
 	tests := []struct {
@@ -253,26 +249,26 @@ func TestClient_Delete_Object(t *testing.T) {
 				SetMetadataKeyValue("bucket", dat.bucket).
 				SetMetadataKeyValue("object", dat.object),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid delete object - object doesn't exist ",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete").
 				SetMetadataKeyValue("bucket", dat.bucket).
 				SetMetadataKeyValue("object", "madeUpObject"),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid delete object - missing object ",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete").
 				SetMetadataKeyValue("bucket", dat.bucket),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid delete object - missing bucket ",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete").
 				SetMetadataKeyValue("object", "madeUpObject"),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid delete object - bucket does not exists ",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete").
@@ -287,7 +283,7 @@ func TestClient_Delete_Object(t *testing.T) {
 	err = c.Init(ctx, cfg2)
 	defer func() {
 		err = c.client.Close()
-		require.NoError(t,err)
+		require.NoError(t, err)
 	}()
 	require.NoError(t, err)
 	for _, tt := range tests {
@@ -304,14 +300,12 @@ func TestClient_Delete_Object(t *testing.T) {
 	}
 }
 
-
 func TestClient_Download_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Metadata{
-		Name: "google-storage-target",
-		Kind: "",
-		Properties: map[string]string{
-		},
+		Name:       "google-storage-target",
+		Kind:       "",
+		Properties: map[string]string{},
 	}
 	require.NoError(t, err)
 	tests := []struct {
@@ -326,26 +320,26 @@ func TestClient_Download_Object(t *testing.T) {
 				SetMetadataKeyValue("bucket", dat.bucket).
 				SetMetadataKeyValue("object", dat.object),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid download  - missing bucket",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "download").
 				SetMetadataKeyValue("object", dat.object),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid download object - bucket does not exists",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "download").
 				SetMetadataKeyValue("bucket", "notreal-123").
 				SetMetadataKeyValue("object", dat.object),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid download object - missing object",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "download").
 				SetMetadataKeyValue("bucket", dat.bucket),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid download object - object does not exists",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "download").
@@ -360,7 +354,7 @@ func TestClient_Download_Object(t *testing.T) {
 	err = c.Init(ctx, cfg2)
 	defer func() {
 		err = c.client.Close()
-		require.NoError(t,err)
+		require.NoError(t, err)
 	}()
 	require.NoError(t, err)
 	for _, tt := range tests {
@@ -373,7 +367,7 @@ func TestClient_Download_Object(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, gotSetResponse)
-			require.NotNil(t,gotSetResponse.Data)
+			require.NotNil(t, gotSetResponse.Data)
 		})
 	}
 }
@@ -381,10 +375,9 @@ func TestClient_Download_Object(t *testing.T) {
 func TestClient_List_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Metadata{
-		Name: "google-storage-target",
-		Kind: "",
-		Properties: map[string]string{
-		},
+		Name:       "google-storage-target",
+		Kind:       "",
+		Properties: map[string]string{},
 	}
 	require.NoError(t, err)
 	tests := []struct {
@@ -398,12 +391,12 @@ func TestClient_List_Object(t *testing.T) {
 				SetMetadataKeyValue("method", "list").
 				SetMetadataKeyValue("bucket", dat.bucket),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid list object - missing bucket",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "list"),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid list object - bucket does not exists",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "list").
@@ -417,7 +410,7 @@ func TestClient_List_Object(t *testing.T) {
 	err = c.Init(ctx, cfg2)
 	defer func() {
 		err = c.client.Close()
-		require.NoError(t,err)
+		require.NoError(t, err)
 	}()
 	require.NoError(t, err)
 	for _, tt := range tests {
@@ -430,19 +423,17 @@ func TestClient_List_Object(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, gotSetResponse)
-			require.NotNil(t,gotSetResponse.Data)
+			require.NotNil(t, gotSetResponse.Data)
 		})
 	}
 }
 
-
 func TestClient_Rename_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Metadata{
-		Name: "google-storage-target",
-		Kind: "",
-		Properties: map[string]string{
-		},
+		Name:       "google-storage-target",
+		Kind:       "",
+		Properties: map[string]string{},
 	}
 	require.NoError(t, err)
 	tests := []struct {
@@ -458,14 +449,14 @@ func TestClient_Rename_Object(t *testing.T) {
 				SetMetadataKeyValue("object", dat.object).
 				SetMetadataKeyValue("rename_object", dat.renameObject),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid rename object - missing bucket name",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "rename").
 				SetMetadataKeyValue("object", dat.object).
 				SetMetadataKeyValue("rename_object", dat.renameObject),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid rename object - bucket does not exists",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "rename").
@@ -473,14 +464,14 @@ func TestClient_Rename_Object(t *testing.T) {
 				SetMetadataKeyValue("object", dat.object).
 				SetMetadataKeyValue("rename_object", dat.renameObject),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid rename object - missing object",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "rename").
 				SetMetadataKeyValue("bucket", dat.bucket).
 				SetMetadataKeyValue("rename_object", dat.renameObject),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid rename object - object does not exists",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "rename").
@@ -488,7 +479,7 @@ func TestClient_Rename_Object(t *testing.T) {
 				SetMetadataKeyValue("object", "object-not-exits-123").
 				SetMetadataKeyValue("rename_object", dat.renameObject),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid rename object - missing rename object",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "rename").
@@ -503,7 +494,7 @@ func TestClient_Rename_Object(t *testing.T) {
 	err = c.Init(ctx, cfg2)
 	defer func() {
 		err = c.client.Close()
-		require.NoError(t,err)
+		require.NoError(t, err)
 	}()
 	require.NoError(t, err)
 	for _, tt := range tests {
@@ -523,10 +514,9 @@ func TestClient_Rename_Object(t *testing.T) {
 func TestClient_Copy_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Metadata{
-		Name: "google-storage-target",
-		Kind: "",
-		Properties: map[string]string{
-		},
+		Name:       "google-storage-target",
+		Kind:       "",
+		Properties: map[string]string{},
 	}
 	require.NoError(t, err)
 	tests := []struct {
@@ -543,7 +533,7 @@ func TestClient_Copy_Object(t *testing.T) {
 				SetMetadataKeyValue("object", dat.object).
 				SetMetadataKeyValue("rename_object", dat.renameObject),
 			wantErr: false,
-		},{
+		}, {
 			name: "valid copy object- another bucket",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "copy").
@@ -552,7 +542,7 @@ func TestClient_Copy_Object(t *testing.T) {
 				SetMetadataKeyValue("object", dat.object).
 				SetMetadataKeyValue("rename_object", dat.renameObject),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid copy object - missing origin bucket",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "copy").
@@ -560,7 +550,7 @@ func TestClient_Copy_Object(t *testing.T) {
 				SetMetadataKeyValue("object", dat.object).
 				SetMetadataKeyValue("rename_object", dat.renameObject),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid copy object -  origin bucket does not exists",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "copy").
@@ -569,7 +559,7 @@ func TestClient_Copy_Object(t *testing.T) {
 				SetMetadataKeyValue("object", dat.object).
 				SetMetadataKeyValue("rename_object", dat.renameObject),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid copy object -  missing dst bucket",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "copy").
@@ -577,7 +567,7 @@ func TestClient_Copy_Object(t *testing.T) {
 				SetMetadataKeyValue("object", dat.object).
 				SetMetadataKeyValue("rename_object", dat.renameObject),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid copy object -  dst bucket does not exists",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "copy").
@@ -594,7 +584,7 @@ func TestClient_Copy_Object(t *testing.T) {
 	err = c.Init(ctx, cfg2)
 	defer func() {
 		err = c.client.Close()
-		require.NoError(t,err)
+		require.NoError(t, err)
 	}()
 	require.NoError(t, err)
 	for _, tt := range tests {
@@ -614,10 +604,9 @@ func TestClient_Copy_Object(t *testing.T) {
 func TestClient_Move_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Metadata{
-		Name: "google-storage-target",
-		Kind: "",
-		Properties: map[string]string{
-		},
+		Name:       "google-storage-target",
+		Kind:       "",
+		Properties: map[string]string{},
 	}
 	require.NoError(t, err)
 	tests := []struct {
@@ -634,7 +623,7 @@ func TestClient_Move_Object(t *testing.T) {
 				SetMetadataKeyValue("object", dat.object).
 				SetMetadataKeyValue("rename_object", dat.renameObject),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid move object - missing origin bucket",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "copy").
@@ -642,7 +631,7 @@ func TestClient_Move_Object(t *testing.T) {
 				SetMetadataKeyValue("object", dat.object).
 				SetMetadataKeyValue("rename_object", dat.renameObject),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid move object -  origin bucket does not exists",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "copy").
@@ -651,7 +640,7 @@ func TestClient_Move_Object(t *testing.T) {
 				SetMetadataKeyValue("object", dat.object).
 				SetMetadataKeyValue("rename_object", dat.renameObject),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid move object -  missing dst bucket",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "copy").
@@ -659,7 +648,7 @@ func TestClient_Move_Object(t *testing.T) {
 				SetMetadataKeyValue("object", dat.object).
 				SetMetadataKeyValue("rename_object", dat.renameObject),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid move object -  dst bucket does not exists",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "copy").
@@ -676,7 +665,7 @@ func TestClient_Move_Object(t *testing.T) {
 	err = c.Init(ctx, cfg2)
 	defer func() {
 		err = c.client.Close()
-		require.NoError(t,err)
+		require.NoError(t, err)
 	}()
 	require.NoError(t, err)
 	for _, tt := range tests {

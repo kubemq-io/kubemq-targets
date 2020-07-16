@@ -1,4 +1,4 @@
-package firestore
+package storage
 
 import (
 	"fmt"
@@ -61,7 +61,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 			return metadata{}, fmt.Errorf("error on location, %w", err)
 		}
 	}
-	if m.method == "upload" || m.method == "download" || m.method == "delete" || m.method == "rename" || m.method == "copy" || m.method == "move"{
+	if m.method == "upload" || m.method == "download" || m.method == "delete" || m.method == "rename" || m.method == "copy" || m.method == "move" {
 		m.object, err = meta.MustParseString("object")
 		if err != nil {
 			return metadata{}, fmt.Errorf("error on parsing upload, %w", err)
@@ -88,7 +88,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 			}
 		}
 	}
-	if m.method == "list"{
+	if m.method == "list" {
 		m.bucket, err = meta.MustParseString("bucket")
 		if err != nil {
 			return metadata{}, fmt.Errorf("error on parsing bucket, %w", err)

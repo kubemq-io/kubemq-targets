@@ -1,4 +1,4 @@
-package firestore
+package storage
 
 import (
 	"cloud.google.com/go/storage"
@@ -30,7 +30,7 @@ func (c *Client) Name() string {
 func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	c.name = cfg.Name
 	var err error
-	c.opts, err = parseOptions()
+	c.opts, err = parseOptions(cfg)
 	if err != nil {
 		return err
 	}
