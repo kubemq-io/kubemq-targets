@@ -6,7 +6,7 @@ Kubemq cassandra target connector allows services using kubemq server to access 
 The following are required to run the cassandra target connector:
 
 - kubemq cluster
-- cassandra server
+- cassandra server/cluster
 - kubemq-target-connectors deployment
 
 ## Configuration
@@ -70,12 +70,13 @@ bindings:
 
 Get request metadata setting:
 
-| Metadata Key | Required | Description      | Possible values |
-|:-------------|:---------|:-----------------|:----------------|
-| key          | yes      | cassandra key string | any string      |
-| method       | yes      | get              | "get"           |
-| consistency       | yes      | get              | "strong"           |
-
+| Metadata Key | Required | Description          | Possible values       |
+|:-------------|:---------|:---------------------|:----------------------|
+| key          | yes      | cassandra key string | any string            |
+| method       | yes      | get                  | "get"                 |
+| consistency  | yes      | set consistency                   | "",strong","eventual" |
+| table        | yes      | table name           | "table                |
+| keyspace     | yes      | key space name       | "keyspace"            |
 
 Example:
 
@@ -83,7 +84,10 @@ Example:
 {
   "metadata": {
     "key": "your-cassandra-key",
-    "method": "get"
+    "method": "get",
+    "consistency": "",
+    "table": "table",
+    "keyspace": "keyspace"
   },
   "data": null
 }
@@ -95,10 +99,11 @@ Set request metadata setting:
 
 | Metadata Key   | Required | Description               | Possible values  |
 |:---------------|:---------|:--------------------------|:-----------------|
-| key            | yes      | cassandra key string      | any string       |
-| method         | yes      | set                       | "set"            |
-| cas            | no       | set cas value             | "0"              |
-| expiry_seconds | no       | set key expiry in seconds | "3600"           |
+| key          | yes      | cassandra key string | any string            |
+| method       | yes      | method name set                  | "set"                 |
+| consistency  | yes      | set consistency                  | "",strong","eventual" |
+| table        | yes      | table name           | "table                |
+| keyspace     | yes      | key space name       | "keyspace"            |
 
 Set request data setting:
 
@@ -113,8 +118,9 @@ Example:
   "metadata": {
     "key": "your-cassandra-key",
     "method": "set",
-    "cas": "0",
-    "expiry_seconds": "3600"
+    "consistency": "",
+    "table": "table",
+    "keyspace": "keyspace"
   },
   "data": "c29tZS1kYXRh" 
 }
@@ -123,11 +129,13 @@ Example:
 
 Delete request metadata setting:
 
-| Metadata Key   | Required | Description               | Possible values  |
-|:---------------|:---------|:--------------------------|:-----------------|
-| key            | yes      | cassandra key string      | any string       |
-| method         | yes      | set                       | "delete"            |
-| cas            | no       | set cas value             | "0"              |
+| Metadata Key | Required | Description          | Possible values |
+|:-------------|:---------|:---------------------|:----------------|
+| key          | yes      | cassandra key string | any string      |
+| method       | yes      | method name delete   | "delete"        |
+| table        | yes      | table name           | "table          |
+| keyspace     | yes      | key space name       | "keyspace"      |
+
 
 
 Example:
@@ -136,9 +144,73 @@ Example:
 {
   "metadata": {
     "key": "your-cassandra-key",
-    "method": "delete",
-    "cas": "0"
+    "method": "set",
+    "table": "table",
+    "keyspace": "keyspace"
   },
   "data": null
+}
+```
+
+### Query Request
+
+Query request metadata setting:
+
+| Metadata Key | Required | Description      | Possible values |
+|:-------------|:---------|:-----------------|:----------------|
+| method       | yes      | method name query   | "query"        |
+| consistency  | yes      | set consistency                  | "",strong","eventual" |
+
+
+Query request data setting:
+
+| Data Key | Required | Description  | Possible values    |
+|:---------|:---------|:-------------|:-------------------|
+| data     | yes      | query string | base64 bytes array |
+
+Example:
+
+Query string: `SELECT value FROM test.test WHERE key = 'some-key`
+
+```json
+{
+  "metadata": {
+    "method": "query",
+    "consistency": "strong"
+  },
+  "data": "U0VMRUNUIHZhbHVlIEZST00gdGVzdC50ZXN0IFdIRVJFIGtleSA9ICdzb21lLWtleQ=="
+}
+```
+
+### Exec Request
+
+Exec request metadata setting:
+
+| Metadata Key    | Required | Description                            | Possible values    |
+|:----------------|:---------|:---------------------------------------|:-------------------|
+| method          | yes      | set type of request                    | "exec"             |
+| consistency  | yes      | set consistency                  | "",strong","eventual" |
+
+
+Exec request data setting:
+
+| Data Key | Required | Description                   | Possible values     |
+|:---------|:---------|:------------------------------|:--------------------|
+| data     | yes      | exec string | base64 bytes array |
+
+Example:
+
+Exec string:
+```sql
+INSERT INTO test.test (key, value) VALUES ('some-key',textAsBlob('some-data'))
+```
+
+```json
+{
+  "metadata": {
+    "method": "exec",
+    "consistency": "strong"
+  },
+  "data": "SU5TRVJUIElOVE8gdGVzdC50ZXN0IChrZXksIHZhbHVlKSBWQUxVRVMgKCdzb21lLWtleScsdGV4dEFzQmxvYignc29tZS1kYXRhJykp" 
 }
 ```
