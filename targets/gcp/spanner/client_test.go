@@ -3,6 +3,7 @@ package spanner
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"github.com/stretchr/testify/require"
@@ -15,6 +16,7 @@ type testStructure struct {
 	db        string
 	query     string
 	tableName string
+	cred      string
 }
 
 func getTestStructure() (*testStructure, error) {
@@ -34,6 +36,11 @@ func getTestStructure() (*testStructure, error) {
 		return nil, err
 	}
 	t.tableName = string(dat)
+	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
+	if err != nil {
+		return nil, err
+	}
+	t.cred = fmt.Sprintf("%s", dat)
 	return t, nil
 }
 
@@ -52,16 +59,28 @@ func TestClient_Init(t *testing.T) {
 				Kind: "",
 				Properties: map[string]string{
 					"db": dat.db,
+					"credentials": dat.cred,
 				},
 			},
 			wantErr: false,
 		},
 		{
-			name: "init",
+			name: "invalid init - missing db",
 			cfg: config.Metadata{
 				Name: "google-spanner-target",
 				Kind: "",
 				Properties: map[string]string{
+					"credentials": dat.cred,
+				},
+			},
+			wantErr: true,
+		},{
+			name: "invalid init - missing credentials",
+			cfg: config.Metadata{
+				Name: "google-spanner-target",
+				Kind: "",
+				Properties: map[string]string{
+					"db": dat.db,
 				},
 			},
 			wantErr: true,
@@ -97,6 +116,7 @@ func TestClient_Query(t *testing.T) {
 		Kind: "",
 		Properties: map[string]string{
 			"db": dat.db,
+			"credentials": dat.cred,
 		},
 	}
 	tests := []struct {
@@ -157,6 +177,7 @@ func TestClient_Read(t *testing.T) {
 		Kind: "",
 		Properties: map[string]string{
 			"db": dat.db,
+			"credentials": dat.cred,
 		},
 	}
 	tests := []struct {
@@ -225,6 +246,7 @@ func TestClient_Insert(t *testing.T) {
 		Kind: "",
 		Properties: map[string]string{
 			"db": dat.db,
+			"credentials": dat.cred,
 		},
 	}
 	inputs = append(inputs, firstInsUpd, scnInsUpd)
@@ -288,6 +310,7 @@ func TestClient_Update(t *testing.T) {
 		Kind: "",
 		Properties: map[string]string{
 			"db": dat.db,
+			"credentials": dat.cred,
 		},
 	}
 	inputs = append(inputs, firstInsUpd, scnInsUpd)
@@ -339,12 +362,14 @@ func TestClient_Update(t *testing.T) {
 func TestClient_UpdateDatabaseDdl(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
-	statements := []string{"mystatement"}
+	var statements []string
+	statements = append(statements,"mystatment")
 	cfg := config.Metadata{
 		Name: "google-spanner-target",
 		Kind: "",
 		Properties: map[string]string{
 			"db": dat.db,
+			"credentials": dat.cred,
 		},
 	}
 
@@ -407,6 +432,7 @@ func TestClient_InsertOrUpdate(t *testing.T) {
 		Kind: "",
 		Properties: map[string]string{
 			"db": dat.db,
+			"credentials": dat.cred,
 		},
 	}
 	inputs = append(inputs, firstInsUpd, scnInsUpd)

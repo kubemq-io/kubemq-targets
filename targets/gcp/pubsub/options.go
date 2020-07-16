@@ -12,6 +12,7 @@ const (
 type options struct {
 	projectID string
 	retries   int
+	credentials string
 }
 
 func parseOptions(cfg config.Metadata) (options, error) {
@@ -22,7 +23,7 @@ func parseOptions(cfg config.Metadata) (options, error) {
 		return options{}, fmt.Errorf("error parsing project_id, %w", err)
 	}
 	o.retries = cfg.ParseInt("retries", DefaultRetries)
-	err = config.MustExistsEnv("GOOGLE_APPLICATION_CREDENTIALS")
+	o.credentials, err = cfg.MustParseString("credentials")
 	if err != nil {
 		return options{}, err
 	}

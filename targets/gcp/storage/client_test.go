@@ -2,6 +2,7 @@ package storage
 
 import (
 	"context"
+	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"github.com/stretchr/testify/require"
@@ -19,6 +20,7 @@ type testStructure struct {
 	projectID    string
 	storageClass string
 	location     string
+	cred         string
 }
 
 func getTestStructure() (*testStructure, error) {
@@ -63,11 +65,17 @@ func getTestStructure() (*testStructure, error) {
 		return nil, err
 	}
 	t.location = string(dat)
-
+	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
+	if err != nil {
+		return nil, err
+	}
+	t.cred = fmt.Sprintf("%s", dat)
 	return t, nil
 }
 
 func TestClient_Init(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
 	tests := []struct {
 		name    string
 		cfg     config.Metadata
@@ -76,9 +84,11 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Metadata{
-				Name:       "google-storage-target",
-				Kind:       "",
-				Properties: map[string]string{},
+				Name: "google-storage-target",
+				Kind: "",
+				Properties: map[string]string{
+					"credentials": dat.cred,
+				},
 			},
 			wantErr: false,
 		},
@@ -104,9 +114,11 @@ func TestClient_Init(t *testing.T) {
 func TestClient_Create_Bucket(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Metadata{
-		Name:       "google-storage-target",
-		Kind:       "",
-		Properties: map[string]string{},
+		Name: "google-storage-target",
+		Kind: "",
+		Properties: map[string]string{
+			"credentials": dat.cred,
+		},
 	}
 	require.NoError(t, err)
 	tests := []struct {
@@ -151,7 +163,9 @@ func TestClient_Upload_Object(t *testing.T) {
 	cfg2 := config.Metadata{
 		Name:       "google-storage-target",
 		Kind:       "",
-		Properties: map[string]string{},
+		Properties: map[string]string{
+			"credentials": dat.cred,
+		},
 	}
 	require.NoError(t, err)
 	tests := []struct {
@@ -210,6 +224,7 @@ func TestClient_Upload_Object(t *testing.T) {
 	defer cancel()
 	c := New()
 	err = c.Init(ctx, cfg2)
+	require.NoError(t, err)
 	defer func() {
 		err = c.client.Close()
 		require.NoError(t, err)
@@ -234,7 +249,9 @@ func TestClient_Delete_Object(t *testing.T) {
 	cfg2 := config.Metadata{
 		Name:       "google-storage-target",
 		Kind:       "",
-		Properties: map[string]string{},
+		Properties: map[string]string{
+			"credentials": dat.cred,
+			},
 	}
 	require.NoError(t, err)
 	tests := []struct {
@@ -305,7 +322,9 @@ func TestClient_Download_Object(t *testing.T) {
 	cfg2 := config.Metadata{
 		Name:       "google-storage-target",
 		Kind:       "",
-		Properties: map[string]string{},
+		Properties: map[string]string{
+			"credentials": dat.cred,
+			},
 	}
 	require.NoError(t, err)
 	tests := []struct {
@@ -377,7 +396,9 @@ func TestClient_List_Object(t *testing.T) {
 	cfg2 := config.Metadata{
 		Name:       "google-storage-target",
 		Kind:       "",
-		Properties: map[string]string{},
+		Properties: map[string]string{
+			"credentials": dat.cred,
+			},
 	}
 	require.NoError(t, err)
 	tests := []struct {
@@ -433,7 +454,9 @@ func TestClient_Rename_Object(t *testing.T) {
 	cfg2 := config.Metadata{
 		Name:       "google-storage-target",
 		Kind:       "",
-		Properties: map[string]string{},
+		Properties: map[string]string{
+			"credentials": dat.cred,
+			},
 	}
 	require.NoError(t, err)
 	tests := []struct {
@@ -516,7 +539,9 @@ func TestClient_Copy_Object(t *testing.T) {
 	cfg2 := config.Metadata{
 		Name:       "google-storage-target",
 		Kind:       "",
-		Properties: map[string]string{},
+		Properties: map[string]string{
+			"credentials": dat.cred,
+		},
 	}
 	require.NoError(t, err)
 	tests := []struct {
@@ -606,7 +631,9 @@ func TestClient_Move_Object(t *testing.T) {
 	cfg2 := config.Metadata{
 		Name:       "google-storage-target",
 		Kind:       "",
-		Properties: map[string]string{},
+		Properties: map[string]string{
+			"credentials": dat.cred,
+		},
 	}
 	require.NoError(t, err)
 	tests := []struct {

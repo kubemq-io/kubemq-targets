@@ -21,6 +21,7 @@ type testStructure struct {
 	tempTable    string
 	columnFamily string
 	rowKeyPrefix string
+	cred         string
 }
 
 func getRandInt64() int64 {
@@ -62,7 +63,11 @@ func getTestStructure() (*testStructure, error) {
 		return nil, err
 	}
 	t.rowKeyPrefix = string(dat)
-
+	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
+	if err != nil {
+		return nil, err
+	}
+	t.cred = fmt.Sprintf("%s", dat)
 	return t, nil
 }
 
@@ -80,11 +85,23 @@ func TestClient_Init(t *testing.T) {
 				Name: "google-big_table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
-					"instance":   dat.instance,
+					"project_id":  dat.projectID,
+					"instance":    dat.instance,
+					"credentials": dat.cred,
 				},
 			},
 			wantErr: false,
+		}, {
+			name: "init-missing-credentials",
+			cfg: config.Metadata{
+				Name: "google-big_table-target",
+				Kind: "",
+				Properties: map[string]string{
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
+				},
+			},
+			wantErr: true,
 		},
 		{
 			name: "init-missing-project-id",
@@ -138,15 +155,16 @@ func TestClient_Create_Column_Family(t *testing.T) {
 		Name: "google-big-table-target",
 		Kind: "",
 		Properties: map[string]string{
-			"project_id": dat.projectID,
-			"instance":   dat.instance,
+			"project_id":  dat.projectID,
+			"instance":    dat.instance,
+			"credentials": dat.cred,
 		},
 	}
 	require.NoError(t, err)
 	tests := []struct {
-		name              string
-		cfg               config.Metadata
-		request           *types.Request
+		name    string
+		cfg     config.Metadata
+		request *types.Request
 		wantErr bool
 	}{
 		{
@@ -155,8 +173,9 @@ func TestClient_Create_Column_Family(t *testing.T) {
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
-					"instance":   dat.instance,
+					"project_id":  dat.projectID,
+					"instance":    dat.instance,
+					"credentials": dat.cred,
 				},
 			},
 			request: types.NewRequest().
@@ -170,8 +189,9 @@ func TestClient_Create_Column_Family(t *testing.T) {
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"instance":   dat.instance,
-					"project_id": dat.projectID,
+					"instance":    dat.instance,
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
 				},
 			},
 			request: types.NewRequest().
@@ -185,8 +205,9 @@ func TestClient_Create_Column_Family(t *testing.T) {
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
-					"instance":   dat.instance,
+					"project_id":  dat.projectID,
+					"instance":    dat.instance,
+					"credentials": dat.cred,
 				},
 			},
 			request: types.NewRequest().
@@ -219,13 +240,14 @@ func TestClient_Create_Column_Family(t *testing.T) {
 
 func TestClient_Create_Delete_Table(t *testing.T) {
 	dat, err := getTestStructure()
-	require.NoError(t,err)
+	require.NoError(t, err)
 	cfg2 := config.Metadata{
 		Name: "google-big-table-target",
 		Kind: "",
 		Properties: map[string]string{
-			"project_id": dat.projectID,
-			"instance":   dat.instance,
+			"project_id":  dat.projectID,
+			"instance":    dat.instance,
+			"credentials": dat.cred,
 		},
 	}
 	require.NoError(t, err)
@@ -237,70 +259,30 @@ func TestClient_Create_Delete_Table(t *testing.T) {
 	}{
 		{
 			name: "valid create table",
-			cfg: config.Metadata{
-				Name: "google-big-table-target",
-				Kind: "",
-				Properties: map[string]string{
-					"project_id": dat.projectID,
-					"instance":   dat.instance,
-				},
-			},
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "create_table").
 				SetMetadataKeyValue("table_name", dat.tempTable),
 			wantError: false,
 		}, {
 			name: "invalid create table -invalid type",
-			cfg: config.Metadata{
-				Name: "google-big-table-target",
-				Kind: "",
-				Properties: map[string]string{
-					"instance":   dat.instance,
-					"project_id": dat.projectID,
-				},
-			},
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "create_table2").
 				SetMetadataKeyValue("table_name", dat.tempTable),
 			wantError: true,
 		}, {
 			name: "invalid create table- already exists",
-			cfg: config.Metadata{
-				Name: "google-big-table-target",
-				Kind: "",
-				Properties: map[string]string{
-					"project_id": dat.projectID,
-					"instance":   dat.instance,
-				},
-			},
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "create_table").
 				SetMetadataKeyValue("table_name", dat.tempTable),
 			wantError: true,
 		}, {
 			name: "valid delete table",
-			cfg: config.Metadata{
-				Name: "google-big-table-target",
-				Kind: "",
-				Properties: map[string]string{
-					"project_id": dat.projectID,
-					"instance":   dat.instance,
-				},
-			},
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete_table").
 				SetMetadataKeyValue("table_name", dat.tempTable),
 			wantError: false,
 		}, {
 			name: "invalid delete table - table does not exists",
-			cfg: config.Metadata{
-				Name: "google-big-table-target",
-				Kind: "",
-				Properties: map[string]string{
-					"project_id": dat.projectID,
-					"instance":   dat.instance,
-				},
-			},
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete_table").
 				SetMetadataKeyValue("table_name", dat.tempTable),
@@ -312,6 +294,10 @@ func TestClient_Create_Delete_Table(t *testing.T) {
 	c := New()
 	err = c.Init(ctx, cfg2)
 	require.NoError(t, err)
+	defer func() {
+		err = c.CloseAdminClient()
+		require.NoError(t, err)
+	}()
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			gotSetResponse, err := c.Do(ctx, tt.request)
@@ -323,8 +309,6 @@ func TestClient_Create_Delete_Table(t *testing.T) {
 			require.NotNil(t, gotSetResponse)
 		})
 	}
-	err = c.CloseAdminClient()
-	require.NoError(t, err)
 }
 
 func TestClient_write(t *testing.T) {
@@ -354,8 +338,9 @@ func TestClient_write(t *testing.T) {
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
-					"instance":   dat.instance,
+					"project_id":  dat.projectID,
+					"instance":    dat.instance,
+					"credentials": dat.cred,
 				},
 			},
 			writeRequest: types.NewRequest().
@@ -373,8 +358,9 @@ func TestClient_write(t *testing.T) {
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
-					"instance":   dat.instance,
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
+					"instance":    dat.instance,
 				},
 			},
 			writeRequest: types.NewRequest().
@@ -394,7 +380,8 @@ func TestClient_write(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			defer func() {
-				_ = c.CloseAdminClient()
+				err = c.CloseAdminClient()
+				require.NoError(t, err)
 			}()
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.writeRequest)
@@ -427,6 +414,7 @@ func TestClient_Delete_Rows(t *testing.T) {
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 					"instance":   dat.instance,
+					"credentials": dat.cred,
 				},
 			},
 			deleteRequest: types.NewRequest().
@@ -443,6 +431,7 @@ func TestClient_Delete_Rows(t *testing.T) {
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 					"instance":   dat.instance,
+					"credentials": dat.cred,
 				},
 			},
 			deleteRequest: types.NewRequest().
@@ -458,6 +447,7 @@ func TestClient_Delete_Rows(t *testing.T) {
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 					"instance":   dat.instance,
+					"credentials": dat.cred,
 				},
 			},
 			deleteRequest: types.NewRequest().
@@ -473,6 +463,7 @@ func TestClient_Delete_Rows(t *testing.T) {
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 					"instance":   dat.instance,
+					"credentials": dat.cred,
 				},
 			},
 			deleteRequest: types.NewRequest().
@@ -529,6 +520,7 @@ func TestClient_Read_Rows(t *testing.T) {
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 					"instance":   dat.instance,
+					"credentials": dat.cred,
 				},
 			},
 			writeRequest: types.NewRequest().
@@ -543,6 +535,7 @@ func TestClient_Read_Rows(t *testing.T) {
 				Kind: "",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
+					"credentials": dat.cred,
 					"instance":   dat.instance,
 				},
 			},
@@ -558,6 +551,7 @@ func TestClient_Read_Rows(t *testing.T) {
 				Kind: "",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
+					"credentials": dat.cred,
 					"instance":   dat.instance,
 				},
 			},
@@ -574,6 +568,7 @@ func TestClient_Read_Rows(t *testing.T) {
 				Kind: "",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
+					"credentials": dat.cred,
 					"instance":   dat.instance,
 				},
 			},
@@ -590,6 +585,7 @@ func TestClient_Read_Rows(t *testing.T) {
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 					"instance":   dat.instance,
+					"credentials": dat.cred,
 				},
 			},
 			writeRequest: types.NewRequest().

@@ -4,6 +4,7 @@ import (
 	"cloud.google.com/go/bigquery"
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"github.com/stretchr/testify/require"
@@ -19,6 +20,7 @@ type testStructure struct {
 	dataSetID     string
 	emptyTable    string
 	emptyTableQry string
+	cred          string
 }
 
 func getTestStructure() (*testStructure, error) {
@@ -53,6 +55,11 @@ func getTestStructure() (*testStructure, error) {
 		return nil, err
 	}
 	t.dataSetID = string(dat)
+	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
+	if err != nil {
+		return nil, err
+	}
+	t.cred = fmt.Sprintf("%s", dat)
 	return t, nil
 }
 
@@ -70,17 +77,30 @@ func TestClient_Init(t *testing.T) {
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
 				},
 			},
 			wantErr: false,
+		}, {
+			name: "invalid init - missing credentials",
+			cfg: config.Metadata{
+				Name: "google-big-query-target",
+				Kind: "",
+				Properties: map[string]string{
+					"project_id": dat.projectID,
+				},
+			},
+			wantErr: true,
 		},
 		{
-			name: "google-big-query-target",
+			name: "invalid init - missing project_id",
 			cfg: config.Metadata{
-				Name:       "google-big_table-target",
-				Kind:       "",
-				Properties: map[string]string{},
+				Name: "google-big_table-target",
+				Kind: "",
+				Properties: map[string]string{
+					"credentials": dat.cred,
+				},
 			},
 			wantErr: true,
 		},
@@ -121,7 +141,8 @@ func TestClient_Query(t *testing.T) {
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
 				},
 			},
 			queryRequest: types.NewRequest().
@@ -134,7 +155,8 @@ func TestClient_Query(t *testing.T) {
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
 				},
 			},
 			queryRequest: types.NewRequest().
@@ -146,7 +168,8 @@ func TestClient_Query(t *testing.T) {
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
 				},
 			},
 			queryRequest: types.NewRequest().
@@ -162,7 +185,8 @@ func TestClient_Query(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			defer func() {
-				_ = c.CloseClient()
+				err = c.CloseClient()
+				require.NoError(t, err)
 			}()
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
@@ -206,7 +230,8 @@ func TestClient_Create_Table(t *testing.T) {
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
 				},
 			},
 			queryRequest: types.NewRequest().
@@ -221,7 +246,8 @@ func TestClient_Create_Table(t *testing.T) {
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
 				},
 			},
 			queryRequest: types.NewRequest().
@@ -235,7 +261,8 @@ func TestClient_Create_Table(t *testing.T) {
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
 				},
 			},
 			queryRequest: types.NewRequest().
@@ -250,7 +277,8 @@ func TestClient_Create_Table(t *testing.T) {
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
 				},
 			},
 			queryRequest: types.NewRequest().
@@ -267,7 +295,8 @@ func TestClient_Create_Table(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			defer func() {
-				_ = c.CloseClient()
+				err = c.CloseClient()
+				require.NoError(t, err)
 			}()
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
@@ -297,7 +326,8 @@ func TestClient_Get_Data_Sets(t *testing.T) {
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
 				},
 			},
 			queryRequest: types.NewRequest().
@@ -312,7 +342,8 @@ func TestClient_Get_Data_Sets(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			defer func() {
-				_ = c.CloseClient()
+				err = c.CloseClient()
+				require.NoError(t, err)
 			}()
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
@@ -343,7 +374,8 @@ func TestClient_Get_Table_Info(t *testing.T) {
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
 				},
 			},
 			queryRequest: types.NewRequest().
@@ -357,7 +389,8 @@ func TestClient_Get_Table_Info(t *testing.T) {
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
 				},
 			},
 			queryRequest: types.NewRequest().
@@ -370,7 +403,8 @@ func TestClient_Get_Table_Info(t *testing.T) {
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
 				},
 			},
 			queryRequest: types.NewRequest().
@@ -383,7 +417,8 @@ func TestClient_Get_Table_Info(t *testing.T) {
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
 				},
 			},
 			queryRequest: types.NewRequest().
@@ -400,7 +435,8 @@ func TestClient_Get_Table_Info(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			defer func() {
-				_ = c.CloseClient()
+				err = c.CloseClient()
+				require.NoError(t, err)
 			}()
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
@@ -442,7 +478,8 @@ func TestClient_Insert_To_Table(t *testing.T) {
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
 				},
 			},
 			queryRequest: types.NewRequest().
@@ -451,6 +488,36 @@ func TestClient_Insert_To_Table(t *testing.T) {
 				SetMetadataKeyValue("table_name", dat.tableName).
 				SetData(bRows),
 			wantErr: false,
+		},{
+			name: "invalid insert to table - missing table_name",
+			cfg: config.Metadata{
+				Name: "google-big-query-target",
+				Kind: "",
+				Properties: map[string]string{
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
+				},
+			},
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "insert").
+				SetMetadataKeyValue("dataset_id", dat.dataSetID).
+				SetData(bRows),
+			wantErr: true,
+		},{
+			name: "invalid insert to table - missing dataset_id",
+			cfg: config.Metadata{
+				Name: "google-big-query-target",
+				Kind: "",
+				Properties: map[string]string{
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
+				},
+			},
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "insert").
+				SetMetadataKeyValue("table_name", dat.tableName).
+				SetData(bRows),
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
@@ -460,7 +527,8 @@ func TestClient_Insert_To_Table(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			defer func() {
-				_ = c.CloseClient()
+				err = c.CloseClient()
+				require.NoError(t, err)
 			}()
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
@@ -469,8 +537,8 @@ func TestClient_Insert_To_Table(t *testing.T) {
 				require.Error(t, err)
 				return
 			}
-			require.EqualValues(t, gotSetResponse.Metadata["result"], "ok")
 			require.NoError(t, err)
+			require.EqualValues(t, gotSetResponse.Metadata["result"], "ok")
 			require.NotNil(t, gotSetResponse)
 		})
 	}

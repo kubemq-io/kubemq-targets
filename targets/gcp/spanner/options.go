@@ -6,18 +6,19 @@ import (
 )
 
 type options struct {
-	db string
+	db          string
+	credentials string
 }
 
 func parseOptions(cfg config.Metadata) (options, error) {
 	o := options{}
 	var err error
-	o.db , err = cfg.MustParseString("db")
+	o.db, err = cfg.MustParseString("db")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing db, %w", err)
 	}
-	err = config.MustExistsEnv("GOOGLE_APPLICATION_CREDENTIALS")
-	if err !=nil{
+	o.credentials, err = cfg.MustParseString("credentials")
+	if err != nil {
 		return options{}, err
 	}
 	return o, nil

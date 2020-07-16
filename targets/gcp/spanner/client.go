@@ -10,6 +10,7 @@ import (
 	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"google.golang.org/api/iterator"
+	"google.golang.org/api/option"
 	adminpb "google.golang.org/genproto/googleapis/spanner/admin/database/v1"
 )
 
@@ -37,13 +38,14 @@ func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	if err != nil {
 		return err
 	}
-	adminClient, err := database.NewDatabaseAdminClient(ctx)
+	b := []byte(c.opts.credentials)
+	adminClient, err := database.NewDatabaseAdminClient(ctx,option.WithCredentialsJSON(b))
 	if err != nil {
 		return err
 	}
 
 	c.adminClient = adminClient
-	Client, err := spanner.NewClient(ctx, c.opts.db)
+	Client, err := spanner.NewClient(ctx, c.opts.db,option.WithCredentialsJSON(b))
 	if err != nil {
 		return err
 	}

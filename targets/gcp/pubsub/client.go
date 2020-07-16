@@ -8,6 +8,7 @@ import (
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"google.golang.org/api/iterator"
+	"google.golang.org/api/option"
 )
 
 type Client struct {
@@ -31,7 +32,9 @@ func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	if err != nil {
 		return err
 	}
-	client, err := pubsub.NewClient(ctx, c.opts.projectID)
+	b := []byte(c.opts.credentials)
+
+	client, err := pubsub.NewClient(ctx, c.opts.projectID,option.WithCredentialsJSON(b))
 	if err != nil {
 		return err
 	}

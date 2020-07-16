@@ -9,6 +9,7 @@ import (
 	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"google.golang.org/api/iterator"
+	"google.golang.org/api/option"
 )
 
 type Client struct {
@@ -34,8 +35,8 @@ func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	if err != nil {
 		return err
 	}
-
-	Client, err := bigquery.NewClient(ctx, c.opts.projectID)
+	b := []byte(c.opts.credentials)
+	Client, err := bigquery.NewClient(ctx, c.opts.projectID,option.WithCredentialsJSON(b))
 	if err != nil {
 		return err
 	}

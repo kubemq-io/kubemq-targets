@@ -2,7 +2,6 @@ package storage
 
 import (
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"os"
 )
 
 type options struct {
@@ -11,11 +10,8 @@ type options struct {
 
 func parseOptions(cfg config.Metadata) (options, error) {
 	o := options{}
-	o.credentials = cfg.ParseString("credentials", "")
-	if o.credentials != "" {
-		_ = os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", o.credentials)
-	}
-	err := config.MustExistsEnv("GOOGLE_APPLICATION_CREDENTIALS")
+	var err error
+	o.credentials, err = cfg.MustParseString("credentials")
 	if err != nil {
 		return options{}, err
 	}

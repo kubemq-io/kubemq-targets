@@ -3,6 +3,7 @@ package firestore
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"github.com/stretchr/testify/require"
@@ -16,6 +17,9 @@ func TestClient_Init(t *testing.T) {
 	require.NoError(t, err)
 	projectID := string(dat)
 	require.NoError(t, err)
+	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
+	require.NoError(t, err)
+	credentials := fmt.Sprintf("%s", dat)
 	tests := []struct {
 		name    string
 		cfg     config.Metadata
@@ -27,10 +31,21 @@ func TestClient_Init(t *testing.T) {
 				Name: "google-firestore-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": projectID,
+					"project_id":  projectID,
+					"credentials": credentials,
 				},
 			},
 			wantErr: false,
+		}, {
+			name: "init-missing-credentials",
+			cfg: config.Metadata{
+				Name: "google-firestore-target",
+				Kind: "",
+				Properties: map[string]string{
+					"project_id": projectID,
+				},
+			},
+			wantErr: true,
 		},
 		{
 			name: "init-missing-project-id",
@@ -64,6 +79,9 @@ func TestClient_Set_Get(t *testing.T) {
 	require.NoError(t, err)
 	projectID := string(dat)
 	require.NoError(t, err)
+	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
+	require.NoError(t, err)
+	credentials := fmt.Sprintf("%s", dat)
 	user := map[string]interface{}{
 		"first": "kubemq",
 		"last":  "kubemq-last",
@@ -82,8 +100,6 @@ func TestClient_Set_Get(t *testing.T) {
 		getAllRequest   *types.Request
 		wantSetResponse *types.Response
 		wantGetResponse *types.Response
-		wantSetErr      bool
-		wantGetErr      bool
 	}{
 		{
 			name: "valid set get request",
@@ -91,7 +107,8 @@ func TestClient_Set_Get(t *testing.T) {
 				Name: "google-firestore-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": projectID,
+					"project_id":  projectID,
+					"credentials": credentials,
 				},
 			},
 			setRequest: types.NewRequest().
@@ -101,24 +118,18 @@ func TestClient_Set_Get(t *testing.T) {
 			getRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "document_key").
 				SetMetadataKeyValue("item", objKey).
-				SetMetadataKeyValue("error", "false").
 				SetMetadataKeyValue("collection", "myCollection"),
 			getAllRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "documents_all").
-				SetMetadataKeyValue("error", "false").
 				SetMetadataKeyValue("collection", "myCollection"),
 
 			wantSetResponse: types.NewResponse().
 				SetMetadataKeyValue("result", "ok").
-				SetMetadataKeyValue("error", "false").
 				SetMetadataKeyValue("collection", "myCollection"),
 			wantGetResponse: types.NewResponse().
 				SetMetadataKeyValue("collection", "myCollection").
 				SetMetadataKeyValue("item", objKey).
-				SetMetadataKeyValue("error", "false").
 				SetData(bUser),
-			wantSetErr: false,
-			wantGetErr: false,
 		},
 	}
 	for _, tt := range tests {
@@ -129,29 +140,17 @@ func TestClient_Set_Get(t *testing.T) {
 			err := c.Init(ctx, tt.cfg)
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.setRequest)
-			if tt.wantSetErr {
-				require.Error(t, err)
-				return
-			}
 			require.NoError(t, err)
 			require.NotNil(t, gotSetResponse)
 			require.EqualValues(t, tt.wantSetResponse, gotSetResponse)
 			gotGetResponse, err := c.Do(ctx, tt.getRequest)
-			if tt.wantGetErr {
-				require.Error(t, err)
-				return
-			}
 			require.NoError(t, err)
 			require.NotNil(t, gotGetResponse)
 			require.EqualValues(t, tt.wantGetResponse, gotGetResponse)
 			gotGetAllResponse, err := c.Do(ctx, tt.getAllRequest)
-			if tt.wantGetErr {
-				require.Error(t, err)
-				return
-			}
 			require.NoError(t, err)
 			require.NotNil(t, gotGetResponse)
-			require.Equal(t, gotGetAllResponse.Metadata["error"], "false")
+			require.Equal(t, gotGetAllResponse.Error, "")
 		})
 	}
 }
@@ -164,6 +163,9 @@ func TestClient_Delete(t *testing.T) {
 	dat, err = ioutil.ReadFile("./../../../credentials/deleteKey.txt")
 	require.NoError(t, err)
 	deleteKey := string(dat)
+	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
+	require.NoError(t, err)
+	credentials := fmt.Sprintf("%s", dat)
 	tests := []struct {
 		name              string
 		cfg               config.Metadata
@@ -177,7 +179,8 @@ func TestClient_Delete(t *testing.T) {
 				Name: "google-firestore-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": projectID,
+					"project_id":  projectID,
+					"credentials": credentials,
 				},
 			},
 			deleteRequest: types.NewRequest().
@@ -190,6 +193,26 @@ func TestClient_Delete(t *testing.T) {
 				SetMetadataKeyValue("item", deleteKey).
 				SetMetadataKeyValue("collection", "myCollection"),
 			wantErr: false,
+		}, {
+			name: "invalid delete request",
+			cfg: config.Metadata{
+				Name: "google-firestore-target",
+				Kind: "",
+				Properties: map[string]string{
+					"project_id":  projectID,
+					"credentials": credentials,
+				},
+			},
+			deleteRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "delete_document_key").
+				SetMetadataKeyValue("item", "fake-key").
+				SetMetadataKeyValue("collection", "myCollection"),
+			wantDeleteRequest: types.NewResponse().
+				SetMetadataKeyValue("result", "ok").
+				SetMetadataKeyValue("error", "false").
+				SetMetadataKeyValue("item", "fake-key").
+				SetMetadataKeyValue("collection", "myCollection"),
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
@@ -215,6 +238,9 @@ func TestClient_list(t *testing.T) {
 	dat, err := ioutil.ReadFile("./../../../credentials/projectID.txt")
 	require.NoError(t, err)
 	projectID := string(dat)
+	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
+	require.NoError(t, err)
+	credentials := fmt.Sprintf("%s", dat)
 	tests := []struct {
 		name    string
 		cfg     config.Metadata
@@ -226,7 +252,8 @@ func TestClient_list(t *testing.T) {
 				Name: "target.google.firestore",
 				Kind: "target.google.firestore",
 				Properties: map[string]string{
-					"project_id": projectID,
+					"project_id":  projectID,
+					"credentials": credentials,
 				},
 			},
 
