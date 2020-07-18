@@ -30,8 +30,6 @@ require (
 	github.com/minio/minio-go/v7 v7.0.0-20200623213017-e5cd2d129325
 	github.com/nats-io/nuid v1.0.1
 	github.com/olivere/elastic/v7 v7.0.17
-	github.com/openfaas-incubator/connector-sdk v0.0.0-20191214130609-df5d76475412 // indirect
-	github.com/openfaas/faas-provider v0.15.1 // indirect
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.7.0
 	github.com/streadway/amqp v1.0.0
@@ -41,5 +39,4 @@ require (
 	google.golang.org/api v0.28.0
 	google.golang.org/genproto v0.0.0-20200626011028-ee7919e894b5
 	google.golang.org/grpc v1.30.0 // indirect
-	gopkg.in/yaml.v2 v2.2.8 // indirect
 )
