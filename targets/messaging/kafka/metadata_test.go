@@ -22,7 +22,7 @@ func TestMetadata_parseMeta(t *testing.T) {
 		{
 			name: "valid simple",
 			meta: map[string]string{
-				"Key": "_replaceKey_",
+				"key": "_replaceKey_",
 			},
 			wantMetadata: metadata{
 				Key: []byte("key"),
@@ -32,8 +32,8 @@ func TestMetadata_parseMeta(t *testing.T) {
 		{
 			name: "valid Headers",
 			meta: map[string]string{
-				"Headers": `[{"Key": "_replaceHK_","Value": "_replaceHV_"}]`,
-				"Key":     "_replaceKey_",
+				"headers": `[{"Key": "_replaceHK_","Value": "_replaceHV_"}]`,
+				"key":     "_replaceKey_",
 			},
 			wantMetadata: metadata{
 				Headers: []kafka.RecordHeader{
@@ -49,8 +49,8 @@ func TestMetadata_parseMeta(t *testing.T) {
 		{
 			name: "invalid Headers_value is not base64",
 			meta: map[string]string{
-				"Headers": `[{"Key": "meta1","Value": "badvalue"}]`,
-				"Key":     "_replaceKey_",
+				"headers": `[{"Key": "meta1","Value": "badvalue"}]`,
+				"key":     "_replaceKey_",
 			},
 			wantMetadata: metadata{
 				Headers: []kafka.RecordHeader{
@@ -65,8 +65,8 @@ func TestMetadata_parseMeta(t *testing.T) {
 		}, {
 			name: "invalid Headers_json bad format ",
 			meta: map[string]string{
-				"Headers": `[{"Key": "meta1""Value": "badvalue"}]`,
-				"Key":     "_replaceKey_",
+				"headers": `[{"Key": "meta1""Value": "badvalue"}]`,
+				"key":     "_replaceKey_",
 			},
 			wantMetadata: metadata{},
 			wantErr:      true,
@@ -78,8 +78,8 @@ func TestMetadata_parseMeta(t *testing.T) {
 				"_replaceHV_", b64.StdEncoding.EncodeToString([]byte("meta1")),
 				"_replaceHK_", b64.StdEncoding.EncodeToString([]byte("dog")),
 				"_replaceKey_", b64.StdEncoding.EncodeToString([]byte("key")))
-			tt.meta["Headers"] = r.Replace(tt.meta["Headers"])
-			tt.meta["Key"] = r.Replace(tt.meta["Key"])
+			tt.meta["headers"] = r.Replace(tt.meta["Headers"])
+			tt.meta["key"] = r.Replace(tt.meta["Key"])
 			meta, err := parseMetadata(tt.meta, options{})
 			if tt.wantErr {
 				require.Error(t, err)

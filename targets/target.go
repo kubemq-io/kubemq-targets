@@ -3,6 +3,7 @@ package targets
 import (
 	"context"
 	"fmt"
+
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
 	"github.com/kubemq-hub/kubemq-target-connectors/targets/aws/sqs"
 	"github.com/kubemq-hub/kubemq-target-connectors/targets/cache/memcached"
@@ -20,6 +21,7 @@ import (
 	"github.com/kubemq-hub/kubemq-target-connectors/targets/kubemq/queue"
 	"github.com/kubemq-hub/kubemq-target-connectors/targets/logs/elastic"
 	"github.com/kubemq-hub/kubemq-target-connectors/targets/messaging/activemq"
+	"github.com/kubemq-hub/kubemq-target-connectors/targets/messaging/kafka"
 	"github.com/kubemq-hub/kubemq-target-connectors/targets/messaging/mqtt"
 	"github.com/kubemq-hub/kubemq-target-connectors/targets/messaging/rabbitmq"
 	"github.com/kubemq-hub/kubemq-target-connectors/targets/serverless/openfass"
@@ -143,7 +145,11 @@ func Init(ctx context.Context, cfg config.Metadata) (Target, error) {
 		}
 		return target, nil
 	case "target.messaging.kafka":
-		return nil, errTargetNotImplemented
+		target := kafka.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
 	case "target.messaging.mqtt":
 		target := mqtt.New()
 		if err := target.Init(ctx, cfg); err != nil {

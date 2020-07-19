@@ -18,11 +18,11 @@ type metadata struct {
 func parseMetadata(meta types.Metadata, opts options) (metadata, error) {
 	m := metadata{}
 	var err error
-	err = m.parseHeaders(meta.ParseString("Headers", ""))
+	err = m.parseHeaders(meta.ParseString("headers", ""))
 	if err != nil {
 		return metadata{}, fmt.Errorf("error parsing headers, %w", err)
 	}
-	k := meta.ParseString("Key", "")
+	k := meta.ParseString("key", "")
 	err = m.parseKey(k)
 	if err != nil {
 		return metadata{}, fmt.Errorf("error parsing Key, %w", err)
