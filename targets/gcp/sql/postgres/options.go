@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
 	"math"
-	"os"
 )
 
 const (
@@ -14,9 +13,11 @@ const (
 )
 
 type options struct {
-	credentials string
 	useProxy    bool
-
+	instanceConnectionName string
+	dbUser                 string
+	dbName                 string
+	dbPassword             string
 	connection string
 	// maxIdleConnections sets the maximum number of connections in the idle connection pool
 	maxIdleConnections int
@@ -28,20 +29,31 @@ type options struct {
 
 func parseOptions(cfg config.Metadata) (options, error) {
 	o := options{}
-	o.credentials = cfg.ParseString("credentials", "")
-	if o.credentials != "" {
-		_ = os.Setenv("GOOGLE_APPLICATION_CREDENTIALS", o.credentials)
-	}
-	err := config.MustExistsEnv("GOOGLE_APPLICATION_CREDENTIALS")
-	if err != nil {
-		return options{}, err
-	}
+	var err error
 
 	o.useProxy = cfg.ParseBool("use_proxy", true)
-
-	o.connection, err = cfg.MustParseString("connection")
-	if err != nil {
-		return options{}, fmt.Errorf("error parsing connection string, %w", err)
+	if o.useProxy {
+		o.instanceConnectionName, err = cfg.MustParseString("instance_connection_name")
+		if err != nil {
+			return options{}, fmt.Errorf("error parsing instance_connection_name string, %w", err)
+		}
+		o.dbUser, err = cfg.MustParseString("db_user")
+		if err != nil {
+			return options{}, fmt.Errorf("error parsing db_user string, %w", err)
+		}
+		o.dbName, err = cfg.MustParseString("db_name")
+		if err != nil {
+			return options{}, fmt.Errorf("error parsing db_name string, %w", err)
+		}
+		o.dbPassword, err = cfg.MustParseString("db_password")
+		if err != nil {
+			return options{}, fmt.Errorf("error parsing db_password string, %w", err)
+		}
+	} else {
+		o.connection, err = cfg.MustParseString("connection")
+		if err != nil {
+			return options{}, fmt.Errorf("error parsing connection string, %w", err)
+		}
 	}
 
 	o.maxIdleConnections, err = cfg.ParseIntWithRange("max_idle_connections", defaultMaxIdleConnections, 1, math.MaxInt32)

@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	proxy "github.com/GoogleCloudPlatform/cloudsql-proxy/cmd/cloud_sql_proxy"
+	"github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/dialers/mysql"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
@@ -36,25 +36,29 @@ func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 		return err
 	}
 	if c.opts.useProxy {
-		proxy.Main(time.Minute)
-	}
-	for {
-		c.db, err = sql.Open("postgres", c.opts.connection)
-		if err != nil {
-			return err
+		cfg := mysql.Cfg(c.opts.instanceConnectionName, c.opts.dbUser, c.opts.dbPassword)
+		cfg.DBName = c.opts.dbName
+		for {
+			c.db, err = mysql.DialCfg(cfg)
+			if err != nil {
+				return err
+			}
+			err = c.db.Ping()
+			if err != nil {
+				return err
+			}
 		}
-		err = c.db.Ping()
-		if err != nil {
-			return err
+	} else {
+		for {
+			c.db, err = sql.Open("postgres", c.opts.connection)
+			if err != nil {
+				return err
+			}
+			err = c.db.Ping()
+			if err != nil {
+				return err
+			}
 		}
-	}
-	c.db, err = sql.Open("postgres", c.opts.connection)
-	if err != nil {
-		return err
-	}
-	err = c.db.Ping()
-	if err != nil {
-		return err
 	}
 	c.db.SetMaxOpenConns(c.opts.maxOpenConnections)
 	c.db.SetMaxIdleConns(c.opts.maxIdleConnections)

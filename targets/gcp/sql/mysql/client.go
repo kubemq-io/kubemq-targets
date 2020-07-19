@@ -39,27 +39,24 @@ func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	if c.opts.useProxy {
 		cfg := mysql.Cfg(c.opts.instanceConnectionName, c.opts.dbUser, c.opts.dbPassword)
 		cfg.DBName = c.opts.dbName
-		for {
-			c.db, err = mysql.DialCfg(cfg)
-			if err != nil {
-				return err
-			}
-			err = c.db.Ping()
-			if err != nil {
-				return err
-			}
+		c.db, err = mysql.DialCfg(cfg)
+		if err != nil {
+			return err
+		}
+		err = c.db.PingContext(ctx)
+		if err != nil {
+			return err
 		}
 	} else {
-		for {
-			c.db, err = sql.Open("mysql", c.opts.connection)
-			if err != nil {
-				return err
-			}
-			err = c.db.Ping()
-			if err != nil {
-				return err
-			}
+		c.db, err = sql.Open("mysql", c.opts.connection)
+		if err != nil {
+			return err
 		}
+		err = c.db.PingContext(ctx)
+		if err != nil {
+			return err
+		}
+
 	}
 	c.db.SetMaxOpenConns(c.opts.maxOpenConnections)
 	c.db.SetMaxIdleConns(c.opts.maxIdleConnections)
@@ -212,4 +209,7 @@ func parseWithRawBytes(rows *sql.Rows, cols []string, colsTypes []*sql.ColumnTyp
 		}
 	}
 	return m
+}
+func (c *Client) CloseClient() error {
+	return c.db.Close()
 }
