@@ -6,8 +6,8 @@ import (
 	"fmt"
 	_ "github.com/denisenkom/go-mssqldb"
 	jsoniter "github.com/json-iterator/go"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"strings"
 	"time"
 )

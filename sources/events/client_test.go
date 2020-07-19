@@ -3,17 +3,17 @@ package events
 import (
 	"context"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/middleware"
-	"github.com/kubemq-hub/kubemq-target-connectors/targets/null"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/middleware"
+	"github.com/kubemq-hub/kubemq-targets/targets/null"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/kubemq-io/kubemq-go"
 	"github.com/nats-io/nuid"
 	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
 
-	"github.com/kubemq-hub/kubemq-target-connectors/targets"
+	"github.com/kubemq-hub/kubemq-targets/targets"
 )
 
 func setupClient(ctx context.Context, target middleware.Middleware) (*Client, error) {

@@ -1,4 +1,4 @@
-# kubemq-target-connectors
+# kubemq-targets
 
 
 ## Goals

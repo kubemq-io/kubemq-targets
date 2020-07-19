@@ -2,7 +2,7 @@ package query
 
 import (
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"math"
 	"time"
 )

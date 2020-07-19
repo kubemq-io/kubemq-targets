@@ -3,11 +3,11 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/binding"
-	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
+	"github.com/kubemq-hub/kubemq-targets/binding"
+	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
 	"sync"
 
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
+	"github.com/kubemq-hub/kubemq-targets/config"
 
 	"os"
 	"os/signal"

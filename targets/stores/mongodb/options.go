@@ -2,7 +2,7 @@ package mongodb
 
 import (
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
+	"github.com/kubemq-hub/kubemq-targets/config"
 	"math"
 	"time"
 )

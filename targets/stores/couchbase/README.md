@@ -7,7 +7,7 @@ The following are required to run the couchbase target connector:
 
 - kubemq cluster
 - couchbase server
-- kubemq-target-connectors deployment
+- kubemq-targets deployment
 
 ## Configuration
 

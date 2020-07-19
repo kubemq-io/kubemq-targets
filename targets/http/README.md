@@ -6,7 +6,7 @@ Kubemq Https target connector allows services using kubemq server to invoke http
 The following are required to run the http target connector:
 
 - kubemq cluster
-- kubemq-target-connectors deployment
+- kubemq-targets deployment
 
 ## Configuration
 

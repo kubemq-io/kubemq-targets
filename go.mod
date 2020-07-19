@@ -1,4 +1,4 @@
-module github.com/kubemq-hub/kubemq-target-connectors
+module github.com/kubemq-hub/kubemq-targets
 
 go 1.14
 

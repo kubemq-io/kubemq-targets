@@ -7,7 +7,7 @@ The following are required to run the mqtt target connector:
 
 - kubemq cluster
 - mqtt server
-- kubemq-target-connectors deployment
+- kubemq-targets deployment
 
 ## Configuration
 

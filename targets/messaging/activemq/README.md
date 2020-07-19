@@ -7,7 +7,7 @@ The following are required to run the activemq target connector:
 
 - kubemq cluster
 - activemq server
-- kubemq-target-connectors deployment
+- kubemq-targets deployment
 
 ## Configuration
 

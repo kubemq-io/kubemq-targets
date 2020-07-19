@@ -5,8 +5,8 @@ import (
 	"crypto/tls"
 	"fmt"
 	redisClient "github.com/go-redis/redis/v7"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"strconv"
 	"strings"
 )

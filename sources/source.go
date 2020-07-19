@@ -3,13 +3,13 @@ package sources
 import (
 	"context"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/middleware"
-	"github.com/kubemq-hub/kubemq-target-connectors/sources/command"
-	"github.com/kubemq-hub/kubemq-target-connectors/sources/events"
-	events_store "github.com/kubemq-hub/kubemq-target-connectors/sources/events-store"
-	"github.com/kubemq-hub/kubemq-target-connectors/sources/query"
-	"github.com/kubemq-hub/kubemq-target-connectors/sources/queue"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/middleware"
+	"github.com/kubemq-hub/kubemq-targets/sources/command"
+	"github.com/kubemq-hub/kubemq-targets/sources/events"
+	events_store "github.com/kubemq-hub/kubemq-targets/sources/events-store"
+	"github.com/kubemq-hub/kubemq-targets/sources/query"
+	"github.com/kubemq-hub/kubemq-targets/sources/queue"
 )
 
 type Source interface {

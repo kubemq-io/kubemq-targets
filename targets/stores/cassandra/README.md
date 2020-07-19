@@ -7,7 +7,7 @@ The following are required to run the cassandra target connector:
 
 - kubemq cluster
 - cassandra server/cluster
-- kubemq-target-connectors deployment
+- kubemq-targets deployment
 
 ## Configuration
 

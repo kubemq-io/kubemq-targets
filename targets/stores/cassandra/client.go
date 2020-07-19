@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/gocql/gocql"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
 // Client is a Client state store

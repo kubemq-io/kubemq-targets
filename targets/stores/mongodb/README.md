@@ -7,7 +7,7 @@ The following are required to run the mongodb target connector:
 
 - kubemq cluster
 - mongodb server
-- kubemq-target-connectors deployment
+- kubemq-targets deployment
 
 ## Configuration
 

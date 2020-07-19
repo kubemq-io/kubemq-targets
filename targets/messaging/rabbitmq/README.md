@@ -7,7 +7,7 @@ The following are required to run the rabbitmq target connector:
 
 - kubemq cluster
 - rabbitmq server
-- kubemq-target-connectors deployment
+- kubemq-targets deployment
 
 ## Configuration
 

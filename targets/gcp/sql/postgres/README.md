@@ -7,7 +7,7 @@ The following are required to run the postgres target connector:
 
 - kubemq cluster
 - postgres server
-- kubemq-target-connectors deployment
+- kubemq-targets deployment
 
 ## Configuration
 

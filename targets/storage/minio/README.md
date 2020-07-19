@@ -7,7 +7,7 @@ The following are required to run the minio target connector:
 
 - kubemq cluster
 - minio cluster / AWS s3 service
-- kubemq-target-connectors deployment
+- kubemq-targets deployment
 
 ## Configuration
 

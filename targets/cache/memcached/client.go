@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"github.com/bradfitz/gomemcache/memcache"
 
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 
 	"time"
 )

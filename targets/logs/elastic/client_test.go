@@ -3,8 +3,8 @@ package elastic
 import (
 	"context"
 	"encoding/json"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/nats-io/nuid"
 	"github.com/olivere/elastic/v7"
 	"github.com/stretchr/testify/require"

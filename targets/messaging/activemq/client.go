@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/go-stomp/stomp"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
 type Client struct {

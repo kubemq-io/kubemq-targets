@@ -2,7 +2,7 @@ package queue
 
 import (
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
+	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/nats-io/nuid"
 )
 

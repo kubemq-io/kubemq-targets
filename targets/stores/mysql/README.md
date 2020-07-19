@@ -7,7 +7,7 @@ The following are required to run the mysql target connector:
 
 - kubemq cluster
 - mysql server
-- kubemq-target-connectors deployment
+- kubemq-targets deployment
 
 ## Configuration
 

@@ -7,7 +7,7 @@ The following are required to run the OpenFaas target connector:
 
 - kubemq cluster
 - OpenFaas platform
-- kubemq-target-connectors deployment
+- kubemq-targets deployment
 
 ## Configuration
 

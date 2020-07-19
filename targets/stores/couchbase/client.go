@@ -6,8 +6,8 @@ import (
 	"time"
 
 	"github.com/couchbase/gocb/v2"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
 const defaultWaitBucketReady = 5 * time.Second

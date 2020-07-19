@@ -1,7 +1,7 @@
 package storage
 
 import (
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
+	"github.com/kubemq-hub/kubemq-targets/config"
 )
 
 type options struct {

@@ -2,7 +2,7 @@ package rabbitmq
 
 import (
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/streadway/amqp"
 	"math"
 	"strconv"
