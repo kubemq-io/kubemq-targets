@@ -24,6 +24,7 @@ require (
 	github.com/gocql/gocql v0.0.0-20200615160627-420e3b873d91
 	github.com/google/uuid v1.1.1
 	github.com/json-iterator/go v1.1.10
+	github.com/kubemq-hub/kubemq-target-connectors v0.1.1
 	github.com/kubemq-io/kubemq-go v1.4.0
 	github.com/labstack/echo/v4 v4.1.16
 	github.com/lib/pq v1.3.0
@@ -38,5 +39,4 @@ require (
 	go.uber.org/zap v1.10.0
 	google.golang.org/api v0.28.0
 	google.golang.org/genproto v0.0.0-20200626011028-ee7919e894b5
-	google.golang.org/grpc v1.30.0 // indirect
 )
