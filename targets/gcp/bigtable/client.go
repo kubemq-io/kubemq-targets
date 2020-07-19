@@ -243,15 +243,11 @@ func (c *Client) writeRow(ctx context.Context, meta metadata, body []byte) (*typ
 			buf := new(bytes.Buffer)
 			b, err := json.Marshal(v)
 			if err != nil {
-				return types.NewResponse().
-					SetMetadataKeyValue("error", "true").
-					SetMetadataKeyValue("message", err.Error()), nil
+				return nil, err
 			}
 			err = binary.Write(buf, binary.BigEndian, b)
 			if err != nil {
-				return types.NewResponse().
-					SetMetadataKeyValue("error", "true").
-					SetMetadataKeyValue("message", err.Error()), nil
+				return nil, err
 			}
 			mut.Set(meta.columnFamily, k, timestamp, buf.Bytes())
 		}
@@ -292,9 +288,7 @@ func (c *Client) writeBatch(ctx context.Context, meta metadata, body []byte) (*t
 				buf := new(bytes.Buffer)
 				b, err := json.Marshal(v)
 				if err != nil {
-					return types.NewResponse().
-						SetMetadataKeyValue("error", "true").
-						SetMetadataKeyValue("message", err.Error()), nil
+					return nil, err
 				}
 				_=binary.Write(buf, binary.BigEndian, b)
 				mut.Set(meta.columnFamily, k, timestamp, buf.Bytes())

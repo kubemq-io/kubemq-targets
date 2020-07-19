@@ -232,3 +232,96 @@ bindings:
         use_ssl: "false"
         access_key_id: "minio"
         secret_access_key: "minio123"
+  - name: kubemq-query-cassandra
+    source:
+      kind: source.kubemq.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-cassandra-connector"
+        auth_token: ""
+        channel: "query.cassandra"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.stores.cassandra
+      name: target-cassandra
+      properties:
+        hosts: "localhost"
+        port: "9042"
+        username: "cassandra"
+        password: "cassandra"
+        proto_version: "4"
+        replication_factor: "1"
+        consistency: "All"
+        default_table: "test"
+        default_keyspace: "test"
+  - name: kubemq-query-rabbitmq
+    source:
+      kind: source.kubemq.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-rabbitmq-connector"
+        auth_token: ""
+        channel: "query.rabbitmq"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.messaging.rabbitmq
+      name: target-rabbitmq
+      properties:
+        url: "amqp://rabbitmq:rabbitmq@localhost:5672/"
+  - name: kubemq-query-mqtt
+    source:
+      kind: source.kubemq.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-mqtt-connector"
+        auth_token: ""
+        channel: "query.mqtt"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.messaging.mqtt
+      name: target-mqtt
+      properties:
+        host: "localhost:1883"
+        username: "username"
+        password: "password"
+        client_id: "client_id"
+  - name: kubemq-query-activemq
+    source:
+      kind: source.kubemq.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-activemq-connector"
+        auth_token: ""
+        channel: "query.activemq"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.messaging.activemq
+      name: target-activemq
+      properties:
+        host: "localhost:61613"
+        username: ""
+        password: ""

@@ -85,7 +85,7 @@ Exec request metadata setting:
 
 | Metadata Key    | Required | Description                            | Possible values    |
 |:----------------|:---------|:---------------------------------------|:-------------------|
-| method          | yes      | set type of request                    | "transaction"             |
+| method          | yes      | set type of request                    | "exec"             |
 | isolation_level | no       | set isolation level for exec operation | ""                 |
 |                 |          |                                        | "read_uncommitted" |
 |                 |          |                                        | "read_committed"   |
@@ -123,7 +123,7 @@ Transaction request metadata setting:
 
 | Metadata Key    | Required | Description                            | Possible values    |
 |:----------------|:---------|:---------------------------------------|:-------------------|
-| method          | yes      | set type of request                    | "exec"             |
+| method          | yes      | set type of request                    | "transaction"             |
 | isolation_level | no       | set isolation level for exec operation | ""                 |
 |                 |          |                                        | "read_uncommitted" |
 |                 |          |                                        | "read_committed"   |

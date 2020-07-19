@@ -1,0 +1,21 @@
+bindings:
+  - name: kubemq-query-rabbitmq
+    source:
+      kind: source.kubemq.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-rabbitmq-connector"
+        auth_token: ""
+        channel: "query.rabbitmq"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.messaging.rabbitmq
+      name: target-rabbitmq
+      properties:
+        url: "amqp://rabbitmq:rabbitmq@localhost:5672/"
