@@ -1,4 +1,4 @@
-package postgres
+package mysql
 
 import (
 	"fmt"
@@ -13,12 +13,12 @@ const (
 )
 
 type options struct {
-	useProxy    bool
 	instanceConnectionName string
 	dbUser                 string
 	dbName                 string
 	dbPassword             string
-	connection string
+	useProxy               bool
+	connection             string
 	// maxIdleConnections sets the maximum number of connections in the idle connection pool
 	maxIdleConnections int
 	//maxOpenConnections sets the maximum number of open connections to the database.
@@ -55,7 +55,6 @@ func parseOptions(cfg config.Metadata) (options, error) {
 			return options{}, fmt.Errorf("error parsing connection string, %w", err)
 		}
 	}
-
 	o.maxIdleConnections, err = cfg.ParseIntWithRange("max_idle_connections", defaultMaxIdleConnections, 1, math.MaxInt32)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing max idle connections value, %w", err)
@@ -68,6 +67,5 @@ func parseOptions(cfg config.Metadata) (options, error) {
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing connection max lifetime seconds value, %w", err)
 	}
-
 	return o, nil
 }

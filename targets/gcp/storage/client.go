@@ -8,6 +8,7 @@ import (
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"google.golang.org/api/iterator"
+	"google.golang.org/api/option"
 	"io"
 	"io/ioutil"
 	"os"
@@ -34,8 +35,9 @@ func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	if err != nil {
 		return err
 	}
+	b := []byte(c.opts.credentials)
 
-	client, err := storage.NewClient(ctx)
+	client, err := storage.NewClient(ctx,option.WithCredentialsJSON(b))
 	if err != nil {
 		return err
 	}

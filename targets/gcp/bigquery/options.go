@@ -7,6 +7,7 @@ import (
 
 type options struct {
 	projectID string
+	credentials string
 }
 
 func parseOptions(cfg config.Metadata) (options, error) {
@@ -16,7 +17,7 @@ func parseOptions(cfg config.Metadata) (options, error) {
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing project_id, %w", err)
 	}
-	err = config.MustExistsEnv("GOOGLE_APPLICATION_CREDENTIALS")
+	o.credentials, err = cfg.MustParseString("credentials")
 	if err != nil {
 		return options{}, err
 	}

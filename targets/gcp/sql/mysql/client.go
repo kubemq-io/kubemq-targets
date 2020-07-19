@@ -1,14 +1,15 @@
-package postgres
+package mysql
 
 import (
 	"context"
 	"database/sql"
 	"fmt"
 	"github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/dialers/mysql"
+	_ "github.com/go-sql-driver/mysql"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
-	_ "github.com/lib/pq"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -38,27 +39,24 @@ func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	if c.opts.useProxy {
 		cfg := mysql.Cfg(c.opts.instanceConnectionName, c.opts.dbUser, c.opts.dbPassword)
 		cfg.DBName = c.opts.dbName
-		for {
-			c.db, err = mysql.DialCfg(cfg)
-			if err != nil {
-				return err
-			}
-			err = c.db.Ping()
-			if err != nil {
-				return err
-			}
+		c.db, err = mysql.DialCfg(cfg)
+		if err != nil {
+			return err
+		}
+		err = c.db.PingContext(ctx)
+		if err != nil {
+			return err
 		}
 	} else {
-		for {
-			c.db, err = sql.Open("postgres", c.opts.connection)
-			if err != nil {
-				return err
-			}
-			err = c.db.Ping()
-			if err != nil {
-				return err
-			}
+		c.db, err = sql.Open("mysql", c.opts.connection)
+		if err != nil {
+			return err
 		}
+		err = c.db.PingContext(ctx)
+		if err != nil {
+			return err
+		}
+
 	}
 	c.db.SetMaxOpenConns(c.opts.maxOpenConnections)
 	c.db.SetMaxIdleConns(c.opts.maxIdleConnections)
@@ -82,12 +80,6 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 
 	return nil, nil
 }
-func getStatements(data []byte) []string {
-	if data == nil {
-		return nil
-	}
-	return strings.Split(string(data), ";")
-}
 func (c *Client) Exec(ctx context.Context, meta metadata, value []byte) (*types.Response, error) {
 	stmts := getStatements(value)
 	if stmts == nil {
@@ -101,9 +93,16 @@ func (c *Client) Exec(ctx context.Context, meta metadata, value []byte) (*types.
 			}
 		}
 	}
+
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok"),
 		nil
+}
+func getStatements(data []byte) []string {
+	if data == nil {
+		return nil
+	}
+	return strings.Split(string(data), ";")
 }
 func (c *Client) Transaction(ctx context.Context, meta metadata, value []byte) (*types.Response, error) {
 	stmts := getStatements(value)
@@ -164,9 +163,13 @@ func (c *Client) Query(ctx context.Context, meta metadata, value []byte) (*types
 func (c *Client) rowsToMap(rows *sql.Rows) []byte {
 
 	cols, _ := rows.Columns()
+	colsTypes, err := rows.ColumnTypes()
+	if err != nil {
+		return nil
+	}
 	var results []map[string]interface{}
 	for rows.Next() {
-		results = append(results, parseToMap(rows, cols))
+		results = append(results, parseWithRawBytes(rows, cols, colsTypes))
 	}
 	if results == nil {
 		return nil
@@ -175,24 +178,38 @@ func (c *Client) rowsToMap(rows *sql.Rows) []byte {
 	return b
 }
 
-func parseToMap(rows *sql.Rows, cols []string) map[string]interface{} {
-	values := make([]interface{}, len(cols))
-	pointers := make([]interface{}, len(cols))
-	for i := range values {
-		pointers[i] = &values[i]
+func parseWithRawBytes(rows *sql.Rows, cols []string, colsTypes []*sql.ColumnType) map[string]interface{} {
+	vals := make([]sql.RawBytes, len(cols))
+	scanArgs := make([]interface{}, len(vals))
+	for i := range vals {
+		scanArgs[i] = &vals[i]
 	}
-
-	if err := rows.Scan(pointers...); err != nil {
-		return nil
+	if err := rows.Scan(scanArgs...); err != nil {
+		panic(err)
 	}
-
 	m := make(map[string]interface{})
-	for i, colName := range cols {
-		if values[i] == nil {
-			//m[colName] = nil
-		} else {
-			m[colName] = values[i]
+	for i, col := range vals {
+		if col == nil {
+			continue
+		}
+		switch colsTypes[i].DatabaseTypeName() {
+		case "TINYINT", "BOOLEAN":
+			m[cols[i]], _ = strconv.ParseBool(string(col))
+		case "SMALLINT", "MEDIUMINT":
+			m[cols[i]], _ = strconv.Atoi(string(col))
+		case "BIGINT":
+			m[cols[i]], _ = strconv.ParseInt(string(col), 10, 64)
+		case "FLOAT":
+			val, _ := strconv.ParseFloat(string(col), 32)
+			m[cols[i]] = float32(val)
+		case "DOUBLE", "DECIMAL":
+			m[cols[i]], _ = strconv.ParseFloat(string(col), 64)
+		default:
+			m[cols[i]] = string(col)
 		}
 	}
 	return m
+}
+func (c *Client) CloseClient() error {
+	return c.db.Close()
 }

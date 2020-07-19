@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"google.golang.org/api/option"
 )
 
 type Client struct {
@@ -34,13 +35,15 @@ func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 		return err
 	}
 
-	adminClient, err := bigtable.NewAdminClient(ctx, c.opts.projectID, c.opts.instance)
+	b := []byte(c.opts.credentials)
+
+	adminClient, err := bigtable.NewAdminClient(ctx, c.opts.projectID, c.opts.instance, option.WithCredentialsJSON(b))
 	if err != nil {
 		return err
 	}
 	c.adminClient = adminClient
 
-	Client, err := bigtable.NewClient(ctx, c.opts.projectID, c.opts.instance)
+	Client, err := bigtable.NewClient(ctx, c.opts.projectID, c.opts.instance, option.WithCredentialsJSON(b))
 	if err != nil {
 		return err
 	}
@@ -81,7 +84,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 
 func (c *Client) getTables(ctx context.Context) (*types.Response, error) {
 	tables, err := c.adminClient.Tables(ctx)
-	if err!= nil {
+	if err != nil {
 		return nil, err
 	}
 	if len(tables) <= 0 {
@@ -141,7 +144,7 @@ func (c *Client) deleteRowRange(ctx context.Context, meta metadata) (*types.Resp
 func (c *Client) readRow(ctx context.Context, meta metadata) (*types.Response, error) {
 	tbl := c.client.Open(meta.tableName)
 	defer func() {
-		_=c.client.Close()
+		_ = c.client.Close()
 	}()
 	row, err := tbl.ReadRow(ctx, meta.rowKeyPrefix)
 	if err != nil {
@@ -227,12 +230,12 @@ func (c *Client) readAllRowsByColumnFilter(ctx context.Context, meta metadata, b
 func (c *Client) writeRow(ctx context.Context, meta metadata, body []byte) (*types.Response, error) {
 	tbl := c.client.Open(meta.tableName)
 	defer func() {
-		_=c.client.Close()
+		_ = c.client.Close()
 	}()
 	timestamp := bigtable.Now()
 	mut := bigtable.NewMutation()
 	m, err := c.getSingleColumnFromBody(body)
-	if err!=nil {
+	if err != nil {
 		return nil, err
 	}
 	rowKey := ""
@@ -253,7 +256,7 @@ func (c *Client) writeRow(ctx context.Context, meta metadata, body []byte) (*typ
 		}
 	}
 	if len(rowKey) == 0 {
-		return nil, fmt.Errorf( "missing set_row_key value")
+		return nil, fmt.Errorf("missing set_row_key value")
 	}
 	err = tbl.Apply(ctx, rowKey, mut)
 	if err != nil {
@@ -267,17 +270,17 @@ func (c *Client) writeRow(ctx context.Context, meta metadata, body []byte) (*typ
 func (c *Client) writeBatch(ctx context.Context, meta metadata, body []byte) (*types.Response, error) {
 	tbl := c.client.Open(meta.tableName)
 	defer func() {
-		_=c.client.Close()
+		_ = c.client.Close()
 	}()
 	timestamp := bigtable.Now()
 	var muts []*bigtable.Mutation
 	var rowKeys []string
 	s, err := c.getMultipleColumnsFromBody(body)
-	if err!=nil {
+	if err != nil {
 		return nil, err
 	}
 	if len(s) == 0 {
-		return nil,fmt.Errorf("column requested must be at least 1")
+		return nil, fmt.Errorf("column requested must be at least 1")
 	}
 	for _, m := range s {
 		mut := bigtable.NewMutation()
@@ -290,18 +293,18 @@ func (c *Client) writeBatch(ctx context.Context, meta metadata, body []byte) (*t
 				if err != nil {
 					return nil, err
 				}
-				_=binary.Write(buf, binary.BigEndian, b)
+				_ = binary.Write(buf, binary.BigEndian, b)
 				mut.Set(meta.columnFamily, k, timestamp, buf.Bytes())
 			}
 		}
 		muts = append(muts, mut)
 	}
 	if len(s) != len(rowKeys) {
-		return nil,fmt.Errorf("set_row_key count does not match column requested")
+		return nil, fmt.Errorf("set_row_key count does not match column requested")
 	}
 	_, err = tbl.ApplyBulk(ctx, rowKeys, muts)
 	if err != nil {
-		return nil,err
+		return nil, err
 	}
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok"),

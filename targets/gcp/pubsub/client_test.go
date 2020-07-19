@@ -3,6 +3,7 @@ package pubsub
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/kubemq-hub/kubemq-target-connectors/config"
 	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"github.com/stretchr/testify/require"
@@ -16,6 +17,9 @@ func TestClient_Init(t *testing.T) {
 	require.NoError(t, err)
 	projectID := string(dat)
 	require.NoError(t, err)
+	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
+	require.NoError(t, err)
+	credentials := fmt.Sprintf("%s", dat)
 	tests := []struct {
 		name    string
 		cfg     config.Metadata
@@ -29,9 +33,21 @@ func TestClient_Init(t *testing.T) {
 				Properties: map[string]string{
 					"project_id": projectID,
 					"retries":    "0",
+					"credentials": credentials,
 				},
 			},
 			wantErr: false,
+		},{
+			name: "init-missing-credentials",
+			cfg: config.Metadata{
+				Name: "google-pubsub-target",
+				Kind: "",
+				Properties: map[string]string{
+					"project_id": projectID,
+					"retries":    "0",
+				},
+			},
+			wantErr: true,
 		},
 		{
 			name: "init-missing-project-id",
@@ -40,6 +56,7 @@ func TestClient_Init(t *testing.T) {
 				Kind: "",
 				Properties: map[string]string{
 					"retries": "0",
+					"credentials": credentials,
 				},
 			},
 			wantErr: true,
@@ -71,6 +88,9 @@ func TestClient_Do(t *testing.T) {
 	require.NoError(t, err)
 	TopicID := string(dat)
 	validBody, _ := json.Marshal("valid body")
+	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
+	require.NoError(t, err)
+	credentials := fmt.Sprintf("%s", dat)
 	tests := []struct {
 		name    string
 		cfg     config.Metadata
@@ -86,6 +106,7 @@ func TestClient_Do(t *testing.T) {
 				Properties: map[string]string{
 					"project_id": projectID,
 					"retries":    "0",
+					"credentials": credentials,
 				},
 			},
 			request: types.NewRequest().
@@ -104,6 +125,7 @@ func TestClient_Do(t *testing.T) {
 				Properties: map[string]string{
 					"project_id": projectID,
 					"retries":    "0",
+					"credentials": credentials,
 				},
 			},
 			request: types.NewRequest().
@@ -138,6 +160,9 @@ func TestClient_list(t *testing.T) {
 	dat, err := ioutil.ReadFile("./../../../credentials/projectID.txt")
 	require.NoError(t, err)
 	projectID := string(dat)
+	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
+	require.NoError(t, err)
+	credentials := fmt.Sprintf("%s", dat)
 	tests := []struct {
 		name    string
 		cfg     config.Metadata
@@ -150,6 +175,7 @@ func TestClient_list(t *testing.T) {
 				Kind: "target.google.pubsub",
 				Properties: map[string]string{
 					"project_id": projectID,
+					"credentials": credentials,
 				},
 			},
 
