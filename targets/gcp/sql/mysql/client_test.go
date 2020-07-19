@@ -2,8 +2,8 @@ package mysql
 
 import (
 	"context"
-	"github.com/kubemq-hub/kubemq-targets/config"
-	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/kubemq-hub/kubemq-target-connectors/config"
+	"github.com/kubemq-hub/kubemq-target-connectors/types"
 	"github.com/stretchr/testify/require"
 	"io/ioutil"
 	"testing"
@@ -107,8 +107,8 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Metadata{
-				Name: "mysql-target",
-				Kind: "",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
 					"db_user":                  dat.dbUser,
@@ -120,8 +120,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init - missing db_user",
 			cfg: config.Metadata{
-				Name: "mysql-target",
-				Kind: "",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
 					"db_name":                  dat.dbName,
@@ -132,8 +132,8 @@ func TestClient_Init(t *testing.T) {
 		},{
 			name: "invalid init - missing db_name",
 			cfg: config.Metadata{
-				Name: "mysql-target",
-				Kind: "",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
 					"db_user":                  dat.dbUser,
@@ -144,8 +144,8 @@ func TestClient_Init(t *testing.T) {
 		},{
 			name: "invalid init - missing connection",
 			cfg: config.Metadata{
-				Name: "mysql-target",
-				Kind: "",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
 					"db_user":                  dat.dbUser,
 					"db_name":                  dat.dbName,
@@ -156,8 +156,8 @@ func TestClient_Init(t *testing.T) {
 		},{
 			name: "invalid init - missing db_password",
 			cfg: config.Metadata{
-				Name: "mysql-target",
-				Kind: "",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
 					"db_name":                  dat.dbName,
@@ -172,9 +172,10 @@ func TestClient_Init(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
 			c := New()
-
-			if err := c.Init(ctx, tt.cfg); (err != nil) != tt.wantErr {
-				t.Errorf("Init() error = %v, wantExecErr %v", err, tt.wantErr)
+			err = c.Init(ctx, tt.cfg)
+			if tt.wantErr {
+				require.Error(t, err)
+				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
 				return
 			}
 			require.EqualValues(t, tt.cfg.Name, c.Name())
@@ -186,6 +187,8 @@ func TestClient_Init(t *testing.T) {
 }
 
 func TestClient_Query_Exec_Transaction(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
 	tests := []struct {
 		name              string
 		cfg               config.Metadata
@@ -199,13 +202,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec query request",
 			cfg: config.Metadata{
-				Name: "mysql-target",
-				Kind: "",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -225,13 +228,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "empty exec request",
 			cfg: config.Metadata{
-				Name: "mysql-target",
-				Kind: "",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -246,13 +249,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "invalid exec request",
 			cfg: config.Metadata{
-				Name: "mysql-target",
-				Kind: "",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -267,13 +270,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec empty query request",
 			cfg: config.Metadata{
-				Name: "mysql-target",
-				Kind: "",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -291,13 +294,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec bad query request",
 			cfg: config.Metadata{
-				Name: "mysql-target",
-				Kind: "",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -315,13 +318,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec valid query - no results",
 			cfg: config.Metadata{
-				Name: "mysql-target",
-				Kind: "",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -340,13 +343,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec query request",
 			cfg: config.Metadata{
-				Name: "mysql-target",
-				Kind: "",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -366,13 +369,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "empty transaction request",
 			cfg: config.Metadata{
-				Name: "mysql-target",
-				Kind: "",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -386,13 +389,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "invalid transaction request",
 			cfg: config.Metadata{
-				Name: "mysql-target",
-				Kind: "",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -407,13 +410,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid transaction empty query request",
 			cfg: config.Metadata{
-				Name: "mysql-target",
-				Kind: "",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -468,6 +471,8 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 }
 
 func TestClient_Do(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
 	tests := []struct {
 		name    string
 		cfg     config.Metadata
@@ -477,13 +482,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request",
 			cfg: config.Metadata{
-				Name: "target.mysql",
-				Kind: "target.mysql",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			request: types.NewRequest().
@@ -495,13 +500,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 2",
 			cfg: config.Metadata{
-				Name: "target.mysql",
-				Kind: "target.mysql",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			request: types.NewRequest().
@@ -513,13 +518,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 3",
 			cfg: config.Metadata{
-				Name: "target.mysql",
-				Kind: "target.mysql",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			request: types.NewRequest().
@@ -531,13 +536,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 3",
 			cfg: config.Metadata{
-				Name: "target.mysql",
-				Kind: "target.mysql",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			request: types.NewRequest().
@@ -549,13 +554,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad method",
 			cfg: config.Metadata{
-				Name: "target.mysql",
-				Kind: "target.mysql",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			request: types.NewRequest().
@@ -565,13 +570,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad isolation level",
 			cfg: config.Metadata{
-				Name: "target.mysql",
-				Kind: "target.mysql",
+				Name: "target.google.mysql",
+				Kind: "target.google.mysql",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			request: types.NewRequest().

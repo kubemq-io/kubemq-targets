@@ -2,7 +2,7 @@ package mysql
 
 import (
 	"fmt"
-	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-target-connectors/config"
 	"math"
 )
 
