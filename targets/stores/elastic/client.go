@@ -8,7 +8,6 @@ import (
 	"github.com/olivere/elastic/v7"
 )
 
-
 type Client struct {
 	name    string
 	elastic *elastic.Client
@@ -34,10 +33,6 @@ func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 		elastic.SetURL(c.opts.urls...),
 		elastic.SetSniff(c.opts.sniff),
 		elastic.SetBasicAuth(c.opts.username, c.opts.password))
-	if c.opts.retryBackoffSeconds > 0 {
-		retry := elastic.NewBackoffRetrier(elastic.NewSimpleBackoff(c.opts.retryBackoffSeconds * 1000))
-		elasticOpts = append(elasticOpts, elastic.SetRetrier(retry))
-	}
 
 	c.elastic, err = elastic.NewClient(elasticOpts...)
 	if err != nil {
