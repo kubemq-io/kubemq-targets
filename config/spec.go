@@ -169,5 +169,5 @@ func (s Spec) MustParseEnv(key, envVar, defaultValue string) (string, error) {
 	if defaultValue != "" {
 		return defaultValue, nil
 	}
-	return "", fmt.Errorf("cannot extract key %s from enviroment variable", key)
+	return "", fmt.Errorf("cannot extract key %s from environment variable", key)
 }
