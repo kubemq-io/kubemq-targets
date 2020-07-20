@@ -13,13 +13,13 @@ import (
 )
 
 type Source interface {
-	Init(ctx context.Context, cfg config.Metadata) error
+	Init(ctx context.Context, cfg config.Spec) error
 	Start(ctx context.Context, target middleware.Middleware) error
 	Stop() error
 	Name() string
 }
 
-func Init(ctx context.Context, cfg config.Metadata) (Source, error) {
+func Init(ctx context.Context, cfg config.Spec) (Source, error) {
 
 	switch cfg.Kind {
 

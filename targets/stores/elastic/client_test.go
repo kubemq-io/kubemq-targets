@@ -86,12 +86,12 @@ func TestMain(m *testing.M) {
 func TestClient_Init(t *testing.T) {
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "elastic-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -105,7 +105,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad urls",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "elastic-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -120,7 +120,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad options - no urls",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "elastic-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -152,7 +152,7 @@ func TestClient_Init(t *testing.T) {
 func TestClient_Set_Get(t *testing.T) {
 	tests := []struct {
 		name            string
-		cfg             config.Metadata
+		cfg             config.Spec
 		setRequest      *types.Request
 		getRequest      *types.Request
 		wantSetResponse *types.Response
@@ -162,7 +162,7 @@ func TestClient_Set_Get(t *testing.T) {
 	}{
 		{
 			name: "valid set get request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "elastic-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -193,7 +193,7 @@ func TestClient_Set_Get(t *testing.T) {
 		},
 		{
 			name: "update set get request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "elastic-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -224,7 +224,7 @@ func TestClient_Set_Get(t *testing.T) {
 		},
 		{
 			name: "bad set - invalid index",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "elastic-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -248,7 +248,7 @@ func TestClient_Set_Get(t *testing.T) {
 		},
 		{
 			name: "valid set - not found index",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "elastic-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -308,7 +308,7 @@ func TestClient_Delete(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	c := New()
-	err := c.Init(ctx, config.Metadata{
+	err := c.Init(ctx, config.Spec{
 		Name: "elastic-target",
 		Kind: "",
 		Properties: map[string]string{
@@ -357,13 +357,13 @@ func TestClient_Delete(t *testing.T) {
 func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		request *types.Request
 		wantErr bool
 	}{
 		{
 			name: "bad request - bad method",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.elastic",
 				Kind: "target.elastic",
 				Properties: map[string]string{
@@ -380,7 +380,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "bad request - no index",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.elastic",
 				Kind: "target.elastic",
 				Properties: map[string]string{
@@ -397,7 +397,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "bad request - no id",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.elastic",
 				Kind: "target.elastic",
 				Properties: map[string]string{

@@ -20,3 +20,5 @@ bindings:
       properties:
         auth_type: "no-auth"
         default_headers: '{"Content-Type":"application/json"}'
+    properties:
+      log_level: "error"

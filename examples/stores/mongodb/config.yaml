@@ -27,3 +27,5 @@ bindings:
         read_concurrency: ""
         params: ""
         operation_timeout_seconds: "2"
+    properties:
+      log_level: "error"

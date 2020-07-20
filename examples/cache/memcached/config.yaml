@@ -21,3 +21,5 @@ bindings:
         hosts: "localhost:11211"
         max_idle_connections: "2"
         default_timeout_seconds: "10"
+    properties:
+      log_level: "error"

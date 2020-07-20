@@ -78,7 +78,7 @@ func TestClient_Do(t *testing.T) {
 				DoError:       tt.fields.DoError,
 				ResponseError: tt.fields.ResponseError,
 			}
-			_ = c.Init(ctx, config.Metadata{
+			_ = c.Init(ctx, config.Spec{
 				Name:       "null",
 				Kind:       "",
 				Properties: nil,

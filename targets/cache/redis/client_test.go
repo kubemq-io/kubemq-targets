@@ -13,12 +13,12 @@ import (
 func TestClient_Init(t *testing.T) {
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "redis-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -31,7 +31,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - error no host",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "redis-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -44,7 +44,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - error",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "redis-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -73,7 +73,7 @@ func TestClient_Init(t *testing.T) {
 func TestClient_Set_Get(t *testing.T) {
 	tests := []struct {
 		name            string
-		cfg             config.Metadata
+		cfg             config.Spec
 		setRequest      *types.Request
 		getRequest      *types.Request
 		wantSetResponse *types.Response
@@ -83,7 +83,7 @@ func TestClient_Set_Get(t *testing.T) {
 	}{
 		{
 			name: "valid set get request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.redis",
 				Kind: "target.redis",
 				Properties: map[string]string{
@@ -113,7 +113,7 @@ func TestClient_Set_Get(t *testing.T) {
 		},
 		{
 			name: "valid set , no key get request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.redis",
 				Kind: "target.redis",
 				Properties: map[string]string{
@@ -171,7 +171,7 @@ func TestClient_Delete(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	c := New()
-	err := c.Init(ctx, config.Metadata{
+	err := c.Init(ctx, config.Spec{
 		Name: "target.redis",
 		Kind: "target.redis",
 		Properties: map[string]string{
@@ -211,13 +211,13 @@ func TestClient_Delete(t *testing.T) {
 func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		request *types.Request
 		wantErr bool
 	}{
 		{
 			name: "valid request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.redis",
 				Kind: "target.redis",
 				Properties: map[string]string{
@@ -236,7 +236,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid request - bad method",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.redis",
 				Kind: "target.redis",
 				Properties: map[string]string{
@@ -255,7 +255,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid request - no key",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.redis",
 				Kind: "target.redis",
 				Properties: map[string]string{
@@ -273,7 +273,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid request - bad etag",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.redis",
 				Kind: "target.redis",
 				Properties: map[string]string{
@@ -293,7 +293,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid request - bad concurrency",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.redis",
 				Kind: "target.redis",
 				Properties: map[string]string{
@@ -312,7 +312,7 @@ func TestClient_Do(t *testing.T) {
 			wantErr: true,
 		}, {
 			name: "invalid request - bad consistency",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.redis",
 				Kind: "target.redis",
 				Properties: map[string]string{

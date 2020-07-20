@@ -22,3 +22,5 @@ bindings:
         username: "admin"
         password: "password"
         sniff: "false"
+    properties:
+      log_level: "error"

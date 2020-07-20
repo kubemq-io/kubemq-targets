@@ -17,7 +17,7 @@ type options struct {
 	defaultHeaders   map[string]string
 }
 
-func parseOptions(cfg config.Metadata) (options, error) {
+func parseOptions(cfg config.Spec) (options, error) {
 	o := options{
 		authType:         "",
 		username:         "",

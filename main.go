@@ -2,12 +2,9 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/binding"
-	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
-	"sync"
-
 	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
 
 	"os"
 	"os/signal"
@@ -19,50 +16,10 @@ var (
 	commit  = "none"
 	date    = "unknown"
 )
-var (
-	bindingMap = map[string]*binding.Binder{}
-)
+
 var (
 	log *logger.Logger
 )
-
-func start(ctx context.Context, cfg *config.Config) error {
-	var mutex sync.Mutex
-	wg := sync.WaitGroup{}
-	wg.Add(len(cfg.Bindings))
-	for _, bindingCfg := range cfg.Bindings {
-		go func(cfg config.BindingConfig) {
-			defer wg.Done()
-			binder := binding.New()
-			err := binder.Init(ctx, cfg)
-			if err != nil {
-				log.Error(err)
-				return
-			}
-			err = binder.Start(ctx)
-			if err != nil {
-				log.Error(err)
-				return
-			}
-			mutex.Lock()
-			bindingMap[cfg.Name] = binder
-			mutex.Unlock()
-
-		}(bindingCfg)
-
-	}
-	wg.Wait()
-	if len(bindingMap) == 0 {
-		return fmt.Errorf("no valid bindings started")
-	}
-	return nil
-}
-
-func stop() {
-	for _, binder := range bindingMap {
-		_ = binder.Stop()
-	}
-}
 
 func run() error {
 	var gracefulShutdown = make(chan os.Signal, 1)
@@ -80,12 +37,13 @@ func run() error {
 	}
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
-	err = start(ctx, cfg)
+	bindingsService := binding.New()
+	err = bindingsService.Start(ctx, cfg)
 	if err != nil {
 		return err
 	}
 	<-gracefulShutdown
-	stop()
+	bindingsService.Stop()
 	return nil
 }
 func main() {

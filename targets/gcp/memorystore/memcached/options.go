@@ -12,7 +12,7 @@ type options struct {
 	defaultTimeoutSeconds int
 }
 
-func parseOptions(cfg config.Metadata) (options, error) {
+func parseOptions(cfg config.Spec) (options, error) {
 	o := options{
 		hosts:                 nil,
 		maxIdleConnections:    0,

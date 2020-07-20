@@ -22,3 +22,5 @@ bindings:
         username: "username"
         password: "password"
         client_id: "client_id"
+    properties:
+      log_level: "error"

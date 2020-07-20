@@ -69,7 +69,7 @@ func TestMetadata_MustParseBool(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			m := Metadata{
+			m := Spec{
 				Name:       tt.fields.Name,
 				Kind:       tt.fields.Kind,
 				Properties: tt.fields.Properties,
@@ -150,7 +150,7 @@ func TestMetadata_MustParseInt(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			m := Metadata{
+			m := Spec{
 				Name:       tt.fields.Name,
 				Kind:       tt.fields.Kind,
 				Properties: tt.fields.Properties,
@@ -273,7 +273,7 @@ func TestMetadata_MustParseIntWithRange(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			m := Metadata{
+			m := Spec{
 				Name:       tt.fields.Name,
 				Kind:       tt.fields.Kind,
 				Properties: tt.fields.Properties,
@@ -339,7 +339,7 @@ func TestMetadata_MustParseString(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			m := Metadata{
+			m := Spec{
 				Name:       tt.fields.Name,
 				Kind:       tt.fields.Kind,
 				Properties: tt.fields.Properties,
@@ -420,7 +420,7 @@ func TestMetadata_ParseBool(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			m := Metadata{
+			m := Spec{
 				Name:       tt.fields.Name,
 				Kind:       tt.fields.Kind,
 				Properties: tt.fields.Properties,
@@ -496,7 +496,7 @@ func TestMetadata_ParseInt(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			m := Metadata{
+			m := Spec{
 				Name:       tt.fields.Name,
 				Kind:       tt.fields.Kind,
 				Properties: tt.fields.Properties,
@@ -584,7 +584,7 @@ func TestMetadata_ParseIntWithRange(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			m := Metadata{
+			m := Spec{
 				Name:       tt.fields.Name,
 				Kind:       tt.fields.Kind,
 				Properties: tt.fields.Properties,
@@ -621,7 +621,7 @@ func TestMetadata_ParseString(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			m := Metadata{
+			m := Spec{
 				Name:       tt.fields.Name,
 				Kind:       tt.fields.Kind,
 				Properties: tt.fields.Properties,
@@ -646,7 +646,7 @@ func TestMetadata_Validate(t *testing.T) {
 	}{}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			m := Metadata{
+			m := Spec{
 				Name:       tt.fields.Name,
 				Kind:       tt.fields.Kind,
 				Properties: tt.fields.Properties,
@@ -707,7 +707,7 @@ func TestMetadata_ParseString1(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			m := Metadata{
+			m := Spec{
 				Name:       tt.fields.Name,
 				Kind:       tt.fields.Kind,
 				Properties: tt.fields.Properties,
@@ -798,7 +798,7 @@ func TestMetadata_MustParseMap(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			m := Metadata{
+			m := Spec{
 				Name:       tt.fields.Name,
 				Kind:       tt.fields.Kind,
 				Properties: tt.fields.Properties,

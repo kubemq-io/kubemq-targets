@@ -21,3 +21,5 @@ bindings:
         gateway: "http://localhost:31112"
         username: "admin"
         password: "password"
+    properties:
+      log_level: "error"

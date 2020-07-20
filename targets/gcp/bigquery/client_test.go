@@ -68,12 +68,12 @@ func TestClient_Init(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -84,7 +84,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: false,
 		}, {
 			name: "invalid init - missing credentials",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -95,7 +95,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "invalid init - missing project_id",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big_table-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -131,13 +131,13 @@ func TestClient_Query(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name         string
-		cfg          config.Metadata
+		cfg          config.Spec
 		queryRequest *types.Request
 		wantErr      bool
 	}{
 		{
 			name: "valid query",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -151,7 +151,7 @@ func TestClient_Query(t *testing.T) {
 			wantErr: false,
 		}, {
 			name: "invalid query - missing query",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -164,7 +164,7 @@ func TestClient_Query(t *testing.T) {
 			wantErr: true,
 		}, {
 			name: "valid query- empty table",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -220,13 +220,13 @@ func TestClient_Create_Table(t *testing.T) {
 
 	tests := []struct {
 		name         string
-		cfg          config.Metadata
+		cfg          config.Spec
 		queryRequest *types.Request
 		wantErr      bool
 	}{
 		{
 			name: "valid create table",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -242,7 +242,7 @@ func TestClient_Create_Table(t *testing.T) {
 			wantErr: false,
 		}, {
 			name: "invalid create_table - missing tableName",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -257,7 +257,7 @@ func TestClient_Create_Table(t *testing.T) {
 			wantErr: true,
 		}, {
 			name: "invalid create_table - table already exists",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -273,7 +273,7 @@ func TestClient_Create_Table(t *testing.T) {
 			wantErr: true,
 		}, {
 			name: "invalid create_table - missing dataset_id",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -316,13 +316,13 @@ func TestClient_Get_Data_Sets(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name         string
-		cfg          config.Metadata
+		cfg          config.Spec
 		queryRequest *types.Request
 		wantErr      bool
 	}{
 		{
 			name: "valid get Data-Sets",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -364,13 +364,13 @@ func TestClient_Get_Table_Info(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name         string
-		cfg          config.Metadata
+		cfg          config.Spec
 		queryRequest *types.Request
 		wantErr      bool
 	}{
 		{
 			name: "valid get table-info",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -385,7 +385,7 @@ func TestClient_Get_Table_Info(t *testing.T) {
 			wantErr: false,
 		}, {
 			name: "invalid get table-info - missing dataset_id",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -399,7 +399,7 @@ func TestClient_Get_Table_Info(t *testing.T) {
 			wantErr: true,
 		}, {
 			name: "invalid get table-info - missing table_name",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -413,7 +413,7 @@ func TestClient_Get_Table_Info(t *testing.T) {
 			wantErr: true,
 		}, {
 			name: "valid get table-info - missing NotExistingTable",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -468,13 +468,13 @@ func TestClient_Insert_To_Table(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name         string
-		cfg          config.Metadata
+		cfg          config.Spec
 		queryRequest *types.Request
 		wantErr      bool
 	}{
 		{
 			name: "valid insert to table",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -488,9 +488,9 @@ func TestClient_Insert_To_Table(t *testing.T) {
 				SetMetadataKeyValue("table_name", dat.tableName).
 				SetData(bRows),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid insert to table - missing table_name",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -503,9 +503,9 @@ func TestClient_Insert_To_Table(t *testing.T) {
 				SetMetadataKeyValue("dataset_id", dat.dataSetID).
 				SetData(bRows),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid insert to table - missing dataset_id",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-query-target",
 				Kind: "",
 				Properties: map[string]string{

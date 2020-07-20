@@ -19,3 +19,5 @@ bindings:
       name: target-rabbitmq
       properties:
         url: "amqp://rabbitmq:rabbitmq@localhost:5672/"
+    properties:
+      log_level: "error"

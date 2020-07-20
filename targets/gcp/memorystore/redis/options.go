@@ -11,7 +11,7 @@ type options struct {
 	enableTLS bool
 }
 
-func parseOptions(cfg config.Metadata) (options, error) {
+func parseOptions(cfg config.Spec) (options, error) {
 	o := options{
 		host:      "",
 		password:  "",

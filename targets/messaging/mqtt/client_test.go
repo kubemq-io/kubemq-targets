@@ -12,12 +12,12 @@ import (
 func TestClient_Init(t *testing.T) {
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mqtt-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -31,7 +31,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad host",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mqtt-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -44,7 +44,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		}, {
 			name: "init - no host",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mqtt-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -74,14 +74,14 @@ func TestClient_Init(t *testing.T) {
 func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name         string
-		cfg          config.Metadata
+		cfg          config.Spec
 		request      *types.Request
 		wantResponse *types.Response
 		wantErr      bool
 	}{
 		{
 			name: "valid publish request with confirmation",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mqtt-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -101,7 +101,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid publish request - no topic",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mqtt-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -120,7 +120,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid publish request - bad qos",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mqtt-target",
 				Kind: "",
 				Properties: map[string]string{

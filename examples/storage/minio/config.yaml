@@ -22,3 +22,5 @@ bindings:
         use_ssl: "true"
         access_key_id: "minio"
         secret_access_key: "minio123"
+    properties:
+      log_level: "error"

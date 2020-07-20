@@ -21,3 +21,5 @@ bindings:
         host: "localhost:61613"
         username: "admin"
         password: "admin"
+    properties:
+      log_level: "error"

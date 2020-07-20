@@ -13,12 +13,12 @@ import (
 func TestClient_Init(t *testing.T) {
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "memcached-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -31,7 +31,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - error no connection",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "memcached-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -44,7 +44,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad options - invalid hosts",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "memcached-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -56,7 +56,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad options - invalid max idle connection",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "memcached-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -69,7 +69,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad options - invalid default timeout seconds",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "memcached-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -98,7 +98,7 @@ func TestClient_Init(t *testing.T) {
 func TestClient_Set_Get(t *testing.T) {
 	tests := []struct {
 		name            string
-		cfg             config.Metadata
+		cfg             config.Spec
 		setRequest      *types.Request
 		getRequest      *types.Request
 		wantSetResponse *types.Response
@@ -108,7 +108,7 @@ func TestClient_Set_Get(t *testing.T) {
 	}{
 		{
 			name: "valid set get request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.memcached",
 				Kind: "target.memcached",
 				Properties: map[string]string{
@@ -136,7 +136,7 @@ func TestClient_Set_Get(t *testing.T) {
 		},
 		{
 			name: "valid set , no key get request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.memcached",
 				Kind: "target.memcached",
 				Properties: map[string]string{
@@ -157,8 +157,8 @@ func TestClient_Set_Get(t *testing.T) {
 				SetMetadataKeyValue("key", "some-key").
 				SetMetadataKeyValue("result", "ok"),
 			wantGetResponse: nil,
-			wantSetErr: false,
-			wantGetErr: true,
+			wantSetErr:      false,
+			wantGetErr:      true,
 		},
 	}
 	for _, tt := range tests {
@@ -192,7 +192,7 @@ func TestClient_Delete(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	c := New()
-	err := c.Init(ctx, config.Metadata{
+	err := c.Init(ctx, config.Spec{
 		Name: "target.memcached",
 		Kind: "target.memcached",
 		Properties: map[string]string{
@@ -226,17 +226,17 @@ func TestClient_Delete(t *testing.T) {
 	gotGetResponse, err = c.Do(ctx, getRequest)
 	require.Error(t, err)
 	require.Nil(t, gotGetResponse)
-	}
+}
 func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		request *types.Request
 		wantErr bool
 	}{
 		{
 			name: "valid request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.memcached",
 				Kind: "target.memcached",
 				Properties: map[string]string{
@@ -253,7 +253,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid request - bad method",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.memcached",
 				Kind: "target.memcached",
 				Properties: map[string]string{
@@ -270,7 +270,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid request - no key",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.memcached",
 				Kind: "target.memcached",
 				Properties: map[string]string{

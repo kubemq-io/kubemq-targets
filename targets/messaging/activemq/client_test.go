@@ -12,12 +12,12 @@ import (
 func TestClient_Init(t *testing.T) {
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "activemq-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -30,7 +30,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad host",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "activemq-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -42,7 +42,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		}, {
 			name: "init - no host",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "activemq-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -71,14 +71,14 @@ func TestClient_Init(t *testing.T) {
 func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name         string
-		cfg          config.Metadata
+		cfg          config.Spec
 		request      *types.Request
 		wantResponse *types.Response
 		wantErr      bool
 	}{
 		{
 			name: "valid publish request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "activemq-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -96,7 +96,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid publish request - no destination",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "activemq-target",
 				Kind: "",
 				Properties: map[string]string{

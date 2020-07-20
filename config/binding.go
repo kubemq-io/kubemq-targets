@@ -1,11 +1,15 @@
 package config
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/kubemq-hub/kubemq-targets/types"
+)
 
 type BindingConfig struct {
-	Name   string   `json:"name"`
-	Source Metadata `json:"source"`
-	Target Metadata `json:"target"`
+	Name       string         `json:"name"`
+	Source     Spec           `json:"source"`
+	Target     Spec           `json:"target"`
+	Properties types.Metadata `json:"properties"`
 }
 
 func (b BindingConfig) Validate() error {

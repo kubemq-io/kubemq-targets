@@ -35,12 +35,12 @@ var (
 )
 
 type Target interface {
-	Init(ctx context.Context, cfg config.Metadata) error
+	Init(ctx context.Context, cfg config.Spec) error
 	Do(ctx context.Context, request *types.Request) (*types.Response, error)
 	Name() string
 }
 
-func Init(ctx context.Context, cfg config.Metadata) (Target, error) {
+func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 
 	switch cfg.Kind {
 	case "target.aws.sqs":

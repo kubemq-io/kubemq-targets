@@ -18,13 +18,13 @@ func TestConfig_Validate(t *testing.T) {
 			Bindings: []BindingConfig{
 				{
 					Name: "binding-1",
-					Source: Metadata{
+					Source: Spec{
 						Name:       "source-1",
 						Kind:       "source-1",
 						Properties: nil,
 					},
 
-					Target: Metadata{
+					Target: Spec{
 
 						Name:       "target-1",
 						Kind:       "target-1",
@@ -43,13 +43,13 @@ func TestConfig_Validate(t *testing.T) {
 			name: "invalid config - binding no name",
 			Bindings: []BindingConfig{
 				{
-					Source: Metadata{
+					Source: Spec{
 						Name:       "source-1",
 						Kind:       "source-1",
 						Properties: nil,
 					},
 
-					Target: Metadata{
+					Target: Spec{
 
 						Name:       "target-1",
 						Kind:       "target-1",
@@ -64,12 +64,12 @@ func TestConfig_Validate(t *testing.T) {
 			Bindings: []BindingConfig{
 				{
 					Name: "binding-1",
-					Source: Metadata{
+					Source: Spec{
 						Kind:       "source-1",
 						Properties: nil,
 					},
 
-					Target: Metadata{
+					Target: Spec{
 
 						Name:       "target-1",
 						Kind:       "target-1",
@@ -84,13 +84,13 @@ func TestConfig_Validate(t *testing.T) {
 			Bindings: []BindingConfig{
 				{
 					Name: "binding-1",
-					Source: Metadata{
+					Source: Spec{
 						Name:       "source-1",
 						Kind:       "source-1",
 						Properties: nil,
 					},
 
-					Target: Metadata{
+					Target: Spec{
 						Kind:       "target-1",
 						Properties: nil,
 					},
@@ -140,13 +140,13 @@ bindings:
 				Bindings: []BindingConfig{
 					{
 						Name: "binding-1",
-						Source: Metadata{
+						Source: Spec{
 							Name:       "source-1",
 							Kind:       "source-1",
 							Properties: nil,
 						},
 
-						Target: Metadata{
+						Target: Spec{
 
 							Name:       "target-1",
 							Kind:       "target-1",

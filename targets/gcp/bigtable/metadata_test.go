@@ -7,20 +7,19 @@ import (
 	"testing"
 )
 
-
 func TestParseMetaData(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 		Request *types.Request
 	}{
 		{
 			name: "valid method write",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -36,7 +35,7 @@ func TestParseMetaData(t *testing.T) {
 		},
 		{
 			name: "invalid method write - missing column_family",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big_table-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -51,7 +50,7 @@ func TestParseMetaData(t *testing.T) {
 		},
 		{
 			name: "valid method write_batch",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -67,7 +66,7 @@ func TestParseMetaData(t *testing.T) {
 		},
 		{
 			name: "invalid method write_batch - missing column_family",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -82,7 +81,7 @@ func TestParseMetaData(t *testing.T) {
 		},
 		{
 			name: "valid method delete_rows",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -98,7 +97,7 @@ func TestParseMetaData(t *testing.T) {
 		},
 		{
 			name: "invalid method delete_row - missing row_key_prefix",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big_table-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -113,7 +112,7 @@ func TestParseMetaData(t *testing.T) {
 		},
 		{
 			name: "valid method create_table",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -128,7 +127,7 @@ func TestParseMetaData(t *testing.T) {
 		},
 		{
 			name: "valid method delete_table",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -143,7 +142,7 @@ func TestParseMetaData(t *testing.T) {
 		},
 		{
 			name: "valid method get_tables",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -156,7 +155,7 @@ func TestParseMetaData(t *testing.T) {
 			wantErr: false,
 		}, {
 			name: "invalid method type",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big_table-target",
 				Kind: "",
 				Properties: map[string]string{

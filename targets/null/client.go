@@ -35,7 +35,7 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 	}
 }
 
-func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
+func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
 	return nil
 }

@@ -25,12 +25,12 @@ func (d *doc) binary() []byte {
 func TestClient_Init(t *testing.T) {
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "couchbase-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -47,7 +47,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad url",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "couchbase-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -64,7 +64,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - no url",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "couchbase-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -80,7 +80,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad username and password",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "couchbase-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -97,7 +97,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - no bucket",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "couchbase-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -114,7 +114,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad num to replicate",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "couchbase-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -131,7 +131,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad num to persist",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "couchbase-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -164,7 +164,7 @@ func TestClient_Init(t *testing.T) {
 func TestClient_Set_Get(t *testing.T) {
 	tests := []struct {
 		name            string
-		cfg             config.Metadata
+		cfg             config.Spec
 		setRequest      *types.Request
 		getRequest      *types.Request
 		wantSetResponse *types.Response
@@ -174,7 +174,7 @@ func TestClient_Set_Get(t *testing.T) {
 	}{
 		{
 			name: "valid set get request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.couchbase",
 				Kind: "target.couchbase",
 				Properties: map[string]string{
@@ -207,7 +207,7 @@ func TestClient_Set_Get(t *testing.T) {
 		},
 		{
 			name: "valid set , no key get request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.couchbase",
 				Kind: "target.couchbase",
 				Properties: map[string]string{
@@ -236,7 +236,7 @@ func TestClient_Set_Get(t *testing.T) {
 		},
 		{
 			name: "invalid set request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.couchbase",
 				Kind: "target.couchbase",
 				Properties: map[string]string{
@@ -293,7 +293,7 @@ func TestClient_Delete(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	c := New()
-	err := c.Init(ctx, config.Metadata{
+	err := c.Init(ctx, config.Spec{
 		Name: "target.couchbase",
 		Kind: "target.couchbase",
 		Properties: map[string]string{
@@ -336,13 +336,13 @@ func TestClient_Delete(t *testing.T) {
 func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		request *types.Request
 		wantErr bool
 	}{
 		{
 			name: "valid request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.couchbase",
 				Kind: "target.couchbase",
 				Properties: map[string]string{
@@ -363,7 +363,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid request - bad method",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.couchbase",
 				Kind: "target.couchbase",
 				Properties: map[string]string{
@@ -384,7 +384,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid request - no key",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.couchbase",
 				Kind: "target.couchbase",
 				Properties: map[string]string{
@@ -404,7 +404,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid request - bad cas",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.couchbase",
 				Kind: "target.couchbase",
 				Properties: map[string]string{
@@ -426,7 +426,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid request - bad expiry",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.couchbase",
 				Kind: "target.couchbase",
 				Properties: map[string]string{

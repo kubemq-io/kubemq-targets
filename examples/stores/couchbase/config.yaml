@@ -25,3 +25,5 @@ bindings:
         collection: ""
         num_to_replicate: "1"
         num_to_persist: "1"
+    properties:
+      log_level: "error"

@@ -66,12 +66,12 @@ const (
 func TestClient_Init(t *testing.T) {
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mysql-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -85,7 +85,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad connection string",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mysql-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -99,7 +99,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad port connection string",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mysql-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -113,7 +113,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - no connection string",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mysql-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -126,7 +126,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad max idle connections",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mysql-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -140,7 +140,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad max open connections",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mysql-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -154,7 +154,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad connection max lifetime seconds",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mysql-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -185,7 +185,7 @@ func TestClient_Init(t *testing.T) {
 func TestClient_Query_Exec_Transaction(t *testing.T) {
 	tests := []struct {
 		name              string
-		cfg               config.Metadata
+		cfg               config.Spec
 		execRequest       *types.Request
 		queryRequest      *types.Request
 		wantExecResponse  *types.Response
@@ -195,7 +195,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 	}{
 		{
 			name: "valid exec query request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mysql-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -221,7 +221,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		},
 		{
 			name: "empty exec request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mysql-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -242,7 +242,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		},
 		{
 			name: "invalid exec request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mysql-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -263,7 +263,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		},
 		{
 			name: "valid exec empty query request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mysql-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -287,7 +287,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		},
 		{
 			name: "valid exec bad query request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mysql-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -311,7 +311,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		},
 		{
 			name: "valid exec valid query - no results",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mysql-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -336,7 +336,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		},
 		{
 			name: "valid exec query request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mysql-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -362,7 +362,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		},
 		{
 			name: "empty transaction request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mysql-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -382,7 +382,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		},
 		{
 			name: "invalid transaction request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mysql-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -403,7 +403,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		},
 		{
 			name: "valid transaction empty query request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mysql-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -467,13 +467,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		request *types.Request
 		wantErr bool
 	}{
 		{
 			name: "valid request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.mysql",
 				Kind: "target.mysql",
 				Properties: map[string]string{
@@ -491,7 +491,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "valid request - 2",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.mysql",
 				Kind: "target.mysql",
 				Properties: map[string]string{
@@ -509,7 +509,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "valid request - 3",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.mysql",
 				Kind: "target.mysql",
 				Properties: map[string]string{
@@ -527,7 +527,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "valid request - 3",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.mysql",
 				Kind: "target.mysql",
 				Properties: map[string]string{
@@ -545,7 +545,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid request - bad method",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.mysql",
 				Kind: "target.mysql",
 				Properties: map[string]string{
@@ -561,7 +561,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid request - bad isolation level",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.mysql",
 				Kind: "target.mysql",
 				Properties: map[string]string{
