@@ -23,7 +23,7 @@ Example:
 bindings:
   - name: kubemq-query-rabbitmq
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"

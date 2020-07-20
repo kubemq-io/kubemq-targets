@@ -1,7 +1,7 @@
 bindings:
   - name: kubemq-query-redis
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -23,7 +23,7 @@ bindings:
         enable_tls: "false"
   - name: kubemq-query-memcached
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -45,7 +45,7 @@ bindings:
         default_timeout_seconds: "10"
   - name: kubemq-query-OpenFaas
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -67,7 +67,7 @@ bindings:
         password: "password"
   - name: kubemq-query-http
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -88,7 +88,7 @@ bindings:
         default_headers: '{"Content-Type":"application/json"}'
   - name: kubemq-query-postgres
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -111,7 +111,7 @@ bindings:
         connection_max_lifetime_seconds: "3600"
   - name: kubemq-query-mysql
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -134,7 +134,7 @@ bindings:
         connection_max_lifetime_seconds: "3600"
   - name: kubemq-query-mssql
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -157,7 +157,7 @@ bindings:
         connection_max_lifetime_seconds: "3600"
   - name: kubemq-query-mongodb
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -185,7 +185,7 @@ bindings:
         operation_timeout_seconds: "2"
   - name: kubemq-query-couchbase
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -211,7 +211,7 @@ bindings:
         num_to_persist: "1"
   - name: kubemq-query-minio
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -234,7 +234,7 @@ bindings:
         secret_access_key: "minio123"
   - name: kubemq-query-cassandra
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -262,7 +262,7 @@ bindings:
         default_keyspace: "test"
   - name: kubemq-query-rabbitmq
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -282,7 +282,7 @@ bindings:
         url: "amqp://rabbitmq:rabbitmq@localhost:5672/"
   - name: kubemq-query-mqtt
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -305,7 +305,7 @@ bindings:
         client_id: "client_id"
   - name: kubemq-query-activemq
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -327,7 +327,7 @@ bindings:
         password: ""
   - name: kubemq-query-elastic-search
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"

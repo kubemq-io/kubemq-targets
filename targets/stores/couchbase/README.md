@@ -31,7 +31,7 @@ Example:
 bindings:
   - name: kubemq-query-couchbase
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"

@@ -23,31 +23,31 @@ func Init(ctx context.Context, cfg config.Metadata) (Source, error) {
 
 	switch cfg.Kind {
 
-	case "source.kubemq.command":
+	case "source.command":
 		source := command.New()
 		if err := source.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return source, nil
-	case "source.kubemq.query":
+	case "source.query":
 		target := query.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "source.kubemq.events":
+	case "source.events":
 		source := events.New()
 		if err := source.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return source, nil
-	case "source.kubemq.events-store":
+	case "source.events-store":
 		source := events_store.New()
 		if err := source.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return source, nil
-	case "source.kubemq.queue":
+	case "queue":
 		source := queue.New()
 		if err := source.Init(ctx, cfg); err != nil {
 			return nil, err
