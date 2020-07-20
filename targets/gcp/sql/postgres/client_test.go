@@ -5,9 +5,42 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
+	"io/ioutil"
 	"testing"
 	"time"
 )
+
+type testStructure struct {
+	instanceConnectionName string
+	dbUser                 string
+	dbPassword             string
+	dbName                 string
+}
+
+func getTestStructure() (*testStructure, error) {
+	t := &testStructure{}
+	dat, err := ioutil.ReadFile("./../../../../credentials/sql/postgresinstanceConnectionName.txt")
+	if err != nil {
+		return nil, err
+	}
+	t.instanceConnectionName = string(dat)
+	dat, err = ioutil.ReadFile("./../../../../credentials/sql/dbUser.txt")
+	if err != nil {
+		return nil, err
+	}
+	t.dbUser = string(dat)
+	dat, err = ioutil.ReadFile("./../../../../credentials/sql/dbPassword.txt")
+	if err != nil {
+		return nil, err
+	}
+	t.dbPassword = string(dat)
+	dat, err = ioutil.ReadFile("./../../../../credentials/sql/postGresDBName.txt")
+	t.dbName = string(dat)
+	if err != nil {
+		return nil, err
+	}
+	return t, nil
+}
 
 type post struct {
 	Id      int    `json:"id"`
@@ -58,6 +91,8 @@ const (
 )
 
 func TestClient_Init(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
 	tests := []struct {
 		name    string
 		cfg     config.Metadata
@@ -66,96 +101,61 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Metadata{
-				Name: "postgres-target",
-				Kind: "",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			wantErr: false,
-		},
-		{
-			name: "init - bad connection string",
+		}, {
+			name: "invalid init - missing db_user",
 			cfg: config.Metadata{
-				Name: "postgres-target",
-				Kind: "",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"connection":                      "",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			wantErr: true,
-		},
-		{
-			name: "init - bad port connection string",
+		},{
+			name: "invalid init - missing db_name",
 			cfg: config.Metadata{
-				Name: "postgres-target",
-				Kind: "",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postsgres@localhost:4000/postgres?sslmode=disable",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			wantErr: true,
-		},
-		{
-			name: "init - no connection string",
+		},{
+			name: "invalid init - missing connection",
 			cfg: config.Metadata{
-				Name: "postgres-target",
-				Kind: "",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			wantErr: true,
-		},
-		{
-			name: "init - bad max idle connections",
+		},{
+			name: "invalid init - missing db_password",
 			cfg: config.Metadata{
-				Name: "postgres-target",
-				Kind: "",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
-					"max_idle_connections":            "-1",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
-				},
-			},
-			wantErr: true,
-		},
-		{
-			name: "init - bad max open connections",
-			cfg: config.Metadata{
-				Name: "postgres-target",
-				Kind: "",
-				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
-					"max_idle_connections":            "",
-					"max_open_connections":            "-1",
-					"connection_max_lifetime_seconds": "",
-				},
-			},
-			wantErr: true,
-		},
-		{
-			name: "init - bad connection max lifetime seconds",
-			cfg: config.Metadata{
-				Name: "postgres-target",
-				Kind: "",
-				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "-1",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_name":                  dat.dbName,
+					"db_user":                  dat.dbUser,
 				},
 			},
 			wantErr: true,
@@ -166,17 +166,23 @@ func TestClient_Init(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
 			c := New()
-
-			if err := c.Init(ctx, tt.cfg); (err != nil) != tt.wantErr {
-				t.Errorf("Init() error = %v, wantExecErr %v", err, tt.wantErr)
+			err = c.Init(ctx, tt.cfg)
+			if tt.wantErr {
+				require.Error(t, err)
+				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
 				return
 			}
 			require.EqualValues(t, tt.cfg.Name, c.Name())
+			require.NoError(t, err)
+			err = c.CloseClient()
+			require.NoError(t, err)
 		})
 	}
 }
 
 func TestClient_Query_Exec_Transaction(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
 	tests := []struct {
 		name              string
 		cfg               config.Metadata
@@ -190,13 +196,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec query request",
 			cfg: config.Metadata{
-				Name: "postgres-target",
-				Kind: "",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -216,13 +222,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "empty exec request",
 			cfg: config.Metadata{
-				Name: "postgres-target",
-				Kind: "",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -236,13 +242,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "invalid exec request",
 			cfg: config.Metadata{
-				Name: "postgres-target",
-				Kind: "",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -257,13 +263,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec empty query request",
 			cfg: config.Metadata{
-				Name: "postgres-target",
-				Kind: "",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -281,13 +287,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec bad query request",
 			cfg: config.Metadata{
-				Name: "postgres-target",
-				Kind: "",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -305,13 +311,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec valid query - no results",
 			cfg: config.Metadata{
-				Name: "postgres-target",
-				Kind: "",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -330,13 +336,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec query request",
 			cfg: config.Metadata{
-				Name: "postgres-target",
-				Kind: "",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -356,13 +362,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "empty transaction request",
 			cfg: config.Metadata{
-				Name: "postgres-target",
-				Kind: "",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -376,13 +382,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "invalid transaction request",
 			cfg: config.Metadata{
-				Name: "postgres-target",
-				Kind: "",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -397,13 +403,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid transaction empty query request",
 			cfg: config.Metadata{
-				Name: "postgres-target",
-				Kind: "",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -426,6 +432,10 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			require.NoError(t, err)
+			defer func() {
+				err = c.CloseClient()
+				require.NoError(t, err)
+			}()
 			gotSetResponse, err := c.Do(ctx, tt.execRequest)
 			if tt.wantExecErr {
 				require.Error(t, err)
@@ -458,6 +468,8 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 }
 
 func TestClient_Do(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
 	tests := []struct {
 		name    string
 		cfg     config.Metadata
@@ -467,13 +479,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request",
 			cfg: config.Metadata{
-				Name: "target.postgres",
-				Kind: "target.postgres",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			request: types.NewRequest().
@@ -485,13 +497,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 2",
 			cfg: config.Metadata{
-				Name: "target.postgres",
-				Kind: "target.postgres",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			request: types.NewRequest().
@@ -503,13 +515,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 3",
 			cfg: config.Metadata{
-				Name: "target.postgres",
-				Kind: "target.postgres",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			request: types.NewRequest().
@@ -521,13 +533,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 3",
 			cfg: config.Metadata{
-				Name: "target.postgres",
-				Kind: "target.postgres",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			request: types.NewRequest().
@@ -539,13 +551,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad method",
 			cfg: config.Metadata{
-				Name: "target.postgres",
-				Kind: "target.postgres",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			request: types.NewRequest().
@@ -555,13 +567,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad isolation level",
 			cfg: config.Metadata{
-				Name: "target.postgres",
-				Kind: "target.postgres",
+				Name: "target.google.postgres",
+				Kind: "target.google.postgres",
 				Properties: map[string]string{
-					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
-					"max_idle_connections":            "",
-					"max_open_connections":            "",
-					"connection_max_lifetime_seconds": "",
+					"instance_connection_name": dat.instanceConnectionName,
+					"db_user":                  dat.dbUser,
+					"db_name":                  dat.dbName,
+					"db_password":              dat.dbPassword,
 				},
 			},
 			request: types.NewRequest().
@@ -578,6 +590,10 @@ func TestClient_Do(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			require.NoError(t, err)
+			defer func() {
+				err = c.CloseClient()
+				require.NoError(t, err)
+			}()
 			_, err = c.Do(ctx, tt.request)
 			if tt.wantErr {
 				require.Error(t, err)
