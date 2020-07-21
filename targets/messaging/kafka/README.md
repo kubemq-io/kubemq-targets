@@ -25,17 +25,18 @@ Example:
 
 ```yaml
 bindings:
-  - name: kubemq-eventstore-kafka
+  - name: kubemq-query-kafka
     source:
-      kind: target.kubemq.event-store
-      name: target-kubemq-event-store
+      kind: source.kubemq.query
+      name: kubemq-query
       properties:
         host: "localhost"
         port: "50000"
-        client_id: "kubemq-query-redis-connector"
+        client_id: "kubemq-query-kafka-connector"
         auth_token: ""
-        channel: "store.kafka"
+        channel: "query.kafka"
         group:   ""
+        concurrency: "1"
         auto_reconnect: "true"
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
@@ -43,8 +44,8 @@ bindings:
       kind: targets.messaging.kafka
       name: kafka-stream
       properties:
-        brokers: "localhost:9092,localhost:9093",
-        topic: "TestTopic",
+        brokers: "localhost:9092",
+        topic: "TestTopic"
 ```
 
 ## Usage

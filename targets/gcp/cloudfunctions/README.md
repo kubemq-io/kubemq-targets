@@ -25,17 +25,18 @@ Example:
 
 ```yaml
 bindings:
-  - name: kubemq-invoke-gcpFunction
+  - name: kubemq-query-kafka
     source:
-      kind: source.kubemq.events
-      name: kubemq-event-source
+      kind: source.kubemq.query
+      name: kubemq-query
       properties:
         host: "localhost"
         port: "50000"
-        client_id: "kubemq-event-gcpfunction-connector"
+        client_id: "kubemq-query-gcpfucntions-connector"
         auth_token: ""
-        channel: "gcp.functions.httptest"
+        channel: "query.gcp.functions"
         group:   ""
+        concurrency: "1"
         auto_reconnect: "true"
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
