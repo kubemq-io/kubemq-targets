@@ -1,12 +1,12 @@
 bindings:
-  - name: kubemq-query-gcp-pubsub
+  - name: kubemq-query-gcp-storage
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
         port: "50000"
-        client_id: "kubemq-query-gcp-firestore-connector"
+        client_id: "kubemq-query-gcp-storage-connector"
         auth_token: ""
         channel: "query.gcp.firestore"
         group:   ""
@@ -15,8 +15,8 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.gcp.firestore
-      name: target-gcp-firestore
+      kind: target.gcp.storage
+      name: target-gcp-storage
       properties:
         project_id: "my_project"
         credentials: 'json'

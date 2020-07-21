@@ -17,12 +17,6 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/pubsub"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/spanner"
 	"github.com/kubemq-hub/kubemq-targets/targets/http"
-	"github.com/kubemq-hub/kubemq-targets/targets/kubemq/command"
-	"github.com/kubemq-hub/kubemq-targets/targets/kubemq/events"
-	events_store "github.com/kubemq-hub/kubemq-targets/targets/kubemq/events-store"
-	"github.com/kubemq-hub/kubemq-targets/targets/kubemq/query"
-	"github.com/kubemq-hub/kubemq-targets/targets/kubemq/queue"
-	"github.com/kubemq-hub/kubemq-targets/targets/logs/elastic"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/activemq"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/kafka"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/mqtt"
@@ -125,42 +119,6 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 		return target, nil
 	case "target.http":
 		target := http.New()
-		if err := target.Init(ctx, cfg); err != nil {
-			return nil, err
-		}
-		return target, nil
-	case "target.kubemq.command":
-		target := command.New()
-		if err := target.Init(ctx, cfg); err != nil {
-			return nil, err
-		}
-		return target, nil
-	case "target.kubemq.query":
-		target := query.New()
-		if err := target.Init(ctx, cfg); err != nil {
-			return nil, err
-		}
-		return target, nil
-	case "target.kubemq.events":
-		target := events.New()
-		if err := target.Init(ctx, cfg); err != nil {
-			return nil, err
-		}
-		return target, nil
-	case "target.kubemq.events-store":
-		target := events_store.New()
-		if err := target.Init(ctx, cfg); err != nil {
-			return nil, err
-		}
-		return target, nil
-	case "target.kubemq.queue":
-		target := queue.New()
-		if err := target.Init(ctx, cfg); err != nil {
-			return nil, err
-		}
-		return target, nil
-	case "target.logs.elastic":
-		target := elastic.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}

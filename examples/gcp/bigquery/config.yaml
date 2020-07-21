@@ -1,7 +1,7 @@
 bindings:
   - name: kubemq-query-gcp-bigquery
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -18,5 +18,5 @@ bindings:
       kind: target.gcp.bigquery
       name: target-gcp-bigquery
       properties:
-        project_id: "some_project"
+        project_id: "id"
         credentials: 'json'
