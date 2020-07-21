@@ -7,6 +7,7 @@ import (
 	"testing"
 )
 
+
 func TestParseMetaData(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)

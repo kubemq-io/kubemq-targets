@@ -13,12 +13,12 @@ const (
 )
 
 type options struct {
-	useProxy               bool
+	useProxy    bool
 	instanceConnectionName string
 	dbUser                 string
 	dbName                 string
 	dbPassword             string
-	connection             string
+	connection string
 	// maxIdleConnections sets the maximum number of connections in the idle connection pool
 	maxIdleConnections int
 	//maxOpenConnections sets the maximum number of open connections to the database.

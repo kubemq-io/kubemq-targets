@@ -10,8 +10,8 @@ const (
 )
 
 type options struct {
-	projectID   string
-	retries     int
+	projectID string
+	retries   int
 	credentials string
 }
 

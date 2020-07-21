@@ -74,8 +74,8 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "google-big-query-target",
-				Kind: "",
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -85,8 +85,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init - missing credentials",
 			cfg: config.Spec{
-				Name: "google-big-query-target",
-				Kind: "",
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 				},
@@ -97,7 +97,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - missing project_id",
 			cfg: config.Spec{
 				Name: "google-big_table-target",
-				Kind: "",
+				Kind: "target.gcp.bigquery",
 				Properties: map[string]string{
 					"credentials": dat.cred,
 				},
@@ -138,8 +138,8 @@ func TestClient_Query(t *testing.T) {
 		{
 			name: "valid query",
 			cfg: config.Spec{
-				Name: "google-big-query-target",
-				Kind: "",
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -152,8 +152,8 @@ func TestClient_Query(t *testing.T) {
 		}, {
 			name: "invalid query - missing query",
 			cfg: config.Spec{
-				Name: "google-big-query-target",
-				Kind: "",
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -165,8 +165,8 @@ func TestClient_Query(t *testing.T) {
 		}, {
 			name: "valid query- empty table",
 			cfg: config.Spec{
-				Name: "google-big-query-target",
-				Kind: "",
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -227,8 +227,8 @@ func TestClient_Create_Table(t *testing.T) {
 		{
 			name: "valid create table",
 			cfg: config.Spec{
-				Name: "google-big-query-target",
-				Kind: "",
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -243,8 +243,8 @@ func TestClient_Create_Table(t *testing.T) {
 		}, {
 			name: "invalid create_table - missing tableName",
 			cfg: config.Spec{
-				Name: "google-big-query-target",
-				Kind: "",
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -258,8 +258,8 @@ func TestClient_Create_Table(t *testing.T) {
 		}, {
 			name: "invalid create_table - table already exists",
 			cfg: config.Spec{
-				Name: "google-big-query-target",
-				Kind: "",
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -274,8 +274,8 @@ func TestClient_Create_Table(t *testing.T) {
 		}, {
 			name: "invalid create_table - missing dataset_id",
 			cfg: config.Spec{
-				Name: "google-big-query-target",
-				Kind: "",
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -323,8 +323,8 @@ func TestClient_Get_Data_Sets(t *testing.T) {
 		{
 			name: "valid get Data-Sets",
 			cfg: config.Spec{
-				Name: "google-big-query-target",
-				Kind: "",
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -371,8 +371,8 @@ func TestClient_Get_Table_Info(t *testing.T) {
 		{
 			name: "valid get table-info",
 			cfg: config.Spec{
-				Name: "google-big-query-target",
-				Kind: "",
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -386,8 +386,8 @@ func TestClient_Get_Table_Info(t *testing.T) {
 		}, {
 			name: "invalid get table-info - missing dataset_id",
 			cfg: config.Spec{
-				Name: "google-big-query-target",
-				Kind: "",
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -400,8 +400,8 @@ func TestClient_Get_Table_Info(t *testing.T) {
 		}, {
 			name: "invalid get table-info - missing table_name",
 			cfg: config.Spec{
-				Name: "google-big-query-target",
-				Kind: "",
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -414,8 +414,8 @@ func TestClient_Get_Table_Info(t *testing.T) {
 		}, {
 			name: "valid get table-info - missing NotExistingTable",
 			cfg: config.Spec{
-				Name: "google-big-query-target",
-				Kind: "",
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -475,8 +475,8 @@ func TestClient_Insert_To_Table(t *testing.T) {
 		{
 			name: "valid insert to table",
 			cfg: config.Spec{
-				Name: "google-big-query-target",
-				Kind: "",
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -488,11 +488,11 @@ func TestClient_Insert_To_Table(t *testing.T) {
 				SetMetadataKeyValue("table_name", dat.tableName).
 				SetData(bRows),
 			wantErr: false,
-		}, {
+		},{
 			name: "invalid insert to table - missing table_name",
 			cfg: config.Spec{
-				Name: "google-big-query-target",
-				Kind: "",
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -503,11 +503,11 @@ func TestClient_Insert_To_Table(t *testing.T) {
 				SetMetadataKeyValue("dataset_id", dat.dataSetID).
 				SetData(bRows),
 			wantErr: true,
-		}, {
+		},{
 			name: "invalid insert to table - missing dataset_id",
 			cfg: config.Spec{
-				Name: "google-big-query-target",
-				Kind: "",
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,

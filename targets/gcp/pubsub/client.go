@@ -34,7 +34,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	}
 	b := []byte(c.opts.credentials)
 
-	client, err := pubsub.NewClient(ctx, c.opts.projectID, option.WithCredentialsJSON(b))
+	client, err := pubsub.NewClient(ctx, c.opts.projectID,option.WithCredentialsJSON(b))
 	if err != nil {
 		return err
 	}

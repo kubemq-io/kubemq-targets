@@ -412,8 +412,8 @@ func TestClient_Delete_Rows(t *testing.T) {
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id":  dat.projectID,
-					"instance":    dat.instance,
+					"project_id": dat.projectID,
+					"instance":   dat.instance,
 					"credentials": dat.cred,
 				},
 			},
@@ -429,8 +429,8 @@ func TestClient_Delete_Rows(t *testing.T) {
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id":  dat.projectID,
-					"instance":    dat.instance,
+					"project_id": dat.projectID,
+					"instance":   dat.instance,
 					"credentials": dat.cred,
 				},
 			},
@@ -445,8 +445,8 @@ func TestClient_Delete_Rows(t *testing.T) {
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id":  dat.projectID,
-					"instance":    dat.instance,
+					"project_id": dat.projectID,
+					"instance":   dat.instance,
 					"credentials": dat.cred,
 				},
 			},
@@ -461,8 +461,8 @@ func TestClient_Delete_Rows(t *testing.T) {
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id":  dat.projectID,
-					"instance":    dat.instance,
+					"project_id": dat.projectID,
+					"instance":   dat.instance,
 					"credentials": dat.cred,
 				},
 			},
@@ -518,8 +518,8 @@ func TestClient_Read_Rows(t *testing.T) {
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id":  dat.projectID,
-					"instance":    dat.instance,
+					"project_id": dat.projectID,
+					"instance":   dat.instance,
 					"credentials": dat.cred,
 				},
 			},
@@ -534,9 +534,9 @@ func TestClient_Read_Rows(t *testing.T) {
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id":  dat.projectID,
+					"project_id": dat.projectID,
 					"credentials": dat.cred,
-					"instance":    dat.instance,
+					"instance":   dat.instance,
 				},
 			},
 			writeRequest: types.NewRequest().
@@ -550,9 +550,9 @@ func TestClient_Read_Rows(t *testing.T) {
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id":  dat.projectID,
+					"project_id": dat.projectID,
 					"credentials": dat.cred,
-					"instance":    dat.instance,
+					"instance":   dat.instance,
 				},
 			},
 			writeRequest: types.NewRequest().
@@ -567,9 +567,9 @@ func TestClient_Read_Rows(t *testing.T) {
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id":  dat.projectID,
+					"project_id": dat.projectID,
 					"credentials": dat.cred,
-					"instance":    dat.instance,
+					"instance":   dat.instance,
 				},
 			},
 			writeRequest: types.NewRequest().
@@ -583,8 +583,8 @@ func TestClient_Read_Rows(t *testing.T) {
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id":  dat.projectID,
-					"instance":    dat.instance,
+					"project_id": dat.projectID,
+					"instance":   dat.instance,
 					"credentials": dat.cred,
 				},
 			},
