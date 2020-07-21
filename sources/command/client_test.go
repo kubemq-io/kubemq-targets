@@ -19,7 +19,7 @@ import (
 func setupClient(ctx context.Context, target middleware.Middleware) (*Client, error) {
 	c := New()
 
-	err := c.Init(ctx, config.Metadata{
+	err := c.Init(ctx, config.Spec{
 		Name: "kubemq-rpc",
 		Kind: "",
 		Properties: map[string]string{
@@ -148,12 +148,12 @@ func TestClient_Init(t *testing.T) {
 
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
@@ -173,7 +173,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - error",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
@@ -202,7 +202,7 @@ func TestClient_Start(t *testing.T) {
 	tests := []struct {
 		name    string
 		target  targets.Target
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
@@ -212,7 +212,7 @@ func TestClient_Start(t *testing.T) {
 				DoError:       nil,
 				ResponseError: nil,
 			},
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
@@ -233,7 +233,7 @@ func TestClient_Start(t *testing.T) {
 		{
 			name:   "start - bad target",
 			target: nil,
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{

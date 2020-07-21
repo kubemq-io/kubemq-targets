@@ -25,7 +25,7 @@ func (c *Client) Name() string {
 	return c.name
 }
 
-func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
+func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
 	var err error
 	c.opts, err = parseOptions(cfg)
@@ -34,7 +34,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	}
 	b := []byte(c.opts.credentials)
 
-	client, err := pubsub.NewClient(ctx, c.opts.projectID,option.WithCredentialsJSON(b))
+	client, err := pubsub.NewClient(ctx, c.opts.projectID, option.WithCredentialsJSON(b))
 	if err != nil {
 		return err
 	}

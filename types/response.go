@@ -73,6 +73,13 @@ func (r *Response) ToResponse() *kubemq.Response {
 		SetBody(r.Data)
 }
 
+func (r *Response) String() string {
+	str, err := json.MarshalToString(r)
+	if err != nil {
+		return ""
+	}
+	return str
+}
 func parseResponse(meta string, body []byte, errText string) (*Response, error) {
 	res := NewResponse()
 	parsedMeta, err := UnmarshallMetadata(meta)

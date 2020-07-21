@@ -3,7 +3,6 @@ package targets
 import (
 	"context"
 	"fmt"
-
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/sqs"
 	"github.com/kubemq-hub/kubemq-targets/targets/cache/memcached"
@@ -14,12 +13,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/pubsub"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/spanner"
 	"github.com/kubemq-hub/kubemq-targets/targets/http"
-	"github.com/kubemq-hub/kubemq-targets/targets/kubemq/command"
-	"github.com/kubemq-hub/kubemq-targets/targets/kubemq/events"
-	events_store "github.com/kubemq-hub/kubemq-targets/targets/kubemq/events-store"
-	"github.com/kubemq-hub/kubemq-targets/targets/kubemq/query"
-	"github.com/kubemq-hub/kubemq-targets/targets/kubemq/queue"
-	"github.com/kubemq-hub/kubemq-targets/targets/logs/elastic"
+
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/activemq"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/kafka"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/mqtt"
@@ -28,6 +22,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/storage/minio"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/cassandra"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/couchbase"
+	"github.com/kubemq-hub/kubemq-targets/targets/stores/elastic"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/mongodb"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/mssql"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/mysql"
@@ -35,17 +30,13 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
-var (
-	errTargetNotImplemented = fmt.Errorf("target not implemented")
-)
-
 type Target interface {
-	Init(ctx context.Context, cfg config.Metadata) error
+	Init(ctx context.Context, cfg config.Spec) error
 	Do(ctx context.Context, request *types.Request) (*types.Response, error)
 	Name() string
 }
 
-func Init(ctx context.Context, cfg config.Metadata) (Target, error) {
+func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 
 	switch cfg.Kind {
 	case "target.aws.sqs":
@@ -98,42 +89,6 @@ func Init(ctx context.Context, cfg config.Metadata) (Target, error) {
 		return target, nil
 	case "target.http":
 		target := http.New()
-		if err := target.Init(ctx, cfg); err != nil {
-			return nil, err
-		}
-		return target, nil
-	case "target.kubemq.command":
-		target := command.New()
-		if err := target.Init(ctx, cfg); err != nil {
-			return nil, err
-		}
-		return target, nil
-	case "target.kubemq.query":
-		target := query.New()
-		if err := target.Init(ctx, cfg); err != nil {
-			return nil, err
-		}
-		return target, nil
-	case "target.kubemq.events":
-		target := events.New()
-		if err := target.Init(ctx, cfg); err != nil {
-			return nil, err
-		}
-		return target, nil
-	case "target.kubemq.events-store":
-		target := events_store.New()
-		if err := target.Init(ctx, cfg); err != nil {
-			return nil, err
-		}
-		return target, nil
-	case "target.kubemq.queue":
-		target := queue.New()
-		if err := target.Init(ctx, cfg); err != nil {
-			return nil, err
-		}
-		return target, nil
-	case "target.logs.elastic":
-		target := elastic.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
@@ -194,6 +149,12 @@ func Init(ctx context.Context, cfg config.Metadata) (Target, error) {
 		return target, nil
 	case "target.stores.postgres":
 		target := postgres.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.stores.elastic-search":
+		target := elastic.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}

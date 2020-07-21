@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"context"
-	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
@@ -18,12 +17,31 @@ func (df DoFunc) Do(ctx context.Context, request *types.Request) (*types.Respons
 
 type MiddlewareFunc func(Middleware) Middleware
 
-func Log(log *logger.Logger) MiddlewareFunc {
+func Log(log *LogMiddleware) MiddlewareFunc {
 	return func(df Middleware) Middleware {
 		return DoFunc(func(ctx context.Context, request *types.Request) (*types.Response, error) {
 			result, err := df.Do(ctx, request)
-			if err != nil {
-				log.Error(err.Error())
+			switch log.minLevel {
+			case "debug":
+				reqStr := ""
+				if request != nil {
+					reqStr = request.String()
+				}
+				resStr := ""
+				if result != nil {
+					resStr = result.String()
+				}
+				log.Infof("request: %s, response: %s, error:%+v", reqStr, resStr, err)
+			case "info":
+				if err != nil {
+					log.Errorf("error processing request: %s", err.Error())
+				} else {
+					log.Infof("request processed with successful response")
+				}
+			case "error":
+				if err != nil {
+					log.Errorf("error processing request: %s", err.Error())
+				}
 			}
 			return result, err
 		})

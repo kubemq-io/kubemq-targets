@@ -13,12 +13,12 @@ const (
 )
 
 type options struct {
-	useProxy    bool
+	useProxy               bool
 	instanceConnectionName string
 	dbUser                 string
 	dbName                 string
 	dbPassword             string
-	connection string
+	connection             string
 	// maxIdleConnections sets the maximum number of connections in the idle connection pool
 	maxIdleConnections int
 	//maxOpenConnections sets the maximum number of open connections to the database.
@@ -27,7 +27,7 @@ type options struct {
 	connectionMaxLifetimeSeconds int
 }
 
-func parseOptions(cfg config.Metadata) (options, error) {
+func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
 

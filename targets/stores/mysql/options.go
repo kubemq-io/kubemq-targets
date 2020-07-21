@@ -22,7 +22,7 @@ type options struct {
 	connectionMaxLifetimeSeconds int
 }
 
-func parseOptions(cfg config.Metadata) (options, error) {
+func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
 	o.connection, err = cfg.MustParseString("connection")

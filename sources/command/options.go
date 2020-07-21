@@ -20,7 +20,7 @@ type options struct {
 	maxReconnects            int
 }
 
-func parseOptions(cfg config.Metadata) (options, error) {
+func parseOptions(cfg config.Spec) (options, error) {
 	m := options{}
 	var err error
 	m.host = cfg.ParseString("host", defaultHost)

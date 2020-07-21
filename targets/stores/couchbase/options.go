@@ -21,7 +21,7 @@ type options struct {
 	collection     string
 }
 
-func parseOptions(cfg config.Metadata) (options, error) {
+func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
 	o.url, err = cfg.MustParseString("url")

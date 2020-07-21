@@ -10,12 +10,12 @@ func TestOptions_parseOptions(t *testing.T) {
 
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "valid options",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
@@ -36,7 +36,7 @@ func TestOptions_parseOptions(t *testing.T) {
 		},
 		{
 			name: "valid options - used default host",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
@@ -57,7 +57,7 @@ func TestOptions_parseOptions(t *testing.T) {
 		},
 		{
 			name: "valid options - used default port",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
@@ -78,7 +78,7 @@ func TestOptions_parseOptions(t *testing.T) {
 		},
 		{
 			name: "invalid options - bad port range",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
@@ -99,7 +99,7 @@ func TestOptions_parseOptions(t *testing.T) {
 		},
 		{
 			name: "invalid options - no channel",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
@@ -120,7 +120,7 @@ func TestOptions_parseOptions(t *testing.T) {
 		},
 		{
 			name: "invalid options - bad concurrency value",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
@@ -141,7 +141,7 @@ func TestOptions_parseOptions(t *testing.T) {
 		},
 		{
 			name: "invalid options - bad concurrency string",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
@@ -162,7 +162,7 @@ func TestOptions_parseOptions(t *testing.T) {
 		},
 		{
 			name: "valid options - bad auto reconnect",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
@@ -183,7 +183,7 @@ func TestOptions_parseOptions(t *testing.T) {
 		},
 		{
 			name: "valid options - bad reconnect interval",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{

@@ -10,12 +10,12 @@ const (
 )
 
 type options struct {
-	projectID string
-	retries   int
+	projectID   string
+	retries     int
 	credentials string
 }
 
-func parseOptions(cfg config.Metadata) (options, error) {
+func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
 	o.projectID, err = cfg.MustParseString("project_id")

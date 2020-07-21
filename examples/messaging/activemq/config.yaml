@@ -1,7 +1,7 @@
 bindings:
   - name: kubemq-query-activemq
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -21,3 +21,5 @@ bindings:
         host: "localhost:61613"
         username: "admin"
         password: "admin"
+    properties:
+      log_level: "error"

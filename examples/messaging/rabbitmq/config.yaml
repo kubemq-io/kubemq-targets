@@ -1,7 +1,7 @@
 bindings:
   - name: kubemq-query-rabbitmq
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -19,3 +19,5 @@ bindings:
       name: target-rabbitmq
       properties:
         url: "amqp://rabbitmq:rabbitmq@localhost:5672/"
+    properties:
+      log_level: "error"

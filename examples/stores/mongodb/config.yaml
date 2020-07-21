@@ -1,7 +1,7 @@
 bindings:
   - name: kubemq-query-mongodb
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -27,3 +27,5 @@ bindings:
         read_concurrency: ""
         params: ""
         operation_timeout_seconds: "2"
+    properties:
+      log_level: "error"

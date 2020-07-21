@@ -6,19 +6,19 @@ import (
 )
 
 type options struct {
-	projectID string
-	instance string
+	projectID   string
+	instance    string
 	credentials string
 }
 
-func parseOptions(cfg config.Metadata) (options, error) {
+func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
-	o.projectID , err = cfg.MustParseString("project_id")
+	o.projectID, err = cfg.MustParseString("project_id")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing project_id, %w", err)
 	}
-	o.instance , err = cfg.MustParseString("instance")
+	o.instance, err = cfg.MustParseString("instance")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing instance, %w", err)
 	}

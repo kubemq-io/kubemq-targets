@@ -76,12 +76,12 @@ func TestClient_Init(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big_table-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -93,7 +93,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: false,
 		}, {
 			name: "init-missing-credentials",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big_table-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -105,7 +105,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init-missing-project-id",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big_table-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -116,7 +116,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init-missing-instance",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big_table-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -151,7 +151,7 @@ func TestClient_Init(t *testing.T) {
 
 func TestClient_Create_Column_Family(t *testing.T) {
 	dat, err := getTestStructure()
-	cfg2 := config.Metadata{
+	cfg2 := config.Spec{
 		Name: "google-big-table-target",
 		Kind: "",
 		Properties: map[string]string{
@@ -163,13 +163,13 @@ func TestClient_Create_Column_Family(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		request *types.Request
 		wantErr bool
 	}{
 		{
 			name: "valid create create-column-family",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -185,7 +185,7 @@ func TestClient_Create_Column_Family(t *testing.T) {
 			wantErr: false,
 		}, {
 			name: "invalid create-column-family -invalid type",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -201,7 +201,7 @@ func TestClient_Create_Column_Family(t *testing.T) {
 			wantErr: true,
 		}, {
 			name: "invalid create-column-family- already exists",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -241,7 +241,7 @@ func TestClient_Create_Column_Family(t *testing.T) {
 func TestClient_Create_Delete_Table(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
-	cfg2 := config.Metadata{
+	cfg2 := config.Spec{
 		Name: "google-big-table-target",
 		Kind: "",
 		Properties: map[string]string{
@@ -253,7 +253,7 @@ func TestClient_Create_Delete_Table(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name      string
-		cfg       config.Metadata
+		cfg       config.Spec
 		request   *types.Request
 		wantError bool
 	}{
@@ -327,14 +327,14 @@ func TestClient_write(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name              string
-		cfg               config.Metadata
+		cfg               config.Spec
 		writeRequest      *types.Request
 		wantWriteResponse *types.Response
 		wantWriteErr      bool
 	}{
 		{
 			name: "valid single write",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -354,7 +354,7 @@ func TestClient_write(t *testing.T) {
 		},
 		{
 			name: "valid single write",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -402,18 +402,18 @@ func TestClient_Delete_Rows(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name          string
-		cfg           config.Metadata
+		cfg           config.Spec
 		deleteRequest *types.Request
 		wantErr       bool
 	}{
 		{
 			name: "valid delete rows",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
-					"instance":   dat.instance,
+					"project_id":  dat.projectID,
+					"instance":    dat.instance,
 					"credentials": dat.cred,
 				},
 			},
@@ -425,12 +425,12 @@ func TestClient_Delete_Rows(t *testing.T) {
 		},
 		{
 			name: "invalid delete rows - missing row_key_prefix",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
-					"instance":   dat.instance,
+					"project_id":  dat.projectID,
+					"instance":    dat.instance,
 					"credentials": dat.cred,
 				},
 			},
@@ -441,12 +441,12 @@ func TestClient_Delete_Rows(t *testing.T) {
 		},
 		{
 			name: "invalid delete rows - missing table name",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
-					"instance":   dat.instance,
+					"project_id":  dat.projectID,
+					"instance":    dat.instance,
 					"credentials": dat.cred,
 				},
 			},
@@ -457,12 +457,12 @@ func TestClient_Delete_Rows(t *testing.T) {
 		},
 		{
 			name: "invalid delete rows - table doesnt exists",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
-					"instance":   dat.instance,
+					"project_id":  dat.projectID,
+					"instance":    dat.instance,
 					"credentials": dat.cred,
 				},
 			},
@@ -508,18 +508,18 @@ func TestClient_Read_Rows(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name         string
-		cfg          config.Metadata
+		cfg          config.Spec
 		writeRequest *types.Request
 		wantErr      bool
 	}{
 		{
 			name: "valid read all rows",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
-					"instance":   dat.instance,
+					"project_id":  dat.projectID,
+					"instance":    dat.instance,
 					"credentials": dat.cred,
 				},
 			},
@@ -530,13 +530,13 @@ func TestClient_Read_Rows(t *testing.T) {
 		},
 		{
 			name: "valid read all rows by keys",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
+					"project_id":  dat.projectID,
 					"credentials": dat.cred,
-					"instance":   dat.instance,
+					"instance":    dat.instance,
 				},
 			},
 			writeRequest: types.NewRequest().
@@ -546,13 +546,13 @@ func TestClient_Read_Rows(t *testing.T) {
 			wantErr: false,
 		}, {
 			name: "valid read all rows - column_filter",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
+					"project_id":  dat.projectID,
 					"credentials": dat.cred,
-					"instance":   dat.instance,
+					"instance":    dat.instance,
 				},
 			},
 			writeRequest: types.NewRequest().
@@ -563,13 +563,13 @@ func TestClient_Read_Rows(t *testing.T) {
 		},
 		{
 			name: "valid read all rows by keys - column_filter",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
+					"project_id":  dat.projectID,
 					"credentials": dat.cred,
-					"instance":   dat.instance,
+					"instance":    dat.instance,
 				},
 			},
 			writeRequest: types.NewRequest().
@@ -579,12 +579,12 @@ func TestClient_Read_Rows(t *testing.T) {
 			wantErr: false,
 		}, {
 			name: "invalid read all rows - column_filter - missing column_name",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": dat.projectID,
-					"instance":   dat.instance,
+					"project_id":  dat.projectID,
+					"instance":    dat.instance,
 					"credentials": dat.cred,
 				},
 			},
@@ -595,7 +595,7 @@ func TestClient_Read_Rows(t *testing.T) {
 			wantErr: true,
 		}, {
 			name: "valid read row",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big-table-target",
 				Kind: "",
 				Properties: map[string]string{

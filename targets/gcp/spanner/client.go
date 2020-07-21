@@ -30,7 +30,7 @@ func (c *Client) Name() string {
 	return c.name
 }
 
-func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
+func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
 	c.log = logger.NewLogger(cfg.Name)
 	var err error
@@ -39,13 +39,13 @@ func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 		return err
 	}
 	b := []byte(c.opts.credentials)
-	adminClient, err := database.NewDatabaseAdminClient(ctx,option.WithCredentialsJSON(b))
+	adminClient, err := database.NewDatabaseAdminClient(ctx, option.WithCredentialsJSON(b))
 	if err != nil {
 		return err
 	}
 
 	c.adminClient = adminClient
-	Client, err := spanner.NewClient(ctx, c.opts.db,option.WithCredentialsJSON(b))
+	Client, err := spanner.NewClient(ctx, c.opts.db, option.WithCredentialsJSON(b))
 	if err != nil {
 		return err
 	}

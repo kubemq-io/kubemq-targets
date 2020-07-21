@@ -16,20 +16,26 @@ type Binder struct {
 	source sources.Source
 	target targets.Target
 	md     middleware.Middleware
+	opts   options
 }
 
-func New() *Binder {
+func NewBinder() *Binder {
 	return &Binder{}
 }
 func (b *Binder) Init(ctx context.Context, cfg config.BindingConfig) error {
 	var err error
 	b.name = cfg.Name
 	b.log = logger.NewLogger(b.name)
+	b.opts, err = parseOptions(cfg.Properties)
+	if err != nil {
+		return fmt.Errorf("error parsing binding %s options", cfg.Name)
+	}
 	b.target, err = targets.Init(ctx, cfg.Target)
 	if err != nil {
 		return fmt.Errorf("error loading target conntector %s on binding %s, %w", cfg.Target.Name, b.name, err)
 	}
-	b.md = middleware.Chain(b.target)
+	lm := middleware.NewLogMiddleware(cfg.Name, b.opts.logLevel)
+	b.md = middleware.Chain(b.target, middleware.Log(lm))
 	b.source, err = sources.Init(ctx, cfg.Source)
 	if err != nil {
 		return fmt.Errorf("error loading source conntector %s on binding %s, %w", cfg.Source.Name, b.name, err)

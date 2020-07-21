@@ -22,24 +22,24 @@ func TestClient_Init(t *testing.T) {
 	credentials := fmt.Sprintf("%s", dat)
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-pubsub-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project_id": projectID,
-					"retries":    "0",
+					"project_id":  projectID,
+					"retries":     "0",
 					"credentials": credentials,
 				},
 			},
 			wantErr: false,
-		},{
+		}, {
 			name: "init-missing-credentials",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-pubsub-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -51,11 +51,11 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init-missing-project-id",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-pubsub-target",
 				Kind: "",
 				Properties: map[string]string{
-					"retries": "0",
+					"retries":     "0",
 					"credentials": credentials,
 				},
 			},
@@ -93,19 +93,19 @@ func TestClient_Do(t *testing.T) {
 	credentials := fmt.Sprintf("%s", dat)
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		request *types.Request
 		want    *types.Response
 		wantErr bool
 	}{
 		{
 			name: "valid google-pubsub sent",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.pubsub",
 				Kind: "target.google.pubsub",
 				Properties: map[string]string{
-					"project_id": projectID,
-					"retries":    "0",
+					"project_id":  projectID,
+					"retries":     "0",
 					"credentials": credentials,
 				},
 			},
@@ -119,12 +119,12 @@ func TestClient_Do(t *testing.T) {
 			wantErr: false,
 		}, {
 			name: "missing topic google-pubsub sent",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.pubsub",
 				Kind: "target.google.pubsub",
 				Properties: map[string]string{
-					"project_id": projectID,
-					"retries":    "0",
+					"project_id":  projectID,
+					"retries":     "0",
 					"credentials": credentials,
 				},
 			},
@@ -165,16 +165,16 @@ func TestClient_list(t *testing.T) {
 	credentials := fmt.Sprintf("%s", dat)
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "valid google-pubsub-list",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.pubsub",
 				Kind: "target.google.pubsub",
 				Properties: map[string]string{
-					"project_id": projectID,
+					"project_id":  projectID,
 					"credentials": credentials,
 				},
 			},

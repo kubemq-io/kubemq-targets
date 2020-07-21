@@ -1,7 +1,7 @@
 bindings:
   - name: kubemq-query-http
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -20,3 +20,5 @@ bindings:
       properties:
         auth_type: "no-auth"
         default_headers: '{"Content-Type":"application/json"}'
+    properties:
+      log_level: "error"

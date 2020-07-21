@@ -23,12 +23,12 @@ func replaceHeaderValues(req *types.Request) {
 func TestClient_Init(t *testing.T) {
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kafka-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -57,14 +57,14 @@ func TestClient_Init(t *testing.T) {
 func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name         string
-		cfg          config.Metadata
+		cfg          config.Spec
 		request      *types.Request
 		wantResponse *types.Response
 		wantErr      bool
 	}{
 		{
 			name: "valid publish request ",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kafka-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -82,7 +82,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "valid publish request with headers",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kafka-target",
 				Kind: "",
 				Properties: map[string]string{

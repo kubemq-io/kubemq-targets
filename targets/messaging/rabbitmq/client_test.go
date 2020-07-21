@@ -12,12 +12,12 @@ import (
 func TestClient_Init(t *testing.T) {
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "rabbitmq-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -28,7 +28,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad url",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "rabbitmq-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -38,7 +38,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		}, {
 			name: "init - no url",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name:       "rabbitmq-target",
 				Kind:       "",
 				Properties: map[string]string{},
@@ -64,14 +64,14 @@ func TestClient_Init(t *testing.T) {
 func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name         string
-		cfg          config.Metadata
+		cfg          config.Spec
 		request      *types.Request
 		wantResponse *types.Response
 		wantErr      bool
 	}{
 		{
 			name: "valid publish request with confirmation",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "rabbitmq-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -91,7 +91,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "valid publish request without confirmation",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "rabbitmq-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -110,7 +110,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid publish request - no queue",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "rabbitmq-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -125,7 +125,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid publish request - bad delivery mode",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "rabbitmq-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -142,7 +142,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid publish request - bad priority",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "rabbitmq-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -159,7 +159,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid publish request - bad expiry",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "rabbitmq-target",
 				Kind: "",
 				Properties: map[string]string{
