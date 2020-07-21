@@ -1,7 +1,9 @@
 package middleware
 
 import (
+	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
+	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
 type LogLevelType string
@@ -13,15 +15,26 @@ const (
 	LogLevelTypeError LogLevelType = "error"
 )
 
+var logLevelMap = map[string]string{
+	"debug": "debug",
+	"info":  "info",
+	"error": "error",
+	"":      "",
+}
+
 type LogMiddleware struct {
 	minLevel LogLevelType
 	*logger.Logger
 }
 
-func NewLogMiddleware(name, level string) *LogMiddleware {
+func NewLogMiddleware(name string, meta types.Metadata) (*LogMiddleware, error) {
 	lm := &LogMiddleware{
 		minLevel: LogLevelTypeNoLog,
 		Logger:   logger.NewLogger(name),
+	}
+	level, err := meta.ParseStringMap("log_level", logLevelMap)
+	if err != nil {
+		return nil, fmt.Errorf("invalid log level value, %w", err)
 	}
 	switch level {
 	case "debug":
@@ -31,5 +44,5 @@ func NewLogMiddleware(name, level string) *LogMiddleware {
 	case "error":
 		lm.minLevel = LogLevelTypeError
 	}
-	return lm
+	return lm, nil
 }
