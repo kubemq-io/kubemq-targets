@@ -93,3 +93,8 @@ func (c *Client) list(ctx context.Context) (*types.Response, error) {
 			SetMetadataKeyValue("result", "ok"),
 		nil
 }
+
+func (c *Client) CloseClient() error {
+	return c.client.Close()
+}
+
