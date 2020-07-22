@@ -14,6 +14,8 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/firestore"
 	gcpmemcached "github.com/kubemq-hub/kubemq-targets/targets/gcp/memorystore/memcached"
 	gcpredis "github.com/kubemq-hub/kubemq-targets/targets/gcp/memorystore/redis"
+	gcppostgres "github.com/kubemq-hub/kubemq-targets/targets/gcp/sql/postgres"
+	gcpmysql "github.com/kubemq-hub/kubemq-targets/targets/gcp/sql/mysql"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/pubsub"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/spanner"
 	"github.com/kubemq-hub/kubemq-targets/targets/http"
@@ -94,7 +96,13 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 		}
 		return target, nil
 	case "target.gcp.stores.postgres":
-		target := firestore.New()
+		target := gcppostgres.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.gcp.stores.mysql":
+		target := gcpmysql.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
