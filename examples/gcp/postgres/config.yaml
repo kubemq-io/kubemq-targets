@@ -18,10 +18,10 @@ bindings:
       kind: target.gcp.stores.postgres
       name: target-gcp-postgres
       properties:
-        instance_connection_name: "instanceConnectionName",
-        db_user:                  "user",
-        db_name:                  "dbName",
-        db_password:              "dbPassword",
+        instance_connection_name: "instanceConnectionName"
+        db_user:                  "user"
+        db_name:                  "dbName"
+        db_password:              "dbPassword"
         max_idle_connections: "10"
         max_open_connections: "100"
         connection_max_lifetime_seconds: "3600"
