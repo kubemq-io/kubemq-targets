@@ -1,5 +1,5 @@
 bindings:
-  - name: kubemq-gcp-query-memcached
+  - name: kubemq-query-gcp-memcached
     source:
       kind: source.query
       name: kubemq-query

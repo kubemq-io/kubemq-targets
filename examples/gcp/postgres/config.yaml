@@ -1,5 +1,5 @@
 bindings:
-  - name: kubemq-query-postgres
+  - name: kubemq-query-gcp-postgres
     source:
       kind: source.query
       name: kubemq-query
