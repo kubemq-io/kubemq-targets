@@ -3,12 +3,14 @@ package targets
 import (
 	"context"
 	"fmt"
+
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/sqs"
 	"github.com/kubemq-hub/kubemq-targets/targets/cache/memcached"
 	"github.com/kubemq-hub/kubemq-targets/targets/cache/redis"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/bigquery"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/bigtable"
+	"github.com/kubemq-hub/kubemq-targets/targets/gcp/cloudfunctions"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/firestore"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/pubsub"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/spanner"
@@ -65,6 +67,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 		return target, nil
 	case "target.gcp.bigtable":
 		target := bigtable.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.gcp.cloudfunctions":
+		target := cloudfunctions.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}

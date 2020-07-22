@@ -19,12 +19,12 @@ func TestClient_Init(t *testing.T) {
 	credentials := fmt.Sprintf("%s", dat)
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-pubsub-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -35,7 +35,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: false,
 		}, {
 			name: "init-missing-credentials",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-pubsub-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -46,7 +46,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init-missing-project-id",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-pubsub-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -81,14 +81,14 @@ func TestClient_Do(t *testing.T) {
 	credentials := fmt.Sprintf("%s", c)
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		request *types.Request
 		want    *types.Response
 		wantErr bool
 	}{
 		{
 			name: "valid google-function sent",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.pubsub",
 				Kind: "target.google.pubsub",
 				Properties: map[string]string{
@@ -106,7 +106,7 @@ func TestClient_Do(t *testing.T) {
 
 		{
 			name: "valid google-function sent",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.pubsub",
 				Kind: "target.google.pubsub",
 				Properties: map[string]string{
@@ -123,7 +123,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "valid google-pubsub sent",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.pubsub",
 				Kind: "target.google.pubsub",
 				Properties: map[string]string{
@@ -141,7 +141,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "missing  google-function location with no match",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.pubsub",
 				Kind: "target.google.pubsub",
 				Properties: map[string]string{
