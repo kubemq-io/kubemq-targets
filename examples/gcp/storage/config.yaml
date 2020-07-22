@@ -8,7 +8,7 @@ bindings:
         port: "50000"
         client_id: "kubemq-query-gcp-storage-connector"
         auth_token: ""
-        channel: "query.gcp.firestore"
+        channel: "query.gcp.storage"
         group:   ""
         concurrency: "1"
         auto_reconnect: "true"
@@ -18,5 +18,5 @@ bindings:
       kind: target.gcp.storage
       name: target-gcp-storage
       properties:
-        project_id: "my_project"
+        project_id: "test"
         credentials: 'json'
