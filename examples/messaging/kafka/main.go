@@ -3,11 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
+	"time"
+
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/kubemq-io/kubemq-go"
 	"github.com/nats-io/nuid"
-	"log"
-	"time"
 )
 
 func main() {
@@ -19,11 +20,11 @@ func main() {
 		log.Fatal(err)
 	}
 	publishRequest := types.NewRequest().
-			SetMetadataKeyValue("Key", "S2V5").
-			SetData([]byte("new-data")),
+		SetMetadataKeyValue("Key", "S2V5").
+		SetData([]byte("new-data"))
 	queryPublishResponse, err := client.SetQuery(publishRequest.ToQuery()).
-				SetChannel("query.kafka").
-				SetTimeout(10 * time.Second).Send(context.Background())
+		SetChannel("query.kafka").
+		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)
 	}
