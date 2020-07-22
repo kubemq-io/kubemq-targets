@@ -13,6 +13,7 @@ const (
 )
 
 type options struct {
+	credentials string
 	useProxy    bool
 	instanceConnectionName string
 	dbUser                 string
@@ -48,6 +49,10 @@ func parseOptions(cfg config.Spec) (options, error) {
 		o.dbPassword, err = cfg.MustParseString("db_password")
 		if err != nil {
 			return options{}, fmt.Errorf("error parsing db_password string, %w", err)
+		}
+		o.credentials, err = cfg.MustParseString("credentials")
+		if err != nil {
+			return options{}, err
 		}
 	} else {
 		o.connection, err = cfg.MustParseString("connection")
