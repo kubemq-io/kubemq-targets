@@ -2,12 +2,13 @@ package mysql
 
 import (
 	"context"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
-	"github.com/stretchr/testify/require"
 	"io/ioutil"
 	"testing"
 	"time"
+
+	"github.com/kubemq-hub/kubemq-target-connectors/config"
+	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/stretchr/testify/require"
 )
 
 type testStructure struct {
@@ -101,12 +102,12 @@ func TestClient_Init(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
@@ -119,7 +120,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: false,
 		}, {
 			name: "invalid init - missing db_user",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
@@ -129,9 +130,9 @@ func TestClient_Init(t *testing.T) {
 				},
 			},
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid init - missing db_name",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
@@ -141,21 +142,21 @@ func TestClient_Init(t *testing.T) {
 				},
 			},
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid init - missing connection",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
-					"db_user":                  dat.dbUser,
-					"db_name":                  dat.dbName,
-					"db_password":              dat.dbPassword,
+					"db_user":     dat.dbUser,
+					"db_name":     dat.dbName,
+					"db_password": dat.dbPassword,
 				},
 			},
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid init - missing db_password",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
@@ -191,7 +192,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name              string
-		cfg               config.Metadata
+		cfg               config.Spec
 		execRequest       *types.Request
 		queryRequest      *types.Request
 		wantExecResponse  *types.Response
@@ -201,7 +202,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 	}{
 		{
 			name: "valid exec query request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
@@ -227,7 +228,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		},
 		{
 			name: "empty exec request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
@@ -248,7 +249,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		},
 		{
 			name: "invalid exec request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
@@ -269,7 +270,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		},
 		{
 			name: "valid exec empty query request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
@@ -293,7 +294,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		},
 		{
 			name: "valid exec bad query request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
@@ -317,7 +318,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		},
 		{
 			name: "valid exec valid query - no results",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
@@ -342,7 +343,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		},
 		{
 			name: "valid exec query request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
@@ -368,7 +369,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		},
 		{
 			name: "empty transaction request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
@@ -388,7 +389,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		},
 		{
 			name: "invalid transaction request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
@@ -409,7 +410,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		},
 		{
 			name: "valid transaction empty query request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
@@ -475,13 +476,13 @@ func TestClient_Do(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		request *types.Request
 		wantErr bool
 	}{
 		{
 			name: "valid request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
@@ -499,7 +500,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "valid request - 2",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
@@ -517,7 +518,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "valid request - 3",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
@@ -535,7 +536,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "valid request - 3",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
@@ -553,7 +554,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid request - bad method",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
@@ -569,7 +570,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid request - bad isolation level",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.mysql",
 				Kind: "target.google.mysql",
 				Properties: map[string]string{
