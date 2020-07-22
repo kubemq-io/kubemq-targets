@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
 	gf "github.com/kubemq-hub/kubemq-targets/targets/gcp/cloudfunctions/functions/apiv1"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"google.golang.org/api/iterator"
@@ -15,6 +16,7 @@ import (
 
 type Client struct {
 	name           string
+	log            *logger.Logger
 	opts           options
 	client         *gf.CloudFunctionsClient
 	parrantProject string
@@ -32,6 +34,7 @@ func (c *Client) Name() string {
 
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
+	c.log = logger.NewLogger(cfg.Name)
 	var err error
 
 	c.opts, err = parseOptions(cfg)
@@ -59,7 +62,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 				break
 			}
 			if err != nil {
-				// TODO: Handle error.
+				c.log.Errorf("error parsing existing functions %s", err.Error())
 			}
 			if resp != nil {
 				c.list = append(c.list, resp.GetName())
