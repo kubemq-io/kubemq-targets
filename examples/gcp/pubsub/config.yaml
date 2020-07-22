@@ -18,6 +18,6 @@ bindings:
       kind: target.gcp.pubsub
       name: target-gcp-pubsub
       properties:
-        host: "localhost:6379"
-        password: 'json'
-        enable_tls: "false"
+        project_id: "projectID",
+        retries:    "0",
+        credentials: 'json',
