@@ -1,3 +1,4 @@
+apiPort: 8081
 bindings:
 #  - name: kubemq-query-redis
 #    source:
@@ -23,6 +24,11 @@ bindings:
 #        enable_tls: "false"
 #    properties:
 #      log_level: "error"
+#      rate_per_seconds: "1"
+#      retry_attempts:  "3"
+#      retry_delay_milliseconds :      "100"
+#      retry_max_jitter_milliseconds: "100"
+#      retry_delay_type: "fixed"
 #  - name: kubemq-query-memcached
 #    source:
 #      kind: source.query
@@ -377,3 +383,8 @@ bindings:
         sniff: "false"
     properties:
       log_level: "debug"
+      rate_per_seconds: "10"
+      retry_attempts:  "3"
+      retry_delay_milliseconds :      "100"
+      retry_max_jitter_milliseconds: "100"
+      retry_delay_type: "fixed"

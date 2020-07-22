@@ -72,7 +72,9 @@ func (r *Response) ToResponse() *kubemq.Response {
 		SetMetadata(r.Metadata.String()).
 		SetBody(r.Data)
 }
-
+func (r *Response) Size() float64 {
+	return float64(len(r.Data))
+}
 func (r *Response) String() string {
 	str, err := json.MarshalToString(r)
 	if err != nil {

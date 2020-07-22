@@ -31,11 +31,13 @@ require (
 	github.com/minio/minio-go/v7 v7.0.0-20200623213017-e5cd2d129325
 	github.com/nats-io/nuid v1.0.1
 	github.com/olivere/elastic/v7 v7.0.17
+	github.com/prometheus/client_golang v0.9.3
 	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.7.0
 	github.com/streadway/amqp v1.0.0
 	github.com/stretchr/testify v1.6.1
 	go.mongodb.org/mongo-driver v1.3.4
+	go.uber.org/atomic v1.6.0
 	go.uber.org/zap v1.10.0
 	google.golang.org/api v0.28.0
 	google.golang.org/genproto v0.0.0-20200626011028-ee7919e894b5

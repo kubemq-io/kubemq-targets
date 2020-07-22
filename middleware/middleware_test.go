@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
+	"github.com/kubemq-hub/kubemq-targets/pkg/metrics"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
 	"math"
@@ -318,6 +319,113 @@ func TestClient_Retry(t *testing.T) {
 				require.NotNil(t, resp)
 			}
 
+		})
+	}
+}
+func TestClient_Metric(t *testing.T) {
+	exporter, err := metrics.NewExporter()
+	require.NoError(t, err)
+
+	tests := []struct {
+		name       string
+		mock       *mockTarget
+		cfg        config.BindingConfig
+		wantReport *metrics.Report
+		wantErr    bool
+	}{
+		{
+			name: "no error request",
+			mock: &mockTarget{
+				request:  types.NewRequest().SetData([]byte("data")),
+				response: types.NewResponse().SetData([]byte("data")),
+				err:      nil,
+				delay:    0,
+				executed: 0,
+			},
+			cfg: config.BindingConfig{
+				Name: "b-1",
+				Source: config.Spec{
+					Name:       "sn",
+					Kind:       "sk",
+					Properties: nil,
+				},
+				Target: config.Spec{
+					Name:       "tn",
+					Kind:       "tk",
+					Properties: nil,
+				},
+				Properties: nil,
+			},
+			wantReport: &metrics.Report{
+				Key:            "b-1-sn-sk-tn-tk",
+				Binding:        "b-1",
+				SourceName:     "sn",
+				SourceKind:     "sk",
+				TargetName:     "tn",
+				TargetKind:     "tk",
+				RequestCount:   1,
+				RequestVolume:  4,
+				ResponseCount:  1,
+				ResponseVolume: 4,
+				ErrorsCount:    0,
+			},
+			wantErr: false,
+		},
+		{
+			name: "error request",
+			mock: &mockTarget{
+				request:  types.NewRequest().SetData([]byte("data")),
+				response: nil,
+				err:      fmt.Errorf("some-error"),
+				delay:    0,
+				executed: 0,
+			},
+			cfg: config.BindingConfig{
+				Name: "b-2",
+				Source: config.Spec{
+					Name:       "sn",
+					Kind:       "sk",
+					Properties: nil,
+				},
+				Target: config.Spec{
+					Name:       "tn",
+					Kind:       "tk",
+					Properties: nil,
+				},
+				Properties: nil,
+			},
+			wantReport: &metrics.Report{
+				Key:            "b-2-sn-sk-tn-tk",
+				Binding:        "b-2",
+				SourceName:     "sn",
+				SourceKind:     "sk",
+				TargetName:     "tn",
+				TargetKind:     "tk",
+				RequestCount:   1,
+				RequestVolume:  4,
+				ResponseCount:  0,
+				ResponseVolume: 0,
+				ErrorsCount:    1,
+			},
+			wantErr: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+			defer cancel()
+			m, err := NewMetricsMiddleware(tt.cfg, exporter)
+			if tt.wantErr {
+				require.Error(t, err)
+				return
+			}
+			require.NoError(t, err)
+
+			md := Chain(tt.mock, Metric(m))
+			_, _ = md.Do(ctx, tt.mock.request)
+			storedReport := exporter.Store.Get(tt.wantReport.Key)
+			require.EqualValues(t, tt.wantReport, storedReport)
 		})
 	}
 }
