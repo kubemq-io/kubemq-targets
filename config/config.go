@@ -4,16 +4,17 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/ghodss/yaml"
-	"github.com/spf13/pflag"
-	"github.com/spf13/viper"
 	"io/ioutil"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/ghodss/yaml"
+	"github.com/spf13/pflag"
+	"github.com/spf13/viper"
 )
 
-var configFile = pflag.String("config", "", "set config file name")
+var configFile = pflag.String("config", "config.yaml", "set config file name")
 
 type Config struct {
 	Bindings []BindingConfig `json:"bindings"`
