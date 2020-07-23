@@ -73,7 +73,27 @@ func Retry(r *RetryMiddleware) MiddlewareFunc {
 		})
 	}
 }
-
+func Metric(m *MetricsMiddleware) MiddlewareFunc {
+	return func(df Middleware) Middleware {
+		return DoFunc(func(ctx context.Context, request *types.Request) (*types.Response, error) {
+			resp, err := df.Do(ctx, request)
+			m.clearReport()
+			if request != nil {
+				m.metricReport.RequestVolume = request.Size()
+				m.metricReport.RequestCount = 1
+			}
+			if resp != nil {
+				m.metricReport.ResponseVolume = resp.Size()
+				m.metricReport.ResponseCount = 1
+			}
+			if err != nil {
+				m.metricReport.ErrorsCount = 1
+			}
+			m.exporter.Report(m.metricReport)
+			return resp, err
+		})
+	}
+}
 func Chain(md Middleware, list ...MiddlewareFunc) Middleware {
 	chain := md
 	for _, middleware := range list {

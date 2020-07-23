@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
+	"github.com/kubemq-hub/kubemq-targets/pkg/metrics"
+	"net/http"
 	"sync"
 )
 
@@ -12,6 +14,7 @@ type Service struct {
 	sync.Mutex
 	bindings map[string]*Binder
 	log      *logger.Logger
+	exporter *metrics.Exporter
 }
 
 func New() *Service {
@@ -22,6 +25,11 @@ func New() *Service {
 	}
 }
 func (s *Service) Start(ctx context.Context, cfg *config.Config) error {
+	var err error
+	s.exporter, err = metrics.NewExporter()
+	if err != nil {
+		return fmt.Errorf("failed to to initialized metrics exporter, %w", err)
+	}
 	wg := sync.WaitGroup{}
 	wg.Add(len(cfg.Bindings))
 	for _, bindingCfg := range cfg.Bindings {
@@ -58,7 +66,7 @@ func (s *Service) Add(ctx context.Context, cfg config.BindingConfig) error {
 		return fmt.Errorf("duplicate binding name")
 	}
 	binder := NewBinder()
-	err := binder.Init(ctx, cfg)
+	err := binder.Init(ctx, cfg, s.exporter)
 	if err != nil {
 		return err
 	}
@@ -83,4 +91,11 @@ func (s *Service) Remove(name string) error {
 	}
 	delete(s.bindings, name)
 	return nil
+}
+
+func (s *Service) PrometheusHandler() http.Handler {
+	return s.exporter.PrometheusHandler()
+}
+func (s *Service) Stats() []*metrics.Report {
+	return s.exporter.Store.List()
 }

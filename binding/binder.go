@@ -6,6 +6,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/middleware"
 	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
+	"github.com/kubemq-hub/kubemq-targets/pkg/metrics"
 	"github.com/kubemq-hub/kubemq-targets/sources"
 	"github.com/kubemq-hub/kubemq-targets/targets"
 )
@@ -21,7 +22,7 @@ type Binder struct {
 func NewBinder() *Binder {
 	return &Binder{}
 }
-func (b *Binder) buildMiddleware(cfg config.BindingConfig) (middleware.Middleware, error) {
+func (b *Binder) buildMiddleware(cfg config.BindingConfig, exporter *metrics.Exporter) (middleware.Middleware, error) {
 	log, err := middleware.NewLogMiddleware(cfg.Name, cfg.Properties)
 	if err != nil {
 		return nil, err
@@ -34,10 +35,14 @@ func (b *Binder) buildMiddleware(cfg config.BindingConfig) (middleware.Middlewar
 	if err != nil {
 		return nil, err
 	}
-	md := middleware.Chain(b.target, middleware.RateLimiter(rateLimiter), middleware.Retry(retry), middleware.Log(log))
+	met, err := middleware.NewMetricsMiddleware(cfg, exporter)
+	if err != nil {
+		return nil, err
+	}
+	md := middleware.Chain(b.target, middleware.RateLimiter(rateLimiter), middleware.Retry(retry), middleware.Metric(met), middleware.Log(log))
 	return md, nil
 }
-func (b *Binder) Init(ctx context.Context, cfg config.BindingConfig) error {
+func (b *Binder) Init(ctx context.Context, cfg config.BindingConfig, exporter *metrics.Exporter) error {
 	var err error
 	b.name = cfg.Name
 	b.log = logger.NewLogger(b.name)
@@ -46,7 +51,7 @@ func (b *Binder) Init(ctx context.Context, cfg config.BindingConfig) error {
 		return fmt.Errorf("error loading target conntector %s on binding %s, %w", cfg.Target.Name, b.name, err)
 	}
 
-	b.md, err = b.buildMiddleware(cfg)
+	b.md, err = b.buildMiddleware(cfg, exporter)
 	if err != nil {
 		return fmt.Errorf("error loading middlewares %s on binding %s, %w", cfg.Target.Name, b.name, err)
 	}

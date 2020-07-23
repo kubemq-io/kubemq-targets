@@ -53,9 +53,7 @@ type state struct {
 }
 
 type limiter struct {
-	state   unsafe.Pointer
-	padding [56]byte // cache line size - state pointer size = 64 - 8; created to avoid false sharing
-
+	state      unsafe.Pointer
 	perRequest time.Duration
 	maxSlack   time.Duration
 	clock      Clock

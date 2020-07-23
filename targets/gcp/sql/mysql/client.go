@@ -9,6 +9,14 @@ import (
 	"time"
 
 	"github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/dialers/mysql"
+	"github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/proxy"
+	_ "github.com/go-sql-driver/mysql"
+	jsoniter "github.com/json-iterator/go"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
+	"golang.org/x/oauth2/google"
+
+	"github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/dialers/mysql"
 	_ "github.com/go-sql-driver/mysql"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/kubemq-hub/kubemq-targets/config"
@@ -31,6 +39,7 @@ func (c *Client) Name() string {
 	return c.name
 }
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
+
 	c.name = cfg.Name
 	var err error
 	c.opts, err = parseOptions(cfg)
@@ -38,6 +47,11 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		return err
 	}
 	if c.opts.useProxy {
+		b := []byte(c.opts.credentials)
+		con, err := google.JWTConfigFromJSON(b, proxy.SQLScope)
+		client := con.Client(ctx)
+		proxy.Init(client, nil, nil)
+
 		cfg := mysql.Cfg(c.opts.instanceConnectionName, c.opts.dbUser, c.opts.dbPassword)
 		cfg.DBName = c.opts.dbName
 		c.db, err = mysql.DialCfg(cfg)

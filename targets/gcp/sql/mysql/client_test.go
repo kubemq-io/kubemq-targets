@@ -2,9 +2,14 @@ package mysql
 
 import (
 	"context"
+	"fmt"
 	"io/ioutil"
 	"testing"
 	"time"
+
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/stretchr/testify/require"
 
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
@@ -16,6 +21,7 @@ type testStructure struct {
 	dbUser                 string
 	dbPassword             string
 	dbName                 string
+	cred                   string
 }
 
 func getTestStructure() (*testStructure, error) {
@@ -40,6 +46,11 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
+	dat, err = ioutil.ReadFile("./../../../../credentials/google_cred.json")
+	if err != nil {
+		return nil, err
+	}
+	t.cred = fmt.Sprintf("%s", dat)
 	return t, nil
 }
 
@@ -115,6 +126,7 @@ func TestClient_Init(t *testing.T) {
 					"db_user":                  dat.dbUser,
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
+					"credentials":              dat.cred,
 				},
 			},
 			wantErr: false,
@@ -127,6 +139,7 @@ func TestClient_Init(t *testing.T) {
 					"instance_connection_name": dat.instanceConnectionName,
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
+					"credentials":              dat.cred,
 				},
 			},
 			wantErr: true,
@@ -139,6 +152,7 @@ func TestClient_Init(t *testing.T) {
 					"instance_connection_name": dat.instanceConnectionName,
 					"db_user":                  dat.dbUser,
 					"db_password":              dat.dbPassword,
+					"credentials":              dat.cred,
 				},
 			},
 			wantErr: true,
@@ -151,6 +165,7 @@ func TestClient_Init(t *testing.T) {
 					"db_user":     dat.dbUser,
 					"db_name":     dat.dbName,
 					"db_password": dat.dbPassword,
+					"credentials":              dat.cred,
 				},
 			},
 			wantErr: true,
@@ -163,6 +178,7 @@ func TestClient_Init(t *testing.T) {
 					"instance_connection_name": dat.instanceConnectionName,
 					"db_name":                  dat.dbName,
 					"db_user":                  dat.dbUser,
+					"credentials":              dat.cred,
 				},
 			},
 			wantErr: true,
@@ -210,6 +226,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_user":                  dat.dbUser,
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
+					"credentials":              dat.cred,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -236,6 +253,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_user":                  dat.dbUser,
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
+					"credentials":              dat.cred,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -257,6 +275,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_user":                  dat.dbUser,
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
+					"credentials":              dat.cred,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -278,6 +297,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_user":                  dat.dbUser,
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
+					"credentials":              dat.cred,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -302,6 +322,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_user":                  dat.dbUser,
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
+					"credentials":              dat.cred,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -326,6 +347,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_user":                  dat.dbUser,
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
+					"credentials":              dat.cred,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -351,6 +373,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_user":                  dat.dbUser,
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
+					"credentials":              dat.cred,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -377,6 +400,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_user":                  dat.dbUser,
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
+					"credentials":              dat.cred,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -397,6 +421,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_user":                  dat.dbUser,
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
+					"credentials":              dat.cred,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -418,6 +443,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_user":                  dat.dbUser,
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
+					"credentials":              dat.cred,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -490,6 +516,7 @@ func TestClient_Do(t *testing.T) {
 					"db_user":                  dat.dbUser,
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
+					"credentials":              dat.cred,
 				},
 			},
 			request: types.NewRequest().
@@ -508,6 +535,7 @@ func TestClient_Do(t *testing.T) {
 					"db_user":                  dat.dbUser,
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
+					"credentials":              dat.cred,
 				},
 			},
 			request: types.NewRequest().
@@ -526,6 +554,7 @@ func TestClient_Do(t *testing.T) {
 					"db_user":                  dat.dbUser,
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
+					"credentials":              dat.cred,
 				},
 			},
 			request: types.NewRequest().
@@ -544,11 +573,13 @@ func TestClient_Do(t *testing.T) {
 					"db_user":                  dat.dbUser,
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
+					"credentials":              dat.cred,
 				},
 			},
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "transaction").
 				SetMetadataKeyValue("isolation_level", "serializable").
+
 				SetData([]byte(createPostTable)),
 			wantErr: false,
 		},
@@ -562,6 +593,7 @@ func TestClient_Do(t *testing.T) {
 					"db_user":                  dat.dbUser,
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
+					"credentials":              dat.cred,
 				},
 			},
 			request: types.NewRequest().
@@ -578,6 +610,7 @@ func TestClient_Do(t *testing.T) {
 					"db_user":                  dat.dbUser,
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
+					"credentials":              dat.cred,
 				},
 			},
 			request: types.NewRequest().

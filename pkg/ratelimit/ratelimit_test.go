@@ -1,7 +1,6 @@
 package ratelimit_test
 
 import (
-	"fmt"
 	"sync"
 	"testing"
 	"time"
@@ -13,37 +12,13 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func ExampleRatelimit() {
-	rl := ratelimit.New(100) // per second
-
-	prev := time.Now()
-	for i := 0; i < 10; i++ {
-		now := rl.Take()
-		if i > 0 {
-			fmt.Println(i, now.Sub(prev))
-		}
-		prev = now
-	}
-
-	// Output:
-	// 1 10ms
-	// 2 10ms
-	// 3 10ms
-	// 4 10ms
-	// 5 10ms
-	// 6 10ms
-	// 7 10ms
-	// 8 10ms
-	// 9 10ms
-}
-
 func TestUnlimited(t *testing.T) {
 	now := time.Now()
 	rl := ratelimit.NewUnlimited()
 	for i := 0; i < 1000; i++ {
 		rl.Take()
 	}
-	assert.Condition(t, func() bool { return time.Now().Sub(now) < 1*time.Millisecond }, "no artificial delay")
+	assert.Condition(t, func() bool { return time.Since(now) < 1*time.Millisecond }, "no artificial delay")
 }
 
 func TestRateLimiter(t *testing.T) {

@@ -19,10 +19,10 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "memcached-target",
-				Kind: "",
+				Name: "target-gcp-memcached",
+				Kind: "target.gcp.cache.memcached",
 				Properties: map[string]string{
-					"hosts":                   "localhost:11211",
+					"hosts":                   "localhost:31211",
 					"max_idle_connections":    "2",
 					"default_timeout_seconds": "10",
 				},
@@ -32,8 +32,8 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init - error no connection",
 			cfg: config.Spec{
-				Name: "google-memcached-target",
-				Kind: "",
+				Name: "target-gcp-memcached",
+				Kind: "target.gcp.cache.memcached",
 				Properties: map[string]string{
 					"hosts":                   "localhost:3000",
 					"max_idle_connections":    "2",
@@ -45,8 +45,8 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init - bad options - invalid hosts",
 			cfg: config.Spec{
-				Name: "google-memcached-target",
-				Kind: "",
+				Name: "target-gcp-memcached",
+				Kind: "target.gcp.cache.memcached",
 				Properties: map[string]string{
 					"max_idle_connections":    "2",
 					"default_timeout_seconds": "10",
@@ -57,8 +57,8 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init - bad options - invalid max idle connection",
 			cfg: config.Spec{
-				Name: "google-memcached-target",
-				Kind: "",
+				Name: "target-gcp-memcached",
+				Kind: "target.gcp.cache.memcached",
 				Properties: map[string]string{
 					"hosts":                   "localhost:11211",
 					"max_idle_connections":    "-1",
@@ -70,8 +70,8 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init - bad options - invalid default timeout seconds",
 			cfg: config.Spec{
-				Name: "google-memcached-target",
-				Kind: "",
+				Name: "target-gcp-memcached",
+				Kind: "target.gcp.cache.memcached",
 				Properties: map[string]string{
 					"hosts":                   "localhost:11211",
 					"max_idle_connections":    "2",
@@ -157,8 +157,8 @@ func TestClient_Set_Get(t *testing.T) {
 				SetMetadataKeyValue("key", "some-key").
 				SetMetadataKeyValue("result", "ok"),
 			wantGetResponse: nil,
-			wantSetErr:      false,
-			wantGetErr:      true,
+			wantSetErr: false,
+			wantGetErr: true,
 		},
 	}
 	for _, tt := range tests {
@@ -226,7 +226,7 @@ func TestClient_Delete(t *testing.T) {
 	gotGetResponse, err = c.Do(ctx, getRequest)
 	require.Error(t, err)
 	require.Nil(t, gotGetResponse)
-}
+	}
 func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name    string

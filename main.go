@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/kubemq-hub/kubemq-targets/api"
 	"github.com/kubemq-hub/kubemq-targets/binding"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
@@ -42,8 +43,14 @@ func run() error {
 	if err != nil {
 		return err
 	}
+	apiServer, err := api.Start(ctx, cfg.ApiPort, bindingsService)
+	if err != nil {
+		return err
+	}
 	<-gracefulShutdown
+	apiServer.Stop()
 	bindingsService.Stop()
+
 	return nil
 }
 func main() {

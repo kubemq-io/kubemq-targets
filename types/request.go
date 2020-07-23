@@ -33,6 +33,9 @@ func (r *Request) SetData(value []byte) *Request {
 	r.Data = value
 	return r
 }
+func (r *Request) Size() float64 {
+	return float64(len(r.Data))
+}
 
 func ParseRequest(body []byte) (*Request, error) {
 	if body == nil {

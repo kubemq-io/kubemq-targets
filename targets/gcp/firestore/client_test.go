@@ -28,8 +28,8 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "google-firestore-target",
-				Kind: "",
+				Name: "target-gcp-firestore",
+				Kind: "target.gcp.firestore",
 				Properties: map[string]string{
 					"project_id":  projectID,
 					"credentials": credentials,
@@ -39,8 +39,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "init-missing-credentials",
 			cfg: config.Spec{
-				Name: "google-firestore-target",
-				Kind: "",
+				Name: "target-gcp-firestore",
+				Kind: "target.gcp.firestore",
 				Properties: map[string]string{
 					"project_id": projectID,
 				},
@@ -50,7 +50,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init-missing-project-id",
 			cfg: config.Spec{
-				Name:       "google-firestore-target",
+				Name:       "target-gcp-firestore",
 				Kind:       "",
 				Properties: map[string]string{},
 			},
@@ -104,8 +104,8 @@ func TestClient_Set_Get(t *testing.T) {
 		{
 			name: "valid set get request",
 			cfg: config.Spec{
-				Name: "google-firestore-target",
-				Kind: "",
+				Name: "target-gcp-firestore",
+				Kind: "target.gcp.firestore",
 				Properties: map[string]string{
 					"project_id":  projectID,
 					"credentials": credentials,
@@ -176,8 +176,8 @@ func TestClient_Delete(t *testing.T) {
 		{
 			name: "valid delete request",
 			cfg: config.Spec{
-				Name: "google-firestore-target",
-				Kind: "",
+				Name: "target-gcp-firestore",
+				Kind: "target.gcp.firestore",
 				Properties: map[string]string{
 					"project_id":  projectID,
 					"credentials": credentials,
@@ -189,15 +189,14 @@ func TestClient_Delete(t *testing.T) {
 				SetMetadataKeyValue("collection", "myCollection"),
 			wantDeleteRequest: types.NewResponse().
 				SetMetadataKeyValue("result", "ok").
-				SetMetadataKeyValue("error", "false").
 				SetMetadataKeyValue("item", deleteKey).
 				SetMetadataKeyValue("collection", "myCollection"),
 			wantErr: false,
 		}, {
-			name: "invalid delete request",
+			name: "invalid delete request - missing item",
 			cfg: config.Spec{
-				Name: "google-firestore-target",
-				Kind: "",
+				Name: "target-gcp-firestore",
+				Kind: "target.gcp.firestore",
 				Properties: map[string]string{
 					"project_id":  projectID,
 					"credentials": credentials,
@@ -205,7 +204,6 @@ func TestClient_Delete(t *testing.T) {
 			},
 			deleteRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "delete_document_key").
-				SetMetadataKeyValue("item", "fake-key").
 				SetMetadataKeyValue("collection", "myCollection"),
 			wantDeleteRequest: types.NewResponse().
 				SetMetadataKeyValue("result", "ok").

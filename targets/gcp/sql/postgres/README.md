@@ -27,7 +27,7 @@ Example:
 bindings:
   - name: kubemq-query-postgres
     source:
-      kind: source.query
+      kind: source.kubemq.query
       name: kubemq-query
       properties:
         host: "localhost"

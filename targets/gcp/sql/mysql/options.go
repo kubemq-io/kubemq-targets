@@ -5,6 +5,8 @@ import (
 	"math"
 
 	"github.com/kubemq-hub/kubemq-targets/config"
+
+	"github.com/kubemq-hub/kubemq-targets/config"
 )
 
 const (
@@ -20,6 +22,7 @@ type options struct {
 	dbPassword             string
 	useProxy               bool
 	connection             string
+	credentials            string
 	// maxIdleConnections sets the maximum number of connections in the idle connection pool
 	maxIdleConnections int
 	//maxOpenConnections sets the maximum number of open connections to the database.
@@ -49,6 +52,10 @@ func parseOptions(cfg config.Spec) (options, error) {
 		o.dbPassword, err = cfg.MustParseString("db_password")
 		if err != nil {
 			return options{}, fmt.Errorf("error parsing db_password string, %w", err)
+		}
+		o.credentials, err = cfg.MustParseString("credentials")
+		if err != nil {
+			return options{}, err
 		}
 	} else {
 		o.connection, err = cfg.MustParseString("connection")

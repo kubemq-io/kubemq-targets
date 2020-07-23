@@ -38,6 +38,8 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		return err
 	}
 	c.client = client
+
+
 	return nil
 }
 
@@ -150,4 +152,8 @@ func (c *Client) list(ctx context.Context) (*types.Response, error) {
 			SetData(data).
 			SetMetadataKeyValue("result", "ok"),
 		nil
+}
+
+func (c *Client) CloseClient() error {
+	return c.client.Close()
 }

@@ -25,7 +25,7 @@ Example:
 bindings:
   - name: kubemq-query-redis
     source:
-      kind: source.query
+      kind: source.kubemq.query
       name: kubemq-query
       properties:
         host: "localhost"

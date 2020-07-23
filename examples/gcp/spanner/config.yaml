@@ -1,0 +1,22 @@
+bindings:
+  - name: kubemq-query-gcp-bigquery
+    source:
+      kind: source.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-gcp-spanner-connector"
+        auth_token: ""
+        channel: "query.gcp.spanner"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.gcp.spanner
+      name: target-gcp-spanner
+      properties:
+        db: "id"
+        credentials: 'json'
