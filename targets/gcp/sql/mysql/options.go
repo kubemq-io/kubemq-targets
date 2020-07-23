@@ -2,7 +2,7 @@ package mysql
 
 import (
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
+	"github.com/kubemq-hub/kubemq-targets/config"
 	"math"
 )
 
@@ -19,6 +19,7 @@ type options struct {
 	dbPassword             string
 	useProxy               bool
 	connection             string
+	credentials            string
 	// maxIdleConnections sets the maximum number of connections in the idle connection pool
 	maxIdleConnections int
 	//maxOpenConnections sets the maximum number of open connections to the database.
@@ -27,7 +28,7 @@ type options struct {
 	connectionMaxLifetimeSeconds int
 }
 
-func parseOptions(cfg config.Metadata) (options, error) {
+func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
 
@@ -48,6 +49,10 @@ func parseOptions(cfg config.Metadata) (options, error) {
 		o.dbPassword, err = cfg.MustParseString("db_password")
 		if err != nil {
 			return options{}, fmt.Errorf("error parsing db_password string, %w", err)
+		}
+		o.credentials, err = cfg.MustParseString("credentials")
+		if err != nil {
+			return options{}, err
 		}
 	} else {
 		o.connection, err = cfg.MustParseString("connection")

@@ -3,6 +3,8 @@ package targets
 import (
 	"context"
 	"fmt"
+	"github.com/kubemq-hub/kubemq-targets/targets/gcp/storage"
+
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/sqs"
 	"github.com/kubemq-hub/kubemq-targets/targets/cache/memcached"
@@ -10,10 +12,13 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/bigquery"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/bigtable"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/firestore"
+	gcpmemcached "github.com/kubemq-hub/kubemq-targets/targets/gcp/memorystore/memcached"
+	gcpredis "github.com/kubemq-hub/kubemq-targets/targets/gcp/memorystore/redis"
+	gcppostgres "github.com/kubemq-hub/kubemq-targets/targets/gcp/sql/postgres"
+	gcpmysql "github.com/kubemq-hub/kubemq-targets/targets/gcp/sql/mysql"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/pubsub"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/spanner"
 	"github.com/kubemq-hub/kubemq-targets/targets/http"
-
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/activemq"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/kafka"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/mqtt"
@@ -22,12 +27,15 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/storage/minio"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/cassandra"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/couchbase"
-	"github.com/kubemq-hub/kubemq-targets/targets/stores/elastic"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/mongodb"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/mssql"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/mysql"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/postgres"
 	"github.com/kubemq-hub/kubemq-targets/types"
+)
+
+var (
+	errTargetNotImplemented = fmt.Errorf("target not implemented")
 )
 
 type Target interface {
@@ -57,6 +65,18 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 			return nil, err
 		}
 		return target, nil
+	case "target.gcp.cache.memcached":
+		target := gcpmemcached.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.gcp.cache.redis":
+		target := gcpredis.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
 	case "target.gcp.bigquery":
 		target := bigquery.New()
 		if err := target.Init(ctx, cfg); err != nil {
@@ -75,6 +95,18 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 			return nil, err
 		}
 		return target, nil
+	case "target.gcp.stores.postgres":
+		target := gcppostgres.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.gcp.stores.mysql":
+		target := gcpmysql.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
 	case "target.gcp.pubsub":
 		target := pubsub.New()
 		if err := target.Init(ctx, cfg); err != nil {
@@ -83,6 +115,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 		return target, nil
 	case "target.gcp.spanner":
 		target := spanner.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.gcp.storage":
+		target := storage.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
@@ -149,12 +187,6 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 		return target, nil
 	case "target.stores.postgres":
 		target := postgres.New()
-		if err := target.Init(ctx, cfg); err != nil {
-			return nil, err
-		}
-		return target, nil
-	case "target.stores.elastic-search":
-		target := elastic.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}

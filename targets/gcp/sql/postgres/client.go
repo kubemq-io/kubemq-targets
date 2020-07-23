@@ -5,10 +5,12 @@ import (
 	"database/sql"
 	"fmt"
 	_ "github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/dialers/postgres"
+	"github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/proxy"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	_ "github.com/lib/pq"
+	"golang.org/x/oauth2/google"
 	"strings"
 	"time"
 )
@@ -36,6 +38,11 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		return err
 	}
 	if c.opts.useProxy {
+		b := []byte(c.opts.credentials)
+		con, err := google.JWTConfigFromJSON(b, proxy.SQLScope)
+		client := con.Client(ctx)
+		proxy.Init(client, nil, nil)
+
 		dsn := fmt.Sprintf("host=%s dbname=%s user=%s password=%s sslmode=disable",
 			c.opts.instanceConnectionName,
 			c.opts.dbName,

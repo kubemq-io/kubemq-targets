@@ -37,7 +37,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	}
 	b := []byte(c.opts.credentials)
 
-	client, err := storage.NewClient(ctx, option.WithCredentialsJSON(b))
+	client, err := storage.NewClient(ctx,option.WithCredentialsJSON(b))
 	if err != nil {
 		return err
 	}

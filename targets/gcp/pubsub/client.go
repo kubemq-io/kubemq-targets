@@ -34,7 +34,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	}
 	b := []byte(c.opts.credentials)
 
-	client, err := pubsub.NewClient(ctx, c.opts.projectID, option.WithCredentialsJSON(b))
+	client, err := pubsub.NewClient(ctx, c.opts.projectID,option.WithCredentialsJSON(b))
 	if err != nil {
 		return err
 	}
@@ -93,3 +93,8 @@ func (c *Client) list(ctx context.Context) (*types.Response, error) {
 			SetMetadataKeyValue("result", "ok"),
 		nil
 }
+
+func (c *Client) CloseClient() error {
+	return c.client.Close()
+}
+

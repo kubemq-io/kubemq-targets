@@ -55,10 +55,10 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "google-spanner-target",
-				Kind: "",
+				Name: "target.gcp.spanner",
+				Kind: "target.gcp.spanner",
 				Properties: map[string]string{
-					"db":          dat.db,
+					"db": dat.db,
 					"credentials": dat.cred,
 				},
 			},
@@ -67,18 +67,18 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "invalid init - missing db",
 			cfg: config.Spec{
-				Name: "google-spanner-target",
-				Kind: "",
+				Name: "target.gcp.spanner",
+				Kind: "target.gcp.spanner",
 				Properties: map[string]string{
 					"credentials": dat.cred,
 				},
 			},
 			wantErr: true,
-		}, {
+		},{
 			name: "invalid init - missing credentials",
 			cfg: config.Spec{
-				Name: "google-spanner-target",
-				Kind: "",
+				Name: "target.gcp.spanner",
+				Kind: "target.gcp.spanner",
 				Properties: map[string]string{
 					"db": dat.db,
 				},
@@ -112,10 +112,10 @@ func TestClient_Query(t *testing.T) {
 	require.NoError(t, err)
 
 	cfg := config.Spec{
-		Name: "google-spanner-target",
-		Kind: "",
+		Name: "target.gcp.spanner",
+		Kind: "target.gcp.spanner",
 		Properties: map[string]string{
-			"db":          dat.db,
+			"db": dat.db,
 			"credentials": dat.cred,
 		},
 	}
@@ -173,10 +173,10 @@ func TestClient_Read(t *testing.T) {
 	b, err := json.Marshal(columnNames)
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "google-spanner-target",
-		Kind: "",
+		Name: "target.gcp.spanner",
+		Kind: "target.gcp.spanner",
 		Properties: map[string]string{
-			"db":          dat.db,
+			"db": dat.db,
 			"credentials": dat.cred,
 		},
 	}
@@ -196,7 +196,7 @@ func TestClient_Read(t *testing.T) {
 		{
 			name: "invalid read - missing data",
 			queryRequest: types.NewRequest().
-				SetMetadataKeyValue("method", "read").
+				SetMetadataKeyValue("method",  "read").
 				SetMetadataKeyValue("table_name", dat.tableName),
 			wantErr: true,
 		},
@@ -242,10 +242,10 @@ func TestClient_Insert(t *testing.T) {
 	scnInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values, []string{"INT64", "STRING"}}
 	var inputs []InsertOrUpdate
 	cfg := config.Spec{
-		Name: "google-spanner-target",
-		Kind: "",
+		Name: "target.gcp.spanner",
+		Kind: "target.gcp.spanner",
 		Properties: map[string]string{
-			"db":          dat.db,
+			"db": dat.db,
 			"credentials": dat.cred,
 		},
 	}
@@ -306,10 +306,10 @@ func TestClient_Update(t *testing.T) {
 	scnInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values, []string{"INT64", "STRING"}}
 	var inputs []InsertOrUpdate
 	cfg := config.Spec{
-		Name: "google-spanner-target",
-		Kind: "",
+		Name: "target.gcp.spanner",
+		Kind: "target.gcp.spanner",
 		Properties: map[string]string{
-			"db":          dat.db,
+			"db": dat.db,
 			"credentials": dat.cred,
 		},
 	}
@@ -363,12 +363,12 @@ func TestClient_UpdateDatabaseDdl(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	var statements []string
-	statements = append(statements, "mystatment")
+	statements = append(statements,"mystatment")
 	cfg := config.Spec{
-		Name: "google-spanner-target",
-		Kind: "",
+		Name: "target.gcp.spanner",
+		Kind: "target.gcp.spanner",
 		Properties: map[string]string{
-			"db":          dat.db,
+			"db": dat.db,
 			"credentials": dat.cred,
 		},
 	}
@@ -428,10 +428,10 @@ func TestClient_InsertOrUpdate(t *testing.T) {
 	scnInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values, []string{"INT64", "STRING"}}
 	var inputs []InsertOrUpdate
 	cfg := config.Spec{
-		Name: "google-spanner-target",
-		Kind: "",
+		Name: "target.gcp.spanner",
+		Kind: "target.gcp.spanner",
 		Properties: map[string]string{
-			"db":          dat.db,
+			"db": dat.db,
 			"credentials": dat.cred,
 		},
 	}

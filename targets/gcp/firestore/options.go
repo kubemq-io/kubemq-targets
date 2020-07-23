@@ -6,7 +6,7 @@ import (
 )
 
 type options struct {
-	projectID   string
+	projectID string
 	credentials string
 }
 

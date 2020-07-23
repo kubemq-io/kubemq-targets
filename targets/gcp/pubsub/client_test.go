@@ -28,20 +28,20 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "google-pubsub-target",
-				Kind: "",
+				Name: "target-gcp-pubsub",
+				Kind: "target.gcp.pubsub",
 				Properties: map[string]string{
-					"project_id":  projectID,
-					"retries":     "0",
+					"project_id": projectID,
+					"retries":    "0",
 					"credentials": credentials,
 				},
 			},
 			wantErr: false,
-		}, {
+		},{
 			name: "init-missing-credentials",
 			cfg: config.Spec{
-				Name: "google-pubsub-target",
-				Kind: "",
+				Name: "target-gcp-pubsub",
+				Kind: "target.gcp.pubsub",
 				Properties: map[string]string{
 					"project_id": projectID,
 					"retries":    "0",
@@ -52,10 +52,10 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init-missing-project-id",
 			cfg: config.Spec{
-				Name: "google-pubsub-target",
-				Kind: "",
+				Name: "target-gcp-pubsub",
+				Kind: "target.gcp.pubsub",
 				Properties: map[string]string{
-					"retries":     "0",
+					"retries": "0",
 					"credentials": credentials,
 				},
 			},
@@ -86,7 +86,7 @@ func TestClient_Do(t *testing.T) {
 	projectID := string(dat)
 	dat, err = ioutil.ReadFile("./../../../credentials/topicID.txt")
 	require.NoError(t, err)
-	TopicID := string(dat)
+	topicID := string(dat)
 	validBody, _ := json.Marshal("valid body")
 	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
 	require.NoError(t, err)
@@ -101,17 +101,17 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid google-pubsub sent",
 			cfg: config.Spec{
-				Name: "target.google.pubsub",
-				Kind: "target.google.pubsub",
+				Name: "target-gcp-pubsub",
+				Kind: "target.gcp.pubsub",
 				Properties: map[string]string{
-					"project_id":  projectID,
-					"retries":     "0",
+					"project_id": projectID,
+					"retries":    "0",
 					"credentials": credentials,
 				},
 			},
 			request: types.NewRequest().
 				SetMetadataKeyValue("tags", `{"tag-1":"test","tag-2":"test2"}`).
-				SetMetadataKeyValue("topic_id", TopicID).
+				SetMetadataKeyValue("topic_id", topicID).
 				SetData(validBody),
 			want: types.NewResponse().
 				SetData(validBody),
@@ -120,11 +120,11 @@ func TestClient_Do(t *testing.T) {
 		}, {
 			name: "missing topic google-pubsub sent",
 			cfg: config.Spec{
-				Name: "target.google.pubsub",
-				Kind: "target.google.pubsub",
+				Name: "target-gcp-pubsub",
+				Kind: "target.gcp.pubsub",
 				Properties: map[string]string{
-					"project_id":  projectID,
-					"retries":     "0",
+					"project_id": projectID,
+					"retries":    "0",
 					"credentials": credentials,
 				},
 			},
@@ -171,10 +171,10 @@ func TestClient_list(t *testing.T) {
 		{
 			name: "valid google-pubsub-list",
 			cfg: config.Spec{
-				Name: "target.google.pubsub",
-				Kind: "target.google.pubsub",
+				Name: "target-gcp-pubsub",
+				Kind: "target.gcp.pubsub",
 				Properties: map[string]string{
-					"project_id":  projectID,
+					"project_id": projectID,
 					"credentials": credentials,
 				},
 			},

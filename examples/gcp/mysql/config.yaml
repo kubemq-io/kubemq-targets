@@ -1,0 +1,28 @@
+bindings:
+  - name: kubemq-query-gcp-mysql
+    source:
+      kind: source.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-mysql-connector"
+        auth_token: ""
+        channel: "query.mysql"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.gcp.stores.mysql
+      name: target-gcp-mysql
+      properties:
+        instance_connection_name: "test"
+        db_user:                  "test"
+        db_name:                  "test"
+        db_password:              "Test123"
+        max_idle_connections: "10"
+        max_open_connections: "100"
+        connection_max_lifetime_seconds: "3600"
+        credentials: 'json'

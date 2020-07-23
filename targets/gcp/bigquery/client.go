@@ -36,7 +36,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		return err
 	}
 	b := []byte(c.opts.credentials)
-	Client, err := bigquery.NewClient(ctx, c.opts.projectID, option.WithCredentialsJSON(b))
+	Client, err := bigquery.NewClient(ctx, c.opts.projectID,option.WithCredentialsJSON(b))
 	if err != nil {
 		return err
 	}
