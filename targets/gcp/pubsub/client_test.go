@@ -129,7 +129,7 @@ func TestClient_Do(t *testing.T) {
 				},
 			},
 			request: types.NewRequest().
-				SetMetadataKeyValue("topic_id", `{"tag-1":"test","tag-2":"test2"}`).
+				SetMetadataKeyValue("tags", `{"tag-1":"test","tag-2":"test2"}`).
 				SetData(validBody),
 			want: types.NewResponse().
 				SetData(validBody),

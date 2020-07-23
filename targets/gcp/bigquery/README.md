@@ -1,22 +1,22 @@
-# Kubemq bigquery Source Connector
+# Kubemq bigquery target Connector
 
-Kubemq gcp-bigquery source connector allows services using kubemq server to access google bigquery server.
+Kubemq gcp-bigquery target connector allows services using kubemq server to access google bigquery server.
 
 ## Prerequisites
 The following are required to run the gcp-bigquery target connector:
 
 - kubemq cluster
 - gcp-bigquery set up
-- kubemq-targets deployment
+- kubemq-source deployment
 
 ## Configuration
 
-bigquery source connector configuration properties:
+bigquery target connector configuration properties:
 
-| Properties Key | Required | Description                                | Example          |
-|:---------------|:---------|:-------------------------------------------|:-----------------|
-| project_id        | yes      | gcp bigquery project_id                    | "<googleurl>/myproject" |
-| credentials       | yes      | gcp credentials files                      | "<google json credentials"      |
+| Properties Key | Required | Description                                | Example                    |
+|:---------------|:---------|:-------------------------------------------|:---------------------------|
+| project_id     | yes      | gcp bigquery project_id                    | "<googleurl>/myproject"    |
+| credentials    | yes      | gcp credentials files                      | "<google json credentials" |
 
 Example:
 
@@ -49,12 +49,12 @@ bindings:
 
 ### Query Request
 
-query metadata setting:
+Query metadata setting:
 
-| Metadata Key | Required | Description                             | Possible values                         |
-|:-------------|:---------|:----------------------------------------|:----------------------------------------|
-| method          | yes      | type of method               | "query"                                  |
-| query           | yes      | the query body               | "select * from table" |
+| Metadata Key | Required | Description                  | Possible values       |
+|:-------------|:---------|:-----------------------------|:----------------------|
+| method       | yes      | type of method               | "query"               |
+| query        | yes      | the query body               | "select * from table" |
 
 
 Example:
@@ -66,5 +66,120 @@ Example:
     "query": "select * from table"
   },
   "data": null
+}
+```
+
+
+### Create Table Request
+
+Create table metadata setting:
+
+| Metadata Key | Required | Description                             | Possible values       |
+|:-------------|:---------|:----------------------------------------|:----------------------|
+| method       | yes      | type of method                          | "create_table"        |
+| dataset_id   | yes      | dataset to assign the table to          | "<your data set ID>"  |
+| table_name   | yes      | table name                              | "<unique table name>" |
+
+
+Example:
+
+```json
+{
+  "metadata": {
+    "method": "create_table",
+    "dataset_id": "<mySet>",
+    "table_name": "<myTable>",
+    "query": "select * from table"
+  },
+  "data": null
+}
+```
+
+
+
+### Get DataSets Request
+
+Get DataSets setting:
+
+| Metadata Key | Required | Description                             | Possible values   |
+|:-------------|:---------|:----------------------------------------|:------------------|
+| method       | yes      | type of method                          | "get_data_sets"   |
+
+
+Example:
+
+```json
+{
+  "metadata": {
+    "method": "get_data_sets"
+  },
+  "data": null
+}
+```
+
+### Get Table Info
+
+Get table Info
+
+| Metadata Key | Required | Description                             | Possible values       |
+|:-------------|:---------|:----------------------------------------|:----------------------|
+| method       | yes      | type of method                          | "get_table_info"      |
+| dataset_id   | yes      | dataset to assign the table to          | "<your data set ID>"  |
+| table_name   | yes      | table name                              | "<unique table name>" |
+
+
+Example:
+
+```json
+{
+  "metadata": {
+    "method": "get_table_info",
+    "dataset_id": "<mySet>",
+    "table_name": "<myTable>",
+    "query": "select * from table"
+  },
+  "data": null
+}
+```
+
+
+### Insert To Table
+
+Insert To Table this method required a body of rows of string[bigquery.value]
+
+
+
+Example how to create the struct:
+```go
+    var rows:= []map[string]bigquery.Value
+	firstRow := make(map[string]bigquery.Value)
+	firstRow["name"] = "myName4"
+	firstRow["age"] = 25
+	rows = append(rows, firstRow)
+	secondRow := make(map[string]bigquery.Value)
+	secondRow["name"] = "myName5"
+	secondRow["age"] = 28
+	rows = append(rows, secondRow)
+	bRows, err := json.Marshal(&rows)
+```
+
+| Metadata Key | Required | Description                             | Possible values       |
+|:-------------|:---------|:----------------------------------------|:----------------------|
+| method       | yes      | type of method                          | "insert"              |
+| dataset_id   | yes      | dataset to assign the table to          | "<your data set ID>"  |
+| table_name   | yes      | table name                              | "<unique table name>" |
+
+
+Example:
+
+```json
+{
+  "metadata": {
+    "method": "insert",
+    "dataset_id": "<mySet>",
+    "table_name": "<myTable>",
+    "query": "select * from table"
+  },
+  "data": "bRows"
 }
 ```

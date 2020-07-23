@@ -1,6 +1,6 @@
-# Kubemq GCP SQL Mysql Target Connector
+# Kubemq Mysql-gcp Target Connector
 
-Kubemq mysql target connector allows services using kubemq server to access gcp sql mysql database services.
+Kubemq mysql target connector allows services using kubemq server to access mysql database services.
 
 ## Prerequisites
 The following are required to run the mysql target connector:
@@ -15,19 +15,21 @@ Mysql target connector configuration properties:
 
 | Properties Key                  | Required | Description                                 | Example                                                                |
 |:--------------------------------|:---------|:--------------------------------------------|:-----------------------------------------------------------------------|
-| connection                      | yes      | mysql connection string address          | "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local" |
 | max_idle_connections            | no       | set max idle connections                    | "10"                                                                   |
 | max_open_connections            | no       | set max open connections                    | "100"                                                                  |
-| connection_max_lifetime_seconds | no       | set max lifetime for connections in seconds | "3600"                                                                 |
+| connection_max_lifetime_seconds | no       | set max lifetime for connections in seconds | "3600"     
+| db_user                         | yes      | gcp db user name files                      | "<google user"               |
+| db_name                         | yes      | gcp db name                                 | "<google instance name"      |
+| db_password                     | yes      | gcp db password                             | "<google db password"        |
 
 
 Example:
 
 ```yaml
 bindings:
-  - name: kubemq-query-mysql
+  - name: kubemq-query-gcp-mysql
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -41,13 +43,17 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.stores.mysql
-      name: target-mysql
+      kind: target.gcp.stores.mysql
+      name: target-gcp-mysql
       properties:
-        connection: "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local"
+        instance_connection_name: "test"
+        db_user:                  "test"
+        db_name:                  "test"
+        db_password:              "Test123"
         max_idle_connections: "10"
         max_open_connections: "100"
         connection_max_lifetime_seconds: "3600"
+        credentials: 'json'
 ```
 
 ## Usage
