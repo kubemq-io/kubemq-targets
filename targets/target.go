@@ -210,6 +210,8 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 			return nil, err
 		}
 		return target, nil
+	case "target.aws.amazonmq":
+		return nil, errTargetNotImplemented
 	default:
 		return nil, fmt.Errorf("invalid kind %s for target %s", cfg.Kind, cfg.Name)
 	}
