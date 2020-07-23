@@ -4,6 +4,9 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"strings"
+	"time"
+
 	_ "github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/dialers/postgres"
 	"github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/proxy"
 	jsoniter "github.com/json-iterator/go"
@@ -11,8 +14,6 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/types"
 	_ "github.com/lib/pq"
 	"golang.org/x/oauth2/google"
-	"strings"
-	"time"
 )
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
@@ -40,6 +41,9 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if c.opts.useProxy {
 		b := []byte(c.opts.credentials)
 		con, err := google.JWTConfigFromJSON(b, proxy.SQLScope)
+		if err != nil {
+			return err
+		}
 		client := con.Client(ctx)
 		proxy.Init(client, nil, nil)
 
