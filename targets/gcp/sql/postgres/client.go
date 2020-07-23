@@ -40,6 +40,9 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if c.opts.useProxy {
 		b := []byte(c.opts.credentials)
 		con, err := google.JWTConfigFromJSON(b, proxy.SQLScope)
+		if err != nil {
+			return err
+		}
 		client := con.Client(ctx)
 		proxy.Init(client, nil, nil)
 
