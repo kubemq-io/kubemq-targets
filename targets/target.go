@@ -35,9 +35,6 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
-var (
-	errTargetNotImplemented = fmt.Errorf("target not implemented")
-)
 
 type Target interface {
 	Init(ctx context.Context, cfg config.Spec) error

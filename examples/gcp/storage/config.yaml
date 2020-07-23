@@ -18,5 +18,4 @@ bindings:
       kind: target.gcp.storage
       name: target-gcp-storage
       properties:
-        project_id: "test"
         credentials: 'json'
