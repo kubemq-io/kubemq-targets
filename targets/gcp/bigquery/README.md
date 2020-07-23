@@ -77,8 +77,8 @@ Create table metadata setting:
 | Metadata Key | Required | Description                             | Possible values       |
 |:-------------|:---------|:----------------------------------------|:----------------------|
 | method       | yes      | type of method                          | "create_table"        |
-| dataset_id   | yes      | dataset to assign the table to          | "<your data set ID>"  |
-| table_name   | yes      | table name                              | "<unique table name>" |
+| dataset_id   | yes      | dataset to assign the table to          | "your data set ID"  |
+| table_name   | yes      | table name                              | "unique name" |
 
 
 Example:
@@ -124,8 +124,8 @@ Get table Info
 | Metadata Key | Required | Description                             | Possible values       |
 |:-------------|:---------|:----------------------------------------|:----------------------|
 | method       | yes      | type of method                          | "get_table_info"      |
-| dataset_id   | yes      | dataset to assign the table to          | "<your data set ID>"  |
-| table_name   | yes      | table name                              | "<unique table name>" |
+| dataset_id   | yes      | dataset to assign the table to          | "your data set ID"  |
+| table_name   | yes      | table name                              | "unique table name" |
 
 
 Example:
@@ -166,8 +166,8 @@ Example how to create the struct:
 | Metadata Key | Required | Description                             | Possible values       |
 |:-------------|:---------|:----------------------------------------|:----------------------|
 | method       | yes      | type of method                          | "insert"              |
-| dataset_id   | yes      | dataset to assign the table to          | "<your data set ID>"  |
-| table_name   | yes      | table name                              | "<unique table name>" |
+| dataset_id   | yes      | dataset to assign the table to          | "your data set ID"  |
+| table_name   | yes      | table name                              | "unique table name" |
 
 
 Example:

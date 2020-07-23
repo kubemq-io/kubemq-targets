@@ -79,8 +79,8 @@ Get Key  metadata setting:
 | Metadata Key | Required | Description                            | Possible values            |
 |:-------------|:---------|:---------------------------------------|:---------------------------|
 | method       | yes      | type of method                         | "document_key"             |
-| collection   | yes      | the name of the collection to sent to  | "<collection name>"        |
-| document_key | yes      | the name of the key to get his value   | "<valid existing key>"     |
+| collection   | yes      | the name of the collection to sent to  | "collection name"          |
+| document_key | yes      | the name of the key to get his value   | "valid existing key"       |
 
 
 Example:
@@ -125,8 +125,8 @@ Delete key metadata setting:
 | Metadata Key | Required | Description                             | Possible values         |
 |:-------------|:---------|:----------------------------------------|:------------------------|
 | method       | yes      | type of method                          | "delete_document_key"   |
-| collection   | yes      | the name of the collection to sent to   | "<collection name>"     |
-| document_key | yes      | the name of the key to delete his value | "<valid existing key>"  |
+| collection   | yes      | the name of the collection to sent to   | "collection name"     |
+| document_key | yes      | the name of the key to delete his value | "valid existing key"  |
 
 
 Example:

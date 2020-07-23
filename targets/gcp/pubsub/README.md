@@ -57,7 +57,7 @@ Send Message metadata setting:
 
 | Metadata Key | Required | Description                            | Possible values       |
 |:-------------|:---------|:---------------------------------------|:----------------------|
-| topicID      | yes      | the name of the topicID to sent to     | "<valid topicID>"     |
+| topicID      | yes      | the name of the topicID to sent to     | valid topicID         |
 | tags         | no       | type of method                         | string tags           |
 
 
