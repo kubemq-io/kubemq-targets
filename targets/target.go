@@ -3,7 +3,6 @@ package targets
 import (
 	"context"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-targets/targets/gcp/storage"
 
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/sqs"
@@ -11,13 +10,15 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/cache/redis"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/bigquery"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/bigtable"
+	"github.com/kubemq-hub/kubemq-targets/targets/gcp/cloudfunctions"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/firestore"
 	gcpmemcached "github.com/kubemq-hub/kubemq-targets/targets/gcp/memorystore/memcached"
 	gcpredis "github.com/kubemq-hub/kubemq-targets/targets/gcp/memorystore/redis"
-	gcppostgres "github.com/kubemq-hub/kubemq-targets/targets/gcp/sql/postgres"
-	gcpmysql "github.com/kubemq-hub/kubemq-targets/targets/gcp/sql/mysql"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/pubsub"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/spanner"
+	gcpmysql "github.com/kubemq-hub/kubemq-targets/targets/gcp/sql/mysql"
+	gcppostgres "github.com/kubemq-hub/kubemq-targets/targets/gcp/sql/postgres"
+	"github.com/kubemq-hub/kubemq-targets/targets/gcp/storage"
 	"github.com/kubemq-hub/kubemq-targets/targets/http"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/activemq"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/kafka"
@@ -85,6 +86,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 		return target, nil
 	case "target.gcp.bigtable":
 		target := bigtable.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.gcp.cloudfunctions":
+		target := cloudfunctions.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
@@ -203,6 +210,8 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 			return nil, err
 		}
 		return target, nil
+	case "target.aws.amazonmq":
+		return nil, errTargetNotImplemented
 	default:
 		return nil, fmt.Errorf("invalid kind %s for target %s", cfg.Kind, cfg.Name)
 	}

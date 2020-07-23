@@ -3,6 +3,7 @@ package mysql
 import (
 	"database/sql"
 	"fmt"
+
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 

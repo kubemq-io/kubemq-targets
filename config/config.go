@@ -4,13 +4,14 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/ghodss/yaml"
-	"github.com/spf13/pflag"
-	"github.com/spf13/viper"
 	"io/ioutil"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/ghodss/yaml"
+	"github.com/spf13/pflag"
+	"github.com/spf13/viper"
 )
 
 const defaultApiPort = 8080

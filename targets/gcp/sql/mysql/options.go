@@ -2,8 +2,9 @@ package mysql
 
 import (
 	"fmt"
-	"github.com/kubemq-hub/kubemq-targets/config"
 	"math"
+
+	"github.com/kubemq-hub/kubemq-targets/config"
 )
 
 const (

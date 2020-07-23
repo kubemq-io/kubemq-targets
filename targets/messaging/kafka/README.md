@@ -1,6 +1,6 @@
 # Kubemq Kafka Source Connector
 
-Kubemq kafka source connector allows services using kubemq server to access redis server. TODO
+Kubemq kafka target connector allows services using kubemq server to store messages on kafka specific topics.
 
 ## Prerequisites
 The following are required to run the redis target connector:
@@ -25,27 +25,27 @@ Example:
 
 ```yaml
 bindings:
-  - name: kafka-store-kubemq
+  - name: kubemq-query-kafka
     source:
-      kind: source.kafka
-      name: kafka-stream
-      properties:
-     	brokers: "localhost:9092,localhost:9093",
-		topics: "TestTopic",
-		consumerGroup: "cg",
-    target:
-      kind: target.kubemq.event-store
-      name: target-kubemq-event-store
+      kind: source.query
+      name: kubemq-query
       properties:
         host: "localhost"
         port: "50000"
-        client_id: "kubemq-query-redis-connector"
+        client_id: "kubemq-query-kafka-connector"
         auth_token: ""
-        channel: "store.kafka"
+        channel: "query.kafka"
         group:   ""
+        concurrency: "1"
         auto_reconnect: "true"
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
+    target:
+      kind: target.messaging.kafka
+      name: kafka-stream
+      properties:
+        brokers: "localhost:9092"
+        topic: "TestTopic"
 ```
 
 ## Usage

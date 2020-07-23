@@ -3,12 +3,13 @@ package mysql
 import (
 	"context"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-targets/config"
-	"github.com/kubemq-hub/kubemq-targets/types"
-	"github.com/stretchr/testify/require"
 	"io/ioutil"
 	"testing"
 	"time"
+
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/stretchr/testify/require"
 )
 
 type testStructure struct {
@@ -160,7 +161,7 @@ func TestClient_Init(t *testing.T) {
 					"db_user":     dat.dbUser,
 					"db_name":     dat.dbName,
 					"db_password": dat.dbPassword,
-					"credentials":              dat.cred,
+					"credentials": dat.cred,
 				},
 			},
 			wantErr: true,
