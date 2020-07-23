@@ -5,8 +5,6 @@ import (
 	"math"
 
 	"github.com/kubemq-hub/kubemq-targets/config"
-
-	"github.com/kubemq-hub/kubemq-targets/config"
 )
 
 const (

@@ -15,12 +15,6 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"golang.org/x/oauth2/google"
-
-	"github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/dialers/mysql"
-	_ "github.com/go-sql-driver/mysql"
-	jsoniter "github.com/json-iterator/go"
-	"github.com/kubemq-hub/kubemq-targets/config"
-	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
@@ -49,6 +43,9 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if c.opts.useProxy {
 		b := []byte(c.opts.credentials)
 		con, err := google.JWTConfigFromJSON(b, proxy.SQLScope)
+		if err != nil {
+			return err
+		}
 		client := con.Client(ctx)
 		proxy.Init(client, nil, nil)
 

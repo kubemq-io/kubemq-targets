@@ -10,10 +10,6 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-
-	"github.com/kubemq-hub/kubemq-targets/config"
-	"github.com/kubemq-hub/kubemq-targets/types"
-	"github.com/stretchr/testify/require"
 )
 
 type testStructure struct {
@@ -165,7 +161,7 @@ func TestClient_Init(t *testing.T) {
 					"db_user":     dat.dbUser,
 					"db_name":     dat.dbName,
 					"db_password": dat.dbPassword,
-					"credentials":              dat.cred,
+					"credentials": dat.cred,
 				},
 			},
 			wantErr: true,
@@ -579,7 +575,6 @@ func TestClient_Do(t *testing.T) {
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "transaction").
 				SetMetadataKeyValue("isolation_level", "serializable").
-
 				SetData([]byte(createPostTable)),
 			wantErr: false,
 		},
