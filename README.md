@@ -2,6 +2,8 @@
 
 ## Concept
 
+![concept](.github/assets/concept.jpeg)
+
 ## Supported Targets
 
 ### Standalone Services
