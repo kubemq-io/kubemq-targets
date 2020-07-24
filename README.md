@@ -4,6 +4,7 @@
 
 ## Supported Targets
 
+### Standalone Services
 
 | Category   | Target         | Kind                         | Configuration                                 |
 |:-----------|:---------------|:-----------------------------|:----------------------------------------------|
@@ -28,16 +29,36 @@
 | Serverless |                |                              |                                               |
 |            | OpenFaas       | target.serverless.openfaas   | [Usage](targets/serverless/openfass/README.md) |
 | Http       |                |                              |                                               |
-|            | Http           | target.http                  | [Usage](targets/httpREADME.md)                 |
+|            | Http           | target.http                  | [Usage](targets/http/README.md)                 |
+
+
+### Google Cloud Platform (GCP)
+
+| Category   | Target         | Kind                         | Configuration                                 |
+|:-----------|:---------------|:-----------------------------|:----------------------------------------------|
+| Cache      |                |                              |                                               |
+|            | Redis          | target.gcp.cache.redis           | [Usage](targets/gcp/memorystore/redis/README.md)        |
+|            | Memcached      | target.gcp.cache.memcached       | [Usage](targets/gcp/memorystore/memcached/README.md)     |
+| Stores/db  |                |                              |                                               |
+|            | Postgres       | target.gcp.stores.postgres       | [Usage](targets/gcp/sql/postgres/README.md)     |
+|            | Mysql          | target.gcp.stores.mysql          | [Usage](targets/gcp/sql/mysql/README.md)        |
+|            | BigQuery        | target.gcp.bigquery        | [Usage](targets/gcp/bigquery/README.md)      |
+|            | BigTable        | target.gcp.bigtable        | [Usage](targets/gcp/bigtable/README.md)      |
+|            | FireStore        | target.gcp.firestore        | [Usage](targets/gcp/firestore/README.md)      |
+|            | Spanner        | target.gcp.spanner        | [Usage](targets/gcp/spanner/README.md)      |
+| Messaging  |                |                              |                                               |
+|            | Pub/Sub          | target.gcp.pubsub       | [Usage](targets/gcp/pubsub/README.md)     |
+| Storage    |                |                              |                                               |
+|            | Storage       | target.gcp.storage         | [Usage](targets/gcp/storage/README.md)       |
+| Serverless |                |                              |                                               |
+|            | Functions       | target.gcp.cloudfunctions   | [Usage](targets/gcp/cloudfunctions/README.md) |
 
 
 
 
 
 
-
-
-## Installtion
+## Installation
 
 
 ## Configuration
