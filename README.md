@@ -4,6 +4,57 @@
 
 ![concept](.github/assets/concept.jpeg)
 
+### Request
+
+Request is an object that send to a designated target with metadata and data fields which contains the needed information to perform the requested data.
+
+#### Request Object Structure
+
+| Field  | Type | Description                |
+|:-------|:---------|:---------------------------|
+| metadata | string,string object      | contains metadata information for action           |
+| data  | bytes array      | contains raw data for action |
+
+#### Exmaple
+
+Request to get a data from Redis cache for the key "log"
+```json
+{
+  "metadata": {
+    "method": "get",
+    "key": "log"
+  },
+  "data": null
+}
+```
+### Response
+Response is an object that send back as a result of executing an action in the target
+
+
+#### Response Object Structure
+
+| Field    | Type                 | Description                                     |
+|:---------|:---------------------|:------------------------------------------------|
+| metadata | string,string object | contains metadata information result for action |
+| data     | bytes array          | contains raw data result                        |
+| is_error | bool                 | indicate if the action ended with an error      |
+| error    | string               | contains error information if any               |
+
+
+#### Example
+
+Response received on request to get the data stored in Redis for key "log"
+```json
+{
+  "metadata": {
+    "result": "ok",
+    "key": "log"
+  },
+  "data": "SU5TRVJUIElOVE8gcG9zdChJRCxUSVRMRSxDT05URU5UKSBWQUxVRVMKCSAgICAgICAgICAgICAgICAgICAgICA"
+}
+```
+
+
 ## Supported Targets
 
 ### Standalone Services
