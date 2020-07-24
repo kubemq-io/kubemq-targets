@@ -8,7 +8,7 @@
 | Category   | Target         | Kind                         | Configuration |
 |:-----------|:---------------|:-----------------------------|:--------------|
 | Cache      |           |                              |               |
-|            | Redis          | target.cache.redis           |  [Usage] (targets/cache/redis/README.md)             |
+|            | Redis          | target.cache.redis           |  [Usage](targets/cache/redis/README.md)             |
 |            | Memcached      | target.cache.memcached       |               |
 | Stores/db  |                |                              |               |
 |            | Postgres       | target.stores.postgres       |               |
