@@ -9,7 +9,11 @@
 
 ## Concepts
 
-### Targets
+### Taraget / Source / Binding
+
+![binding](.github/assets/binding.jpeg)
+
+### Target
 
 Target is an external service which expose an API allowing to interact and serve his functionalists with other services.
 
