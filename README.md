@@ -37,21 +37,22 @@
 | Category   | Target         | Kind                         | Configuration                                 |
 |:-----------|:---------------|:-----------------------------|:----------------------------------------------|
 | Cache      |                |                              |                                               |
-|            | Redis   https://cloud.google.com/memorystore       | target.gcp.cache.redis           | [Usage](targets/gcp/memorystore/redis/README.md)        |
-|            | Memcached  https://cloud.google.com/memorystore    | target.gcp.cache.memcached       | [Usage](targets/gcp/memorystore/memcached/README.md)     |
+|            | [Redis](https://cloud.google.com/memorystore)      | target.gcp.cache.redis           | [Usage](targets/gcp/memorystore/redis/README.md)        |
+|            | [Memcached](https://cloud.google.com/memorystore)    | target.gcp.cache.memcached       | [Usage](targets/gcp/memorystore/memcached/README.md)     |
 | Stores/db  |                |                              |                                               |
 |            | [Postgres](https://cloud.google.com/sql)       | target.gcp.stores.postgres       | [Usage](targets/gcp/sql/postgres/README.md)     |
-|            | [Mysql] (https://cloud.google.com/sql)           | target.gcp.stores.mysql          | [Usage](targets/gcp/sql/mysql/README.md)        |
+|            | [Mysql](https://cloud.google.com/sql)           | target.gcp.stores.mysql          | [Usage](targets/gcp/sql/mysql/README.md)        |
 |            | [BigQuery](https://cloud.google.com/bigquery)      | target.gcp.bigquery        | [Usage](targets/gcp/bigquery/README.md)      |
 |            | [BigTable](https://cloud.google.com/bigtable)       | target.gcp.bigtable        | [Usage](targets/gcp/bigtable/README.md)      |
 |            | [Firestore](https://cloud.google.com/firestore)     | target.gcp.firestore        | [Usage](targets/gcp/firestore/README.md)      |
 |            | [Spanner](https://cloud.google.com/spanner)     | target.gcp.spanner        | [Usage](targets/gcp/spanner/README.md)      |
+|            | [Firebase](https://firebase.google.com/products/realtime-database/)     | target.gcp.firebase        | [Usage](targets/gcp/firebase/README.md)      |
 | Messaging  |                |                              |                                               |
-|            | Pub/Sub          | target.gcp.pubsub       | [Usage](targets/gcp/pubsub/README.md)     |
+|            | [Pub/Sub](https://cloud.google.com/pubsub)          | target.gcp.pubsub       | [Usage](targets/gcp/pubsub/README.md)     |
 | Storage    |                |                              |                                               |
-|            | Storage       | target.gcp.storage         | [Usage](targets/gcp/storage/README.md)       |
+|            | [Storage](https://cloud.google.com/storage)       | target.gcp.storage         | [Usage](targets/gcp/storage/README.md)       |
 | Serverless |                |                              |                                               |
-|            | Functions       | target.gcp.cloudfunctions   | [Usage](targets/gcp/cloudfunctions/README.md) |
+|            | [Functions](https://cloud.google.com/functions)       | target.gcp.cloudfunctions   | [Usage](targets/gcp/cloudfunctions/README.md) |
 
 
 
