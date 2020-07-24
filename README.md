@@ -1,21 +1,66 @@
 # kubemq-targets
 
-## Concept
+### Key Features
+
+- 
+-
+-
+-
+
+## Concepts
+
+### Targets
+
+Target is an external service which expose an API allowing to interact and serve his functionalists with other services.
+
+Targets can be Cache systems such as Redis and Memcached, SQL Databases such Postgres and MySql and event an HTTP generic Rest interface.
+
+KubeMQ-Targets integrate each one of the supported targets and serve requests based on the request data.
+
+A list of supported targets is below.
+
+
+### Source
+
+Source is a KubeMQ connection (in subscription mode) which listen to requests from services and route them to the appropriate target for action, and return back a response if needed.
+
+KubeMQ-Targets supports all KubeMQ's messaging patterns: Queue, Events, Events-Store, Command and Query
+
+
+| Type                                                                              | Kind                | Configuration                           |
+|:----------------------------------------------------------------------------------|:--------------------|:----------------------------------------|
+| [Queue](https://docs.kubemq.io/learn/message-patterns/queue)                      | source.queue        | [Usage](sources/queue/README.md)        |
+| [Events](https://docs.kubemq.io/learn/message-patterns/pubsub#events)             | source.events       | [Usage](sources/events/README.md)       |
+| [Events Store](https://docs.kubemq.io/learn/message-patterns/pubsub#events-store) | source.events-store | [Usage](sources/events-store/README.md) |
+| [Command](https://docs.kubemq.io/learn/message-patterns/rpc#commands)             | source.command      | [Usage](sources/command/README.md)      |
+| [Query](https://docs.kubemq.io/learn/message-patterns/rpc#queries)                | source.query        | [Usage](sources/query/README.md)        |
+
+
+### Binding
+
+Binding is a 1:1 connection between Source and Target
+
+
+
+
+
+
+### Request / Response
 
 ![concept](.github/assets/concept.jpeg)
 
-### Request
+#### Request
 
 Request is an object that send to a designated target with metadata and data fields which contains the needed information to perform the requested data.
 
-#### Request Object Structure
+##### Request Object Structure
 
 | Field  | Type | Description                |
 |:-------|:---------|:---------------------------|
 | metadata | string,string object      | contains metadata information for action           |
 | data  | bytes array      | contains raw data for action |
 
-#### Exmaple
+##### Exmaple
 
 Request to get a data from Redis cache for the key "log"
 ```json
@@ -27,11 +72,11 @@ Request to get a data from Redis cache for the key "log"
   "data": null
 }
 ```
-### Response
+#### Response
 Response is an object that send back as a result of executing an action in the target
 
 
-#### Response Object Structure
+##### Response Object Structure
 
 | Field    | Type                 | Description                                     |
 |:---------|:---------------------|:------------------------------------------------|
@@ -41,7 +86,7 @@ Response is an object that send back as a result of executing an action in the t
 | error    | string               | contains error information if any               |
 
 
-#### Example
+##### Example
 
 Response received on request to get the data stored in Redis for key "log"
 ```json
