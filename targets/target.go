@@ -3,6 +3,7 @@ package targets
 import (
 	"context"
 	"fmt"
+	"github.com/kubemq-hub/kubemq-targets/targets/stores/elastic"
 
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/sqs"
@@ -184,6 +185,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 		return target, nil
 	case "target.stores.mysql":
 		target := mysql.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.stores.elastic-search":
+		target := elastic.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
