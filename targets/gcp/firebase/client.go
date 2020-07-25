@@ -89,7 +89,6 @@ func (c *Client) CustomToken(ctx context.Context, meta metadata, data []byte) (*
 		return nil, err
 	}
 	return types.NewResponse().
-			SetMetadataKeyValue("collection", meta.key).
 			SetMetadataKeyValue("result", "ok").
 			SetData(b),
 		nil
@@ -105,7 +104,43 @@ func (c *Client) VerifyToken(ctx context.Context, meta metadata) (*types.Respons
 		return nil, err
 	}
 	return types.NewResponse().
-			SetMetadataKeyValue("collection", meta.key).
+			SetMetadataKeyValue("result", "ok").
+			SetData(b),
+		nil
+}
+
+func (c *Client) RetrieveUser(ctx context.Context, meta metadata) (*types.Response, error) {
+	var b []byte
+	switch meta.retrieveBy {
+	case "by_uid":
+		u, err := c.client.GetUser(ctx, meta.uid)
+		if err != nil {
+			return nil, err
+		}
+		b, err = json.Marshal(u)
+		if err != nil {
+			return nil, err
+		}
+	case "by_email":
+		u, err := c.client.GetUserByEmail(ctx, meta.email)
+		if err != nil {
+			return nil, err
+		}
+		b, err = json.Marshal(u)
+		if err != nil {
+			return nil, err
+		}
+	case "by_phone":
+		u, err := c.client.GetUserByPhoneNumber(ctx, meta.phone)
+		if err != nil {
+			return nil, err
+		}
+		b, err = json.Marshal(u)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok").
 			SetData(b),
 		nil

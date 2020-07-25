@@ -6,17 +6,24 @@ import (
 )
 
 var methodsMap = map[string]string{
-	"documents_all":       "documents_all",
-	"document_key":        "document_key",
-	"delete_document_key": "delete_document_key",
-	"add":                 "add",
+	"retrieve_user": "retrieve_user",
+}
+
+var retrieveMap = map[string]string{
+	"by_uid":   "by_uid",
+	"by_email": "by_email",
+	"by_phone": "by_phone",
 }
 
 type metadata struct {
-	method  string
-	key     string
-	item    string
-	tokenID string
+	method     string
+	key        string
+	item       string
+	tokenID    string
+	retrieveBy string
+	uid        string
+	email      string
+	phone      string
 }
 
 func parseMetadata(meta types.Metadata) (metadata, error) {
@@ -26,15 +33,28 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if err != nil {
 		return metadata{}, fmt.Errorf("error parsing method, %w", err)
 	}
-
-	m.key, err = meta.MustParseString("collection")
-	if err != nil {
-		return metadata{}, fmt.Errorf("error on parsing key value, %w", err)
-	}
-	if m.method == "document_key" || m.method == "delete_document_key" {
-		m.item, err = meta.MustParseString("item")
+	if m.method == "retrieve_user" {
+		m.retrieveBy, err = meta.ParseStringMap("retrieve_by", retrieveMap)
 		if err != nil {
-			return metadata{}, fmt.Errorf("error on parsing key value, %w", err)
+			return metadata{}, fmt.Errorf("error parsing retrieve_by, %w", err)
+		}
+
+		switch m.method {
+		case "by_uid":
+			m.uid, err = meta.MustParseString("uid")
+			if err != nil {
+				return metadata{}, fmt.Errorf("error parsing uid, %w", err)
+			}
+		case "by_email":
+			m.email, err = meta.MustParseString("email")
+			if err != nil {
+				return metadata{}, fmt.Errorf("error parsing email, %w", err)
+			}
+		case "by_phone":
+			m.phone, err = meta.MustParseString("phone")
+			if err != nil {
+				return metadata{}, fmt.Errorf("error parsing phone, %w", err)
+			}
 		}
 	}
 
