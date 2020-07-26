@@ -39,7 +39,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 			return metadata{}, fmt.Errorf("error parsing retrieve_by, %w", err)
 		}
 
-		switch m.method {
+		switch m.retrieveBy {
 		case "by_uid":
 			m.uid, err = meta.MustParseString("uid")
 			if err != nil {
