@@ -6,6 +6,7 @@ import (
 	"firebase.google.com/go/v4/auth"
 	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/types"
+	"google.golang.org/api/iterator"
 	"strconv"
 )
 
@@ -105,6 +106,29 @@ func (c *Client) deleteMultipleUser(ctx context.Context, data []byte) (*types.Re
 		return nil, err
 	}
 	b, err := json.Marshal(r)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok").
+			SetData(b),
+		nil
+}
+
+func (c *Client) listAllUsers(ctx context.Context) (*types.Response, error) {
+	var users []*auth.ExportedUserRecord
+	iter := c.client.Users(ctx, "")
+	for {
+		user, err := iter.Next()
+		if err == iterator.Done {
+			break
+		}
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, user)
+	}
+	b, err := json.Marshal(users)
 	if err != nil {
 		return nil, err
 	}
