@@ -4,15 +4,17 @@ import (
 	"context"
 	"firebase.google.com/go/v4"
 	"firebase.google.com/go/v4/auth"
+	"firebase.google.com/go/v4/db"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"google.golang.org/api/option"
 )
 
 type Client struct {
-	name   string
-	opts   options
-	client *auth.Client
+	name       string
+	opts       options
+	clientAuth *auth.Client
+	dbClient   *db.Client
 }
 
 func New() *Client {
@@ -37,11 +39,20 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-	client, err := app.Auth(ctx)
-	if err != nil {
-		return err
+	if c.opts.authClient == true {
+		client, err := app.Auth(ctx)
+		if err != nil {
+			return err
+		}
+		c.clientAuth = client
 	}
-	c.client = client
+	if c.opts.dbClient == true {
+		client, err := app.Database(ctx)
+		if err != nil {
+			return err
+		}
+		c.dbClient = client
+	}
 
 	return nil
 }
@@ -53,9 +64,9 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	}
 	switch meta.method {
 	case "custom_token":
-		return c.CustomToken(ctx, meta, req.Data)
+		return c.customToken(ctx, meta, req.Data)
 	case "verify_token":
-		return c.VerifyToken(ctx, meta)
+		return c.verifyToken(ctx, meta)
 	case "retrieve_user":
 		return c.retrieveUser(ctx, meta)
 	case "create_user":
@@ -68,6 +79,9 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.deleteMultipleUser(ctx, req.Data)
 	case "list_users":
 		return c.listAllUsers(ctx)
+
+	case "get_db":
+		
 	}
 	return nil, nil
 }

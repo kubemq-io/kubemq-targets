@@ -7,7 +7,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
-func (c *Client) CustomToken(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
+func (c *Client) customToken(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
 	token := ""
 	if data != nil {
 		claims := make(map[string]interface{})
@@ -18,13 +18,13 @@ func (c *Client) CustomToken(ctx context.Context, meta metadata, data []byte) (*
 		if len(claims) == 0 {
 			return nil, fmt.Errorf("body was set but data was missing claims")
 		}
-		token, err = c.client.CustomTokenWithClaims(ctx, meta.tokenID, claims)
+		token, err = c.clientAuth.CustomTokenWithClaims(ctx, meta.tokenID, claims)
 		if err != nil {
 			return nil, err
 		}
 	} else {
 		var err error
-		token, err = c.client.CustomToken(ctx, meta.tokenID)
+		token, err = c.clientAuth.CustomToken(ctx, meta.tokenID)
 		if err != nil {
 			return nil, err
 		}
@@ -39,8 +39,8 @@ func (c *Client) CustomToken(ctx context.Context, meta metadata, data []byte) (*
 		nil
 }
 
-func (c *Client) VerifyToken(ctx context.Context, meta metadata) (*types.Response, error) {
-	token, err := c.client.VerifyIDToken(ctx, meta.tokenID)
+func (c *Client) verifyToken(ctx context.Context, meta metadata) (*types.Response, error) {
+	token, err := c.clientAuth.VerifyIDToken(ctx, meta.tokenID)
 	if err != nil {
 		return nil, err
 	}

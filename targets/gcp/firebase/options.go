@@ -6,8 +6,10 @@ import (
 )
 
 type options struct {
-	projectID string
+	projectID   string
 	credentials string
+	authClient  bool
+	dbClient bool
 }
 
 func parseOptions(cfg config.Spec) (options, error) {
@@ -20,6 +22,15 @@ func parseOptions(cfg config.Spec) (options, error) {
 	o.credentials, err = cfg.MustParseString("credentials")
 	if err != nil {
 		return options{}, err
+	}
+	o.authClient = cfg.ParseBool("auth_client", false)
+	if err != nil {
+		return options{}, fmt.Errorf("error parsing auth_client, %w", err)
+	}
+
+	o.dbClient = cfg.ParseBool("db_client", false)
+	if err != nil {
+		return options{}, fmt.Errorf("error parsing db_client, %w", err)
 	}
 	return o, nil
 }

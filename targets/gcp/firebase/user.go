@@ -14,7 +14,7 @@ func (c *Client) retrieveUser(ctx context.Context, meta metadata) (*types.Respon
 	var b []byte
 	switch meta.retrieveBy {
 	case "by_uid":
-		u, err := c.client.GetUser(ctx, meta.uid)
+		u, err := c.clientAuth.GetUser(ctx, meta.uid)
 		if err != nil {
 			return nil, err
 		}
@@ -23,7 +23,7 @@ func (c *Client) retrieveUser(ctx context.Context, meta metadata) (*types.Respon
 			return nil, err
 		}
 	case "by_email":
-		u, err := c.client.GetUserByEmail(ctx, meta.email)
+		u, err := c.clientAuth.GetUserByEmail(ctx, meta.email)
 		if err != nil {
 			return nil, err
 		}
@@ -32,7 +32,7 @@ func (c *Client) retrieveUser(ctx context.Context, meta metadata) (*types.Respon
 			return nil, err
 		}
 	case "by_phone":
-		u, err := c.client.GetUserByPhoneNumber(ctx, meta.phone)
+		u, err := c.clientAuth.GetUserByPhoneNumber(ctx, meta.phone)
 		if err != nil {
 			return nil, err
 		}
@@ -52,7 +52,7 @@ func (c *Client) createUser(ctx context.Context, data []byte) (*types.Response, 
 	if err != nil {
 		return nil, err
 	}
-	u, err := c.client.CreateUser(ctx, p)
+	u, err := c.clientAuth.CreateUser(ctx, p)
 	if err != nil {
 		return nil, err
 	}
@@ -71,7 +71,7 @@ func (c *Client) updateUser(ctx context.Context, meta metadata, data []byte) (*t
 	if err != nil {
 		return nil, err
 	}
-	u, err := c.client.UpdateUser(ctx, meta.uid, p)
+	u, err := c.clientAuth.UpdateUser(ctx, meta.uid, p)
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +86,7 @@ func (c *Client) updateUser(ctx context.Context, meta metadata, data []byte) (*t
 }
 
 func (c *Client) deleteUser(ctx context.Context, meta metadata) (*types.Response, error) {
-	err := c.client.DeleteUser(ctx, meta.uid)
+	err := c.clientAuth.DeleteUser(ctx, meta.uid)
 	if err != nil {
 		return nil, err
 	}
@@ -101,7 +101,7 @@ func (c *Client) deleteMultipleUser(ctx context.Context, data []byte) (*types.Re
 	if err != nil {
 		return nil, err
 	}
-	r, err := c.client.DeleteUsers(ctx, l)
+	r, err := c.clientAuth.DeleteUsers(ctx, l)
 	if err != nil {
 		return nil, err
 	}
@@ -117,7 +117,7 @@ func (c *Client) deleteMultipleUser(ctx context.Context, data []byte) (*types.Re
 
 func (c *Client) listAllUsers(ctx context.Context) (*types.Response, error) {
 	var users []*auth.ExportedUserRecord
-	iter := c.client.Users(ctx, "")
+	iter := c.clientAuth.Users(ctx, "")
 	for {
 		user, err := iter.Next()
 		if err == iterator.Done {

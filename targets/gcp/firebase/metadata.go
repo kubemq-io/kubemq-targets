@@ -16,6 +16,9 @@ var methodsMap = map[string]string{
 	"delete_user":           "delete_user",
 	"delete_multiple_users": "delete_multiple_users",
 	"list_users":            "list_users",
+
+	//------------DB-------------//
+	"get_db": "get_db",
 }
 
 var retrieveMap = map[string]string{
@@ -33,6 +36,9 @@ type metadata struct {
 	uid        string
 	email      string
 	phone      string
+
+	refPath      string
+	childRefPath string
 }
 
 func parseMetadata(meta types.Metadata) (metadata, error) {
@@ -64,6 +70,16 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 			if err != nil {
 				return metadata{}, fmt.Errorf("error parsing phone, %w", err)
 			}
+		}
+	}
+	if m.method == "get_db" || m.method == "update_db"{
+		m.refPath, err = meta.MustParseString("ref_path")
+		if err != nil {
+			return metadata{}, fmt.Errorf("error parsing refPath, %w", err)
+		}
+		m.childRefPath = meta.ParseString("child_ref", "")
+		if err != nil {
+			return metadata{}, fmt.Errorf("error parsing child_ref, %w", err)
 		}
 	}
 
