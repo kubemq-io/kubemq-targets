@@ -6,7 +6,16 @@ import (
 )
 
 var methodsMap = map[string]string{
-	"retrieve_user": "retrieve_user",
+	//------------Token-----------//
+	"custom_token": "custom_token",
+	"verify_token": "verify_token",
+	//------------User------------//
+	"retrieve_user":         "retrieve_user",
+	"create_user":           "create_user",
+	"update_user":           "update_user",
+	"delete_user":           "delete_user",
+	"delete_multiple_users": "delete_multiple_users",
+	"list_users":            "list_users",
 }
 
 var retrieveMap = map[string]string{

@@ -56,6 +56,18 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.CustomToken(ctx, meta, req.Data)
 	case "verify_token":
 		return c.VerifyToken(ctx, meta)
+	case "retrieve_user":
+		return c.retrieveUser(ctx, meta)
+	case "create_user":
+		return c.createUser(ctx, req.Data)
+	case "update_user":
+		return c.updateUser(ctx, meta, req.Data)
+	case "delete_user":
+		return c.deleteUser(ctx, meta)
+	case "delete_multiple_users":
+		return c.deleteMultipleUser(ctx, req.Data)
+	case "list_users":
+		return c.listAllUsers(ctx)
 	}
 	return nil, nil
 }

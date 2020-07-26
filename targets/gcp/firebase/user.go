@@ -67,7 +67,7 @@ func (c *Client) createUser(ctx context.Context, data []byte) (*types.Response, 
 }
 
 func (c *Client) updateUser(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
-	p, err := getUserUpdateData(data)
+	p, err := getUpdateData(data)
 	if err != nil {
 		return nil, err
 	}
@@ -138,7 +138,7 @@ func (c *Client) listAllUsers(ctx context.Context) (*types.Response, error) {
 		nil
 }
 
-func getUserUpdateData(data []byte) (*auth.UserToUpdate, error) {
+func getUpdateData(data []byte) (*auth.UserToUpdate, error) {
 	u := &auth.UserToUpdate{}
 	m := make(map[string]interface{})
 	err := json.Unmarshal(data, &m)
