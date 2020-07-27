@@ -86,9 +86,9 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "get_db":
 		return nil, fmt.Errorf("notimplelemmrt")
 	case "SendMessage":
-		return c.SendMessage(ctx, req)
+		return c.SendMessage(ctx, req, c.opts)
 	case "SendBatch":
-		return c.SendMessageBatch(ctx, req)
+		return c.SendMessageBatch(ctx, req, c.opts)
 	}
 	return nil, nil
 }

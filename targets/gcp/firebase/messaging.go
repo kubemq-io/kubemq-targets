@@ -14,8 +14,8 @@ type messages struct {
 	multicast *messaging.MulticastMessage
 }
 
-func (c *Client) SendMessage(ctx context.Context, req *types.Request) (*types.Response, error) {
-	m, err := parseMetadataMessages(req.Metadata, SendMessage)
+func (c *Client) SendMessage(ctx context.Context, req *types.Request, opts options) (*types.Response, error) {
+	m, err := parseMetadataMessages(req.Metadata, opts, SendMessage)
 	if err != nil {
 		return nil, err
 	}
@@ -28,8 +28,8 @@ func (c *Client) SendMessage(ctx context.Context, req *types.Request) (*types.Re
 
 }
 
-func (c *Client) SendMessageBatch(ctx context.Context, req *types.Request) (*types.Response, error) {
-	m, err := parseMetadataMessages(req.Metadata, SendBatch)
+func (c *Client) SendMessageBatch(ctx context.Context, req *types.Request, opts options) (*types.Response, error) {
+	m, err := parseMetadataMessages(req.Metadata, opts, SendBatch)
 	if err != nil {
 		return nil, err
 	}

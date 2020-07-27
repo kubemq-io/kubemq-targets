@@ -94,27 +94,26 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	return m, nil
 }
 
-func parseMetadataMessages(meta types.Metadata, metaDatatype int) (messages, error) {
-	m := messages{}
+func parseMetadataMessages(meta types.Metadata, opts options, metaDatatype int) (*messages, error) {
 
 	switch metaDatatype {
 	//messaging single
 	case 1:
 		n := meta.ParseString("message", "")
 		if n != "" {
-			err := json.Unmarshal([]byte(n), &m.single)
+			err := json.Unmarshal([]byte(n), &opts.defaultMessaging.single)
 			if err != nil {
-				return m, err
+				return opts.defaultMessaging, err
 			}
 		}
 	case 2:
-		n := meta.ParseString("multicastMessage", "")
+		n := meta.ParseString("multicast", "")
 		if n != "" {
-			err := json.Unmarshal([]byte(n), &m.multicast)
+			err := json.Unmarshal([]byte(n), &opts.defaultMessaging.multicast)
 			if err != nil {
-				return m, err
+				return opts.defaultMessaging, err
 			}
 		}
 	}
-	return m, nil
+	return opts.defaultMessaging, nil
 }
