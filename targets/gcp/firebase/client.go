@@ -7,16 +7,18 @@ import (
 	firebase "firebase.google.com/go/v4"
 	"firebase.google.com/go/v4/auth"
 	"firebase.google.com/go/v4/db"
+	"firebase.google.com/go/v4/messaging"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"google.golang.org/api/option"
 )
 
 type Client struct {
-	name       string
-	opts       options
-	clientAuth *auth.Client
-	dbClient   *db.Client
+	name            string
+	opts            options
+	clientAuth      *auth.Client
+	dbClient        *db.Client
+	messagingClient *messaging.Client
 }
 
 func New() *Client {

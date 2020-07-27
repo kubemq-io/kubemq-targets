@@ -1,13 +1,14 @@
-package firestore
+package firebase
 
 import (
 	"context"
 	"encoding/json"
-	"firebase.google.com/go/v4/auth"
 	"fmt"
+	"strconv"
+
+	"firebase.google.com/go/v4/auth"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"google.golang.org/api/iterator"
-	"strconv"
 )
 
 func (c *Client) retrieveUser(ctx context.Context, meta metadata) (*types.Response, error) {

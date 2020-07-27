@@ -1,9 +1,10 @@
-package firestore
+package firebase
 
 import (
 	"context"
 	"encoding/json"
 	"fmt"
+
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
