@@ -9,7 +9,8 @@ type options struct {
 	projectID   string
 	credentials string
 	authClient  bool
-	dbClient bool
+	dbClient    bool
+	dbURL       string
 }
 
 func parseOptions(cfg config.Spec) (options, error) {
@@ -28,9 +29,10 @@ func parseOptions(cfg config.Spec) (options, error) {
 		return options{}, fmt.Errorf("error parsing auth_client, %w", err)
 	}
 
-	o.dbClient = cfg.ParseBool("db_client", false)
+		o.dbClient = cfg.ParseBool("db_client", false)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing db_client, %w", err)
 	}
+	o.dbURL = cfg.ParseString("db_url", "")
 	return o, nil
 }
