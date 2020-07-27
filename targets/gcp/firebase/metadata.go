@@ -1,7 +1,9 @@
 package firebase
 
 import (
+	"encoding/json"
 	"fmt"
+
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
@@ -41,6 +43,12 @@ type metadata struct {
 	childRefPath string
 }
 
+const ( // iota is reset to 0
+	Unassigned  = iota // c0 == 0
+	SendMessage = iota // c1 == 1
+	SendBatch   = iota // c2 == 2
+)
+
 func parseMetadata(meta types.Metadata) (metadata, error) {
 	m := metadata{}
 	var err error
@@ -72,7 +80,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 			}
 		}
 	}
-	if m.method == "get_db" || m.method == "update_db"{
+	if m.method == "get_db" || m.method == "update_db" {
 		m.refPath, err = meta.MustParseString("ref_path")
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing refPath, %w", err)
@@ -83,5 +91,30 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		}
 	}
 
+	return m, nil
+}
+
+func parseMetadataMessages(meta types.Metadata, metaDatatype int) (messages, error) {
+	m := messages{}
+
+	switch metaDatatype {
+	//messaging single
+	case 1:
+		n := meta.ParseString("message", "")
+		if n != "" {
+			err := json.Unmarshal([]byte(n), &m.single)
+			if err != nil {
+				return m, err
+			}
+		}
+	case 2:
+		n := meta.ParseString("multicastMessage", "")
+		if n != "" {
+			err := json.Unmarshal([]byte(n), &m.multicast)
+			if err != nil {
+				return m, err
+			}
+		}
+	}
 	return m, nil
 }

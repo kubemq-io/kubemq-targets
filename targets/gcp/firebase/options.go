@@ -1,16 +1,20 @@
 package firebase
 
 import (
+	"encoding/json"
 	"fmt"
+
 	"github.com/kubemq-hub/kubemq-targets/config"
 )
 
 type options struct {
-	projectID   string
-	credentials string
-	authClient  bool
-	dbClient    bool
-	dbURL       string
+	projectID        string
+	credentials      string
+	authClient       bool
+	dbClient         bool
+	dbURL            string
+	messagingClient  bool
+	defaultMessaging *messages
 }
 
 func parseOptions(cfg config.Spec) (options, error) {
@@ -34,5 +38,27 @@ func parseOptions(cfg config.Spec) (options, error) {
 		return options{}, fmt.Errorf("error parsing db_client, %w", err)
 	}
 	o.dbURL = cfg.ParseString("db_url", "")
+
+	o.messagingClient = cfg.ParseBool("messagingClient", false)
+	if err != nil {
+		return options{}, fmt.Errorf("error parsing messagingClient, %w", err)
+	}
+	if o.messagingClient {
+		n := cfg.ParseString("defaultmsg", "")
+		if n != "" {
+			err := json.Unmarshal([]byte(n), &o.defaultMessaging.single)
+			if err != nil {
+				return o, err
+			}
+		}
+
+		n = cfg.ParseString("defaultmultimsg", "")
+		if n != "" {
+			err := json.Unmarshal([]byte(n), &o.defaultMessaging.multicast)
+			if err != nil {
+				return o, err
+			}
+		}
+	}
 	return o, nil
 }

@@ -2,19 +2,23 @@ package firebase
 
 import (
 	"context"
-	"firebase.google.com/go/v4"
+	"fmt"
+
+	firebase "firebase.google.com/go/v4"
 	"firebase.google.com/go/v4/auth"
 	"firebase.google.com/go/v4/db"
+	"firebase.google.com/go/v4/messaging"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"google.golang.org/api/option"
 )
 
 type Client struct {
-	name       string
-	opts       options
-	clientAuth *auth.Client
-	dbClient   *db.Client
+	name            string
+	opts            options
+	clientAuth      *auth.Client
+	dbClient        *db.Client
+	messagingClient *messaging.Client
 }
 
 func New() *Client {
@@ -34,19 +38,19 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	}
 	b := []byte(c.opts.credentials)
 
-	config := &firebase.Config{ProjectID: c.opts.projectID,DatabaseURL: c.opts.dbURL}
+	config := &firebase.Config{ProjectID: c.opts.projectID, DatabaseURL: c.opts.dbURL}
 	app, err := firebase.NewApp(ctx, config, option.WithCredentialsJSON(b))
 	if err != nil {
 		return err
 	}
-	if c.opts.authClient == true {
+	if c.opts.authClient {
 		client, err := app.Auth(ctx)
 		if err != nil {
 			return err
 		}
 		c.clientAuth = client
 	}
-	if c.opts.dbClient == true {
+	if c.opts.dbClient {
 		client, err := app.Database(ctx)
 		if err != nil {
 			return err
@@ -79,9 +83,12 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.deleteMultipleUser(ctx, req.Data)
 	case "list_users":
 		return c.listAllUsers(ctx)
-
 	case "get_db":
-		
+		return nil, fmt.Errorf("notimplelemmrt")
+	case "SendMessage":
+		return c.SendMessage(ctx, req)
+	case "SendBatch":
+		return c.SendMessageBatch(ctx, req)
 	}
 	return nil, nil
 }
