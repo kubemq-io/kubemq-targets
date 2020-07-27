@@ -38,19 +38,19 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	}
 	b := []byte(c.opts.credentials)
 
-	config := &firebase.Config{ProjectID: c.opts.projectID,DatabaseURL: c.opts.dbURL}
+	config := &firebase.Config{ProjectID: c.opts.projectID, DatabaseURL: c.opts.dbURL}
 	app, err := firebase.NewApp(ctx, config, option.WithCredentialsJSON(b))
 	if err != nil {
 		return err
 	}
-	if c.opts.authClient == true {
+	if c.opts.authClient {
 		client, err := app.Auth(ctx)
 		if err != nil {
 			return err
 		}
 		c.clientAuth = client
 	}
-	if c.opts.dbClient == true {
+	if c.opts.dbClient {
 		client, err := app.Database(ctx)
 		if err != nil {
 			return err

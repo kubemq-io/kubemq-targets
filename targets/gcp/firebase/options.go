@@ -12,6 +12,7 @@ type options struct {
 	credentials      string
 	authClient       bool
 	dbClient         bool
+	dbURL            string
 	messagingClient  bool
 	defaultMessaging *defaultmessaging
 }
