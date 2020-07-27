@@ -21,6 +21,9 @@ var methodsMap = map[string]string{
 
 	//------------DB-------------//
 	"get_db": "get_db",
+	//--------Messaging---------//
+	"SendMessage":      "SendMessage",
+	"SendMessageBatch": "SendMessageBatch",
 }
 
 var retrieveMap = map[string]string{

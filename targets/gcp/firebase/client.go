@@ -58,6 +58,13 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		c.dbClient = client
 	}
 
+	if c.opts.messagingClient {
+		c.messagingClient, err = app.Messaging(ctx)
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
