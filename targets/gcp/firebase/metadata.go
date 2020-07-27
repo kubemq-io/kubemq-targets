@@ -81,6 +81,12 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		}
 	}
 
+	if m.method == "update_user" || m.method == "delete_user"{
+		m.uid, err = meta.MustParseString("uid")
+		if err != nil {
+			return metadata{}, fmt.Errorf("error parsing uid, %w", err)
+		}
+	}
 	if m.method == "verify_token" || m.method == "custom_token" {
 		m.tokenID, err = meta.MustParseString("token_id")
 		if err != nil {
