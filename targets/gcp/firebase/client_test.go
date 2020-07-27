@@ -14,6 +14,7 @@ type testStructure struct {
 	projectID string
 	dbName    string
 	cred      string
+	token string
 }
 
 func getTestStructure() (*testStructure, error) {
@@ -33,6 +34,11 @@ func getTestStructure() (*testStructure, error) {
 		return nil, err
 	}
 	t.cred = fmt.Sprintf("%s", dat)
+	dat, err = ioutil.ReadFile("./../../../credentials/token.txt")
+	if err != nil {
+		return nil, err
+	}
+	t.token = fmt.Sprintf("%s", dat)
 	return t, nil
 }
 

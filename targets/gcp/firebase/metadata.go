@@ -80,6 +80,13 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 			}
 		}
 	}
+
+	if m.method == "verify_token" || m.method == "custom_token" {
+		m.tokenID, err = meta.MustParseString("token_id")
+		if err != nil {
+			return metadata{}, fmt.Errorf("error parsing token_id, %w", err)
+		}
+	}
 	if m.method == "get_db" || m.method == "update_db" {
 		m.refPath, err = meta.MustParseString("ref_path")
 		if err != nil {
