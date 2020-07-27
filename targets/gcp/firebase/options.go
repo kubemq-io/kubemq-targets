@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"firebase.google.com/go/v4/messaging"
 	"github.com/kubemq-hub/kubemq-targets/config"
 )
 
@@ -44,20 +45,25 @@ func parseOptions(cfg config.Spec) (options, error) {
 		return options{}, fmt.Errorf("error parsing messagingClient, %w", err)
 	}
 	if o.messagingClient {
+		o.defaultMessaging = &messages{}
 		n := cfg.ParseString("defaultmsg", "")
 		if n != "" {
-			err := json.Unmarshal([]byte(n), &o.defaultMessaging.single)
+			m := &messaging.Message{}
+			err := json.Unmarshal([]byte(n), m)
 			if err != nil {
 				return o, err
 			}
+			o.defaultMessaging.single = m
 		}
 
 		n = cfg.ParseString("defaultmultimsg", "")
 		if n != "" {
-			err := json.Unmarshal([]byte(n), &o.defaultMessaging.multicast)
+			mmulti := &messaging.MulticastMessage{}
+			err := json.Unmarshal([]byte(n), mmulti)
 			if err != nil {
 				return o, err
 			}
+			o.defaultMessaging.multicast = mmulti
 		}
 	}
 	return o, nil

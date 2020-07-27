@@ -56,6 +56,13 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		c.dbClient = client
 	}
 
+	if c.opts.messagingClient {
+		c.messagingClient, err = app.Messaging(ctx)
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -84,9 +91,9 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "get_db":
 		return c.dbGet(ctx,meta)
 	case "SendMessage":
-		return c.SendMessage(ctx, req)
+		return c.SendMessage(ctx, req, c.opts)
 	case "SendBatch":
-		return c.SendMessageBatch(ctx, req)
+		return c.SendMessageBatch(ctx, req, c.opts)
 	}
 	return nil, nil
 }
