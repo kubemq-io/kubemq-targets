@@ -38,6 +38,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing db_client, %w", err)
 	}
+	o.dbURL = cfg.ParseString("db_url", "")
 
 	o.messagingClient = cfg.ParseBool("messagingClient", false)
 	if err != nil {
