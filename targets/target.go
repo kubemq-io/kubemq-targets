@@ -3,6 +3,7 @@ package targets
 import (
 	"context"
 	"fmt"
+	"github.com/kubemq-hub/kubemq-targets/targets/stores/elastic"
 
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/sqs"
@@ -33,10 +34,6 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/mysql"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/postgres"
 	"github.com/kubemq-hub/kubemq-targets/types"
-)
-
-var (
-	errTargetNotImplemented = fmt.Errorf("target not implemented")
 )
 
 type Target interface {
@@ -192,6 +189,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 			return nil, err
 		}
 		return target, nil
+	case "target.stores.elastic-search":
+		target := elastic.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
 	case "target.stores.postgres":
 		target := postgres.New()
 		if err := target.Init(ctx, cfg); err != nil {
@@ -210,8 +213,7 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 			return nil, err
 		}
 		return target, nil
-	case "target.aws.amazonmq":
-		return nil, errTargetNotImplemented
+
 	default:
 		return nil, fmt.Errorf("invalid kind %s for target %s", cfg.Kind, cfg.Name)
 	}

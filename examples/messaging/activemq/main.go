@@ -27,7 +27,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Println(fmt.Sprintf("%+v", queryPublishResponse))
+	fmt.Printf("%+v \n", queryPublishResponse)
 	publishResponse, err := types.ParseResponse(queryPublishResponse.Body)
 	if err != nil {
 		log.Fatal(err)

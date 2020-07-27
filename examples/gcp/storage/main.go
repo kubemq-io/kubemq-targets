@@ -40,10 +40,6 @@ func getTestStructure() (*testStructure, error) {
 		return nil, err
 	}
 	t.filePath = string(dat)
-	dat, err = ioutil.ReadFile("./credentials/storage/projectID.txt")
-	if err != nil {
-		return nil, err
-	}
 	return t, nil
 }
 

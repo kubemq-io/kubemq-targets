@@ -7,18 +7,16 @@ import (
 	firebase "firebase.google.com/go/v4"
 	"firebase.google.com/go/v4/auth"
 	"firebase.google.com/go/v4/db"
-	"firebase.google.com/go/v4/messaging"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"google.golang.org/api/option"
 )
 
 type Client struct {
-	name            string
-	opts            options
-	clientAuth      *auth.Client
-	dbClient        *db.Client
-	messagingClient *messaging.Client
+	name       string
+	opts       options
+	clientAuth *auth.Client
+	dbClient   *db.Client
 }
 
 func New() *Client {
@@ -43,24 +41,19 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-	if c.opts.authClient {
-		c.clientAuth, err = app.Auth(ctx)
+	if c.opts.authClient == true {
+		client, err := app.Auth(ctx)
 		if err != nil {
 			return err
 		}
-
+		c.clientAuth = client
 	}
-	if c.opts.dbClient {
-		c.dbClient, err = app.Database(ctx)
+	if c.opts.dbClient == true {
+		client, err := app.Database(ctx)
 		if err != nil {
 			return err
 		}
-	}
-	if c.opts.messagingClient {
-		c.messagingClient, err = app.Messaging(ctx)
-		if err != nil {
-			return err
-		}
+		c.dbClient = client
 	}
 
 	return nil

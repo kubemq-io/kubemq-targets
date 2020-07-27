@@ -1,4 +1,4 @@
-package firebase
+package firestore
 
 import (
 	"encoding/json"
@@ -30,14 +30,15 @@ var retrieveMap = map[string]string{
 }
 
 type metadata struct {
-	method       string
-	key          string
-	item         string
-	tokenID      string
-	retrieveBy   string
-	uid          string
-	email        string
-	phone        string
+	method     string
+	key        string
+	item       string
+	tokenID    string
+	retrieveBy string
+	uid        string
+	email      string
+	phone      string
+
 	refPath      string
 	childRefPath string
 }
