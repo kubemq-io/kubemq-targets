@@ -9,18 +9,18 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
-type defaultmessaging struct {
-	defult           *messaging.Message
-	defaultMulticast *messaging.MulticastMessage
+type messages struct {
+	single    *messaging.Message
+	multicast *messaging.MulticastMessage
 }
 
 func (c *Client) SendMessage(ctx context.Context, req *types.Request) (*types.Response, error) {
-	m, err := parseMetadataNew(req.Metadata, SendMessage)
+	m, err := parseMetadataMessages(req.Metadata, SendMessage)
 	if err != nil {
 		return nil, err
 	}
 
-	r, err := c.messagingClient.Send(ctx, m.defult)
+	r, err := c.messagingClient.Send(ctx, m.single)
 	if err != nil {
 		return nil, err
 	}
@@ -29,12 +29,12 @@ func (c *Client) SendMessage(ctx context.Context, req *types.Request) (*types.Re
 }
 
 func (c *Client) SendMessageBatch(ctx context.Context, req *types.Request) (*types.Response, error) {
-	m, err := parseMetadataNew(req.Metadata, SendBatch)
+	m, err := parseMetadataMessages(req.Metadata, SendBatch)
 	if err != nil {
 		return nil, err
 	}
 
-	b, err := c.messagingClient.SendMulticast(ctx, m.defaultMulticast)
+	b, err := c.messagingClient.SendMulticast(ctx, m.multicast)
 	if err != nil {
 		return nil, err
 	}

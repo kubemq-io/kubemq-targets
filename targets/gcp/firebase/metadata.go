@@ -44,7 +44,7 @@ type metadata struct {
 }
 
 const ( // iota is reset to 0
-	unlk        = iota // c0 == 0
+	Unassigned  = iota // c0 == 0
 	SendMessage = iota // c1 == 1
 	SendBatch   = iota // c2 == 2
 )
@@ -94,15 +94,15 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	return m, nil
 }
 
-func parseMetadataNew(meta types.Metadata, metaDatatype int) (defaultmessaging, error) {
-	m := defaultmessaging{}
+func parseMetadataMessages(meta types.Metadata, metaDatatype int) (messages, error) {
+	m := messages{}
 
 	switch metaDatatype {
 	//messaging single
 	case 1:
 		n := meta.ParseString("message", "")
 		if n != "" {
-			err := json.Unmarshal([]byte(n), &m.defult)
+			err := json.Unmarshal([]byte(n), &m.single)
 			if err != nil {
 				return m, err
 			}
@@ -110,7 +110,7 @@ func parseMetadataNew(meta types.Metadata, metaDatatype int) (defaultmessaging, 
 	case 2:
 		n := meta.ParseString("multicastMessage", "")
 		if n != "" {
-			err := json.Unmarshal([]byte(n), &m.defaultMulticast)
+			err := json.Unmarshal([]byte(n), &m.multicast)
 			if err != nil {
 				return m, err
 			}

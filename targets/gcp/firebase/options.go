@@ -14,7 +14,7 @@ type options struct {
 	dbClient         bool
 	dbURL            string
 	messagingClient  bool
-	defaultMessaging *defaultmessaging
+	defaultMessaging *messages
 }
 
 func parseOptions(cfg config.Spec) (options, error) {
@@ -45,7 +45,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if o.messagingClient {
 		n := cfg.ParseString("defaultmsg", "")
 		if n != "" {
-			err := json.Unmarshal([]byte(n), &o.defaultMessaging.defult)
+			err := json.Unmarshal([]byte(n), &o.defaultMessaging.single)
 			if err != nil {
 				return o, err
 			}
@@ -53,7 +53,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 
 		n = cfg.ParseString("defaultmultimsg", "")
 		if n != "" {
-			err := json.Unmarshal([]byte(n), &o.defaultMessaging.defaultMulticast)
+			err := json.Unmarshal([]byte(n), &o.defaultMessaging.multicast)
 			if err != nil {
 				return o, err
 			}
