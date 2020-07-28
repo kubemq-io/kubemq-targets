@@ -1,0 +1,28 @@
+bindings:
+  - name: kubemq-query-kafka
+    source:
+      kind: source.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-gcpfirebase-connector"
+        auth_token: ""
+        channel: "query.gcp.firebase"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.gcp.firebase
+      name: target-gcp-firebase
+      properties:
+        project_id: "pubsubdemo-281010"
+        credentials: '{
+          "type": "service_account",
+          "project_id": "pubsubdemo-281010",
+          "private_key_id": ""}'
+        messagingClient: "true"
+        defaultmsg: '{"Topic":"Multi"}'
+      

@@ -44,14 +44,18 @@ func TestMessageMetadata(t *testing.T) {
 		{
 			name:    "parse message",
 			isMulti: false,
-			request: types.NewRequest().SetMetadataKeyValue("message", string(mb)),
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "SendMessage").
+				SetData(mb),
 			wantmsg: messages{single: m},
 			wantErr: true,
 		},
 		{
 			name:    "parse multicast msg",
 			isMulti: true,
-			request: types.NewRequest().SetMetadataKeyValue("multicast", string(multib)),
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "SendBatch").
+				SetData(multib),
 			wantmsg: messages{multicast: &messaging.MulticastMessage{
 				Tokens: []string{"123", "456"},
 				Notification: &messaging.Notification{
@@ -65,14 +69,14 @@ func TestMessageMetadata(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			if tt.isMulti {
-				m, err := parseMetadataMessages(tt.request.Metadata, options{
+				m, err := parseMetadataMessages(tt.request.Data, options{
 					defaultMessaging: &messages{},
 				}, SendBatch)
 				require.NoError(t, err)
 				require.EqualValues(t, tt.wantmsg.multicast, m.multicast)
 
 			} else {
-				m, err := parseMetadataMessages(tt.request.Metadata, options{
+				m, err := parseMetadataMessages(tt.request.Data, options{
 					defaultMessaging: &messages{},
 				}, SendMessage)
 				require.NoError(t, err)
@@ -88,6 +92,7 @@ func TestOptionsParse(t *testing.T) {
 			Topic: "newmsg",
 		},
 	}
+
 	mb, err := json.Marshal(m.single)
 	if err != nil {
 		return
@@ -124,7 +129,7 @@ func TestOptionsParse(t *testing.T) {
 		})
 	}
 }
-func TestDefultMessge(t *testing.T) {
+func TestDefultMessage(t *testing.T) {
 
 	tests := []struct {
 		name    string
@@ -134,7 +139,7 @@ func TestDefultMessge(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "parse options",
+			name: "missing data on SendMessage",
 			cfg: config.Spec{
 				Name: "test",
 				Kind: "test",
@@ -147,33 +152,15 @@ func TestDefultMessge(t *testing.T) {
 			},
 			wantmsg: &messages{single: &messaging.Message{
 				Topic: "defult",
+				Data:  map[string]string{"key1": "val1"},
 			},
 			},
-			request: &types.Request{},
-			wantErr: false,
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "SendMessage"),
+			wantErr: true,
 		},
 		{
-			name: "defult single add request fields",
-			cfg: config.Spec{
-				Name: "test",
-				Kind: "test",
-				Properties: map[string]string{
-					"project_id":      "123",
-					"credentials":     "noc",
-					"messagingClient": "true",
-					"defaultmsg":      `{"topic":"defult","token":"1234"}`,
-				},
-			},
-			request: types.NewRequest().SetMetadataKeyValue("message", `{"topic":"newTopic"}`),
-			wantmsg: &messages{single: &messaging.Message{
-				Topic: "newTopic",
-				Token: "1234",
-			},
-			},
-			wantErr: false,
-		},
-		{
-			name: "parse defult and msg with ",
+			name: "combine default and SendMessage",
 			cfg: config.Spec{
 				Name: "test",
 				Kind: "test",
@@ -184,7 +171,52 @@ func TestDefultMessge(t *testing.T) {
 					"defaultmsg":      `{"topic":"defult"}`,
 				},
 			},
-			request: types.NewRequest().SetMetadataKeyValue("message", `{"topic":"newTopic"}`),
+			wantmsg: &messages{single: &messaging.Message{
+				Topic: "defult",
+				Data:  map[string]string{"key1": "val1"},
+			},
+			},
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "SendMessage").SetData([]byte(`{"Topic":"defult","data":{"key1":"val1"}}`)),
+			wantErr: false,
+		},
+		{
+			name: "combine and replace defult SendMessage",
+			cfg: config.Spec{
+				Name: "test",
+				Kind: "test",
+				Properties: map[string]string{
+					"project_id":      "123",
+					"credentials":     "noc",
+					"messagingClient": "true",
+					"defaultmsg":      `{"Topic":"defult","token":"1234"}`,
+				},
+			},
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "SendMessage").
+				SetData([]byte(`{"Topic":"newTopic"}`)),
+			wantmsg: &messages{single: &messaging.Message{
+				Topic: "newTopic",
+				Token: "1234",
+			},
+			},
+			wantErr: false,
+		},
+		{
+			name: "replace defult SendMessage",
+			cfg: config.Spec{
+				Name: "test",
+				Kind: "test",
+				Properties: map[string]string{
+					"project_id":      "123",
+					"credentials":     "noc",
+					"messagingClient": "true",
+					"defaultmsg":      `{"Topic":"defult"}`,
+				},
+			},
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "SendMessage").
+				SetData([]byte(`{"Topic":"newTopic"}`)),
 			wantmsg: &messages{single: &messaging.Message{
 				Topic: "newTopic",
 			},
@@ -197,9 +229,17 @@ func TestDefultMessge(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			o, err := parseOptions(tt.cfg)
 			require.NoError(t, err)
-			m, err := parseMetadataMessages(tt.request.Metadata, o, SendMessage)
-			require.NoError(t, err)
-			require.EqualValues(t, tt.wantmsg, m)
+			m, err := parseMetadataMessages(tt.request.Data, o, SendMessage)
+			if tt.wantErr {
+				require.Error(t, err)
+			} else {
+				require.NoError(t, err)
+				require.EqualValues(t, tt.wantmsg, m)
+			}
+			//defult message not changed
+			oc, _ := parseOptions(tt.cfg)
+			require.EqualValues(t, oc.defaultMessaging, o.defaultMessaging)
+
 		})
 	}
 }
@@ -226,7 +266,9 @@ func TestClientDo(t *testing.T) {
 					"messagingClient": "true",
 				},
 			},
-			request: types.NewRequest().SetMetadataKeyValue("message", `{"Topic":"test"}`).SetMetadataKeyValue("method", "SendMessage"),
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "SendMessage").
+				SetData([]byte(`{"Topic":"test"}`)),
 			wantErr: false,
 		},
 	}

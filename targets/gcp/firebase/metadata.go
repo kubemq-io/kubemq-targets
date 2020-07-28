@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"firebase.google.com/go/v4/messaging"
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
@@ -113,26 +114,35 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	return m, nil
 }
 
-func parseMetadataMessages(meta types.Metadata, opts options, metaDatatype int) (*messages, error) {
+func parseMetadataMessages(data []byte, opts options, metaDatatype int) (*messages, error) {
+
+	// DeepCopy deepcopies a to b using json marshaling
 
 	switch metaDatatype {
 	//messaging single
 	case 1:
-		n := meta.ParseString("message", "")
-		if n != "" {
-			err := json.Unmarshal([]byte(n), &opts.defaultMessaging.single)
-			if err != nil {
-				return opts.defaultMessaging, err
-			}
+
+		ms := messaging.Message{}
+		DeepCopy(&opts.defaultMessaging.single, &ms)
+		err := json.Unmarshal([]byte(data), &ms)
+		if err != nil {
+			return opts.defaultMessaging, err
 		}
+		return &messages{single: &ms}, nil
 	case 2:
-		n := meta.ParseString("multicast", "")
-		if n != "" {
-			err := json.Unmarshal([]byte(n), &opts.defaultMessaging.multicast)
-			if err != nil {
-				return opts.defaultMessaging, err
-			}
+		mm := messaging.MulticastMessage{}
+		DeepCopy(&opts.defaultMessaging.multicast, &mm)
+		err := json.Unmarshal([]byte(data), &mm)
+		if err != nil {
+			return opts.defaultMessaging, err
 		}
+		return &messages{multicast: &mm}, nil
 	}
 	return opts.defaultMessaging, nil
+}
+
+// DeepCopy deepcopies a to b using json marshaling
+func DeepCopy(a, b interface{}) {
+	byt, _ := json.Marshal(a)
+	json.Unmarshal(byt, b)
 }
