@@ -38,8 +38,6 @@ var retrieveMap = map[string]string{
 
 type metadata struct {
 	method     string
-	key        string
-	item       string
 	tokenID    string
 	retrieveBy string
 	uid        string
