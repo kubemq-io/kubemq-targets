@@ -32,10 +32,16 @@ func TestClient_customToken(t *testing.T) {
 		request *types.Request
 	}{
 		{
-			name: "custom token -valid no claims",
+			name: "custom token -valid",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "custom_token").
 				SetMetadataKeyValue("token_id", "some-uid"),
+			wantErr: false,
+		},
+		{
+			name: "custom token -valid - missing token",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "custom_token"),
 			wantErr: false,
 		},
 	}
@@ -47,14 +53,12 @@ func TestClient_customToken(t *testing.T) {
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
 				return
 			}
+			require.NoError(t, err)
 			require.NotNil(t, r.Data)
-			require.NoError(t, err)
 			require.EqualValues(t, cfg.Name, c.Name())
-			require.NoError(t, err)
 		})
 	}
 }
-
 
 func TestClient_verifyToken(t *testing.T) {
 	dat, err := getTestStructure()
@@ -85,6 +89,12 @@ func TestClient_verifyToken(t *testing.T) {
 				SetMetadataKeyValue("token_id", dat.token),
 			wantErr: false,
 		},
+		{
+			name: "verify_token -invalid missing token",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "verify_token"),
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -94,10 +104,9 @@ func TestClient_verifyToken(t *testing.T) {
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
 				return
 			}
+			require.NoError(t, err)
 			require.NotNil(t, r.Data)
-			require.NoError(t, err)
 			require.EqualValues(t, cfg.Name, c.Name())
-			require.NoError(t, err)
 		})
 	}
 }

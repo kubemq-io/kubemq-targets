@@ -20,7 +20,10 @@ var methodsMap = map[string]string{
 	"list_users":            "list_users",
 
 	//------------DB-------------//
-	"get_db": "get_db",
+	"get_db":    "get_db",
+	"update_db": "update_db",
+	"delete_db": "delete_db",
+	"set_db":    "set_db",
 	//--------Messaging---------//
 	"SendMessage":      "SendMessage",
 	"SendMessageBatch": "SendMessageBatch",
@@ -84,13 +87,19 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		}
 	}
 
+	if m.method == "update_user" || m.method == "delete_user" {
+		m.uid, err = meta.MustParseString("uid")
+		if err != nil {
+			return metadata{}, fmt.Errorf("error parsing uid, %w", err)
+		}
+	}
 	if m.method == "verify_token" || m.method == "custom_token" {
 		m.tokenID, err = meta.MustParseString("token_id")
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing token_id, %w", err)
 		}
 	}
-	if m.method == "get_db" || m.method == "update_db" {
+	if m.method == "get_db" || m.method == "update_db" || m.method == "set_db" || m.method == "delete_db" {
 		m.refPath, err = meta.MustParseString("ref_path")
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing refPath, %w", err)

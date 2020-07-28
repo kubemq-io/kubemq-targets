@@ -2,8 +2,6 @@ package firebase
 
 import (
 	"context"
-	"fmt"
-
 	firebase "firebase.google.com/go/v4"
 	"firebase.google.com/go/v4/auth"
 	"firebase.google.com/go/v4/db"
@@ -91,7 +89,13 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "list_users":
 		return c.listAllUsers(ctx)
 	case "get_db":
-		return nil, fmt.Errorf("notimplelemmrt")
+		return c.dbGet(ctx, meta)
+	case "update_db":
+		return c.dbUpdate(ctx, meta, req.Data)
+	case "set_db":
+		return c.dbSet(ctx, meta, req.Data)
+	case "delete_db":
+		return c.dbDelete(ctx, meta)
 	case "SendMessage":
 		return c.SendMessage(ctx, req, c.opts)
 	case "SendBatch":

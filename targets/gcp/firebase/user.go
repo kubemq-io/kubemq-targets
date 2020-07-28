@@ -11,6 +11,26 @@ import (
 	"google.golang.org/api/iterator"
 )
 
+
+func (c *Client) createUser(ctx context.Context, data []byte) (*types.Response, error) {
+	p, err := getCreateData(data)
+	if err != nil {
+		return nil, err
+	}
+	u, err := c.clientAuth.CreateUser(ctx, p)
+	if err != nil {
+		return nil, err
+	}
+	b, err := json.Marshal(u)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok").
+			SetData(b),
+		nil
+}
+
 func (c *Client) retrieveUser(ctx context.Context, meta metadata) (*types.Response, error) {
 	var b []byte
 	switch meta.retrieveBy {
@@ -41,25 +61,6 @@ func (c *Client) retrieveUser(ctx context.Context, meta metadata) (*types.Respon
 		if err != nil {
 			return nil, err
 		}
-	}
-	return types.NewResponse().
-			SetMetadataKeyValue("result", "ok").
-			SetData(b),
-		nil
-}
-
-func (c *Client) createUser(ctx context.Context, data []byte) (*types.Response, error) {
-	p, err := getCreateData(data)
-	if err != nil {
-		return nil, err
-	}
-	u, err := c.clientAuth.CreateUser(ctx, p)
-	if err != nil {
-		return nil, err
-	}
-	b, err := json.Marshal(u)
-	if err != nil {
-		return nil, err
 	}
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok").
@@ -156,27 +157,27 @@ func getUpdateData(data []byte) (*auth.UserToUpdate, error) {
 			}
 			u.CustomClaims(c)
 		case "disabled":
-			b, err := strconv.ParseBool(fmt.Sprintf("%s", v))
+			b, err := strconv.ParseBool(fmt.Sprintf("%v", v))
 			if err != nil {
 				return u, err
 			}
 			u.Disabled(b)
 		case "display_name":
-			u.DisplayName(fmt.Sprintf("%s", v))
+			u.DisplayName(fmt.Sprintf("%v", v))
 		case "email":
-			u.Email(fmt.Sprintf("%s", v))
+			u.Email(fmt.Sprintf("%v", v))
 		case "email_verified":
-			b, err := strconv.ParseBool(fmt.Sprintf("%s", v))
+			b, err := strconv.ParseBool(fmt.Sprintf("%v", v))
 			if err != nil {
 				return u, err
 			}
 			u.EmailVerified(b)
 		case "password":
-			u.Password(fmt.Sprintf("%s", v))
+			u.Password(fmt.Sprintf("%v", v))
 		case "phone_number":
-			u.PhoneNumber(fmt.Sprintf("%s", v))
+			u.PhoneNumber(fmt.Sprintf("%v", v))
 		case "photo_url":
-			u.PhotoURL(fmt.Sprintf("%s", v))
+			u.PhotoURL(fmt.Sprintf("%v", v))
 		}
 	}
 	return u, nil
@@ -192,17 +193,17 @@ func getCreateData(data []byte) (*auth.UserToCreate, error) {
 	for k, v := range m {
 		switch k {
 		case "disabled":
-			b, err := strconv.ParseBool(fmt.Sprintf("%s", v))
+			b, err := strconv.ParseBool(fmt.Sprintf("%v", v))
 			if err != nil {
 				return u, err
 			}
 			u.Disabled(b)
 		case "display_name":
-			u.DisplayName(fmt.Sprintf("%s", v))
+			u.DisplayName(fmt.Sprintf("%v", v))
 		case "email":
-			u.Email(fmt.Sprintf("%s", v))
+			u.Email(fmt.Sprintf("%v", v))
 		case "email_verified":
-			b, err := strconv.ParseBool(fmt.Sprintf("%s", v))
+			b, err := strconv.ParseBool(fmt.Sprintf("%v", v))
 			if err != nil {
 				return u, err
 			}
@@ -210,11 +211,11 @@ func getCreateData(data []byte) (*auth.UserToCreate, error) {
 		case "password":
 			u.Password(fmt.Sprintf("%s", v))
 		case "phone_number":
-			u.PhoneNumber(fmt.Sprintf("%s", v))
+			u.PhoneNumber(fmt.Sprintf("%v", v))
 		case "photo_url":
-			u.PhotoURL(fmt.Sprintf("%s", v))
+			u.PhotoURL(fmt.Sprintf("%v", v))
 		case "local_id":
-			u.UID(fmt.Sprintf("%s", v))
+			u.UID(fmt.Sprintf("%v", v))
 		}
 	}
 	return u, nil
