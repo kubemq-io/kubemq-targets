@@ -121,7 +121,12 @@ func parseMetadataMessages(data []byte, opts options, metaDatatype int) (*messag
 	case 1:
 
 		ms := messaging.Message{}
-		DeepCopy(&opts.defaultMessaging.single, &ms)
+		if opts.defaultMessaging.single != nil {
+			err := DeepCopy(&opts.defaultMessaging.single, &ms)
+			if err != nil {
+				return opts.defaultMessaging, err
+			}
+		}
 		err := json.Unmarshal([]byte(data), &ms)
 		if err != nil {
 			return opts.defaultMessaging, err
@@ -129,7 +134,12 @@ func parseMetadataMessages(data []byte, opts options, metaDatatype int) (*messag
 		return &messages{single: &ms}, nil
 	case 2:
 		mm := messaging.MulticastMessage{}
-		DeepCopy(&opts.defaultMessaging.multicast, &mm)
+		if opts.defaultMessaging.multicast != nil {
+			err := DeepCopy(&opts.defaultMessaging.multicast, &mm)
+			if err != nil {
+				return opts.defaultMessaging, err
+			}
+		}
 		err := json.Unmarshal([]byte(data), &mm)
 		if err != nil {
 			return opts.defaultMessaging, err
@@ -140,7 +150,7 @@ func parseMetadataMessages(data []byte, opts options, metaDatatype int) (*messag
 }
 
 // DeepCopy deepcopies a to b using json marshaling
-func DeepCopy(a, b interface{}) {
+func DeepCopy(a, b interface{}) error {
 	byt, _ := json.Marshal(a)
-	json.Unmarshal(byt, b)
+	return json.Unmarshal(byt, b)
 }
