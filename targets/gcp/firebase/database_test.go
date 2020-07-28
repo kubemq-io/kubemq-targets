@@ -38,6 +38,7 @@ func TestClient_db(t *testing.T) {
 	require.NoError(t, err)
 	k := "newValue1"
 	bk1, err := json.Marshal(k)
+	require.NoError(t, err)
 	k2 := "newValue2"
 	bk2, err := json.Marshal(k2)
 	require.NoError(t, err)
