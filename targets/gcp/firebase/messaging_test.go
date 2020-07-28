@@ -27,12 +27,15 @@ func TestMessageMetadata(t *testing.T) {
 		Tokens: []string{"123", "456"},
 		Notification: &messaging.Notification{
 			Title: "title",
-		}}
+		},
+		Data: map[string]string{"key": "val"},
+	}
 
 	multib, err := json.Marshal(multi)
 	if err != nil {
 		return
 	}
+	fmt.Print(string(multib))
 
 	tests := []struct {
 		name    string
