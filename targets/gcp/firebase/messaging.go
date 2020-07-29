@@ -15,7 +15,7 @@ type messages struct {
 }
 
 func (c *Client) SendMessage(ctx context.Context, req *types.Request, opts options) (*types.Response, error) {
-	m, err := parseMetadataMessages(req.Metadata, opts, SendMessage)
+	m, err := parseMetadataMessages(req.Data, opts, SendMessage)
 	if err != nil {
 		return nil, err
 	}
@@ -29,7 +29,7 @@ func (c *Client) SendMessage(ctx context.Context, req *types.Request, opts optio
 }
 
 func (c *Client) SendMessageBatch(ctx context.Context, req *types.Request, opts options) (*types.Response, error) {
-	m, err := parseMetadataMessages(req.Metadata, opts, SendBatch)
+	m, err := parseMetadataMessages(req.Data, opts, SendBatch)
 	if err != nil {
 		return nil, err
 	}

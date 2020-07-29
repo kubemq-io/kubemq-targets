@@ -13,14 +13,19 @@ The following required to run the gcp-firebase target connector:
 
 firebase target connector configuration properties:
 
-| Properties Key | Required | Description                                | Example                    |
-|:---------------|:---------|:-------------------------------------------|:---------------------------|
-| project_id     | yes      | gcp firestore project_id                   | "<googleurl>/myproject"    |
-| credentials    | yes      | gcp credentials files                      | "<google json credentials" |
-| db_client      | no       | initialize db client if true               | true/false                 |
-| db_url         | no       | gcp db full path                           | <google db url"            |
-| auth_client    | no       | initialize auth client if true             | true/false                 |
+| Properties Key  | Required | Description                                | Example                    |
+|:----------------|:---------|:-------------------------------------------|:---------------------------|
+| project_id      | yes      | gcp firebase project_id                    | "<googleurl>/myproject"    |
+| credentials     | yes      | gcp credentials files                      | "<google json credentials" |
+| db_client       | no       | initialize db client if true               | true/false                 |
+| db_url          | no       | gcp db full path                           | <google db url"            |
+| auth_client     | no       | initialize auth client if true             | true/false                 |
+| messagingClient | no       | initialize messaging client                | true/false                 |
+| defaultmsg      | no       | default Firebase Cloud Messaging           | json                       |
+| defaultmultimsg | no       | default Firebase Cloud MulticastMessage    | json                       |   
 
+*defaultmsg - can be used for common message settings
+*defaultmultimsg - can be used for common message settings
 
 Example:
 
@@ -113,7 +118,7 @@ Update DB metadata setting:
 
 | Metadata Key | Required | Description                            | Possible values       |
 |:-------------|:---------|:---------------------------------------|:----------------------|
-| method       | yes      | method type                            | update_db                |
+| method       | yes      | method type                            | update_db             |
 | ref_path     | yes      | ref path for the data                  | valid string          |
 | child_ref    | no       | path for child ref data                | valid string          |
 
@@ -140,7 +145,7 @@ Delete DB metadata setting:
 
 | Metadata Key | Required | Description                            | Possible values       |
 |:-------------|:---------|:---------------------------------------|:----------------------|
-| method       | yes      | method type                            | delete_db                |
+| method       | yes      | method type                            | delete_db             |
 | ref_path     | yes      | ref path for the data                  | valid string          |
 | child_ref    | no       | path for child ref data                | valid string          |
 
@@ -158,7 +163,7 @@ Example:
 ```
 
 
-##User:
+## User:
 
 
 ### Create User
@@ -167,7 +172,7 @@ Create User metadata setting:
 
 | Metadata Key | Required | Description                            | Possible values       |
 |:-------------|:---------|:---------------------------------------|:----------------------|
-| method       | yes      | method type                            | create_user                |        |
+| method       | yes      | method type                            | create_user           |
 
 
 Example:
@@ -187,13 +192,13 @@ Example:
 
 Retrieve User metadata setting:
 
-| Metadata Key | Required | Description                            | Possible values       |
-|:-------------|:---------|:---------------------------------------|:----------------------|
-| method       | yes      | method type                            | retrieve_user                |        |
-| retrieve_by  | yes      | type of retrieval                      | by_email ,by_uid,by_phone               |        |
-| uid          | no       | valid unique string                    | string                          |        |
-| phone        | no       | valid phone number                     | string                           |        |
-| email        | no       | valid email                            | string                           |        |
+| Metadata Key | Required | Description                            | Possible values           |
+|:-------------|:---------|:---------------------------------------|:--------------------------|
+| method       | yes      | method type                            | retrieve_user             |
+| retrieve_by  | yes      | type of retrieval                      | by_email ,by_uid,by_phone |
+| uid          | no       | valid unique string                    | string                    |
+| phone        | no       | valid phone number                     | string                    |
+| email        | no       | valid email                            | string                    |
 
 
 Example:
@@ -216,8 +221,8 @@ Delete User metadata setting:
 
 | Metadata Key | Required | Description                            | Possible values       |
 |:-------------|:---------|:---------------------------------------|:----------------------|
-| method       | yes      | method type                            | delete_user                |        |      |
-| uid          | yes      | valid unique string                    | string                     |        |
+| method       | yes      | method type                            | delete_user           |
+| uid          | yes      | valid unique string                    | string                |
 
 
 Example:
@@ -238,7 +243,7 @@ Example:
 
 | Metadata Key | Required | Description                            | Possible values       |
 |:-------------|:---------|:---------------------------------------|:----------------------|
-| method       | yes      | method type                            | delete_multiple_users                |        |      |
+| method       | yes      | method type                            | delete_multiple_users |
 
 
 Example:
@@ -259,8 +264,8 @@ Update User metadata setting:
 
 | Metadata Key | Required | Description                            | Possible values       |
 |:-------------|:---------|:---------------------------------------|:----------------------|
-| method       | yes      | method type                            | update_user                |        |      |
-| uid          | yes      | valid unique string                    | string                     |        |
+| method       | yes      | method type                            | update_user           |        
+| uid          | yes      | valid unique string                    | string                |      
 
 
 Example:
@@ -282,7 +287,7 @@ List User metadata setting:
 
 | Metadata Key | Required | Description                            | Possible values       |
 |:-------------|:---------|:---------------------------------------|:----------------------|
-| method       | yes      | method type                            | list_users                |        |      |
+| method       | yes      | method type                            | list_users            |
 
 
 Example:
@@ -297,7 +302,7 @@ Example:
 ```
 
 
-##Token:
+## Token:
 
 ### Custom Token
 
@@ -340,5 +345,49 @@ Example:
     "token_id": "some-uid"
   },
   "data": null
+}
+```
+
+## Messaging:
+
+
+
+### Send Message
+
+  Firebase FCM messaging information can be found in https://firebase.google.com/docs/cloud-messaging/concept-options
+
+Create User metadata setting:
+
+| Metadata Key | Required | Description                            | Possible values       |
+|:-------------|:---------|:---------------------------------------|:----------------------|
+| method       | yes      | method type                            | SendMessage/SendBatch |
+
+
+
+
+Example:
+SendMessage
+```json 
+{
+  "metadata": {
+    "method": "SendMessage"
+  },
+  "data": {
+    "topic":"app topic",
+     "data":{"key1":"val1"}
+  }
+}
+```
+
+SendBatch
+```json 
+{
+  "metadata": {
+    "method": "SendMessage"
+  },
+  "data": {
+    "topic":"app topic",
+     "data":{"Tokens":["123","456"],"Data":{"key":"val"},"Notification":{"title":"title"}}
+  }
 }
 ```
