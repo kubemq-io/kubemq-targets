@@ -24,6 +24,8 @@ firebase target connector configuration properties:
 | defaultmsg      | no       | default Firebase Cloud Messaging           | json                       |
 | defaultmultimsg | no       | default Firebase Cloud MulticastMessage    | json                       |   
 
+*defaultmsg - can be used for common message settings
+*defaultmultimsg - can be used for common message settings
 
 Example:
 
@@ -372,7 +374,7 @@ SendMessage
   },
   "data": {
     "topic":"app topic",
-     "data":{"key1","val1"}
+     "data":{"key1":"val1"}
   }
 }
 ```
