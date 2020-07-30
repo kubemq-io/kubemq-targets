@@ -14,9 +14,9 @@ import (
 	"github.com/spf13/viper"
 )
 
-const defaultApiPort = 8080
+const defaultApiPort = 8081
 
-var configFile = pflag.String("config", "", "set config file name")
+var configFile = pflag.String("config", "C:\\Users\\eitam\\Documents\\kubemq-targets-new\\examples\\gcp\\firebase\\user\\config.yaml", "set config file name")
 
 type Config struct {
 	Bindings []BindingConfig `json:"bindings"`
