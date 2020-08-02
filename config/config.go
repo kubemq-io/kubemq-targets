@@ -14,7 +14,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-const defaultApiPort = 8081
+const defaultApiPort = 8080
 
 var configFile = pflag.String("config", "", "set config file name")
 
