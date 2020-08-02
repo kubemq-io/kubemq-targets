@@ -9,7 +9,7 @@
 
 ## Concepts
 
-### Taraget / Source / Binding
+### target / Source / Binding
 
 ![binding](.github/assets/binding.jpeg)
 
