@@ -69,6 +69,6 @@ Example:
     "name": "testFunction",
     "location": "us-central1"    
   },
-  "data": {"message":"test"}
+  "data": "eyJtZXNzYWdlIjoidGVzdCJ9"
 }
 ```
