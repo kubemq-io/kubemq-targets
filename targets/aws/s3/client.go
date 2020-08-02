@@ -11,7 +11,6 @@ import (
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
 	"github.com/kubemq-hub/kubemq-targets/config"
-	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
@@ -19,7 +18,6 @@ type Client struct {
 	name       string
 	opts       options
 	client     *s3.S3
-	log        *logger.Logger
 	uploader   *s3manager.Uploader
 	downloader *s3manager.Downloader
 }
@@ -39,7 +37,6 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-
 	sess, err := session.NewSession(&aws.Config{
 		Region:      aws.String(c.opts.region),
 		Credentials: credentials.NewStaticCredentials(c.opts.awsKey, c.opts.awsSecretKey, c.opts.token),
@@ -50,10 +47,10 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 
 	svc := s3.New(sess)
 	c.client = svc
-	if c.opts.downloader == true {
+	if c.opts.downloader {
 		c.downloader = s3manager.NewDownloader(sess)
 	}
-	if c.opts.uploader == true {
+	if c.opts.uploader {
 		c.uploader = s3manager.NewUploader(sess)
 	}
 
@@ -68,8 +65,22 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	switch meta.method {
 	case "list_buckets":
 		return c.listBuckets(ctx)
+	case "list_bucket_items":
+		return c.listBucketItems(ctx, meta)
 	case "create_bucket":
 		return c.createBucket(ctx, meta)
+	case "delete_bucket":
+		return c.deleteBucket(ctx, meta)
+	case "delete_item_from_bucket":
+		return c.deleteItemFromBucket(ctx, meta)
+	case "delete_all_items_from_bucket":
+		return c.deleteAllItemsFromBucket(ctx, meta)
+	case "upload_item":
+		return c.uploadItem(ctx, meta, req.Data)
+	case "copy_item":
+		return c.copyItem(ctx, meta)
+	case "get_item":
+		return c.downloadItem(ctx, meta)
 
 	default:
 		return nil, fmt.Errorf(getValidMethodTypes())
@@ -113,7 +124,7 @@ func (c *Client) createBucket(ctx context.Context, meta metadata) (*types.Respon
 	if err != nil {
 		return nil, err
 	}
-	if meta.waitForCompletion == true {
+	if meta.waitForCompletion  {
 		err = c.client.WaitUntilBucketExistsWithContext(ctx, &s3.HeadBucketInput{
 			Bucket: aws.String(meta.bucketName),
 		})
@@ -132,13 +143,13 @@ func (c *Client) createBucket(ctx context.Context, meta metadata) (*types.Respon
 }
 
 func (c *Client) deleteBucket(ctx context.Context, meta metadata) (*types.Response, error) {
-	m, err := c.client.DeleteBucketWithContext(ctx, &s3.DeleteBucketInput{
+	_, err := c.client.DeleteBucketWithContext(ctx, &s3.DeleteBucketInput{
 		Bucket: aws.String(meta.bucketName),
 	})
 	if err != nil {
 		return nil, err
 	}
-	if meta.waitForCompletion == true {
+	if meta.waitForCompletion  {
 		err = c.client.WaitUntilBucketNotExistsWithContext(ctx, &s3.HeadBucketInput{
 			Bucket: aws.String(meta.bucketName),
 		})
@@ -146,13 +157,8 @@ func (c *Client) deleteBucket(ctx context.Context, meta metadata) (*types.Respon
 			return nil, err
 		}
 	}
-	b, err := json.Marshal(m)
-	if err != nil {
-		return nil, err
-	}
 	return types.NewResponse().
-			SetMetadataKeyValue("result", "ok").
-			SetData(b),
+			SetMetadataKeyValue("result", "ok"),
 		nil
 }
 
@@ -164,7 +170,7 @@ func (c *Client) deleteItemFromBucket(ctx context.Context, meta metadata) (*type
 	if err != nil {
 		return nil, err
 	}
-	if meta.waitForCompletion == true {
+	if meta.waitForCompletion  {
 		err = c.client.WaitUntilObjectNotExistsWithContext(ctx, &s3.HeadObjectInput{
 			Bucket: aws.String(meta.bucketName),
 			Key:    aws.String(meta.itemName),
@@ -209,7 +215,7 @@ func (c *Client) uploadItem(ctx context.Context, meta metadata, data []byte) (*t
 	if err != nil {
 		return nil, err
 	}
-	if meta.waitForCompletion == true {
+	if meta.waitForCompletion {
 		err = c.client.WaitUntilObjectExistsWithContext(ctx, &s3.HeadObjectInput{
 			Bucket: aws.String(meta.bucketName),
 			Key:    aws.String(meta.itemName),
@@ -228,20 +234,16 @@ func (c *Client) uploadItem(ctx context.Context, meta metadata, data []byte) (*t
 		nil
 }
 
-func (c *Client) copyItem(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
-	if c.uploader == nil {
-		return nil, fmt.Errorf("uploader client is nil, set uploader to true when creating the client")
-	}
-	r := bytes.NewReader(data)
-	m, err := c.uploader.UploadWithContext(ctx, &s3manager.UploadInput{
-		Bucket: aws.String(meta.bucketName),
-		Key:    aws.String(meta.itemName),
-		Body:   r,
+func (c *Client) copyItem(ctx context.Context, meta metadata) (*types.Response, error) {
+	m, err := c.client.CopyObjectWithContext(ctx, &s3.CopyObjectInput{
+		Bucket:     aws.String(meta.bucketName),
+		CopySource: aws.String(meta.copySource),
+		Key:        aws.String(meta.itemName),
 	})
 	if err != nil {
 		return nil, err
 	}
-	if meta.waitForCompletion == true {
+	if meta.waitForCompletion {
 		err = c.client.WaitUntilObjectExistsWithContext(ctx, &s3.HeadObjectInput{
 			Bucket: aws.String(meta.bucketName),
 			Key:    aws.String(meta.itemName),
@@ -269,7 +271,7 @@ func (c *Client) downloadItem(ctx context.Context, meta metadata) (*types.Respon
 		Key:    aws.String(meta.itemName),
 	}
 	buf := aws.NewWriteAtBuffer([]byte{})
-	m,err:= c.downloader.DownloadWithContext(ctx,buf, &requestInput)
+	m, err := c.downloader.DownloadWithContext(ctx, buf, &requestInput)
 	if err != nil {
 		return nil, err
 	}

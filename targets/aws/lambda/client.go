@@ -9,7 +9,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/kubemq-hub/kubemq-targets/config"
-	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
@@ -17,7 +16,6 @@ type Client struct {
 	name   string
 	opts   options
 	client *lambda.Lambda
-	log    *logger.Logger
 }
 
 func New() *Client {
@@ -133,16 +131,11 @@ func (c *Client) run(ctx context.Context, meta metadata, data []byte) (*types.Re
 
 func (c *Client) delete(ctx context.Context, meta metadata) (*types.Response, error) {
 	
-	result, err := c.client.DeleteFunctionWithContext(ctx, &lambda.DeleteFunctionInput{FunctionName: aws.String(meta.functionName)})
-	if err != nil {
-		return nil, err
-	}
-	b, err := json.Marshal(result)
+	_, err := c.client.DeleteFunctionWithContext(ctx, &lambda.DeleteFunctionInput{FunctionName: aws.String(meta.functionName)})
 	if err != nil {
 		return nil, err
 	}
 	return types.NewResponse().
-			SetMetadataKeyValue("result", "ok").
-			SetData(b),
+			SetMetadataKeyValue("result", "ok"),
 		nil
 }

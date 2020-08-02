@@ -89,7 +89,7 @@ Example:
     "method": "read",
     "table_name": "<myTable>"
   },
-  "data": "[\"id\",\"name\"]"
+  "data": "W1wiaWRcIixcIm5hbWVcIl0="
 }
 ```
 
@@ -109,6 +109,6 @@ Example:
   "metadata": {
     "method": "insert_or_update"
   },
-  "data": "[{\"table_name\":\"test2\",\"column_names\":[\"id\",\"name\"],\"column_values\":[17,\"name1\"],\"column_type\":[\"INT64\",\"STRING\"]},{\"table_name\":\"test2\",\"column_names\":[\"id\",\"name\"],\"column_values\":[18,\"name2\"],\"column_type\":[\"INT64\",\"STRING\"]}]"
+  "data": "W3tcInRhYmxlX25hbWVcIjpcInRlc3QyXCIsXCJjb2x1bW5fbmFtZXNcIjpbXCJpZFwiLFwibmFtZVwiXSxcImNvbHVtbl92YWx1ZXNcIjpbMTcsXCJuYW1lMVwiXSxcImNvbHVtbl90eXBlXCI6W1wiSU5UNjRcIixcIlNUUklOR1wiXX0se1widGFibGVfbmFtZVwiOlwidGVzdDJcIixcImNvbHVtbl9uYW1lc1wiOltcImlkXCIsXCJuYW1lXCJdLFwiY29sdW1uX3ZhbHVlc1wiOlsxOCxcIm5hbWUyXCJdLFwiY29sdW1uX3R5cGVcIjpbXCJJTlQ2NFwiLFwiU1RSSU5HXCJdfV0="
 }
 ```

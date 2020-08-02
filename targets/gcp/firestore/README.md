@@ -67,7 +67,7 @@ Example:
     "method": "add",
     "collection": "my_collection"
   },
-  "data": "Hello"
+  "data": "QWRkIFZhbHVl"
 }
 ```
 
@@ -92,7 +92,7 @@ Example:
     "collection": "my_collection",
     "item": "<valid existing key>"
   },
-  "data": "Hello"
+  "data": "ZG9jdW1lbnRzIGFsbCBtZXNzYWdl"
 }
 ```
 
@@ -113,7 +113,7 @@ Example:
     "method": "documents_all",
     "collection": "my_collection"
   },
-  "data": "Hello"
+  "data": "ZG9jdW1lbnRzIGFsbCBtZXNzYWdl"
 }
 ```
 
@@ -138,6 +138,6 @@ Example:
     "collection": "my_collection",
     "item": "valid existing key"
   },
-  "data": "Hello"
+  "data": "ZGVsZXRlIGtleQ=="
 }
 ```

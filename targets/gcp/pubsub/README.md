@@ -58,7 +58,7 @@ Send Message metadata setting:
 | Metadata Key | Required | Description                            | Possible values       |
 |:-------------|:---------|:---------------------------------------|:----------------------|
 | topicID      | yes      | the name of the topicID to sent to     | valid topicID         |
-| tags         | no       | type of method                         | string tags           |
+| tags         | no       | type of method                         | key value string          |
 
 
 Example:
@@ -69,6 +69,6 @@ Example:
     "topic_id": "my_topic",
     "tags": "{\"tag-1\":\"test\",\"tag-2\":\"test2\"}"
   },
-  "data": "Hello"
+  "data": "c3RyaW5n"
 }
 ```
