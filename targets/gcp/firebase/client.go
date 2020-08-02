@@ -2,6 +2,7 @@ package firebase
 
 import (
 	"context"
+
 	firebase "firebase.google.com/go/v4"
 	"firebase.google.com/go/v4/auth"
 	"firebase.google.com/go/v4/db"
@@ -96,10 +97,10 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.dbSet(ctx, meta, req.Data)
 	case "delete_db":
 		return c.dbDelete(ctx, meta)
-	case "SendMessage":
-		return c.SendMessage(ctx, req, c.opts)
-	case "SendBatch":
-		return c.SendMessageBatch(ctx, req, c.opts)
+	case "send_message":
+		return c.sendMessage(ctx, req, c.opts)
+	case "send_multi":
+		return c.sendMessageMulti(ctx, req, c.opts)
 	}
 	return nil, nil
 }

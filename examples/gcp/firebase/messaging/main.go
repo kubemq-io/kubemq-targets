@@ -20,7 +20,7 @@ func main() {
 		log.Fatal(err)
 	}
 	publishRequest := types.NewRequest().
-		SetMetadataKeyValue("method", "SendMessage").
+		SetMetadataKeyValue("method", "send_message").
 		SetData([]byte(`{"Topic":"test",
 								"data":{
 									"key1":"value1"

@@ -350,44 +350,46 @@ Example:
 
 ## Messaging:
 
+Firebase messaging will send a FCM message or send the message to multiple devices.
+* message https://firebase.google.com/docs/reference/fcm/rest/v1/projects.messages
+* multi https://firebase.google.com/docs/cloud-messaging/send-message#go_1
 
-
-### Send Message
-
-  Firebase FCM messaging information can be found in https://firebase.google.com/docs/cloud-messaging/concept-options
+### Send Message 
 
 Create User metadata setting:
 
-| Metadata Key | Required | Description                            | Possible values       |
-|:-------------|:---------|:---------------------------------------|:----------------------|
-| method       | yes      | method type                            | SendMessage/SendBatch |
-
-
+| Metadata Key | Required | Description                            | Possible values         |
+|:-------------|:---------|:---------------------------------------|:------------------------|
+| method       | yes      | method type                            | send_message/send_multi |
 
 
 Example:
-SendMessage
+send_message
 ```json 
 {
   "metadata": {
-    "method": "SendMessage"
+    "method": "send_message"
   },
-  "data": {
-    "topic":"app topic",
-     "data":{"key1":"val1"}
-  }
+  "data": "ewoiVG9waWMiOiJ0ZXN0IiwKImRhdGEiOiB7ImtleTEiOiJ2YWx1ZTEifQp9"
 }
-```
 
-SendBatch
+* data value is base64  {
+  "Topic":"test",
+  "data": {"key1":"value1"}
+  }
+```
+Example:
+send_multi
 ```json 
 {
   "metadata": {
-    "method": "SendMessage"
+    "method": "send_multi"
   },
-  "data": {
+  "data": "ewogICAgInRvcGljIjoiYXBwIHRvcGljIiwKICAgICAiZGF0YSI6eyJUb2tlbnMiOlsiMTIzIiwiNDU2Il0sIkRhdGEiOnsia2V5IjoidmFsIn0sIk5vdGlmaWNhdGlvbiI6eyJ0aXRsZSI6InRpdGxlIn19CiB9"
+}
+
+* data value is base64  {
     "topic":"app topic",
      "data":{"Tokens":["123","456"],"Data":{"key":"val"},"Notification":{"title":"title"}}
   }
-}
 ```
