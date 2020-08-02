@@ -116,7 +116,7 @@ Example:
     "column_family": "valid_unique_string",
     "table_name": "valid_table_string"
   },
-  "data": "{\"id\":1,\"name\":\"test1\",\"set_row_key\":\"1\"}"
+  "data": "eyJpZCI6MSwibmFtZSI6InRlc3QxIiwic2V0X3Jvd19rZXkiOiIxIn0="
 }
 ```
 

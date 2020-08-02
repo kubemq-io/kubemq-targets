@@ -145,7 +145,6 @@ func TestClient_Init(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.EqualValues(t, tt.cfg.Name, c.Name())
-			require.NoError(t, err)
 		})
 	}
 }

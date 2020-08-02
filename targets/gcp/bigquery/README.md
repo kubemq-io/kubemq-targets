@@ -88,8 +88,7 @@ Example:
   "metadata": {
     "method": "create_table",
     "dataset_id": "<mySet>",
-    "table_name": "<myTable>",
-    "query": "select * from table"
+    "table_name": "<myTable>"
   },
   "data": null
 }
@@ -135,8 +134,7 @@ Example:
   "metadata": {
     "method": "get_table_info",
     "dataset_id": "<mySet>",
-    "table_name": "<myTable>",
-    "query": "select * from table"
+    "table_name": "<myTable>"
   },
   "data": null
 }
@@ -145,20 +143,17 @@ Example:
 
 ### Insert To Table
 
-Insert To Table this method required a body of rows of string[bigquery.value]
+Insert To Table this method required a body of rows of string [bigquery.value]
 
 
 
 Example how to create the struct:
 ```go
-    var rows:= []map[string]bigquery.Value
+    var rows = []map[string]bigquery.Value
 	firstRow := make(map[string]bigquery.Value)
 	firstRow["name"] = "myName4"
 	firstRow["age"] = 25
 	rows = append(rows, firstRow)
-	secondRow := make(map[string]bigquery.Value)
-	secondRow["name"] = "myName5"
-	secondRow["age"] = 28
 	rows = append(rows, secondRow)
 	bRows, err := json.Marshal(&rows)
 ```
@@ -177,9 +172,8 @@ Example:
   "metadata": {
     "method": "insert",
     "dataset_id": "<mySet>",
-    "table_name": "<myTable>",
-    "query": "select * from table"
+    "table_name": "<myTable>"
   },
-  "data": "bRows"
+  "data": "W3sgIm5hbWUiOiJteU5hbWU0IiwgImFnZSI6MjV9XQ=="
 }
 ```
