@@ -373,12 +373,12 @@ send_message
   "data": "ewoiVG9waWMiOiJ0ZXN0IiwKImRhdGEiOiB7ImtleTEiOiJ2YWx1ZTEifQp9"
 }
 
-* data is base64  {
+* data value is base64  {
   "Topic":"test",
   "data": {"key1":"value1"}
   }
 ```
-
+Example:
 send_multi
 ```json 
 {
@@ -388,7 +388,7 @@ send_multi
   "data": "ewogICAgInRvcGljIjoiYXBwIHRvcGljIiwKICAgICAiZGF0YSI6eyJUb2tlbnMiOlsiMTIzIiwiNDU2Il0sIkRhdGEiOnsia2V5IjoidmFsIn0sIk5vdGlmaWNhdGlvbiI6eyJ0aXRsZSI6InRpdGxlIn19CiB9"
 }
 
-* data is base64  {
+* data value is base64  {
     "topic":"app topic",
      "data":{"Tokens":["123","456"],"Data":{"key":"val"},"Notification":{"title":"title"}}
   }
