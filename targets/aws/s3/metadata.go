@@ -10,6 +10,8 @@ type metadata struct {
 
 	waitForCompletion bool
 	bucketName        string
+
+	itemName string
 }
 
 var methodsMap = map[string]string{
@@ -36,8 +38,12 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing bucket_name, %w", err)
 		}
-		if m.method == "create_bucket" {
-			m.waitForCompletion = meta.ParseBool("wait_for_completion", false)
+		m.waitForCompletion = meta.ParseBool("wait_for_completion", false)
+	}
+	if m.method == "upload_item" {
+		m.itemName, err = meta.MustParseString("item_name")
+		if err != nil {
+			return metadata{}, fmt.Errorf("error parsing item_name, %w", err)
 		}
 	}
 	return m, nil
