@@ -374,9 +374,11 @@ SendMessage
   },
   "data": {
     "topic":"app topic",
-     "data":{"key1":"val1"}
+     "data":"eyJrZXkxIjoidmFsMSJ9"
   }
 }
+
+* data is base64  {"key1":"val1"}
 ```
 
 SendBatch
@@ -387,7 +389,9 @@ SendBatch
   },
   "data": {
     "topic":"app topic",
-     "data":{"Tokens":["123","456"],"Data":{"key":"val"},"Notification":{"title":"title"}}
+     "data":"eyJUb2tlbnMiOlsiMTIzIiwiNDU2Il0sIkRhdGEiOnsia2V5IjoidmFsIn0sIk5vdGlmaWNhdGlvbiI6eyJ0aXRsZSI6InRpdGxlIn19"
   }
 }
+
+* data is base64  {"Tokens":["123","456"],"Data":{"key":"val"},"Notification":{"title":"title"}}
 ```
