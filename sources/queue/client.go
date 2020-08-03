@@ -2,14 +2,14 @@ package queue
 
 import (
 	"context"
-	"github.com/kubemq-hub/kubemq-target-connectors/middleware"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/middleware"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/kubemq-io/kubemq-go"
 
 	"errors"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
 )
 
 var (
@@ -38,7 +38,7 @@ func New() *Client {
 func (c *Client) Name() string {
 	return c.name
 }
-func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
+func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
 	c.log = logger.NewLogger(fmt.Sprintf("kubemq-queue-source-%s", cfg.Name))
 	var err error

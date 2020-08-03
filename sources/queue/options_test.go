@@ -1,7 +1,7 @@
 package queue
 
 import (
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
+	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/stretchr/testify/require"
 	"testing"
 )
@@ -10,13 +10,13 @@ func TestOptions_parseOptions(t *testing.T) {
 
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		want    options
 		wantErr bool
 	}{
 		{
 			name: "valid options",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
@@ -46,7 +46,7 @@ func TestOptions_parseOptions(t *testing.T) {
 		},
 		{
 			name: "invalid options - bad port",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
@@ -59,7 +59,7 @@ func TestOptions_parseOptions(t *testing.T) {
 		},
 		{
 			name: "invalid options - bad channel",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
@@ -73,7 +73,7 @@ func TestOptions_parseOptions(t *testing.T) {
 		},
 		{
 			name: "invalid options - bad concurrency",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
@@ -88,7 +88,7 @@ func TestOptions_parseOptions(t *testing.T) {
 		},
 		{
 			name: "invalid options - bad batch size",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
@@ -104,7 +104,7 @@ func TestOptions_parseOptions(t *testing.T) {
 		},
 		{
 			name: "invalid options - bad wait timeout",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{

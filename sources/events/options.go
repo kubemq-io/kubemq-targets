@@ -2,7 +2,7 @@ package events
 
 import (
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
+	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/nats-io/nuid"
 	"time"
 )
@@ -21,7 +21,7 @@ type options struct {
 	maxReconnects            int
 }
 
-func parseOptions(cfg config.Metadata) (options, error) {
+func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
 	o.host = cfg.ParseString("host", defaultHost)

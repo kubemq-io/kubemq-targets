@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/service/sqs"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
 type metadata struct {

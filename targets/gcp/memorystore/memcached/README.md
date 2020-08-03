@@ -1,4 +1,4 @@
-# Kubemq Memcached Target Connector
+# Kubemq Memcached-gcp Target Connector
 
 Kubemq memcached target connector allows services using kubemq server to access memcached server functions such `set`, `get` and `delete`.
 
@@ -7,7 +7,8 @@ The following are required to run the memcached target connector:
 
 - kubemq cluster
 - memcached server
-- kubemq-target-connectors deployment
+- access to gcp Memcached server
+- kubemq-targets deployment
 
 ## Configuration
 
@@ -23,14 +24,14 @@ Example:
 
 ```yaml
 bindings:
-  - name: kubemq-query-memcached
+  - name: kubemq-query-gcp-memcached
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
         port: "50000"
-        client_id: "kubemq-query-memcached-connector"
+        client_id: "kubemq-query-gcp-memcached-connector"
         auth_token: ""
         channel: "query.memcached"
         group:   ""
@@ -39,8 +40,8 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.cache.memcached
-      name: target-memcached
+      kind: target.gcp.cache.memcached
+      name: target-gcp-memcached
       properties:
         hosts: "localhost:11211"
         max_idle_connections: "2"

@@ -3,8 +3,8 @@ package storage
 import (
 	"context"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
 	"io/ioutil"
 	"testing"
@@ -78,12 +78,12 @@ func TestClient_Init(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-storage-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -113,7 +113,7 @@ func TestClient_Init(t *testing.T) {
 
 func TestClient_Create_Bucket(t *testing.T) {
 	dat, err := getTestStructure()
-	cfg2 := config.Metadata{
+	cfg2 := config.Spec{
 		Name: "google-storage-target",
 		Kind: "",
 		Properties: map[string]string{
@@ -160,7 +160,7 @@ func TestClient_Create_Bucket(t *testing.T) {
 
 func TestClient_Upload_Object(t *testing.T) {
 	dat, err := getTestStructure()
-	cfg2 := config.Metadata{
+	cfg2 := config.Spec{
 		Name:       "google-storage-target",
 		Kind:       "",
 		Properties: map[string]string{
@@ -246,7 +246,7 @@ func TestClient_Upload_Object(t *testing.T) {
 
 func TestClient_Delete_Object(t *testing.T) {
 	dat, err := getTestStructure()
-	cfg2 := config.Metadata{
+	cfg2 := config.Spec{
 		Name:       "google-storage-target",
 		Kind:       "",
 		Properties: map[string]string{
@@ -319,7 +319,7 @@ func TestClient_Delete_Object(t *testing.T) {
 
 func TestClient_Download_Object(t *testing.T) {
 	dat, err := getTestStructure()
-	cfg2 := config.Metadata{
+	cfg2 := config.Spec{
 		Name:       "google-storage-target",
 		Kind:       "",
 		Properties: map[string]string{
@@ -393,7 +393,7 @@ func TestClient_Download_Object(t *testing.T) {
 
 func TestClient_List_Object(t *testing.T) {
 	dat, err := getTestStructure()
-	cfg2 := config.Metadata{
+	cfg2 := config.Spec{
 		Name:       "google-storage-target",
 		Kind:       "",
 		Properties: map[string]string{
@@ -451,7 +451,7 @@ func TestClient_List_Object(t *testing.T) {
 
 func TestClient_Rename_Object(t *testing.T) {
 	dat, err := getTestStructure()
-	cfg2 := config.Metadata{
+	cfg2 := config.Spec{
 		Name:       "google-storage-target",
 		Kind:       "",
 		Properties: map[string]string{
@@ -536,7 +536,7 @@ func TestClient_Rename_Object(t *testing.T) {
 
 func TestClient_Copy_Object(t *testing.T) {
 	dat, err := getTestStructure()
-	cfg2 := config.Metadata{
+	cfg2 := config.Spec{
 		Name:       "google-storage-target",
 		Kind:       "",
 		Properties: map[string]string{
@@ -628,7 +628,7 @@ func TestClient_Copy_Object(t *testing.T) {
 
 func TestClient_Move_Object(t *testing.T) {
 	dat, err := getTestStructure()
-	cfg2 := config.Metadata{
+	cfg2 := config.Spec{
 		Name:       "google-storage-target",
 		Kind:       "",
 		Properties: map[string]string{

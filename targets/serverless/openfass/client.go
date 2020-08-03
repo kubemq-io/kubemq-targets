@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/go-resty/resty/v2"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"io"
 	"io/ioutil"
 )
@@ -23,7 +23,7 @@ func New() *Client {
 func (c *Client) Name() string {
 	return c.name
 }
-func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
+func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
 	var err error
 	c.opts, err = parseOptions(cfg)

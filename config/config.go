@@ -4,22 +4,29 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/ghodss/yaml"
-	"github.com/spf13/pflag"
-	"github.com/spf13/viper"
 	"io/ioutil"
 	"log"
 	"os"
 	"strings"
+
+	"github.com/ghodss/yaml"
+	"github.com/spf13/pflag"
+	"github.com/spf13/viper"
 )
+
+const defaultApiPort = 8080
 
 var configFile = pflag.String("config", "", "set config file name")
 
 type Config struct {
 	Bindings []BindingConfig `json:"bindings"`
+	ApiPort  int             `json:"api_port"`
 }
 
 func (c *Config) Validate() error {
+	if c.ApiPort == 0 {
+		c.ApiPort = defaultApiPort
+	}
 	if len(c.Bindings) == 0 {
 		return fmt.Errorf("at least one binding must be defined")
 	}

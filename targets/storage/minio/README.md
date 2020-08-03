@@ -7,7 +7,7 @@ The following are required to run the minio target connector:
 
 - kubemq cluster
 - minio cluster / AWS s3 service
-- kubemq-target-connectors deployment
+- kubemq-targets deployment
 
 ## Configuration
 
@@ -26,7 +26,7 @@ Example:
 bindings:
   - name: kubemq-query-minio
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"

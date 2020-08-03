@@ -2,7 +2,7 @@ package queue
 
 import (
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
+	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/nats-io/nuid"
 )
 
@@ -18,7 +18,7 @@ type options struct {
 	waitTimeout     int
 }
 
-func parseOptions(cfg config.Metadata) (options, error) {
+func parseOptions(cfg config.Spec) (options, error) {
 	m := options{}
 	var err error
 	m.host = cfg.ParseString("host", defaultHost)

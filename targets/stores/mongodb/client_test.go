@@ -2,8 +2,8 @@ package mongodb
 
 import (
 	"context"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/nats-io/nuid"
 	"github.com/stretchr/testify/require"
 	"testing"
@@ -13,12 +13,12 @@ import (
 func TestClient_Init(t *testing.T) {
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mongodb-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -37,7 +37,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - error connection",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mongodb-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -56,7 +56,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad host",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mongodb-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -74,7 +74,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad database",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mongodb-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -92,7 +92,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad collection",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mongodb-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -110,7 +110,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad write concurrency",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mongodb-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -129,7 +129,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad read concurrency",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mongodb-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -148,7 +148,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad operation timeout",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "mongodb-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -183,7 +183,7 @@ func TestClient_Init(t *testing.T) {
 func TestClient_Set_Get(t *testing.T) {
 	tests := []struct {
 		name            string
-		cfg             config.Metadata
+		cfg             config.Spec
 		setRequest      *types.Request
 		getRequest      *types.Request
 		wantSetResponse *types.Response
@@ -193,7 +193,7 @@ func TestClient_Set_Get(t *testing.T) {
 	}{
 		{
 			name: "valid set get request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.mongodb",
 				Kind: "target.mongodb",
 				Properties: map[string]string{
@@ -227,7 +227,7 @@ func TestClient_Set_Get(t *testing.T) {
 		},
 		{
 			name: "valid set , no key get request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.mongodb",
 				Kind: "target.mongodb",
 				Properties: map[string]string{
@@ -289,7 +289,7 @@ func TestClient_Delete(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	c := New()
-	err := c.Init(ctx, config.Metadata{
+	err := c.Init(ctx, config.Spec{
 		Name: "target.mongodb",
 		Kind: "target.mongodb",
 		Properties: map[string]string{
@@ -333,13 +333,13 @@ func TestClient_Delete(t *testing.T) {
 func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		request *types.Request
 		wantErr bool
 	}{
 		{
 			name: "valid request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.mongodb",
 				Kind: "target.mongodb",
 				Properties: map[string]string{
@@ -362,7 +362,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid request - bad method",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.mongodb",
 				Kind: "target.mongodb",
 				Properties: map[string]string{
@@ -385,7 +385,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid request - no key",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.mongodb",
 				Kind: "target.mongodb",
 				Properties: map[string]string{

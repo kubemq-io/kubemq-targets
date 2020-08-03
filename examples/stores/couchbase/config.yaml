@@ -1,7 +1,7 @@
 bindings:
   - name: kubemq-query-couchbase
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -25,3 +25,5 @@ bindings:
         collection: ""
         num_to_replicate: "1"
         num_to_persist: "1"
+    properties:
+      log_level: "error"

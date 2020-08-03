@@ -1,7 +1,7 @@
 bindings:
   - name: kubemq-query-memcached
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -21,3 +21,5 @@ bindings:
         hosts: "localhost:11211"
         max_idle_connections: "2"
         default_timeout_seconds: "10"
+    properties:
+      log_level: "error"

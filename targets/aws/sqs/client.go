@@ -8,8 +8,8 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sqs"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 
 	"strconv"
 )
@@ -22,20 +22,20 @@ type Client struct {
 
 func New() *Client {
 	return &Client{}
-	
+
 }
 func (c *Client) Name() string {
 	return c.name
 }
 
-func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
+func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
 		return err
 	}
-	
+
 	sess, err := session.NewSession(&aws.Config{
 		Region:      aws.String(c.opts.region),
 		Credentials: credentials.NewStaticCredentials(c.opts.sqsKey, c.opts.sqsSecretKey, c.opts.token),
@@ -43,11 +43,10 @@ func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 	if err != nil {
 		return err
 	}
-	
+
 	svc := sqs.New(sess)
 	c.client = svc
-	
-	
+
 	return nil
 }
 
@@ -61,10 +60,10 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 	m.SetMessageBody(fmt.Sprintf("%s", request.Data))
 	tries := 0
 	for tries <= c.opts.retries {
-		r, err := c.client.SendMessageWithContext(ctx,m)
+		r, err := c.client.SendMessageWithContext(ctx, m)
 		if err == nil {
 			return types.NewResponse().
-					SetMetadataKeyValue("event_id",  *r.MessageId),
+					SetMetadataKeyValue("event_id", *r.MessageId),
 				nil
 		}
 		if tries >= c.opts.retries {
@@ -78,7 +77,7 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 func (c *Client) setMessageMeta(m *sqs.SendMessageInput, eventMetadata metadata) *sqs.SendMessageInput {
 	m.SetQueueUrl(eventMetadata.queueURL)
 	m.SetDelaySeconds(int64(eventMetadata.delay))
-	if len(eventMetadata.tags)>0{
+	if len(eventMetadata.tags) > 0 {
 		m.SetMessageAttributes(eventMetadata.tags)
 	}
 	return m
@@ -94,7 +93,7 @@ func (c *Client) SetQueueAttributes(ctx context.Context, QueueUrl string) error 
 		if err != nil {
 			return fmt.Errorf("failed to marshal policy on err :%s", err.Error())
 		}
-		
+
 		_, err = c.client.SetQueueAttributesWithContext(ctx, &sqs.SetQueueAttributesInput{
 			Attributes: map[string]*string{
 				sqs.QueueAttributeNameRedrivePolicy: aws.String(string(b)),
@@ -108,4 +107,3 @@ func (c *Client) SetQueueAttributes(ctx context.Context, QueueUrl string) error 
 	}
 	return fmt.Errorf("failed to SetQueueAttributesWithContext need to verify max_receive and dead_letter exists")
 }
-

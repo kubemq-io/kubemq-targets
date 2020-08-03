@@ -7,7 +7,7 @@ The following are required to run the redis target connector:
 
 - kubemq cluster
 - redis v5.0.0 (or later)
-- kubemq-target-connectors deployment
+- kubemq-targets deployment
 
 ## Configuration
 
@@ -25,7 +25,7 @@ Example:
 bindings:
   - name: kubemq-query-redis
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"

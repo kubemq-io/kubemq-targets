@@ -7,8 +7,8 @@ import (
 	"encoding/binary"
 	"encoding/json"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"google.golang.org/api/option"
 )
 
@@ -27,7 +27,7 @@ func (c *Client) Name() string {
 	return c.name
 }
 
-func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
+func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
 	var err error
 	c.opts, err = parseOptions(cfg)
@@ -143,9 +143,6 @@ func (c *Client) deleteRowRange(ctx context.Context, meta metadata) (*types.Resp
 
 func (c *Client) readRow(ctx context.Context, meta metadata) (*types.Response, error) {
 	tbl := c.client.Open(meta.tableName)
-	defer func() {
-		_ = c.client.Close()
-	}()
 	row, err := tbl.ReadRow(ctx, meta.rowKeyPrefix)
 	if err != nil {
 		return nil, err
@@ -171,7 +168,6 @@ func (c *Client) readAllRows(ctx context.Context, meta metadata, body []byte) (*
 		rs = bigtable.PrefixRange("")
 	}
 	tbl := c.client.Open(meta.tableName)
-	defer c.client.Close()
 	var rows []bigtable.Row
 	err = tbl.ReadRows(ctx, rs, func(row bigtable.Row) bool {
 		rows = append(rows, row)
@@ -205,7 +201,6 @@ func (c *Client) readAllRowsByColumnFilter(ctx context.Context, meta metadata, b
 		rs = bigtable.PrefixRange("")
 	}
 	tbl := c.client.Open(meta.tableName)
-	defer c.client.Close()
 	var rows []bigtable.Row
 	err = tbl.ReadRows(ctx, rs, func(row bigtable.Row) bool {
 		rows = append(rows, row)
@@ -229,9 +224,6 @@ func (c *Client) readAllRowsByColumnFilter(ctx context.Context, meta metadata, b
 
 func (c *Client) writeRow(ctx context.Context, meta metadata, body []byte) (*types.Response, error) {
 	tbl := c.client.Open(meta.tableName)
-	defer func() {
-		_ = c.client.Close()
-	}()
 	timestamp := bigtable.Now()
 	mut := bigtable.NewMutation()
 	m, err := c.getSingleColumnFromBody(body)
@@ -269,9 +261,6 @@ func (c *Client) writeRow(ctx context.Context, meta metadata, body []byte) (*typ
 
 func (c *Client) writeBatch(ctx context.Context, meta metadata, body []byte) (*types.Response, error) {
 	tbl := c.client.Open(meta.tableName)
-	defer func() {
-		_ = c.client.Close()
-	}()
 	timestamp := bigtable.Now()
 	var muts []*bigtable.Mutation
 	var rowKeys []string
@@ -340,6 +329,10 @@ func (c *Client) getMultipleColumnsFromBody(body []byte) ([]map[string]interface
 	return s, nil
 }
 
-func (c *Client) CloseAdminClient() error {
+func (c *Client) CloseClient() error {
+	err := c.client.Close()
+	if err != nil {
+		return err
+	}
 	return c.adminClient.Close()
 }

@@ -2,8 +2,8 @@ package minio
 
 import (
 	"context"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
@@ -12,12 +12,12 @@ import (
 func TestClient_Init(t *testing.T) {
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "minio-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -31,7 +31,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - no endpoint key",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "minio-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -43,7 +43,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad endpoint key",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "minio-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -56,7 +56,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - no access key",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "minio-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -69,7 +69,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - no secret key",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "minio-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -98,7 +98,7 @@ func TestClient_Init(t *testing.T) {
 func TestClient_Objects(t *testing.T) {
 	tests := []struct {
 		name               string
-		cfg                config.Metadata
+		cfg                config.Spec
 		putRequest         *types.Request
 		getRequest         *types.Request
 		removeRequest      *types.Request
@@ -111,7 +111,7 @@ func TestClient_Objects(t *testing.T) {
 	}{
 		{
 			name: "valid set get remove request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.minio",
 				Kind: "target.minio",
 				Properties: map[string]string{
@@ -147,7 +147,7 @@ func TestClient_Objects(t *testing.T) {
 		},
 		{
 			name: "invalid put request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.minio",
 				Kind: "target.minio",
 				Properties: map[string]string{
@@ -172,7 +172,7 @@ func TestClient_Objects(t *testing.T) {
 		},
 		{
 			name: "invalid get  request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.minio",
 				Kind: "target.minio",
 				Properties: map[string]string{
@@ -197,7 +197,7 @@ func TestClient_Objects(t *testing.T) {
 		},
 		{
 			name: "invalid get request - 2",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.minio",
 				Kind: "target.minio",
 				Properties: map[string]string{
@@ -222,7 +222,7 @@ func TestClient_Objects(t *testing.T) {
 		},
 		{
 			name: "invalid remove request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.minio",
 				Kind: "target.minio",
 				Properties: map[string]string{
@@ -290,7 +290,7 @@ func TestClient_Objects(t *testing.T) {
 func TestClient_Buckets(t *testing.T) {
 	tests := []struct {
 		name                string
-		cfg                 config.Metadata
+		cfg                 config.Spec
 		makeRequest         *types.Request
 		listBucketRequest   *types.Request
 		existRequest        *types.Request
@@ -309,7 +309,7 @@ func TestClient_Buckets(t *testing.T) {
 	}{
 		{
 			name: "valid make exist list remove request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.minio",
 				Kind: "target.minio",
 				Properties: map[string]string{
@@ -352,7 +352,7 @@ func TestClient_Buckets(t *testing.T) {
 		},
 		{
 			name: "invalid make",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.minio",
 				Kind: "target.minio",
 				Properties: map[string]string{
@@ -382,7 +382,7 @@ func TestClient_Buckets(t *testing.T) {
 		},
 		{
 			name: "invalid exist",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.minio",
 				Kind: "target.minio",
 				Properties: map[string]string{
@@ -412,7 +412,7 @@ func TestClient_Buckets(t *testing.T) {
 		},
 		{
 			name: "invalid remove",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.minio",
 				Kind: "target.minio",
 				Properties: map[string]string{
@@ -505,13 +505,13 @@ func TestClient_Buckets(t *testing.T) {
 func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		request *types.Request
 		wantErr bool
 	}{
 		{
 			name: "valid request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.minio",
 				Kind: "target.minio",
 				Properties: map[string]string{
@@ -528,7 +528,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid metadata request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.minio",
 				Kind: "target.minio",
 				Properties: map[string]string{

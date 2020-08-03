@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/require"
@@ -77,7 +77,7 @@ func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name    string
 		mock    *mockHttpServer
-		cfg     config.Metadata
+		cfg     config.Spec
 		request *types.Request
 		want    *types.Response
 		wantErr bool
@@ -89,7 +89,7 @@ func TestClient_Do(t *testing.T) {
 				postError: false,
 				getError:  false,
 			},
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.http",
 				Kind: "target.http",
 				Properties: map[string]string{
@@ -116,7 +116,7 @@ func TestClient_Do(t *testing.T) {
 				postError: true,
 				getError:  false,
 			},
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.http",
 				Kind: "target.http",
 				Properties: map[string]string{
@@ -142,7 +142,7 @@ func TestClient_Do(t *testing.T) {
 				postError: true,
 				getError:  false,
 			},
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.http",
 				Kind: "target.http",
 				Properties: map[string]string{
@@ -167,7 +167,7 @@ func TestClient_Do(t *testing.T) {
 				postError: true,
 				getError:  false,
 			},
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.http",
 				Kind: "target.http",
 				Properties: map[string]string{
@@ -192,7 +192,7 @@ func TestClient_Do(t *testing.T) {
 				postError: true,
 				getError:  false,
 			},
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.http",
 				Kind: "target.http",
 				Properties: map[string]string{
@@ -216,7 +216,7 @@ func TestClient_Do(t *testing.T) {
 				postError: true,
 				getError:  false,
 			},
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.http",
 				Kind: "target.http",
 				Properties: map[string]string{
@@ -243,7 +243,7 @@ func TestClient_Do(t *testing.T) {
 				postError: true,
 				getError:  false,
 			},
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.http",
 				Kind: "target.http",
 				Properties: map[string]string{
@@ -287,12 +287,12 @@ func TestClient_Init(t *testing.T) {
 
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "http-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -313,7 +313,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - error on client certificate",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "http-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -334,7 +334,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - error on bad options 1",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "http-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -345,7 +345,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - error on bad options 2",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "http-target",
 				Kind: "",
 				Properties: map[string]string{

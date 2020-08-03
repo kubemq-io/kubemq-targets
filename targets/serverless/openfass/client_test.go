@@ -4,8 +4,8 @@ import (
 	"context"
 	"time"
 
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 
 	"github.com/stretchr/testify/require"
 	"testing"
@@ -14,14 +14,14 @@ import (
 func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name       string
-		cfg        config.Metadata
+		cfg        config.Spec
 		request    *types.Request
 		wantStatus string
 		wantErr    bool
 	}{
 		{
 			name: "valid request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.openfass",
 				Kind: "target.openfass",
 				Properties: map[string]string{
@@ -38,7 +38,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid request - execution error",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.openfass",
 				Kind: "target.openfass",
 				Properties: map[string]string{
@@ -77,12 +77,12 @@ func TestClient_Init(t *testing.T) {
 
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "openfass-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -95,7 +95,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - no gateway",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "openfass-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -107,7 +107,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - no username",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "openfass-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -119,7 +119,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - no password",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "openfass-target",
 				Kind: "",
 				Properties: map[string]string{

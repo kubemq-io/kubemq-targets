@@ -7,7 +7,7 @@ The following are required to run the memcached target connector:
 
 - kubemq cluster
 - memcached server
-- kubemq-target-connectors deployment
+- kubemq-targets deployment
 
 ## Configuration
 
@@ -25,7 +25,7 @@ Example:
 bindings:
   - name: kubemq-query-memcached
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"

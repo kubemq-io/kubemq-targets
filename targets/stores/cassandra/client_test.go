@@ -2,8 +2,8 @@ package cassandra
 
 import (
 	"context"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/nats-io/nuid"
 	"github.com/stretchr/testify/require"
 	"testing"
@@ -13,12 +13,12 @@ import (
 func TestClient_Init(t *testing.T) {
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "cassandra-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -37,7 +37,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad hosts",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "cassandra-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -56,7 +56,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad port",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "cassandra-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -75,7 +75,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - pad proto version",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "cassandra-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -94,7 +94,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad replication factor",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "cassandra-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -113,7 +113,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - bad consistency",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "cassandra-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -149,7 +149,7 @@ func TestClient_Init(t *testing.T) {
 func TestClient_Set_Get(t *testing.T) {
 	tests := []struct {
 		name            string
-		cfg             config.Metadata
+		cfg             config.Spec
 		setRequest      *types.Request
 		getRequest      *types.Request
 		wantSetResponse *types.Response
@@ -159,7 +159,7 @@ func TestClient_Set_Get(t *testing.T) {
 	}{
 		{
 			name: "valid set get request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "cassandra-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -195,7 +195,7 @@ func TestClient_Set_Get(t *testing.T) {
 		},
 		{
 			name: "update set get request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "cassandra-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -231,7 +231,7 @@ func TestClient_Set_Get(t *testing.T) {
 		},
 		{
 			name: "invalid set",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "cassandra-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -261,7 +261,7 @@ func TestClient_Set_Get(t *testing.T) {
 		},
 		{
 			name: "valid set - bad get table",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "cassandra-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -296,7 +296,7 @@ func TestClient_Set_Get(t *testing.T) {
 		},
 		{
 			name: "valid set - empty result",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "cassandra-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -358,7 +358,7 @@ func TestClient_Set_Get(t *testing.T) {
 func TestClient_Query_Exec(t *testing.T) {
 	tests := []struct {
 		name              string
-		cfg               config.Metadata
+		cfg               config.Spec
 		execRequest       *types.Request
 		queryRequest      *types.Request
 		wantExecResponse  *types.Response
@@ -368,7 +368,7 @@ func TestClient_Query_Exec(t *testing.T) {
 	}{
 		{
 			name: "valid exec query request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "cassandra-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -401,7 +401,7 @@ func TestClient_Query_Exec(t *testing.T) {
 		},
 		{
 			name: "invalid exec request - empty",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "cassandra-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -428,7 +428,7 @@ func TestClient_Query_Exec(t *testing.T) {
 		},
 		{
 			name: "invalid exec request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "cassandra-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -455,7 +455,7 @@ func TestClient_Query_Exec(t *testing.T) {
 		},
 		{
 			name: "invalid query request - empty",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "cassandra-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -486,7 +486,7 @@ func TestClient_Query_Exec(t *testing.T) {
 		},
 		{
 			name: "invalid query request - empty",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "cassandra-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -546,7 +546,7 @@ func TestClient_Delete(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	c := New()
-	err := c.Init(ctx, config.Metadata{
+	err := c.Init(ctx, config.Spec{
 		Name: "target.cassandra",
 		Kind: "target.cassandra",
 		Properties: map[string]string{
@@ -604,13 +604,13 @@ func TestClient_Delete(t *testing.T) {
 func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		request *types.Request
 		wantErr bool
 	}{
 		{
 			name: "valid request",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.cassandra",
 				Kind: "target.cassandra",
 				Properties: map[string]string{
@@ -634,7 +634,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid request - bad method",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.cassandra",
 				Kind: "target.cassandra",
 				Properties: map[string]string{
@@ -658,7 +658,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid request - no key",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.cassandra",
 				Kind: "target.cassandra",
 				Properties: map[string]string{
@@ -681,7 +681,7 @@ func TestClient_Do(t *testing.T) {
 		},
 		{
 			name: "invalid request - bad consistency key",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.cassandra",
 				Kind: "target.cassandra",
 				Properties: map[string]string{

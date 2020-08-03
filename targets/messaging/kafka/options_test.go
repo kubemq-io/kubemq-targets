@@ -3,20 +3,20 @@ package kafka
 import (
 	"testing"
 
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
+	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/stretchr/testify/require"
 )
 
 func TestMetadata_parseOptions(t *testing.T) {
 	tests := []struct {
 		name     string
-		meta     config.Metadata
+		meta     config.Spec
 		wantOpts options
 		wantErr  bool
 	}{
 		{
 			name: "valid options",
-			meta: config.Metadata{
+			meta: config.Spec{
 				Name: "Kafka config",
 				Kind: "kafka",
 				Properties: map[string]string{
@@ -31,7 +31,7 @@ func TestMetadata_parseOptions(t *testing.T) {
 			wantErr: false,
 		}, {
 			name: "valid options  with userpass",
-			meta: config.Metadata{
+			meta: config.Spec{
 				Name: "Kafka options conf",
 				Kind: "kafka",
 				Properties: map[string]string{

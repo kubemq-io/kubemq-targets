@@ -2,7 +2,7 @@ package spanner
 
 import (
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
 type metadata struct {
@@ -44,7 +44,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if m.method == "read" {
 		m.tableName, err = meta.MustParseString("table_name")
 		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing query, %w", err)
+			return metadata{}, fmt.Errorf("error parsing table_name, %w", err)
 		}
 	}
 

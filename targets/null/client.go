@@ -3,8 +3,8 @@ package null
 import (
 	"context"
 
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 
 	"time"
 )
@@ -35,7 +35,7 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 	}
 }
 
-func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
+func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
 	return nil
 }

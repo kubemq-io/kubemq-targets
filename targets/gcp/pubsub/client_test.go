@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
 	"io/ioutil"
 	"testing"
@@ -22,14 +22,14 @@ func TestClient_Init(t *testing.T) {
 	credentials := fmt.Sprintf("%s", dat)
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
-				Name: "google-pubsub-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-pubsub",
+				Kind: "target.gcp.pubsub",
 				Properties: map[string]string{
 					"project_id": projectID,
 					"retries":    "0",
@@ -39,9 +39,9 @@ func TestClient_Init(t *testing.T) {
 			wantErr: false,
 		},{
 			name: "init-missing-credentials",
-			cfg: config.Metadata{
-				Name: "google-pubsub-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-pubsub",
+				Kind: "target.gcp.pubsub",
 				Properties: map[string]string{
 					"project_id": projectID,
 					"retries":    "0",
@@ -51,9 +51,9 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init-missing-project-id",
-			cfg: config.Metadata{
-				Name: "google-pubsub-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-pubsub",
+				Kind: "target.gcp.pubsub",
 				Properties: map[string]string{
 					"retries": "0",
 					"credentials": credentials,
@@ -86,23 +86,23 @@ func TestClient_Do(t *testing.T) {
 	projectID := string(dat)
 	dat, err = ioutil.ReadFile("./../../../credentials/topicID.txt")
 	require.NoError(t, err)
-	TopicID := string(dat)
+	topicID := string(dat)
 	validBody, _ := json.Marshal("valid body")
 	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
 	require.NoError(t, err)
 	credentials := fmt.Sprintf("%s", dat)
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		request *types.Request
 		want    *types.Response
 		wantErr bool
 	}{
 		{
 			name: "valid google-pubsub sent",
-			cfg: config.Metadata{
-				Name: "target.google.pubsub",
-				Kind: "target.google.pubsub",
+			cfg: config.Spec{
+				Name: "target-gcp-pubsub",
+				Kind: "target.gcp.pubsub",
 				Properties: map[string]string{
 					"project_id": projectID,
 					"retries":    "0",
@@ -111,7 +111,7 @@ func TestClient_Do(t *testing.T) {
 			},
 			request: types.NewRequest().
 				SetMetadataKeyValue("tags", `{"tag-1":"test","tag-2":"test2"}`).
-				SetMetadataKeyValue("topic_id", TopicID).
+				SetMetadataKeyValue("topic_id", topicID).
 				SetData(validBody),
 			want: types.NewResponse().
 				SetData(validBody),
@@ -119,9 +119,9 @@ func TestClient_Do(t *testing.T) {
 			wantErr: false,
 		}, {
 			name: "missing topic google-pubsub sent",
-			cfg: config.Metadata{
-				Name: "target.google.pubsub",
-				Kind: "target.google.pubsub",
+			cfg: config.Spec{
+				Name: "target-gcp-pubsub",
+				Kind: "target.gcp.pubsub",
 				Properties: map[string]string{
 					"project_id": projectID,
 					"retries":    "0",
@@ -129,7 +129,7 @@ func TestClient_Do(t *testing.T) {
 				},
 			},
 			request: types.NewRequest().
-				SetMetadataKeyValue("topic_id", `{"tag-1":"test","tag-2":"test2"}`).
+				SetMetadataKeyValue("tags", `{"tag-1":"test","tag-2":"test2"}`).
 				SetData(validBody),
 			want: types.NewResponse().
 				SetData(validBody),
@@ -165,14 +165,14 @@ func TestClient_list(t *testing.T) {
 	credentials := fmt.Sprintf("%s", dat)
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "valid google-pubsub-list",
-			cfg: config.Metadata{
-				Name: "target.google.pubsub",
-				Kind: "target.google.pubsub",
+			cfg: config.Spec{
+				Name: "target-gcp-pubsub",
+				Kind: "target.gcp.pubsub",
 				Properties: map[string]string{
 					"project_id": projectID,
 					"credentials": credentials,

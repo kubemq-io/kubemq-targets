@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/kubemq-io/kubemq-go"
 	"github.com/nats-io/nuid"
 	"log"

@@ -2,7 +2,7 @@ package firestore
 
 import (
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
 var methodsMap = map[string]string{
@@ -15,7 +15,7 @@ var methodsMap = map[string]string{
 type metadata struct {
 	method string
 	key    string
-	item   string
+	item   string 
 }
 
 func parseMetadata(meta types.Metadata) (metadata, error) {
@@ -28,12 +28,12 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 
 	m.key, err = meta.MustParseString("collection")
 	if err != nil {
-		return metadata{}, fmt.Errorf("error on parsing key value, %w", err)
+		return metadata{}, fmt.Errorf("error on parsing collection value, %w", err)
 	}
 	if m.method == "document_key" || m.method == "delete_document_key" {
 		m.item, err = meta.MustParseString("item")
 		if err != nil {
-			return metadata{}, fmt.Errorf("error on parsing key value, %w", err)
+			return metadata{}, fmt.Errorf("error on parsing item value, %w", err)
 		}
 	}
 

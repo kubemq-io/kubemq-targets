@@ -1,0 +1,23 @@
+bindings:
+  - name: kubemq-query-gcp-bigtable
+    source:
+      kind: source.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-gcp-bigtable-connector"
+        auth_token: ""
+        channel: "query.gcp.bigtable"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.gcp.bigtable
+      name: target-gcp-bigtable
+      properties:
+        project_id: "id"
+        credentials: 'json'
+        instance: "instance"

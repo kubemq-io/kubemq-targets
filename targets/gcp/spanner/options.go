@@ -2,7 +2,7 @@ package spanner
 
 import (
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
+	"github.com/kubemq-hub/kubemq-targets/config"
 )
 
 type options struct {
@@ -10,7 +10,7 @@ type options struct {
 	credentials string
 }
 
-func parseOptions(cfg config.Metadata) (options, error) {
+func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
 	o.db, err = cfg.MustParseString("db")

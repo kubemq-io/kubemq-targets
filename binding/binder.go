@@ -3,11 +3,12 @@ package binding
 import (
 	"context"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/middleware"
-	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
-	"github.com/kubemq-hub/kubemq-target-connectors/sources"
-	"github.com/kubemq-hub/kubemq-target-connectors/targets"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/middleware"
+	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
+	"github.com/kubemq-hub/kubemq-targets/pkg/metrics"
+	"github.com/kubemq-hub/kubemq-targets/sources"
+	"github.com/kubemq-hub/kubemq-targets/targets"
 )
 
 type Binder struct {
@@ -18,10 +19,30 @@ type Binder struct {
 	md     middleware.Middleware
 }
 
-func New() *Binder {
+func NewBinder() *Binder {
 	return &Binder{}
 }
-func (b *Binder) Init(ctx context.Context, cfg config.BindingConfig) error {
+func (b *Binder) buildMiddleware(cfg config.BindingConfig, exporter *metrics.Exporter) (middleware.Middleware, error) {
+	log, err := middleware.NewLogMiddleware(cfg.Name, cfg.Properties)
+	if err != nil {
+		return nil, err
+	}
+	retry, err := middleware.NewRetryMiddleware(cfg.Properties, b.log)
+	if err != nil {
+		return nil, err
+	}
+	rateLimiter, err := middleware.NewRateLimitMiddleware(cfg.Properties)
+	if err != nil {
+		return nil, err
+	}
+	met, err := middleware.NewMetricsMiddleware(cfg, exporter)
+	if err != nil {
+		return nil, err
+	}
+	md := middleware.Chain(b.target, middleware.RateLimiter(rateLimiter), middleware.Retry(retry), middleware.Metric(met), middleware.Log(log))
+	return md, nil
+}
+func (b *Binder) Init(ctx context.Context, cfg config.BindingConfig, exporter *metrics.Exporter) error {
 	var err error
 	b.name = cfg.Name
 	b.log = logger.NewLogger(b.name)
@@ -29,7 +50,11 @@ func (b *Binder) Init(ctx context.Context, cfg config.BindingConfig) error {
 	if err != nil {
 		return fmt.Errorf("error loading target conntector %s on binding %s, %w", cfg.Target.Name, b.name, err)
 	}
-	b.md = middleware.Chain(b.target)
+
+	b.md, err = b.buildMiddleware(cfg, exporter)
+	if err != nil {
+		return fmt.Errorf("error loading middlewares %s on binding %s, %w", cfg.Target.Name, b.name, err)
+	}
 	b.source, err = sources.Init(ctx, cfg.Source)
 	if err != nil {
 		return fmt.Errorf("error loading source conntector %s on binding %s, %w", cfg.Source.Name, b.name, err)

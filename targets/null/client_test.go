@@ -3,8 +3,8 @@ package null
 import (
 	"context"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
 	"reflect"
 	"testing"
@@ -78,7 +78,7 @@ func TestClient_Do(t *testing.T) {
 				DoError:       tt.fields.DoError,
 				ResponseError: tt.fields.ResponseError,
 			}
-			_ = c.Init(ctx, config.Metadata{
+			_ = c.Init(ctx, config.Spec{
 				Name:       "null",
 				Kind:       "",
 				Properties: nil,

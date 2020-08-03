@@ -1,13 +1,13 @@
-# Kubemq GCP SQL Postgres Target Connector
+# Kubemq Postgres-gcp Target Connector
 
-Kubemq postgres target connector allows services using kubemq server to access gcp sql postgres database services.
+Kubemq postgres target connector allows services using kubemq server to access postgres database services.
 
 ## Prerequisites
 The following are required to run the postgres target connector:
 
 - kubemq cluster
 - postgres server
-- kubemq-target-connectors deployment
+- kubemq-targets deployment
 
 ## Configuration
 
@@ -15,24 +15,26 @@ Postgres target connector configuration properties:
 
 | Properties Key                  | Required | Description                                 | Example                                                                |
 |:--------------------------------|:---------|:--------------------------------------------|:-----------------------------------------------------------------------|
-| connection                      | yes      | postgres connection string address          | "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable" |
 | max_idle_connections            | no       | set max idle connections                    | "10"                                                                   |
 | max_open_connections            | no       | set max open connections                    | "100"                                                                  |
 | connection_max_lifetime_seconds | no       | set max lifetime for connections in seconds | "3600"                                                                 |
-
+| credentials                     | yes      | gcp credentials files                       | "<google json credentials"      |
+| db_user                         | yes      | gcp db user name files                      | "<google user"               |
+| db_name                         | yes      | gcp db name                                 | "<google instance name"      |
+| db_password                     | yes      | gcp db password                             | "<google db password"        |
 
 Example:
 
 ```yaml
 bindings:
-  - name: kubemq-query-postgres
+  - name: kubemq-query-gcp-postgres
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
         port: "50000"
-        client_id: "kubemq-query-postgres-connector"
+        client_id: "kubemq-query-gcp-postgres-connector"
         auth_token: ""
         channel: "query.postgres"
         group:   ""
@@ -41,13 +43,18 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.stores.postgres
-      name: target-postgres
+      kind: target.gcp.stores.postgres
+      name: target-gcp-postgres
       properties:
-        connection: "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
+        instance_connection_name: "instanceConnectionName"
+        db_user:                  "user"
+        db_name:                  "dbName"
+        db_password:              "dbPassword"
         max_idle_connections: "10"
         max_open_connections: "100"
         connection_max_lifetime_seconds: "3600"
+        credentials: 'json'
+
 ```
 
 ## Usage
@@ -85,7 +92,7 @@ Exec request metadata setting:
 
 | Metadata Key    | Required | Description                            | Possible values    |
 |:----------------|:---------|:---------------------------------------|:-------------------|
-| method          | yes      | set type of request                    | "transaction"             |
+| method          | yes      | set type of request                    | "exec"             |
 | isolation_level | no       | set isolation level for exec operation | ""                 |
 |                 |          |                                        | "read_uncommitted" |
 |                 |          |                                        | "read_committed"   |
@@ -123,7 +130,7 @@ Transaction request metadata setting:
 
 | Metadata Key    | Required | Description                            | Possible values    |
 |:----------------|:---------|:---------------------------------------|:-------------------|
-| method          | yes      | set type of request                    | "exec"             |
+| method          | yes      | set type of request                    | "transaction"             |
 | isolation_level | no       | set isolation level for exec operation | ""                 |
 |                 |          |                                        | "read_uncommitted" |
 |                 |          |                                        | "read_committed"   |

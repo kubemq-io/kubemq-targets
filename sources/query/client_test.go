@@ -3,23 +3,23 @@ package query
 import (
 	"context"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/middleware"
-	"github.com/kubemq-hub/kubemq-target-connectors/targets/null"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/middleware"
+	"github.com/kubemq-hub/kubemq-targets/targets/null"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/kubemq-io/kubemq-go"
 	"github.com/nats-io/nuid"
 	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
 
-	"github.com/kubemq-hub/kubemq-target-connectors/targets"
+	"github.com/kubemq-hub/kubemq-targets/targets"
 )
 
 func setupClient(ctx context.Context, target middleware.Middleware) (*Client, error) {
 	c := New()
 
-	err := c.Init(ctx, config.Metadata{
+	err := c.Init(ctx, config.Spec{
 		Name: "kubemq-rpc",
 		Kind: "",
 		Properties: map[string]string{
@@ -150,12 +150,12 @@ func TestClient_Init(t *testing.T) {
 
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
@@ -175,7 +175,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - error",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
@@ -204,7 +204,7 @@ func TestClient_Start(t *testing.T) {
 	tests := []struct {
 		name    string
 		target  targets.Target
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
@@ -214,7 +214,7 @@ func TestClient_Start(t *testing.T) {
 				DoError:       nil,
 				ResponseError: nil,
 			},
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
@@ -235,7 +235,7 @@ func TestClient_Start(t *testing.T) {
 		{
 			name:   "start - bad target",
 			target: nil,
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{

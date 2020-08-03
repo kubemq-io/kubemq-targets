@@ -4,10 +4,10 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/middleware"
-	"github.com/kubemq-hub/kubemq-target-connectors/pkg/logger"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/middleware"
+	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/kubemq-io/kubemq-go"
 	"github.com/nats-io/nuid"
 )
@@ -37,7 +37,7 @@ func New() *Client {
 func (c *Client) Name() string {
 	return c.name
 }
-func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
+func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
 	c.log = logger.NewLogger(cfg.Name)
 	var err error

@@ -1,0 +1,28 @@
+bindings:
+  - name: kubemq-query-gcp-postgres
+    source:
+      kind: source.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-gcp-postgres-connector"
+        auth_token: ""
+        channel: "query.postgres"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.gcp.stores.postgres
+      name: target-gcp-postgres
+      properties:
+        instance_connection_name: "instanceConnectionName"
+        db_user:                  "user"
+        db_name:                  "dbName"
+        db_password:              "dbPassword"
+        max_idle_connections: "10"
+        max_open_connections: "100"
+        connection_max_lifetime_seconds: "3600"
+        credentials: 'json'

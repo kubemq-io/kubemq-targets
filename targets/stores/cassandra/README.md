@@ -7,7 +7,7 @@ The following are required to run the cassandra target connector:
 
 - kubemq cluster
 - cassandra server/cluster
-- kubemq-target-connectors deployment
+- kubemq-targets deployment
 
 ## Configuration
 
@@ -36,7 +36,7 @@ Example:
 bindings:
   - name: kubemq-query-cassandra
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"

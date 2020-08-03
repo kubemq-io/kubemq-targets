@@ -1,4 +1,4 @@
-# Kubemq Redis Target Connector
+# Kubemq Redis-gcp Target Connector
 
 Kubemq redis target connector allows services using kubemq server to access redis server functions such `set`, `get` and `delete`.
 
@@ -7,7 +7,8 @@ The following are required to run the redis target connector:
 
 - kubemq cluster
 - redis v5.0.0 (or later)
-- kubemq-target-connectors deployment
+- access to gcp redis server
+- kubemq-targets deployment
 
 ## Configuration
 

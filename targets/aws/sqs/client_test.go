@@ -3,8 +3,8 @@ package sqs
 import (
 	"context"
 	"encoding/json"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
 	"os"
 	"testing"
@@ -18,12 +18,12 @@ func TestClient_Init(t *testing.T) {
 	deadLetter := os.Getenv("DEAD_LETTER")
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "sqs-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -41,7 +41,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - error no region",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "sqs-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -57,7 +57,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init - error no queue",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "sqs-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -72,7 +72,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		}, {
 			name: "init - error no sqs_key",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "sqs-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -88,7 +88,7 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init -error no sqs_secret_key",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "sqs-target",
 				Kind: "",
 				Properties: map[string]string{
@@ -108,7 +108,7 @@ func TestClient_Init(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
 			c := New()
-			
+
 			if err := c.Init(ctx, tt.cfg); (err != nil) != tt.wantErr {
 				t.Errorf("Init() error = %v, wantSetErr %v", err, tt.wantErr)
 				return
@@ -122,18 +122,18 @@ func TestClient_Do(t *testing.T) {
 	aswKey := os.Getenv("AWS_ACCESS_KEY_ID")
 	awsSecret := os.Getenv("AWS_SECRET_ACCESS_KEY")
 	sqsQueue := os.Getenv("SQS_QUEUE_NAME")
-	
+
 	validBody, _ := json.Marshal("valid body")
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		request *types.Request
 		want    *types.Response
 		wantErr bool
 	}{
 		{
 			name: "valid sqs sent",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.sqs",
 				Kind: "target.sqs",
 				Properties: map[string]string{
@@ -153,12 +153,12 @@ func TestClient_Do(t *testing.T) {
 				SetData(validBody),
 			want: types.NewResponse().
 				SetData(validBody),
-			
+
 			wantErr: false,
 		},
 		{
 			name: "valid sqs sent - tags",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.sqs",
 				Kind: "target.sqs",
 				Properties: map[string]string{
@@ -179,12 +179,12 @@ func TestClient_Do(t *testing.T) {
 				SetData(validBody),
 			want: types.NewResponse().
 				SetData(validBody),
-			
+
 			wantErr: false,
 		},
 		{
 			name: "valid sqs sent",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.sqs",
 				Kind: "target.sqs",
 				Properties: map[string]string{
@@ -205,11 +205,11 @@ func TestClient_Do(t *testing.T) {
 				SetData(validBody),
 			want: types.NewResponse().
 				SetData(validBody),
-			
+
 			wantErr: false,
 		}, {
 			name: "incorrect signature",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.sqs",
 				Kind: "target.sqs",
 				Properties: map[string]string{
@@ -229,11 +229,11 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("queue", sqsQueue).
 				SetData(validBody),
 			want: nil,
-			
+
 			wantErr: true,
 		}, {
 			name: "incorrect queue",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.sqs",
 				Kind: "target.sqs",
 				Properties: map[string]string{
@@ -252,7 +252,7 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("delay", "0").
 				SetData(validBody),
 			want: nil,
-			
+
 			wantErr: true,
 		},
 	}
@@ -278,17 +278,17 @@ func TestClient_SetQueueAttributes(t *testing.T) {
 	aswKey := os.Getenv("AWS_ACCESS_KEY_ID")
 	awsSecret := os.Getenv("AWS_SECRET_ACCESS_KEY")
 	sqsQueue := os.Getenv("SQS_QUEUE_NAME")
-	deadLetter:= os.Getenv("DEAD_LETTER_QUEUE")
+	deadLetter := os.Getenv("DEAD_LETTER_QUEUE")
 	tests := []struct {
-		name    string
-		cfg     config.Metadata
+		name     string
+		cfg      config.Spec
 		queueURL string
-		want    *types.Response
-		wantErr bool
+		want     *types.Response
+		wantErr  bool
 	}{
 		{
 			name: "valid set queue attribute",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.sqs",
 				Kind: "target.sqs",
 				Properties: map[string]string{
@@ -303,10 +303,10 @@ func TestClient_SetQueueAttributes(t *testing.T) {
 				},
 			},
 			queueURL: sqsQueue,
-			wantErr: false,
-		},{
+			wantErr:  false,
+		}, {
 			name: "in-valid set queue attribute",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.sqs",
 				Kind: "target.sqs",
 				Properties: map[string]string{
@@ -320,7 +320,7 @@ func TestClient_SetQueueAttributes(t *testing.T) {
 				},
 			},
 			queueURL: sqsQueue,
-			wantErr: true,
+			wantErr:  true,
 		},
 	}
 	for _, tt := range tests {

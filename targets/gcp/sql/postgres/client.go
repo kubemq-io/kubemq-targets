@@ -4,13 +4,16 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
-	"github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/dialers/mysql"
-	jsoniter "github.com/json-iterator/go"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
-	_ "github.com/lib/pq"
 	"strings"
 	"time"
+
+	_ "github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/dialers/postgres"
+	"github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/proxy"
+	jsoniter "github.com/json-iterator/go"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
+	_ "github.com/lib/pq"
+	"golang.org/x/oauth2/google"
 )
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
@@ -28,7 +31,7 @@ func New() *Client {
 func (c *Client) Name() string {
 	return c.name
 }
-func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
+func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
 	var err error
 	c.opts, err = parseOptions(cfg)
@@ -36,29 +39,37 @@ func (c *Client) Init(ctx context.Context, cfg config.Metadata) error {
 		return err
 	}
 	if c.opts.useProxy {
-		cfg := mysql.Cfg(c.opts.instanceConnectionName, c.opts.dbUser, c.opts.dbPassword)
-		cfg.DBName = c.opts.dbName
-		for {
-			c.db, err = mysql.DialCfg(cfg)
-			if err != nil {
-				return err
-			}
-			err = c.db.Ping()
-			if err != nil {
-				return err
-			}
+		b := []byte(c.opts.credentials)
+		con, err := google.JWTConfigFromJSON(b, proxy.SQLScope)
+		if err != nil {
+			return err
+		}
+		client := con.Client(ctx)
+		proxy.Init(client, nil, nil)
+
+		dsn := fmt.Sprintf("host=%s dbname=%s user=%s password=%s sslmode=disable",
+			c.opts.instanceConnectionName,
+			c.opts.dbName,
+			c.opts.dbUser,
+			c.opts.dbPassword)
+		c.db, err = sql.Open("cloudsqlpostgres", dsn)
+		if err != nil {
+			return err
+		}
+		err = c.db.PingContext(ctx)
+		if err != nil {
+			return err
 		}
 	} else {
-		for {
-			c.db, err = sql.Open("postgres", c.opts.connection)
-			if err != nil {
-				return err
-			}
-			err = c.db.Ping()
-			if err != nil {
-				return err
-			}
+		c.db, err = sql.Open("postgres", c.opts.connection)
+		if err != nil {
+			return err
 		}
+		err = c.db.PingContext(ctx)
+		if err != nil {
+			return err
+		}
+
 	}
 	c.db.SetMaxOpenConns(c.opts.maxOpenConnections)
 	c.db.SetMaxIdleConns(c.opts.maxIdleConnections)
@@ -195,4 +206,7 @@ func parseToMap(rows *sql.Rows, cols []string) map[string]interface{} {
 		}
 	}
 	return m
+}
+func (c *Client) CloseClient() error {
+	return c.db.Close()
 }

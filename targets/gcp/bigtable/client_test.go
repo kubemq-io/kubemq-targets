@@ -5,8 +5,8 @@ import (
 	"crypto/rand"
 	"encoding/json"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
 	"io/ioutil"
 	"math/big"
@@ -76,14 +76,14 @@ func TestClient_Init(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big_table-target",
-				Kind: "",
+				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"instance":    dat.instance,
@@ -93,9 +93,9 @@ func TestClient_Init(t *testing.T) {
 			wantErr: false,
 		}, {
 			name: "init-missing-credentials",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big_table-target",
-				Kind: "",
+				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -105,9 +105,9 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init-missing-project-id",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big_table-target",
-				Kind: "",
+				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"instance": dat.instance,
 				},
@@ -116,9 +116,9 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init-missing-instance",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "google-big_table-target",
-				Kind: "",
+				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 				},
@@ -139,11 +139,11 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			defer func() {
-				_ = c.CloseAdminClient()
+				_ = c.CloseClient()
 			}()
 			require.NoError(t, err)
 			require.EqualValues(t, tt.cfg.Name, c.Name())
-			err = c.CloseAdminClient()
+			err = c.CloseClient()
 			require.NoError(t, err)
 		})
 	}
@@ -151,9 +151,9 @@ func TestClient_Init(t *testing.T) {
 
 func TestClient_Create_Column_Family(t *testing.T) {
 	dat, err := getTestStructure()
-	cfg2 := config.Metadata{
-		Name: "google-big-table-target",
-		Kind: "",
+	cfg2 := config.Spec{
+		Name: "target-gcp-bigtable",
+		Kind: "target.gcp.bigtable",
 		Properties: map[string]string{
 			"project_id":  dat.projectID,
 			"instance":    dat.instance,
@@ -163,15 +163,15 @@ func TestClient_Create_Column_Family(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		request *types.Request
 		wantErr bool
 	}{
 		{
 			name: "valid create create-column-family",
-			cfg: config.Metadata{
-				Name: "google-big-table-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-bigtable",
+				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"instance":    dat.instance,
@@ -185,9 +185,9 @@ func TestClient_Create_Column_Family(t *testing.T) {
 			wantErr: false,
 		}, {
 			name: "invalid create-column-family -invalid type",
-			cfg: config.Metadata{
-				Name: "google-big-table-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-bigtable",
+				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"instance":    dat.instance,
 					"project_id":  dat.projectID,
@@ -201,9 +201,9 @@ func TestClient_Create_Column_Family(t *testing.T) {
 			wantErr: true,
 		}, {
 			name: "invalid create-column-family- already exists",
-			cfg: config.Metadata{
-				Name: "google-big-table-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-bigtable",
+				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"instance":    dat.instance,
@@ -234,16 +234,16 @@ func TestClient_Create_Column_Family(t *testing.T) {
 			require.NotNil(t, gotSetResponse)
 		})
 	}
-	err = c.CloseAdminClient()
+	err = c.CloseClient()
 	require.NoError(t, err)
 }
 
 func TestClient_Create_Delete_Table(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
-	cfg2 := config.Metadata{
-		Name: "google-big-table-target",
-		Kind: "",
+	cfg2 := config.Spec{
+		Name: "target-gcp-bigtable",
+		Kind: "target.gcp.bigtable",
 		Properties: map[string]string{
 			"project_id":  dat.projectID,
 			"instance":    dat.instance,
@@ -253,7 +253,7 @@ func TestClient_Create_Delete_Table(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name      string
-		cfg       config.Metadata
+		cfg       config.Spec
 		request   *types.Request
 		wantError bool
 	}{
@@ -295,7 +295,7 @@ func TestClient_Create_Delete_Table(t *testing.T) {
 	err = c.Init(ctx, cfg2)
 	require.NoError(t, err)
 	defer func() {
-		err = c.CloseAdminClient()
+		err = c.CloseClient()
 		require.NoError(t, err)
 	}()
 	for _, tt := range tests {
@@ -327,16 +327,16 @@ func TestClient_write(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name              string
-		cfg               config.Metadata
+		cfg               config.Spec
 		writeRequest      *types.Request
 		wantWriteResponse *types.Response
 		wantWriteErr      bool
 	}{
 		{
 			name: "valid single write",
-			cfg: config.Metadata{
-				Name: "google-big-table-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-bigtable",
+				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"instance":    dat.instance,
@@ -354,9 +354,9 @@ func TestClient_write(t *testing.T) {
 		},
 		{
 			name: "valid single write",
-			cfg: config.Metadata{
-				Name: "google-big-table-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-bigtable",
+				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -380,7 +380,7 @@ func TestClient_write(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			defer func() {
-				err = c.CloseAdminClient()
+				err = c.CloseClient()
 				require.NoError(t, err)
 			}()
 			require.NoError(t, err)
@@ -402,15 +402,15 @@ func TestClient_Delete_Rows(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name          string
-		cfg           config.Metadata
+		cfg           config.Spec
 		deleteRequest *types.Request
 		wantErr       bool
 	}{
 		{
 			name: "valid delete rows",
-			cfg: config.Metadata{
-				Name: "google-big-table-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-bigtable",
+				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 					"instance":   dat.instance,
@@ -425,9 +425,9 @@ func TestClient_Delete_Rows(t *testing.T) {
 		},
 		{
 			name: "invalid delete rows - missing row_key_prefix",
-			cfg: config.Metadata{
-				Name: "google-big-table-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-bigtable",
+				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 					"instance":   dat.instance,
@@ -441,9 +441,9 @@ func TestClient_Delete_Rows(t *testing.T) {
 		},
 		{
 			name: "invalid delete rows - missing table name",
-			cfg: config.Metadata{
-				Name: "google-big-table-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-bigtable",
+				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 					"instance":   dat.instance,
@@ -457,9 +457,9 @@ func TestClient_Delete_Rows(t *testing.T) {
 		},
 		{
 			name: "invalid delete rows - table doesnt exists",
-			cfg: config.Metadata{
-				Name: "google-big-table-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-bigtable",
+				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 					"instance":   dat.instance,
@@ -480,7 +480,7 @@ func TestClient_Delete_Rows(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			defer func() {
-				_ = c.CloseAdminClient()
+				_ = c.CloseClient()
 			}()
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.deleteRequest)
@@ -508,15 +508,15 @@ func TestClient_Read_Rows(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name         string
-		cfg          config.Metadata
+		cfg          config.Spec
 		writeRequest *types.Request
 		wantErr      bool
 	}{
 		{
 			name: "valid read all rows",
-			cfg: config.Metadata{
-				Name: "google-big-table-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-bigtable",
+				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 					"instance":   dat.instance,
@@ -530,9 +530,9 @@ func TestClient_Read_Rows(t *testing.T) {
 		},
 		{
 			name: "valid read all rows by keys",
-			cfg: config.Metadata{
-				Name: "google-big-table-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-bigtable",
+				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 					"credentials": dat.cred,
@@ -546,9 +546,9 @@ func TestClient_Read_Rows(t *testing.T) {
 			wantErr: false,
 		}, {
 			name: "valid read all rows - column_filter",
-			cfg: config.Metadata{
-				Name: "google-big-table-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-bigtable",
+				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 					"credentials": dat.cred,
@@ -563,9 +563,9 @@ func TestClient_Read_Rows(t *testing.T) {
 		},
 		{
 			name: "valid read all rows by keys - column_filter",
-			cfg: config.Metadata{
-				Name: "google-big-table-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-bigtable",
+				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 					"credentials": dat.cred,
@@ -579,9 +579,9 @@ func TestClient_Read_Rows(t *testing.T) {
 			wantErr: false,
 		}, {
 			name: "invalid read all rows - column_filter - missing column_name",
-			cfg: config.Metadata{
-				Name: "google-big-table-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-bigtable",
+				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 					"instance":   dat.instance,
@@ -595,9 +595,9 @@ func TestClient_Read_Rows(t *testing.T) {
 			wantErr: true,
 		}, {
 			name: "valid read row",
-			cfg: config.Metadata{
-				Name: "google-big-table-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-bigtable",
+				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 					"instance":   dat.instance,
@@ -617,7 +617,7 @@ func TestClient_Read_Rows(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			defer func() {
-				_ = c.CloseAdminClient()
+				_ = c.CloseClient()
 			}()
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.writeRequest)

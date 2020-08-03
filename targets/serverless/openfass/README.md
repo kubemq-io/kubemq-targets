@@ -7,7 +7,7 @@ The following are required to run the OpenFaas target connector:
 
 - kubemq cluster
 - OpenFaas platform
-- kubemq-target-connectors deployment
+- kubemq-targets deployment
 
 ## Configuration
 
@@ -26,7 +26,7 @@ Example:
 bindings:
   - name: kubemq-query-OpenFaas
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"

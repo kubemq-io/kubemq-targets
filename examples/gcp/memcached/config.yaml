@@ -1,0 +1,23 @@
+bindings:
+  - name: kubemq-query-gcp-memcached
+    source:
+      kind: source.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-gcp-memcached-connector"
+        auth_token: ""
+        channel: "query.memcached"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.gcp.cache.memcached
+      name: target-gcp-memcached
+      properties:
+        hosts: "localhost:11211"
+        max_idle_connections: "2"
+        default_timeout_seconds: "10"

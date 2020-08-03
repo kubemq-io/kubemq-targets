@@ -3,7 +3,8 @@ package mysql
 import (
 	"database/sql"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+
+	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
 var methodsMap = map[string]string{

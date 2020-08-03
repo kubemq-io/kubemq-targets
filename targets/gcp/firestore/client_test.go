@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
 	"io/ioutil"
 	"testing"
@@ -22,14 +22,14 @@ func TestClient_Init(t *testing.T) {
 	credentials := fmt.Sprintf("%s", dat)
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
-				Name: "google-firestore-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-firestore",
+				Kind: "target.gcp.firestore",
 				Properties: map[string]string{
 					"project_id":  projectID,
 					"credentials": credentials,
@@ -38,9 +38,9 @@ func TestClient_Init(t *testing.T) {
 			wantErr: false,
 		}, {
 			name: "init-missing-credentials",
-			cfg: config.Metadata{
-				Name: "google-firestore-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-firestore",
+				Kind: "target.gcp.firestore",
 				Properties: map[string]string{
 					"project_id": projectID,
 				},
@@ -49,8 +49,8 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "init-missing-project-id",
-			cfg: config.Metadata{
-				Name:       "google-firestore-target",
+			cfg: config.Spec{
+				Name:       "target-gcp-firestore",
 				Kind:       "",
 				Properties: map[string]string{},
 			},
@@ -94,7 +94,7 @@ func TestClient_Set_Get(t *testing.T) {
 	objKey := string(dat)
 	tests := []struct {
 		name            string
-		cfg             config.Metadata
+		cfg             config.Spec
 		setRequest      *types.Request
 		getRequest      *types.Request
 		getAllRequest   *types.Request
@@ -103,9 +103,9 @@ func TestClient_Set_Get(t *testing.T) {
 	}{
 		{
 			name: "valid set get request",
-			cfg: config.Metadata{
-				Name: "google-firestore-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-firestore",
+				Kind: "target.gcp.firestore",
 				Properties: map[string]string{
 					"project_id":  projectID,
 					"credentials": credentials,
@@ -168,16 +168,16 @@ func TestClient_Delete(t *testing.T) {
 	credentials := fmt.Sprintf("%s", dat)
 	tests := []struct {
 		name              string
-		cfg               config.Metadata
+		cfg               config.Spec
 		deleteRequest     *types.Request
 		wantDeleteRequest *types.Response
 		wantErr           bool
 	}{
 		{
 			name: "valid delete request",
-			cfg: config.Metadata{
-				Name: "google-firestore-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target-gcp-firestore",
+				Kind: "target.gcp.firestore",
 				Properties: map[string]string{
 					"project_id":  projectID,
 					"credentials": credentials,
@@ -189,15 +189,14 @@ func TestClient_Delete(t *testing.T) {
 				SetMetadataKeyValue("collection", "myCollection"),
 			wantDeleteRequest: types.NewResponse().
 				SetMetadataKeyValue("result", "ok").
-				SetMetadataKeyValue("error", "false").
 				SetMetadataKeyValue("item", deleteKey).
 				SetMetadataKeyValue("collection", "myCollection"),
 			wantErr: false,
 		}, {
-			name: "invalid delete request",
-			cfg: config.Metadata{
-				Name: "google-firestore-target",
-				Kind: "",
+			name: "invalid delete request - missing item",
+			cfg: config.Spec{
+				Name: "target-gcp-firestore",
+				Kind: "target.gcp.firestore",
 				Properties: map[string]string{
 					"project_id":  projectID,
 					"credentials": credentials,
@@ -205,7 +204,6 @@ func TestClient_Delete(t *testing.T) {
 			},
 			deleteRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "delete_document_key").
-				SetMetadataKeyValue("item", "fake-key").
 				SetMetadataKeyValue("collection", "myCollection"),
 			wantDeleteRequest: types.NewResponse().
 				SetMetadataKeyValue("result", "ok").
@@ -243,12 +241,12 @@ func TestClient_list(t *testing.T) {
 	credentials := fmt.Sprintf("%s", dat)
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "valid google-firestore-list",
-			cfg: config.Metadata{
+			cfg: config.Spec{
 				Name: "target.google.firestore",
 				Kind: "target.google.firestore",
 				Properties: map[string]string{

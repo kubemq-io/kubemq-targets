@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
-	"github.com/kubemq-hub/kubemq-target-connectors/types"
+	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
 	"io/ioutil"
 	"testing"
@@ -49,14 +49,14 @@ func TestClient_Init(t *testing.T) {
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
-		cfg     config.Metadata
+		cfg     config.Spec
 		wantErr bool
 	}{
 		{
 			name: "init",
-			cfg: config.Metadata{
-				Name: "google-spanner-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target.gcp.spanner",
+				Kind: "target.gcp.spanner",
 				Properties: map[string]string{
 					"db": dat.db,
 					"credentials": dat.cred,
@@ -66,9 +66,9 @@ func TestClient_Init(t *testing.T) {
 		},
 		{
 			name: "invalid init - missing db",
-			cfg: config.Metadata{
-				Name: "google-spanner-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target.gcp.spanner",
+				Kind: "target.gcp.spanner",
 				Properties: map[string]string{
 					"credentials": dat.cred,
 				},
@@ -76,9 +76,9 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},{
 			name: "invalid init - missing credentials",
-			cfg: config.Metadata{
-				Name: "google-spanner-target",
-				Kind: "",
+			cfg: config.Spec{
+				Name: "target.gcp.spanner",
+				Kind: "target.gcp.spanner",
 				Properties: map[string]string{
 					"db": dat.db,
 				},
@@ -111,9 +111,9 @@ func TestClient_Query(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 
-	cfg := config.Metadata{
-		Name: "google-spanner-target",
-		Kind: "",
+	cfg := config.Spec{
+		Name: "target.gcp.spanner",
+		Kind: "target.gcp.spanner",
 		Properties: map[string]string{
 			"db": dat.db,
 			"credentials": dat.cred,
@@ -172,9 +172,9 @@ func TestClient_Read(t *testing.T) {
 	columnNames := []string{"id", "name"}
 	b, err := json.Marshal(columnNames)
 	require.NoError(t, err)
-	cfg := config.Metadata{
-		Name: "google-spanner-target",
-		Kind: "",
+	cfg := config.Spec{
+		Name: "target.gcp.spanner",
+		Kind: "target.gcp.spanner",
 		Properties: map[string]string{
 			"db": dat.db,
 			"credentials": dat.cred,
@@ -196,7 +196,7 @@ func TestClient_Read(t *testing.T) {
 		{
 			name: "invalid read - missing data",
 			queryRequest: types.NewRequest().
-				SetMetadataKeyValue("method", "read").
+				SetMetadataKeyValue("method",  "read").
 				SetMetadataKeyValue("table_name", dat.tableName),
 			wantErr: true,
 		},
@@ -241,9 +241,9 @@ func TestClient_Insert(t *testing.T) {
 	values = append(values, 18, "name2")
 	scnInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values, []string{"INT64", "STRING"}}
 	var inputs []InsertOrUpdate
-	cfg := config.Metadata{
-		Name: "google-spanner-target",
-		Kind: "",
+	cfg := config.Spec{
+		Name: "target.gcp.spanner",
+		Kind: "target.gcp.spanner",
 		Properties: map[string]string{
 			"db": dat.db,
 			"credentials": dat.cred,
@@ -305,9 +305,9 @@ func TestClient_Update(t *testing.T) {
 	values = append(values, 18, "name4")
 	scnInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values, []string{"INT64", "STRING"}}
 	var inputs []InsertOrUpdate
-	cfg := config.Metadata{
-		Name: "google-spanner-target",
-		Kind: "",
+	cfg := config.Spec{
+		Name: "target.gcp.spanner",
+		Kind: "target.gcp.spanner",
 		Properties: map[string]string{
 			"db": dat.db,
 			"credentials": dat.cred,
@@ -364,9 +364,9 @@ func TestClient_UpdateDatabaseDdl(t *testing.T) {
 	require.NoError(t, err)
 	var statements []string
 	statements = append(statements,"mystatment")
-	cfg := config.Metadata{
-		Name: "google-spanner-target",
-		Kind: "",
+	cfg := config.Spec{
+		Name: "target.gcp.spanner",
+		Kind: "target.gcp.spanner",
 		Properties: map[string]string{
 			"db": dat.db,
 			"credentials": dat.cred,
@@ -427,9 +427,9 @@ func TestClient_InsertOrUpdate(t *testing.T) {
 	values = append(values, 20, "name6")
 	scnInsUpd := InsertOrUpdate{dat.tableName, []string{"id", "name"}, values, []string{"INT64", "STRING"}}
 	var inputs []InsertOrUpdate
-	cfg := config.Metadata{
-		Name: "google-spanner-target",
-		Kind: "",
+	cfg := config.Spec{
+		Name: "target.gcp.spanner",
+		Kind: "target.gcp.spanner",
 		Properties: map[string]string{
 			"db": dat.db,
 			"credentials": dat.cred,

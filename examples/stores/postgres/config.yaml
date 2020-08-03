@@ -1,7 +1,7 @@
 bindings:
   - name: kubemq-query-postgres
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -22,3 +22,5 @@ bindings:
         max_idle_connections: "10"
         max_open_connections: "100"
         connection_max_lifetime_seconds: "3600"
+    properties:
+      log_level: "error"

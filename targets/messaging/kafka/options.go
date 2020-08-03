@@ -1,7 +1,7 @@
 package kafka
 
 import (
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
+	"github.com/kubemq-hub/kubemq-targets/config"
 )
 
 type options struct {
@@ -11,7 +11,7 @@ type options struct {
 	saslPassword string
 }
 
-func parseOptions(cfg config.Metadata) (options, error) {
+func parseOptions(cfg config.Spec) (options, error) {
 	m := options{}
 	var err error
 	m.brokers, err = cfg.MustParseStringList("brokers")

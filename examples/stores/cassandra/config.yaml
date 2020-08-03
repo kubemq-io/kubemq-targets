@@ -1,29 +1,31 @@
 bindings:
-  - name: kubemq-query-mongodb
+  - name: kubemq-query-cassandra
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"
         port: "50000"
-        client_id: "kubemq-query-mongodb-connector"
+        client_id: "kubemq-query-cassandra-connector"
         auth_token: ""
-        channel: "query.mongodb"
+        channel: "query.cassandra"
         group:   ""
         concurrency: "1"
         auto_reconnect: "true"
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.stores.mongodb
-      name: target-mongodb
+      kind: target.stores.cassandra
+      name: target-cassandra
       properties:
-        host: "localhost:27017"
-        username: "admin"
-        password: "password"
-        database: "admin"
-        collection: "test"
-        write_concurrency: "majority"
-        read_concurrency: ""
-        params: ""
-        operation_timeout_seconds: "2"
+        hosts: "localhost"
+        port: "9042"
+        username: "cassandra"
+        password: "cassandra"
+        proto_version: "4"
+        replication_factor: "1"
+        consistency: "All"
+        default_table: "test"
+        default_keyspace: "test"
+    properties:
+        log_level: "error"

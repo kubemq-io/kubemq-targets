@@ -2,7 +2,7 @@ package mongodb
 
 import (
 	"fmt"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
+	"github.com/kubemq-hub/kubemq-targets/config"
 	"math"
 	"time"
 )
@@ -19,7 +19,7 @@ type options struct {
 	operationTimeout time.Duration
 }
 
-func parseOptions(cfg config.Metadata) (options, error) {
+func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
 	o.host, err = cfg.MustParseString("host")

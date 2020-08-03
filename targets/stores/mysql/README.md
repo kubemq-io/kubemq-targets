@@ -7,7 +7,7 @@ The following are required to run the mysql target connector:
 
 - kubemq cluster
 - mysql server
-- kubemq-target-connectors deployment
+- kubemq-targets deployment
 
 ## Configuration
 
@@ -27,7 +27,7 @@ Example:
 bindings:
   - name: kubemq-query-mysql
     source:
-      kind: source.kubemq.query
+      kind: source.query
       name: kubemq-query
       properties:
         host: "localhost"

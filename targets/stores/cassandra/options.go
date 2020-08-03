@@ -3,7 +3,7 @@ package cassandra
 import (
 	"fmt"
 	"github.com/gocql/gocql"
-	"github.com/kubemq-hub/kubemq-target-connectors/config"
+	"github.com/kubemq-hub/kubemq-targets/config"
 	"math"
 )
 
@@ -26,7 +26,7 @@ type options struct {
 	defaultKeyspace   string
 }
 
-func parseOptions(cfg config.Metadata) (options, error) {
+func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
 	o.hosts, err = cfg.MustParseStringList("hosts")
