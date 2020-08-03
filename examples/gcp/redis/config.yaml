@@ -1,4 +1,4 @@
-bindings:
+ bindings:
   - name: kubemq-query-gcp-redis
     source:
       kind: source.query

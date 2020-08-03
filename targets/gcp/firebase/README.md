@@ -531,7 +531,7 @@ send_multi
 }
 
 * data value is base64  {
-    "topic":"app topic",
+    "topic":"app_topic",
      "data":{"Tokens":["123","456"],"Data":{"key":"val"},"Notification":{"title":"title"}}
   }
 ```

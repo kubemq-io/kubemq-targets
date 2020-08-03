@@ -37,7 +37,7 @@ func main() {
 	// add file
 	setRequest := types.NewRequest().
 		SetMetadataKeyValue("method", "add").
-		SetMetadataKeyValue("collection", "myCollection").
+		SetMetadataKeyValue("collection", "my_collection").
 		SetData(bUser)
 	querySetResponse, err := client.SetQuery(setRequest.ToQuery()).
 		SetChannel("query.gcp.firestore").
@@ -60,7 +60,7 @@ func main() {
 	deleteRequest := types.NewRequest().
 		SetMetadataKeyValue("method", "delete_document_key").
 		SetMetadataKeyValue("item", deleteKey).
-		SetMetadataKeyValue("collection", "myCollection")
+		SetMetadataKeyValue("collection", "my_collection")
 
 	queryDeleteResponse, err := client.SetQuery(deleteRequest.ToQuery()).
 		SetChannel("query.gcp.firestore").
