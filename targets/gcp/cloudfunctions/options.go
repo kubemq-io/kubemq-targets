@@ -23,7 +23,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return options{}, err
 	}
-	o.locationMatch = cfg.ParseBool("locationMatch", true)
+	o.locationMatch = cfg.ParseBool("location_match", true)
 
 	return o, nil
 }

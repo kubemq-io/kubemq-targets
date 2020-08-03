@@ -23,6 +23,6 @@ bindings:
           "type": "service_account",
           "project_id": "pubsubdemo-281010",
           "private_key_id": ""}'
-        messagingClient: "true"
+        messaging_client: "true"
         defaultmsg: '{"Topic":"Multi"}'
       
