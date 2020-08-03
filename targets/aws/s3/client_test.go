@@ -231,15 +231,8 @@ func TestClient_List_Buckets(t *testing.T) {
 		{
 			name: "valid list",
 			request: types.NewRequest().
-				SetMetadataKeyValue("method", "list_buckets").
-				SetMetadataKeyValue("bucket_name", dat.bucketName),
-			wantErr: false,
-		},
-		{
-			name: "invalid list - missing bucket_name",
-			request: types.NewRequest().
 				SetMetadataKeyValue("method", "list_buckets"),
-			wantErr: true,
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
