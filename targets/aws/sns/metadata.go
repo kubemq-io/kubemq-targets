@@ -22,8 +22,8 @@ type metadata struct {
 
 var methodsMap = map[string]string{
 	"list_topics":              "list_topics",
-	"listSubscriptions":        "listSubscriptions",
-	"listSubscriptionsByTopic": "listSubscriptionsByTopic",
+	"list_subscriptions":        "list_subscriptions",
+	"list_subscriptions_by_topic": "list_subscriptions_by_topic",
 	"create_topic":             "create_topic",
 	"subscribe":                "subscribe",
 	"send_message":             "send_message",
@@ -45,7 +45,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if err != nil {
 		return metadata{}, fmt.Errorf(getValidMethodTypes())
 	}
-	if m.method != "list_topics" || m.method != "listSubscriptions" {
+	if m.method != "list_topics" || m.method != "list_subscriptions" {
 		m.topic, err = meta.MustParseString("topic")
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing topic, %w", err)

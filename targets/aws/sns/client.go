@@ -55,6 +55,18 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	switch meta.method {
 	case "list_topics":
 		return c.listTopics(ctx)
+	case "list_subscriptions":
+		return c.listSubscriptions(ctx)
+	case "list_subscriptions_by_topic":
+		return c.listSubscriptionsByTopic(ctx, meta)
+	case "create_topic":
+		return c.createTopic(ctx, meta)
+	case "delete_topic":
+		return c.deleteTopic(ctx, meta)
+	case "send_message":
+		return c.sendingMessageToTopic(ctx, meta, req.Data)
+	case "subscribe":
+		return c.subscribeToTopic(ctx, meta)
 
 	default:
 		return nil, fmt.Errorf(getValidMethodTypes())
