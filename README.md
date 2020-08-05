@@ -101,7 +101,7 @@ A list of supported targets is below.
 | Category   | Target         | Kind  | Configuration | Exmaple |
 |:-----------|:---------------|:------|:--------------|:--------|
 | Cache      |                |       |               |         |
-|            | Elastic Cache  |       |               | [       |
+|            | Elastic Cache  |       |               |        |
 | Stores/db  |                |       |               |         |
 |            | Aurora         |       |               |         |
 |            | Athena         |       |               |         |
