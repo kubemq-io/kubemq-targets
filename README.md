@@ -27,7 +27,6 @@ KubeMQ Targets building blocks are:
 
 Binding is a 1:1 connection between Source and Target. Every Binding runs independently.
 
-
 ![binding](.github/assets/binding.jpeg)
 
 ### Target
@@ -45,7 +44,7 @@ A list of supported targets is below.
 | Category   | Target                                                              | Kind                         | Configuration                                  |
 |:-----------|:--------------------------------------------------------------------|:-----------------------------|:-----------------------------------------------|
 | Cache      |                                                                     |                              |                                                |
-|            | [Redis](https://redis.io/)                                          | target.cache.redis           | [Usage](targets/cache/redis)         |
+|            | [Redis](https://redis.io/)                                          | target.cache.redis           | [Usage](targets/cache/redis)   [Example](examples/cache/redis)      |
 |            | [Memcached](https://memcached.org/)                                 | target.cache.memcached       | [Usage](targets/cache/memcached)     |
 | Stores/db  |                                                                     |                              |                                                |
 |            | [Postgres](https://www.postgresql.org/)                             | target.stores.postgres       | [Usage](targets/stores/postgres)     |
