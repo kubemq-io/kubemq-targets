@@ -1,15 +1,32 @@
-# kubemq-targets
+# KubeMQ Targets
 
-### Key Features
+KubeMQ Targets connects KubeMQ Message Broker with external systems and cloud services.
 
-- 
--
--
--
+KubeMQ Targets allows to build a message-base microservices architecture on Kubernetes with minimal efforts and without developing connectivity interfaces between KubeMQ Message Broker and external systems such databases, cache, messaging and REST-base APIs.
+
+**Key Features**:
+
+- **Runs anywhere**  - Kubernetes, Cloud, on-prem , anywhere
+- **Stand-alone** - small docker container / binary
+- **Single Interface** - One interface all the services
+- **Any Service** - Support all major services types (databases, cache, messaging, serverless, HTTP etc)
+- **Plug-in Architecture** Easy to extend, easy to connect
+- **Middleware Supports** - Logs, Metrics, Retries and Rate Limiters
+- **Easy Configuration** - simple yaml file builds your topology
 
 ## Concepts
 
-### Target / Source / Binding
+KubeMQ Targets building blocks are:
+ - Binding
+ - Source
+ - Target
+ - Request/Response
+
+
+### Binding
+
+Binding is a 1:1 connection between Source and Target. Every Binding runs independently.
+
 
 ![binding](.github/assets/binding.jpeg)
 
@@ -19,16 +36,72 @@ Target is an external service which expose an API allowing to interact and serve
 
 Targets can be Cache systems such as Redis and Memcached, SQL Databases such Postgres and MySql and event an HTTP generic Rest interface.
 
-KubeMQ-Targets integrate each one of the supported targets and serve requests based on the request data.
+KubeMQ Targets integrate each one of the supported targets and serve requests based on the request data.
 
 A list of supported targets is below.
 
+#### Standalone Services
+
+| Category   | Target                                                              | Kind                         | Configuration                                  |
+|:-----------|:--------------------------------------------------------------------|:-----------------------------|:-----------------------------------------------|
+| Cache      |                                                                     |                              |                                                |
+|            | [Redis](https://redis.io/)                                          | target.cache.redis           | [Usage](targets/cache/redis)         |
+|            | [Memcached](https://memcached.org/)                                 | target.cache.memcached       | [Usage](targets/cache/memcached)     |
+| Stores/db  |                                                                     |                              |                                                |
+|            | [Postgres](https://www.postgresql.org/)                             | target.stores.postgres       | [Usage](targets/stores/postgres)     |
+|            | [Mysql](https://www.mysql.com/)                                     | target.stores.mysql          | [Usage](targets/stores/mysql)        |
+|            | [MSSql](https://www.microsoft.com/en-us/sql-server/sql-server-2019) | target.stores.mssql          | [Usage](targets/stores/mssql)        |
+|            | [MongoDB](https://www.mongodb.com/)                                 | target.stores.mongodb        | [Usage](targets/stores/mongodb)      |
+|            | [Elastic Search](https://www.elastic.co/)                           | target.stores.elastic-search | [Usage](targets/stores/elastic)      |
+|            | [Cassandra](https://cassandra.apache.org/)                          | target.stores.cassandra      | [Usage](targets/stores/cassandra)    |
+|            | [Couchbase](https://www.couchbase.com/)                             | target.stores.couchbase      | [Usage](targets/stores/couchbase)    |
+| Messaging  |                                                                     |                              |                                                |
+|            | [Kafka](https://kafka.apache.org/)                                  | target.messaging.kafka       | [Usage](targets/messaging/kafka)     |
+|            | [RabbitMQ](https://www.rabbitmq.com/)                               | target.messaging.rabbitmq    | [Usage](targets/messaging/rabbitmq)  |
+|            | [MQTT](http://mqtt.org/)                                            | target.messaging.mqtt        | [Usage](targets/messaging/mqtt)      |
+|            | [ActiveMQ](http://activemq.apache.org/)                             | target.messaging.activemq    | [Usage](targets/messaging/postgres)  |
+| Storage    |                                                                     |                              |                                                |
+|            | [Minio/S3](https://min.io/)                                         | target.storage.minio         | [Usage](targets/storage/minio)       |
+| Serverless |                                                                     |                              |                                                |
+|            | [OpenFaas](https://www.openfaas.com/)                               | target.serverless.openfaas   | [Usage](targets/serverless/openfass) |
+| Http       |                                                                     |                              |                                                |
+|            | Http                                                                | target.http                  | [Usage](targets/http)                |
+
+
+
+#### Google Cloud Platform (GCP)
+
+| Category   | Target                                                              | Kind                       | Configuration                                        |
+|:-----------|:--------------------------------------------------------------------|:---------------------------|:-----------------------------------------------------|
+| Cache      |                                                                     |                            |                                                      |
+|            | [Redis](https://cloud.google.com/memorystore)                       | target.gcp.cache.redis     | [Usage](targets/gcp/memorystore/redis)     |
+|            | [Memcached](https://cloud.google.com/memorystore)                   | target.gcp.cache.memcached | [Usage](targets/gcp/memorystore/memcached) |
+| Stores/db  |                                                                     |                            |                                                      |
+|            | [Postgres](https://cloud.google.com/sql)                            | target.gcp.stores.postgres | [Usage](targets/gcp/sql/postgres)          |
+|            | [Mysql](https://cloud.google.com/sql)                               | target.gcp.stores.mysql    | [Usage](targets/gcp/sql/mysql)             |
+|            | [BigQuery](https://cloud.google.com/bigquery)                       | target.gcp.bigquery        | [Usage](targets/gcp/bigquery)              |
+|            | [BigTable](https://cloud.google.com/bigtable)                       | target.gcp.bigtable        | [Usage](targets/gcp/bigtable)              |
+|            | [Firestore](https://cloud.google.com/firestore)                     | target.gcp.firestore       | [Usage](targets/gcp/firestore)             |
+|            | [Spanner](https://cloud.google.com/spanner)                         | target.gcp.spanner         | [Usage](targets/gcp/spanner)               |
+|            | [Firebase](https://firebase.google.com/products/realtime-database/) | target.gcp.firebase        | [Usage](targets/gcp/firebase)              |
+| Messaging  |                                                                     |                            |                                                      |
+|            | [Pub/Sub](https://cloud.google.com/pubsub)                          | target.gcp.pubsub          | [Usage](targets/gcp/pubsub)                |
+| Storage    |                                                                     |                            |                                                      |
+|            | [Storage](https://cloud.google.com/storage)                         | target.gcp.storage         | [Usage](targets/gcp/storage)               |
+| Serverless |                                                                     |                            |                                                      |
+|            | [Functions](https://cloud.google.com/functions)                     | target.gcp.cloudfunctions  | [Usage](targets/gcp/cloudfunctions)        |
+
+#### Amazon Web Service (AWS)
+
+
+#### Microsoft Azure
+WIP
 
 ### Source
 
 Source is a KubeMQ connection (in subscription mode) which listen to requests from services and route them to the appropriate target for action, and return back a response if needed.
 
-KubeMQ-Targets supports all KubeMQ's messaging patterns: Queue, Events, Events-Store, Command and Query
+KubeMQ Targets supports all KubeMQ's messaging patterns: Queue, Events, Events-Store, Command and Query
 
 
 | Type                                                                              | Kind                | Configuration                           |
@@ -38,15 +111,6 @@ KubeMQ-Targets supports all KubeMQ's messaging patterns: Queue, Events, Events-S
 | [Events Store](https://docs.kubemq.io/learn/message-patterns/pubsub#events-store) | source.events-store | [Usage](sources/events-store/README.md) |
 | [Command](https://docs.kubemq.io/learn/message-patterns/rpc#commands)             | source.command      | [Usage](sources/command/README.md)      |
 | [Query](https://docs.kubemq.io/learn/message-patterns/rpc#queries)                | source.query        | [Usage](sources/query/README.md)        |
-
-
-### Binding
-
-Binding is a 1:1 connection between Source and Target
-
-
-
-
 
 
 ### Request / Response
@@ -102,63 +166,6 @@ Response received on request to get the data stored in Redis for key "log"
   "data": "SU5TRVJUIElOVE8gcG9zdChJRCxUSVRMRSxDT05URU5UKSBWQUxVRVMKCSAgICAgICAgICAgICAgICAgICAgICA"
 }
 ```
-
-
-## Supported Targets
-
-### Standalone Services
-
-| Category   | Target                                                              | Kind                         | Configuration                                  |
-|:-----------|:--------------------------------------------------------------------|:-----------------------------|:-----------------------------------------------|
-| Cache      |                                                                     |                              |                                                |
-|            | [Redis](https://redis.io/)                                          | target.cache.redis           | [Usage](targets/cache/redis/README.md)         |
-|            | [Memcached](https://memcached.org/)                                 | target.cache.memcached       | [Usage](targets/cache/memcached/README.md)     |
-| Stores/db  |                                                                     |                              |                                                |
-|            | [Postgres](https://www.postgresql.org/)                             | target.stores.postgres       | [Usage](targets/stores/postgres/README.md)     |
-|            | [Mysql](https://www.mysql.com/)                                     | target.stores.mysql          | [Usage](targets/stores/mysql/README.md)        |
-|            | [MSSql](https://www.microsoft.com/en-us/sql-server/sql-server-2019) | target.stores.mssql          | [Usage](targets/stores/mssql/README.md)        |
-|            | [MongoDB](https://www.mongodb.com/)                                 | target.stores.mongodb        | [Usage](targets/stores/mongodb/README.md)      |
-|            | [Elastic Search](https://www.elastic.co/)                           | target.stores.elastic-search | [Usage](targets/stores/elastic/README.md)      |
-|            | [Cassandra](https://cassandra.apache.org/)                          | target.stores.cassandra      | [Usage](targets/stores/cassandra/README.md)    |
-|            | [Couchbase](https://www.couchbase.com/)                             | target.stores.couchbase      | [Usage](targets/stores/couchbase/README.md)    |
-| Messaging  |                                                                     |                              |                                                |
-|            | [Kafka](https://kafka.apache.org/)                                  | target.messaging.kafka       | [Usage](targets/messaging/kafka/README.md)     |
-|            | [RabbitMQ](https://www.rabbitmq.com/)                               | target.messaging.rabbitmq    | [Usage](targets/messaging/rabbitmq/README.md)  |
-|            | [MQTT](http://mqtt.org/)                                            | target.messaging.mqtt        | [Usage](targets/messaging/mqtt/README.md)      |
-|            | [ActiveMQ](http://activemq.apache.org/)                             | target.messaging.activemq    | [Usage](targets/messaging/postgres/README.md)  |
-| Storage    |                                                                     |                              |                                                |
-|            | [Minio/S3](https://min.io/)                                         | target.storage.minio         | [Usage](targets/storage/minio/README.md)       |
-| Serverless |                                                                     |                              |                                                |
-|            | [OpenFaas](https://www.openfaas.com/)                               | target.serverless.openfaas   | [Usage](targets/serverless/openfass/README.md) |
-| Http       |                                                                     |                              |                                                |
-|            | Http                                                                | target.http                  | [Usage](targets/http/README.md)                |
-
-
-
-### Google Cloud Platform (GCP)
-
-| Category   | Target                                                              | Kind                       | Configuration                                        |
-|:-----------|:--------------------------------------------------------------------|:---------------------------|:-----------------------------------------------------|
-| Cache      |                                                                     |                            |                                                      |
-|            | [Redis](https://cloud.google.com/memorystore)                       | target.gcp.cache.redis     | [Usage](targets/gcp/memorystore/redis/README.md)     |
-|            | [Memcached](https://cloud.google.com/memorystore)                   | target.gcp.cache.memcached | [Usage](targets/gcp/memorystore/memcached/README.md) |
-| Stores/db  |                                                                     |                            |                                                      |
-|            | [Postgres](https://cloud.google.com/sql)                            | target.gcp.stores.postgres | [Usage](targets/gcp/sql/postgres/README.md)          |
-|            | [Mysql](https://cloud.google.com/sql)                               | target.gcp.stores.mysql    | [Usage](targets/gcp/sql/mysql/README.md)             |
-|            | [BigQuery](https://cloud.google.com/bigquery)                       | target.gcp.bigquery        | [Usage](targets/gcp/bigquery/README.md)              |
-|            | [BigTable](https://cloud.google.com/bigtable)                       | target.gcp.bigtable        | [Usage](targets/gcp/bigtable/README.md)              |
-|            | [Firestore](https://cloud.google.com/firestore)                     | target.gcp.firestore       | [Usage](targets/gcp/firestore/README.md)             |
-|            | [Spanner](https://cloud.google.com/spanner)                         | target.gcp.spanner         | [Usage](targets/gcp/spanner/README.md)               |
-|            | [Firebase](https://firebase.google.com/products/realtime-database/) | target.gcp.firebase        | [Usage](targets/gcp/firebase/README.md)              |
-| Messaging  |                                                                     |                            |                                                      |
-|            | [Pub/Sub](https://cloud.google.com/pubsub)                          | target.gcp.pubsub          | [Usage](targets/gcp/pubsub/README.md)                |
-| Storage    |                                                                     |                            |                                                      |
-|            | [Storage](https://cloud.google.com/storage)                         | target.gcp.storage         | [Usage](targets/gcp/storage/README.md)               |
-| Serverless |                                                                     |                            |                                                      |
-|            | [Functions](https://cloud.google.com/functions)                     | target.gcp.cloudfunctions  | [Usage](targets/gcp/cloudfunctions/README.md)        |
-
-
-
 
 ## Installation
 
