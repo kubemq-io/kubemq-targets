@@ -21,13 +21,13 @@ type metadata struct {
 }
 
 var methodsMap = map[string]string{
-	"list_topics":              "list_topics",
-	"list_subscriptions":        "list_subscriptions",
+	"list_topics":                 "list_topics",
+	"list_subscriptions":          "list_subscriptions",
 	"list_subscriptions_by_topic": "list_subscriptions_by_topic",
-	"create_topic":             "create_topic",
-	"subscribe":                "subscribe",
-	"send_message":             "send_message",
-	"delete_topic":             "delete_topic",
+	"create_topic":                "create_topic",
+	"subscribe":                   "subscribe",
+	"send_message":                "send_message",
+	"delete_topic":                "delete_topic",
 }
 
 func getValidMethodTypes() string {
@@ -45,12 +45,12 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if err != nil {
 		return metadata{}, fmt.Errorf(getValidMethodTypes())
 	}
-	if m.method != "list_topics" || m.method != "list_subscriptions" {
+	if m.method != "list_topics" && m.method != "list_subscriptions" && m.method != "send_message" {
 		m.topic, err = meta.MustParseString("topic")
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing topic, %w", err)
 		}
-		if m.method == "subscribe"{
+		if m.method == "subscribe" {
 			m.endPoint, err = meta.MustParseString("end_point")
 			if err != nil {
 				return metadata{}, fmt.Errorf("error parsing end_point, %w", err)
@@ -63,24 +63,26 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 			if err != nil {
 				return metadata{}, fmt.Errorf("error parsing return_subscription, %w", err)
 			}
-		}else if m.method == "send_message"{
-			m.message, err = meta.MustParseString("message")
+		}
+	} else if m.method == "send_message" {
+		m.targetArn, err = meta.MustParseString("target_arn")
+		if err != nil {
+			m.topic, err = meta.MustParseString("topic")
 			if err != nil {
-				return metadata{}, fmt.Errorf("error parsing message, %w", err)
+				return metadata{}, fmt.Errorf("error parsing topic or target_arn , one of them must be set , %w", err)
 			}
-			m.phoneNumber, err = meta.MustParseString("phone_number")
-			if err != nil {
-				return metadata{}, fmt.Errorf("error parsing phone_number, %w", err)
-			}
-			m.subject, err = meta.MustParseString("subject")
-			if err != nil {
-				return metadata{}, fmt.Errorf("error parsing subject, %w", err)
-			}
-			m.targetArn, err = meta.MustParseString("target_arn")
-			if err != nil {
-				return metadata{}, fmt.Errorf("error parsing target_arn, %w", err)
+		} else {
+			m.topic, err = meta.MustNotParseString("topic", "target_arn")
+			if err == nil {
+				return metadata{}, err
 			}
 		}
+		m.message, err = meta.MustParseString("message")
+		if err != nil {
+			return metadata{}, fmt.Errorf("error parsing message, %w", err)
+		}
+		m.phoneNumber = meta.ParseString("phone_number", "")
+		m.subject = meta.ParseString("subject", "")
 	}
 	return m, nil
 }

@@ -158,21 +158,11 @@ func (c *Client) subscribeToTopic(ctx context.Context, meta metadata) (*types.Re
 }
 
 func (c *Client) sendingMessageToTopic(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
-	m := make(map[string]*sns.MessageAttributeValue)
-	if data != nil {
-		err := json.Unmarshal(data, &m)
-		if err != nil {
-			return nil, err
-		}
+	m, err := c.createSNSMessage(meta, data)
+	if err != nil {
+		return nil, err
 	}
-	r, err := c.client.PublishWithContext(ctx, &sns.PublishInput{
-		TopicArn:          aws.String(meta.topic),
-		Message:           aws.String(meta.message),
-		PhoneNumber:       aws.String(meta.phoneNumber),
-		Subject:           aws.String(meta.subject),
-		TargetArn:         aws.String(meta.targetArn),
-		MessageAttributes: m,
-	})
+	r, err := c.client.PublishWithContext(ctx, m)
 	if err != nil {
 		return nil, err
 	}

@@ -61,6 +61,14 @@ func (m Metadata) MustParseString(key string) (string, error) {
 	}
 }
 
+func (m Metadata) MustNotParseString(key string, conflictValueName string) (string, error) {
+	if val, ok := m[key]; ok && val != "" {
+		return "", nil
+	} else {
+		return "", fmt.Errorf("value of key %s cannot exists when %s is set", key, conflictValueName)
+	}
+}
+
 func (m Metadata) MustParseInt(key string) (int, error) {
 
 	if val, ok := m[key]; ok && val != "" {
