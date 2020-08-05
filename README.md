@@ -45,7 +45,7 @@ A list of supported targets is below.
 |:-----------|:--------------------------------------------------------------------|:-----------------------------|:---------------------------------------------------|:----------------------------------------|
 | Cache      |                                                                     |                              |                                                    |                                         |
 |            | [Redis](https://redis.io/)                                          | target.cache.redis           | [Usage](targets/cache/redis)                       | [Example](examples/cache/redis)         |
-|            | [Memcached](https://memcached.org/)                                 | target.cache.memcached       | [Usage](targets/cache/memcached)                   | [Example](examples/stores/memcached)    |
+|            | [Memcached](https://memcached.org/)                                 | target.cache.memcached       | [Usage](targets/cache/memcached)                   | [Example](examples/cache/memcached)    |
 | Stores/db  |                                                                     |                              |                                                    |                                         |
 |            | [Postgres](https://www.postgresql.org/)                             | target.stores.postgres       | [Usage](targets/stores/postgres)                   | [Example](examples/stores/postgres)     |
 |            | [Mysql](https://www.mysql.com/)                                     | target.stores.mysql          | [Usage](targets/stores/mysql)                      | [Example](examples/stores/mysql)        |
@@ -71,25 +71,27 @@ A list of supported targets is below.
 
 #### Google Cloud Platform (GCP)
 
-| Category   | Target                                                              | Kind                       | Configuration                                        |
-|:-----------|:--------------------------------------------------------------------|:---------------------------|:-----------------------------------------------------|
-| Cache      |                                                                     |                            |                                                      |
-|            | [Redis](https://cloud.google.com/memorystore)                       | target.gcp.cache.redis     | [Usage](targets/gcp/memorystore/redis)     |
-|            | [Memcached](https://cloud.google.com/memorystore)                   | target.gcp.cache.memcached | [Usage](targets/gcp/memorystore/memcached) |
-| Stores/db  |                                                                     |                            |                                                      |
-|            | [Postgres](https://cloud.google.com/sql)                            | target.gcp.stores.postgres | [Usage](targets/gcp/sql/postgres)          |
-|            | [Mysql](https://cloud.google.com/sql)                               | target.gcp.stores.mysql    | [Usage](targets/gcp/sql/mysql)             |
-|            | [BigQuery](https://cloud.google.com/bigquery)                       | target.gcp.bigquery        | [Usage](targets/gcp/bigquery)              |
-|            | [BigTable](https://cloud.google.com/bigtable)                       | target.gcp.bigtable        | [Usage](targets/gcp/bigtable)              |
-|            | [Firestore](https://cloud.google.com/firestore)                     | target.gcp.firestore       | [Usage](targets/gcp/firestore)             |
-|            | [Spanner](https://cloud.google.com/spanner)                         | target.gcp.spanner         | [Usage](targets/gcp/spanner)               |
-|            | [Firebase](https://firebase.google.com/products/realtime-database/) | target.gcp.firebase        | [Usage](targets/gcp/firebase)              |
-| Messaging  |                                                                     |                            |                                                      |
-|            | [Pub/Sub](https://cloud.google.com/pubsub)                          | target.gcp.pubsub          | [Usage](targets/gcp/pubsub)                |
-| Storage    |                                                                     |                            |                                                      |
-|            | [Storage](https://cloud.google.com/storage)                         | target.gcp.storage         | [Usage](targets/gcp/storage)               |
-| Serverless |                                                                     |                            |                                                      |
-|            | [Functions](https://cloud.google.com/functions)                     | target.gcp.cloudfunctions  | [Usage](targets/gcp/cloudfunctions)        |
+| Category   | Target                                                              | Kind                       | Configuration                              | Exmaple                                   |
+|:-----------|:--------------------------------------------------------------------|:---------------------------|:-------------------------------------------|:------------------------------------------|
+| Cache      |                                                                     |                            |                                            |                                           |
+|            | [Redis](https://cloud.google.com/memorystore)                       | target.gcp.cache.redis     | [Usage](targets/gcp/memorystore/redis)     | [Example](examples/gcp/memorystore/redis) |
+|            | [Memcached](https://cloud.google.com/memorystore)                   | target.gcp.cache.memcached | [Usage](targets/gcp/memorystore/memcached) |                                           |
+| Stores/db  |                                                                     |                            |                                                                                       ||
+|            | [Postgres](https://cloud.google.com/sql)                            | target.gcp.stores.postgres | [Usage](targets/gcp/sql/postgres)                                                     ||
+|            | [Mysql](https://cloud.google.com/sql)                               | target.gcp.stores.mysql    | [Usage](targets/gcp/sql/mysql)                                                        ||
+|            | [BigQuery](https://cloud.google.com/bigquery)                       | target.gcp.bigquery        | [Usage](targets/gcp/bigquery)                                                         ||
+|            | [BigTable](https://cloud.google.com/bigtable)                       | target.gcp.bigtable        | [Usage](targets/gcp/bigtable)                                                         ||
+|            | [Firestore](https://cloud.google.com/firestore)                     | target.gcp.firestore       | [Usage](targets/gcp/firestore)                                                        ||
+|            | [Spanner](https://cloud.google.com/spanner)                         | target.gcp.spanner         | [Usage](targets/gcp/spanner)                                                          ||
+|            | [Firebase](https://firebase.google.com/products/realtime-database/) | target.gcp.firebase        | [Usage](targets/gcp/firebase)                                                         ||
+| Messaging  |                                                                     |                            |                                                                                       ||
+|            | [Pub/Sub](https://cloud.google.com/pubsub)                          | target.gcp.pubsub          | [Usage](targets/gcp/pubsub)                                                           ||
+| Storage    |                                                                     |                            |                                                                                       ||
+|            | [Storage](https://cloud.google.com/storage)                         | target.gcp.storage         | [Usage](targets/gcp/storage)                                                          ||
+| Serverless |                                                                     |                            |                                                                                       ||
+|            | [Functions](https://cloud.google.com/functions)                     | target.gcp.cloudfunctions  | [Usage](targets/gcp/cloudfunctions)                                                   ||
+|            |                                                                     |                            |                                            |                                           |
+
 
 #### Amazon Web Service (AWS)
 
