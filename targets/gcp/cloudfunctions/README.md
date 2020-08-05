@@ -18,7 +18,7 @@ Kafka source connector configuration properties:
 |:---------------|:---------|:-----------------------------------------------|:-----------------|
 | project        | yes      | gcp project name                               | "testproject"    |
 | credentials    | yes      | gcp service account key location (json)        | "TestTopic"      |
-| locationMatch  | no       | match missing function location (default true) | "false"          |
+| location_match  | no       | match missing function location (default true) | "false"          |
 
 
 Example:
@@ -56,7 +56,7 @@ Get request metadata setting:
 
 | Metadata Key | Required | Description                                          | Possible values                         |
 |:-------------|:---------|:-----------------------------------------------------|:----------------------------------------|
-| name         | yes      | name of the gcp function                             | "testFunction"                          |
+| name         | yes      | name of the gcp function                             | "test_function"                          |
 | project      | no       | gcp project name (override parent value)             | "testproject1"                          |
 | location     | no       | gcp project location (missing value will be matched) | "us-central1"                           |
 
@@ -66,7 +66,7 @@ Example:
 ```json
 {
   "metadata": {
-    "name": "testFunction",
+    "name": "test_function",
     "location": "us-central1"    
   },
   "data": "eyJtZXNzYWdlIjoidGVzdCJ9"

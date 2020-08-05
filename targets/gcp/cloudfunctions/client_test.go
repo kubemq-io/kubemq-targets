@@ -147,7 +147,7 @@ func TestClient_Do(t *testing.T) {
 				Properties: map[string]string{
 					"project":       "pubsubdemo-281010",
 					"credentials":   credentials,
-					"locationMatch": "false",
+					"location_match": "false",
 				},
 			},
 			request: types.NewRequest().

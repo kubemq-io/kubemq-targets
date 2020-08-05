@@ -40,9 +40,9 @@ func parseOptions(cfg config.Spec) (options, error) {
 	}
 	o.dbURL = cfg.ParseString("db_url", "")
 
-	o.messagingClient = cfg.ParseBool("messagingClient", false)
+	o.messagingClient = cfg.ParseBool("messaging_client", false)
 	if err != nil {
-		return options{}, fmt.Errorf("error parsing messagingClient, %w", err)
+		return options{}, fmt.Errorf("error parsing messaging_client, %w", err)
 	}
 	if o.messagingClient {
 		o.defaultMessaging = &messages{}

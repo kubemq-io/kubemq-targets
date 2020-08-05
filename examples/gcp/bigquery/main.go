@@ -24,7 +24,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// set request
+	// query
 	setRequest := types.NewRequest().
 		SetMetadataKeyValue("method", "query").
 		SetMetadataKeyValue("query", query)

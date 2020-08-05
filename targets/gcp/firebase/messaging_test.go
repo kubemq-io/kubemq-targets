@@ -115,7 +115,7 @@ func TestOptionsParse(t *testing.T) {
 				Properties: map[string]string{
 					"project_id":      "123",
 					"credentials":     "noc",
-					"messagingClient": "true",
+					"messaging_client": "true",
 					"defaultmsg":      ms,
 				},
 			},
@@ -149,7 +149,7 @@ func TestDefultMessage(t *testing.T) {
 				Properties: map[string]string{
 					"project_id":      "123",
 					"credentials":     "noc",
-					"messagingClient": "true",
+					"messaging_client": "true",
 					"defaultmsg":      `{"topic":"defult"}`,
 				},
 			},
@@ -170,7 +170,7 @@ func TestDefultMessage(t *testing.T) {
 				Properties: map[string]string{
 					"project_id":      "123",
 					"credentials":     "noc",
-					"messagingClient": "true",
+					"messaging_client": "true",
 					"defaultmsg":      `{"topic":"defult"}`,
 				},
 			},
@@ -191,7 +191,7 @@ func TestDefultMessage(t *testing.T) {
 				Properties: map[string]string{
 					"project_id":      "123",
 					"credentials":     "noc",
-					"messagingClient": "true",
+					"messaging_client": "true",
 					"defaultmsg":      `{"Topic":"defult","token":"1234"}`,
 				},
 			},
@@ -213,7 +213,7 @@ func TestDefultMessage(t *testing.T) {
 				Properties: map[string]string{
 					"project_id":      "123",
 					"credentials":     "noc",
-					"messagingClient": "true",
+					"messaging_client": "true",
 					"defaultmsg":      `{"Topic":"defult"}`,
 				},
 			},
@@ -266,7 +266,7 @@ func TestClientDo(t *testing.T) {
 				Properties: map[string]string{
 					"project_id":      "pubsubdemo-281010",
 					"credentials":     cred,
-					"messagingClient": "true",
+					"messaging_client": "true",
 				},
 			},
 			request: types.NewRequest().

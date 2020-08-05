@@ -20,7 +20,7 @@ firebase target connector configuration properties:
 | db_client       | no       | initialize db client if true               | true/false                 |
 | db_url          | no       | gcp db full path                           | <google db url"            |
 | auth_client     | no       | initialize auth client if true             | true/false                 |
-| messagingClient | no       | initialize messaging client                | true/false                 |
+| messaging_client | no       | initialize messaging client                | true/false                 |
 | defaultmsg      | no       | default Firebase Cloud Messaging           | json                       |
 | defaultmultimsg | no       | default Firebase Cloud MulticastMessage    | json                       |   
 
@@ -162,7 +162,7 @@ firebase target connector configuration properties:
 | db_client       | no       | initialize db client if true               | true/false                 |
 | db_url          | no       | gcp db full path                           | <google db url"            |
 | auth_client     | no       | initialize auth client if true             | true/false                 |
-| messagingClient | no       | initialize messaging client                | true/false                 |
+| messaging_client | no       | initialize messaging client                | true/false                 |
 | defaultmsg      | no       | default Firebase Cloud Messaging           | json                       |
 | defaultmultimsg | no       | default Firebase Cloud MulticastMessage    | json                       |   
 
@@ -531,7 +531,7 @@ send_multi
 }
 
 * data value is base64  {
-    "topic":"app topic",
+    "topic":"app_topic",
      "data":{"Tokens":["123","456"],"Data":{"key":"val"},"Notification":{"title":"title"}}
   }
 ```
