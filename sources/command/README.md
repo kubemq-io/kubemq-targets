@@ -11,7 +11,7 @@ The following are required to run command source connector:
 
 ## Configuration
 
-Command target connector configuration properties:
+Command source connector configuration properties:
 
 | Properties Key             | Required | Description                                                           | Example         |
 |:---------------------------|:---------|:----------------------------------------------------------------------|:----------------|

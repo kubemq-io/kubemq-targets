@@ -11,7 +11,7 @@ The following are required to run query source connector:
 
 ## Configuration
 
-Query target connector configuration properties:
+Query source connector configuration properties:
 
 | Properties Key             | Required | Description                           | Example         |
 |:---------------------------|:---------|:--------------------------------------|:----------------|

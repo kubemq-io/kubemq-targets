@@ -11,7 +11,7 @@ The following are required to run events source connector:
 
 ## Configuration
 
-Events Store target connector configuration properties:
+Events Store source connector configuration properties:
 
 | Properties Key             | Required | Description                           | Example            |
 |:---------------------------|:---------|:--------------------------------------|:-------------------|

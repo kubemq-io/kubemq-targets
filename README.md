@@ -9,7 +9,7 @@
 
 ## Concepts
 
-### target / Source / Binding
+### Target / Source / Binding
 
 ![binding](.github/assets/binding.jpeg)
 
@@ -160,12 +160,172 @@ Response received on request to get the data stored in Redis for key "log"
 
 
 
-
-
-
 ## Installation
+
+### Kubernetes
+
+An example of kubernetes deployment for redis target connectors can be find below:
+
+1. Run Redis Cluster deployment yaml
+
+```bash
+kubectl apply -f ./redis-example.yaml -n kubemq
+```
+
+2. Run KubeMQ Targets deployment yaml
+
+```bash
+kubectl apply -f ./deployment-example.yaml
+```
+
+### Binary (Cross-platform)
+
+Download the appropriate version for your platform from KubeMQ Targets Releases. Once downloaded, the binary can be run from anywhere.
+
+Ideally, you should install it somewhere in your PATH for easy use. /usr/local/bin is the most probable location.
+
+Running KubeMQ Targets
+
+```bash
+kubemq-targets --config config.yaml
+```
 
 
 ## Configuration
+
+### Structure
+
+Config file structure:
+
+```yaml
+
+apiPort: 8080 # kubemq targets api and health end-point port
+bindings:
+  - name: clusters-sources # unique binding name
+    properties: # Bindings properties such middleware configurations
+      log_level: error
+      retry_attempts: 3
+      retry_delay_milliseconds: 1000
+      retry_max_jitter_milliseconds: 100
+      retry_delay_type: "back-off"
+      rate_per_second: 100
+    source:
+      kind: source.query # source kind
+      name: name-of-sources # source name 
+      properties: # a set of key/value settings per each source kind
+        .....
+    target:
+      kind: target.cache.redis # target kind
+      name: name-of-target # targets name
+      properties: # a set of key/value settings per each target kind
+        - .....
+```
+
+### Properties
+
+In bindings configuration, KubeMQ targets supports properties setting for each pair of source and target bindings.
+
+These properties contain middleware information settings as follows:
+
+#### Logs Middleware
+
+KubeMQ targets supports level based logging to console according to as follows:
+
+| Property  | Description       | Possible Values        |
+|:----------|:------------------|:-----------------------|
+| log_level | log level setting | "debug","info","error" |
+|           |                   |  "" - indicate no logging on this bindings |
+
+An example for only error level log to console:
+
+```yaml
+bindings:
+  - name: sample-binding 
+    properties: 
+      log_level: error
+    source:
+    ......  
+```
+
+#### Retry Middleware
+
+KubeMQ targets supports Retries' target execution before reporting of error back to the source on failed execution.
+
+Retry middleware settings values:
+
+
+| Property                      | Description                                           | Possible Values                             |
+|:------------------------------|:------------------------------------------------------|:--------------------------------------------|
+| retry_attempts                | how many retries before giving up on target execution | default - 1, or any int number              |
+| retry_delay_milliseconds      | how long to wait between retries in milliseconds      | default - 100ms or any int number           |
+| retry_max_jitter_milliseconds | max delay jitter between retries                      | default - 100ms or any int number           |
+| retry_delay_type              | type of retry delay                                   | "back-off" - delay increase on each attempt |
+|                               |                                                       | "fixed" - fixed time delay                  |
+|                               |                                                       | "random" - random time delay                |
+
+An example for 3 retries with back-off strategy:
+
+```yaml
+bindings:
+  - name: sample-binding 
+    properties: 
+      retry_attempts: 3
+      retry_delay_milliseconds: 1000
+      retry_max_jitter_milliseconds: 100
+      retry_delay_type: "back-off"
+    source:
+    ......  
+```
+
+#### Rate Limiter Middleware
+
+KubeMQ targets supports Rate Limiting of target executions.
+
+Rate Limiter middleware settings values:
+
+
+| Property        | Description                                    | Possible Values                |
+|:----------------|:-----------------------------------------------|:-------------------------------|
+| rate_per_second | how many executions per second will be allowed | 0 - no limitation              |
+|                 |                                                | 1 - n integer times per second |
+
+An example for 100 executions per second:
+
+```yaml
+bindings:
+  - name: sample-binding 
+    properties: 
+      rate_per_second: 100
+    source:
+    ......  
+```
+
+### Source
+
+Source section contains source configuration for binding as follows:
+
+| Property    | Description                                       | Possible Values                                               |
+|:------------|:--------------------------------------------------|:--------------------------------------------------------------|
+| name        | sources name (will show up in logs)               | string without white spaces                                   |
+| kind        | source kind type                                  | source.queue                                                  |
+|             |                                                   | source.query                                                  |
+|             |                                                   | source.command                                                |
+|             |                                                   | source.events                                                 |
+|             |                                                   | source.events-store                                           |
+| properties | an array of keu/value setting for source connection| see above               |
+
+
+### Target
+
+Target section contains target configuration for binding as follows:
+
+| Property    | Description                                       | Possible Values                                               |
+|:------------|:--------------------------------------------------|:--------------------------------------------------------------|
+| name        | targets name (will show up in logs)               | string without white spaces                                   |
+| kind        | source kind type                                  | target.type-of-target                                                  |
+| properties | an array of keu/value setting for target connection | see above              |
+
+
+
 
 

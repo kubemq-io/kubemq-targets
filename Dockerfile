@@ -21,7 +21,7 @@ COPY licenses /licenses
 ENV GOPATH=/go
 ENV PATH=$GOPATH/bin:$PATH
 RUN mkdir /kubemq-targets
-COPY --from=builder $GOPATH/github.com/kubemq-hub/kubemq-targets/kubemq-targets-run ./kubemq-targets-run
+COPY --from=builder $GOPATH/github.com/kubemq-hub/kubemq-targets/kubemq-targets-run ./kubemq-targets
 RUN chown -R 1001:root  /kubemq-targets && chmod g+rwX  /kubemq-targets
 WORKDIR kubemq-targets
 USER 1001

@@ -11,7 +11,7 @@ The following are required to run queue source connector:
 
 ## Configuration
 
-Queue target connector configuration properties:
+Queue source connector configuration properties:
 
 | Properties Key | Required | Description                                            | Example     |
 |:---------------|:---------|:-------------------------------------------------------|:------------|

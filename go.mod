@@ -28,7 +28,6 @@ require (
 	github.com/google/uuid v1.1.1
 	github.com/googleapis/gax-go/v2 v2.0.5
 	github.com/json-iterator/go v1.1.10
-	github.com/kubemq-hub/kubemq-target-connectors v0.1.1 // indirect
 	github.com/kubemq-io/kubemq-go v1.4.0
 	github.com/labstack/echo/v4 v4.1.16
 	github.com/lib/pq v1.3.0
