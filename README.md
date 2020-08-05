@@ -2,16 +2,16 @@
 
 KubeMQ Targets connects KubeMQ Message Broker with external systems and cloud services.
 
-KubeMQ Targets allows to build a message-base microservices architecture on Kubernetes with minimal efforts and without developing connectivity interfaces between KubeMQ Message Broker and external systems such databases, cache, messaging and REST-base APIs.
+KubeMQ Targets allows us to build a message-based microservices architecture on Kubernetes with minimal efforts and without developing connectivity interfaces between KubeMQ Message Broker and external systems such as databases, cache, messaging, and REST-base APIs.
 
 **Key Features**:
 
-- **Runs anywhere**  - Kubernetes, Cloud, on-prem , anywhere
+- **Runs anywhere**  - Kubernetes, Cloud, on-prem, anywhere
 - **Stand-alone** - small docker container / binary
 - **Single Interface** - One interface all the services
-- **Any Service** - Support all major services types (databases, cache, messaging, serverless, HTTP etc)
+- **Any Service** - Support all major services types (databases, cache, messaging, serverless, HTTP, etc.)
 - **Plug-in Architecture** Easy to extend, easy to connect
-- **Middleware Supports** - Logs, Metrics, Retries and Rate Limiters
+- **Middleware Supports** - Logs, Metrics, Retries, and Rate Limiters
 - **Easy Configuration** - simple yaml file builds your topology
 
 ## Concepts
@@ -31,11 +31,11 @@ Binding is a 1:1 connection between Source and Target. Every Binding runs indepe
 
 ### Target
 
-Target is an external service which expose an API allowing to interact and serve his functionalists with other services.
+Target is an external service that exposes an API allowing to interact and serve his functionalists with other services.
 
-Targets can be Cache systems such as Redis and Memcached, SQL Databases such Postgres and MySql and event an HTTP generic Rest interface.
+Targets can be Cache systems such as Redis and Memcached, SQL Databases such as Postgres and MySql, and event an HTTP generic Rest interface.
 
-KubeMQ Targets integrate each one of the supported targets and serve requests based on the request data.
+KubeMQ Targets integrate each one of the supported targets and service requests based on the request data.
 
 A list of supported targets is below.
 
@@ -135,9 +135,9 @@ A list of supported targets is below.
 
 ### Source
 
-Source is a KubeMQ connection (in subscription mode) which listen to requests from services and route them to the appropriate target for action, and return back a response if needed.
+The source is a KubeMQ connection (in subscription mode), which listens to requests from services and route them to the appropriate target for action, and return back a response if needed.
 
-KubeMQ Targets supports all KubeMQ's messaging patterns: Queue, Events, Events-Store, Command and Query
+KubeMQ Targets supports all of KubeMQ's messaging patterns: Queue, Events, Events-Store, Command, and Query.
 
 
 | Type                                                                              | Kind                | Configuration                           |
@@ -155,13 +155,13 @@ KubeMQ Targets supports all KubeMQ's messaging patterns: Queue, Events, Events-S
 
 #### Request
 
-Request is an object that send to a designated target with metadata and data fields which contains the needed information to perform the requested data.
+A request is an object that sends to a designated target with metadata and data fields, which contains the needed information to perform the requested data.
 
 ##### Request Object Structure
 
 | Field  | Type | Description                |
 |:-------|:---------|:---------------------------|
-| metadata | string,string object      | contains metadata information for action           |
+| metadata | string, string object      | contains metadata information for action           |
 | data  | bytes array      | contains raw data for action |
 
 ##### Exmaple
@@ -177,14 +177,14 @@ Request to get a data from Redis cache for the key "log"
 }
 ```
 #### Response
-Response is an object that send back as a result of executing an action in the target
+The response is an object that sends back as a result of executing an action in the target
 
 
 ##### Response Object Structure
 
 | Field    | Type                 | Description                                     |
 |:---------|:---------------------|:------------------------------------------------|
-| metadata | string,string object | contains metadata information result for action |
+| metadata | string, string object | contains metadata information result for action |
 | data     | bytes array          | contains raw data result                        |
 | is_error | bool                 | indicate if the action ended with an error      |
 | error    | string               | contains error information if any               |
@@ -207,7 +207,7 @@ Response received on request to get the data stored in Redis for key "log"
 
 ### Kubernetes
 
-An example of kubernetes deployment for redis target connectors can be find below:
+An example of Kubernetes deployment for Redis target connectors can be found below:
 
 1. Run Redis Cluster deployment yaml
 
@@ -266,13 +266,13 @@ bindings:
 
 ### Properties
 
-In bindings configuration, KubeMQ targets supports properties setting for each pair of source and target bindings.
+In bindings configuration, KubeMQ targets support properties setting for each pair of source and target bindings.
 
 These properties contain middleware information settings as follows:
 
 #### Logs Middleware
 
-KubeMQ targets supports level based logging to console according to as follows:
+KubeMQ targets support level based logging to console according to as follows:
 
 | Property  | Description       | Possible Values        |
 |:----------|:------------------|:-----------------------|
@@ -292,7 +292,7 @@ bindings:
 
 #### Retry Middleware
 
-KubeMQ targets supports Retries' target execution before reporting of error back to the source on failed execution.
+KubeMQ targets support Retries' target execution before reporting of error back to the source on failed execution.
 
 Retry middleware settings values:
 
@@ -322,7 +322,7 @@ bindings:
 
 #### Rate Limiter Middleware
 
-KubeMQ targets supports Rate Limiting of target executions.
+KubeMQ targets support a Rate Limiting of target executions.
 
 Rate Limiter middleware settings values:
 
@@ -345,7 +345,7 @@ bindings:
 
 ### Source
 
-Source section contains source configuration for binding as follows:
+Source section contains source configuration for Binding as follows:
 
 | Property    | Description                                       | Possible Values                                               |
 |:------------|:--------------------------------------------------|:--------------------------------------------------------------|
@@ -355,18 +355,18 @@ Source section contains source configuration for binding as follows:
 |             |                                                   | source.command                                                |
 |             |                                                   | source.events                                                 |
 |             |                                                   | source.events-store                                           |
-| properties | an array of keu/value setting for source connection| see above               |
+| properties | an array of key/value setting for source connection| see above               |
 
 
 ### Target
 
-Target section contains target configuration for binding as follows:
+Target section contains the target configuration for Binding as follows:
 
 | Property    | Description                                       | Possible Values                                               |
 |:------------|:--------------------------------------------------|:--------------------------------------------------------------|
 | name        | targets name (will show up in logs)               | string without white spaces                                   |
 | kind        | source kind type                                  | target.type-of-target                                                  |
-| properties | an array of keu/value setting for target connection | see above              |
+| properties | an array of key/value set for target connection | see above              |
 
 
 
