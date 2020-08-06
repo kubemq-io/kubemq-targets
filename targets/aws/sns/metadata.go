@@ -17,7 +17,6 @@ type metadata struct {
 	phoneNumber       string
 	subject           string
 	targetArn         string
-	messageAttributes map[string]string
 }
 
 var methodsMap = map[string]string{

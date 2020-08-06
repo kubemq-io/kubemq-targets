@@ -177,18 +177,13 @@ func (c *Client) sendingMessageToTopic(ctx context.Context, meta metadata, data 
 }
 
 func (c *Client) deleteTopic(ctx context.Context, meta metadata) (*types.Response, error) {
-	r, err := c.client.DeleteTopicWithContext(ctx, &sns.DeleteTopicInput{
+	_, err := c.client.DeleteTopicWithContext(ctx, &sns.DeleteTopicInput{
 		TopicArn: aws.String(meta.topic),
 	})
 	if err != nil {
 		return nil, err
 	}
-	b, err := json.Marshal(r)
-	if err != nil {
-		return nil, err
-	}
 	return types.NewResponse().
-			SetMetadataKeyValue("result", "ok").
-			SetData(b),
+			SetMetadataKeyValue("result", "ok"),
 		nil
 }
