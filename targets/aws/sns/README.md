@@ -15,9 +15,9 @@ sns target connector configuration properties:
 
 | Properties Key | Required | Description                                | Example                     |
 |:---------------|:---------|:-------------------------------------------|:----------------------------|
-| aws_key          | yes      | aws key                       | aws key supplied by aws         |
-| aws_secret_key   | yes      | aws secret key                | aws secret key supplied by aws  |
-| region           | yes      | region                        | aws region                      |
+| aws_key        | yes      | aws key                                    | aws key supplied by aws         |
+| aws_secret_key | yes      | aws secret key                             | aws secret key supplied by aws  |
+| region         | yes      | region                                     | aws region                      |
 
 
 Example:
@@ -93,9 +93,9 @@ Example:
 ```
 
 
-### List Subscriptions
+### List Subscriptions By Topic
 
-List Subscriptions:
+List Subscriptions By Topic:
 
 | Metadata Key      | Required | Description                             | Possible values                            |
 |:------------------|:---------|:----------------------------------------|:-------------------------------------------|
@@ -161,7 +161,7 @@ Example:
 ```json
 {
   "metadata": {
-    "method": "create_topic",
+    "method": "send_message",
     "topic": "arn:aws-my-topic"
     "message": "my message to send"
   },
@@ -177,7 +177,7 @@ Send Message:
 | Metadata Key      | Required | Description                             | Possible values                                           |
 |:--------------------|:------------------------------------|:---------------------------------|:--------------------------------------|
 | method              | yes                                 | type of method                   | "subscribe"                           |
-| topic               | yes    | topic_name                 | "arn:aws-my-topic"                    | 
+| topic               | yes    | topic_name                 | "arn:aws-my-topic"               | "arn:aws-my-topic"   |
 | data                | no                                  | Subscribe attributes as base64   | '{"store": ["mystore"],"event": [{"anything-but": "my-event"}]}'       
 
 
@@ -193,14 +193,14 @@ Example:
 }
 ```
 
-### Delete Topid
+### Delete Topic
 
-Send Message:
+Delete Message:
 
 | Metadata Key      | Required | Description                             | Possible values                                           |
 |:--------------------|:------------------------------------|:-------------------------------|:--------------------------------------|
 | method              | yes                                 | type of method                 | "delete_topic"                           |
-| topic               | yes    | topic_name                     | "arn:aws-my-topic"                    | 
+| topic               | yes                                 | topic_name                     | "arn:aws-my-topic"         | 
 
 
 Example:
