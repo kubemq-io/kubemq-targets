@@ -175,9 +175,32 @@ Example:
 Send Message:
 
 | Metadata Key      | Required | Description                             | Possible values                                           |
+|:--------------------|:------------------------------------|:---------------------------------|:--------------------------------------|
+| method              | yes                                 | type of method                   | "subscribe"                           |
+| topic               | yes    | topic_name                 | "arn:aws-my-topic"                    | 
+| data                | no                                  | Subscribe attributes as base64   | '{"store": ["mystore"],"event": [{"anything-but": "my-event"}]}'       
+
+
+Example:
+
+```json
+{
+  "metadata": {
+    "method": "subscribe",
+    "topic": "arn:aws-my-topic"
+  },
+  "data": "eyJzdG9yZSI6IFsibXlzdG9yZSJdLCJldmVudCI6IFt7ImFueXRoaW5nLWJ1dCI6ICJteS1ldmVudCJ9XX0="
+}
+```
+
+### Delete Topid
+
+Send Message:
+
+| Metadata Key      | Required | Description                             | Possible values                                           |
 |:--------------------|:------------------------------------|:-------------------------------|:--------------------------------------|
 | method              | yes                                 | type of method                 | "delete_topic"                           |
-| topic               | no(unless target_arn is missing)    | topic_name                     | "arn:aws-my-topic"                    | 
+| topic               | yes    | topic_name                     | "arn:aws-my-topic"                    | 
 
 
 Example:
