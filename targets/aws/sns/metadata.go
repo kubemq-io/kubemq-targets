@@ -50,7 +50,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 			return metadata{}, fmt.Errorf("error parsing topic, %w", err)
 		}
 		if m.method == "subscribe" {
-			m.endPoint, err = meta.MustParseString("end_point")
+			m.endPoint = meta.ParseString("end_point","")
 			if err != nil {
 				return metadata{}, fmt.Errorf("error parsing end_point, %w", err)
 			}

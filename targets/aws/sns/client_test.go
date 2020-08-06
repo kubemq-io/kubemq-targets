@@ -26,7 +26,7 @@ type testStructure struct {
 	returnSubscription string
 }
 
-func createAttributes(store string, event string) ([]byte, error) {
+func createSendMessageAttributes(store string, event string) ([]byte, error) {
 	var at []Attributes
 	aStore := Attributes{
 		Name:        "store",
@@ -214,7 +214,7 @@ func TestClient_List_Subscriptions(t *testing.T) {
 		{
 			name: "valid list",
 			request: types.NewRequest().
-				SetMetadataKeyValue("method", "list_topics"),
+				SetMetadataKeyValue("method", "list_subscriptions"),
 			wantErr: false,
 		},
 	}
@@ -292,6 +292,11 @@ func TestClient_List_Subscriptions_By_Topic(t *testing.T) {
 func TestClient_Create_Topic(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
+	attributes := make(map[string]*string)
+	DisplayName := "my-display-name"
+	attributes["DisplayName"] = &DisplayName
+	b, err := json.Marshal(attributes)
+	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "aws-sns",
 		Kind: "aws.sns",
@@ -307,10 +312,17 @@ func TestClient_Create_Topic(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "valid create topic",
+			name: "valid create topic -with attributes",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "create_topic").
-				SetMetadataKeyValue("topic", dat.topic),
+				SetMetadataKeyValue("topic", dat.topic).
+				SetData(b),
+			wantErr: false,
+		}, {
+			name: "valid create topic -without attributes",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "create_topic").
+				SetMetadataKeyValue("topic", fmt.Sprintf("%s-another", dat.topic)),
 			wantErr: false,
 		}, {
 			name: "invalid create topic - missing topic",
@@ -351,7 +363,7 @@ func TestClient_SendMessage(t *testing.T) {
 			"region":         dat.region,
 		},
 	}
-	attributes, err := createAttributes("my_store", "my_event")
+	attributes, err := createSendMessageAttributes("my_store", "my_event")
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -414,6 +426,14 @@ func TestClient_Subscribe(t *testing.T) {
 			"region":         dat.region,
 		},
 	}
+	attributes := make(map[string]*string)
+	RawMessageDelivery := `{
+	"store": ["mystore"],
+    "event": [{"anything-but": "my-event"}],
+}`
+	attributes["FilterPolicy"] = &RawMessageDelivery
+	b, err := json.Marshal(attributes)
+	require.NoError(t, err)
 	tests := []struct {
 		name    string
 		request *types.Request
@@ -426,7 +446,8 @@ func TestClient_Subscribe(t *testing.T) {
 				SetMetadataKeyValue("topic", dat.topic).
 				SetMetadataKeyValue("protocol", dat.protocol).
 				SetMetadataKeyValue("return_subscription", dat.returnSubscription).
-				SetMetadataKeyValue("end_point", dat.endPoint),
+				SetMetadataKeyValue("end_point", dat.endPoint).
+				SetData(b),
 			wantErr: false,
 		}, {
 			name: "invalid subscribe topic - missing topic",

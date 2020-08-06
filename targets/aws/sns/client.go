@@ -60,13 +60,13 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "list_subscriptions_by_topic":
 		return c.listSubscriptionsByTopic(ctx, meta)
 	case "create_topic":
-		return c.createTopic(ctx, meta)
+		return c.createTopic(ctx, meta,req.Data)
 	case "delete_topic":
 		return c.deleteTopic(ctx, meta)
 	case "send_message":
 		return c.sendingMessageToTopic(ctx, meta, req.Data)
 	case "subscribe":
-		return c.subscribeToTopic(ctx, meta)
+		return c.subscribeToTopic(ctx, meta,req.Data)
 
 	default:
 		return nil, fmt.Errorf(getValidMethodTypes())
@@ -120,10 +120,20 @@ func (c *Client) listSubscriptionsByTopic(ctx context.Context, meta metadata) (*
 		nil
 }
 
-func (c *Client) createTopic(ctx context.Context, meta metadata) (*types.Response, error) {
-	r, err := c.client.CreateTopicWithContext(ctx, &sns.CreateTopicInput{
+func (c *Client) createTopic(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
+	s := &sns.CreateTopicInput{
 		Name: aws.String(meta.topic),
-	})
+	}
+	if data != nil {
+		a := make(map[string]*string)
+		err := json.Unmarshal(data, &a)
+		if err != nil {
+			return nil, err
+		}
+		s.Attributes = a
+	}
+
+	r, err := c.client.CreateTopicWithContext(ctx, s)
 	if err != nil {
 		return nil, err
 	}
@@ -137,13 +147,22 @@ func (c *Client) createTopic(ctx context.Context, meta metadata) (*types.Respons
 		nil
 }
 
-func (c *Client) subscribeToTopic(ctx context.Context, meta metadata) (*types.Response, error) {
-	r, err := c.client.SubscribeWithContext(ctx, &sns.SubscribeInput{
+func (c *Client) subscribeToTopic(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
+	s := &sns.SubscribeInput{
 		TopicArn:              aws.String(meta.topic),
 		Endpoint:              aws.String(meta.endPoint),
 		Protocol:              aws.String(meta.protocol),
 		ReturnSubscriptionArn: aws.Bool(meta.returnSubscription),
-	})
+	}
+	if data != nil {
+		a := make(map[string]*string)
+		err := json.Unmarshal(data, &a)
+		if err != nil {
+			return nil, err
+		}
+		s.Attributes = a
+	}
+	r, err := c.client.SubscribeWithContext(ctx, s)
 	if err != nil {
 		return nil, err
 	}

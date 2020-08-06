@@ -3,6 +3,9 @@ package targets
 import (
 	"context"
 	"fmt"
+	"github.com/kubemq-hub/kubemq-targets/targets/aws/lambda"
+	"github.com/kubemq-hub/kubemq-targets/targets/aws/s3"
+	"github.com/kubemq-hub/kubemq-targets/targets/aws/sns"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/firebase"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/elastic"
 
@@ -48,6 +51,24 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 	switch cfg.Kind {
 	case "target.aws.sqs":
 		target := sqs.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.aws.sns":
+		target := sns.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.aws.s3":
+		target := s3.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.aws.lambda":
+		target := lambda.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
