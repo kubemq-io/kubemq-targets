@@ -15,8 +15,6 @@ type options struct {
 	region       string
 	token        string
 
-	uploader   bool
-	downloader bool
 }
 
 func parseOptions(cfg config.Spec) (options, error) {
