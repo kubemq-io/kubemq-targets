@@ -1,6 +1,6 @@
 # Kubemq sns target Connector
 
-Kubemq gcp-sns target connector allows services using kubemq server to access aws sns service.
+Kubemq aws-sns target connector allows services using kubemq server to access aws sns service.
 
 ## Prerequisites
 The following required to run the aws-sns target connector:

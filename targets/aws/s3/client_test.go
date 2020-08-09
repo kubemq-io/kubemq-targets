@@ -374,6 +374,7 @@ func TestClient_Upload_Item(t *testing.T) {
 			"aws_secret_key": dat.awsSecretKey,
 			"region":         dat.region,
 			"downloader":     "false",
+			"uploader":       "true",
 		},
 	}
 	tests := []struct {
