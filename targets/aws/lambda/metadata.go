@@ -5,6 +5,13 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
+const (
+	defaultDescription           = ""
+	defaultMemorySize           = 256
+	defaultTimeout = 15
+)
+
+
 type metadata struct {
 	method string
 	
@@ -57,13 +64,13 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing runtime, %w", err)
 		}
-		i := meta.ParseInt("memory_size", 256)
+		i := meta.ParseInt("memory_size", defaultMemorySize)
 		m.memorySize = int64(i)
 		
-		i = meta.ParseInt("timeout", 15)
+		i = meta.ParseInt("timeout", defaultTimeout)
 		m.timeout = int64(i)
 		
-		m.description = meta.ParseString("description", "")
+		m.description = meta.ParseString("description", defaultDescription)
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing runtime, %w", err)
 		}

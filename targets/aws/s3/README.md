@@ -1,4 +1,4 @@
-# Kubemq sns target Connector
+# Kubemq s3 target Connector
 
 Kubemq aws-s3 target connector allows services using kubemq server to access aws s3 service.
 
@@ -45,7 +45,7 @@ bindings:
       properties:
         aws_key: "id"
         aws_secret_key: 'json'
-        region:  "instance"
+        region:  "region"
         downloader:  "true"
         uploader:  "true"
 ```

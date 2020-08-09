@@ -6,6 +6,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/kubemq-io/kubemq-go"
 	"github.com/nats-io/nuid"
+	"io/ioutil"
 	"log"
 	"time"
 )
@@ -20,9 +21,9 @@ func main() {
 	}
 	// listRequest
 	listRequest := types.NewRequest().
-		SetMetadataKeyValue("method", "list_buckets")
+		SetMetadataKeyValue("method", "list")
 	queryListResponse, err := client.SetQuery(listRequest.ToQuery()).
-		SetChannel("query.aws.s3").
+		SetChannel("query.aws.lambda").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)
@@ -31,24 +32,27 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(fmt.Sprintf("list buckets executed, response: %s", listResponse.Data))
+	log.Println(fmt.Sprintf("list functions executed, response: %s", listResponse.Data))
 
-	// Create Bucket
-	BucketName := "testmykubemqbucketname"
-	createRequest := types.NewRequest().
-		SetMetadataKeyValue("method", "create_bucket").
-		SetMetadataKeyValue("bucket_name", BucketName).
-		SetMetadataKeyValue("wait_for_completion", "true")
+	// Delete Lambda
+	dat, err := ioutil.ReadFile("./credentials/aws/lambda/functionName.txt")
+	if err != nil {
+		panic(err)
+	}
+	functionName := string(dat)
+	deleteRequest := types.NewRequest().
+		SetMetadataKeyValue("method", "delete").
+		SetMetadataKeyValue("function_name", functionName)
 
-	getCreate, err := client.SetQuery(createRequest.ToQuery()).
-		SetChannel("query.aws.s3").
+	getDelete, err := client.SetQuery(deleteRequest.ToQuery()).
+		SetChannel("query.aws.lambda").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)
 	}
-	createResponse, err := types.ParseResponse(getCreate.Body)
+	deleteResponse, err := types.ParseResponse(getDelete.Body)
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(fmt.Sprintf("create bucket executed, error: %v", createResponse.IsError))
+	log.Println(fmt.Sprintf("delete lambda executed, error: %v", deleteResponse.IsError))
 }
