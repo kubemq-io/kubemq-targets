@@ -22,6 +22,7 @@ var methodsMap = map[string]string{
 	"create_log_event_stream":   "create_log_event_stream",
 	"describe_log_event_stream": "describe_log_event_stream",
 	"delete_log_event_stream":   "delete_log_event_stream",
+	"put_log_event":             "put_log_event",
 	"get_log_event":             "get_log_event",
 	"create_log_group":          "create_log_group",
 	"delete_log_group":          "delete_log_group",
@@ -44,7 +45,12 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if err != nil {
 		return metadata{}, fmt.Errorf(getValidMethodTypes())
 	}
-	if m.method == "get_log_event" || m.method == "create_log_group" || m.method == "delete_log_group" || m.method == "create_log_event_stream" || m.method == "describe_log_event_stream" || m.method == "delete_log_event_stream" {
+	if m.method == "describe_log_group" {
+		m.logGroupPrefix, err = meta.MustParseString("log_group_prefix")
+		if err != nil {
+			return metadata{}, fmt.Errorf("error parsing log_group_prefix, %w", err)
+		}
+	} else {
 		m.logGroupName, err = meta.MustParseString("log_group_name")
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing log_group_name, %w", err)
@@ -54,11 +60,6 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 			if err != nil {
 				return metadata{}, fmt.Errorf("error parsing log_stream_name, %w", err)
 			}
-		}
-	} else if m.method == "describe_log_group" {
-		m.logGroupPrefix, err = meta.MustParseString("log_group_prefix")
-		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing log_group_prefix, %w", err)
 		}
 	}
 	return m, nil

@@ -60,6 +60,8 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.describeLogEventStream(ctx, meta)
 	case "delete_log_event_stream":
 		return c.deleteLogEventStream(ctx, meta)
+	case "put_log_event":
+		return c.putLogEvent(ctx, meta,req.Data)
 	case "get_log_event":
 		return c.getLogEvents(ctx, meta)
 	case "create_log_group":
@@ -68,14 +70,6 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.describeLogGroup(ctx, meta)
 	case "delete_log_group":
 		return c.deleteLogEventGroup(ctx, meta)
-	case "list_tags_group":
-		return c.listTagsLogGroup(ctx, meta)
-	case "describe_resources_policy":
-		return c.describeResourcePolicies(ctx, meta)
-	case "delete_resources_policy":
-		return c.deleteResourcePolicies(ctx, meta)
-	case "put_resources_policy":
-		return c.putResourcePolicies(ctx, meta)
 	default:
 		return nil, fmt.Errorf(getValidMethodTypes())
 	}
@@ -120,6 +114,38 @@ func (c *Client) deleteLogEventStream(ctx context.Context, meta metadata) (*type
 	resp, err := c.client.DeleteLogStreamWithContext(ctx, &cloudwatchlogs.DeleteLogStreamInput{
 		LogGroupName:  aws.String(meta.logGroupName),
 		LogStreamName: aws.String(meta.logStreamName),
+	})
+	if err != nil {
+		return nil, err
+	}
+	b, err := json.Marshal(resp)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok").
+			SetData(b),
+		nil
+}
+
+func (c *Client) putLogEvent(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
+	var m map[int64]string
+	err := json.Unmarshal(data, &m)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse messages ,please verify data is map[int64]string int64:timestamp and string: message")
+	}
+	var inputLogs []*cloudwatchlogs.InputLogEvent
+	for k, v := range m {
+		i := cloudwatchlogs.InputLogEvent{
+			Message:   aws.String(v),
+			Timestamp: aws.Int64(k),
+		}
+		inputLogs = append(inputLogs, &i)
+	}
+	resp, err := c.client.PutLogEventsWithContext(ctx, &cloudwatchlogs.PutLogEventsInput{
+		LogGroupName:  aws.String(meta.logGroupName),
+		LogStreamName: aws.String(meta.logStreamName),
+		LogEvents:     inputLogs,
 	})
 	if err != nil {
 		return nil, err
