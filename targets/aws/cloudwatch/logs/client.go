@@ -54,6 +54,22 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return nil, err
 	}
 	switch meta.method {
+	case "get_log_event":
+		return c.getLogEvents(ctx, meta)
+	case "create_log_group":
+		return c.createLogEventGroup(ctx, meta, req.Data)
+	case "delete_log_group":
+		return c.deleteLogEventGroup(ctx, meta)
+	case "describe_log_group":
+		return c.describeLogGroup(ctx, meta)
+	case "list_tags_group":
+		return c.listTagsLogGroup(ctx, meta)
+	case "describe_resources_policy":
+		return c.describeResourcePolicies(ctx, meta)
+	case "delete_resources_policy":
+		return c.deleteResourcePolicies(ctx, meta)
+	case "put_resources_policy":
+		return c.putResourcePolicies(ctx, meta)
 	default:
 		return nil, fmt.Errorf(getValidMethodTypes())
 	}
@@ -62,8 +78,8 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 func (c *Client) getLogEvents(ctx context.Context, meta metadata) (*types.Response, error) {
 	resp, err := c.client.GetLogEventsWithContext(ctx, &cloudwatchlogs.GetLogEventsInput{
 		Limit:         aws.Int64(meta.limit),
-		LogGroupName:  aws.String(meta.groupName),
-		LogStreamName: aws.String(meta.streamName),
+		LogGroupName:  aws.String(meta.logGroupName),
+		LogStreamName: aws.String(meta.logStreamName),
 	})
 	if err != nil {
 		return nil, err
@@ -87,7 +103,7 @@ func (c *Client) createLogEventGroup(ctx context.Context, meta metadata, data []
 		}
 	}
 	resp, err := c.client.CreateLogGroupWithContext(ctx, &cloudwatchlogs.CreateLogGroupInput{
-		LogGroupName: aws.String(meta.groupName),
+		LogGroupName: aws.String(meta.logGroupName),
 		Tags:         m,
 	})
 	if err != nil {
@@ -103,10 +119,9 @@ func (c *Client) createLogEventGroup(ctx context.Context, meta metadata, data []
 		nil
 }
 
-
 func (c *Client) deleteLogEventGroup(ctx context.Context, meta metadata) (*types.Response, error) {
 	resp, err := c.client.DeleteLogGroupWithContext(ctx, &cloudwatchlogs.DeleteLogGroupInput{
-		LogGroupName: aws.String(meta.groupName),
+		LogGroupName: aws.String(meta.logGroupName),
 	})
 	if err != nil {
 		return nil, err
@@ -123,7 +138,7 @@ func (c *Client) deleteLogEventGroup(ctx context.Context, meta metadata) (*types
 
 func (c *Client) describeLogGroup(ctx context.Context, meta metadata) (*types.Response, error) {
 	resp, err := c.client.DescribeLogGroupsWithContext(ctx, &cloudwatchlogs.DescribeLogGroupsInput{
-		LogGroupNamePrefix: aws.String(meta.groupPrefix),
+		LogGroupNamePrefix: aws.String(meta.logGroupPrefix),
 	})
 	if err != nil {
 		return nil, err
@@ -140,7 +155,59 @@ func (c *Client) describeLogGroup(ctx context.Context, meta metadata) (*types.Re
 
 func (c *Client) listTagsLogGroup(ctx context.Context, meta metadata) (*types.Response, error) {
 	resp, err := c.client.ListTagsLogGroupWithContext(ctx, &cloudwatchlogs.ListTagsLogGroupInput{
-		LogGroupName: aws.String(meta.groupPrefix),
+		LogGroupName: aws.String(meta.logGroupPrefix),
+	})
+	if err != nil {
+		return nil, err
+	}
+	b, err := json.Marshal(resp)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok").
+			SetData(b),
+		nil
+}
+
+func (c *Client) describeResourcePolicies(ctx context.Context, meta metadata) (*types.Response, error) {
+	resp, err := c.client.DescribeResourcePoliciesWithContext(ctx, &cloudwatchlogs.DescribeResourcePoliciesInput{
+		Limit: aws.Int64(meta.limit),
+	})
+	if err != nil {
+		return nil, err
+	}
+	b, err := json.Marshal(resp)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok").
+			SetData(b),
+		nil
+}
+
+func (c *Client) deleteResourcePolicies(ctx context.Context, meta metadata) (*types.Response, error) {
+	resp, err := c.client.DeleteResourcePolicyWithContext(ctx, &cloudwatchlogs.DeleteResourcePolicyInput{
+		PolicyName: aws.String(meta.policyName),
+	})
+	if err != nil {
+		return nil, err
+	}
+	b, err := json.Marshal(resp)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok").
+			SetData(b),
+		nil
+}
+
+func (c *Client) putResourcePolicies(ctx context.Context, meta metadata) (*types.Response, error) {
+	resp, err := c.client.PutResourcePolicyWithContext(ctx, &cloudwatchlogs.PutResourcePolicyInput{
+		PolicyName:     aws.String(meta.policyName),
+		PolicyDocument: aws.String(meta.policyDocument),
 	})
 	if err != nil {
 		return nil, err
