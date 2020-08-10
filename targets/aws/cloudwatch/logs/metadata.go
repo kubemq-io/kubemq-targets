@@ -22,6 +22,9 @@ type metadata struct {
 }
 
 var methodsMap = map[string]string{
+	"create_log_event_stream":   "create_log_event_stream",
+	"describe_log_event_stream": "describe_log_event_stream",
+	"delete_log_event_stream":   "delete_log_event_stream",
 	"get_log_event":             "get_log_event",
 	"create_log_group":          "create_log_group",
 	"delete_log_group":          "delete_log_group",
@@ -44,6 +47,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	m := metadata{}
 	var err error
 	m.method, err = meta.ParseStringMap("method", methodsMap)
+	m.limit = int64(meta.ParseInt("limit", defaultLimit))
 	if err != nil {
 		return metadata{}, fmt.Errorf(getValidMethodTypes())
 	}
@@ -52,10 +56,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing log_group_name, %w", err)
 		}
-		if m.method == "describe_log_event_stream" || m.method == "delete_log_event_stream" || m.method == "get_log_event" {
-			if m.method == "get_log_event" {
-				m.limit = int64(meta.ParseInt("limit", defaultLimit))
-			}
+		if m.method == "get_log_event" || m.method == "create_log_event_stream" || m.method == "delete_log_event_stream" {
 			m.logStreamName, err = meta.MustParseString("log_stream_name")
 			if err != nil {
 				return metadata{}, fmt.Errorf("error parsing log_stream_name, %w", err)
@@ -66,19 +67,15 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing log_group_prefix, %w", err)
 		}
-	} else {
-		if m.method == "describe_resources_policy" {
-			m.limit = int64(meta.ParseInt("limit", defaultLimit))
-		} else if m.method == "delete_resources_policy" || m.method == "put_resources_policy" {
-			m.policyName, err = meta.MustParseString("policy_name")
+	} else if m.method == "delete_resources_policy" || m.method == "put_resources_policy" {
+		m.policyName, err = meta.MustParseString("policy_name")
+		if err != nil {
+			return metadata{}, fmt.Errorf("error parsing policy_name, %w", err)
+		}
+		if m.method == "put_resources_policy" {
+			m.policyDocument, err = meta.MustParseString("policy_document")
 			if err != nil {
-				return metadata{}, fmt.Errorf("error parsing policy_name, %w", err)
-			}
-			if m.method == "put_resources_policy" {
-				m.policyDocument, err = meta.MustParseString("policy_document")
-				if err != nil {
-					return metadata{}, fmt.Errorf("error parsing policy_document, %w", err)
-				}
+				return metadata{}, fmt.Errorf("error parsing policy_document, %w", err)
 			}
 		}
 	}
