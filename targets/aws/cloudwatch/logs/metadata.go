@@ -55,7 +55,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing log_group_name, %w", err)
 		}
-		if m.method == "get_log_event" || m.method == "create_log_event_stream" || m.method == "delete_log_event_stream" {
+		if m.method == "put_log_event" || m.method == "get_log_event" || m.method == "create_log_event_stream" || m.method == "delete_log_event_stream" {
 			m.logStreamName, err = meta.MustParseString("log_stream_name")
 			if err != nil {
 				return metadata{}, fmt.Errorf("error parsing log_stream_name, %w", err)
