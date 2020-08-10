@@ -16,9 +16,6 @@ type metadata struct {
 	logGroupName   string
 	logStreamName  string
 	logGroupPrefix string
-
-	policyName     string
-	policyDocument string
 }
 
 var methodsMap = map[string]string{
@@ -29,10 +26,6 @@ var methodsMap = map[string]string{
 	"create_log_group":          "create_log_group",
 	"delete_log_group":          "delete_log_group",
 	"describe_log_group":        "describe_log_group",
-	"list_tags_group":           "list_tags_group",
-	"describe_resources_policy": "describe_resources_policy",
-	"delete_resources_policy":   "delete_resources_policy",
-	"put_resources_policy":      "put_resources_policy",
 }
 
 func getValidMethodTypes() string {
@@ -66,17 +59,6 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		m.logGroupPrefix, err = meta.MustParseString("log_group_prefix")
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing log_group_prefix, %w", err)
-		}
-	} else if m.method == "delete_resources_policy" || m.method == "put_resources_policy" {
-		m.policyName, err = meta.MustParseString("policy_name")
-		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing policy_name, %w", err)
-		}
-		if m.method == "put_resources_policy" {
-			m.policyDocument, err = meta.MustParseString("policy_document")
-			if err != nil {
-				return metadata{}, fmt.Errorf("error parsing policy_document, %w", err)
-			}
 		}
 	}
 	return m, nil
