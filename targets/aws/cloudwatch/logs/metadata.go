@@ -47,17 +47,39 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if err != nil {
 		return metadata{}, fmt.Errorf(getValidMethodTypes())
 	}
-	if m.method == "get_log_event" || m.method == "create_log_group" || m.method == "delete_log_group" {
+	if m.method == "get_log_event" || m.method == "create_log_group" || m.method == "delete_log_group" || m.method == "create_log_event_stream" || m.method == "describe_log_event_stream" || m.method == "delete_log_event_stream" {
 		m.logGroupName, err = meta.MustParseString("log_group_name")
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing log_group_name, %w", err)
 		}
-		if m.method == "get_log_event" {
-			m.limit = int64(meta.ParseInt("limit", defaultLimit))
+		if m.method == "describe_log_event_stream" || m.method == "delete_log_event_stream" || m.method == "get_log_event" {
+			if m.method == "get_log_event" {
+				m.limit = int64(meta.ParseInt("limit", defaultLimit))
+			}
 			m.logStreamName, err = meta.MustParseString("log_stream_name")
+			if err != nil {
+				return metadata{}, fmt.Errorf("error parsing log_stream_name, %w", err)
+			}
 		}
+	} else if m.method == "describe_log_group" {
+		m.logGroupPrefix, err = meta.MustParseString("log_group_prefix")
 		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing log_stream_name, %w", err)
+			return metadata{}, fmt.Errorf("error parsing log_group_prefix, %w", err)
+		}
+	} else {
+		if m.method == "describe_resources_policy" {
+			m.limit = int64(meta.ParseInt("limit", defaultLimit))
+		} else if m.method == "delete_resources_policy" || m.method == "put_resources_policy" {
+			m.policyName, err = meta.MustParseString("policy_name")
+			if err != nil {
+				return metadata{}, fmt.Errorf("error parsing policy_name, %w", err)
+			}
+			if m.method == "put_resources_policy" {
+				m.policyDocument, err = meta.MustParseString("policy_document")
+				if err != nil {
+					return metadata{}, fmt.Errorf("error parsing policy_document, %w", err)
+				}
+			}
 		}
 	}
 	return m, nil
