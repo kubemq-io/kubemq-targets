@@ -77,20 +77,15 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 }
 
 func (c *Client) createLogEventStream(ctx context.Context, meta metadata) (*types.Response, error) {
-	resp, err := c.client.CreateLogStreamWithContext(ctx, &cloudwatchlogs.CreateLogStreamInput{
+	_, err := c.client.CreateLogStreamWithContext(ctx, &cloudwatchlogs.CreateLogStreamInput{
 		LogGroupName:  aws.String(meta.logGroupName),
 		LogStreamName: aws.String(meta.logStreamName),
 	})
 	if err != nil {
 		return nil, err
 	}
-	b, err := json.Marshal(resp)
-	if err != nil {
-		return nil, err
-	}
 	return types.NewResponse().
-			SetMetadataKeyValue("result", "ok").
-			SetData(b),
+			SetMetadataKeyValue("result", "ok"),
 		nil
 }
 
@@ -112,20 +107,15 @@ func (c *Client) describeLogEventStream(ctx context.Context, meta metadata) (*ty
 }
 
 func (c *Client) deleteLogEventStream(ctx context.Context, meta metadata) (*types.Response, error) {
-	resp, err := c.client.DeleteLogStreamWithContext(ctx, &cloudwatchlogs.DeleteLogStreamInput{
+	_, err := c.client.DeleteLogStreamWithContext(ctx, &cloudwatchlogs.DeleteLogStreamInput{
 		LogGroupName:  aws.String(meta.logGroupName),
 		LogStreamName: aws.String(meta.logStreamName),
 	})
 	if err != nil {
 		return nil, err
 	}
-	b, err := json.Marshal(resp)
-	if err != nil {
-		return nil, err
-	}
 	return types.NewResponse().
-			SetMetadataKeyValue("result", "ok").
-			SetData(b),
+			SetMetadataKeyValue("result", "ok"),
 		nil
 }
 
@@ -189,14 +179,13 @@ func (c *Client) getLogEvent(ctx context.Context, meta metadata) (*types.Respons
 
 func (c *Client) createLogEventGroup(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
 	m := make(map[string]*string)
-	resp := &cloudwatchlogs.CreateLogGroupOutput{}
 	var err error
 	if data != nil {
 		err := json.Unmarshal(data, &m)
 		if err != nil {
 			return nil, err
 		}
-		resp, err = c.client.CreateLogGroupWithContext(ctx, &cloudwatchlogs.CreateLogGroupInput{
+		_, err = c.client.CreateLogGroupWithContext(ctx, &cloudwatchlogs.CreateLogGroupInput{
 			LogGroupName: aws.String(meta.logGroupName),
 			Tags:         m,
 		})
@@ -204,37 +193,27 @@ func (c *Client) createLogEventGroup(ctx context.Context, meta metadata, data []
 			return nil, err
 		}
 	} else {
-		resp, err = c.client.CreateLogGroupWithContext(ctx, &cloudwatchlogs.CreateLogGroupInput{
+		_, err = c.client.CreateLogGroupWithContext(ctx, &cloudwatchlogs.CreateLogGroupInput{
 			LogGroupName: aws.String(meta.logGroupName),
 		})
 		if err != nil {
 			return nil, err
 		}
 	}
-	b, err := json.Marshal(resp)
-	if err != nil {
-		return nil, err
-	}
 	return types.NewResponse().
-			SetMetadataKeyValue("result", "ok").
-			SetData(b),
+			SetMetadataKeyValue("result", "ok"),
 		nil
 }
 
 func (c *Client) deleteLogEventGroup(ctx context.Context, meta metadata) (*types.Response, error) {
-	resp, err := c.client.DeleteLogGroupWithContext(ctx, &cloudwatchlogs.DeleteLogGroupInput{
+	_, err := c.client.DeleteLogGroupWithContext(ctx, &cloudwatchlogs.DeleteLogGroupInput{
 		LogGroupName: aws.String(meta.logGroupName),
 	})
 	if err != nil {
 		return nil, err
 	}
-	b, err := json.Marshal(resp)
-	if err != nil {
-		return nil, err
-	}
 	return types.NewResponse().
-			SetMetadataKeyValue("result", "ok").
-			SetData(b),
+			SetMetadataKeyValue("result", "ok"),
 		nil
 }
 
