@@ -1,1 +1,221 @@
-//TODO
+# Kubemq cloudwatch-logs target Connector
+
+Kubemq cloudwatch-logs target connector allows services using kubemq server to access aws cloudwatch-logs service.
+
+## Prerequisites
+The following required to run the aws-sns target connector:
+
+- kubemq cluster
+- aws account with cloudwatch-logs active service
+- kubemq-source deployment
+
+## Configuration
+
+sns target connector configuration properties:
+
+| Properties Key | Required | Description                                | Example                     |
+|:---------------|:---------|:-------------------------------------------|:----------------------------|
+| aws_key        | yes      | aws key                                    | aws key supplied by aws         |
+| aws_secret_key | yes      | aws secret key                             | aws secret key supplied by aws  |
+| region         | yes      | region                                     | aws region                      |
+
+
+Example:
+
+```yaml
+bindings:
+  - name: kubemq-query-aws-cloudwatch-logs
+    source:
+      kind: source.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-aws-cloudwatch-logs"
+        auth_token: ""
+        channel: "query.aws.cloudwatch.logs"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.aws.cloudwatch.logs
+      name: target-aws-cloudwatch-logs
+      properties:
+        aws_key: "id"
+        aws_secret_key: 'json'
+        region:  "region"
+```
+
+## Usage
+
+### Create log Stream 
+
+Create log Stream:
+
+| Metadata Key      | Required | Description                             | Possible values                            |
+|:------------------|:---------|:----------------------------------------|:-------------------------------------------|
+| method            | yes      | type of method                          | "create_log_event_stream"                     |
+| log_stream_name   | yes      | aws log stream name                     | "string"                     |
+| log_group_name    | yes      | aws log group name                      | "string"                     |
+
+
+
+Example:
+
+```json
+{
+  "metadata": {
+    "method": "create_log_event_stream",
+    "log_stream_name": "my_stream_name",
+    "log_group_name": "my_group_name"
+  },
+  "data": null
+}
+```
+
+
+### Describe log Stream 
+
+Describe log Stream:
+
+| Metadata Key      | Required | Description                             | Possible values                            |
+|:------------------|:---------|:----------------------------------------|:-------------------------------------------|
+| method            | yes      | type of method                          | "describe_log_event_stream"                     |
+| log_group_name    | yes      | aws log group name                      | "string"                     |
+
+
+
+Example:
+
+```json
+{
+  "metadata": {
+    "method": "describe_log_event_stream",
+    "log_group_name": "my_group_name"
+  },
+  "data": null
+}
+```
+
+### Delete log Stream 
+
+Delete log Stream:
+
+| Metadata Key      | Required | Description                             | Possible values                            |
+|:------------------|:---------|:----------------------------------------|:-------------------------------------------|
+| method            | yes      | type of method                          | "delete_log_event_stream"                     |
+| log_stream_name   | yes      | aws log stream name                     | "string"                     |
+| log_group_name    | yes      | aws log group name                      | "string"                     |
+
+
+
+Example:
+
+```json
+{
+  "metadata": {
+    "method": "delete_log_event_stream",
+    "log_stream_name": "my_stream_name",
+    "log_group_name": "my_group_name"
+  },
+  "data": null
+}
+```
+
+### Get log Event
+
+Get log Stream:
+
+| Metadata Key      | Required | Description                             | Possible values                            |
+|:------------------|:---------|:-----------------------------------------------|:-------------------------------------------|
+| method            | yes      | type of method                                 | "get_log_event"                     |
+| log_stream_name   | yes      | aws log stream name                            | "string"                     |
+| log_group_name    | yes      | aws log group name                             | "string"                                                 |
+
+
+
+Example:
+
+```json
+{
+  "metadata": {
+    "method": "get_log_event",
+    "log_stream_name": "my_stream_name",
+    "log_group_name": "my_group_name"
+  },
+  "data": null
+}
+```
+
+### Create Log Event Group
+
+Create Log Event Group:
+
+| Metadata Key      | Required | Description                             | Possible values                            |
+|:------------------|:---------|:-----------------------------------------------|:-------------------------------------------|
+| method            | yes      | type of method                                 | "create_log_group"                     |
+| log_group_name    | yes      | aws log group name                             | "string"                                                 |
+
+
+
+Example:
+
+```json
+{
+  "metadata": {
+    "method": "put_log_event",
+    "log_stream_name": "create_log_group",
+    "log_group_name": "my_group_name"
+  },
+  "data": null
+}
+```
+
+### Describe Log Event Group
+
+Describe Log Event Group:
+
+| Metadata Key      | Required | Description                             | Possible values                            |
+|:------------------|:---------|:-----------------------------------------------|:-------------------------------------------|
+| method            | yes      | type of method                                 | "describe_log_group"                     |
+| log_group_prefix  | yes      | aws log group prefix                           | "string"                                                 |
+
+
+
+Example:
+
+```json
+{
+  "metadata": {
+    "method": "describe_log_group",
+    "log_group_name": "my_group_name"
+  },
+  "data": null
+}
+```
+
+
+### Delete Log Event Group
+
+Delete Log Event Group:
+
+| Metadata Key      | Required | Description                             | Possible values                            |
+|:------------------|:---------|:-----------------------------------------------|:-------------------------------------------|
+| method            | yes      | type of method                                 | "delete_log_group"                     |
+| log_group_name    | yes      | aws log group name                              | "string"                                                 |
+
+
+
+Example:
+
+```json
+{
+  "metadata": {
+    "method": "delete_log_group",
+    "log_group_name": "my_group_name"
+  },
+  "data": null
+}
+```

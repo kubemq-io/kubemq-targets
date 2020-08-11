@@ -10,11 +10,9 @@ const (
 )
 
 type metadata struct {
-	method string
-	sequenceToken string
+	method         string
+	sequenceToken  string
 	limit          int64
-	startTime      int64
-	endTime      int64
 	logGroupName   string
 	logStreamName  string
 	logGroupPrefix string
@@ -62,19 +60,8 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 			if err != nil {
 				return metadata{}, fmt.Errorf("error parsing log_stream_name, %w", err)
 			}
-			if m.method == "get_log_event" {
-				startTime, err := meta.MustParseInt("start_time")
-				if err != nil {
-					return metadata{}, fmt.Errorf("error parsing start_time, %w", err)
-				}
-				m.startTime = int64(startTime)
-				endTime, err := meta.MustParseInt("end_time")
-				if err != nil {
-					return metadata{}, fmt.Errorf("error parsing end_time, %w", err)
-				}
-				m.endTime = int64(endTime)
-			}else if m.method =="put_log_event"{
-				m.sequenceToken, err = meta.MustParseString("sequence_token")
+			if m.method == "put_log_event" {
+				m.sequenceToken = meta.ParseString("sequence_token", "")
 				if err != nil {
 					return metadata{}, fmt.Errorf("error parsing sequence_token, %w", err)
 				}

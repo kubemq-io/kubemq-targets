@@ -435,8 +435,6 @@ func TestClient_GetLogEvent(t *testing.T) {
 	c := New()
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
-	currentTime := fmt.Sprintf("%v", time.Now().Unix())
-	startTime := fmt.Sprintf("%v", time.Now().AddDate(0, -1, 0).Unix())
 	tests := []struct {
 		name    string
 		request *types.Request
@@ -447,24 +445,18 @@ func TestClient_GetLogEvent(t *testing.T) {
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "get_log_event").
 				SetMetadataKeyValue("log_group_name", dat.logGroupName).
-				SetMetadataKeyValue("start_time", startTime).
-				SetMetadataKeyValue("end_time", currentTime).
 				SetMetadataKeyValue("log_stream_name", dat.logStreamName),
 			wantErr: false,
 		}, {
 			name: "invalid get log - missing log stream",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "get_log_event").
-				SetMetadataKeyValue("start_time", startTime).
-				SetMetadataKeyValue("end_time", currentTime).
 				SetMetadataKeyValue("log_group_name", dat.logGroupName),
 			wantErr: true,
 		}, {
 			name: "invalid put - get log group name",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "get_log_event").
-				SetMetadataKeyValue("start_time", startTime).
-				SetMetadataKeyValue("end_time", currentTime).
 				SetMetadataKeyValue("log_stream_name", dat.logStreamName),
 			wantErr: true,
 		},
