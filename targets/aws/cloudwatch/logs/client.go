@@ -10,6 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/cloudwatchlogs"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
+	"sort"
 )
 
 type Client struct {
@@ -63,7 +64,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "put_log_event":
 		return c.putLogEvent(ctx, meta,req.Data)
 	case "get_log_event":
-		return c.getLogEvents(ctx, meta)
+		return c.getLogEvent(ctx, meta)
 	case "create_log_group":
 		return c.createLogEventGroup(ctx, meta, req.Data)
 	case "describe_log_group":
@@ -142,9 +143,14 @@ func (c *Client) putLogEvent(ctx context.Context, meta metadata, data []byte) (*
 		}
 		inputLogs = append(inputLogs, &i)
 	}
+	sort.Slice(inputLogs,
+		func(i, j int) bool {
+			return *inputLogs[i].Timestamp < *inputLogs[j].Timestamp
+		})
 	resp, err := c.client.PutLogEventsWithContext(ctx, &cloudwatchlogs.PutLogEventsInput{
 		LogGroupName:  aws.String(meta.logGroupName),
 		LogStreamName: aws.String(meta.logStreamName),
+		SequenceToken: aws.String(meta.sequenceToken),
 		LogEvents:     inputLogs,
 	})
 	if err != nil {
@@ -160,11 +166,11 @@ func (c *Client) putLogEvent(ctx context.Context, meta metadata, data []byte) (*
 		nil
 }
 
-func (c *Client) getLogEvents(ctx context.Context, meta metadata) (*types.Response, error) {
+func (c *Client) getLogEvent(ctx context.Context, meta metadata) (*types.Response, error) {
 	resp, err := c.client.GetLogEventsWithContext(ctx, &cloudwatchlogs.GetLogEventsInput{
-		Limit:         aws.Int64(meta.limit),
 		LogGroupName:  aws.String(meta.logGroupName),
 		LogStreamName: aws.String(meta.logStreamName),
+		Limit: aws.Int64(meta.limit),
 	})
 	if err != nil {
 		return nil, err
@@ -178,6 +184,8 @@ func (c *Client) getLogEvents(ctx context.Context, meta metadata) (*types.Respon
 			SetData(b),
 		nil
 }
+
+
 
 func (c *Client) createLogEventGroup(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
 	m := make(map[string]*string)
@@ -246,3 +254,5 @@ func (c *Client) describeLogGroup(ctx context.Context, meta metadata) (*types.Re
 			SetData(b),
 		nil
 }
+
+
