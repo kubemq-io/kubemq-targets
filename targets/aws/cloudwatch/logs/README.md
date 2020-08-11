@@ -3,7 +3,7 @@
 Kubemq cloudwatch-logs target connector allows services using kubemq server to access aws cloudwatch-logs service.
 
 ## Prerequisites
-The following required to run the aws-sns target connector:
+The following required to run the aws-cloudwatch-logs target connector:
 
 - kubemq cluster
 - aws account with cloudwatch-logs active service
