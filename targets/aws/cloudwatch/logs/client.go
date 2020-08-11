@@ -62,7 +62,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "delete_log_event_stream":
 		return c.deleteLogEventStream(ctx, meta)
 	case "put_log_event":
-		return c.putLogEvent(ctx, meta,req.Data)
+		return c.putLogEvent(ctx, meta, req.Data)
 	case "get_log_event":
 		return c.getLogEvent(ctx, meta)
 	case "create_log_group":
@@ -146,6 +146,9 @@ func (c *Client) putLogEvent(ctx context.Context, meta metadata, data []byte) (*
 	if err != nil {
 		return nil, err
 	}
+	if resp.RejectedLogEventsInfo != nil {
+		return nil, fmt.Errorf("%v", resp.RejectedLogEventsInfo)
+	}
 	b, err := json.Marshal(resp)
 	if err != nil {
 		return nil, err
@@ -160,7 +163,7 @@ func (c *Client) getLogEvent(ctx context.Context, meta metadata) (*types.Respons
 	resp, err := c.client.GetLogEventsWithContext(ctx, &cloudwatchlogs.GetLogEventsInput{
 		LogGroupName:  aws.String(meta.logGroupName),
 		LogStreamName: aws.String(meta.logStreamName),
-		Limit: aws.Int64(meta.limit),
+		Limit:         aws.Int64(meta.limit),
 	})
 	if err != nil {
 		return nil, err
@@ -174,8 +177,6 @@ func (c *Client) getLogEvent(ctx context.Context, meta metadata) (*types.Respons
 			SetData(b),
 		nil
 }
-
-
 
 func (c *Client) createLogEventGroup(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
 	m := make(map[string]*string)
@@ -233,5 +234,3 @@ func (c *Client) describeLogGroup(ctx context.Context, meta metadata) (*types.Re
 			SetData(b),
 		nil
 }
-
-
