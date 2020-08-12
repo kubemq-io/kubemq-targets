@@ -3,7 +3,7 @@
 Kubemq cloudwatch-events target connector allows services using kubemq server to access aws cloudwatch-events service.
 
 ## Prerequisites
-The following required to run the aws-cloudwatch-logs target connector:
+The following required to run the aws-cloudwatch-events target connector:
 
 - kubemq cluster
 - aws account with cloudwatch-events active service

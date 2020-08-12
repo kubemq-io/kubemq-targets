@@ -13,7 +13,7 @@ require (
 	firebase.google.com/go/v4 v4.0.0
 	github.com/GoogleCloudPlatform/cloudsql-proxy v1.17.0
 	github.com/Shopify/sarama v1.26.4
-	github.com/aws/aws-sdk-go v1.33.17
+	github.com/aws/aws-sdk-go v1.34.0
 	github.com/bradfitz/gomemcache v0.0.0-20190913173617-a41fca850d0b
 	github.com/couchbase/gocb/v2 v2.1.2
 	github.com/denisenkom/go-mssqldb v0.0.0-20191124224453-732737034ffd
@@ -28,7 +28,6 @@ require (
 	github.com/google/uuid v1.1.1
 	github.com/googleapis/gax-go/v2 v2.0.5
 	github.com/json-iterator/go v1.1.10
-	github.com/kubemq-hub/kubemq-target-connectors v0.1.1 // indirect
 	github.com/kubemq-io/kubemq-go v1.4.0
 	github.com/labstack/echo/v4 v4.1.16
 	github.com/lib/pq v1.3.0
