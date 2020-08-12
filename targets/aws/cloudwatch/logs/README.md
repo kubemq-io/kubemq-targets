@@ -157,6 +157,33 @@ Create Log Event Group:
 |:------------------|:---------|:-----------------------------------------------|:-------------------------------------------|
 | method            | yes      | type of method                                 | "create_log_group"                     |
 | log_group_name    | yes      | aws log group name                             | "string"                                                 |
+| data              | no       | aws tags                                       | key value pair string string                                                 |
+
+
+
+Example:
+
+```json
+{
+  "metadata": {
+    "method": "create_log_group",
+    "log_group_name": "my_group_name"
+  },
+  "data": null
+}
+```
+
+### Put Log 
+
+Put Log Event:
+
+| Metadata Key      | Required | Description                             | Possible values                            |
+|:------------------|:---------|:---------------------------------------------------------------|:-------------------------------------------|
+| method            | yes      | type of method                                                 | "put_log_event"                     |
+| log_stream_name   | yes      | aws log stream name                                            | "string"                     |
+| log_group_name    | yes      | aws log group name                                             | "string"                     |
+| sequence_token    | yes      | aws stream sequence token                                      | "string"                     |
+| data              | yes      | key value pair of int-string int-time - string-Message         | "string"                     |
 
 
 
@@ -166,10 +193,10 @@ Example:
 {
   "metadata": {
     "method": "put_log_event",
-    "log_stream_name": "create_log_group",
-    "log_group_name": "my_group_name"
+    "log_group_name": "my_group_name",
+    "sequence_token": "my_token_from_aws"
   },
-  "data": null
+  "data": "eyIxNTk3MjM1NTU4NTEyIjoibXkgZmlyc3QgbWVzc2FnZSB0byBzZW5kIiwiMTU5NzIzNTU1ODUyNyI6Im15IHNlY29uZCBtZXNzYWdlIHRvIHNlbmQifQ=="
 }
 ```
 
