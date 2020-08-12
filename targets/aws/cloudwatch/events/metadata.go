@@ -9,12 +9,13 @@ const (
 	defaultDetail     = ""
 	defaultDetailType = ""
 	defaultSource     = ""
+	defaultLimit      = 10
 )
 
 type metadata struct {
-	method string
-	rule   string
-
+	method     string
+	rule       string
+	limit      int64
 	detail     string
 	detailType string
 	source     string
@@ -23,6 +24,7 @@ type metadata struct {
 var methodsMap = map[string]string{
 	"put_targets": "put_targets",
 	"send_event":  "send_event",
+	"list_buses":  "list_buses",
 }
 
 func getValidMethodTypes() string {
@@ -40,6 +42,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if err != nil {
 		return metadata{}, fmt.Errorf(getValidMethodTypes())
 	}
+	m.limit = int64(meta.ParseInt("limit", defaultLimit))
 	m.detail = meta.ParseString("detail", defaultDetail)
 	m.detailType = meta.ParseString("detail_type", defaultDetailType)
 	m.source = meta.ParseString("source", defaultSource)

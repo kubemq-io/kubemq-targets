@@ -12,7 +12,7 @@ const (
 type metadata struct {
 	method         string
 	sequenceToken  string
-	limit          int64
+	limit int64
 	logGroupName   string
 	logStreamName  string
 	logGroupPrefix string

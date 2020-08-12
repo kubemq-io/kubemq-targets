@@ -57,7 +57,9 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "put_targets":
 		return c.putTarget(ctx, meta, req.Data)
 	case "send_event":
-		return c.SendEvent(ctx, meta, req.Data)
+		return c.sendEvent(ctx, meta, req.Data)
+	case "list_buses":
+		return c.listEventBuses(ctx, meta)
 	default:
 		return nil, fmt.Errorf(getValidMethodTypes())
 	}
@@ -89,7 +91,7 @@ func (c *Client) putTarget(ctx context.Context, meta metadata, data []byte) (*ty
 		nil
 }
 
-func (c *Client) SendEvent(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
+func (c *Client) sendEvent(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
 	var s []*string
 	if data != nil {
 		err := json.Unmarshal(data, &s)
@@ -97,7 +99,7 @@ func (c *Client) SendEvent(ctx context.Context, meta metadata, data []byte) (*ty
 			return nil, fmt.Errorf("failed to parse Resources ,please verify data is a valid []*string of RESOURCE_ARN ")
 		}
 	}
-	_, err := c.client.PutEventsWithContext(ctx, &cloudwatchevents.PutEventsInput{
+	res, err := c.client.PutEventsWithContext(ctx, &cloudwatchevents.PutEventsInput{
 		Entries: []*cloudwatchevents.PutEventsRequestEntry{
 			{
 				Detail:     aws.String(meta.detail),
@@ -110,7 +112,32 @@ func (c *Client) SendEvent(ctx context.Context, meta metadata, data []byte) (*ty
 	if err != nil {
 		return nil, err
 	}
+	b, err := json.Marshal(res)
+	if err != nil {
+		return nil, err
+	}
+	if err != nil {
+		return nil, err
+	}
 	return types.NewResponse().
-			SetMetadataKeyValue("result", "ok"),
+			SetMetadataKeyValue("result", "ok").
+			SetData(b),
+		nil
+}
+
+func (c *Client) listEventBuses(ctx context.Context, meta metadata) (*types.Response, error) {
+	res, err := c.client.ListEventBusesWithContext(ctx, &cloudwatchevents.ListEventBusesInput{
+		Limit: aws.Int64(meta.limit),
+	})
+	if err != nil {
+		return nil, err
+	}
+	b, err := json.Marshal(res)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok").
+			SetData(b),
 		nil
 }

@@ -24,6 +24,7 @@ type testStructure struct {
 	source      string
 	rule        string
 	resourceARN string
+	id          string
 }
 
 func getTestStructure() (*testStructure, error) {
@@ -72,6 +73,9 @@ func getTestStructure() (*testStructure, error) {
 		return nil, err
 	}
 	t.resourceARN = fmt.Sprintf("%s", dat)
+
+	t.id = "my_arn_id"
+
 	return t, nil
 }
 
@@ -155,6 +159,10 @@ func TestClient_PutTargets(t *testing.T) {
 
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
+	m := make(map[string]string)
+	m[dat.id] = dat.resourceARN
+	b, err := json.Marshal(m)
+	require.NoError(t, err)
 	tests := []struct {
 		name    string
 		request *types.Request
@@ -164,7 +172,8 @@ func TestClient_PutTargets(t *testing.T) {
 			name: "valid put targets",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "put_targets").
-				SetMetadataKeyValue("rule", dat.rule),
+				SetMetadataKeyValue("rule", dat.rule).
+				SetData(b),
 			wantErr: false,
 		},
 		{
@@ -172,6 +181,57 @@ func TestClient_PutTargets(t *testing.T) {
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "put_targets"),
 			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := c.Do(ctx, tt.request)
+			if tt.wantErr {
+				require.Error(t, err)
+				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
+				return
+			}
+			require.NoError(t, err)
+			require.NotNil(t, got)
+		})
+	}
+}
+
+func TestClient_ListBuses(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
+	cfg := config.Spec{
+		Name: "aws-cloudwatch-events",
+		Kind: "aws.cloudwatch.events",
+		Properties: map[string]string{
+			"aws_key":        dat.awsKey,
+			"aws_secret_key": dat.awsSecretKey,
+			"region":         dat.region,
+		},
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	defer cancel()
+	c := New()
+	err = c.Init(ctx, cfg)
+	require.NoError(t, err)
+
+	tests := []struct {
+		name    string
+		request *types.Request
+		wantErr bool
+	}{
+		{
+			name: "valid list buses",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "list_buses"),
+			wantErr: false,
+		},
+		{
+			name: "valid list buses with prefix",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "list_buses").
+				SetMetadataKeyValue("limit", "1"),
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
@@ -220,7 +280,6 @@ func TestClient_SendEvent(t *testing.T) {
 				SetMetadataKeyValue("method", "send_event").
 				SetMetadataKeyValue("detail", "{ \"key1\": \"value1\", \"key2\": \"value2\" }").
 				SetMetadataKeyValue("detail_type", "appRequestSubmitted").
-				SetMetadataKeyValue("method", "send_event").
 				SetMetadataKeyValue("source", "kubemq_testing").
 				SetData(b),
 			wantErr: false,
