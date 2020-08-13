@@ -13,7 +13,7 @@ require (
 	firebase.google.com/go/v4 v4.0.0
 	github.com/GoogleCloudPlatform/cloudsql-proxy v1.17.0
 	github.com/Shopify/sarama v1.26.4
-	github.com/aws/aws-sdk-go v1.33.17
+	github.com/aws/aws-sdk-go v1.34.0
 	github.com/bradfitz/gomemcache v0.0.0-20190913173617-a41fca850d0b
 	github.com/couchbase/gocb/v2 v2.1.2
 	github.com/denisenkom/go-mssqldb v0.0.0-20191124224453-732737034ffd

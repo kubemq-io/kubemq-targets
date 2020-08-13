@@ -41,10 +41,10 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	m := metadata{}
 	var err error
 	m.method, err = meta.ParseStringMap("method", methodsMap)
-	m.limit = int64(meta.ParseInt("limit", defaultLimit))
 	if err != nil {
 		return metadata{}, fmt.Errorf(getValidMethodTypes())
 	}
+	m.limit = int64(meta.ParseInt("limit", defaultLimit))
 	if m.method == "describe_log_group" {
 		m.logGroupPrefix, err = meta.MustParseString("log_group_prefix")
 		if err != nil {

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/cloudwatch/events"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/cloudwatch/logs"
+	"github.com/kubemq-hub/kubemq-targets/targets/aws/cloudwatch/metrics"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/lambda"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/s3"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/sns"
@@ -83,6 +84,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 		return target, nil
 	case "target.aws.cloudwatch.events":
 		target := events.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.aws.cloudwatch.metrics":
+		target := metrics.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
