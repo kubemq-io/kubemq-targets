@@ -8,7 +8,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/dynamodb"
-	"github.com/aws/aws-sdk-go/service/dynamodb/dynamodbattribute"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
@@ -21,7 +20,7 @@ type Client struct {
 
 func New() *Client {
 	return &Client{}
-	
+
 }
 func (c *Client) Name() string {
 	return c.name
@@ -34,7 +33,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-	
+
 	sess, err := session.NewSession(&aws.Config{
 		Region:      aws.String(c.opts.region),
 		Credentials: credentials.NewStaticCredentials(c.opts.awsKey, c.opts.awsSecretKey, c.opts.token),
@@ -42,10 +41,10 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-	
+
 	svc := dynamodb.New(sess)
 	c.client = svc
-	
+
 	return nil
 }
 
@@ -66,7 +65,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "get_item":
 		return c.getItem(ctx, req.Data)
 	case "delete_item":
-		return c.deleteTable(ctx, meta)
+		return c.deleteItem(ctx, req.Data)
 	case "update_item":
 		return c.updateItem(ctx, req.Data)
 	default:
@@ -96,7 +95,7 @@ func (c *Client) createTable(ctx context.Context, data []byte) (*types.Response,
 	if err != nil {
 		return nil, err
 	}
-	
+
 	result, err := c.client.CreateTableWithContext(ctx, i)
 	if err != nil {
 		return nil, err
@@ -112,7 +111,6 @@ func (c *Client) createTable(ctx context.Context, data []byte) (*types.Response,
 }
 
 func (c *Client) deleteTable(ctx context.Context, meta metadata) (*types.Response, error) {
-	
 	result, err := c.client.DeleteTableWithContext(ctx, &dynamodb.DeleteTableInput{
 		TableName: aws.String(meta.tableName),
 	})
@@ -129,12 +127,13 @@ func (c *Client) deleteTable(ctx context.Context, meta metadata) (*types.Respons
 		nil
 }
 func (c *Client) insertItem(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
-	av, err := dynamodbattribute.MarshalMap(data)
+	i := map[string]*dynamodb.AttributeValue{}
+	err := json.Unmarshal(data, &i)
 	if err != nil {
 		return nil, err
 	}
 	input := &dynamodb.PutItemInput{
-		Item:      av,
+		Item:      i,
 		TableName: aws.String(meta.tableName),
 	}
 	result, err := c.client.PutItemWithContext(ctx, input)
@@ -210,4 +209,3 @@ func (c *Client) updateItem(ctx context.Context, data []byte) (*types.Response, 
 			SetData(b),
 		nil
 }
-
