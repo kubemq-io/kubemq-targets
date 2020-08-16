@@ -18,9 +18,11 @@ type testStructure struct {
 	region       string
 	token        string
 
-	query   string
-	catalog string
-	db string
+	query          string
+	catalog        string
+	db             string
+	outputLocation string
+	executionID    string
 }
 
 func getTestStructure() (*testStructure, error) {
@@ -58,6 +60,16 @@ func getTestStructure() (*testStructure, error) {
 		return nil, err
 	}
 	t.db = string(dat)
+	dat, err = ioutil.ReadFile("./../../../credentials/aws/athena/outputLocation.txt")
+	if err != nil {
+		return nil, err
+	}
+	t.outputLocation = string(dat)
+	dat, err = ioutil.ReadFile("./../../../credentials/aws/athena/queryExecutionID.txt")
+	if err != nil {
+		return nil, err
+	}
+	t.executionID = string(dat)
 	return t, nil
 }
 
@@ -255,6 +267,7 @@ func TestClient_Query(t *testing.T) {
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "query").
 				SetMetadataKeyValue("db", dat.db).
+				SetMetadataKeyValue("output_location", dat.outputLocation).
 				SetMetadataKeyValue("catalog", dat.catalog).
 				SetMetadataKeyValue("query", dat.query),
 			wantErr: false,
@@ -264,6 +277,7 @@ func TestClient_Query(t *testing.T) {
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "query").
 				SetMetadataKeyValue("db", dat.db).
+				SetMetadataKeyValue("output_location", dat.outputLocation).
 				SetMetadataKeyValue("catalog", dat.catalog),
 			wantErr: true,
 		},
@@ -272,6 +286,7 @@ func TestClient_Query(t *testing.T) {
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "query").
 				SetMetadataKeyValue("db", dat.db).
+				SetMetadataKeyValue("catalog", dat.outputLocation).
 				SetMetadataKeyValue("query", dat.query),
 			wantErr: true,
 		},
@@ -280,7 +295,67 @@ func TestClient_Query(t *testing.T) {
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "query").
 				SetMetadataKeyValue("catalog", dat.catalog).
+				SetMetadataKeyValue("output_location", dat.outputLocation).
 				SetMetadataKeyValue("query", dat.query),
+			wantErr: true,
+		},
+		{
+			name: "invalid query - missing output_location",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "query").
+				SetMetadataKeyValue("db", dat.db).
+				SetMetadataKeyValue("catalog", dat.catalog).
+				SetMetadataKeyValue("query", dat.query),
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := c.Do(ctx, tt.request)
+			if tt.wantErr {
+				require.Error(t, err)
+				return
+			}
+			require.NoError(t, err)
+			require.NotNil(t, got)
+		})
+	}
+}
+
+func TestClient_GetQueryResult(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
+	cfg := config.Spec{
+		Name: "aws-athena",
+		Kind: "aws.athena",
+		Properties: map[string]string{
+			"aws_key":        dat.awsKey,
+			"aws_secret_key": dat.awsSecretKey,
+			"region":         dat.region,
+		},
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	defer cancel()
+	c := New()
+
+	err = c.Init(ctx, cfg)
+	require.NoError(t, err)
+	tests := []struct {
+		name    string
+		request *types.Request
+		wantErr bool
+	}{
+		{
+			name: "valid get query",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "get_query_result").
+				SetMetadataKeyValue("execution_id", dat.executionID),
+			wantErr: false,
+		},
+		{
+			name: "invalid get query - missing execution_id",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "get_query_result"),
 			wantErr: true,
 		},
 	}

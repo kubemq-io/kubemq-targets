@@ -12,7 +12,7 @@ type metadata struct {
 	catalog        string
 	outputLocation string
 	DB             string
-	executionId    string
+	executionID    string
 }
 
 var methodsMap = map[string]string{
@@ -37,7 +37,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if err != nil {
 		return metadata{}, fmt.Errorf(getValidMethodTypes())
 	}
-	if m.method != "list_data_catalogs" {
+	if m.method != "list_data_catalogs"  && m.method != "get_query_result"{
 		m.catalog, err = meta.MustParseString("catalog")
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing catalog, %w", err)
@@ -51,15 +51,16 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 			if err != nil {
 				return metadata{}, fmt.Errorf("error parsing db, %w", err)
 			}
-			m.DB, err = meta.MustParseString("output_location")
+			m.outputLocation, err = meta.MustParseString("output_location")
 			if err != nil {
 				return metadata{}, fmt.Errorf("error parsing output_location, %w", err)
 			}
-		} else if m.method == "get_query_result" {
-			m.executionId, err = meta.MustParseString("execution_id")
-			if err != nil {
-				return metadata{}, fmt.Errorf("error parsing execution_id, %w", err)
-			}
+		}
+	}
+	if m.method == "get_query_result" {
+		m.executionID, err = meta.MustParseString("execution_id")
+		if err != nil {
+			return metadata{}, fmt.Errorf("error parsing execution_id, %w", err)
 		}
 	}
 	return m, nil

@@ -60,6 +60,8 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.listDataCatalogs(ctx)
 	case "query":
 		return c.query(ctx, meta)
+	case "get_query_result":
+		return c.getQueryResult(ctx, meta)
 	default:
 		return nil, fmt.Errorf(getValidMethodTypes())
 	}
@@ -123,7 +125,8 @@ func (c *Client) query(ctx context.Context, meta metadata) (*types.Response, err
 
 func (c *Client) getQueryResult(ctx context.Context, meta metadata) (*types.Response, error) {
 	m, err := c.client.GetQueryResultsWithContext(ctx, &athena.GetQueryResultsInput{
-		QueryExecutionId: aws.String(meta.executionId),
+		QueryExecutionId: aws.String(meta.executionID),
+
 	})
 	if err != nil {
 		return nil, err
