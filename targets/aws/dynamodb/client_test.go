@@ -249,7 +249,7 @@ func TestClient_CreateTable(t *testing.T) {
 	}
 }
 
-func TestClient_PutItem(t *testing.T) {
+func TestClient_InsertItem(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
@@ -268,7 +268,7 @@ func TestClient_PutItem(t *testing.T) {
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 
-	input := fmt.Sprintf(`{
+	input := `{
 		"Plot": {
 			"S": "some plot"
 		},
@@ -281,7 +281,7 @@ func TestClient_PutItem(t *testing.T) {
 		"Year": {
 			"N": "2020"
 		}
-	}`)
+	}`
 
 	tests := []struct {
 		name    string

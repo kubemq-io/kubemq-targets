@@ -64,10 +64,10 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.insertItem(ctx, meta, req.Data)
 	case "get_item":
 		return c.getItem(ctx, req.Data)
-	case "delete_item":
-		return c.deleteItem(ctx, req.Data)
 	case "update_item":
 		return c.updateItem(ctx, req.Data)
+	case "delete_item":
+		return c.deleteItem(ctx, req.Data)
 	default:
 		return nil, fmt.Errorf(getValidMethodTypes())
 	}
@@ -170,13 +170,14 @@ func (c *Client) getItem(ctx context.Context, data []byte) (*types.Response, err
 		nil
 }
 
-func (c *Client) deleteItem(ctx context.Context, data []byte) (*types.Response, error) {
-	d := &dynamodb.DeleteItemInput{}
-	err := json.Unmarshal(data, &d)
+
+func (c *Client) updateItem(ctx context.Context, data []byte) (*types.Response, error) {
+	u := &dynamodb.UpdateItemInput{}
+	err := json.Unmarshal(data, &u)
 	if err != nil {
 		return nil, err
 	}
-	result, err := c.client.DeleteItemWithContext(ctx, d)
+	result, err := c.client.UpdateItemWithContext(ctx, u)
 	if err != nil {
 		return nil, err
 	}
@@ -190,13 +191,14 @@ func (c *Client) deleteItem(ctx context.Context, data []byte) (*types.Response, 
 		nil
 }
 
-func (c *Client) updateItem(ctx context.Context, data []byte) (*types.Response, error) {
-	u := &dynamodb.UpdateItemInput{}
-	err := json.Unmarshal(data, &u)
+
+func (c *Client) deleteItem(ctx context.Context, data []byte) (*types.Response, error) {
+	d := &dynamodb.DeleteItemInput{}
+	err := json.Unmarshal(data, &d)
 	if err != nil {
 		return nil, err
 	}
-	result, err := c.client.UpdateItemWithContext(ctx, u)
+	result, err := c.client.DeleteItemWithContext(ctx, d)
 	if err != nil {
 		return nil, err
 	}
