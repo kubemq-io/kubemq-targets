@@ -20,6 +20,7 @@ type testStructure struct {
 
 	query   string
 	catalog string
+	db string
 }
 
 func getTestStructure() (*testStructure, error) {
@@ -51,6 +52,12 @@ func getTestStructure() (*testStructure, error) {
 		return nil, err
 	}
 	t.catalog = string(dat)
+
+	dat, err = ioutil.ReadFile("./../../../credentials/aws/athena/db.txt")
+	if err != nil {
+		return nil, err
+	}
+	t.db = string(dat)
 	return t, nil
 }
 
@@ -247,13 +254,33 @@ func TestClient_Query(t *testing.T) {
 			name: "valid query",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "query").
+				SetMetadataKeyValue("db", dat.db).
+				SetMetadataKeyValue("catalog", dat.catalog).
 				SetMetadataKeyValue("query", dat.query),
 			wantErr: false,
 		},
 		{
 			name: "invalid query - missing query",
 			request: types.NewRequest().
-				SetMetadataKeyValue("method", "list_databases"),
+				SetMetadataKeyValue("method", "query").
+				SetMetadataKeyValue("db", dat.db).
+				SetMetadataKeyValue("catalog", dat.catalog),
+			wantErr: true,
+		},
+		{
+			name: "invalid query - missing catalog",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "query").
+				SetMetadataKeyValue("db", dat.db).
+				SetMetadataKeyValue("query", dat.query),
+			wantErr: true,
+		},
+		{
+			name: "invalid query - missing db",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "query").
+				SetMetadataKeyValue("catalog", dat.catalog).
+				SetMetadataKeyValue("query", dat.query),
 			wantErr: true,
 		},
 	}

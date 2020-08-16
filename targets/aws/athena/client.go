@@ -100,6 +100,13 @@ func (c *Client) listDataCatalogs(ctx context.Context) (*types.Response, error) 
 func (c *Client) query(ctx context.Context, meta metadata) (*types.Response, error) {
 	m, err := c.client.StartQueryExecutionWithContext(ctx, &athena.StartQueryExecutionInput{
 		QueryString: aws.String(meta.query),
+		QueryExecutionContext: &athena.QueryExecutionContext{
+			Catalog: aws.String(meta.catalog),
+			Database: aws.String(meta.DB),
+		},
+		ResultConfiguration: &athena.ResultConfiguration{
+			OutputLocation: aws.String(meta.outputLocation),
+		},
 	})
 	if err != nil {
 		return nil, err
@@ -113,3 +120,21 @@ func (c *Client) query(ctx context.Context, meta metadata) (*types.Response, err
 			SetData(b),
 		nil
 }
+
+func (c *Client) getQueryResult(ctx context.Context, meta metadata) (*types.Response, error) {
+	m, err := c.client.GetQueryResultsWithContext(ctx, &athena.GetQueryResultsInput{
+		QueryExecutionId: aws.String(meta.executionId),
+	})
+	if err != nil {
+		return nil, err
+	}
+	b, err := json.Marshal(m)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok").
+			SetData(b),
+		nil
+}
+
