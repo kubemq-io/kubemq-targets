@@ -1,6 +1,6 @@
 # Kubemq dynamodb target Connector
 
-Kubemq cloudwatch-metrics target connector allows services using kubemq server to access aws dynamodb service.
+Kubemq dynamodb target connector allows services using kubemq server to access aws dynamodb service.
 
 ## Prerequisites
 The following required to run the aws-dynamodb target connector:
