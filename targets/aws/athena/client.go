@@ -103,7 +103,7 @@ func (c *Client) query(ctx context.Context, meta metadata) (*types.Response, err
 	m, err := c.client.StartQueryExecutionWithContext(ctx, &athena.StartQueryExecutionInput{
 		QueryString: aws.String(meta.query),
 		QueryExecutionContext: &athena.QueryExecutionContext{
-			Catalog: aws.String(meta.catalog),
+			Catalog:  aws.String(meta.catalog),
 			Database: aws.String(meta.DB),
 		},
 		ResultConfiguration: &athena.ResultConfiguration{
@@ -119,6 +119,7 @@ func (c *Client) query(ctx context.Context, meta metadata) (*types.Response, err
 	}
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok").
+			SetMetadataKeyValue("execution_id",  *m.QueryExecutionId).
 			SetData(b),
 		nil
 }
@@ -126,7 +127,6 @@ func (c *Client) query(ctx context.Context, meta metadata) (*types.Response, err
 func (c *Client) getQueryResult(ctx context.Context, meta metadata) (*types.Response, error) {
 	m, err := c.client.GetQueryResultsWithContext(ctx, &athena.GetQueryResultsInput{
 		QueryExecutionId: aws.String(meta.executionID),
-
 	})
 	if err != nil {
 		return nil, err
@@ -140,4 +140,3 @@ func (c *Client) getQueryResult(ctx context.Context, meta metadata) (*types.Resp
 			SetData(b),
 		nil
 }
-
