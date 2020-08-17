@@ -19,6 +19,7 @@ type metadata struct {
 	shardPosition string
 	shardID       string
 	limit         int64
+	streamARN     string
 }
 
 var methodsMap = map[string]string{
@@ -71,6 +72,11 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		m.shardPosition,err = meta.MustParseString("shard_position")
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing shard_position, %w", err)
+		}
+	case "list_stream_consumers":
+		m.streamARN,err = meta.MustParseString("stream_arn")
+		if err != nil {
+			return metadata{}, fmt.Errorf("error parsing stream_arn, %w", err)
 		}
 	}
 

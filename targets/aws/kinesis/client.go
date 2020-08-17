@@ -57,7 +57,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "list_streams":
 		return c.listStreams(ctx)
 	case "list_stream_consumers":
-		return c.listStreamConsumers(ctx)
+		return c.listStreamConsumers(ctx,meta)
 	case "create_stream":
 		return c.createStream(ctx, meta)
 	case "delete_stream":
@@ -92,8 +92,10 @@ func (c *Client) listStreams(ctx context.Context) (*types.Response, error) {
 		nil
 }
 
-func (c *Client) listStreamConsumers(ctx context.Context) (*types.Response, error) {
-	m, err := c.client.ListStreamConsumersWithContext(ctx, nil)
+func (c *Client) listStreamConsumers(ctx context.Context,meta metadata) (*types.Response, error) {
+	m, err := c.client.ListStreamConsumersWithContext(ctx, &kinesis.ListStreamConsumersInput{
+		StreamARN:aws.String(meta.streamARN),
+	})
 	if err != nil {
 		return nil, err
 	}
