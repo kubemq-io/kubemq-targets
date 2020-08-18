@@ -12,14 +12,15 @@ const (
 
 type metadata struct {
 	method string
-
-	shardCount    int64
-	streamName    string
-	partitionKey  string
-	shardPosition string
-	shardID       string
-	limit         int64
-	streamARN     string
+	
+	shardCount        int64
+	streamName        string
+	partitionKey      string
+	shardID           string
+	limit             int64
+	streamARN         string
+	shardIteratorType string
+	shardIteratorID string
 }
 
 var methodsMap = map[string]string{
@@ -29,7 +30,7 @@ var methodsMap = map[string]string{
 	"delete_stream":         "delete_stream",
 	"put_record":            "put_record",
 	"put_records":           "put_records",
-	"get_record":            "get_record",
+	"get_records":            "get_records",
 	"get_shard_iterator":    "get_shard_iterator",
 	"list_shards":           "list_shards",
 }
@@ -68,10 +69,14 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing shard_id, %w", err)
 		}
-	case "get_record":
-		m.shardPosition,err = meta.MustParseString("shard_position")
+		m.shardIteratorType ,err = meta.MustParseString("shard_iterator_type")
 		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing shard_position, %w", err)
+			return metadata{}, fmt.Errorf("error parsing shard_iterator_type, %w", err)
+		}
+	case "get_records":
+		m.shardIteratorID,err = meta.MustParseString("shard_iterator_id")
+		if err != nil {
+			return metadata{}, fmt.Errorf("error parsing shard_iterator_id, %w", err)
 		}
 	case "list_stream_consumers":
 		m.streamARN,err = meta.MustParseString("stream_arn")

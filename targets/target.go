@@ -8,6 +8,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/cloudwatch/logs"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/cloudwatch/metrics"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/dynamodb"
+	"github.com/kubemq-hub/kubemq-targets/targets/aws/kinesis"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/lambda"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/s3"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/sns"
@@ -86,6 +87,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 		return target, nil
 	case "target.aws.athena":
 		target := athena.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.aws.kinesis":
+		target := kinesis.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
