@@ -23,7 +23,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	var err error
 	m.method, err = meta.ParseStringMap("method", methodsMap)
 	if err != nil {
-		return metadata{}, meta.GetValidHttpMethodTypes(methodsMap)
+		return metadata{}, meta.GetValidMethodTypes(methodsMap)
 	}
 
 	m.key, err = meta.MustParseString("collection")

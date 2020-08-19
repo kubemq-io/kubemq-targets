@@ -38,7 +38,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	var err error
 	m.method, err = meta.ParseStringMap("method", methodsMap)
 	if err != nil {
-		return metadata{}, meta.GetValidHttpMethodTypes(methodsMap)
+		return metadata{}, meta.GetValidMethodTypes(methodsMap)
 	}
 	if m.method == "create" {
 		m.zipFileName, err = meta.MustParseString("zip_file_name")

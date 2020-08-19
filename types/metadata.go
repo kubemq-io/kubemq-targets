@@ -160,7 +160,7 @@ func (m Metadata) MustParseJsonMap(key string) (map[string]string, error) {
 	}
 }
 
-func (m Metadata) GetValidHttpMethodTypes(methodsMap map[string]string) error {
+func (m Metadata) GetValidMethodTypes(methodsMap map[string]string) error {
 	s := "invalid method type, method type should be one of the following:"
 	for k := range methodsMap {
 		s = fmt.Sprintf("%s :%s,", s, k)

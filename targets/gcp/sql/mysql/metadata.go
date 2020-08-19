@@ -31,7 +31,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	var err error
 	m.method, err = meta.ParseStringMap("method", methodsMap)
 	if err != nil {
-		return metadata{}, meta.GetValidHttpMethodTypes(methodsMap)
+		return metadata{}, meta.GetValidMethodTypes(methodsMap)
 	}
 	isolationLevel, err := meta.ParseStringMap("isolation_level", isolationLevelsMap)
 	if err != nil {
