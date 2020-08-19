@@ -90,7 +90,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.Transaction(ctx, meta, req.Data)
 	}
 
-	return nil, nil
+	return nil, fmt.Errorf("invalid method type")
 }
 func (c *Client) Exec(ctx context.Context, meta metadata, value []byte) (*types.Response, error) {
 	stmts := getStatements(value)

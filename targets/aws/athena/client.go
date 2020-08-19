@@ -63,7 +63,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "get_query_result":
 		return c.getQueryResult(ctx, meta)
 	default:
-		return nil, fmt.Errorf(getValidMethodTypes())
+		return nil, fmt.Errorf("invalid method type")
 	}
 }
 
@@ -119,7 +119,7 @@ func (c *Client) query(ctx context.Context, meta metadata) (*types.Response, err
 	}
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok").
-			SetMetadataKeyValue("execution_id",  *m.QueryExecutionId).
+			SetMetadataKeyValue("execution_id", *m.QueryExecutionId).
 			SetData(b),
 		nil
 }

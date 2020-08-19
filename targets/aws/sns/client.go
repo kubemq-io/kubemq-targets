@@ -69,7 +69,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.subscribeToTopic(ctx, meta,req.Data)
 
 	default:
-		return nil, fmt.Errorf(getValidMethodTypes())
+		return nil, fmt.Errorf("invalid method type")
 	}
 }
 

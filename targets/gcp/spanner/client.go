@@ -72,7 +72,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "insert_or_update":
 		return c.insertOrUpdate(ctx, req.Data)
 	default:
-		return nil, fmt.Errorf(getValidMethodTypes())
+		return nil, fmt.Errorf("invalid method type")
 	}
 }
 

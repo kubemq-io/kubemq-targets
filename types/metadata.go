@@ -1,6 +1,7 @@
 package types
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 )
@@ -157,4 +158,12 @@ func (m Metadata) MustParseJsonMap(key string) (map[string]string, error) {
 	} else {
 		return map[string]string{}, nil
 	}
+}
+
+func (m Metadata) GetValidHttpMethodTypes(methodsMap map[string]string) error {
+	s := "invalid method type, method type should be one of the following:"
+	for k := range methodsMap {
+		s = fmt.Sprintf("%s :%s,", s, k)
+	}
+	return errors.New(s)
 }

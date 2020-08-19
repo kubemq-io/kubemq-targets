@@ -58,7 +58,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "delete_document_key":
 		return c.deleteDocument(ctx, meta)
 	}
-	return nil, nil
+	return nil, fmt.Errorf("invalid method type")
 }
 
 func (c *Client) add(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {

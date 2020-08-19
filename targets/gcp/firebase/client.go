@@ -2,6 +2,7 @@ package firebase
 
 import (
 	"context"
+	"fmt"
 
 	firebase "firebase.google.com/go/v4"
 	"firebase.google.com/go/v4/auth"
@@ -102,5 +103,5 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "send_multi":
 		return c.sendMessageMulti(ctx, req, c.opts)
 	}
-	return nil, nil
+	return nil, fmt.Errorf("invalid method type")
 }

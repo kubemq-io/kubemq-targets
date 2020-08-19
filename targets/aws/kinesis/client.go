@@ -72,7 +72,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "list_shards":
 		return c.listShards(ctx, meta)
 	default:
-		return nil, fmt.Errorf(getValidMethodTypes())
+		return nil, fmt.Errorf("invalid method type")
 	}
 }
 

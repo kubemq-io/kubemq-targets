@@ -91,7 +91,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.Transaction(ctx, meta, req.Data)
 	}
 
-	return nil, nil
+	return nil, fmt.Errorf("invalid method type")
 }
 func getStatements(data []byte) []string {
 	if data == nil {

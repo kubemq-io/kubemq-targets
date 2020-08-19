@@ -61,7 +61,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "insert":
 		return c.insert(ctx, meta, req.Data)
 	default:
-		return nil, fmt.Errorf(getValidMethodTypes())
+		return nil, fmt.Errorf("invalid method type")
 	}
 }
 

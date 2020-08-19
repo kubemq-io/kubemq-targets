@@ -34,7 +34,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 
 	o.region, err = cfg.MustParseString("region")
 	if err != nil {
-		return options{}, fmt.Errorf("error region , %w", err)
+		return options{}, fmt.Errorf("error parsing region , %w", err)
 	}
 
 	o.token = cfg.ParseString("token", DefaultToken)

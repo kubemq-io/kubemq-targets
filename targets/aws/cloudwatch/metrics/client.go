@@ -59,7 +59,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "list_metrics":
 		return c.listMetrics(ctx, meta)
 	default:
-		return nil, fmt.Errorf(getValidMethodTypes())
+		return nil, fmt.Errorf("invalid method type")
 	}
 }
 
