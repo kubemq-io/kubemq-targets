@@ -18,6 +18,7 @@ sqs target connector configuration properties:
 | aws_key        | yes      | aws key                                    | aws key supplied by aws         |
 | aws_secret_key | yes      | aws secret key                             | aws secret key supplied by aws  |
 | region         | yes      | region                                     | aws region                      |
+| token          | no       | aws token ("default" empty string          | aws token                       |
 
 
 Example:
