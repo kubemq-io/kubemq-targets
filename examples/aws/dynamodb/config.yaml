@@ -1,0 +1,23 @@
+bindings:
+  - name: kubemq-query-aws-dynamodb
+    source:
+      kind: source.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-aws-dynamodb"
+        auth_token: ""
+        channel: "query.aws.dynamodb"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.aws.dynamodb
+      name: target-aws-dynamodb
+      properties:
+        aws_key: "id"
+        aws_secret_key: 'json'
+        region:  "region"

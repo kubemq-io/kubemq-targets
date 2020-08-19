@@ -1,0 +1,23 @@
+bindings:
+  - name: kubemq-query-aws-athena
+    source:
+      kind: source.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-aws-athena"
+        auth_token: ""
+        channel: "query.aws.athena"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.aws.athena
+      name: target-aws-athena
+      properties:
+        aws_key: "id"
+        aws_secret_key: 'json'
+        region:  "region"
