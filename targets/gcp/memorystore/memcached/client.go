@@ -56,7 +56,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.Delete(ctx, meta)
 
 	}
-	return nil, nil
+	return nil, errors.New("invalid method type")
 }
 
 func (c *Client) Get(ctx context.Context, meta metadata) (*types.Response, error) {

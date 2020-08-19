@@ -4,6 +4,7 @@ import (
 	"cloud.google.com/go/bigquery"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
@@ -61,7 +62,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "insert":
 		return c.insert(ctx, meta, req.Data)
 	default:
-		return nil, fmt.Errorf(getValidMethodTypes())
+		return nil, errors.New("invalid method type")
 	}
 }
 

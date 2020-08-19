@@ -28,20 +28,14 @@ type metadata struct {
 	location     string
 }
 
-func getValidMethodTypes() string {
-	s := "invalid method type, method type should be one of the following:"
-	for k := range methodsMap {
-		s = fmt.Sprintf("%s :%s,", s, k)
-	}
-	return s
-}
+
 
 func parseMetadata(meta types.Metadata) (metadata, error) {
 	m := metadata{}
 	var err error
 	m.method, err = meta.ParseStringMap("method", methodsMap)
 	if err != nil {
-		return metadata{}, fmt.Errorf("error parsing method, %w", err)
+		return metadata{}, meta.GetValidMethodTypes(methodsMap)
 	}
 	if m.method == "create_bucket" {
 		m.bucket, err = meta.MustParseString("bucket")

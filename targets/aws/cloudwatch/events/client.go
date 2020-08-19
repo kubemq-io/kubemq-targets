@@ -3,6 +3,7 @@ package events
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -61,7 +62,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "list_buses":
 		return c.listEventBuses(ctx, meta)
 	default:
-		return nil, fmt.Errorf(getValidMethodTypes())
+		return nil, errors.New("invalid method type")
 	}
 }
 

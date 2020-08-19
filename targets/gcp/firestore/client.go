@@ -4,6 +4,7 @@ import (
 	"cloud.google.com/go/firestore"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
@@ -58,7 +59,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "delete_document_key":
 		return c.deleteDocument(ctx, meta)
 	}
-	return nil, nil
+	return nil, errors.New("invalid method type")
 }
 
 func (c *Client) add(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
