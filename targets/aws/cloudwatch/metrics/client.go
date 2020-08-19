@@ -3,7 +3,7 @@ package metrics
 import (
 	"context"
 	"encoding/json"
-	"fmt"
+	"errors"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -59,7 +59,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "list_metrics":
 		return c.listMetrics(ctx, meta)
 	default:
-		return nil, fmt.Errorf("invalid method type")
+		return nil, errors.New("invalid method type")
 	}
 }
 

@@ -6,6 +6,7 @@ import (
 	"context"
 	"encoding/binary"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
@@ -78,7 +79,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "delete_table":
 		return c.deleteTable(ctx, meta)
 	default:
-		return nil, fmt.Errorf("invalid method type")
+		return nil, errors.New("invalid method type")
 	}
 }
 

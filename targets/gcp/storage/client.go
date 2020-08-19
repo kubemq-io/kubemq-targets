@@ -4,6 +4,7 @@ import (
 	"cloud.google.com/go/storage"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
@@ -68,7 +69,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "create_bucket":
 		return c.createBucket(ctx, meta)
 	default:
-		return nil, fmt.Errorf("invalid method type")
+		return nil, errors.New("invalid method type")
 	}
 }
 

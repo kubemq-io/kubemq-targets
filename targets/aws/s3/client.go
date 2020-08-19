@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
@@ -83,7 +84,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.downloadItem(ctx, meta)
 
 	default:
-		return nil, fmt.Errorf("invalid method type")
+		return nil, errors.New("invalid method type")
 	}
 }
 

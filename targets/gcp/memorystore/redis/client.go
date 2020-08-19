@@ -3,6 +3,7 @@ package redis
 import (
 	"context"
 	"crypto/tls"
+	"errors"
 	"fmt"
 	redisClient "github.com/go-redis/redis/v7"
 	"github.com/kubemq-hub/kubemq-targets/config"
@@ -75,7 +76,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.Delete(ctx, meta)
 
 	}
-	return nil, fmt.Errorf("invalid method type")
+	return nil, errors.New("invalid method type")
 }
 func (c *Client) getConnectedSlaves(ctx context.Context) (int, error) {
 	res, err := c.redis.DoContext(ctx, "INFO", "replication").Result()

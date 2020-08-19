@@ -5,6 +5,7 @@ import (
 	database "cloud.google.com/go/spanner/admin/database/apiv1"
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
@@ -72,7 +73,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "insert_or_update":
 		return c.insertOrUpdate(ctx, req.Data)
 	default:
-		return nil, fmt.Errorf("invalid method type")
+		return nil, errors.New("invalid method type")
 	}
 }
 

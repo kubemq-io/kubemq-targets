@@ -3,6 +3,7 @@ package mysql
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
@@ -90,7 +91,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.Transaction(ctx, meta, req.Data)
 	}
 
-	return nil, fmt.Errorf("invalid method type")
+	return nil, errors.New("invalid method type")
 }
 func (c *Client) Exec(ctx context.Context, meta metadata, value []byte) (*types.Response, error) {
 	stmts := getStatements(value)

@@ -3,6 +3,7 @@ package postgres
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
 	"strings"
 	"time"
@@ -91,7 +92,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.Transaction(ctx, meta, req.Data)
 	}
 
-	return nil, fmt.Errorf("invalid method type")
+	return nil, errors.New("invalid method type")
 }
 func getStatements(data []byte) []string {
 	if data == nil {
