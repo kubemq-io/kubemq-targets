@@ -7,6 +7,7 @@ import (
 
 const (
 	DefaultJson = ""
+	DefaultService = "es"
 )
 
 type metadata struct {
@@ -65,10 +66,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if err != nil {
 		return metadata{}, fmt.Errorf("error failed to parse endpoint , %w", err)
 	}
-	m.service, err = meta.MustParseString("service")
-	if err != nil {
-		return metadata{}, fmt.Errorf("error failed to parse service , %w", err)
-	}
+	m.service = meta.ParseString("service",DefaultService)
 	m.id, err = meta.MustParseString("id")
 	if err != nil {
 		return metadata{}, fmt.Errorf("error failed to parse id , %w", err)

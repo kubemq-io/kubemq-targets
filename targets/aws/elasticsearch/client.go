@@ -2,8 +2,8 @@ package elasticsearch
 
 import (
 	"context"
-	"encoding/json"
 	"github.com/kubemq-hub/kubemq-targets/types"
+	"io/ioutil"
 	"net/http"
 	"strings"
 	"time"
@@ -61,7 +61,9 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	if err != nil {
 		return nil, err
 	}
-	b, err := json.Marshal(resp)
+	defer resp.Body.Close()
+
+	b, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
