@@ -4,7 +4,7 @@ version: '2'
 
 vars:
   BINARY_NAME: kubemq-targets
-  VERSION: v0.1.3
+  VERSION: v0.1.4
 
 tasks:
   check_update:
