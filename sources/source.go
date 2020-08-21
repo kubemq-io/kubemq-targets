@@ -47,7 +47,7 @@ func Init(ctx context.Context, cfg config.Spec) (Source, error) {
 			return nil, err
 		}
 		return source, nil
-	case "queue":
+	case "source.queue":
 		source := queue.New()
 		if err := source.Init(ctx, cfg); err != nil {
 			return nil, err

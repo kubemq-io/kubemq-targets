@@ -41,14 +41,14 @@ func parseOptions(cfg config.Spec) (options, error) {
 
 	m.group = cfg.ParseString("group", "")
 
-	m.concurrency, err = cfg.MustParseIntWithRange("concurrency", 1, 100)
+	m.concurrency, err = cfg.ParseIntWithRange("concurrency", 1, 1, 100)
 	if err != nil {
 		return m, fmt.Errorf("error parsing concurrency value, %w", err)
 	}
 
 	m.autoReconnect = cfg.ParseBool("auto_reconnect", defaultAutoReconnect)
 
-	interval, err := cfg.MustParseIntWithRange("reconnect_interval_seconds", 1, 1000000)
+	interval, err := cfg.ParseIntWithRange("reconnect_interval_seconds", 1, 1, 1000000)
 	if err != nil {
 		return m, fmt.Errorf("error parsing reconnect interval seconds value, %w", err)
 	}

@@ -38,7 +38,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 	}
 	m.responseChannel = cfg.ParseString("response_channel", "")
 
-	m.concurrency, err = cfg.MustParseIntWithRange("concurrency", 1, 100)
+	m.concurrency, err = cfg.ParseIntWithRange("concurrency", 1, 1, 100)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing concurrency value, %w", err)
 	}
