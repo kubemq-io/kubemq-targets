@@ -70,26 +70,6 @@ func TestClient_Do(t *testing.T) {
 		wantErr      bool
 	}{
 		{
-			name: "valid publish request with confirmation",
-			cfg: config.Spec{
-				Name: "rabbitmq-target",
-				Kind: "",
-				Properties: map[string]string{
-					"url": "amqp://rabbitmq:rabbitmq@localhost:5672/",
-				},
-			},
-			request: types.NewRequest().
-				SetMetadataKeyValue("queue", "some-queue").
-				SetMetadataKeyValue("exchange", "").
-				SetMetadataKeyValue("confirm", "true").
-				SetMetadataKeyValue("delivery_mode", "2").
-				SetData([]byte("some-data")),
-			wantResponse: types.NewResponse().
-				SetMetadataKeyValue("ack", "true").
-				SetMetadataKeyValue("delivery_tag", "1"),
-			wantErr: false,
-		},
-		{
 			name: "valid publish request without confirmation",
 			cfg: config.Spec{
 				Name: "rabbitmq-target",

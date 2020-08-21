@@ -18,22 +18,25 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	publishRequest := types.NewRequest().
-		SetMetadataKeyValue("queue", "some-queue").
-		SetMetadataKeyValue("exchange", "").
-		SetMetadataKeyValue("confirm", "true").
-		SetMetadataKeyValue("delivery_mode", "2").
-		SetData([]byte("some-data"))
-	queryPublishResponse, err := client.SetQuery(publishRequest.ToQuery()).
-		SetChannel("query.rabbitmq").
-		SetTimeout(10 * time.Second).Send(context.Background())
-	if err != nil {
-		log.Fatal(err)
+	for {
+
+		publishRequest := types.NewRequest().
+			SetMetadataKeyValue("queue", "some-queue").
+			SetMetadataKeyValue("exchange", "").
+			SetMetadataKeyValue("delivery_mode", "2").
+			SetData([]byte("some-data"))
+		queryPublishResponse, err := client.SetQuery(publishRequest.ToQuery()).
+			SetChannel("query.rabbitmq").
+			SetTimeout(10 * time.Second).Send(context.Background())
+		if err != nil {
+			log.Fatal(err)
+		}
+		publishResponse, err := types.ParseResponse(queryPublishResponse.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+		log.Println(fmt.Sprintf("publish message, response: %s", publishResponse.Metadata.String()))
+		time.Sleep(time.Second)
 	}
-	publishResponse, err := types.ParseResponse(queryPublishResponse.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
-	log.Println(fmt.Sprintf("publish message, response: %s", publishResponse.Metadata.String()))
 
 }

@@ -12,7 +12,6 @@ import (
 type metadata struct {
 	queue         string
 	exchange      string
-	confirm       bool
 	mandatory     bool
 	immediate     bool
 	deliveryMode  int
@@ -31,9 +30,8 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	}
 	m.exchange = meta.ParseString("exchange", "")
 	m.mandatory = meta.ParseBool("mandatory", false)
-	m.confirm = meta.ParseBool("confirm", false)
 	m.immediate = meta.ParseBool("immediate", false)
-	m.deliveryMode, err = meta.ParseIntWithRange("delivery_mode", 1, 1, 2)
+	m.deliveryMode, err = meta.ParseIntWithRange("delivery_mode", 1, 0, 2)
 	if err != nil {
 		return metadata{}, fmt.Errorf("error parsing delivery mode, %w", err)
 	}
@@ -42,7 +40,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		return metadata{}, fmt.Errorf("error parsing priority, %w", err)
 	}
 	m.correlationId = meta.ParseString("correlation_id", "")
-	m.correlationId = meta.ParseString("reply_to", "")
+	m.replyTo = meta.ParseString("reply_to", "")
 	expirySeconds, err := meta.ParseIntWithRange("expiry_seconds", math.MaxInt32, 0, math.MaxInt32)
 	if err != nil {
 		return metadata{}, fmt.Errorf("error parsing expiry_seconds, %w", err)

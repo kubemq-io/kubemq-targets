@@ -35,7 +35,6 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return fmt.Errorf("error getting rabbitmq channel, %w", err)
 	}
-
 	return nil
 }
 
@@ -44,33 +43,9 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	if err != nil {
 		return nil, err
 	}
-	if meta.confirm {
-		return c.PublishWithConfirm(ctx, meta, req.Data)
-	}
-
 	return c.Publish(ctx, meta, req.Data)
 }
 
-func (c *Client) PublishWithConfirm(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
-	msg := meta.amqpMessage(data)
-	if err := c.channel.Confirm(false); err != nil {
-		return nil, fmt.Errorf("rabbitmq channel could not be put into confirm mode: %s", err)
-	}
-	confirmCh := c.channel.NotifyPublish(make(chan amqp.Confirmation, 1))
-	err := c.channel.Publish(meta.exchange, meta.queue, meta.mandatory, meta.immediate, msg)
-	if err != nil {
-		return nil, err
-	}
-	select {
-	case confirm := <-confirmCh:
-		return types.NewResponse().
-			SetMetadataKeyValue("delivery_tag", fmt.Sprintf("%d", confirm.DeliveryTag)).
-			SetMetadataKeyValue("ack", fmt.Sprintf("%t", confirm.Ack)), nil
-	case <-ctx.Done():
-		return nil, fmt.Errorf("error waiting for server confirmation, %w", ctx.Err())
-	}
-
-}
 func (c *Client) Publish(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
 	msg := meta.amqpMessage(data)
 	err := c.channel.Publish(meta.exchange, meta.queue, meta.mandatory, meta.immediate, msg)
