@@ -1,9 +1,9 @@
 # Kubemq lambda target Connector
 
-Kubemq aws-lambda target connector allows services using kubemq server to access aws s3 service.
+Kubemq aws-lambda target connector allows services using kubemq server to access aws lambda service.
 
 ## Prerequisites
-The following required to run the aws-sns target connector:
+The following required to run the aws-lambda target connector:
 
 - kubemq cluster
 - aws account with lambda active service
