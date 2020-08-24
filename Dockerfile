@@ -20,9 +20,9 @@ LABEL name="KubeMQ Target Connectors" \
 COPY licenses /licenses
 ENV GOPATH=/go
 ENV PATH=$GOPATH/bin:$PATH
-RUN mkdir /kubemq-targets
-COPY --from=builder $GOPATH/github.com/kubemq-hub/kubemq-targets/kubemq-targets-run ./kubemq-targets
-RUN chown -R 1001:root  /kubemq-targets && chmod g+rwX  /kubemq-targets
-WORKDIR kubemq-targets
+RUN mkdir /kubemq-connector
+COPY --from=builder $GOPATH/github.com/kubemq-hub/kubemq-targets/kubemq-targets-run ./kubemq-connector
+RUN chown -R 1001:root  /kubemq-connector && chmod g+rwX  /kubemq-connector
+WORKDIR kubemq-connector
 USER 1001
 CMD ["./kubemq-targets-run"]
