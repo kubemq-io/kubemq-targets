@@ -53,7 +53,6 @@ Request metadata setting:
 |:---------------|:---------|:--------------------|:----------------|
 | queue          | yes      | set queue name | "queue"         |
 | exchange       | no      | set exchange name | "exchange"         |
-| confirm        | no      | set confirm | "true","false"         |
 | mandatory      | no      | set mandatory | "true","false"         |
 | immediate      | no      | set immediate | "true","false"         |
 | delivery_mode  | no      | set delivery mode | "1","2"         |
