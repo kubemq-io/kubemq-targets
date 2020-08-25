@@ -1,10 +1,9 @@
-package mysql
+package postgres
 
 import (
 	"fmt"
-	"math"
-
 	"github.com/kubemq-hub/kubemq-targets/config"
+	"math"
 )
 
 const (
@@ -12,7 +11,7 @@ const (
 	defaultMaxOpenConnections           = 100
 	defaultConnectionMaxLifetimeSeconds = 3600
 	defaultToken                        = ""
-	defaultDBPort = 3306
+	defaultDBPort                        = 5432
 )
 
 type options struct {
