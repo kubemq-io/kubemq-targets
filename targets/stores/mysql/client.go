@@ -39,7 +39,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-	err = c.db.Ping()
+	err = c.db.PingContext(ctx)
 	if err != nil {
 		return err
 	}
