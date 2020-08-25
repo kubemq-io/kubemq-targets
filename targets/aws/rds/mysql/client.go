@@ -240,12 +240,13 @@ func registerRDSMysqlCerts(c *http.Client) error {
 	if err != nil {
 		return err
 	}
-
 	pem, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return err
 	}
-
+	defer func() {
+		_ = resp.Body.Close()
+	}()
 	rootCertPool := x509.NewCertPool()
 	if ok := rootCertPool.AppendCertsFromPEM(pem); !ok {
 		return err
