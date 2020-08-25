@@ -1,0 +1,29 @@
+bindings:
+  - name: kubemq-query-aws-postgres
+    source:
+      kind: source.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-aws-postgres-connector"
+        auth_token: ""
+        channel: "query.aws.rds.postgres"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.aws.rds.postgres
+      name: target-aws-rds-postgres
+      properties:
+        db_user: "test"
+        db_name: "test"
+        end_point: "my-end-point"
+        aws_key: "id"
+        aws_secret_key: 'json'
+        region:  "region"
+        max_idle_connections: "10"
+        max_open_connections: "100"
+        connection_max_lifetime_seconds: "3600"
