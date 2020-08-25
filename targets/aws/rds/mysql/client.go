@@ -47,7 +47,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	}
 
 	host := fmt.Sprintf("%s:%d", c.opts.endPoint, c.opts.dbPort)
-	mcfg := &mysql.Config{
+	mysqlCfp := &mysql.Config{
 		User: c.opts.dbUser,
 		Addr: host,
 		Net:  "tcp",
@@ -56,12 +56,11 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		},
 		DBName: c.opts.dbName,
 	}
-	mcfg.AllowNativePasswords = true
-	mcfg.AllowCleartextPasswords = true
+	mysqlCfp.AllowNativePasswords = true
+	mysqlCfp.AllowCleartextPasswords = true
 
 
-	mcfg.Passwd, err = rdsutils.BuildAuthToken(host, c.opts.region, mcfg.User, credentials.NewStaticCredentials(c.opts.awsKey, c.opts.awsSecretKey, c.opts.token))
-
+	mysqlCfp.Passwd, err = rdsutils.BuildAuthToken(host, c.opts.region, mysqlCfp.User, credentials.NewStaticCredentials(c.opts.awsKey, c.opts.awsSecretKey, c.opts.token))
 	if err != nil {
 		return err
 	}
@@ -70,7 +69,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-	a :=mcfg.FormatDSN()
+	a := mysqlCfp.FormatDSN()
 	c.db, err = sql.Open("mysql", a)
 	if err != nil {
 		return err
@@ -235,7 +234,7 @@ func parseWithRawBytes(rows *sql.Rows, cols []string, colsTypes []*sql.ColumnTyp
 func (c *Client) CloseClient() error {
 	return c.db.Close()
 }
-
+//https://github.com/aws/aws-sdk-go/issues/1248
 func registerRDSMysqlCerts(c *http.Client) error {
 	resp, err := c.Get("https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem")
 	if err != nil {
@@ -252,7 +251,7 @@ func registerRDSMysqlCerts(c *http.Client) error {
 		return err
 	}
 
-	err = mysql.RegisterTLSConfig("rds", &tls.Config{RootCAs: rootCertPool, InsecureSkipVerify: true})
+	err = mysql.RegisterTLSConfig("rds", &tls.Config{RootCAs: rootCertPool})
 	if err != nil {
 		return err
 	}

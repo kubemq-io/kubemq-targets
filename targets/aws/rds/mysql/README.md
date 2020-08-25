@@ -1,13 +1,21 @@
 # Kubemq Mysql-aws Target Connector
+Please see before starting:
+
+- https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.DBAccounts.html
+
+- https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.Enabling.html
 
 Kubemq mysql target connector allows services using kubemq server to access mysql database services.
 Using the IAM user login instead of username password method.
 ## Prerequisites
-The following are required to run the mysql target connector:
+The following is required to run the mysql target connector:
 
 - kubemq cluster
 - aws rds with IAM user mysql server
+- db user with IAM Authentication privileges 
 - kubemq-targets deployment
+
+
 
 ## Configuration
 
@@ -20,10 +28,10 @@ Mysql target connector configuration properties:
 | connection_max_lifetime_seconds | no       | set max lifetime for connections in seconds | "3600"     
 | db_user                         | yes      | aws db user name                            | "<aws user"               |
 | db_name                         | yes      | aws db name                                 | "<aws instance name"      |
-| aws_key                         | yes      | aws key                                    | aws key supplied by aws         |
-| aws_secret_key                  | yes      | aws secret key                             | aws secret key supplied by aws  |
-| region                          | yes      | region                                     | aws region                      |
-| token                           | no       | aws token ("default" empty string          | aws token                       |
+| aws_key                         | yes      | aws key                                     | aws key supplied by aws         |
+| aws_secret_key                  | yes      | aws secret key                              | aws secret key supplied by aws  |
+| region                          | yes      | region                                      | aws region                      |
+| token                           | no       | aws token ("default" empty string           | aws token                       |
 | end_point                       | yes      | aws rds endpoint                            | "<aws rds end point"        |
 
 
@@ -40,7 +48,7 @@ bindings:
         port: "50000"
         client_id: "kubemq-query-mysql-connector"
         auth_token: ""
-        channel: "query.aws.mysql"
+        channel: "query.aws.rds.mysql"
         group:   ""
         concurrency: "1"
         auto_reconnect: "true"
@@ -48,7 +56,7 @@ bindings:
         max_reconnects: "0"
     target:
       kind: target.aws.rds.mysql
-      name: target-aws-mysql
+      name: target-aws-rds-mysql
       properties:
         instance_connection_name: "test"
         db_user:                  "test"

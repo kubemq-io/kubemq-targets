@@ -17,6 +17,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/elastic"
 
 	"github.com/kubemq-hub/kubemq-targets/config"
+	awsmysql "github.com/kubemq-hub/kubemq-targets/targets/aws/rds/mysql"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/sqs"
 	"github.com/kubemq-hub/kubemq-targets/targets/cache/memcached"
 	"github.com/kubemq-hub/kubemq-targets/targets/cache/redis"
@@ -118,6 +119,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 		return target, nil
 	case "target.aws.cloudwatch.metrics":
 		target := metrics.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.aws.rds.mysql":
+		target := awsmysql.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}

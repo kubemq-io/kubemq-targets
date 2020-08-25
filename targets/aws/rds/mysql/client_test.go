@@ -13,14 +13,13 @@ import (
 )
 
 type testStructure struct {
-	awsKey                 string
-	awsSecretKey                 string
-	region                 string
-	token                 string
-	dbUser                 string
-	dbName                 string
-	endPoint                 string
-
+	awsKey       string
+	awsSecretKey string
+	region       string
+	token        string
+	dbUser       string
+	dbName       string
+	endPoint     string
 }
 
 func getTestStructure() (*testStructure, error) {
@@ -124,85 +123,85 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"region": dat.region,
-					"db_user":                  dat.dbUser,
-					"aws_key":                  dat.awsKey,
-					"aws_secret_key":                  dat.awsSecretKey,
-					"db_name":                  dat.dbName,
+					"end_point":      dat.endPoint,
+					"region":         dat.region,
+					"db_user":        dat.dbUser,
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"db_name":        dat.dbName,
 				},
 			},
 			wantErr: false,
 		}, {
 			name: "invalid init - missing db_user",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"region": dat.region,
-					"db_name":                  dat.dbName,
-					"aws_key":                  dat.awsKey,
-					"aws_secret_key":                  dat.dbUser,
+					"end_point":      dat.endPoint,
+					"region":         dat.region,
+					"db_name":        dat.dbName,
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
 				},
 			},
 			wantErr: true,
 		}, {
 			name: "invalid init - missing db_name",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"region": dat.region,
-					"db_user":                  dat.dbUser,
-					"aws_key":                  dat.awsKey,
-					"aws_secret_key":                  dat.dbUser,
+					"end_point":      dat.endPoint,
+					"region":         dat.region,
+					"db_user":        dat.dbUser,
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
 				},
 			},
 			wantErr: true,
 		}, {
 			name: "invalid init - missing end_point",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"region": dat.region,
-					"db_user":     dat.dbUser,
-					"db_name":     dat.dbName,
-					"aws_key":                  dat.awsKey,
-					"aws_secret_key":                  dat.awsKey,
+					"region":         dat.region,
+					"db_user":        dat.dbUser,
+					"db_name":        dat.dbName,
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsKey,
 				},
 			},
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid init - missing aws_key",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"region": dat.region,
-					"db_user":                  dat.dbUser,
-					"aws_secret_key":                  dat.awsKey,
-					"db_name":                  dat.dbName,
+					"end_point":      dat.endPoint,
+					"region":         dat.region,
+					"db_user":        dat.dbUser,
+					"aws_secret_key": dat.awsKey,
+					"db_name":        dat.dbName,
 				},
 			},
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid init - missing aws_secret_key",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point": dat.endPoint,
-					"region": dat.region,
-					"db_user":                  dat.dbUser,
-					"aws_key":                  dat.awsKey,
-					"db_name":                  dat.dbName,
+					"region":    dat.region,
+					"db_user":   dat.dbUser,
+					"aws_key":   dat.awsKey,
+					"db_name":   dat.dbName,
 				},
 			},
 			wantErr: true,
@@ -243,14 +242,15 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec query request",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"db_user":                  dat.dbUser,
-					"aws_key":                  dat.awsKey,
-					"aws_secret_key":                  dat.dbUser,
-					"db_name":                  dat.dbName,
+					"end_point":      dat.endPoint,
+					"region":         dat.region,
+					"db_user":        dat.dbUser,
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"db_name":        dat.dbName,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -270,14 +270,15 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "empty exec request",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"db_user":                  dat.dbUser,
-					"aws_key":                  dat.awsKey,
-					"aws_secret_key":                  dat.dbUser,
-					"db_name":                  dat.dbName,
+					"end_point":      dat.endPoint,
+					"region":         dat.region,
+					"db_user":        dat.dbUser,
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"db_name":        dat.dbName,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -292,14 +293,15 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "invalid exec request",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"db_user":                  dat.dbUser,
-					"aws_key":                  dat.awsKey,
-					"aws_secret_key":                  dat.dbUser,
-					"db_name":                  dat.dbName,
+					"end_point":      dat.endPoint,
+					"region":         dat.region,
+					"db_user":        dat.dbUser,
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"db_name":        dat.dbName,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -314,14 +316,15 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec empty query request",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"db_user":                  dat.dbUser,
-					"aws_key":                  dat.awsKey,
-					"aws_secret_key":                  dat.dbUser,
-					"db_name":                  dat.dbName,
+					"end_point":      dat.endPoint,
+					"region":         dat.region,
+					"db_user":        dat.dbUser,
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"db_name":        dat.dbName,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -339,14 +342,15 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec bad query request",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"db_user":                  dat.dbUser,
-					"aws_key":                  dat.awsKey,
-					"aws_secret_key":                  dat.dbUser,
-					"db_name":                  dat.dbName,
+					"end_point":      dat.endPoint,
+					"region":         dat.region,
+					"db_user":        dat.dbUser,
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"db_name":        dat.dbName,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -364,14 +368,15 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec valid query - no results",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"db_user":                  dat.dbUser,
-					"aws_key":                  dat.awsKey,
-					"aws_secret_key":                  dat.dbUser,
-					"db_name":                  dat.dbName,
+					"end_point":      dat.endPoint,
+					"region":         dat.region,
+					"db_user":        dat.dbUser,
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"db_name":        dat.dbName,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -390,14 +395,15 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec query request",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"db_user":                  dat.dbUser,
-					"aws_key":                  dat.awsKey,
-					"aws_secret_key":                  dat.dbUser,
-					"db_name":                  dat.dbName,
+					"end_point":      dat.endPoint,
+					"region":         dat.region,
+					"db_user":        dat.dbUser,
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"db_name":        dat.dbName,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -417,15 +423,15 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "empty transaction request",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"region": dat.region,
-					"db_user":                  dat.dbUser,
-					"aws_key":                  dat.awsKey,
-					"aws_secret_key":                  dat.dbUser,
-					"db_name":                  dat.dbName,
+					"end_point":      dat.endPoint,
+					"region":         dat.region,
+					"db_user":        dat.dbUser,
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"db_name":        dat.dbName,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -439,15 +445,15 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "invalid transaction request",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"region": dat.region,
-					"db_user":                  dat.dbUser,
-					"aws_key":                  dat.awsKey,
-					"aws_secret_key":                  dat.dbUser,
-					"db_name":                  dat.dbName,
+					"end_point":      dat.endPoint,
+					"region":         dat.region,
+					"db_user":        dat.dbUser,
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"db_name":        dat.dbName,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -462,15 +468,15 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid transaction empty query request",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"region": dat.region,
-					"db_user":                  dat.dbUser,
-					"aws_key":                  dat.awsKey,
-					"aws_secret_key":                  dat.dbUser,
-					"db_name":                  dat.dbName,
+					"end_point":      dat.endPoint,
+					"region":         dat.region,
+					"db_user":        dat.dbUser,
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"db_name":        dat.dbName,
 				},
 			},
 			execRequest: types.NewRequest().
@@ -536,15 +542,15 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"region": dat.region,
-					"db_user":                  dat.dbUser,
-					"aws_key":                  dat.awsKey,
-					"aws_secret_key":                  dat.dbUser,
-					"db_name":                  dat.dbName,
+					"end_point":      dat.endPoint,
+					"region":         dat.region,
+					"db_user":        dat.dbUser,
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"db_name":        dat.dbName,
 				},
 			},
 			request: types.NewRequest().
@@ -556,15 +562,15 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 2",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"region": dat.region,
-					"db_user":                  dat.dbUser,
-					"aws_key":                  dat.awsKey,
-					"aws_secret_key":                  dat.dbUser,
-					"db_name":                  dat.dbName,
+					"end_point":      dat.endPoint,
+					"region":         dat.region,
+					"db_user":        dat.dbUser,
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"db_name":        dat.dbName,
 				},
 			},
 			request: types.NewRequest().
@@ -576,15 +582,15 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 3",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"region": dat.region,
-					"db_user":                  dat.dbUser,
-					"aws_key":                  dat.awsKey,
-					"aws_secret_key":                  dat.dbUser,
-					"db_name":                  dat.dbName,
+					"end_point":      dat.endPoint,
+					"region":         dat.region,
+					"db_user":        dat.dbUser,
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"db_name":        dat.dbName,
 				},
 			},
 			request: types.NewRequest().
@@ -596,15 +602,15 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 3",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"region": dat.region,
-					"db_user":                  dat.dbUser,
-					"aws_key":                  dat.awsKey,
-					"aws_secret_key":                  dat.dbUser,
-					"db_name":                  dat.dbName,
+					"end_point":      dat.endPoint,
+					"region":         dat.region,
+					"db_user":        dat.dbUser,
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"db_name":        dat.dbName,
 				},
 			},
 			request: types.NewRequest().
@@ -616,15 +622,15 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad method",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"region": dat.region,
-					"db_user":                  dat.dbUser,
-					"aws_key":                  dat.awsKey,
-					"aws_secret_key":                  dat.dbUser,
-					"db_name":                  dat.dbName,
+					"end_point":      dat.endPoint,
+					"region":         dat.region,
+					"db_user":        dat.dbUser,
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"db_name":        dat.dbName,
 				},
 			},
 			request: types.NewRequest().
@@ -634,15 +640,15 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad isolation level",
 			cfg: config.Spec{
-				Name: "target-rds-aws-mysql",
-				Kind: "target.rds.aws.mysql",
+				Name: "target-aws-rds-mysql",
+				Kind: "target.aws.rds.mysql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"region": dat.region,
-					"db_user":                  dat.dbUser,
-					"aws_key":                  dat.awsKey,
-					"aws_secret_key":                  dat.dbUser,
-					"db_name":                  dat.dbName,
+					"end_point":      dat.endPoint,
+					"region":         dat.region,
+					"db_user":        dat.dbUser,
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"db_name":        dat.dbName,
 				},
 			},
 			request: types.NewRequest().
@@ -669,4 +675,3 @@ func TestClient_Do(t *testing.T) {
 		})
 	}
 }
-

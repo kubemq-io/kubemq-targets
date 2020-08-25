@@ -15,7 +15,6 @@ const (
 )
 
 type options struct {
-	instanceConnectionName string
 	awsKey                 string
 	awsSecretKey           string
 	region                 string

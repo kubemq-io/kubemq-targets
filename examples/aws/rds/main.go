@@ -39,7 +39,7 @@ func main() {
 		SetMetadataKeyValue("method", "transaction").
 		SetData([]byte(transactionString))
 	queryTransactionResponse, err := client.SetQuery(transactionRequest.ToQuery()).
-		SetChannel("query.gcp.mysql").
+		SetChannel("query.aws.rds.mysql").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)
@@ -55,7 +55,7 @@ func main() {
 		SetData([]byte(queryString))
 
 	queryResponse, err := client.SetQuery(queryRequest.ToQuery()).
-		SetChannel("query.gcp.mysql").
+		SetChannel("query.aws.rds.mysql").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)
