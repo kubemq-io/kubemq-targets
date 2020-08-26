@@ -1,5 +1,5 @@
 bindings:
-  - name: kubemq-query-gcp-mysql
+  - name: kubemq-query-aws-mysql
     source:
       kind: source.query
       name: kubemq-query
@@ -8,21 +8,22 @@ bindings:
         port: "50000"
         client_id: "kubemq-query-mysql-connector"
         auth_token: ""
-        channel: "query.gcp.mysql"
+        channel: "query.aws.rds.mysql"
         group:   ""
         concurrency: "1"
         auto_reconnect: "true"
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.gcp.stores.mysql
-      name: target-gcp-mysql
+      kind: target.aws.rds.mysql
+      name: target-aws-rds-mysql
       properties:
-        instance_connection_name: "test"
         db_user:                  "test"
         db_name:                  "test"
-        db_password:              "Test123"
+        end_point:              "my-end-point"
+        aws_key: "id"
+        aws_secret_key: 'json'
+        region:  "region"
         max_idle_connections: "10"
         max_open_connections: "100"
         connection_max_lifetime_seconds: "3600"
-        credentials: 'json'

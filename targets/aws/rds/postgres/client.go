@@ -1,16 +1,20 @@
-package mysql
+package postgres
 
 import (
 	"context"
 	"database/sql"
+	"errors"
 	"fmt"
-	_ "github.com/go-sql-driver/mysql"
+	"github.com/aws/aws-sdk-go/aws/credentials"
+	"github.com/aws/aws-sdk-go/service/rds/rdsutils"
+	"net/url"
+	"strings"
+	"time"
+
 	jsoniter "github.com/json-iterator/go"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
-	"strconv"
-	"strings"
-	"time"
+	_ "github.com/lib/pq"
 )
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
@@ -35,7 +39,16 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-	c.db, err = sql.Open("mysql", c.opts.connection)
+	host := fmt.Sprintf("%s:%d", c.opts.endPoint, c.opts.dbPort)
+
+	authToken, err := rdsutils.BuildAuthToken(host, c.opts.region, c.opts.dbUser, credentials.NewStaticCredentials(c.opts.awsKey, c.opts.awsSecretKey, c.opts.token))
+	if err != nil {
+		return err
+	}
+	dnsStr := fmt.Sprintf("postgres://%s:%s@%s/%s",
+		c.opts.dbUser, url.PathEscape(authToken), c.opts.endPoint,c.opts.dbName)
+
+	c.db, err = sql.Open("postgres", dnsStr)
 	if err != nil {
 		return err
 	}
@@ -43,6 +56,8 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
+
+
 	c.db.SetMaxOpenConns(c.opts.maxOpenConnections)
 	c.db.SetMaxIdleConns(c.opts.maxIdleConnections)
 	c.db.SetConnMaxLifetime(time.Duration(c.opts.connectionMaxLifetimeSeconds) * time.Second)
@@ -63,7 +78,13 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.Transaction(ctx, meta, req.Data)
 	}
 
-	return nil, nil
+	return nil, errors.New("invalid method type")
+}
+func getStatements(data []byte) []string {
+	if data == nil {
+		return nil
+	}
+	return strings.Split(string(data), ";")
 }
 func (c *Client) Exec(ctx context.Context, meta metadata, value []byte) (*types.Response, error) {
 	stmts := getStatements(value)
@@ -78,16 +99,9 @@ func (c *Client) Exec(ctx context.Context, meta metadata, value []byte) (*types.
 			}
 		}
 	}
-
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok"),
 		nil
-}
-func getStatements(data []byte) []string {
-	if data == nil {
-		return nil
-	}
-	return strings.Split(string(data), ";")
 }
 func (c *Client) Transaction(ctx context.Context, meta metadata, value []byte) (*types.Response, error) {
 	stmts := getStatements(value)
@@ -148,13 +162,9 @@ func (c *Client) Query(ctx context.Context, meta metadata, value []byte) (*types
 func (c *Client) rowsToMap(rows *sql.Rows) []byte {
 
 	cols, _ := rows.Columns()
-	colsTypes, err := rows.ColumnTypes()
-	if err != nil {
-		return nil
-	}
 	var results []map[string]interface{}
 	for rows.Next() {
-		results = append(results, parseWithRawBytes(rows, cols, colsTypes))
+		results = append(results, parseToMap(rows, cols))
 	}
 	if results == nil {
 		return nil
@@ -163,35 +173,27 @@ func (c *Client) rowsToMap(rows *sql.Rows) []byte {
 	return b
 }
 
-func parseWithRawBytes(rows *sql.Rows, cols []string, colsTypes []*sql.ColumnType) map[string]interface{} {
-	vals := make([]sql.RawBytes, len(cols))
-	scanArgs := make([]interface{}, len(vals))
-	for i := range vals {
-		scanArgs[i] = &vals[i]
+func parseToMap(rows *sql.Rows, cols []string) map[string]interface{} {
+	values := make([]interface{}, len(cols))
+	pointers := make([]interface{}, len(cols))
+	for i := range values {
+		pointers[i] = &values[i]
 	}
-	if err := rows.Scan(scanArgs...); err != nil {
-		panic(err)
+
+	if err := rows.Scan(pointers...); err != nil {
+		return nil
 	}
+
 	m := make(map[string]interface{})
-	for i, col := range vals {
-		if col == nil {
-			continue
-		}
-		switch colsTypes[i].DatabaseTypeName() {
-		case "TINYINT", "BOOLEAN":
-			m[cols[i]], _ = strconv.ParseBool(string(col))
-		case "SMALLINT", "MEDIUMINT":
-			m[cols[i]], _ = strconv.Atoi(string(col))
-		case "BIGINT":
-			m[cols[i]], _ = strconv.ParseInt(string(col), 10, 64)
-		case "FLOAT":
-			val, _ := strconv.ParseFloat(string(col), 32)
-			m[cols[i]] = float32(val)
-		case "DOUBLE", "DECIMAL":
-			m[cols[i]], _ = strconv.ParseFloat(string(col), 64)
-		default:
-			m[cols[i]] = string(col)
+	for i, colName := range cols {
+		if values[i] == nil {
+			//m[colName] = nil
+		} else {
+			m[colName] = values[i]
 		}
 	}
 	return m
+}
+func (c *Client) CloseClient() error {
+	return c.db.Close()
 }

@@ -2,15 +2,24 @@ package mysql
 
 import (
 	"context"
+	"crypto/tls"
+	"crypto/x509"
 	"database/sql"
+	"errors"
 	"fmt"
+	"github.com/aws/aws-sdk-go/aws/credentials"
+	"github.com/go-sql-driver/mysql"
+	"io/ioutil"
+	"net/http"
+	"strconv"
+	"strings"
+	"time"
+
+	"github.com/aws/aws-sdk-go/service/rds/rdsutils"
 	_ "github.com/go-sql-driver/mysql"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
-	"strconv"
-	"strings"
-	"time"
 )
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
@@ -29,13 +38,39 @@ func (c *Client) Name() string {
 	return c.name
 }
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
+
 	c.name = cfg.Name
-	var err error
+    var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
 		return err
 	}
-	c.db, err = sql.Open("mysql", c.opts.connection)
+
+	host := fmt.Sprintf("%s:%d", c.opts.endPoint, c.opts.dbPort)
+	mysqlCfp := &mysql.Config{
+		User: c.opts.dbUser,
+		Addr: host,
+		Net:  "tcp",
+		Params: map[string]string{
+			"tls": "rds",
+		},
+		DBName: c.opts.dbName,
+	}
+	mysqlCfp.AllowNativePasswords = true
+	mysqlCfp.AllowCleartextPasswords = true
+
+
+	mysqlCfp.Passwd, err = rdsutils.BuildAuthToken(host, c.opts.region, mysqlCfp.User, credentials.NewStaticCredentials(c.opts.awsKey, c.opts.awsSecretKey, c.opts.token))
+	if err != nil {
+		return err
+	}
+
+	err = registerRDSMysqlCerts(http.DefaultClient)
+	if err != nil {
+		return err
+	}
+	a := mysqlCfp.FormatDSN()
+	c.db, err = sql.Open("mysql", a)
 	if err != nil {
 		return err
 	}
@@ -43,6 +78,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
+
 	c.db.SetMaxOpenConns(c.opts.maxOpenConnections)
 	c.db.SetMaxIdleConns(c.opts.maxIdleConnections)
 	c.db.SetConnMaxLifetime(time.Duration(c.opts.connectionMaxLifetimeSeconds) * time.Second)
@@ -63,7 +99,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.Transaction(ctx, meta, req.Data)
 	}
 
-	return nil, nil
+	return nil, errors.New("invalid method type")
 }
 func (c *Client) Exec(ctx context.Context, meta metadata, value []byte) (*types.Response, error) {
 	stmts := getStatements(value)
@@ -194,4 +230,31 @@ func parseWithRawBytes(rows *sql.Rows, cols []string, colsTypes []*sql.ColumnTyp
 		}
 	}
 	return m
+}
+func (c *Client) CloseClient() error {
+	return c.db.Close()
+}
+//https://github.com/aws/aws-sdk-go/issues/1248
+func registerRDSMysqlCerts(c *http.Client) error {
+	resp, err := c.Get("https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem")
+	if err != nil {
+		return err
+	}
+	pem, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		return err
+	}
+	defer func() {
+		_ = resp.Body.Close()
+	}()
+	rootCertPool := x509.NewCertPool()
+	if ok := rootCertPool.AppendCertsFromPEM(pem); !ok {
+		return err
+	}
+
+	err = mysql.RegisterTLSConfig("rds", &tls.Config{RootCAs: rootCertPool})
+	if err != nil {
+		return err
+	}
+	return nil
 }

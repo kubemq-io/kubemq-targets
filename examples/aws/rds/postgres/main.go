@@ -11,19 +11,17 @@ import (
 )
 
 var (
-	transactionString = `DROP TABLE IF EXISTS post;
+	transactionString = `	DROP TABLE IF EXISTS post;
 	       CREATE TABLE post (
-	         ID bigint,
+	         ID serial,
 	         TITLE varchar(40),
 	         CONTENT varchar(255),
-			 BIGNUMBER bigint,
-			 BOOLVALUE boolean,
 	         CONSTRAINT pk_post PRIMARY KEY(ID)
 	       );
-	       INSERT INTO post(ID,TITLE,CONTENT,BIGNUMBER,BOOLVALUE) VALUES
-	                       (0,NULL,'Content One',1231241241231231123,true),
-	                       (1,'Title Two','Content Two',123125241231231123,false);`
-	queryString = `SELECT id,title,content,bignumber,boolvalue FROM post;`
+	       INSERT INTO post(ID,TITLE,CONTENT) VALUES
+	                       (1,NULL,'Content One'),
+	                       (2,'Title Two','Content Two');`
+	queryString = `SELECT id,title,content FROM post;`
 )
 
 func main() {
@@ -39,7 +37,7 @@ func main() {
 		SetMetadataKeyValue("method", "transaction").
 		SetData([]byte(transactionString))
 	queryTransactionResponse, err := client.SetQuery(transactionRequest.ToQuery()).
-		SetChannel("query.gcp.mysql").
+		SetChannel("query.aws.rds.postgres").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)
@@ -55,7 +53,7 @@ func main() {
 		SetData([]byte(queryString))
 
 	queryResponse, err := client.SetQuery(queryRequest.ToQuery()).
-		SetChannel("query.gcp.mysql").
+		SetChannel("query.aws.rds.postgres").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)
