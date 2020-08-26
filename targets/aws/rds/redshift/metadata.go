@@ -6,15 +6,17 @@ import (
 
 type metadata struct {
 	method string
-
 }
 
 var methodsMap = map[string]string{
+	"list_tags":                     "list_tags",
+	"list_snapshots":                "list_snapshots",
+	"list_snapshots_by_tags_keys":   "list_snapshots_by_tags_keys",
+	"list_snapshots_by_tags_values": "list_snapshots_by_tags_values",
 	"list_clusters":                 "list_clusters",
-	"list_clusters_by_tags_keys":                 "list_clusters_by_tags_keys",
-	"list_clusters_by_tags_values":                 "list_clusters_by_tags_values",
+	"list_clusters_by_tags_keys":    "list_clusters_by_tags_keys",
+	"list_clusters_by_tags_values":  "list_clusters_by_tags_values",
 }
-
 
 func parseMetadata(meta types.Metadata) (metadata, error) {
 	m := metadata{}

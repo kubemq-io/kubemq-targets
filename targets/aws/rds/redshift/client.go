@@ -52,6 +52,14 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return nil, err
 	}
 	switch meta.method {
+	case "list_tags":
+		return c.listTags(ctx)
+	case "list_snapshots":
+		return c.listSnapshots(ctx)
+	case "list_snapshots_by_tags_keys":
+		return c.listClustersByTagsKeys(ctx, req.Data)
+	case "list_snapshots_by_tags_values":
+		return c.listClustersByTagsValues(ctx, req.Data)
 	case "list_clusters":
 		return c.listClusters(ctx)
 	case "list_clusters_by_tags_keys":
@@ -61,6 +69,86 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	}
 
 	return nil, errors.New("invalid method type")
+}
+
+func (c *Client) listTags(ctx context.Context) (*types.Response, error) {
+	m, err := c.client.DescribeTagsWithContext(ctx, nil)
+	if err != nil {
+		return nil, err
+	}
+	b, err := json.Marshal(m)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok").
+			SetData(b),
+		nil
+}
+
+func (c *Client) listSnapshots(ctx context.Context) (*types.Response, error) {
+	m, err := c.client.DescribeClusterSnapshotsWithContext(ctx, nil)
+	if err != nil {
+		return nil, err
+	}
+	b, err := json.Marshal(m)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok").
+			SetData(b),
+		nil
+}
+
+func (c *Client) listSnapshotsByTagsKeys(ctx context.Context, data []byte) (*types.Response, error) {
+	if data == nil {
+		return nil, errors.New("missing data , tag list is required")
+	}
+	var tags []*string
+	err := json.Unmarshal(data, &tags)
+	if err != nil {
+		return nil, errors.New("data should be []*string")
+	}
+	m, err := c.client.DescribeClusterSnapshotsWithContext(ctx, &redshift.DescribeClusterSnapshotsInput{
+		TagKeys:tags,
+	})
+	if err != nil {
+		return nil, err
+	}
+	b, err := json.Marshal(m)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok").
+			SetData(b),
+		nil
+}
+
+func (c *Client) listSnapshotsTagsValues(ctx context.Context, data []byte) (*types.Response, error) {
+	if data == nil {
+		return nil, errors.New("missing data , tag list is required")
+	}
+	var tags []*string
+	err := json.Unmarshal(data, &tags)
+	if err != nil {
+		return nil, errors.New("data should be []*string")
+	}
+	m, err := c.client.DescribeClusterSnapshotsWithContext(ctx, &redshift.DescribeClusterSnapshotsInput{
+		TagValues:tags,
+	})
+	if err != nil {
+		return nil, err
+	}
+	b, err := json.Marshal(m)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok").
+			SetData(b),
+		nil
 }
 
 func (c *Client) listClusters(ctx context.Context) (*types.Response, error) {
