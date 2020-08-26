@@ -18,6 +18,7 @@ import (
 
 	"github.com/kubemq-hub/kubemq-targets/config"
 	awsmariadb "github.com/kubemq-hub/kubemq-targets/targets/aws/rds/mariadb"
+	awsmssql "github.com/kubemq-hub/kubemq-targets/targets/aws/rds/mssql"
 	awsmysql "github.com/kubemq-hub/kubemq-targets/targets/aws/rds/mysql"
 	awspostgres "github.com/kubemq-hub/kubemq-targets/targets/aws/rds/postgres"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/sqs"
@@ -139,6 +140,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 		return target, nil
 	case "target.aws.rds.mariadb":
 		target := awsmariadb.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.aws.rds.mssql":
+		target := awsmssql.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}

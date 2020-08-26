@@ -1,0 +1,24 @@
+bindings:
+  - name: kubemq-query-aws-mssql
+    source:
+      kind: source.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-mssql-connector"
+        auth_token: ""
+        channel: "query.aws.rds.mssql"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.aws.rds.mssql
+      name: target-aws-rds-mssql
+      properties:
+        connection: "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master"
+        max_idle_connections: "10"
+        max_open_connections: "100"
+        connection_max_lifetime_seconds: "3600"
