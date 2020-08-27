@@ -2,7 +2,6 @@ package redis
 
 import (
 	"context"
-	"crypto/tls"
 	"fmt"
 	redisClient "github.com/go-redis/redis/v7"
 	"github.com/kubemq-hub/kubemq-targets/config"
@@ -40,23 +39,14 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-	redisOpts := &redisClient.Options{
-		Addr:     c.opts.host,
-		Password: c.opts.password,
-		DB:       defaultDB,
+	redisInfo, err := redisClient.ParseURL(c.opts.url)
+	if err != nil {
+		return fmt.Errorf("error parsing redis url %s: %w", c.opts.url, err)
 	}
-
-	/* #nosec */
-	if c.opts.enableTLS {
-		redisOpts.TLSConfig = &tls.Config{
-			InsecureSkipVerify: c.opts.enableTLS,
-		}
-	}
-
-	c.redis = redisClient.NewClient(redisOpts)
+	c.redis = redisClient.NewClient(redisInfo)
 	_, err = c.redis.WithContext(ctx).Ping().Result()
 	if err != nil {
-		return fmt.Errorf("error connecting to redis at %s: %w", c.opts.host, err)
+		return fmt.Errorf("error connecting to redis at %s: %w", redisInfo.Addr, err)
 	}
 	c.replicas, err = c.getConnectedSlaves(ctx)
 	return err

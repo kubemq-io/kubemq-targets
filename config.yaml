@@ -1,34 +1,32 @@
 apiPort: 8081
 bindings:
-#  - name: kubemq-query-redis
-#    source:
-#      kind: source.query
-#      name: kubemq-query
-#      properties:
-#        host: "localhost"
-#        port: "50000"
-#        client_id: "kubemq-query-redis-connector"
-#        auth_token: ""
-#        channel: "query.redis"
-#        group:   ""
-#        concurrency: "1"
-#        auto_reconnect: "true"
-#        reconnect_interval_seconds: "1"
-#        max_reconnects: "0"
-#    target:
-#      kind: target.cache.redis
-#      name: target-redis
-#      properties:
-#        host: "localhost:6379"
-#        password: ""
-#        enable_tls: "false"
-#    properties:
-#      log_level: "error"
-#      rate_per_seconds: "1"
-#      retry_attempts:  "3"
-#      retry_delay_milliseconds :      "100"
-#      retry_max_jitter_milliseconds: "100"
-#      retry_delay_type: "fixed"
+  - name: kubemq-query-redis
+    source:
+      kind: source.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-redis-connector"
+        auth_token: ""
+        channel: "query.redis"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.cache.redis
+      name: target-redis
+      properties:
+        url: "rediss://:bicam2fjm2ci38ai@redis-dev-do-user-7215618-0.a.db.ondigitalocean.com:25061"
+    properties:
+      log_level: "error"
+      rate_per_seconds: "1"
+      retry_attempts:  "3"
+      retry_delay_milliseconds :      "100"
+      retry_max_jitter_milliseconds: "100"
+      retry_delay_type: "fixed"
 #  - name: kubemq-query-memcached
 #    source:
 #      kind: source.query
@@ -287,28 +285,28 @@ bindings:
 #        default_keyspace: "test"
 #    properties:
 #      log_level: "error"
-  - name: kubemq-query-rabbitmq
-    source:
-      kind: source.query
-      name: kubemq-query
-      properties:
-        host: "localhost"
-        port: "50000"
-        client_id: "kubemq-query-rabbitmq-connector"
-        auth_token: ""
-        channel: "query.rabbitmq"
-        group:   ""
-        concurrency: "1"
-        auto_reconnect: "true"
-        reconnect_interval_seconds: "1"
-        max_reconnects: "0"
-    target:
-      kind: target.messaging.rabbitmq
-      name: target-rabbitmq
-      properties:
-        url: "amqp://rabbitmq:rabbitmq@localhost:7238/"
-    properties:
-      log_level: "error"
+#  - name: kubemq-query-rabbitmq
+#    source:
+#      kind: source.query
+#      name: kubemq-query
+#      properties:
+#        host: "localhost"
+#        port: "50000"
+#        client_id: "kubemq-query-rabbitmq-connector"
+#        auth_token: ""
+#        channel: "query.rabbitmq"
+#        group:   ""
+#        concurrency: "1"
+#        auto_reconnect: "true"
+#        reconnect_interval_seconds: "1"
+#        max_reconnects: "0"
+#    target:
+#      kind: target.messaging.rabbitmq
+#      name: target-rabbitmq
+#      properties:
+#        url: "amqp://rabbitmq:rabbitmq@localhost:7238/"
+#    properties:
+#      log_level: "error"
 #  - name: kubemq-query-mqtt
 #    source:
 #      kind: source.query

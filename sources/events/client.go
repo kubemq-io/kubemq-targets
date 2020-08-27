@@ -45,7 +45,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-	c.client, _ = kubemq.NewClient(ctx,
+	c.client, err = kubemq.NewClient(ctx,
 		kubemq.WithAddress(c.opts.host, c.opts.port),
 		kubemq.WithClientId(c.opts.clientId),
 		kubemq.WithTransportType(kubemq.TransportTypeGRPC),
@@ -54,6 +54,9 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		kubemq.WithMaxReconnects(c.opts.maxReconnects),
 		kubemq.WithAutoReconnect(c.opts.autoReconnect),
 		kubemq.WithReconnectInterval(c.opts.reconnectIntervalSeconds))
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
