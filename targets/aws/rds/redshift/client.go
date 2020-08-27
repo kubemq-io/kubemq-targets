@@ -1,4 +1,4 @@
-package s3
+package redshift
 
 import (
 	"context"
@@ -20,7 +20,7 @@ type Client struct {
 
 func New() *Client {
 	return &Client{}
-
+	
 }
 func (c *Client) Name() string {
 	return c.name
@@ -40,7 +40,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-
+	
 	svc := redshift.New(sess)
 	c.client = svc
 	return nil
@@ -52,6 +52,10 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return nil, err
 	}
 	switch meta.method {
+	case "create_tags":
+		return c.createTags(ctx, meta, req.Data)
+	case "delete_tags":
+		return c.deleteTags(ctx, meta, req.Data)
 	case "list_tags":
 		return c.listTags(ctx)
 	case "list_snapshots":
@@ -60,6 +64,8 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.listClustersByTagsKeys(ctx, req.Data)
 	case "list_snapshots_by_tags_values":
 		return c.listClustersByTagsValues(ctx, req.Data)
+	case "describe_cluster":
+		return c.describeCluster(ctx,meta)
 	case "list_clusters":
 		return c.listClusters(ctx)
 	case "list_clusters_by_tags_keys":
@@ -67,8 +73,68 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "list_clusters_by_tags_values":
 		return c.listClustersByTagsValues(ctx, req.Data)
 	}
-
+	
 	return nil, errors.New("invalid method type")
+}
+
+func (c *Client) createTags(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
+	if data == nil {
+		return nil, errors.New("missing data , tag list is required")
+	}
+	tags := make(map[string]string)
+	err := json.Unmarshal(data, &tags)
+	if err != nil {
+		return nil, errors.New("data should be map[string]string , tag key , tag value")
+	}
+	var redshiftTags []*redshift.Tag
+	for k, v := range tags {
+		t := redshift.Tag{
+			Key:   aws.String(k),
+			Value: aws.String(v),
+		}
+		redshiftTags = append(redshiftTags, &t)
+	}
+	m, err := c.client.CreateTagsWithContext(ctx, &redshift.CreateTagsInput{
+		ResourceName: aws.String(meta.resourceName),
+		Tags:         redshiftTags,
+	})
+	if err != nil {
+		return nil, err
+	}
+	b, err := json.Marshal(m)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok").
+			SetData(b),
+		nil
+}
+
+func (c *Client) deleteTags(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
+	if data == nil {
+		return nil, errors.New("missing data , tag list is required")
+	}
+	var tags []*string
+	err := json.Unmarshal(data, &tags)
+	if err != nil {
+		return nil, errors.New("data should be []*string")
+	}
+	m, err := c.client.DeleteTagsWithContext(ctx, &redshift.DeleteTagsInput{
+		ResourceName: aws.String(meta.resourceName),
+		TagKeys:      tags,
+	})
+	if err != nil {
+		return nil, err
+	}
+	b, err := json.Marshal(m)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok").
+			SetData(b),
+		nil
 }
 
 func (c *Client) listTags(ctx context.Context) (*types.Response, error) {
@@ -111,7 +177,7 @@ func (c *Client) listSnapshotsByTagsKeys(ctx context.Context, data []byte) (*typ
 		return nil, errors.New("data should be []*string")
 	}
 	m, err := c.client.DescribeClusterSnapshotsWithContext(ctx, &redshift.DescribeClusterSnapshotsInput{
-		TagKeys:tags,
+		TagKeys: tags,
 	})
 	if err != nil {
 		return nil, err
@@ -136,7 +202,24 @@ func (c *Client) listSnapshotsTagsValues(ctx context.Context, data []byte) (*typ
 		return nil, errors.New("data should be []*string")
 	}
 	m, err := c.client.DescribeClusterSnapshotsWithContext(ctx, &redshift.DescribeClusterSnapshotsInput{
-		TagValues:tags,
+		TagValues: tags,
+	})
+	if err != nil {
+		return nil, err
+	}
+	b, err := json.Marshal(m)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok").
+			SetData(b),
+		nil
+}
+
+func (c *Client) describeCluster(ctx context.Context, meta metadata) (*types.Response, error) {
+	m, err := c.client.DescribeClustersWithContext(ctx, &redshift.DescribeClustersInput{
+		ClusterIdentifier: aws.String(meta.resourceName),
 	})
 	if err != nil {
 		return nil, err
@@ -176,7 +259,7 @@ func (c *Client) listClustersByTagsKeys(ctx context.Context, data []byte) (*type
 		return nil, errors.New("data should be []*string")
 	}
 	m, err := c.client.DescribeClustersWithContext(ctx, &redshift.DescribeClustersInput{
-		TagKeys:tags,
+		TagKeys: tags,
 	})
 	if err != nil {
 		return nil, err
@@ -201,7 +284,7 @@ func (c *Client) listClustersByTagsValues(ctx context.Context, data []byte) (*ty
 		return nil, errors.New("data should be []*string")
 	}
 	m, err := c.client.DescribeClustersWithContext(ctx, &redshift.DescribeClustersInput{
-		TagValues:tags,
+		TagValues: tags,
 	})
 	if err != nil {
 		return nil, err
