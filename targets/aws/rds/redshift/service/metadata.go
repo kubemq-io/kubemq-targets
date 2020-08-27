@@ -1,12 +1,14 @@
-package redshift
+package service
 
 import (
+	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
 type metadata struct {
 	method       string
 	resourceName string
+	resourceARN  string
 }
 
 var methodsMap = map[string]string{
@@ -30,8 +32,16 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		return metadata{}, meta.GetValidMethodTypes(methodsMap)
 	}
 	
-	if m.method == "create_tags" || m.method == "delete_tags"||m.method == "describe_cluster"{
-		m.resourceName , err = meta.MustParseString("resource_name")
+	if m.method == "create_tags" || m.method == "delete_tags" {
+		m.resourceARN, err = meta.MustParseString("resource_arn")
+		if err != nil {
+			return metadata{}, fmt.Errorf("error parsing resource_arn, %w", err)
+		}
+	} else if m.method == "describe_cluster" {
+		m.resourceName, err = meta.MustParseString("resource_name")
+		if err != nil {
+			return metadata{}, fmt.Errorf("error parsing resource_name, %w", err)
+		}
 	}
 	
 	return m, nil

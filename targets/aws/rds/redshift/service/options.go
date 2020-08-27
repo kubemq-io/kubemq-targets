@@ -1,4 +1,4 @@
-package redshift
+package service
 
 import (
 	"fmt"

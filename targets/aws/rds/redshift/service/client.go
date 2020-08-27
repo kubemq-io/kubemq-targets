@@ -1,4 +1,4 @@
-package redshift
+package service
 
 import (
 	"context"
@@ -61,9 +61,9 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "list_snapshots":
 		return c.listSnapshots(ctx)
 	case "list_snapshots_by_tags_keys":
-		return c.listClustersByTagsKeys(ctx, req.Data)
+		return c.listSnapshotsByTagsKeys(ctx, req.Data)
 	case "list_snapshots_by_tags_values":
-		return c.listClustersByTagsValues(ctx, req.Data)
+		return c.listSnapshotsTagsValues(ctx, req.Data)
 	case "describe_cluster":
 		return c.describeCluster(ctx,meta)
 	case "list_clusters":
@@ -94,20 +94,15 @@ func (c *Client) createTags(ctx context.Context, meta metadata, data []byte) (*t
 		}
 		redshiftTags = append(redshiftTags, &t)
 	}
-	m, err := c.client.CreateTagsWithContext(ctx, &redshift.CreateTagsInput{
+	_, err = c.client.CreateTagsWithContext(ctx, &redshift.CreateTagsInput{
 		ResourceName: aws.String(meta.resourceName),
 		Tags:         redshiftTags,
 	})
 	if err != nil {
 		return nil, err
 	}
-	b, err := json.Marshal(m)
-	if err != nil {
-		return nil, err
-	}
 	return types.NewResponse().
-			SetMetadataKeyValue("result", "ok").
-			SetData(b),
+			SetMetadataKeyValue("result", "ok"),
 		nil
 }
 
@@ -120,20 +115,15 @@ func (c *Client) deleteTags(ctx context.Context, meta metadata, data []byte) (*t
 	if err != nil {
 		return nil, errors.New("data should be []*string")
 	}
-	m, err := c.client.DeleteTagsWithContext(ctx, &redshift.DeleteTagsInput{
+	_, err = c.client.DeleteTagsWithContext(ctx, &redshift.DeleteTagsInput{
 		ResourceName: aws.String(meta.resourceName),
 		TagKeys:      tags,
 	})
 	if err != nil {
 		return nil, err
 	}
-	b, err := json.Marshal(m)
-	if err != nil {
-		return nil, err
-	}
 	return types.NewResponse().
-			SetMetadataKeyValue("result", "ok").
-			SetData(b),
+			SetMetadataKeyValue("result", "ok"),
 		nil
 }
 
