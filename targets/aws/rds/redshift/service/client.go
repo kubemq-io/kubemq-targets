@@ -95,7 +95,7 @@ func (c *Client) createTags(ctx context.Context, meta metadata, data []byte) (*t
 		redshiftTags = append(redshiftTags, &t)
 	}
 	_, err = c.client.CreateTagsWithContext(ctx, &redshift.CreateTagsInput{
-		ResourceName: aws.String(meta.resourceName),
+		ResourceName: aws.String(meta.resourceARN),
 		Tags:         redshiftTags,
 	})
 	if err != nil {
@@ -116,7 +116,7 @@ func (c *Client) deleteTags(ctx context.Context, meta metadata, data []byte) (*t
 		return nil, errors.New("data should be []*string")
 	}
 	_, err = c.client.DeleteTagsWithContext(ctx, &redshift.DeleteTagsInput{
-		ResourceName: aws.String(meta.resourceName),
+		ResourceName: aws.String(meta.resourceARN),
 		TagKeys:      tags,
 	})
 	if err != nil {

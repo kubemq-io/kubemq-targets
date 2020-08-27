@@ -160,7 +160,7 @@ func TestClient_Create_Tags(t *testing.T) {
 			name: "valid create",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "create_tags").
-				SetMetadataKeyValue("resource_name", dat.resourceName).
+				SetMetadataKeyValue("resource_arn", dat.resourceARN).
 				SetData(b),
 			wantErr: false,
 		},{
@@ -173,7 +173,7 @@ func TestClient_Create_Tags(t *testing.T) {
 			name: "invalid create - missing body",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "create_tags").
-				SetMetadataKeyValue("resource_name", dat.resourceName),
+				SetMetadataKeyValue("resource_arn", dat.resourceARN),
 			wantErr: true,
 		},
 	}
@@ -223,7 +223,7 @@ func TestClient_Delete_Tags(t *testing.T) {
 			name: "valid delete",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete_tags").
-				SetMetadataKeyValue("resource_name", dat.resourceName).
+				SetMetadataKeyValue("resource_arn", dat.resourceName).
 				SetData(b),
 			wantErr: false,
 		},{
@@ -236,7 +236,7 @@ func TestClient_Delete_Tags(t *testing.T) {
 			name: "invalid delete - missing body",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete_tags").
-				SetMetadataKeyValue("resource_name", dat.resourceName),
+				SetMetadataKeyValue("resource_arn", dat.resourceName),
 			wantErr: true,
 		},
 	}

@@ -1,0 +1,24 @@
+bindings:
+  - name: kubemq-query-redshift
+    source:
+      kind: source.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-redshift-connector"
+        auth_token: ""
+        channel: "query.client.redshift"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.aws.rds.redshift
+      name: target-aws-rds-redshift
+      properties:
+        connection: "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb"
+        max_idle_connections: "10"
+        max_open_connections: "100"
+        connection_max_lifetime_seconds: "3600"
