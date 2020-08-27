@@ -25,7 +25,7 @@ type testStructure struct {
 
 func getTestStructure() (*testStructure, error) {
 	t := &testStructure{}
-	dat, err := ioutil.ReadFile("./../../../../credentials/aws/awsKey.txt")
+	dat, err := ioutil.ReadFile("./../../../../../credentials/aws/awsKey.txt")
 	if err != nil {
 		return nil, err
 	}
@@ -47,15 +47,15 @@ func getTestStructure() (*testStructure, error) {
 	}
 	t.dbUser = string(dat)
 	dat, err = ioutil.ReadFile("./../../../../credentials/aws/sql/dbName.txt")
+	if err != nil {
+		return nil, err
+	}
 	t.dbName = string(dat)
-	if err != nil {
-		return nil, err
-	}
 	dat, err = ioutil.ReadFile("./../../../../credentials/aws/sql/endPoint.txt")
-	t.endPoint = string(dat)
 	if err != nil {
 		return nil, err
 	}
+	t.endPoint = string(dat)
 	return t, nil
 }
 
@@ -674,7 +674,6 @@ func TestClient_Do(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
 }

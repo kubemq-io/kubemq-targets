@@ -1,62 +1,13 @@
-package mysql
+package mssql
 
 import (
 	"context"
-	"fmt"
-	"io/ioutil"
-	"testing"
-	"time"
-
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
+	"testing"
+	"time"
 )
-
-type testStructure struct {
-	awsKey       string
-	awsSecretKey string
-	region       string
-	token        string
-	dbUser       string
-	dbName       string
-	endPoint     string
-}
-
-func getTestStructure() (*testStructure, error) {
-	t := &testStructure{}
-	dat, err := ioutil.ReadFile("./../../../../credentials/aws/awsKey.txt")
-	if err != nil {
-		return nil, err
-	}
-	t.awsKey = string(dat)
-	dat, err = ioutil.ReadFile("./../../../../credentials/aws/awsSecretKey.txt")
-	if err != nil {
-		return nil, err
-	}
-	t.awsSecretKey = string(dat)
-	dat, err = ioutil.ReadFile("./../../../../credentials/aws/region.txt")
-	if err != nil {
-		return nil, err
-	}
-	t.region = fmt.Sprintf("%s", dat)
-	t.token = ""
-	dat, err = ioutil.ReadFile("./../../../../credentials/aws/sql/dbUser.txt")
-	if err != nil {
-		return nil, err
-	}
-	t.dbUser = string(dat)
-	dat, err = ioutil.ReadFile("./../../../../credentials/aws/sql/dbName.txt")
-	if err != nil {
-		return nil, err
-	}
-	t.dbName = string(dat)
-	dat, err = ioutil.ReadFile("./../../../../credentials/aws/sql/endPoint.txt")
-	if err != nil {
-		return nil, err
-	}
-	t.endPoint = string(dat)
-	return t, nil
-}
 
 type post struct {
 	Id        int64  `json:"id"`
@@ -103,18 +54,16 @@ const (
 	         TITLE varchar(40),
 	         CONTENT varchar(255),
 			 BIGNUMBER bigint,
-			 BOOLVALUE boolean,
+			 BOOLVALUE bit,
 	         CONSTRAINT pk_post PRIMARY KEY(ID)
 	       );
 	       INSERT INTO post(ID,TITLE,CONTENT,BIGNUMBER,BOOLVALUE) VALUES
-	                       (0,NULL,'Content One',1231241241231231123,true),
-	                       (1,'Title Two','Content Two',123125241231231123,false);`
+	                       (0,NULL,'Content One',1231241241231231123,1),
+	                       (1,'Title Two','Content Two',123125241231231123,0);`
 	selectPostTable = `SELECT id,title,content,bignumber,boolvalue FROM post;`
 )
 
 func TestClient_Init(t *testing.T) {
-	dat, err := getTestStructure()
-	require.NoError(t, err)
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -123,85 +72,96 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-mssql",
+				Kind: "target.aws.rds.mssql",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			wantErr: false,
-		}, {
-			name: "invalid init - missing db_user",
+		},
+		{
+			name: "init - bad connection string",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-mssql",
+				Kind: "target.aws.rds.mssql",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_name":        dat.dbName,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
+					"connection":                      "bad connection string",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			wantErr: true,
-		}, {
-			name: "invalid init - missing db_name",
+		},
+		{
+			name: "init - bad port connection string",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-mssql",
+				Kind: "target.aws.rds.mssql",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
+					"connection":                      "root:mssql@(localhost:5678)/store?charset=utf8&parseTime=True&loc=Local",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			wantErr: true,
-		}, {
-			name: "invalid init - missing end_point",
+		},
+		{
+			name: "init - no connection string",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-mssql",
+				Kind: "target.aws.rds.mssql",
 				Properties: map[string]string{
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"db_name":        dat.dbName,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsKey,
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			wantErr: true,
-		}, {
-			name: "invalid init - missing aws_key",
+		},
+		{
+			name: "init - bad max idle connections",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-mssql",
+				Kind: "target.aws.rds.mssql",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_secret_key": dat.awsKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
+					"max_idle_connections":            "-1",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			wantErr: true,
-		}, {
-			name: "invalid init - missing aws_secret_key",
+		},
+		{
+			name: "init - bad max open connections",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-mssql",
+				Kind: "target.aws.rds.mssql",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"region":    dat.region,
-					"db_user":   dat.dbUser,
-					"aws_key":   dat.awsKey,
-					"db_name":   dat.dbName,
+					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
+					"max_idle_connections":            "",
+					"max_open_connections":            "-1",
+					"connection_max_lifetime_seconds": "",
+				},
+			},
+			wantErr: true,
+		},
+		{
+			name: "init - bad connection max lifetime seconds",
+			cfg: config.Spec{
+				Name: "target-aws-rds-mssql",
+				Kind: "target.aws.rds.mssql",
+				Properties: map[string]string{
+					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "-1",
 				},
 			},
 			wantErr: true,
@@ -212,23 +172,17 @@ func TestClient_Init(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
 			c := New()
-			err = c.Init(ctx, tt.cfg)
-			if tt.wantErr {
-				require.Error(t, err)
-				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
+
+			if err := c.Init(ctx, tt.cfg); (err != nil) != tt.wantErr {
+				t.Errorf("Init() error = %v, wantExecErr %v", err, tt.wantErr)
 				return
 			}
 			require.EqualValues(t, tt.cfg.Name, c.Name())
-			require.NoError(t, err)
-			err = c.CloseClient()
-			require.NoError(t, err)
 		})
 	}
 }
 
 func TestClient_Query_Exec_Transaction(t *testing.T) {
-	dat, err := getTestStructure()
-	require.NoError(t, err)
 	tests := []struct {
 		name              string
 		cfg               config.Spec
@@ -242,15 +196,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec query request",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-mssql",
+				Kind: "target.aws.rds.mssql",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -270,15 +222,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "empty exec request",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-mssql",
+				Kind: "target.aws.rds.mssql",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -293,15 +243,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "invalid exec request",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-mssql",
+				Kind: "target.aws.rds.mssql",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -316,15 +264,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec empty query request",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-mssql",
+				Kind: "target.aws.rds.mssql",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -342,15 +288,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec bad query request",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-mssql",
+				Kind: "target.aws.rds.mssql",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -368,15 +312,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec valid query - no results",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-mssql",
+				Kind: "target.aws.rds.mssql",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -395,15 +337,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec query request",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-mssql",
+				Kind: "target.aws.rds.mssql",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -423,15 +363,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "empty transaction request",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-mssql",
+				Kind: "target.aws.rds.mssql",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -445,15 +383,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "invalid transaction request",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-mssql",
+				Kind: "target.aws.rds.mssql",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -468,15 +404,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid transaction empty query request",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-mssql",
+				Kind: "target.aws.rds.mssql",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -531,8 +465,6 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 }
 
 func TestClient_Do(t *testing.T) {
-	dat, err := getTestStructure()
-	require.NoError(t, err)
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -542,15 +474,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target.mssql",
+				Kind: "target.mssql",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			request: types.NewRequest().
@@ -562,15 +492,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 2",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target.mssql",
+				Kind: "target.mssql",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			request: types.NewRequest().
@@ -582,15 +510,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 3",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target.mssql",
+				Kind: "target.mssql",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			request: types.NewRequest().
@@ -602,15 +528,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 3",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target.mssql",
+				Kind: "target.mssql",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			request: types.NewRequest().
@@ -622,15 +546,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad method",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target.mssql",
+				Kind: "target.mssql",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			request: types.NewRequest().
@@ -640,15 +562,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad isolation level",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target.mssql",
+				Kind: "target.mssql",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			request: types.NewRequest().

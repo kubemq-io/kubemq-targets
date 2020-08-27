@@ -1,69 +1,18 @@
-package mysql
+package redshift
 
 import (
 	"context"
-	"fmt"
-	"io/ioutil"
-	"testing"
-	"time"
-
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
+	"testing"
+	"time"
 )
 
-type testStructure struct {
-	awsKey       string
-	awsSecretKey string
-	region       string
-	token        string
-	dbUser       string
-	dbName       string
-	endPoint     string
-}
-
-func getTestStructure() (*testStructure, error) {
-	t := &testStructure{}
-	dat, err := ioutil.ReadFile("./../../../../credentials/aws/awsKey.txt")
-	if err != nil {
-		return nil, err
-	}
-	t.awsKey = string(dat)
-	dat, err = ioutil.ReadFile("./../../../../credentials/aws/awsSecretKey.txt")
-	if err != nil {
-		return nil, err
-	}
-	t.awsSecretKey = string(dat)
-	dat, err = ioutil.ReadFile("./../../../../credentials/aws/region.txt")
-	if err != nil {
-		return nil, err
-	}
-	t.region = fmt.Sprintf("%s", dat)
-	t.token = ""
-	dat, err = ioutil.ReadFile("./../../../../credentials/aws/sql/dbUser.txt")
-	if err != nil {
-		return nil, err
-	}
-	t.dbUser = string(dat)
-	dat, err = ioutil.ReadFile("./../../../../credentials/aws/sql/dbName.txt")
-	if err != nil {
-		return nil, err
-	}
-	t.dbName = string(dat)
-	dat, err = ioutil.ReadFile("./../../../../credentials/aws/sql/endPoint.txt")
-	if err != nil {
-		return nil, err
-	}
-	t.endPoint = string(dat)
-	return t, nil
-}
-
 type post struct {
-	Id        int64  `json:"id"`
-	Title     string `json:"title,omitempty"`
-	Content   string `json:"content,omitempty"`
-	BigNumber int64  `json:"bignumber,omitempty"`
-	BoolValue bool   `json:"boolvalue"`
+	Id      string `json:"id"`
+	Title   string `json:"title,omitempty"`
+	Content string `json:"content,omitempty"`
 }
 type posts []*post
 
@@ -82,39 +31,33 @@ func unmarshal(data []byte) *posts {
 
 var allPosts = posts{
 	&post{
-		Id:        0,
-		Content:   "Content One",
-		BigNumber: 1231241241231231123,
-		BoolValue: true,
+		Id:      "1",
+		Content: "Content One",
 	},
 	&post{
-		Id:        1,
-		Title:     "Title Two",
-		Content:   "Content Two",
-		BigNumber: 123125241231231123,
-		BoolValue: false,
+		Id:      "2",
+		Title:   "Title Two",
+		Content: "Content Two",
 	},
 }
 
 const (
-	createPostTable = `DROP TABLE IF EXISTS post;
+	createPostTable = `
+	DROP TABLE IF EXISTS post;
 	       CREATE TABLE post (
-	         ID bigint,
+	         ID varchar(40),
 	         TITLE varchar(40),
 	         CONTENT varchar(255),
-			 BIGNUMBER bigint,
-			 BOOLVALUE boolean,
 	         CONSTRAINT pk_post PRIMARY KEY(ID)
 	       );
-	       INSERT INTO post(ID,TITLE,CONTENT,BIGNUMBER,BOOLVALUE) VALUES
-	                       (0,NULL,'Content One',1231241241231231123,true),
-	                       (1,'Title Two','Content Two',123125241231231123,false);`
-	selectPostTable = `SELECT id,title,content,bignumber,boolvalue FROM post;`
+	       INSERT INTO post(ID,TITLE,CONTENT) VALUES
+	                       ('1',NULL,'Content One'),
+	                       ('2','Title Two','Content Two');
+	`
+	selectPostTable = `SELECT id,title,content FROM post;`
 )
 
 func TestClient_Init(t *testing.T) {
-	dat, err := getTestStructure()
-	require.NoError(t, err)
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -123,85 +66,96 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			wantErr: false,
-		}, {
-			name: "invalid init - missing db_user",
+		},
+		{
+			name: "init - bad connection string",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_name":        dat.dbName,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
+					"connection":                      "",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			wantErr: true,
-		}, {
-			name: "invalid init - missing db_name",
+		},
+		{
+			name: "init - bad port connection string",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
+					"connection":                      "postgres://postgres:postsgres@localhost:4000/postgres?sslmode=disable",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			wantErr: true,
-		}, {
-			name: "invalid init - missing end_point",
+		},
+		{
+			name: "init - no connection string",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"db_name":        dat.dbName,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsKey,
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			wantErr: true,
-		}, {
-			name: "invalid init - missing aws_key",
+		},
+		{
+			name: "init - bad max idle connections",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_secret_key": dat.awsKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb",
+					"max_idle_connections":            "-1",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			wantErr: true,
-		}, {
-			name: "invalid init - missing aws_secret_key",
+		},
+		{
+			name: "init - bad max open connections",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point": dat.endPoint,
-					"region":    dat.region,
-					"db_user":   dat.dbUser,
-					"aws_key":   dat.awsKey,
-					"db_name":   dat.dbName,
+					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb",
+					"max_idle_connections":            "",
+					"max_open_connections":            "-1",
+					"connection_max_lifetime_seconds": "",
+				},
+			},
+			wantErr: true,
+		},
+		{
+			name: "init - bad connection max lifetime seconds",
+			cfg: config.Spec{
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
+				Properties: map[string]string{
+					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "-1",
 				},
 			},
 			wantErr: true,
@@ -212,23 +166,17 @@ func TestClient_Init(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
 			c := New()
-			err = c.Init(ctx, tt.cfg)
-			if tt.wantErr {
-				require.Error(t, err)
-				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
+
+			if err := c.Init(ctx, tt.cfg); (err != nil) != tt.wantErr {
+				t.Errorf("Init() error = %v, wantExecErr %v", err, tt.wantErr)
 				return
 			}
 			require.EqualValues(t, tt.cfg.Name, c.Name())
-			require.NoError(t, err)
-			err = c.CloseClient()
-			require.NoError(t, err)
 		})
 	}
 }
 
 func TestClient_Query_Exec_Transaction(t *testing.T) {
-	dat, err := getTestStructure()
-	require.NoError(t, err)
 	tests := []struct {
 		name              string
 		cfg               config.Spec
@@ -242,15 +190,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec query request",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -270,20 +216,17 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "empty exec request",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			execRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "exec"),
-
 			queryRequest:      nil,
 			wantExecResponse:  nil,
 			wantQueryResponse: nil,
@@ -293,15 +236,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "invalid exec request",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -316,15 +257,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec empty query request",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -342,15 +281,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec bad query request",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -368,15 +305,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec valid query - no results",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -395,15 +330,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec query request",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -423,15 +356,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "empty transaction request",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -445,15 +376,13 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "invalid transaction request",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -468,23 +397,21 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid transaction empty query request",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			execRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "transaction").
 				SetData([]byte(createPostTable)),
 			queryRequest: types.NewRequest().
-				SetMetadataKeyValue("method", "query"),
-
+				SetMetadataKeyValue("method", "query").
+				SetData([]byte("")),
 			wantExecResponse: types.NewResponse().
 				SetMetadataKeyValue("result", "ok"),
 			wantQueryResponse: nil,
@@ -531,8 +458,6 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 }
 
 func TestClient_Do(t *testing.T) {
-	dat, err := getTestStructure()
-	require.NoError(t, err)
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -542,15 +467,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			request: types.NewRequest().
@@ -562,15 +485,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 2",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			request: types.NewRequest().
@@ -582,15 +503,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 3",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			request: types.NewRequest().
@@ -602,15 +521,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 3",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			request: types.NewRequest().
@@ -622,15 +539,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad method",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			request: types.NewRequest().
@@ -640,15 +555,13 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad isolation level",
 			cfg: config.Spec{
-				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Name: "target-aws-rds-redshift",
+				Kind: "target.aws.rds.redshift",
 				Properties: map[string]string{
-					"end_point":      dat.endPoint,
-					"region":         dat.region,
-					"db_user":        dat.dbUser,
-					"aws_key":        dat.awsKey,
-					"aws_secret_key": dat.awsSecretKey,
-					"db_name":        dat.dbName,
+					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb",
+					"max_idle_connections":            "",
+					"max_open_connections":            "",
+					"connection_max_lifetime_seconds": "",
 				},
 			},
 			request: types.NewRequest().
