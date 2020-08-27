@@ -1,5 +1,4 @@
-# Kubemq redshift target Connector
-
+# Kubemq redshift target Connector (Service admin)
 Kubemq aws-redshift target connector allows services using kubemq server to access aws redshift service.
 
 ## Prerequisites

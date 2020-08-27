@@ -1,4 +1,4 @@
-# Kubemq redshift Target Connector
+# Kubemq redshift Target Connector (RDS Connector)
 
 Kubemq redshift target connector allows services using kubemq server to access redshift database services.
 

@@ -1,4 +1,4 @@
-package client
+package redshift
 
 import (
 	"database/sql"

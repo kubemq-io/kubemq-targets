@@ -1,4 +1,4 @@
-package service
+package redshift
 
 import (
 	"context"
@@ -25,29 +25,29 @@ type testStructure struct {
 
 func getTestStructure() (*testStructure, error) {
 	t := &testStructure{}
-	dat, err := ioutil.ReadFile("./../../../../../credentials/aws/awsKey.txt")
+	dat, err := ioutil.ReadFile("./../../../credentials/aws/awsKey.txt")
 	if err != nil {
 		return nil, err
 	}
 	t.awsKey = string(dat)
-	dat, err = ioutil.ReadFile("./../../../../../credentials/aws/awsSecretKey.txt")
+	dat, err = ioutil.ReadFile("./../../../credentials/aws/awsSecretKey.txt")
 	if err != nil {
 		return nil, err
 	}
 	t.awsSecretKey = string(dat)
-	dat, err = ioutil.ReadFile("./../../../../../credentials/aws/region.txt")
+	dat, err = ioutil.ReadFile("./../../../credentials/aws/region.txt")
 	if err != nil {
 		return nil, err
 	}
 	t.region = fmt.Sprintf("%s", dat)
 	t.token = ""
 	
-	dat, err = ioutil.ReadFile("./../../../../../credentials/aws/rds/redshift/resourceName.txt")
+	dat, err = ioutil.ReadFile("./../../../credentials/aws/rds/redshift/resourceName.txt")
 	if err != nil {
 		return nil, err
 	}
 	t.resourceName = fmt.Sprintf("%s", dat)
-	dat, err = ioutil.ReadFile("./../../../../../credentials/aws/rds/redshift/resourceARN.txt")
+	dat, err = ioutil.ReadFile("./../../../credentials/aws/rds/redshift/resourceARN.txt")
 	if err != nil {
 		return nil, err
 	}
