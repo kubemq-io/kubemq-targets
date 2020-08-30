@@ -23,7 +23,7 @@ data:
           kind: source.query
           name: kubemq-query
           properties:
-            host: "kubemq-cluster-a:50000"
+            host: "kubemq-cluster-grpc"
             port: "50000"
             client_id: "kubemq-query-redis-connector"
             auth_token: ""
@@ -37,11 +37,12 @@ data:
           kind: target.cache.redis
           name: target-redis
           properties:
-            host: "redis-cluster:6379"
-            password: ""
-            enable_tls: "false"
+            host: "private-redis-dev-do-user-7215618-0.a.db.ondigitalocean.com:25061"
+            username: "default"
+            password: "bicam2fjm2ci38ai"
+            enable_tls: "true"
         properties:
-          log_level: "error"
+          log_level: "debug"
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -66,7 +67,7 @@ spec:
           ports:
             - containerPort: 8080
           volumeMounts:
-            - mountPath: /kubemq-targets/config.yaml
+            - mountPath: /kubemq-connector/config.yaml
               name: config-file
               subPath: config.yaml
       volumes:
