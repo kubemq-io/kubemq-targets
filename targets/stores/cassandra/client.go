@@ -38,6 +38,8 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.cluster.Port = c.opts.port
 	c.cluster.ProtoVersion = c.opts.protoVersion
 	c.cluster.Consistency = c.opts.consistency
+	c.cluster.Timeout = c.opts.timeoutSeconds
+	c.cluster.ConnectTimeout = c.opts.connectTimeoutSeconds
 	session, err := c.cluster.CreateSession()
 	if err != nil {
 		return fmt.Errorf("error creating session: %s", err)

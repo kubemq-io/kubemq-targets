@@ -26,6 +26,8 @@ Cassandra target connector configuration properties:
 |                    |          |                           | "LocalOne","Any"                    |
 | default_table      | no       | set table name            | "test"                              |
 | default_keyspace   | no       | set keyspace name         | "test"                              |
+| timeout_seconds      | no       |set default timeout seconds            | "60"                              |
+| connect_timeout_seconds   | no       | set default connect timeout seconds         | "60"                              |
 
 
 
@@ -62,6 +64,8 @@ bindings:
         consistency: "All"
         default_table: "test"
         default_keyspace: "test"
+        connect_timeout_seconds: "60"
+        timeout_seconds: "60"
 ```
 
 ## Usage
