@@ -1,0 +1,30 @@
+bindings:
+  - name: kubemq-query-keyspaces
+    source:
+      kind: source.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-keyspaces-connector"
+        auth_token: ""
+        channel: "aws.query.keyspaces"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.aws.keyspaces
+      name: target-aws-keyspaces
+      properties:
+        hosts: "cassandra.us-east-2.amazonaws.com"
+        port: "9142"
+        username: "keyspaces"
+        password: "keyspaces"
+        proto_version: "4"
+        replication_factor: "1"
+        consistency: "local_quorum"
+        default_table: "test"
+        default_keyspace: "test"
+        tls: "https://www.amazontrust.com/repository/AmazonRootCA1.pem"

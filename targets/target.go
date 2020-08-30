@@ -9,6 +9,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/cloudwatch/metrics"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/dynamodb"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/elasticsearch"
+	"github.com/kubemq-hub/kubemq-targets/targets/aws/keyspaces"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/kinesis"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/lambda"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/s3"
@@ -160,6 +161,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 		return target, nil
 	case "target.aws.redshift.service":
 		target := redshiftsvc.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.aws.keyspaces":
+		target := keyspaces.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
