@@ -17,3 +17,5 @@ vendor/
 # vendor/
 go.sum
 credentials/
+targets/aws/keyspaces/tls.pem
+*.pem
