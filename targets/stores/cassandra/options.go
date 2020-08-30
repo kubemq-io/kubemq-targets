@@ -5,6 +5,7 @@ import (
 	"github.com/gocql/gocql"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"math"
+	"time"
 )
 
 const (
@@ -15,15 +16,17 @@ const (
 )
 
 type options struct {
-	hosts             []string
-	port              int
-	protoVersion      int
-	replicationFactor int
-	username          string
-	password          string
-	consistency       gocql.Consistency
-	defaultTable      string
-	defaultKeyspace   string
+	hosts                 []string
+	port                  int
+	protoVersion          int
+	replicationFactor     int
+	username              string
+	password              string
+	consistency           gocql.Consistency
+	defaultTable          string
+	defaultKeyspace       string
+	timeoutSeconds        time.Duration
+	connectTimeoutSeconds time.Duration
 }
 
 func parseOptions(cfg config.Spec) (options, error) {
@@ -53,6 +56,16 @@ func parseOptions(cfg config.Spec) (options, error) {
 	}
 	o.defaultTable = cfg.ParseString("default_table", "")
 	o.defaultKeyspace = cfg.ParseString("default_keyspace", "")
+	connectTimeout, err := cfg.ParseIntWithRange("connect_timeout_seconds", 60, 1, math.MaxInt32)
+	if err != nil {
+		return options{}, fmt.Errorf("error parsing connect timeout seconds timeout value, %w", err)
+	}
+	o.connectTimeoutSeconds = time.Duration(connectTimeout) * time.Second
+	timeout, err := cfg.ParseIntWithRange("timeout_seconds", 60, 1, math.MaxInt32)
+	if err != nil {
+		return options{}, fmt.Errorf("error parsing timeout seconds value, %w", err)
+	}
+	o.timeoutSeconds = time.Duration(timeout) * time.Second
 	return o, nil
 }
 
