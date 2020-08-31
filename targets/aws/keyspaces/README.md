@@ -53,15 +53,16 @@ bindings:
       kind: target.aws.keyspaces
       name: target-aws-keyspaces
       properties:
-        hosts: "localhost"
+        hosts: "cassandra.us-east-2.amazonaws.com"
         port: "9142"
         username: "keyspaces"
         password: "keyspaces"
         proto_version: "4"
         replication_factor: "1"
-        consistency: "All"
+        consistency: "local_quorum"
         default_table: "test"
         default_keyspace: "test"
+        tls: "https://www.amazontrust.com/repository/AmazonRootCA1.pem"
 ```
 
 ## Usage

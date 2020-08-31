@@ -24,8 +24,8 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "sqs-target",
-				Kind: "",
+				Name: "target-aws-sqs",
+				Kind: "target.aws.sqs",
 				Properties: map[string]string{
 					"sqs_key":                     aswKey,
 					"sqs_secret_key":              awsSecret,
@@ -42,8 +42,8 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init - error no region",
 			cfg: config.Spec{
-				Name: "sqs-target",
-				Kind: "",
+				Name: "target-aws-sqs",
+				Kind: "target.aws.sqs",
 				Properties: map[string]string{
 					"sqs_key":                     aswKey,
 					"sqs_secret_key":              awsSecret,
@@ -58,8 +58,8 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init - error no queue",
 			cfg: config.Spec{
-				Name: "sqs-target",
-				Kind: "",
+				Name: "target-aws-sqs",
+				Kind: "target.aws.sqs",
 				Properties: map[string]string{
 					"sqs_key":                     aswKey,
 					"sqs_secret_key":              awsSecret,
@@ -73,8 +73,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "init - error no sqs_key",
 			cfg: config.Spec{
-				Name: "sqs-target",
-				Kind: "",
+				Name: "target-aws-sqs",
+				Kind: "target.aws.sqs",
 				Properties: map[string]string{
 					"sqs_key":                     "",
 					"sqs_secret_key":              awsSecret,
@@ -89,8 +89,8 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init -error no sqs_secret_key",
 			cfg: config.Spec{
-				Name: "sqs-target",
-				Kind: "",
+				Name: "target-aws-sqs",
+				Kind: "target.aws.sqs",
 				Properties: map[string]string{
 					"sqs_key":                     aswKey,
 					"sqs_secret_key":              "",
