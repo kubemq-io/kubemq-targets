@@ -59,8 +59,8 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "aws-dynamodb",
-				Kind: "aws.dynamodb",
+				Name: "target-aws-dynamodb",
+				Kind: "target.aws.dynamodb",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
 					"aws_secret_key": dat.awsSecretKey,
@@ -71,8 +71,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "init - missing key",
 			cfg: config.Spec{
-				Name: "aws-dynamodb",
-				Kind: "aws.dynamodb",
+				Name: "target-aws-dynamodb",
+				Kind: "target.aws.dynamodb",
 				Properties: map[string]string{
 					"aws_secret_key": dat.awsSecretKey,
 					"region":         dat.region,
@@ -82,8 +82,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "init - missing region",
 			cfg: config.Spec{
-				Name: "aws-dynamodb",
-				Kind: "aws.dynamodb",
+				Name: "target-aws-dynamodb",
+				Kind: "target.aws.dynamodb",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
 					"aws_secret_key": dat.awsSecretKey,
@@ -93,8 +93,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "init - missing secret key",
 			cfg: config.Spec{
-				Name: "aws-dynamodb",
-				Kind: "aws.dynamodb",
+				Name: "target-aws-dynamodb",
+				Kind: "target.aws.dynamodb",
 				Properties: map[string]string{
 					"aws_key": dat.awsKey,
 					"region":  dat.region,
@@ -125,8 +125,8 @@ func TestClient_List(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws-dynamodb",
-		Kind: "aws.dynamodb",
+		Name: "target-aws-dynamodb",
+		Kind: "target.aws.dynamodb",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -168,8 +168,8 @@ func TestClient_CreateTable(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws-dynamodb",
-		Kind: "aws.dynamodb",
+		Name: "target-aws-dynamodb",
+		Kind: "target.aws.dynamodb",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -253,8 +253,8 @@ func TestClient_InsertItem(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws-dynamodb",
-		Kind: "aws.dynamodb",
+		Name: "target-aws-dynamodb",
+		Kind: "target.aws.dynamodb",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -328,8 +328,8 @@ func TestClient_GetItem(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws-dynamodb",
-		Kind: "aws.dynamodb",
+		Name: "target-aws-dynamodb",
+		Kind: "target.aws.dynamodb",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -399,8 +399,8 @@ func TestClient_UpdateItem(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws-dynamodb",
-		Kind: "aws.dynamodb",
+		Name: "target-aws-dynamodb",
+		Kind: "target.aws.dynamodb",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -471,8 +471,8 @@ func TestClient_DeleteItem(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws-dynamodb",
-		Kind: "aws.dynamodb",
+		Name: "target-aws-dynamodb",
+		Kind: "target.aws.dynamodb",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -535,8 +535,8 @@ func TestClient_DeleteTable(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws-dynamodb",
-		Kind: "aws.dynamodb",
+		Name: "target-aws-dynamodb",
+		Kind: "target.aws.dynamodb",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,

@@ -87,8 +87,8 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init - no uploader - no downloader",
 			cfg: config.Spec{
-				Name: "aws-s3",
-				Kind: "aws.s3",
+				Name: "target-aws-s3",
+				Kind: "target.aws.s3",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
 					"aws_secret_key": dat.awsSecretKey,
@@ -103,8 +103,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "init - no uploader",
 			cfg: config.Spec{
-				Name: "aws-s3",
-				Kind: "aws.s3",
+				Name: "target-aws-s3",
+				Kind: "target.aws.s3",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
 					"aws_secret_key": dat.awsSecretKey,
@@ -119,8 +119,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "init - no downloader",
 			cfg: config.Spec{
-				Name: "aws-s3",
-				Kind: "aws.s3",
+				Name: "target-aws-s3",
+				Kind: "target.aws.s3",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
 					"aws_secret_key": dat.awsSecretKey,
@@ -135,8 +135,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "init ",
 			cfg: config.Spec{
-				Name: "aws-s3",
-				Kind: "aws.s3",
+				Name: "target-aws-s3",
+				Kind: "target.aws.s3",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
 					"aws_secret_key": dat.awsSecretKey,
@@ -151,8 +151,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "init - missing secret key",
 			cfg: config.Spec{
-				Name: "aws-s3",
-				Kind: "aws.s3",
+				Name: "target-aws-s3",
+				Kind: "target.aws.s3",
 				Properties: map[string]string{
 					"aws_key": dat.awsKey,
 					"region":  dat.region,
@@ -164,8 +164,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "init - missing key",
 			cfg: config.Spec{
-				Name: "aws-s3",
-				Kind: "aws.s3",
+				Name: "target-aws-s3",
+				Kind: "target.aws.s3",
 				Properties: map[string]string{
 					"aws_secret_key": dat.awsSecretKey,
 					"region":         dat.region,
@@ -208,8 +208,8 @@ func TestClient_List_Buckets(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws-s3",
-		Kind: "aws.s3",
+		Name: "target-aws-s3",
+		Kind: "target.aws.s3",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -254,8 +254,8 @@ func TestClient_List_Bucket_Items(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws-s3",
-		Kind: "aws.s3",
+		Name: "target-aws-s3",
+		Kind: "target.aws.s3",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -307,8 +307,8 @@ func TestClient_Create_Bucket(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws-s3",
-		Kind: "aws.s3",
+		Name: "target-aws-s3",
+		Kind: "target.aws.s3",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -368,8 +368,8 @@ func TestClient_Upload_Item(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws-s3",
-		Kind: "aws.s3",
+		Name: "target-aws-s3",
+		Kind: "target.aws.s3",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -452,8 +452,8 @@ func TestClient_Get_Item(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws-s3",
-		Kind: "aws.s3",
+		Name: "target-aws-s3",
+		Kind: "target.aws.s3",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -539,8 +539,8 @@ func TestClient_Delete_Item(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws-s3",
-		Kind: "aws.s3",
+		Name: "target-aws-s3",
+		Kind: "target.aws.s3",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -613,8 +613,8 @@ func TestClient_Delete_All_Items(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws-s3",
-		Kind: "aws.s3",
+		Name: "target-aws-s3",
+		Kind: "target.aws.s3",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -667,8 +667,8 @@ func TestClient_Copy_Items(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws-s3",
-		Kind: "aws.s3",
+		Name: "target-aws-s3",
+		Kind: "target.aws.s3",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -725,8 +725,8 @@ func TestClient_Delete_Bucket(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws-s3",
-		Kind: "aws.s3",
+		Name: "target-aws-s3",
+		Kind: "target.aws.s3",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,

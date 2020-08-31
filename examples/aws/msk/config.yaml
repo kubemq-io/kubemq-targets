@@ -1,0 +1,22 @@
+bindings:
+  - name: kubemq-query-msk
+    source:
+      kind: source.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-msk-connector"
+        auth_token: ""
+        channel: "query.msk"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.aws.msk
+      name: msk-stream
+      properties:
+        brokers: "localhost:9092"
+        topic: "TestTopic"

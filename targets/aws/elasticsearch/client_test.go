@@ -92,8 +92,8 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "aws-elasticsearch",
-				Kind: "aws.elasticsearch",
+				Name: "target-aws-elasticsearch",
+				Kind: "target.aws.elasticsearch",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
 					"aws_secret_key": dat.awsSecretKey,
@@ -103,8 +103,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "init - missing key",
 			cfg: config.Spec{
-				Name: "aws-elasticsearch",
-				Kind: "aws.elasticsearch",
+				Name: "target-aws-elasticsearch",
+				Kind: "target.aws.elasticsearch",
 				Properties: map[string]string{
 					"aws_secret_key": dat.awsSecretKey,
 				},
@@ -113,8 +113,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "init - missing secret key",
 			cfg: config.Spec{
-				Name: "aws-elasticsearch",
-				Kind: "aws.elasticsearch",
+				Name: "target-aws-elasticsearch",
+				Kind: "target.aws.elasticsearch",
 				Properties: map[string]string{
 					"aws_key": dat.awsKey,
 				},
@@ -144,8 +144,8 @@ func TestClient_Do(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws-elasticsearch",
-		Kind: "aws.elasticsearch",
+		Name: "target-aws-elasticsearch",
+		Kind: "target.aws.elasticsearch",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
