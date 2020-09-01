@@ -69,6 +69,7 @@ func TestClient_Init(t *testing.T) {
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
 					"aws_secret_key": dat.awsSecretKey,
+					"token": dat.token,
 					"region":         dat.region,
 					"max_retries":    "0",
 					"max_receive":    "10",
@@ -85,6 +86,7 @@ func TestClient_Init(t *testing.T) {
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
 					"aws_secret_key": dat.awsSecretKey,
+					"token": dat.token,
 					"region":         "",
 					"max_retries":    "0",
 				},
@@ -98,6 +100,7 @@ func TestClient_Init(t *testing.T) {
 				Properties: map[string]string{
 					"aws_key":        "",
 					"aws_secret_key": dat.awsSecretKey,
+					"token": dat.token,
 					"queue":          dat.sqsQueue,
 					"region":         dat.region,
 					"max_retries":    "0",
@@ -113,6 +116,7 @@ func TestClient_Init(t *testing.T) {
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
 					"aws_secret_key": "",
+					"token": dat.token,
 					"region":         dat.region,
 					"max_retries":    "0",
 				},
