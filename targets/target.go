@@ -3,6 +3,7 @@ package targets
 import (
 	"context"
 	"fmt"
+	"github.com/kubemq-hub/kubemq-targets/targets/aws/amazonmq"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/athena"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/cloudwatch/events"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/cloudwatch/logs"
@@ -174,6 +175,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 		return target, nil
 	case "target.aws.msk":
 		target := msk.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.aws.amazonmq":
+		target := amazonmq.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}

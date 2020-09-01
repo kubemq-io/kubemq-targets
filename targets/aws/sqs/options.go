@@ -26,12 +26,12 @@ type options struct {
 func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
-	o.sqsKey, err = cfg.MustParseString("sqs_key")
+	o.sqsKey, err = cfg.MustParseString("aws_key")
 	if err != nil {
 		return options{}, fmt.Errorf("error sqsKey , %w", err)
 	}
 
-	o.sqsSecretKey, err = cfg.MustParseString("sqs_secret_key")
+	o.sqsSecretKey, err = cfg.MustParseString("aws_secret_key")
 	if err != nil {
 		return options{}, fmt.Errorf("error sqsSecretKey , %w", err)
 	}

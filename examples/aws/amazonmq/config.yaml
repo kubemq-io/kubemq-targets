@@ -1,0 +1,23 @@
+bindings:
+  - name: kubemq-query-amazonmq
+    source:
+      kind: source.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-amazonmq-connector"
+        auth_token: ""
+        channel: "query.amazonmq"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.aws.amazonmq
+      name: target-aws-amazonmq
+      properties:
+        host: "localhost:61613"
+        username: "admin"
+        password: "admin"
