@@ -6,16 +6,56 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"os"
+	"io/ioutil"
 	"testing"
 	"time"
 )
 
+type testStructure struct {
+	awsKey       string
+	awsSecretKey string
+	region       string
+	token        string
+
+	sqsQueue   string
+	deadLetter string
+}
+
+func getTestStructure() (*testStructure, error) {
+	t := &testStructure{}
+	dat, err := ioutil.ReadFile("./../../../credentials/aws/awsKey.txt")
+	if err != nil {
+		return nil, err
+	}
+	t.awsKey = string(dat)
+	dat, err = ioutil.ReadFile("./../../../credentials/aws/awsSecretKey.txt")
+	if err != nil {
+		return nil, err
+	}
+	t.awsSecretKey = string(dat)
+	dat, err = ioutil.ReadFile("./../../../credentials/aws/region.txt")
+	if err != nil {
+		return nil, err
+	}
+	t.region = string(dat)
+
+	dat, err = ioutil.ReadFile("./../../../credentials/aws/sqs/queue.txt")
+	if err != nil {
+		return nil, err
+	}
+	t.sqsQueue = string(dat)
+
+	dat, err = ioutil.ReadFile("./../../../credentials/aws/sqs/deadLetter.txt")
+	if err != nil {
+		return nil, err
+	}
+	t.deadLetter = string(dat)
+	return t, nil
+}
+
 func TestClient_Init(t *testing.T) {
-	aswKey := os.Getenv("AWS_ACCESS_KEY_ID")
-	awsSecret := os.Getenv("AWS_SECRET_ACCESS_KEY")
-	sqsQueue := os.Getenv("SQS_QUEUE_NAME")
-	deadLetter := os.Getenv("DEAD_LETTER")
+	dat, err := getTestStructure()
+	require.NoError(t, err)
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -27,14 +67,12 @@ func TestClient_Init(t *testing.T) {
 				Name: "target-aws-sqs",
 				Kind: "target.aws.sqs",
 				Properties: map[string]string{
-					"sqs_key":                     aswKey,
-					"sqs_secret_key":              awsSecret,
-					"queue":                       sqsQueue,
-					"region":                      "us-west-2",
-					"max_retries":                 "0",
-					"max_receive":                 "10",
-					"dead_letter":                 deadLetter,
-					"max_retries_backoff_seconds": "0",
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"region":         dat.region,
+					"max_retries":    "0",
+					"max_receive":    "10",
+					"dead_letter":    dat.deadLetter,
 				},
 			},
 			wantErr: false,
@@ -45,59 +83,38 @@ func TestClient_Init(t *testing.T) {
 				Name: "target-aws-sqs",
 				Kind: "target.aws.sqs",
 				Properties: map[string]string{
-					"sqs_key":                     aswKey,
-					"sqs_secret_key":              awsSecret,
-					"queue":                       sqsQueue,
-					"region":                      "",
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
-				},
-			},
-			wantErr: true,
-		},
-		{
-			name: "init - error no queue",
-			cfg: config.Spec{
-				Name: "target-aws-sqs",
-				Kind: "target.aws.sqs",
-				Properties: map[string]string{
-					"sqs_key":                     aswKey,
-					"sqs_secret_key":              awsSecret,
-					"queue":                       "",
-					"region":                      "us-west-2",
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"region":         "",
+					"max_retries":    "0",
 				},
 			},
 			wantErr: true,
 		}, {
-			name: "init - error no sqs_key",
+			name: "init - error no aws_key",
 			cfg: config.Spec{
 				Name: "target-aws-sqs",
 				Kind: "target.aws.sqs",
 				Properties: map[string]string{
-					"sqs_key":                     "",
-					"sqs_secret_key":              awsSecret,
-					"queue":                       sqsQueue,
-					"region":                      "us-west-2",
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
+					"aws_key":        "",
+					"aws_secret_key": dat.awsSecretKey,
+					"queue":          dat.sqsQueue,
+					"region":         dat.region,
+					"max_retries":    "0",
 				},
 			},
 			wantErr: true,
 		},
 		{
-			name: "init -error no sqs_secret_key",
+			name: "init -error no aws_secret_key",
 			cfg: config.Spec{
 				Name: "target-aws-sqs",
 				Kind: "target.aws.sqs",
 				Properties: map[string]string{
-					"sqs_key":                     aswKey,
-					"sqs_secret_key":              "",
-					"queue":                       sqsQueue,
-					"region":                      "us-west-2",
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": "",
+					"region":         dat.region,
+					"max_retries":    "0",
 				},
 			},
 			wantErr: true,
@@ -119,11 +136,11 @@ func TestClient_Init(t *testing.T) {
 }
 
 func TestClient_Do(t *testing.T) {
-	aswKey := os.Getenv("AWS_ACCESS_KEY_ID")
-	awsSecret := os.Getenv("AWS_SECRET_ACCESS_KEY")
-	sqsQueue := os.Getenv("SQS_QUEUE_NAME")
+	dat, err := getTestStructure()
+	require.NoError(t, err)
 
-	validBody, _ := json.Marshal("valid body")
+	validBody, err := json.Marshal("valid body")
+	require.NoError(t, err)
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -134,22 +151,20 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid sqs sent",
 			cfg: config.Spec{
-				Name: "target.sqs",
-				Kind: "target.sqs",
+				Name: "target-aws-sqs",
+				Kind: "target.aws.sqs",
 				Properties: map[string]string{
-					"sqs_key":                     aswKey,
-					"sqs_secret_key":              awsSecret,
-					"region":                      "us-west-2",
-					"max_receive":                 "10",
-					"dead_letter":                 "dead_letter",
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
-					"retries":                     "0",
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"region":         dat.region,
+					"max_retries":    "0",
+
+					"retries": "0",
 				},
 			},
 			request: types.NewRequest().
 				SetMetadataKeyValue("delay", "0").
-				SetMetadataKeyValue("queue", sqsQueue).
+				SetMetadataKeyValue("queue", dat.sqsQueue).
 				SetData(validBody),
 			want: types.NewResponse().
 				SetData(validBody),
@@ -159,23 +174,20 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid sqs sent - tags",
 			cfg: config.Spec{
-				Name: "target.sqs",
-				Kind: "target.sqs",
+				Name: "target-aws-sqs",
+				Kind: "target.aws.sqs",
 				Properties: map[string]string{
-					"sqs_key":                     aswKey,
-					"sqs_secret_key":              awsSecret,
-					"region":                      "us-west-2",
-					"max_receive":                 "10",
-					"dead_letter":                 "dead_letter",
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
-					"retries":                     "0",
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"region":         dat.region,
+					"max_retries":    "0",
+					"retries": "0",
 				},
 			},
 			request: types.NewRequest().
 				SetMetadataKeyValue("tags", `{"tag-1":"test","tag-2":"test2"}`).
 				SetMetadataKeyValue("delay", "0").
-				SetMetadataKeyValue("queue", sqsQueue).
+				SetMetadataKeyValue("queue", dat.sqsQueue).
 				SetData(validBody),
 			want: types.NewResponse().
 				SetData(validBody),
@@ -185,23 +197,20 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid sqs sent",
 			cfg: config.Spec{
-				Name: "target.sqs",
-				Kind: "target.sqs",
+				Name: "target-aws-sqs",
+				Kind: "target.aws.sqs",
 				Properties: map[string]string{
-					"sqs_key":                     aswKey,
-					"sqs_secret_key":              awsSecret,
-					"region":                      "us-west-2",
-					"max_receive":                 "10",
-					"dead_letter":                 "dead_letter",
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
-					"retries":                     "0",
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"region":         dat.region,
+					"max_retries":    "0",
+					"retries": "0",
 				},
 			},
 			request: types.NewRequest().
 				SetMetadataKeyValue("tags", `{"tag-1":"test","tag-2":"test2"}`).
 				SetMetadataKeyValue("delay", "0").
-				SetMetadataKeyValue("queue", sqsQueue).
+				SetMetadataKeyValue("queue", dat.sqsQueue).
 				SetData(validBody),
 			want: types.NewResponse().
 				SetData(validBody),
@@ -210,23 +219,20 @@ func TestClient_Do(t *testing.T) {
 		}, {
 			name: "incorrect signature",
 			cfg: config.Spec{
-				Name: "target.sqs",
-				Kind: "target.sqs",
+				Name: "target-aws-sqs",
+				Kind: "target.aws.sqs",
 				Properties: map[string]string{
-					"sqs_key":                     "Incorrect",
-					"sqs_secret_key":              awsSecret,
-					"region":                      "us-west-2",
-					"max_receive":                 "10",
-					"dead_letter":                 "dead_letter",
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
-					"retries":                     "0",
+					"aws_key":        "Incorrect",
+					"aws_secret_key": dat.awsSecretKey,
+					"region":         dat.region,
+					"max_retries":    "0",
+					"retries":        "0",
 				},
 			},
 			request: types.NewRequest().
 				SetMetadataKeyValue("tags", `{"tag-1":"test","tag-2":"test2"}`).
 				SetMetadataKeyValue("delay", "0").
-				SetMetadataKeyValue("queue", sqsQueue).
+				SetMetadataKeyValue("queue", dat.sqsQueue).
 				SetData(validBody),
 			want: nil,
 
@@ -234,17 +240,14 @@ func TestClient_Do(t *testing.T) {
 		}, {
 			name: "incorrect queue",
 			cfg: config.Spec{
-				Name: "target.sqs",
-				Kind: "target.sqs",
+				Name: "target-aws-sqs",
+				Kind: "target.aws.sqs",
 				Properties: map[string]string{
-					"sqs_key":                     aswKey,
-					"sqs_secret_key":              awsSecret,
-					"region":                      "us-west-2",
-					"max_receive":                 "10",
-					"dead_letter":                 "dead_letter",
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
-					"retries":                     "1",
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"region":         dat.region,
+					"max_retries":    "0",
+					"retries": "1",
 				},
 			},
 			request: types.NewRequest().
@@ -275,10 +278,8 @@ func TestClient_Do(t *testing.T) {
 }
 
 func TestClient_SetQueueAttributes(t *testing.T) {
-	aswKey := os.Getenv("AWS_ACCESS_KEY_ID")
-	awsSecret := os.Getenv("AWS_SECRET_ACCESS_KEY")
-	sqsQueue := os.Getenv("SQS_QUEUE_NAME")
-	deadLetter := os.Getenv("DEAD_LETTER_QUEUE")
+	dat, err := getTestStructure()
+	require.NoError(t, err)
 	tests := []struct {
 		name     string
 		cfg      config.Spec
@@ -289,37 +290,35 @@ func TestClient_SetQueueAttributes(t *testing.T) {
 		{
 			name: "valid set queue attribute",
 			cfg: config.Spec{
-				Name: "target.sqs",
-				Kind: "target.sqs",
+				Name: "target-aws-sqs",
+				Kind: "target.aws.sqs",
 				Properties: map[string]string{
-					"sqs_key":                     aswKey,
-					"sqs_secret_key":              awsSecret,
-					"region":                      "us-west-2",
-					"max_receive":                 "10",
-					"dead_letter":                 deadLetter,
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
-					"retries":                     "0",
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"region":         dat.region,
+					"max_receive":    "10",
+					"dead_letter":    dat.deadLetter,
+					"max_retries":    "0",
+					"retries": "0",
 				},
 			},
-			queueURL: sqsQueue,
+			queueURL: dat.sqsQueue,
 			wantErr:  false,
 		}, {
 			name: "in-valid set queue attribute",
 			cfg: config.Spec{
-				Name: "target.sqs",
-				Kind: "target.sqs",
+				Name: "target-aws-sqs",
+				Kind: "target.aws.sqs",
 				Properties: map[string]string{
-					"sqs_key":                     aswKey,
-					"sqs_secret_key":              awsSecret,
-					"region":                      "us-west-2",
-					"dead_letter":                 deadLetter,
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
-					"retries":                     "0",
+					"aws_key":        dat.awsKey,
+					"aws_secret_key": dat.awsSecretKey,
+					"region":         dat.region,
+					"dead_letter":    dat.deadLetter,
+					"max_retries":    "0",
+					"retries": "0",
 				},
 			},
-			queueURL: sqsQueue,
+			queueURL: dat.sqsQueue,
 			wantErr:  true,
 		},
 	}
@@ -330,7 +329,7 @@ func TestClient_SetQueueAttributes(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			require.NoError(t, err)
-			err = c.SetQueueAttributes(ctx, sqsQueue)
+			err = c.SetQueueAttributes(ctx, dat.sqsQueue)
 			if tt.wantErr {
 				require.Error(t, err)
 				return

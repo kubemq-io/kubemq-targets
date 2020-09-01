@@ -13,12 +13,15 @@ The following required to run the aws-sqs target connector:
 
 sqs target connector configuration properties:
 
-| Properties Key | Required | Description                                | Example                     |
-|:---------------|:---------|:-------------------------------------------|:----------------------------|
-| aws_key        | yes      | aws key                                    | aws key supplied by aws         |
-| aws_secret_key | yes      | aws secret key                             | aws secret key supplied by aws  |
-| region         | yes      | region                                     | aws region                      |
-| token          | no       | aws token ("default" empty string          | aws token                       |
+| Properties Key | Required | Description                                                       | Example                     |
+|:---------------|:---------|:------------------------------------------------------------------|:----------------------------|
+| aws_key        | yes      | aws key                                                           | aws key supplied by aws         |
+| aws_secret_key | yes      | aws secret key                                                    | aws secret key supplied by aws  |
+| region         | yes      | region                                                            | aws region                      |
+| retries        | no       | number of retries on send                                         | 1 (default 0)                   |
+| token          | no       | aws token ("default" empty string                                 | "my token"                      |
+| dead_letter    | no       | dead letter queue name (only relevant to SetQueueAttributes)      | "my_dead_letter_queue"          |
+| max_receive    | no       | max receive of queue (only relevant to SetQueueAttributes)        | "0"                      |
 
 
 Example:
@@ -47,21 +50,21 @@ bindings:
         aws_key: "id"
         aws_secret_key: 'json'
         region:  "instance"
-        max_retries: "0"
-        max_receive: '10'
-        dead_letter:  "my_dead_letter_queue"
-        max_retries_backoff_seconds: "0"
+        retries: "1"
 ```
 
 ## Usage
 
-### Do Topics
+### Send Message
 
-List Topics:
+Send Message:
 
 | Metadata Key      | Required | Description                             | Possible values                            |
 |:------------------|:---------|:----------------------------------------|:-------------------------------------------|
-| method            | yes      | type of method                          | "list_topics"                     |
+| queue             | yes      | name of queue to send                   | "my_queue"                           |
+| delay             | yes      | message delay                           | "0"                                  |
+| tags              | no       | message tags (key value string string)  | "{"tag-1":"test","tag-2":"test2"}"   |
+| data              | yes      | type of method                          | "dmFsaWQgYm9keQ=="                        |
 
 
 Example:
@@ -69,9 +72,13 @@ Example:
 ```json
 {
   "metadata": {
-    "method": "list_topics"
+    "queue": "my_queue",
+    "delay": "0",
+    "tags": "{\"tag-1\":\"test\",\"tag-2\":\"test2\"}"
   },
-  "data": null
+  "data": "dmFsaWQgYm9keQ=="
 }
 ```
+
+
 
