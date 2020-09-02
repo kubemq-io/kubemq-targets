@@ -71,7 +71,7 @@ A list of supported targets is below.
 
 #### Google Cloud Platform (GCP)
 
-| Category   | Target                                                              | Kind                       | Configuration                              | Exmaple                                       |
+| Category   | Target                                                              | Kind                       | Configuration                              | Example                                       |
 |:-----------|:--------------------------------------------------------------------|:---------------------------|:-------------------------------------------|:----------------------------------------------|
 | Cache      |                                                                     |                            |                                            |                                               |
 |            | [Redis](https://cloud.google.com/memorystore)                       | target.gcp.cache.redis     | [Usage](targets/gcp/memorystore/redis)     | [Example](examples/gcp/memorystore/redis)     |
@@ -96,37 +96,35 @@ A list of supported targets is below.
 
 #### Amazon Web Service (AWS)
 
-(Work in Progress)
 
-| Category   | Target         | Kind  | Configuration | Exmaple |
-|:-----------|:---------------|:------|:--------------|:--------|
-| Cache      |                |       |               |         |
-|            | Elastic Cache  |       |               |        |
-| Stores/db  |                |       |               |         |
-|            | Aurora         |       |               |         |
-|            | Athena         |       |               |         |
-|            | DocumentDB     |       |               |         |
-|            | DynamoDB       |       |               |         |
-|            | Elastic Search |       |               |         |
-|            | KeySpaces      |       |               |         |
-|            | MariaDB        |       |               |         |
-|            | MSSql          |       |               |         |
-|            | MySQL          |       |               |         |
-|            | Postgres       |       |               |         |
-|            | RedShift       |       |               |         |
-| Messaging  |                |       |               |         |
-|            | AmazonMQ       |       |               |         |
-|            | Kafka          |       |               |         |
-|            | Kinesis        |       |               |         |
-|            | SQS            |       |               |         |
-|            | SNS            |       |               |         |
-| Storage    |                |       |               |         |
-|            | s3             |       |               |         |
-| Serverless |                |       |               |         |
-|            | lambda         |       |               |         |
-| Other      |                |       |               |         |
-|            | Cloud Watch    |       |               |         |
-|            |                |       |               |         |
+| Category   | Target                                                        | Kind                               | Configuration                                               | Example                                      |
+|:-----------|:--------------------------------------------------------------|:-----------------------------------|:------------------------------------------------------------|:---------------------------------------------|
+| Stores/db  |                                                               |                                    |                                                             |                                              |
+|            | [Athena](https://docs.aws.amazon.com/athena)                  | target.aws.athena                  | [Usage](targets/aws/athena)                                 | [Example](examples/aws/athena)               |
+|            | [DynamoDB](https://aws.amazon.com/dynamodb/)                  | target.aws.dynamodb                | [Usage](targets/aws/dynamodb)                               | [Example](examples/aws/dynamodb)             |
+|            | [Elasticsearch](https://aws.amazon.com/elasticsearch-service/)| target.aws.elasticsearch           | [Usage](targets/aws/elasticsearch)                          | [Example](examples/aws/elasticsearch)        |
+|            | [KeySpaces](https://docs.aws.amazon.com/keyspaces)            | target.aws.keyspaces               | [Usage](targets/aws/keyspaces)                              | [Example](examples/aws/keyspaces)            |
+|            | [MariaDB](https://aws.amazon.com/rds/mariadb/)                | target.aws.rds.mariadb             | [Usage](targets/aws/rds/mariadb)                            | [Example](examples/aws/rds/mariadb)          |
+|            | [MSSql](https://aws.amazon.com/rds/sqlserver/)                | target.aws.rds.mssql               | [Usage](targets/aws/rds/mssql)                              | [Example](examples/aws/rds/mssql)            |
+|            | [MySQL](https://aws.amazon.com/rds/mysql/)                    | target.aws.rds.mysql               | [Usage](targets/aws/rds/mysql)                              | [Example](examples/aws/rds/mysql)            |       
+|            | [Postgres](https://aws.amazon.com/rds/postgresql/)            | target.aws.rds.postgres            | [Usage](targets/aws/rds/postgres)                           | [Example](examples/aws/rds/postgres)         |     
+|            | [RedShift](https://aws.amazon.com/redshift/)                  | target.aws.rds.redshift            | [Usage](targets/aws/rds/redshift)                           | [Example](examples/aws/rds/redshift)         |
+|            | [RedShiftSVC](https://aws.amazon.com/redshift/)               | target.aws.rds.redshift.service    | [Usage](targets/aws/redshift)                               | [Example](examples/aws/redshift)             |
+| Messaging  |                                                               |                                    |                                                             |                                              |
+|            | [AmazonMQ](https://aws.amazon.com/amazon-mq/)                 | target.aws.amazonmq                | [Usage](targets/aws/amazonmq)                               | [Example](examples/aws/amazonmq)             |
+|            | [msk](https://aws.amazon.com/msk/)                            | target.aws.msk                     | [Usage](targets/aws/msk)                                    | [Example](examples/aws/msk)                  |       
+|            | [Kinesis](https://aws.amazon.com/kinesis/)                    | target.aws.kinesis                 | [Usage](targets/aws/kinesis)                                | [Example](examples/aws/kinesis)              |  
+|            | [SQS](https://aws.amazon.com/sqs/)                            | target.aws.sqs                     | [Usage](targets/aws/sqs)                                    | [Example](examples/aws/sqs)                  |         
+|            | [SNS](https://aws.amazon.com/sns/)                            | target.aws.sns                     | [Usage](targets/aws/sns)                                    | [Example](examples/aws/sns)                  |       
+| Storage    |                                                               |                                    |                                                             |                                              |
+|            | [s3](https://aws.amazon.com/s3/)                              | target.aws.s3                      | [Usage](targets/aws/s3)                                     | [Example](examples/aws/s3)                   |
+| Serverless |                                                               |                                    |                                                             |                                              |
+|            | [lambda](https://aws.amazon.com/lambda/)                      | target.aws.lambda                  | [Usage](targets/aws/lambda)                                 | [Example](examples/aws/lambda)               | 
+| Other      |                                                               |                                    |                                                             |                                              |
+|            | [Cloud Watch](https://aws.amazon.com/cloudwatch/)             | target.aws.cloudwatch.logs         | [Usage](targets/aws/cloudwatch/logs)                        | [Example](examples/aws/cloudwatch/logs)      |
+|            | [Cloud Watch](https://aws.amazon.com/cloudwatch/)             | target.aws.cloudwatch.events       | [Usage](targets/aws/cloudwatch/events)                      | [Example](examples/aws/cloudwatch/events)    |
+|            | [Cloud Watch](https://aws.amazon.com/cloudwatch/)             | target.aws.cloudwatch.metrics      | [Usage](targets/aws/cloudwatch/metrics)                     | [Example](examples/aws/cloudwatch/metrics)   |
+|            |                                                               |                                    |                                                             |                                              |
 
 
 #### Microsoft Azure
@@ -164,7 +162,7 @@ A request is an object that sends to a designated target with metadata and data 
 | metadata | string, string object      | contains metadata information for action           |
 | data  | bytes array      | contains raw data for action |
 
-##### Exmaple
+##### Example
 
 Request to get a data from Redis cache for the key "log"
 ```json
