@@ -50,6 +50,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 
 	m.table = meta.ParseString("table", DefaultTable)
 	m.keyspace = meta.ParseString("keyspace", DefaultKeyspace)
+
 	return m, nil
 }
 func (m metadata) keyspaceTable() string {

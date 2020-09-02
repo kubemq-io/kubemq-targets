@@ -45,6 +45,8 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.cluster.Port = c.opts.port
 	c.cluster.ProtoVersion = c.opts.protoVersion
 	c.cluster.Consistency = c.opts.consistency
+	c.cluster.Timeout = c.opts.timeoutSeconds
+	c.cluster.ConnectTimeout = c.opts.connectTimeoutSeconds
 	c.cluster.SslOpts = &gocql.SslOptions{
 		CaPath: "tls.pem",
 	}
