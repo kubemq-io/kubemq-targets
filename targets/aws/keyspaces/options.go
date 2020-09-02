@@ -52,7 +52,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 	}
 	o.username = cfg.ParseString("username", "")
 	o.password = cfg.ParseString("password", "")
-	o.consistency, err = getConsistency(cfg.ParseString("consistency", "All"))
+	o.consistency, err = getConsistency(cfg.ParseString("consistency", "local_quorum"))
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing consistency value, %w", err)
 	}

@@ -131,7 +131,7 @@ func TestClient_putMetrics(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "valid put ",
+			name: "valid put",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "put_metrics").
 				SetMetadataKeyValue("namespace", dat.namespace).
@@ -139,7 +139,7 @@ func TestClient_putMetrics(t *testing.T) {
 
 			wantErr: false,
 		},{
-			name: "invalid put - missing namespace  ",
+			name: "invalid put - missing namespace",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "put_metrics").
 				SetData(b),

@@ -10,6 +10,7 @@ const (
 	DefaultDelay      = 10
 	DefaultMaxReceive = 0
 	DefaultToken      = ""
+	DefaultDeadLetter = ""
 )
 
 type options struct {
@@ -45,7 +46,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 
 	o.defaultDelay = DefaultDelay
 	o.maxReceiveCount = cfg.ParseInt("max_receive", DefaultMaxReceive)
-	o.deadLetterQueue = cfg.ParseString("dead_letter", "")
+	o.deadLetterQueue = cfg.ParseString("dead_letter", DefaultDeadLetter)
 	o.token = cfg.ParseString("token", DefaultToken)
 
 	return o, nil

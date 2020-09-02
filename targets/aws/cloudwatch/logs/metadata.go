@@ -7,6 +7,7 @@ import (
 
 const (
 	defaultLimit = 100
+	defaultSequenceToken = ""
 )
 
 type metadata struct {
@@ -54,10 +55,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 				return metadata{}, fmt.Errorf("error parsing log_stream_name, %w", err)
 			}
 			if m.method == "put_log_event" {
-				m.sequenceToken = meta.ParseString("sequence_token", "")
-				if err != nil {
-					return metadata{}, fmt.Errorf("error parsing sequence_token, %w", err)
-				}
+				m.sequenceToken = meta.ParseString("sequence_token", defaultSequenceToken)
 			}
 		}
 	}

@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
-	"fmt"
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -70,7 +69,7 @@ func (c *Client) putTarget(ctx context.Context, meta metadata, data []byte) (*ty
 	var m map[string]string
 	err := json.Unmarshal(data, &m)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse Targets ,please verify data is map[string]string ,strng:Arn and string:Id")
+		return nil, errors.New("failed to parse Targets ,please verify data is map[string]string ,string:Arn and string:Id")
 	}
 	var targets []*cloudwatchevents.Target
 	for k, v := range m {
@@ -97,7 +96,7 @@ func (c *Client) sendEvent(ctx context.Context, meta metadata, data []byte) (*ty
 	if data != nil {
 		err := json.Unmarshal(data, &s)
 		if err != nil {
-			return nil, fmt.Errorf("failed to parse Resources ,please verify data is a valid []*string of RESOURCE_ARN ")
+			return nil, errors.New("failed to parse Resources ,please verify data is a valid []*string of RESOURCE_ARN ")
 		}
 	}
 	res, err := c.client.PutEventsWithContext(ctx, &cloudwatchevents.PutEventsInput{
@@ -114,9 +113,6 @@ func (c *Client) sendEvent(ctx context.Context, meta metadata, data []byte) (*ty
 		return nil, err
 	}
 	b, err := json.Marshal(res)
-	if err != nil {
-		return nil, err
-	}
 	if err != nil {
 		return nil, err
 	}

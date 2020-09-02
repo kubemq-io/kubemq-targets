@@ -11,7 +11,7 @@ The following required to run the aws-cloudwatch-events target connector:
 
 ## Configuration
 
-sns target connector configuration properties:
+cloudwatch-events target connector configuration properties:
 
 | Properties Key | Required | Description                                | Example                     |
 |:---------------|:---------|:-------------------------------------------|:----------------------------|

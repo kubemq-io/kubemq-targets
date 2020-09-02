@@ -11,7 +11,7 @@ The following required to run the aws-cloudwatch-logs target connector:
 
 ## Configuration
 
-sns target connector configuration properties:
+cloudwatch-logs target connector configuration properties:
 
 | Properties Key | Required | Description                                | Example                     |
 |:---------------|:---------|:-------------------------------------------|:----------------------------|

@@ -5,6 +5,12 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
+const (
+	DefaultKey = ""
+	DefaultTable = ""
+	DefaultKeyspace = ""
+)
+
 var methodsMap = map[string]string{
 	"get":    "get",
 	"set":    "set",
@@ -36,14 +42,14 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		return metadata{}, fmt.Errorf("error parsing method, %w", err)
 	}
 
-	m.key = meta.ParseString("key", "")
+	m.key = meta.ParseString("key", DefaultKey)
 	m.consistency, err = meta.ParseStringMap("consistency", consistencyMap)
 	if err != nil {
 		return metadata{}, fmt.Errorf("error on parsing consistency, %w", err)
 	}
 
-	m.table = meta.ParseString("table", "")
-	m.keyspace = meta.ParseString("keyspace", "")
+	m.table = meta.ParseString("table", DefaultTable)
+	m.keyspace = meta.ParseString("keyspace", DefaultKeyspace)
 	return m, nil
 }
 func (m metadata) keyspaceTable() string {

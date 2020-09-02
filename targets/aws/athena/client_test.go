@@ -94,7 +94,7 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: false,
 		}, {
-			name: "init - missing key",
+			name: "init - missing aws key",
 			cfg: config.Spec{
 				Name: "target-aws-athena",
 				Kind: "target.aws.athena",
@@ -286,7 +286,7 @@ func TestClient_Query(t *testing.T) {
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "query").
 				SetMetadataKeyValue("db", dat.db).
-				SetMetadataKeyValue("catalog", dat.outputLocation).
+				SetMetadataKeyValue("output_location", dat.outputLocation).
 				SetMetadataKeyValue("query", dat.query),
 			wantErr: true,
 		},

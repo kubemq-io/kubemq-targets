@@ -11,7 +11,7 @@ The following required to run the aws-elasticsearch target connector:
 
 ## Configuration
 
-sns target connector configuration properties:
+aws-elasticsearch target connector configuration properties:
 
 | Properties Key | Required | Description                                | Example                     |
 |:---------------|:---------|:-------------------------------------------|:----------------------------|

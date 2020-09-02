@@ -124,7 +124,7 @@ func (c *Client) putLogEvent(ctx context.Context, meta metadata, data []byte) (*
 	var m map[int64]string
 	err := json.Unmarshal(data, &m)
 	if err != nil {
-		return nil, fmt.Errorf("failed to parse messages ,please verify data is map[int64]string int64:timestamp and string: message")
+		return nil, errors.New("failed to parse messages ,please verify data is map[int64]string int64:timestamp and string: message")
 	}
 	var inputLogs []*cloudwatchlogs.InputLogEvent
 	for k, v := range m {

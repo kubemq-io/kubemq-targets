@@ -11,7 +11,7 @@ The following required to run the aws-cloudwatch-metrics target connector:
 
 ## Configuration
 
-sns target connector configuration properties:
+cloudwatch-metrics target connector configuration properties:
 
 | Properties Key | Required | Description                                | Example                     |
 |:---------------|:---------|:-------------------------------------------|:----------------------------|
