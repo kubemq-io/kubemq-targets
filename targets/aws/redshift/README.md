@@ -31,7 +31,7 @@ bindings:
       properties:
         host: "localhost"
         port: "50000"
-        client_id: "kubemq-query-aws-redshift-connector"
+        client_id: "kubemq-query-aws-redshift-connector-svc"
         auth_token: ""
         channel: "query.aws.redshift.service"
         group:   ""

@@ -88,7 +88,7 @@ func TestClient_Init(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "init ",
+			name: "init",
 			cfg: config.Spec{
 				Name: "aws-cloudwatch-events",
 				Kind: "aws.cloudwatch.events",

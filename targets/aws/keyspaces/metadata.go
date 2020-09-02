@@ -6,8 +6,8 @@ import (
 )
 
 const (
-	DefaultKey = ""
-	DefaultTable = ""
+	DefaultKey      = ""
+	DefaultTable    = ""
 	DefaultKeyspace = ""
 )
 
@@ -20,10 +20,10 @@ var methodsMap = map[string]string{
 }
 
 var consistencyMap = map[string]string{
-	"one":   "one",
-	"local_one": "local_one",
+	"one":          "one",
+	"local_one":    "local_one",
 	"local_quorum": "local_quorum",
-	"":         "",
+	"":             "",
 }
 
 type metadata struct {

@@ -10,6 +10,11 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
+const (
+	defaultKey     = ""
+	defaultHeaders = ""
+)
+
 type metadata struct {
 	Headers []kafka.RecordHeader
 	Key     []byte
@@ -18,11 +23,11 @@ type metadata struct {
 func parseMetadata(meta types.Metadata, opts options) (metadata, error) {
 	m := metadata{}
 	var err error
-	err = m.parseHeaders(meta.ParseString("headers", ""))
+	err = m.parseHeaders(meta.ParseString("headers", defaultHeaders))
 	if err != nil {
 		return metadata{}, fmt.Errorf("error parsing headers, %w", err)
 	}
-	k := meta.ParseString("key", "")
+	k := meta.ParseString("key", defaultKey)
 	err = m.parseKey(k)
 	if err != nil {
 		return metadata{}, fmt.Errorf("error parsing Key, %w", err)

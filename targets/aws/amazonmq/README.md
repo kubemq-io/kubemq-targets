@@ -11,6 +11,7 @@ The following are required to run the AmazonMQ target connector:
 
 
 - Please note the connector uses connection with stomp+ssl, when finishing handling messages need to call Close().
+
 ## Configuration
 
 AmazonMQ target connector configuration properties:

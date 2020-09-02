@@ -11,7 +11,7 @@ The following required to run the aws-lambda target connector:
 
 ## Configuration
 
-sns target connector configuration properties:
+lambda target connector configuration properties:
 
 | Properties Key | Required | Description                                | Example                     |
 |:---------------|:---------|:-------------------------------------------|:----------------------------|
