@@ -572,15 +572,6 @@ func TestClient_Delete_Item(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "invalid delete - item does not exists",
-			request: types.NewRequest().
-				SetMetadataKeyValue("method", "delete_item_from_bucket").
-				SetMetadataKeyValue("wait_for_completion", "true").
-				SetMetadataKeyValue("bucket_name", dat.testBucketName).
-				SetMetadataKeyValue("item_name", "fakeItemName"),
-			wantErr: true,
-		},
-		{
 			name: "invalid delete - missing bucketName",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete_item_from_bucket").
@@ -597,60 +588,6 @@ func TestClient_Delete_Item(t *testing.T) {
 
 			err = c.Init(ctx, cfg)
 			require.NoError(t, err)
-			got, err := c.Do(ctx, tt.request)
-			if tt.wantErr {
-				require.Error(t, err)
-				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
-				return
-			}
-			require.NoError(t, err)
-			require.NotNil(t, got)
-		})
-	}
-}
-
-func TestClient_Delete_All_Items(t *testing.T) {
-	dat, err := getTestStructure()
-	require.NoError(t, err)
-	cfg := config.Spec{
-		Name: "target-aws-s3",
-		Kind: "target.aws.s3",
-		Properties: map[string]string{
-			"aws_key":        dat.awsKey,
-			"aws_secret_key": dat.awsSecretKey,
-			"region":         dat.region,
-			"downloader":     "false",
-			"uploader":       "false",
-		},
-	}
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-	c := New()
-
-	err = c.Init(ctx, cfg)
-	require.NoError(t, err)
-	tests := []struct {
-		name    string
-		request *types.Request
-		wantErr bool
-	}{
-		{
-			name: "valid delete all items",
-			request: types.NewRequest().
-				SetMetadataKeyValue("method", "delete_all_items_from_bucket").
-				SetMetadataKeyValue("wait_for_completion", "true").
-				SetMetadataKeyValue("bucket_name", dat.testBucketName),
-			wantErr: false,
-		},
-		{
-			name: "invalid valid delete all items - missing bucket",
-			request: types.NewRequest().
-				SetMetadataKeyValue("method", "delete_all_items_from_bucket"),
-			wantErr: true,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
 			got, err := c.Do(ctx, tt.request)
 			if tt.wantErr {
 				require.Error(t, err)
@@ -720,6 +657,61 @@ func TestClient_Copy_Items(t *testing.T) {
 		})
 	}
 }
+
+func TestClient_Delete_All_Items(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
+	cfg := config.Spec{
+		Name: "target-aws-s3",
+		Kind: "target.aws.s3",
+		Properties: map[string]string{
+			"aws_key":        dat.awsKey,
+			"aws_secret_key": dat.awsSecretKey,
+			"region":         dat.region,
+			"downloader":     "false",
+			"uploader":       "false",
+		},
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	c := New()
+
+	err = c.Init(ctx, cfg)
+	require.NoError(t, err)
+	tests := []struct {
+		name    string
+		request *types.Request
+		wantErr bool
+	}{
+		{
+			name: "valid delete all items",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "delete_all_items_from_bucket").
+				SetMetadataKeyValue("wait_for_completion", "true").
+				SetMetadataKeyValue("bucket_name", dat.testBucketName),
+			wantErr: false,
+		},
+		{
+			name: "invalid valid delete all items - missing bucket",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "delete_all_items_from_bucket"),
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := c.Do(ctx, tt.request)
+			if tt.wantErr {
+				require.Error(t, err)
+				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
+				return
+			}
+			require.NoError(t, err)
+			require.NotNil(t, got)
+		})
+	}
+}
+
 
 func TestClient_Delete_Bucket(t *testing.T) {
 	dat, err := getTestStructure()
