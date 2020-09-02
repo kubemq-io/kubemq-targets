@@ -11,7 +11,7 @@ The following required to run the aws-dynamodb target connector:
 
 ## Configuration
 
-sns target connector configuration properties:
+athena target connector configuration properties:
 
 | Properties Key | Required | Description                                | Example                     |
 |:---------------|:---------|:-------------------------------------------|:----------------------------|

@@ -2,6 +2,7 @@ package keyspaces
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"github.com/gocql/gocql"
 	"github.com/kubemq-hub/kubemq-targets/config"
@@ -44,6 +45,8 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.cluster.Port = c.opts.port
 	c.cluster.ProtoVersion = c.opts.protoVersion
 	c.cluster.Consistency = c.opts.consistency
+	c.cluster.Timeout = c.opts.timeoutSeconds
+	c.cluster.ConnectTimeout = c.opts.connectTimeoutSeconds
 	c.cluster.SslOpts = &gocql.SslOptions{
 		CaPath: "tls.pem",
 	}
@@ -215,14 +218,14 @@ func (c *Client) Query(ctx context.Context, meta metadata, value []byte) (*types
 	}
 	query := string(value)
 	if query == "" {
-		return nil, fmt.Errorf("no query string found")
+		return nil, errors.New("no query string found")
 	}
 	results, err := session.Query(query).WithContext(ctx).Iter().SliceMap()
 	if err != nil {
 		return nil, err
 	}
 	if len(results) == 0 {
-		return nil, fmt.Errorf("no results for this query")
+		return nil, errors.New("no results for this query")
 
 	}
 	return types.NewResponse().

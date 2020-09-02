@@ -27,7 +27,6 @@ var methodsMap = map[string]string{
 	"list_buses":  "list_buses",
 }
 
-
 func parseMetadata(meta types.Metadata) (metadata, error) {
 	m := metadata{}
 	var err error

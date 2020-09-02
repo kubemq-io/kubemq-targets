@@ -5,6 +5,8 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/config"
 )
 
+
+
 type options struct {
 	host     string
 	username string
@@ -18,7 +20,13 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing host, %w", err)
 	}
-	o.username = cfg.ParseString("username", "")
-	o.password = cfg.ParseString("password", "")
+	o.username ,err= cfg.MustParseString("username")
+	if err != nil {
+		return options{}, fmt.Errorf("error parsing username , %w", err)
+	}
+	o.password ,err= cfg.MustParseString("password")
+	if err != nil {
+		return options{}, fmt.Errorf("error parsing password , %w", err)
+	}
 	return o, nil
 }

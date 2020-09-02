@@ -11,7 +11,7 @@ The following required to run the aws-dynamodb target connector:
 
 ## Configuration
 
-sns target connector configuration properties:
+dynamodb target connector configuration properties:
 
 | Properties Key | Required | Description                                | Example                     |
 |:---------------|:---------|:-------------------------------------------|:----------------------------|
@@ -78,7 +78,7 @@ Create Table:
 | Metadata Key      | Required | Description                             | Possible values                            |
 |:------------------|:---------|:----------------------------------------|:-------------------------------------------|
 | method            | yes      | type of method                          | "create_table"                     |
-| data              | yes      | dynamodb.CreateTableInput  as json      | "string"                     |
+| data              | yes      | dynamodb.CreateTableInput as json       | "string"                     |
 
 
 Example:
@@ -108,7 +108,7 @@ Example:
 {
   "metadata": {
     "method": "delete_table",
-    "table_name": "mytablename"
+    "table_name": "my_table_name"
   },
   "data": null
 }
@@ -132,7 +132,7 @@ Example:
 {
   "metadata": {
     "method": "insert_item",
-    "table_name": "mytablename"
+    "table_name": "my_table_name"
   },
   "data": "ewoJCSJQbG90IjogewoJCQkiUyI6ICJzb21lIHBsb3QiCgkJfSwKCQkiUmF0aW5nIjogewoJCQkiTiI6ICIxMC4xIgoJCX0sCgkJIlRpdGxlIjogewoJCQkiUyI6ICJLdWJlTVEgdGVzdCBNb3ZpZSIKCQl9LAoJCSJZZWFyIjogewoJCQkiTiI6ICIyMDIwIgoJCX0KCX0="
 }

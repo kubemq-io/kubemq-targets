@@ -14,18 +14,20 @@ The following are required to run the keyspaces target connector:
 
 keyspaces target connector configuration properties:
 
-| Properties Key     | Required | Description               | Example                             |
-|:-------------------|:---------|:--------------------------|:------------------------------------|
-| hosts              | yes      | aws end point             | "localhost"                         |
-| port               | yes      | keyspaces port            | "9142"                              |
-| proto_version      | no       | keyspaces proto version   | "4"                                 |
-| replication_factor | no       | set replication factor    | "1"                            |
-| username           | no       | set keyspaces username    | "keyspaces"                         |
-| password           | no       | set keyspaces password    | "keyspaces"                         |
-| consistency        | no       | set keyspaces consistency | "one","local_one","local_quorum"  see https://docs.aws.amazon.com/keyspaces/latest/devguide/consistency.html    |
-| default_table      | no       | set table name            | "test"                              |
-| default_keyspace   | no       | set keyspace name         | "test"                              |
-| tls                | yes      | aws keyspace certificate  | aws tls link see https://docs.aws.amazon.com/keyspaces/latest/devguide/using_go_driver.html                  |
+| Properties Key            | Required | Description                            | Example                             |
+|:--------------------------|:---------|:---------------------------------------|:------------------------------------|
+| hosts                     | yes      | aws end point                          | "localhost"                         |
+| port                      | yes      | keyspaces port                         | "9142"                              |
+| proto_version             | no       | keyspaces proto version                | "4"                                 |
+| replication_factor        | no       | set replication factor                 | "1"                            |
+| username                  | no       | set keyspaces username                 | "keyspaces"                         |
+| password                  | no       | set keyspaces password                 | "keyspaces"                         |
+| consistency               | no       | set keyspaces consistency              | "one","local_one","local_quorum"  see https://docs.aws.amazon.com/keyspaces/latest/devguide/consistency.html    |
+| default_table             | no       | set table name                         | "test"                              |
+| default_keyspace          | no       | set keyspace name                      | "test"                              |
+| tls                       | yes      | aws keyspace certificate               | aws tls link see https://docs.aws.amazon.com/keyspaces/latest/devguide/using_go_driver.html                  |
+| timeout_seconds           | no       | set default timeout seconds            | "60"                              |
+| connect_timeout_seconds   | no       | set default connect timeout seconds    | "60"                              |
 
 
 
