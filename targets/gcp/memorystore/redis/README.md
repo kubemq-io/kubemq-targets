@@ -16,9 +16,7 @@ Redis target connector configuration properties:
 
 | Properties Key | Required | Description                  | Example          |
 |:---------------|:---------|:-----------------------------|:-----------------|
-| host           | yes      | redis address                | "localhost:6379" |
-| password       | no       | redis server password        | ""               |
-| enable_tls     | no       | connect to redis in tls mode | "false"          |
+| url           | yes      | redis connection string                | "redis://localhost:6379" |
 
 Example:
 
@@ -43,9 +41,7 @@ bindings:
       kind: target.cache.redis
       name: target-redis
       properties:
-        host: "localhost:6379"
-        password: ""
-        enable_tls: "false"
+          url: "redis://localhost:6379"
 ```
 
 ## Usage

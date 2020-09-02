@@ -6,23 +6,17 @@ import (
 )
 
 type options struct {
-	host      string
-	password  string
-	enableTLS bool
+	url string
 }
 
 func parseOptions(cfg config.Spec) (options, error) {
 	o := options{
-		host:      "",
-		password:  "",
-		enableTLS: false,
+		url: "",
 	}
 	var err error
-	o.host, err = cfg.MustParseString("host")
+	o.url, err = cfg.MustParseString("url")
 	if err != nil {
-		return options{}, fmt.Errorf("error parsing host, %w", err)
+		return options{}, fmt.Errorf("error parsing url, %w", err)
 	}
-	o.password = cfg.ParseString("password", "")
-	o.enableTLS = cfg.ParseBool("enable_tls", false)
 	return o, nil
 }

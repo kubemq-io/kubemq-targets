@@ -2,8 +2,6 @@ package redis
 
 import (
 	"context"
-	"crypto/tls"
-	"errors"
 	"fmt"
 	redisClient "github.com/go-redis/redis/v7"
 	"github.com/kubemq-hub/kubemq-targets/config"
@@ -17,7 +15,6 @@ const (
 	delQuery                 = "local var1 = redis.pcall(\"HGET\", KEYS[1], \"version\"); if not var1 or type(var1)==\"table\" or var1 == ARGV[1] or var1 == \"\" or ARGV[1] == \"0\" then return redis.call(\"DEL\", KEYS[1]) else return error(\"failed to delete \" .. KEYS[1]) end"
 	connectedSlavesReplicas  = "connected_slaves:"
 	infoReplicationDelimiter = "\r\n"
-	defaultDB                = 0
 )
 
 // Client is a Client state store
@@ -41,23 +38,14 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-	redisOpts := &redisClient.Options{
-		Addr:     c.opts.host,
-		Password: c.opts.password,
-		DB:       defaultDB,
+	redisInfo, err := redisClient.ParseURL(c.opts.url)
+	if err != nil {
+		return fmt.Errorf("error parsing redis url %s: %w", c.opts.url, err)
 	}
-
-	/* #nosec */
-	if c.opts.enableTLS {
-		redisOpts.TLSConfig = &tls.Config{
-			InsecureSkipVerify: c.opts.enableTLS,
-		}
-	}
-
-	c.redis = redisClient.NewClient(redisOpts)
+	c.redis = redisClient.NewClient(redisInfo)
 	_, err = c.redis.WithContext(ctx).Ping().Result()
 	if err != nil {
-		return fmt.Errorf("error connecting to redis at %s: %w", c.opts.host, err)
+		return fmt.Errorf("error connecting to redis at %s: %w", redisInfo.Addr, err)
 	}
 	c.replicas, err = c.getConnectedSlaves(ctx)
 	return err
@@ -76,7 +64,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.Delete(ctx, meta)
 
 	}
-	return nil, errors.New("invalid method type")
+	return nil, nil
 }
 func (c *Client) getConnectedSlaves(ctx context.Context) (int, error) {
 	res, err := c.redis.DoContext(ctx, "INFO", "replication").Result()
