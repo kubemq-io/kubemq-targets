@@ -13,19 +13,23 @@ const (
 	defaultReplicationFactor = 1
 	defaultConsistency       = gocql.LocalQuorum
 	defaultPort              = 9142
+	defaultUsername          = ""
+	defaultPassword          = ""
+	defaultKeyspace          = ""
+	defaultTable             = ""
 )
 
 type options struct {
-	hosts             []string
-	port              int
-	protoVersion      int
-	replicationFactor int
-	username          string
-	password          string
-	consistency       gocql.Consistency
-	defaultTable      string
-	defaultKeyspace   string
-	tls               string
+	hosts                 []string
+	port                  int
+	protoVersion          int
+	replicationFactor     int
+	username              string
+	password              string
+	consistency           gocql.Consistency
+	defaultTable          string
+	defaultKeyspace       string
+	tls                   string
 	timeoutSeconds        time.Duration
 	connectTimeoutSeconds time.Duration
 }
@@ -53,14 +57,14 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing replication factor value, %w", err)
 	}
-	o.username = cfg.ParseString("username", "")
-	o.password = cfg.ParseString("password", "")
+	o.username = cfg.ParseString("username", defaultUsername)
+	o.password = cfg.ParseString("password", defaultPassword)
 	o.consistency, err = getConsistency(cfg.ParseString("consistency", "local_quorum"))
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing consistency value, %w", err)
 	}
-	o.defaultTable = cfg.ParseString("default_table", "")
-	o.defaultKeyspace = cfg.ParseString("default_keyspace", "")
+	o.defaultTable = cfg.ParseString("default_table", defaultTable)
+	o.defaultKeyspace = cfg.ParseString("default_keyspace", defaultKeyspace)
 	connectTimeout, err := cfg.ParseIntWithRange("connect_timeout_seconds", 60, 1, math.MaxInt32)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing connect timeout seconds timeout value, %w", err)

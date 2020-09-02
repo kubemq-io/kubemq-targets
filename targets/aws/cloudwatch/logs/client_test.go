@@ -26,7 +26,6 @@ type testStructure struct {
 	policyName     string
 	policyDocument string
 
-	limit         int64
 	sequenceToken string
 }
 
@@ -81,7 +80,6 @@ func getTestStructure() (*testStructure, error) {
 	}
 	t.sequenceToken = fmt.Sprintf("%s", dat)
 
-	t.limit = 10
 
 	return t, nil
 }

@@ -1,6 +1,6 @@
 # Kubemq athena target Connector
 
-Kubemq  athena target connector allows services using kubemq server to access aws athena service.
+Kubemq athena target connector allows services using kubemq server to access aws athena service.
 
 ## Prerequisites
 The following required to run the aws-dynamodb target connector:
