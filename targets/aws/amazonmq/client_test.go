@@ -11,9 +11,10 @@ import (
 )
 
 type testStructure struct {
-	host     string
-	username string
-	password string
+	host        string
+	username    string
+	password    string
+	destination string
 }
 
 func getTestStructure() (*testStructure, error) {
@@ -33,6 +34,11 @@ func getTestStructure() (*testStructure, error) {
 		return nil, err
 	}
 	t.password = string(dat)
+	dat, err = ioutil.ReadFile("./../../../credentials/aws/amazonmq/destination.txt")
+	if err != nil {
+		return nil, err
+	}
+	t.destination = string(dat)
 	return t, nil
 }
 
@@ -71,7 +77,7 @@ func TestClient_Init(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+			ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 			defer cancel()
 			c := New()
 
@@ -106,7 +112,7 @@ func TestClient_Do(t *testing.T) {
 				},
 			},
 			request: types.NewRequest().
-				SetMetadataKeyValue("destination", "some-destination").
+				SetMetadataKeyValue("destination", dat.destination).
 				SetData([]byte("some-data")),
 			wantResponse: types.NewResponse().
 				SetMetadataKeyValue("result", "ok"),
