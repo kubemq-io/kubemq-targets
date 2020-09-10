@@ -11,6 +11,7 @@ require (
 	cloud.google.com/go/spanner v1.7.0
 	cloud.google.com/go/storage v1.8.0
 	firebase.google.com/go/v4 v4.0.0
+	github.com/Azure/azure-storage-blob-go v0.10.0
 	github.com/GoogleCloudPlatform/cloudsql-proxy v1.17.0
 	github.com/Shopify/sarama v1.26.4
 	github.com/aws/aws-sdk-go v1.34.0
