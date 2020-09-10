@@ -12,14 +12,36 @@ import (
 	"time"
 )
 
-func TestClient_Init(t *testing.T) {
+type testStructure struct {
+	projectID   string
+	credentials string
+	topicID     string
+}
+
+func getTestStructure() (*testStructure, error) {
+	t := &testStructure{}
 	dat, err := ioutil.ReadFile("./../../../credentials/projectID.txt")
-	require.NoError(t, err)
-	projectID := string(dat)
-	require.NoError(t, err)
+	if err != nil {
+		return nil, err
+	}
+	t.projectID = string(dat)
 	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
+	if err != nil {
+		return nil, err
+	}
+	t.credentials = fmt.Sprintf("%s", dat)
+
+	dat, err = ioutil.ReadFile("./../../../credentials/topicID.txt")
+	if err != nil {
+		return nil, err
+	}
+	t.topicID = fmt.Sprintf("%s", dat)
+	return t, nil
+}
+
+func TestClient_Init(t *testing.T) {
+	dat, err := getTestStructure()
 	require.NoError(t, err)
-	credentials := fmt.Sprintf("%s", dat)
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -31,19 +53,19 @@ func TestClient_Init(t *testing.T) {
 				Name: "target-gcp-pubsub",
 				Kind: "target.gcp.pubsub",
 				Properties: map[string]string{
-					"project_id": projectID,
-					"retries":    "0",
-					"credentials": credentials,
+					"project_id":  dat.projectID,
+					"retries":     "0",
+					"credentials": dat.credentials,
 				},
 			},
 			wantErr: false,
-		},{
+		}, {
 			name: "init-missing-credentials",
 			cfg: config.Spec{
 				Name: "target-gcp-pubsub",
 				Kind: "target.gcp.pubsub",
 				Properties: map[string]string{
-					"project_id": projectID,
+					"project_id": dat.projectID,
 					"retries":    "0",
 				},
 			},
@@ -55,8 +77,8 @@ func TestClient_Init(t *testing.T) {
 				Name: "target-gcp-pubsub",
 				Kind: "target.gcp.pubsub",
 				Properties: map[string]string{
-					"retries": "0",
-					"credentials": credentials,
+					"retries":     "0",
+					"credentials": dat.credentials,
 				},
 			},
 			wantErr: true,
@@ -81,16 +103,10 @@ func TestClient_Init(t *testing.T) {
 }
 
 func TestClient_Do(t *testing.T) {
-	dat, err := ioutil.ReadFile("./../../../credentials/projectID.txt")
+	dat, err := getTestStructure()
 	require.NoError(t, err)
-	projectID := string(dat)
-	dat, err = ioutil.ReadFile("./../../../credentials/topicID.txt")
-	require.NoError(t, err)
-	topicID := string(dat)
+
 	validBody, _ := json.Marshal("valid body")
-	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
-	require.NoError(t, err)
-	credentials := fmt.Sprintf("%s", dat)
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -104,14 +120,15 @@ func TestClient_Do(t *testing.T) {
 				Name: "target-gcp-pubsub",
 				Kind: "target.gcp.pubsub",
 				Properties: map[string]string{
-					"project_id": projectID,
-					"retries":    "0",
-					"credentials": credentials,
+					"project_id":  dat.projectID,
+					"retries":     "0",
+					"topic_id":    dat.topicID,
+					"credentials": dat.credentials,
 				},
 			},
 			request: types.NewRequest().
 				SetMetadataKeyValue("tags", `{"tag-1":"test","tag-2":"test2"}`).
-				SetMetadataKeyValue("topic_id", topicID).
+				SetMetadataKeyValue("topic_id", dat.topicID).
 				SetData(validBody),
 			want: types.NewResponse().
 				SetData(validBody),
@@ -123,9 +140,9 @@ func TestClient_Do(t *testing.T) {
 				Name: "target-gcp-pubsub",
 				Kind: "target.gcp.pubsub",
 				Properties: map[string]string{
-					"project_id": projectID,
-					"retries":    "0",
-					"credentials": credentials,
+					"project_id":  dat.projectID,
+					"retries":     "0",
+					"credentials": dat.credentials,
 				},
 			},
 			request: types.NewRequest().
@@ -157,12 +174,8 @@ func TestClient_Do(t *testing.T) {
 }
 
 func TestClient_list(t *testing.T) {
-	dat, err := ioutil.ReadFile("./../../../credentials/projectID.txt")
+	dat, err := getTestStructure()
 	require.NoError(t, err)
-	projectID := string(dat)
-	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
-	require.NoError(t, err)
-	credentials := fmt.Sprintf("%s", dat)
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -174,8 +187,8 @@ func TestClient_list(t *testing.T) {
 				Name: "target-gcp-pubsub",
 				Kind: "target.gcp.pubsub",
 				Properties: map[string]string{
-					"project_id": projectID,
-					"credentials": credentials,
+					"project_id":  dat.projectID,
+					"credentials": dat.credentials,
 				},
 			},
 
