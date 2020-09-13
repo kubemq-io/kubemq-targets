@@ -11,11 +11,11 @@ require (
 	cloud.google.com/go/spanner v1.7.0
 	cloud.google.com/go/storage v1.8.0
 	firebase.google.com/go/v4 v4.0.0
-	github.com/Azure/azure-amqp-common-go/v3 v3.0.1 // indirect
-	github.com/Azure/azure-event-hubs-go/v3 v3.3.0 // indirect
+	github.com/Azure/azure-event-hubs-go/v3 v3.3.0
+	github.com/Azure/azure-pipeline-go v0.2.2
 	github.com/Azure/azure-sdk-for-go v46.1.0+incompatible // indirect
 	github.com/Azure/azure-storage-blob-go v0.10.0
-	github.com/Azure/go-amqp v0.13.1 // indirect
+	github.com/Azure/go-amqp v0.12.8 // indirect
 	github.com/Azure/go-autorest/autorest v0.11.6 // indirect
 	github.com/Azure/go-autorest/autorest/to v0.4.0 // indirect
 	github.com/Azure/go-autorest/autorest/validation v0.3.0 // indirect
