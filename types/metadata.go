@@ -167,3 +167,11 @@ func (m Metadata) GetValidMethodTypes(methodsMap map[string]string) error {
 	}
 	return errors.New(s)
 }
+
+func (m Metadata) GetValidSupportedTypes(possibleValues map[string]string, typeName string) error {
+	s := fmt.Sprintf("invalid supported types for value :%s, supported types:", typeName)
+	for k := range possibleValues {
+		s = fmt.Sprintf("%s :%s,", s, k)
+	}
+	return errors.New(s)
+}

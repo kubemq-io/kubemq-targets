@@ -7,32 +7,40 @@ import (
 )
 
 const (
-	PublicAccessBlob      = "blob"
-	PublicAccessContainer = "container"
-	DefaultBlockSize      = 4194304
-	DefaultParallelism    = 16
-)
+	DeleteSnapshotsOptionInclude = "include"
+	DeleteSnapshotsOptionNone    = ""
+	DeleteSnapshotsOptionOnly    = "only"
 
-var publicAccessType = map[string]string{
-	"blob":      "blob",
-	"container": "container",
-}
+	DefaultRetryRequests = 0
+	DefaultBlockSize     = 4194304
+	DefaultParallelism   = 16
+
+	DefaultCount  = 0
+	DefaultOffset = 0
+)
 
 var methodsMap = map[string]string{
 	"upload": "upload",
 	"get":    "get",
+	"delete": "delete",
+}
+
+var deleteSnapShotTypes = map[string]string{
+	"include": "include",
+	"only":    "only",
+	"":        "",
 }
 
 type metadata struct {
 	method                    string
-	accessType                azblob.PublicAccessType
 	fileName                  string
 	serviceUrl                string
 	blockSize                 int64
 	parallelism               uint16
 	offset                    int64
 	count                     int64
-	deleteSnapshotsOptionType string
+	deleteSnapshotsOptionType azblob.DeleteSnapshotsOptionType
+	maxRetryRequests          int
 }
 
 func parseMetadata(meta types.Metadata) (metadata, error) {
@@ -42,28 +50,33 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if err != nil {
 		return metadata{}, meta.GetValidMethodTypes(methodsMap)
 	}
-	accessType, err := meta.ParseStringMap("publicAccessType", publicAccessType)
+	if m.method == "delete" {
+		deleteSnapshotsOptionType, err := meta.ParseStringMap("delete_snapshots_option_type", deleteSnapShotTypes)
+		if err != nil {
+			return metadata{}, meta.GetValidSupportedTypes(deleteSnapShotTypes, "delete_snapshots_option_type")
+		}
+		switch deleteSnapshotsOptionType {
+		case DeleteSnapshotsOptionInclude:
+			m.deleteSnapshotsOptionType = azblob.DeleteSnapshotsOptionInclude
+		case DeleteSnapshotsOptionOnly:
+			m.deleteSnapshotsOptionType = azblob.DeleteSnapshotsOptionOnly
+		case DeleteSnapshotsOptionNone:
+			m.deleteSnapshotsOptionType = azblob.DeleteSnapshotsOptionNone
+		}
+	}
+	m.fileName, err = meta.MustParseString("file_name")
 	if err != nil {
-		m.accessType = azblob.PublicAccessNone
+		return metadata{}, fmt.Errorf("error parsing file_name , %w", err)
 	}
-	if accessType == PublicAccessBlob {
-		m.accessType = azblob.PublicAccessBlob
-	} else if accessType == PublicAccessContainer {
-		m.accessType = azblob.PublicAccessContainer
+	m.serviceUrl, err = meta.MustParseString("service_url")
+	if err != nil {
+		return metadata{}, fmt.Errorf("error parsing service_url , %w", err)
 	}
-	m.blockSize = int64(meta.ParseInt("block_size", DefaultBlockSize))
-	m.blockSize = int64(meta.ParseInt("parallelism", DefaultParallelism))
-	if m.method == "upload" || m.method == "get" {
-		m.fileName, err = meta.MustParseString("file_name")
-		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing file_name , %w", err)
-		}
-		m.serviceUrl, err = meta.MustParseString("service_url")
-		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing service_url , %w", err)
-		}
-	}
-	m.deleteSnapshotsOptionType = meta.ParseString("delete_snapshots_option_type")
 
+	m.blockSize = int64(meta.ParseInt("block_size", DefaultBlockSize))
+	m.parallelism = uint16(meta.ParseInt("parallelism", DefaultParallelism))
+	m.count = int64(meta.ParseInt("count", DefaultCount))
+	m.offset = int64(meta.ParseInt("offset", DefaultOffset))
+	m.maxRetryRequests = meta.ParseInt("max_retry_request", DefaultRetryRequests)
 	return m, nil
 }
