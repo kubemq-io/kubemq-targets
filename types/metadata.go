@@ -160,6 +160,23 @@ func (m Metadata) MustParseJsonMap(key string) (map[string]string, error) {
 	}
 }
 
+func (m Metadata) MustParseInterfaceMap(key string) (map[string]interface{}, error) {
+	imap := make(map[string]interface{})
+	if val, ok := m[key]; ok && val != "" {
+		if val == "" {
+			return imap, nil
+		}
+		err := json.Unmarshal([]byte(val), &imap)
+		if err != nil {
+			return imap, fmt.Errorf("invalid json conversion to map[string]string %s", val)
+		}
+		return imap, nil
+	} else {
+		return imap, nil
+	}
+}
+
+
 func (m Metadata) GetValidMethodTypes(methodsMap map[string]string) error {
 	s := "invalid method type, method type should be one of the following:"
 	for k := range methodsMap {

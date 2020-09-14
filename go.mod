@@ -11,7 +11,14 @@ require (
 	cloud.google.com/go/spanner v1.7.0
 	cloud.google.com/go/storage v1.8.0
 	firebase.google.com/go/v4 v4.0.0
+	github.com/Azure/azure-event-hubs-go/v3 v3.3.0
+	github.com/Azure/azure-pipeline-go v0.2.2
+	github.com/Azure/azure-sdk-for-go v46.1.0+incompatible // indirect
 	github.com/Azure/azure-storage-blob-go v0.10.0
+	github.com/Azure/go-amqp v0.12.8 // indirect
+	github.com/Azure/go-autorest/autorest v0.11.6 // indirect
+	github.com/Azure/go-autorest/autorest/to v0.4.0 // indirect
+	github.com/Azure/go-autorest/autorest/validation v0.3.0 // indirect
 	github.com/GoogleCloudPlatform/cloudsql-proxy v1.17.0
 	github.com/Shopify/sarama v1.26.4
 	github.com/aws/aws-sdk-go v1.34.0
@@ -28,11 +35,13 @@ require (
 	github.com/golang/protobuf v1.4.2
 	github.com/google/uuid v1.1.1
 	github.com/googleapis/gax-go/v2 v2.0.5
+	github.com/jpillora/backoff v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.10
 	github.com/kubemq-io/kubemq-go v1.4.0
 	github.com/labstack/echo/v4 v4.1.16
 	github.com/lib/pq v1.3.0
 	github.com/minio/minio-go/v7 v7.0.0-20200623213017-e5cd2d129325
+	github.com/mitchellh/mapstructure v1.3.3 // indirect
 	github.com/nats-io/nuid v1.0.1
 	github.com/olivere/elastic/v7 v7.0.17
 	github.com/prometheus/client_golang v0.9.3
@@ -43,6 +52,8 @@ require (
 	go.mongodb.org/mongo-driver v1.3.4
 	go.uber.org/atomic v1.6.0
 	go.uber.org/zap v1.10.0
+	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a // indirect
+	golang.org/x/net v0.0.0-20200904194848-62affa334b73 // indirect
 	golang.org/x/oauth2 v0.0.0-20200107190931-bf48bf16ab8d
 	google.golang.org/api v0.28.0
 	google.golang.org/genproto v0.0.0-20200722002428-88e341933a54
