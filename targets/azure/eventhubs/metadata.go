@@ -1,12 +1,13 @@
 package eventhubs
 
 import (
+	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
 const (
-	DeleteProperties   = ""
-	DeletePartitionKey = ""
+	DefaultProperties   = ""
+	DefaultPartitionKey = ""
 )
 
 var methodsMap = map[string]string{
@@ -17,7 +18,7 @@ var methodsMap = map[string]string{
 type metadata struct {
 	method       string
 	partitionKey string
-	properties   string
+	properties   map[string]interface{}
 }
 
 func parseMetadata(meta types.Metadata) (metadata, error) {
@@ -27,7 +28,10 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if err != nil {
 		return metadata{}, meta.GetValidMethodTypes(methodsMap)
 	}
-	m.properties = meta.ParseString("properties", DeleteProperties)
-	m.partitionKey = meta.ParseString("partition_key", DeletePartitionKey)
+	m.properties, err = meta.MustParseInterfaceMap("properties")
+	if err != nil {
+		return metadata{}, fmt.Errorf("error parsing properties, %w", err)
+	}
+	m.partitionKey = meta.ParseString("partition_key", DefaultPartitionKey)
 	return m, nil
 }

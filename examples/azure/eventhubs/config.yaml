@@ -1,0 +1,24 @@
+bindings:
+  - name: kubemq-query-azure-event-hubs
+    source:
+      kind: source.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-azure-eventhubs-connector"
+        auth_token: ""
+        channel: "target.azure.eventhubs"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.azure.eventhubs
+      name: target-azure-eventhubs
+      properties:
+        end_point: "sb://my_account.net"
+        shared_access_key_name: "keyname"
+        shared_access_key: "213ase123"
+        entity_path: "mypath"

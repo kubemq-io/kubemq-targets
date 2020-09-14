@@ -46,7 +46,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "send":
 		return c.send(ctx, meta, req.Data)
 	case "send_batch":
-		return c.send(ctx, meta, req.Data)
+		return c.sendBatch(ctx, meta, req.Data)
 	}
 	return nil, errors.New("invalid method type")
 }
@@ -58,17 +58,8 @@ func (c *Client) send(ctx context.Context, meta metadata, data []byte) (*types.R
 	if meta.partitionKey != "" {
 		event.PartitionKey = &meta.partitionKey
 	}
-	if meta.properties != "" {
-		p, err := json.Marshal(meta.properties)
-		if err != nil {
-			return nil, err
-		}
-		properties := make(map[string]interface{})
-		err = json.Unmarshal(p, properties)
-		if err != nil {
-			return nil, err
-		}
-		event.Properties = properties
+	if meta.properties != nil {
+		event.Properties = meta.properties
 	}
 	err := c.client.Send(ctx, event)
 	if err != nil {
@@ -81,7 +72,7 @@ func (c *Client) send(ctx context.Context, meta metadata, data []byte) (*types.R
 
 func (c *Client) sendBatch(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
 	var messages []string
-	err := json.Unmarshal(data, messages)
+	err := json.Unmarshal(data, &messages)
 	if err != nil {
 		return nil, err
 	}
@@ -93,18 +84,9 @@ func (c *Client) sendBatch(ctx context.Context, meta metadata, data []byte) (*ty
 			event.PartitionKey = &meta.partitionKey
 		}
 	}
-	if meta.properties != "" {
-		properties := make(map[string]interface{})
-		p, err := json.Marshal(meta.properties)
-		if err != nil {
-			return nil, err
-		}
-		err = json.Unmarshal(p, properties)
-		if err != nil {
-			return nil, err
-		}
+	if meta.properties != nil {
 		for _, event := range events {
-			event.Properties = properties
+			event.Properties = meta.properties
 		}
 	}
 

@@ -10,8 +10,6 @@ The following are required to run the blob target connector:
 - kubemq-targets deployment
 
 
-- Please note the connector uses connection with stomp+ssl, when finishing handling messages need to call Close().
-
 ## Configuration
 
 blob target connector configuration properties:
