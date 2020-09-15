@@ -16,6 +16,8 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/msk"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/s3"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/sns"
+	"github.com/kubemq-hub/kubemq-targets/targets/azure/eventhubs"
+	"github.com/kubemq-hub/kubemq-targets/targets/azure/storage/blob"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/firebase"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/elastic"
 	
@@ -349,6 +351,18 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 		return target, nil
 	case "target.storage.minio":
 		target := minio.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.azure.storage.blob":
+		target := blob.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.azure.eventhubs":
+		target := eventhubs.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
