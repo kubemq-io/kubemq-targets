@@ -1,0 +1,24 @@
+bindings:
+  - name: kubemq-query-azure-postgres
+    source:
+      kind: source.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-azure-postgres-connector"
+        auth_token: ""
+        channel: "target.azure.stores.azure-postgres"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.azure.stores.postgres
+      name: target-azure-stores-postgres
+      properties:
+        connection: "host=zzz user=yyy password=rrr dbname=nnn sslmode=require"
+        max_idle_connections: "10"
+        max_open_connections: "100"
+        connection_max_lifetime_seconds: "3600"
