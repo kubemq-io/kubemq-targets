@@ -1,4 +1,4 @@
-package blob
+package files
 
 import (
 	"context"
@@ -17,36 +17,38 @@ type testStructure struct {
 	storageAccount   string
 	fileName         string
 	serviceURL       string
+	fileWithMetadata       string
 	file             []byte
 }
 
 func getTestStructure() (*testStructure, error) {
 	t := &testStructure{}
-	dat, err := ioutil.ReadFile("./../../../../credentials/azure/storage/storageAccessKey.txt")
+	dat, err := ioutil.ReadFile("./../../../../credentials/azure/storage/files/storageAccessKey.txt")
 	if err != nil {
 		return nil, err
 	}
 	t.storageAccessKey = string(dat)
-	dat, err = ioutil.ReadFile("./../../../../credentials/azure/storage/storageAccount.txt")
+	dat, err = ioutil.ReadFile("./../../../../credentials/azure/storage/files/storageAccount.txt")
 	if err != nil {
 		return nil, err
 	}
 	t.storageAccount = fmt.Sprintf("%s", dat)
-	contents, err := ioutil.ReadFile("./../../../../credentials/azure/storage/contents.txt")
+	contents, err := ioutil.ReadFile("./../../../../credentials/azure/storage/files/contents.txt")
 	if err != nil {
 		return nil, err
 	}
 	t.file = contents
-	dat, err = ioutil.ReadFile("./../../../../credentials/azure/storage/fileName.txt")
+	dat, err = ioutil.ReadFile("./../../../../credentials/azure/storage/files/fileName.txt")
 	if err != nil {
 		return nil, err
 	}
 	t.fileName = fmt.Sprintf("%s", dat)
-	dat, err = ioutil.ReadFile("./../../../../credentials/azure/storage/serviceURL.txt")
+	dat, err = ioutil.ReadFile("./../../../../credentials/azure/storage/files/serviceURL.txt")
 	if err != nil {
 		return nil, err
 	}
 	t.serviceURL = fmt.Sprintf("%s", dat)
+	t.fileWithMetadata = fmt.Sprintf("%sWithMetadata", t.fileName)
 
 	return t, nil
 }
@@ -62,8 +64,8 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init ",
 			cfg: config.Spec{
-				Name: "target-azure-storage-blob",
-				Kind: "target.azure.storage.blob",
+				Name: "target-azure-storage-files",
+				Kind: "target.azure.storage.files",
 				Properties: map[string]string{
 					"storage_access_key": dat.storageAccessKey,
 					"storage_account":    dat.storageAccount,
@@ -73,8 +75,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "init - missing account",
 			cfg: config.Spec{
-				Name: "target-azure-storage-blob",
-				Kind: "target.azure.storage.blob",
+				Name: "target-azure-storage-files",
+				Kind: "target.azure.storage.files",
 				Properties: map[string]string{
 					"storage_access_key": dat.storageAccessKey,
 				},
@@ -104,8 +106,8 @@ func TestClient_Upload_Item(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-azure-storage-blob",
-		Kind: "target.azure.storage.blob",
+		Name: "target-azure-storage-files",
+		Kind: "target.azure.storage.files",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
 			"storage_account":    dat.storageAccount,
@@ -125,6 +127,15 @@ func TestClient_Upload_Item(t *testing.T) {
 				SetData(dat.file),
 			wantErr: false,
 		}, {
+			name: "valid upload item with metadata",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "upload").
+				SetMetadataKeyValue("file_name", dat.fileWithMetadata).
+				SetMetadataKeyValue("blob_metadata", `{"tag":"test","name":"myname"}`).
+				SetMetadataKeyValue("service_url", dat.serviceURL).
+				SetData(dat.file),
+			wantErr: false,
+		},{
 			name: "invalid upload item - missing file_name",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "upload").
@@ -170,8 +181,8 @@ func TestClient_Get_Item(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-azure-storage-blob",
-		Kind: "target.azure.storage.blob",
+		Name: "target-azure-storage-files",
+		Kind: "target.azure.storage.files",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
 			"storage_account":    dat.storageAccount,
@@ -181,6 +192,7 @@ func TestClient_Get_Item(t *testing.T) {
 		name    string
 		request *types.Request
 		wantErr bool
+		wantFileMetadata bool
 	}{
 		{
 			name: "valid get item",
@@ -188,6 +200,14 @@ func TestClient_Get_Item(t *testing.T) {
 				SetMetadataKeyValue("method", "get").
 				SetMetadataKeyValue("file_name", dat.fileName).
 				SetMetadataKeyValue("service_url", dat.serviceURL),
+			wantErr: false,
+		},{
+			name: "valid get item - with file metadata",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "get").
+				SetMetadataKeyValue("file_name", dat.fileWithMetadata).
+				SetMetadataKeyValue("service_url", dat.serviceURL),
+			wantFileMetadata: true,
 			wantErr: false,
 		},{
 			name: "valid get item with offset and count",
@@ -227,6 +247,11 @@ func TestClient_Get_Item(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, got.Data)
+			if tt.wantFileMetadata{
+				require.NotNil(t,got.Metadata["file_metadata"])
+			}else{
+				require.Equal(t,got.Metadata["file_metadata"],"")
+			}
 		})
 	}
 }
@@ -235,8 +260,8 @@ func TestClient_Delete_Item(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-azure-storage-blob",
-		Kind: "target.azure.storage.blob",
+		Name: "target-azure-storage-files",
+		Kind: "target.azure.storage.files",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
 			"storage_account":    dat.storageAccount,

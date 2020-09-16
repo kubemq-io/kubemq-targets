@@ -1,18 +1,17 @@
-package blob
+package files
 
 import (
 	"fmt"
-	"github.com/Azure/azure-storage-blob-go/azblob"
+	"github.com/Azure/azure-storage-file-go/azfile"
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
 const (
 	DeleteSnapshotsOptionInclude = "include"
 	DeleteSnapshotsOptionNone    = ""
-	DeleteSnapshotsOptionOnly    = "only"
 
 	DefaultRetryRequests = 0
-	DefaultBlockSize     = 4194304
+	DefaultRangeSize     = 4194304
 	DefaultParallelism   = 16
 
 	DefaultCount  = 0
@@ -27,7 +26,6 @@ var methodsMap = map[string]string{
 
 var deleteSnapShotTypes = map[string]string{
 	"include": "include",
-	"only":    "only",
 	"":        "",
 }
 
@@ -35,12 +33,13 @@ type metadata struct {
 	method                    string
 	fileName                  string
 	serviceUrl                string
-	blockSize                 int64
+	rangeSize                 int64
 	parallelism               uint16
 	offset                    int64
 	count                     int64
-	deleteSnapshotsOptionType azblob.DeleteSnapshotsOptionType
+	deleteSnapshotsOptionType azfile.DeleteSnapshotsOptionType
 	maxRetryRequests          int
+	fileMetadata              map[string]string
 }
 
 func parseMetadata(meta types.Metadata) (metadata, error) {
@@ -57,11 +56,9 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		}
 		switch deleteSnapshotsOptionType {
 		case DeleteSnapshotsOptionInclude:
-			m.deleteSnapshotsOptionType = azblob.DeleteSnapshotsOptionInclude
-		case DeleteSnapshotsOptionOnly:
-			m.deleteSnapshotsOptionType = azblob.DeleteSnapshotsOptionOnly
+			m.deleteSnapshotsOptionType = azfile.DeleteSnapshotsOptionInclude
 		case DeleteSnapshotsOptionNone:
-			m.deleteSnapshotsOptionType = azblob.DeleteSnapshotsOptionNone
+			m.deleteSnapshotsOptionType = azfile.DeleteSnapshotsOptionNone
 		}
 	}
 	m.fileName, err = meta.MustParseString("file_name")
@@ -73,7 +70,14 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		return metadata{}, fmt.Errorf("error parsing service_url , %w", err)
 	}
 
-	m.blockSize = int64(meta.ParseInt("block_size", DefaultBlockSize))
+	fileMetadata, err := meta.MustParseJsonMap("file_metadata")
+	if err != nil {
+		return metadata{}, fmt.Errorf("error parsing file_metadata, %w", err)
+	}else{
+		m.fileMetadata = fileMetadata
+	}
+
+	m.rangeSize = int64(meta.ParseInt("range_size", DefaultRangeSize))
 	m.parallelism = uint16(meta.ParseInt("parallelism", DefaultParallelism))
 	m.count = int64(meta.ParseInt("count", DefaultCount))
 	m.offset = int64(meta.ParseInt("offset", DefaultOffset))

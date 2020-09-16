@@ -1,4 +1,4 @@
-package blob
+package files
 
 import (
 	"bytes"
@@ -6,10 +6,11 @@ import (
 	"errors"
 	"fmt"
 	"github.com/Azure/azure-pipeline-go/pipeline"
-	"github.com/Azure/azure-storage-blob-go/azblob"
+	"github.com/Azure/azure-storage-file-go/azfile"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"net/url"
+	"time"
 )
 
 type Client struct {
@@ -34,11 +35,19 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		return err
 	}
 	// Create a default request pipeline using your storage account name and account key.
-	credential, err := azblob.NewSharedKeyCredential(c.opts.storageAccount, c.opts.storageAccessKey)
+	credential, err := azfile.NewSharedKeyCredential(c.opts.storageAccount, c.opts.storageAccessKey)
 	if err != nil {
 		return fmt.Errorf("failed to create shared key credential on error %s , please check storage access key and acccount are correct", err.Error())
 	}
-	c.pipeLine = azblob.NewPipeline(credential, azblob.PipelineOptions{})
+	c.pipeLine = azfile.NewPipeline(credential, azfile.PipelineOptions{
+		Retry: azfile.RetryOptions{
+			Policy:        c.opts.policy,                           // Use exponential backoff as opposed to linear
+			MaxTries:      c.opts.maxTries,                         // Try at most x times to perform the operation (set to 1 to disable retries)
+			TryTimeout:    time.Millisecond * c.opts.tryTimeout,    // Maximum time allowed for any single try
+			RetryDelay:    time.Millisecond * c.opts.retryDelay,    // Backoff amount for each retry (exponential or linear)
+			MaxRetryDelay: time.Millisecond * c.opts.maxRetryDelay, // Max delay between retries
+		},
+	})
 
 	return nil
 }
@@ -68,11 +77,14 @@ func (c *Client) upload(ctx context.Context, meta metadata, data []byte) (*types
 	if err != nil {
 		return nil, err
 	}
-	containerURL := azblob.NewContainerURL(*URL, c.pipeLine)
-	blobURL := containerURL.NewBlockBlobURL(meta.fileName)
-	_, err = azblob.UploadBufferToBlockBlob(ctx, data, blobURL, azblob.UploadToBlockBlobOptions{
-		BlockSize:   meta.blockSize,
-		Parallelism: meta.parallelism})
+	fileURL := azfile.NewFileURL(*URL, c.pipeLine)
+	uploadFileOption := azfile.UploadToAzureFileOptions{
+		RangeSize:   meta.rangeSize,
+		Parallelism: meta.parallelism}
+	if len(meta.fileMetadata) > 0 {
+		uploadFileOption.Metadata = meta.fileMetadata
+	}
+	err = azfile.UploadBufferToAzureFile(ctx, data, fileURL, uploadFileOption)
 
 	if err != nil {
 		return nil, err
@@ -82,19 +94,19 @@ func (c *Client) upload(ctx context.Context, meta metadata, data []byte) (*types
 		nil
 }
 
+
 func (c *Client) get(ctx context.Context, meta metadata) (*types.Response, error) {
 
 	URL, err := url.Parse(meta.serviceUrl)
 	if err != nil {
 		return nil, err
 	}
-	containerURL := azblob.NewContainerURL(*URL, c.pipeLine)
-	blobURL := containerURL.NewBlobURL(meta.fileName)
-	downloadResponse, err := blobURL.Download(ctx, meta.offset, meta.count, azblob.BlobAccessConditions{}, false)
+	fileURL := azfile.NewFileURL(*URL, c.pipeLine)
+	downloadResponse, err := fileURL.Download(ctx, meta.offset, meta.count, false)
 	if err != nil {
 		return nil, err
 	}
-	bodyStream := downloadResponse.Body(azblob.RetryReaderOptions{MaxRetryRequests: meta.maxRetryRequests})
+	bodyStream := downloadResponse.Body(azfile.RetryReaderOptions{MaxRetryRequests: meta.maxRetryRequests})
 
 	// read the body into a buffer
 	downloadedData := bytes.Buffer{}
@@ -115,9 +127,8 @@ func (c *Client) delete(ctx context.Context, meta metadata) (*types.Response, er
 	if err != nil {
 		return nil, err
 	}
-	containerURL := azblob.NewContainerURL(*URL, c.pipeLine)
-	blobURL := containerURL.NewBlobURL(meta.fileName)
-	_, err = blobURL.Delete(ctx, meta.deleteSnapshotsOptionType, azblob.BlobAccessConditions{})
+	fileURL := azfile.NewFileURL(*URL, c.pipeLine)
+	_, err = fileURL.Delete(ctx)
 	if err != nil {
 		return nil, err
 	}
