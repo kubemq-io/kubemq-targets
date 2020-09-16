@@ -14,16 +14,11 @@ The following are required to run the blob target connector:
 
 blob target connector configuration properties:
 
-| Properties Key                  | Required | Description                                          | Example                                                                |
-|:--------------------------------|:---------|:-----------------------------------------------------|:-----------------------------------------------------------------------|
-| storage_account                 | yes     | azure storage account name                            | "my_account"                                                              |
-| storage_access_key              | yes     | azure storage access key                              | "abcd1234"                                                                |
-| policy                          | no      | azure blob retry policy                               | "retry_policy_exponential",retry_policy_fixed(default retry_policy_fixed) |
-| max_tries                       | no      | try at most x times to perform the operation          | "3" default (1)                                                           |
-| try_timeout                     | no      | Maximum time allowed for any single try (Millisecond) | "600"default (1000)                                                       |
-| retry_delay                     | no      | Backoff amount for each retry (Millisecond)           | "60" default (60)                                                         |
-| max_retry_delay                 | no      | Max delay between retries (Millisecond)               | "180"default (180                                                         |
- 
+| Properties Key                  | Required | Description                                 | Example                                                                |
+|:--------------------------------|:---------|:--------------------------------------------|:-----------------------------------------------------------------------|
+| storage_account                 | yes     | azure storage account name                   | "my_account" |
+| storage_access_key              | yes     | azure storage access key                     | "abcd1234" |
+
 
 Example:
 

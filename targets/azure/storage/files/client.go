@@ -10,7 +10,6 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"net/url"
-	"time"
 )
 
 type Client struct {
@@ -39,15 +38,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return fmt.Errorf("failed to create shared key credential on error %s , please check storage access key and acccount are correct", err.Error())
 	}
-	c.pipeLine = azblob.NewPipeline(credential, azblob.PipelineOptions{
-		Retry: azblob.RetryOptions{
-			Policy:        c.opts.policy,        // Use exponential backoff as opposed to linear
-			MaxTries:      c.opts.maxTries,      // Try at most x times to perform the operation (set to 1 to disable retries)
-			TryTimeout:    time.Millisecond * c.opts.tryTimeout,    // Maximum time allowed for any single try
-			RetryDelay:    time.Millisecond * c.opts.retryDelay,    // Backoff amount for each retry (exponential or linear)
-			MaxRetryDelay: time.Millisecond * c.opts.maxRetryDelay, // Max delay between retries
-		},
-	})
+	c.pipeLine = azblob.NewPipeline(credential, azblob.PipelineOptions{})
 
 	return nil
 }

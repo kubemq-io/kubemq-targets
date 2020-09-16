@@ -70,17 +70,6 @@ func TestClient_Init(t *testing.T) {
 				},
 			},
 			wantErr: false,
-		},{
-			name: "init ",
-			cfg: config.Spec{
-				Name: "target-azure-storage-blob",
-				Kind: "target.azure.storage.blob",
-				Properties: map[string]string{
-					"storage_access_key": dat.storageAccessKey,
-					"storage_account":    dat.storageAccount,
-				},
-			},
-			wantErr: false,
 		}, {
 			name: "init - missing account",
 			cfg: config.Spec{
@@ -225,7 +214,7 @@ func TestClient_Get_Item(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+			ctx, cancel := context.WithTimeout(context.Background(), 4*time.Second)
 			defer cancel()
 			c := New()
 			err = c.Init(ctx, cfg)
