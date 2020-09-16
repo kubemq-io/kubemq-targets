@@ -3,6 +3,7 @@ package blob
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/Azure/azure-pipeline-go/pipeline"
@@ -41,8 +42,8 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	}
 	c.pipeLine = azblob.NewPipeline(credential, azblob.PipelineOptions{
 		Retry: azblob.RetryOptions{
-			Policy:        c.opts.policy,        // Use exponential backoff as opposed to linear
-			MaxTries:      c.opts.maxTries,      // Try at most x times to perform the operation (set to 1 to disable retries)
+			Policy:        c.opts.policy,                           // Use exponential backoff as opposed to linear
+			MaxTries:      c.opts.maxTries,                         // Try at most x times to perform the operation (set to 1 to disable retries)
 			TryTimeout:    time.Millisecond * c.opts.tryTimeout,    // Maximum time allowed for any single try
 			RetryDelay:    time.Millisecond * c.opts.retryDelay,    // Backoff amount for each retry (exponential or linear)
 			MaxRetryDelay: time.Millisecond * c.opts.maxRetryDelay, // Max delay between retries
@@ -79,9 +80,13 @@ func (c *Client) upload(ctx context.Context, meta metadata, data []byte) (*types
 	}
 	containerURL := azblob.NewContainerURL(*URL, c.pipeLine)
 	blobURL := containerURL.NewBlockBlobURL(meta.fileName)
-	_, err = azblob.UploadBufferToBlockBlob(ctx, data, blobURL, azblob.UploadToBlockBlobOptions{
+	uploadFileOption := azblob.UploadToBlockBlobOptions{
 		BlockSize:   meta.blockSize,
-		Parallelism: meta.parallelism})
+		Parallelism: meta.parallelism}
+	if len(meta.blobMetadata) > 0 {
+		uploadFileOption.Metadata = meta.blobMetadata
+	}
+	_, err = azblob.UploadBufferToBlockBlob(ctx, data, blobURL, uploadFileOption)
 
 	if err != nil {
 		return nil, err
@@ -104,7 +109,9 @@ func (c *Client) get(ctx context.Context, meta metadata) (*types.Response, error
 		return nil, err
 	}
 	bodyStream := downloadResponse.Body(azblob.RetryReaderOptions{MaxRetryRequests: meta.maxRetryRequests})
-
+	defer func() {
+		_ = bodyStream.Close()
+	}()
 	// read the body into a buffer
 	downloadedData := bytes.Buffer{}
 	_, err = downloadedData.ReadFrom(bodyStream)
@@ -112,6 +119,18 @@ func (c *Client) get(ctx context.Context, meta metadata) (*types.Response, error
 		return nil, err
 	}
 	b := downloadedData.Bytes()
+	m := downloadResponse.NewMetadata()
+	if len(m) > 0 {
+		jsonString, err := json.Marshal(m)
+		if err != nil {
+			return nil, err
+		}
+		return types.NewResponse().
+				SetData(b).
+				SetMetadataKeyValue("blob_metadata", fmt.Sprintf("%s",jsonString)).
+				SetMetadataKeyValue("result", "ok"),
+			nil
+	}
 	return types.NewResponse().
 			SetData(b).
 			SetMetadataKeyValue("result", "ok"),

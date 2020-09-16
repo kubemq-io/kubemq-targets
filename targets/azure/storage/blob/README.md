@@ -66,6 +66,7 @@ Upload metadata setting:
 | data              | yes      | file data (byte array)                         | "bXktZmlsZS1kYXRh"                               |
 | block_size        | no       | specifies the block size to use                | "0" ,default(azblob.BlockBlobMaxStageBlockBytes) |
 | parallelism       | no       | maximum number of blocks to upload in parallel | "upload",default(0)                              |
+| blob_metadata     | no       | Key value string string of blob_metadata       | "{"tag":"test","name":"myname"}"                              |
 
 
 Example:

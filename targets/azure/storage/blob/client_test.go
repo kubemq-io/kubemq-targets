@@ -13,39 +13,41 @@ import (
 )
 
 type testStructure struct {
-	storageAccessKey string
-	storageAccount   string
-	fileName         string
-	serviceURL       string
-	file             []byte
+	storageAccessKey       string
+	storageAccount         string
+	fileName               string
+	fileWithMetadata string
+	serviceURL             string
+	file                   []byte
 }
 
 func getTestStructure() (*testStructure, error) {
 	t := &testStructure{}
-	dat, err := ioutil.ReadFile("./../../../../credentials/azure/storage/storageAccessKey.txt")
+	dat, err := ioutil.ReadFile("./../../../../credentials/azure/storage/blob/storageAccessKey.txt")
 	if err != nil {
 		return nil, err
 	}
 	t.storageAccessKey = string(dat)
-	dat, err = ioutil.ReadFile("./../../../../credentials/azure/storage/storageAccount.txt")
+	dat, err = ioutil.ReadFile("./../../../../credentials/azure/storage/blob/storageAccount.txt")
 	if err != nil {
 		return nil, err
 	}
 	t.storageAccount = fmt.Sprintf("%s", dat)
-	contents, err := ioutil.ReadFile("./../../../../credentials/azure/storage/contents.txt")
+	contents, err := ioutil.ReadFile("./../../../../credentials/azure/storage/blob/contents.txt")
 	if err != nil {
 		return nil, err
 	}
 	t.file = contents
-	dat, err = ioutil.ReadFile("./../../../../credentials/azure/storage/fileName.txt")
+	dat, err = ioutil.ReadFile("./../../../../credentials/azure/storage/blob/fileName.txt")
 	if err != nil {
 		return nil, err
 	}
 	t.fileName = fmt.Sprintf("%s", dat)
-	dat, err = ioutil.ReadFile("./../../../../credentials/azure/storage/serviceURL.txt")
+	dat, err = ioutil.ReadFile("./../../../../credentials/azure/storage/blob/serviceURL.txt")
 	if err != nil {
 		return nil, err
 	}
+	t.fileWithMetadata = fmt.Sprintf("%sWithMetadata", t.fileName)
 	t.serviceURL = fmt.Sprintf("%s", dat)
 
 	return t, nil
@@ -70,7 +72,7 @@ func TestClient_Init(t *testing.T) {
 				},
 			},
 			wantErr: false,
-		},{
+		}, {
 			name: "init ",
 			cfg: config.Spec{
 				Name: "target-azure-storage-blob",
@@ -135,6 +137,15 @@ func TestClient_Upload_Item(t *testing.T) {
 				SetMetadataKeyValue("service_url", dat.serviceURL).
 				SetData(dat.file),
 			wantErr: false,
+		},{
+			name: "valid upload item with metadata",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "upload").
+				SetMetadataKeyValue("file_name", dat.fileWithMetadata).
+				SetMetadataKeyValue("blob_metadata", `{"tag":"test","name":"myname"}`).
+				SetMetadataKeyValue("service_url", dat.serviceURL).
+				SetData(dat.file),
+			wantErr: false,
 		}, {
 			name: "invalid upload item - missing file_name",
 			request: types.NewRequest().
@@ -192,6 +203,7 @@ func TestClient_Get_Item(t *testing.T) {
 		name    string
 		request *types.Request
 		wantErr bool
+		wantBlobMetadata bool
 	}{
 		{
 			name: "valid get item",
@@ -201,11 +213,19 @@ func TestClient_Get_Item(t *testing.T) {
 				SetMetadataKeyValue("service_url", dat.serviceURL),
 			wantErr: false,
 		},{
+			name: "valid get item - with blob metadata",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "get").
+				SetMetadataKeyValue("file_name", dat.fileWithMetadata).
+				SetMetadataKeyValue("service_url", dat.serviceURL),
+			wantBlobMetadata: true,
+			wantErr: false,
+		}, {
 			name: "valid get item with offset and count",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "get").
 				SetMetadataKeyValue("file_name", dat.fileName).
-				SetMetadataKeyValue("offset","2").
+				SetMetadataKeyValue("offset", "2").
 				SetMetadataKeyValue("count", "3").
 				SetMetadataKeyValue("service_url", dat.serviceURL),
 			wantErr: false,
@@ -238,6 +258,11 @@ func TestClient_Get_Item(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, got.Data)
+			if tt.wantBlobMetadata{
+				require.NotNil(t,got.Metadata["blob_metadata"])
+			}else{
+				require.Equal(t,got.Metadata["blob_metadata"],"")
+			}
 		})
 	}
 }

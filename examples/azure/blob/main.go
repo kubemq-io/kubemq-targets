@@ -19,16 +19,16 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	contents, err := ioutil.ReadFile("./credentials/azure/storage/contents.txt")
+	contents, err := ioutil.ReadFile("./credentials/azure/storage/blob/contents.txt")
 	if err != nil {
 		panic(err)
 	}
-	dat, err := ioutil.ReadFile("./credentials/azure/storage/fileName.txt")
+	dat, err := ioutil.ReadFile("./credentials/azure/storage/blob/fileName.txt")
 	if err != nil {
 		panic(err)
 	}
 	fileName := string(dat)
-	dat, err = ioutil.ReadFile("./credentials/azure/storage/serviceURL.txt")
+	dat, err = ioutil.ReadFile("./credentials/azure/storage/blob/serviceURL.txt")
 	if err != nil {
 		panic(err)
 	}
