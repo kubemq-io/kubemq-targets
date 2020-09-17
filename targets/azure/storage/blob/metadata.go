@@ -11,7 +11,7 @@ const (
 	DeleteSnapshotsOptionNone    = ""
 	DeleteSnapshotsOptionOnly    = "only"
 
-	DefaultRetryRequests = 0
+	DefaultRetryRequests = 1
 	DefaultBlockSize     = 4194304
 	DefaultParallelism   = 16
 
@@ -41,6 +41,7 @@ type metadata struct {
 	count                     int64
 	deleteSnapshotsOptionType azblob.DeleteSnapshotsOptionType
 	maxRetryRequests          int
+	blobMetadata              map[string]string
 }
 
 func parseMetadata(meta types.Metadata) (metadata, error) {
@@ -71,6 +72,13 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	m.serviceUrl, err = meta.MustParseString("service_url")
 	if err != nil {
 		return metadata{}, fmt.Errorf("error parsing service_url , %w", err)
+	}
+
+	blobMetadata, err := meta.MustParseJsonMap("blob_metadata")
+	if err != nil {
+		return metadata{}, fmt.Errorf("error parsing blob_metadata, %w", err)
+	}else{
+		m.blobMetadata = blobMetadata
 	}
 
 	m.blockSize = int64(meta.ParseInt("block_size", DefaultBlockSize))

@@ -18,6 +18,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/sns"
 	"github.com/kubemq-hub/kubemq-targets/targets/azure/eventhubs"
 	"github.com/kubemq-hub/kubemq-targets/targets/azure/storage/blob"
+	"github.com/kubemq-hub/kubemq-targets/targets/azure/storage/files"
 	"github.com/kubemq-hub/kubemq-targets/targets/azure/stores/azuresql"
 	azurmysql "github.com/kubemq-hub/kubemq-targets/targets/azure/stores/mysql"
 	azurpostgres "github.com/kubemq-hub/kubemq-targets/targets/azure/stores/postgres"
@@ -360,6 +361,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 		return target, nil
 	case "target.azure.storage.blob":
 		target := blob.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.azure.storage.files":
+		target := files.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}

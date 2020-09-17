@@ -6,6 +6,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type Spec struct {
@@ -84,6 +85,21 @@ func (s Spec) ParseInt(key string, defaultValue int) int {
 		return defaultValue
 	}
 }
+
+func (s Spec) ParseTimeDuration(key string, defaultValue int) time.Duration {
+	if val, ok := s.Properties[key]; ok && val != "" {
+		parsedVal, err := strconv.ParseInt(val, 10, 64)
+		if err != nil {
+			return  time.Duration(defaultValue)
+		} else {
+			return time.Duration(parsedVal)
+		}
+	} else {
+		return time.Duration(defaultValue)
+	}
+}
+
+
 func (s Spec) ParseIntWithRange(key string, defaultValue, min, max int) (int, error) {
 	val := s.ParseInt(key, defaultValue)
 	if val < min {

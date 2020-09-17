@@ -19,16 +19,11 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	contents, err := ioutil.ReadFile("./credentials/azure/storage/blob/contents.txt")
+	contents, err := ioutil.ReadFile("./credentials/azure/storage/files/contents.txt")
 	if err != nil {
 		panic(err)
 	}
-	dat, err := ioutil.ReadFile("./credentials/azure/storage/blob/fileName.txt")
-	if err != nil {
-		panic(err)
-	}
-	fileName := string(dat)
-	dat, err = ioutil.ReadFile("./credentials/azure/storage/blob/serviceURL.txt")
+	dat, err := ioutil.ReadFile("./credentials/azure/storage/files/serviceURL.txt")
 	if err != nil {
 		panic(err)
 	}
@@ -36,11 +31,10 @@ func main() {
 	// upload
 	uploadRequest := types.NewRequest().
 		SetMetadataKeyValue("method", "upload").
-		SetMetadataKeyValue("file_name", fileName).
 		SetMetadataKeyValue("service_url", serviceURL).
 		SetData(contents)
 	queryUploadResponse, err := client.SetQuery(uploadRequest.ToQuery()).
-		SetChannel("target.azure.storage.blob").
+		SetChannel("target.azure.storage.files").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)
@@ -54,11 +48,10 @@ func main() {
 	// get request
 	getRequest := types.NewRequest().
 		SetMetadataKeyValue("method", "get").
-		SetMetadataKeyValue("file_name", fileName).
 		SetMetadataKeyValue("service_url", serviceURL)
 
 	getQueryResponse, err := client.SetQuery(getRequest.ToQuery()).
-		SetChannel("target.azure.storage.blob").
+		SetChannel("target.azure.storage.files").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)
