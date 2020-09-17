@@ -3,6 +3,7 @@ package files
 import (
 	"bytes"
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/Azure/azure-pipeline-go/pipeline"
@@ -41,7 +42,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	}
 	c.pipeLine = azfile.NewPipeline(credential, azfile.PipelineOptions{
 		Retry: azfile.RetryOptions{
-			Policy:        c.opts.policy,                           // Use exponential backoff as opposed to linear
+			Policy:        c.opts.policy,                           // Use exponential or linear
 			MaxTries:      c.opts.maxTries,                         // Try at most x times to perform the operation (set to 1 to disable retries)
 			TryTimeout:    time.Millisecond * c.opts.tryTimeout,    // Maximum time allowed for any single try
 			RetryDelay:    time.Millisecond * c.opts.retryDelay,    // Backoff amount for each retry (exponential or linear)
@@ -58,6 +59,8 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return nil, err
 	}
 	switch meta.method {
+	case "create":
+		return c.create(ctx, meta)
 	case "upload":
 		return c.upload(ctx, meta, req.Data)
 	case "get":
@@ -67,6 +70,31 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	}
 	return nil, errors.New("invalid method type")
 }
+
+func (c *Client) create(ctx context.Context, meta metadata) (*types.Response, error) {
+
+
+	URL, err := url.Parse(meta.serviceUrl)
+	if err != nil {
+		return nil, err
+	}
+	fileURL := azfile.NewFileURL(*URL, c.pipeLine)
+	if len(meta.fileMetadata) > 0 {
+		_, err = fileURL.Create(ctx,meta.size,azfile.FileHTTPHeaders{},meta.fileMetadata)
+		if err != nil {
+			return nil, err
+		}
+	}else {
+		_, err = fileURL.Create(ctx,meta.size,azfile.FileHTTPHeaders{},nil)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok"),
+		nil
+}
+
 
 func (c *Client) upload(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
 
@@ -107,7 +135,9 @@ func (c *Client) get(ctx context.Context, meta metadata) (*types.Response, error
 		return nil, err
 	}
 	bodyStream := downloadResponse.Body(azfile.RetryReaderOptions{MaxRetryRequests: meta.maxRetryRequests})
-
+	defer func() {
+		_ = bodyStream.Close()
+	}()
 	// read the body into a buffer
 	downloadedData := bytes.Buffer{}
 	_, err = downloadedData.ReadFrom(bodyStream)
@@ -115,6 +145,18 @@ func (c *Client) get(ctx context.Context, meta metadata) (*types.Response, error
 		return nil, err
 	}
 	b := downloadedData.Bytes()
+	m := downloadResponse.NewMetadata()
+	if len(m) > 0 {
+		jsonString, err := json.Marshal(m)
+		if err != nil {
+			return nil, err
+		}
+		return types.NewResponse().
+				SetData(b).
+				SetMetadataKeyValue("file_metadata", fmt.Sprintf("%s",jsonString)).
+				SetMetadataKeyValue("result", "ok"),
+			nil
+	}
 	return types.NewResponse().
 			SetData(b).
 			SetMetadataKeyValue("result", "ok"),

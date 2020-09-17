@@ -11,7 +11,7 @@ const (
 	DeleteSnapshotsOptionNone    = ""
 	DeleteSnapshotsOptionOnly    = "only"
 
-	DefaultRetryRequests = 0
+	DefaultRetryRequests = 1
 	DefaultBlockSize     = 4194304
 	DefaultParallelism   = 16
 

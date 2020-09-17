@@ -2,16 +2,14 @@ package files
 
 import (
 	"fmt"
-	"github.com/Azure/azure-storage-file-go/azfile"
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
 const (
-	DeleteSnapshotsOptionInclude = "include"
-	DeleteSnapshotsOptionNone    = ""
 
-	DefaultRetryRequests = 0
+	DefaultRetryRequests = 1
 	DefaultRangeSize     = 4194304
+	DefaultFileSize      = 1000000
 	DefaultParallelism   = 16
 
 	DefaultCount  = 0
@@ -22,22 +20,19 @@ var methodsMap = map[string]string{
 	"upload": "upload",
 	"get":    "get",
 	"delete": "delete",
+	"create": "create",
 }
 
-var deleteSnapShotTypes = map[string]string{
-	"include": "include",
-	"":        "",
-}
+
 
 type metadata struct {
 	method                    string
-	fileName                  string
 	serviceUrl                string
 	rangeSize                 int64
 	parallelism               uint16
 	offset                    int64
 	count                     int64
-	deleteSnapshotsOptionType azfile.DeleteSnapshotsOptionType
+	size                      int64
 	maxRetryRequests          int
 	fileMetadata              map[string]string
 }
@@ -49,22 +44,6 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if err != nil {
 		return metadata{}, meta.GetValidMethodTypes(methodsMap)
 	}
-	if m.method == "delete" {
-		deleteSnapshotsOptionType, err := meta.ParseStringMap("delete_snapshots_option_type", deleteSnapShotTypes)
-		if err != nil {
-			return metadata{}, meta.GetValidSupportedTypes(deleteSnapShotTypes, "delete_snapshots_option_type")
-		}
-		switch deleteSnapshotsOptionType {
-		case DeleteSnapshotsOptionInclude:
-			m.deleteSnapshotsOptionType = azfile.DeleteSnapshotsOptionInclude
-		case DeleteSnapshotsOptionNone:
-			m.deleteSnapshotsOptionType = azfile.DeleteSnapshotsOptionNone
-		}
-	}
-	m.fileName, err = meta.MustParseString("file_name")
-	if err != nil {
-		return metadata{}, fmt.Errorf("error parsing file_name , %w", err)
-	}
 	m.serviceUrl, err = meta.MustParseString("service_url")
 	if err != nil {
 		return metadata{}, fmt.Errorf("error parsing service_url , %w", err)
@@ -73,7 +52,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	fileMetadata, err := meta.MustParseJsonMap("file_metadata")
 	if err != nil {
 		return metadata{}, fmt.Errorf("error parsing file_metadata, %w", err)
-	}else{
+	} else {
 		m.fileMetadata = fileMetadata
 	}
 
@@ -82,5 +61,6 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	m.count = int64(meta.ParseInt("count", DefaultCount))
 	m.offset = int64(meta.ParseInt("offset", DefaultOffset))
 	m.maxRetryRequests = meta.ParseInt("max_retry_request", DefaultRetryRequests)
+	m.size = int64(meta.ParseInt("file_size", DefaultFileSize))
 	return m, nil
 }
