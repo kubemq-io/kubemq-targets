@@ -148,7 +148,7 @@ Example:
   "metadata": {
     "method": "delete",
     "queue_name": "test",
-    "service_url": "https://test.end.point.test.net/test"
+    "service_url": "https://test.end.point.test.net"
   },
   "data": null
 }
@@ -171,9 +171,9 @@ Example:
 ```json
 {
   "metadata": {
-    "method": "Peek",
-"queue_name": "test",
-    "service_url": "https://test.end.point.test.net/test"
+    "method": "peek",
+    "queue_name": "test",
+    "service_url": "https://test.end.point.test.net"
   },
   "data": null
 }
@@ -200,7 +200,7 @@ Example:
   "metadata": {
     "method": "pop",
     "queue_name": "test",
-    "service_url": "https://test.end.point.test.net/test"
+    "service_url": "https://test.end.point.test.net"
   },
   "data": null
 }
