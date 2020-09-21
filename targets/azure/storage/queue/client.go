@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/Azure/azure-pipeline-go/pipeline"
 	"github.com/Azure/azure-storage-queue-go/azqueue"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
@@ -15,7 +14,6 @@ import (
 type Client struct {
 	name        string
 	opts        options
-	pipeLine    pipeline.Pipeline
 	retryOption azqueue.RetryOptions
 	credential  *azqueue.SharedKeyCredential
 }
@@ -88,6 +86,9 @@ func (c *Client) create(ctx context.Context, meta metadata) (*types.Response, er
 				}
 			} else {
 				_, err = queueUrl.Create(ctx, azqueue.Metadata{})
+				if err != nil {
+					return nil, err
+				}
 			}
 			_, err := queueUrl.GetProperties(ctx)
 			if err != nil {
@@ -212,6 +213,9 @@ func (c *Client) pop(ctx context.Context, meta metadata) (*types.Response, error
 	}))
 	messageUrl := queueUrl.NewMessagesURL()
 	resp, err := messageUrl.Dequeue(ctx, meta.maxMessages, meta.visibilityTimeout)
+	if err != nil {
+		return nil, err
+	}
 	messages := make([]*azqueue.DequeuedMessage, 0)
 	for i := int32(0); i < resp.NumMessages(); i++ {
 		msg := resp.Message(i)
