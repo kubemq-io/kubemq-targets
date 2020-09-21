@@ -6,6 +6,7 @@ Kubemq blob target connector allows services using kubemq server to access blob 
 The following are required to run the blob target connector:
 
 - kubemq cluster
+- Azure active storage account
 - Azure active with storage enable - with access account
 - kubemq-targets deployment
 

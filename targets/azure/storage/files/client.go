@@ -73,19 +73,18 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 
 func (c *Client) create(ctx context.Context, meta metadata) (*types.Response, error) {
 
-
 	URL, err := url.Parse(meta.serviceUrl)
 	if err != nil {
 		return nil, err
 	}
 	fileURL := azfile.NewFileURL(*URL, c.pipeLine)
 	if len(meta.fileMetadata) > 0 {
-		_, err = fileURL.Create(ctx,meta.size,azfile.FileHTTPHeaders{},meta.fileMetadata)
+		_, err = fileURL.Create(ctx, meta.size, azfile.FileHTTPHeaders{}, meta.fileMetadata)
 		if err != nil {
 			return nil, err
 		}
-	}else {
-		_, err = fileURL.Create(ctx,meta.size,azfile.FileHTTPHeaders{},nil)
+	} else {
+		_, err = fileURL.Create(ctx, meta.size, azfile.FileHTTPHeaders{}, nil)
 		if err != nil {
 			return nil, err
 		}
@@ -94,7 +93,6 @@ func (c *Client) create(ctx context.Context, meta metadata) (*types.Response, er
 			SetMetadataKeyValue("result", "ok"),
 		nil
 }
-
 
 func (c *Client) upload(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
 
@@ -121,7 +119,6 @@ func (c *Client) upload(ctx context.Context, meta metadata, data []byte) (*types
 			SetMetadataKeyValue("result", "ok"),
 		nil
 }
-
 
 func (c *Client) get(ctx context.Context, meta metadata) (*types.Response, error) {
 
@@ -153,7 +150,7 @@ func (c *Client) get(ctx context.Context, meta metadata) (*types.Response, error
 		}
 		return types.NewResponse().
 				SetData(b).
-				SetMetadataKeyValue("file_metadata", fmt.Sprintf("%s",jsonString)).
+				SetMetadataKeyValue("file_metadata", fmt.Sprintf("%s", jsonString)).
 				SetMetadataKeyValue("result", "ok"),
 			nil
 	}

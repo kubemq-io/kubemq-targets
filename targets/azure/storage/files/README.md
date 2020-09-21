@@ -6,6 +6,7 @@ Kubemq files target connector allows services using kubemq server to access file
 The following are required to run the files target connector:
 
 - kubemq cluster
+- Azure active storage account
 - Azure active with storage enable - with access account
 - kubemq-targets deployment
 
@@ -84,7 +85,7 @@ Upload metadata setting:
 | service_url       | yes      | service url path and filename                  | "https://test.files.core.windows.net/test/test.txt"   |
 | data              | yes      | file data (byte array)                         | "bXktZmlsZS1kYXRh"                               |
 | range_size        | no       | specifies the range size to use in bytes       | "0" ,default(4194304)                            | 
-| parallelism       | no       | maximum number of blocks to upload in parallel | "upload",default(0)                              |
+| parallelism       | no       | maximum number of ranges to upload in parallel | "upload",default(0)                              |
 | file_metadata     | no       | key value string string file Metadata          | "{"tag":"test","name":"myname"}",default(none)   |                           |
 
 
