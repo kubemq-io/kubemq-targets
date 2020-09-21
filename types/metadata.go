@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"time"
 )
 
 type Metadata map[string]string
@@ -67,6 +68,19 @@ func (m Metadata) MustNotParseString(key string, conflictValueName string) (stri
 		return "", nil
 	} else {
 		return "", fmt.Errorf("value of key %s cannot exists when %s is set", key, conflictValueName)
+	}
+}
+
+func (m Metadata) ParseTimeDuration(key string, defaultValue int) time.Duration {
+	if val, ok := m[key]; ok && val != "" {
+		parsedVal, err := strconv.ParseInt(val, 10, 64)
+		if err != nil {
+			return  time.Duration(defaultValue)
+		} else {
+			return time.Duration(parsedVal)
+		}
+	} else {
+		return time.Duration(defaultValue)
 	}
 }
 

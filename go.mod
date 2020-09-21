@@ -16,6 +16,7 @@ require (
 	github.com/Azure/azure-sdk-for-go v46.1.0+incompatible // indirect
 	github.com/Azure/azure-storage-blob-go v0.10.0
 	github.com/Azure/azure-storage-file-go v0.8.0
+	github.com/Azure/azure-storage-queue-go v0.0.0-20191125232315-636801874cdd
 	github.com/Azure/go-amqp v0.12.8 // indirect
 	github.com/Azure/go-autorest/autorest v0.11.6 // indirect
 	github.com/Azure/go-autorest/autorest/to v0.4.0 // indirect
