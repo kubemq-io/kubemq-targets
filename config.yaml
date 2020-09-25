@@ -1,32 +1,32 @@
 apiPort: 8081
 bindings:
-#  - name: kubemq-query-redis
-#    source:
-#      kind: source.query
-#      name: kubemq-query
-#      properties:
-#        host: "localhost"
-#        port: "50000"
-#        client_id: "kubemq-query-redis-connector"
-#        auth_token: ""
-#        channel: "query.redis"
-#        group:   ""
-#        concurrency: "1"
-#        auto_reconnect: "true"
-#        reconnect_interval_seconds: "1"
-#        max_reconnects: "0"
-#    target:
-#      kind: target.cache.redis
-#      name: target-redis
-#      properties:
-#        url: "redis://localhost:6379"
-#    properties:
-#      log_level: "error"
-#      rate_per_seconds: "1"
-#      retry_attempts:  "3"
-#      retry_delay_milliseconds :      "100"
-#      retry_max_jitter_milliseconds: "100"
-#      retry_delay_type: "fixed"
+  - name: kubemq-query-redis
+    source:
+      kind: source.query
+      name: kubemq-query
+      properties:
+        host: "localhost"
+        port: "50000"
+        client_id: "kubemq-query-redis-connector"
+        auth_token: ""
+        channel: "query.redis"
+        group:   ""
+        concurrency: "1"
+        auto_reconnect: "true"
+        reconnect_interval_seconds: "1"
+        max_reconnects: "0"
+    target:
+      kind: target.cache.redis
+      name: target-redis
+      properties:
+        url: "redis://localhost:6379"
+    properties:
+      log_level: "debug"
+      rate_per_seconds: "1"
+      retry_attempts:  "3"
+      retry_delay_milliseconds :      "100"
+      retry_max_jitter_milliseconds: "100"
+      retry_delay_type: "fixed"
 #  - name: kubemq-query-memcached
 #    source:
 #      kind: source.query

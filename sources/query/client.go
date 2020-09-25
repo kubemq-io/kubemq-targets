@@ -51,7 +51,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		kubemq.WithAddress(c.opts.host, c.opts.port),
 		kubemq.WithClientId(c.opts.clientId),
 		kubemq.WithTransportType(kubemq.TransportTypeGRPC),
-		kubemq.WithCheckConnection(true),
+		kubemq.WithCheckConnection(false),
 		kubemq.WithAuthToken(c.opts.authToken),
 		kubemq.WithMaxReconnects(c.opts.maxReconnects),
 		kubemq.WithAutoReconnect(c.opts.autoReconnect),
