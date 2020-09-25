@@ -15,21 +15,15 @@ Events source connector configuration properties:
 
 | Properties Key             | Required | Description                           | Example            |
 |:---------------------------|:---------|:--------------------------------------|:-------------------|
-| host                       | yes      | kubemq server host address            | "localhost         |
-| port                       | yes      | kubemq server port number             | "50000"            |
+| address                    | yes      | kubemq server address (gRPC interface) | kubemq-cluster:50000 |
 | client_id                  | no       | set client id                         | "client_id"        |
 | auth_token                 | no       | set authentication token              | jwt token          |
 | channel                    | yes      | set channel to subscribe              |                    |
 | group                      | no       | set subscriber group                  |                    |
-| concurrency                | yes      | set parallel subscribers count        | "10"               |
 | response_channel             | no       | set send target response to channel   | "response.channel" |
 | auto_reconnect             | no       | set auto reconnect on lost connection | "false", "true"    |
 | reconnect_interval_seconds | no       | set reconnection seconds              | "5"                |
 | max_reconnects             | no       | set how many time to reconnect        | "0"                |
-
-
-
-
 
 
 Example:
@@ -41,13 +35,11 @@ bindings:
       kind: source.events
       name: kubemq-events
       properties:
-        host: "localhost"
-        port: "50000"
+        address: "kubemq-cluster:50000"
         client_id: "kubemq-events-elastic-search-connector"
         auth_token: ""
         channel: "events.elastic-search"
         group:   ""
-        concurrency: "1"
         response_channel: "events.response.elastic"
         auto_reconnect: "true"
         reconnect_interval_seconds: "1"

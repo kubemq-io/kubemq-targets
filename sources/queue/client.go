@@ -16,13 +16,6 @@ var (
 	errInvalidTarget = errors.New("invalid controller received, cannot be null")
 )
 
-const (
-	defaultHost        = "localhost"
-	defaultPort        = 50000
-	defaultBatchSize   = 1
-	defaultWaitTimeout = 60
-)
-
 type Client struct {
 	name   string
 	opts   options

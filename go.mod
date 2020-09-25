@@ -55,8 +55,6 @@ require (
 	go.mongodb.org/mongo-driver v1.4.1
 	go.uber.org/atomic v1.7.0
 	go.uber.org/zap v1.16.0
-	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a // indirect
-	golang.org/x/net v0.0.0-20200904194848-62affa334b73 // indirect
 	golang.org/x/oauth2 v0.0.0-20200902213428-5d25da1a8d43
 	google.golang.org/api v0.32.0
 	google.golang.org/genproto v0.0.0-20200925023002-c2d885f95484

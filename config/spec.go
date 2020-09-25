@@ -3,6 +3,7 @@ package config
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"os"
 	"strconv"
 	"strings"
@@ -10,9 +11,9 @@ import (
 )
 
 type Spec struct {
-	Name       string            `json:"name"`
-	Kind       string            `json:"kind"`
-	Properties map[string]string `json:"properties"`
+	Name       string         `json:"name"`
+	Kind       string         `json:"kind"`
+	Properties types.Metadata `json:"properties"`
 }
 
 func (s Spec) Validate() error {
@@ -90,7 +91,7 @@ func (s Spec) ParseTimeDuration(key string, defaultValue int) time.Duration {
 	if val, ok := s.Properties[key]; ok && val != "" {
 		parsedVal, err := strconv.ParseInt(val, 10, 64)
 		if err != nil {
-			return  time.Duration(defaultValue)
+			return time.Duration(defaultValue)
 		} else {
 			return time.Duration(parsedVal)
 		}
@@ -98,7 +99,6 @@ func (s Spec) ParseTimeDuration(key string, defaultValue int) time.Duration {
 		return time.Duration(defaultValue)
 	}
 }
-
 
 func (s Spec) ParseIntWithRange(key string, defaultValue, min, max int) (int, error) {
 	val := s.ParseInt(key, defaultValue)

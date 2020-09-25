@@ -14,12 +14,6 @@ import (
 	"time"
 )
 
-const (
-	defaultHost          = "localhost"
-	defaultPort          = 50000
-	defaultAutoReconnect = true
-)
-
 var (
 	errInvalidTarget = errors.New("invalid target received, cannot be nil")
 )
@@ -72,16 +66,16 @@ func (c *Client) Start(ctx context.Context, target middleware.Middleware) error 
 	if c.opts.group != "" {
 		group = c.opts.group
 	}
-	for i := 0; i < c.opts.concurrency; i++ {
-		errCh := make(chan error, 1)
-		queriesCh, err := c.client.SubscribeToQueries(ctx, c.opts.channel, group, errCh)
-		if err != nil {
-			return fmt.Errorf("error on subscribing to query channel, %w", err)
-		}
-		go func(ctx context.Context, queryCh <-chan *kubemq.QueryReceive, errCh chan error) {
-			c.run(ctx, queriesCh, errCh)
-		}(ctx, queriesCh, errCh)
+
+	errCh := make(chan error, 1)
+	queriesCh, err := c.client.SubscribeToQueries(ctx, c.opts.channel, group, errCh)
+	if err != nil {
+		return fmt.Errorf("error on subscribing to query channel, %w", err)
 	}
+	go func(ctx context.Context, queryCh <-chan *kubemq.QueryReceive, errCh chan error) {
+		c.run(ctx, queriesCh, errCh)
+	}(ctx, queriesCh, errCh)
+
 	return nil
 }
 

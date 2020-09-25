@@ -23,8 +23,7 @@ func setupClient(ctx context.Context, target middleware.Middleware) (*Client, er
 		Name: "kubemq-queue",
 		Kind: "",
 		Properties: map[string]string{
-			"host":             "localhost",
-			"port":             "50000",
+			"address":          "localhost:50000",
 			"client_id":        "some-client-id",
 			"auth_token":       "",
 			"channel":          "queue",
@@ -123,7 +122,7 @@ func TestClient_processQueue(t *testing.T) {
 			},
 			respChannel: "queue.response",
 			req:         types.NewRequest().SetData([]byte("some-data")),
-			wantResp:    types.NewResponse().SetMetadataKeyValue("error", "do-error"),
+			wantResp:    types.NewResponse().SetError(fmt.Errorf("do-error")),
 			sendCh:      "queue",
 			wantErr:     false,
 		},
@@ -171,8 +170,7 @@ func TestClient_Init(t *testing.T) {
 				Name: "kubemq-queue",
 				Kind: "",
 				Properties: map[string]string{
-					"host":             "localhost",
-					"port":             "50000",
+					"address":          "localhost:50000",
 					"client_id":        "some-client-id",
 					"auth_token":       "some-auth token",
 					"channel":          "some-channel",
@@ -229,8 +227,7 @@ func TestClient_Start(t *testing.T) {
 				Name: "kubemq-queue",
 				Kind: "",
 				Properties: map[string]string{
-					"host":             "localhost",
-					"port":             "50000",
+					"address":          "localhost:50000",
 					"client_id":        "some-client-id",
 					"auth_token":       "some-auth token",
 					"channel":          "some-channel",
@@ -249,8 +246,7 @@ func TestClient_Start(t *testing.T) {
 				Name: "kubemq-queue",
 				Kind: "",
 				Properties: map[string]string{
-					"host":             "localhost",
-					"port":             "50000",
+					"address":          "localhost:50000",
 					"client_id":        "some-client-id",
 					"auth_token":       "some-auth token",
 					"channel":          "some-channel",

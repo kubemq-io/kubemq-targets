@@ -20,8 +20,7 @@ func TestOptions_parseOptions(t *testing.T) {
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
-					"host":             "localhost",
-					"port":             "50000",
+					"address":          "localhost:50000",
 					"client_id":        "some-client-id",
 					"auth_token":       "some-auth token",
 					"channel":          "some-channel",
@@ -43,19 +42,6 @@ func TestOptions_parseOptions(t *testing.T) {
 				waitTimeout:     60,
 			},
 			wantErr: false,
-		},
-		{
-			name: "invalid options - bad port",
-			cfg: config.Spec{
-				Name: "kubemq-rpc",
-				Kind: "",
-				Properties: map[string]string{
-					"host": "localhost",
-					"port": "-1",
-				},
-			},
-			want:    options{},
-			wantErr: true,
 		},
 		{
 			name: "invalid options - bad channel",

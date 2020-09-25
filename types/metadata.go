@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -75,7 +76,7 @@ func (m Metadata) ParseTimeDuration(key string, defaultValue int) time.Duration 
 	if val, ok := m[key]; ok && val != "" {
 		parsedVal, err := strconv.ParseInt(val, 10, 64)
 		if err != nil {
-			return  time.Duration(defaultValue)
+			return time.Duration(defaultValue)
 		} else {
 			return time.Duration(parsedVal)
 		}
@@ -190,7 +191,6 @@ func (m Metadata) MustParseInterfaceMap(key string) (map[string]interface{}, err
 	}
 }
 
-
 func (m Metadata) GetValidMethodTypes(methodsMap map[string]string) error {
 	s := "invalid method type, method type should be one of the following:"
 	for k := range methodsMap {
@@ -205,4 +205,28 @@ func (m Metadata) GetValidSupportedTypes(possibleValues map[string]string, typeN
 		s = fmt.Sprintf("%s :%s,", s, k)
 	}
 	return errors.New(s)
+}
+
+func (m Metadata) MustParseAddress(key, defaultValue string) (string, int, error) {
+	var host string
+	var port int
+	var hostPort []string
+	if val, ok := m[key]; ok && val != "" {
+		hostPort = strings.Split(val, ":")
+	} else {
+		hostPort = strings.Split(defaultValue, ":")
+	}
+	if len(hostPort) >= 1 {
+		host = hostPort[0]
+	}
+	if len(hostPort) >= 2 {
+		port, _ = strconv.Atoi(hostPort[1])
+	}
+	if host == "" {
+		return "", 0, fmt.Errorf("no valid host found")
+	}
+	if port == 0 {
+		return "", 0, fmt.Errorf("no valid port found")
+	}
+	return host, port, nil
 }

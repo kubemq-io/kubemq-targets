@@ -12,12 +12,6 @@ import (
 	"github.com/nats-io/nuid"
 )
 
-const (
-	defaultHost          = "localhost"
-	defaultPort          = 50000
-	defaultAutoReconnect = true
-)
-
 var (
 	errInvalidTarget = errors.New("invalid target received, cannot be nil")
 )
@@ -70,16 +64,16 @@ func (c *Client) Start(ctx context.Context, target middleware.Middleware) error 
 	if c.opts.group != "" {
 		group = c.opts.group
 	}
-	for i := 0; i < c.opts.concurrency; i++ {
-		errCh := make(chan error, 1)
-		commandsCh, err := c.client.SubscribeToCommands(ctx, c.opts.channel, group, errCh)
-		if err != nil {
-			return fmt.Errorf("error on subscribing to command channel, %w", err)
-		}
-		go func(ctx context.Context, commandCh <-chan *kubemq.CommandReceive, errCh chan error) {
-			c.run(ctx, commandsCh, errCh)
-		}(ctx, commandsCh, errCh)
+
+	errCh := make(chan error, 1)
+	commandsCh, err := c.client.SubscribeToCommands(ctx, c.opts.channel, group, errCh)
+	if err != nil {
+		return fmt.Errorf("error on subscribing to command channel, %w", err)
 	}
+	go func(ctx context.Context, commandCh <-chan *kubemq.CommandReceive, errCh chan error) {
+		c.run(ctx, commandsCh, errCh)
+	}(ctx, commandsCh, errCh)
+
 	return nil
 }
 
