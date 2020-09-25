@@ -37,40 +37,40 @@ type options struct {
 func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
-	o.hosts, err = cfg.MustParseStringList("hosts")
+	o.hosts, err = cfg.Properties.MustParseStringList("hosts")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing hosts, %w", err)
 	}
-	o.tls, err = cfg.MustParseString("tls")
+	o.tls, err = cfg.Properties.MustParseString("tls")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing tls, %w", err)
 	}
-	o.port, err = cfg.ParseIntWithRange("port", defaultPort, 1, 65535)
+	o.port, err = cfg.Properties.ParseIntWithRange("port", defaultPort, 1, 65535)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing port value, %w", err)
 	}
-	o.protoVersion, err = cfg.ParseIntWithRange("proto_version", defaultProtoVersion, 1, math.MaxInt32)
+	o.protoVersion, err = cfg.Properties.ParseIntWithRange("proto_version", defaultProtoVersion, 1, math.MaxInt32)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing proto version value, %w", err)
 	}
-	o.replicationFactor, err = cfg.ParseIntWithRange("replication_factor", defaultReplicationFactor, 1, math.MaxInt32)
+	o.replicationFactor, err = cfg.Properties.ParseIntWithRange("replication_factor", defaultReplicationFactor, 1, math.MaxInt32)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing replication factor value, %w", err)
 	}
-	o.username = cfg.ParseString("username", defaultUsername)
-	o.password = cfg.ParseString("password", defaultPassword)
-	o.consistency, err = getConsistency(cfg.ParseString("consistency", "local_quorum"))
+	o.username = cfg.Properties.ParseString("username", defaultUsername)
+	o.password = cfg.Properties.ParseString("password", defaultPassword)
+	o.consistency, err = getConsistency(cfg.Properties.ParseString("consistency", "local_quorum"))
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing consistency value, %w", err)
 	}
-	o.defaultTable = cfg.ParseString("default_table", defaultTable)
-	o.defaultKeyspace = cfg.ParseString("default_keyspace", defaultKeyspace)
-	connectTimeout, err := cfg.ParseIntWithRange("connect_timeout_seconds", 60, 1, math.MaxInt32)
+	o.defaultTable = cfg.Properties.ParseString("default_table", defaultTable)
+	o.defaultKeyspace = cfg.Properties.ParseString("default_keyspace", defaultKeyspace)
+	connectTimeout, err := cfg.Properties.ParseIntWithRange("connect_timeout_seconds", 60, 1, math.MaxInt32)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing connect timeout seconds timeout value, %w", err)
 	}
 	o.connectTimeoutSeconds = time.Duration(connectTimeout) * time.Second
-	timeout, err := cfg.ParseIntWithRange("timeout_seconds", 60, 1, math.MaxInt32)
+	timeout, err := cfg.Properties.ParseIntWithRange("timeout_seconds", 60, 1, math.MaxInt32)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing timeout seconds value, %w", err)
 	}

@@ -12,7 +12,7 @@ type options struct {
 func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
-	o.url, err = cfg.MustParseString("url")
+	o.url, err = cfg.Properties.MustParseString("url")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing url, %w", err)
 	}

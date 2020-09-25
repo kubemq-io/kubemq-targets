@@ -13,11 +13,11 @@ type options struct {
 func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
-	o.db, err = cfg.MustParseString("db")
+	o.db, err = cfg.Properties.MustParseString("db")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing db, %w", err)
 	}
-	o.credentials, err = cfg.MustParseString("credentials")
+	o.credentials, err = cfg.Properties.MustParseString("credentials")
 	if err != nil {
 		return options{}, err
 	}

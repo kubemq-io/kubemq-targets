@@ -25,20 +25,20 @@ type options struct {
 func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
-	o.connection, err = cfg.MustParseString("connection")
+	o.connection, err = cfg.Properties.MustParseString("connection")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing connection string, %w", err)
 	}
 
-	o.maxIdleConnections, err = cfg.ParseIntWithRange("max_idle_connections", defaultMaxIdleConnections, 1, math.MaxInt32)
+	o.maxIdleConnections, err = cfg.Properties.ParseIntWithRange("max_idle_connections", defaultMaxIdleConnections, 1, math.MaxInt32)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing max idle connections value, %w", err)
 	}
-	o.maxOpenConnections, err = cfg.ParseIntWithRange("max_open_connections", defaultMaxOpenConnections, 1, math.MaxInt32)
+	o.maxOpenConnections, err = cfg.Properties.ParseIntWithRange("max_open_connections", defaultMaxOpenConnections, 1, math.MaxInt32)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing max open connections value, %w", err)
 	}
-	o.connectionMaxLifetimeSeconds, err = cfg.ParseIntWithRange("connection_max_lifetime_seconds", defaultConnectionMaxLifetimeSeconds, 1, math.MaxInt32)
+	o.connectionMaxLifetimeSeconds, err = cfg.Properties.ParseIntWithRange("connection_max_lifetime_seconds", defaultConnectionMaxLifetimeSeconds, 1, math.MaxInt32)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing connection max lifetime seconds value, %w", err)
 	}

@@ -22,25 +22,25 @@ type options struct {
 func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
-	o.awsKey, err = cfg.MustParseString("aws_key")
+	o.awsKey, err = cfg.Properties.MustParseString("aws_key")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing aws_key , %w", err)
 	}
 
-	o.awsSecretKey, err = cfg.MustParseString("aws_secret_key")
+	o.awsSecretKey, err = cfg.Properties.MustParseString("aws_secret_key")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing aws_secret_key , %w", err)
 	}
 
-	o.region, err = cfg.MustParseString("region")
+	o.region, err = cfg.Properties.MustParseString("region")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing region , %w", err)
 	}
 
-	o.token = cfg.ParseString("token", DefaultToken)
+	o.token = cfg.Properties.ParseString("token", DefaultToken)
 
-	o.downloader = cfg.ParseBool("downloader", false)
-	o.uploader = cfg.ParseBool("uploader", false)
+	o.downloader = cfg.Properties.ParseBool("downloader", false)
+	o.uploader = cfg.Properties.ParseBool("uploader", false)
 
 	return o, nil
 }

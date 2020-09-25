@@ -14,16 +14,16 @@ type options struct {
 func parseOptions(cfg config.Spec) (options, error) {
 	m := options{}
 	var err error
-	m.brokers, err = cfg.MustParseStringList("brokers")
+	m.brokers, err = cfg.Properties.MustParseStringList("brokers")
 	if err != nil {
 		return m, err
 	}
-	m.topic, err = cfg.MustParseString("topic")
+	m.topic, err = cfg.Properties.MustParseString("topic")
 	if err != nil {
 		return m, err
 	}
-	m.saslUsername = cfg.ParseString("saslUsername", "")
-	m.saslPassword = cfg.ParseString("saslPassword", "")
+	m.saslUsername = cfg.Properties.ParseString("saslUsername", "")
+	m.saslPassword = cfg.Properties.ParseString("saslPassword", "")
 
 	return m, nil
 }

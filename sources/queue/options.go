@@ -31,26 +31,26 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing address value, %w", err)
 	}
-	o.authToken = cfg.ParseString("auth_token", "")
+	o.authToken = cfg.Properties.ParseString("auth_token", "")
 
-	o.clientId = cfg.ParseString("client_id", nuid.Next())
+	o.clientId = cfg.Properties.ParseString("client_id", nuid.Next())
 
-	o.channel, err = cfg.MustParseString("channel")
+	o.channel, err = cfg.Properties.MustParseString("channel")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing channel value, %w", err)
 	}
-	o.responseChannel = cfg.ParseString("response_channel", "")
+	o.responseChannel = cfg.Properties.ParseString("response_channel", "")
 
-	o.concurrency, err = cfg.ParseIntWithRange("concurrency", 1, 1, 100)
+	o.concurrency, err = cfg.Properties.ParseIntWithRange("concurrency", 1, 1, 100)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing concurrency value, %w", err)
 	}
 
-	o.batchSize, err = cfg.ParseIntWithRange("batch_size", defaultBatchSize, 1, 1024)
+	o.batchSize, err = cfg.Properties.ParseIntWithRange("batch_size", defaultBatchSize, 1, 1024)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing batch size value, %w", err)
 	}
-	o.waitTimeout, err = cfg.ParseIntWithRange("wait_timeout", defaultWaitTimeout, 1, 24*60*60)
+	o.waitTimeout, err = cfg.Properties.ParseIntWithRange("wait_timeout", defaultWaitTimeout, 1, 24*60*60)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing wait timeout value, %w", err)
 	}

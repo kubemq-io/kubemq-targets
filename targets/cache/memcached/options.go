@@ -19,16 +19,16 @@ func parseOptions(cfg config.Spec) (options, error) {
 		defaultTimeoutSeconds: 0,
 	}
 	var err error
-	o.hosts, err = cfg.MustParseStringList("hosts")
+	o.hosts, err = cfg.Properties.MustParseStringList("hosts")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing host, %w", err)
 	}
 
-	o.maxIdleConnections, err = cfg.ParseIntWithRange("max_idle_connections", 2, 1, math.MaxInt32)
+	o.maxIdleConnections, err = cfg.Properties.ParseIntWithRange("max_idle_connections", 2, 1, math.MaxInt32)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing max idle connections, %w", err)
 	}
-	o.defaultTimeoutSeconds, err = cfg.ParseIntWithRange("default_timeout_seconds", 1, 1, math.MaxInt32)
+	o.defaultTimeoutSeconds, err = cfg.Properties.ParseIntWithRange("default_timeout_seconds", 1, 1, math.MaxInt32)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing default timeout seconds, %w", err)
 	}

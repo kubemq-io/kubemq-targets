@@ -22,25 +22,25 @@ type options struct {
 func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
-	o.host, err = cfg.MustParseString("host")
+	o.host, err = cfg.Properties.MustParseString("host")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing host, %w", err)
 	}
-	o.username = cfg.ParseString("username", "")
-	o.password = cfg.ParseString("password", "")
-	o.database, err = cfg.MustParseString("database")
+	o.username = cfg.Properties.ParseString("username", "")
+	o.password = cfg.Properties.ParseString("password", "")
+	o.database, err = cfg.Properties.MustParseString("database")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing database name, %w", err)
 	}
-	o.collection, err = cfg.MustParseString("collection")
+	o.collection, err = cfg.Properties.MustParseString("collection")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing collection name, %w", err)
 	}
-	o.writeConcurrency = cfg.ParseString("write_concurrency", "")
-	o.readConcurrency = cfg.ParseString("read_concurrency", "")
+	o.writeConcurrency = cfg.Properties.ParseString("write_concurrency", "")
+	o.readConcurrency = cfg.Properties.ParseString("read_concurrency", "")
 
-	o.params = cfg.ParseString("params", "")
-	operationTimeoutSeconds, err := cfg.ParseIntWithRange("operation_timeout_seconds", 2, 0, math.MaxInt32)
+	o.params = cfg.Properties.ParseString("params", "")
+	operationTimeoutSeconds, err := cfg.Properties.ParseIntWithRange("operation_timeout_seconds", 2, 0, math.MaxInt32)
 	if err != nil {
 		return options{}, fmt.Errorf("error operation timeout seconds, %w", err)
 	}

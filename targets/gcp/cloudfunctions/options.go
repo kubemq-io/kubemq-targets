@@ -15,15 +15,15 @@ type options struct {
 func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
-	o.parrentProject, err = cfg.MustParseString("project")
+	o.parrentProject, err = cfg.Properties.MustParseString("project")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing project, %w", err)
 	}
-	o.credentials, err = cfg.MustParseString("credentials")
+	o.credentials, err = cfg.Properties.MustParseString("credentials")
 	if err != nil {
 		return options{}, err
 	}
-	o.locationMatch = cfg.ParseBool("location_match", true)
+	o.locationMatch = cfg.Properties.ParseBool("location_match", true)
 
 	return o, nil
 }

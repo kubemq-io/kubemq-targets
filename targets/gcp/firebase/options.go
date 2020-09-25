@@ -21,32 +21,32 @@ type options struct {
 func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
-	o.projectID, err = cfg.MustParseString("project_id")
+	o.projectID, err = cfg.Properties.MustParseString("project_id")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing project_id, %w", err)
 	}
-	o.credentials, err = cfg.MustParseString("credentials")
+	o.credentials, err = cfg.Properties.MustParseString("credentials")
 	if err != nil {
 		return options{}, err
 	}
-	o.authClient = cfg.ParseBool("auth_client", false)
+	o.authClient = cfg.Properties.ParseBool("auth_client", false)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing auth_client, %w", err)
 	}
 
-	o.dbClient = cfg.ParseBool("db_client", false)
+	o.dbClient = cfg.Properties.ParseBool("db_client", false)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing db_client, %w", err)
 	}
-	o.dbURL = cfg.ParseString("db_url", "")
+	o.dbURL = cfg.Properties.ParseString("db_url", "")
 
-	o.messagingClient = cfg.ParseBool("messaging_client", false)
+	o.messagingClient = cfg.Properties.ParseBool("messaging_client", false)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing messaging_client, %w", err)
 	}
 	if o.messagingClient {
 		o.defaultMessaging = &messages{}
-		n := cfg.ParseString("defaultmsg", "")
+		n := cfg.Properties.ParseString("defaultmsg", "")
 		if n != "" {
 			m := &messaging.Message{}
 			err := json.Unmarshal([]byte(n), m)
@@ -56,7 +56,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 			o.defaultMessaging.single = m
 		}
 
-		n = cfg.ParseString("defaultmultimsg", "")
+		n = cfg.Properties.ParseString("defaultmultimsg", "")
 		if n != "" {
 			mmulti := &messaging.MulticastMessage{}
 			err := json.Unmarshal([]byte(n), mmulti)

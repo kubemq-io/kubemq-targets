@@ -11,7 +11,7 @@ type options struct {
 func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
-	o.credentials, err = cfg.MustParseString("credentials")
+	o.credentials, err = cfg.Properties.MustParseString("credentials")
 	if err != nil {
 		return options{}, err
 	}

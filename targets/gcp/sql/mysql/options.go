@@ -33,43 +33,43 @@ func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
 
-	o.useProxy = cfg.ParseBool("use_proxy", true)
+	o.useProxy = cfg.Properties.ParseBool("use_proxy", true)
 	if o.useProxy {
-		o.instanceConnectionName, err = cfg.MustParseString("instance_connection_name")
+		o.instanceConnectionName, err = cfg.Properties.MustParseString("instance_connection_name")
 		if err != nil {
 			return options{}, fmt.Errorf("error parsing instance_connection_name string, %w", err)
 		}
-		o.dbUser, err = cfg.MustParseString("db_user")
+		o.dbUser, err = cfg.Properties.MustParseString("db_user")
 		if err != nil {
 			return options{}, fmt.Errorf("error parsing db_user string, %w", err)
 		}
-		o.dbName, err = cfg.MustParseString("db_name")
+		o.dbName, err = cfg.Properties.MustParseString("db_name")
 		if err != nil {
 			return options{}, fmt.Errorf("error parsing db_name string, %w", err)
 		}
-		o.dbPassword, err = cfg.MustParseString("db_password")
+		o.dbPassword, err = cfg.Properties.MustParseString("db_password")
 		if err != nil {
 			return options{}, fmt.Errorf("error parsing db_password string, %w", err)
 		}
-		o.credentials, err = cfg.MustParseString("credentials")
+		o.credentials, err = cfg.Properties.MustParseString("credentials")
 		if err != nil {
 			return options{}, err
 		}
 	} else {
-		o.connection, err = cfg.MustParseString("connection")
+		o.connection, err = cfg.Properties.MustParseString("connection")
 		if err != nil {
 			return options{}, fmt.Errorf("error parsing connection string, %w", err)
 		}
 	}
-	o.maxIdleConnections, err = cfg.ParseIntWithRange("max_idle_connections", defaultMaxIdleConnections, 1, math.MaxInt32)
+	o.maxIdleConnections, err = cfg.Properties.ParseIntWithRange("max_idle_connections", defaultMaxIdleConnections, 1, math.MaxInt32)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing max idle connections value, %w", err)
 	}
-	o.maxOpenConnections, err = cfg.ParseIntWithRange("max_open_connections", defaultMaxOpenConnections, 1, math.MaxInt32)
+	o.maxOpenConnections, err = cfg.Properties.ParseIntWithRange("max_open_connections", defaultMaxOpenConnections, 1, math.MaxInt32)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing max open connections value, %w", err)
 	}
-	o.connectionMaxLifetimeSeconds, err = cfg.ParseIntWithRange("connection_max_lifetime_seconds", defaultConnectionMaxLifetimeSeconds, 1, math.MaxInt32)
+	o.connectionMaxLifetimeSeconds, err = cfg.Properties.ParseIntWithRange("connection_max_lifetime_seconds", defaultConnectionMaxLifetimeSeconds, 1, math.MaxInt32)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing connection max lifetime seconds value, %w", err)
 	}

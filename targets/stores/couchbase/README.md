@@ -34,8 +34,7 @@ bindings:
       kind: source.query
       name: kubemq-query
       properties:
-        host: "localhost"
-        port: "50000"
+        address: "kubemq-cluster:50000"
         client_id: "kubemq-query-couchbase-connector"
         auth_token: ""
         channel: "query.couchbase"

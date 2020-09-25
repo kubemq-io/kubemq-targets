@@ -34,17 +34,17 @@ type options struct {
 func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
-	o.storageAccessKey, err = cfg.MustParseString("storage_access_key")
+	o.storageAccessKey, err = cfg.Properties.MustParseString("storage_access_key")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing storage_access_key , %w", err)
 	}
-	o.storageAccount, err = cfg.MustParseString("storage_account")
+	o.storageAccount, err = cfg.Properties.MustParseString("storage_account")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing storage_account , %w", err)
 	}
 
 	var policy string
-	policy, err = cfg.ParseStringMap("policy", policyMap)
+	policy, err = cfg.Properties.ParseStringMap("policy", policyMap)
 	if err != nil {
 		policy = defaultPolicy
 	}
@@ -52,12 +52,12 @@ func parseOptions(cfg config.Spec) (options, error) {
 		o.policy = azfile.RetryPolicyFixed
 	} else if policy == "retry_policy_exponential" {
 		o.policy = azfile.RetryPolicyExponential
-	}else{
+	} else {
 		o.policy = azfile.RetryPolicyExponential
 	}
-	o.maxTries = int32(cfg.ParseInt("max_tries", defaultMaxTries))
-	o.tryTimeout = cfg.ParseTimeDuration("try_timeout", defaultTryTimeout)
-	o.retryDelay = cfg.ParseTimeDuration("retry_delay", defaultRetryDelay)
-	o.maxRetryDelay = cfg.ParseTimeDuration ("max_retry_delay", defaultMaxRetryDelay)
+	o.maxTries = int32(cfg.Properties.ParseInt("max_tries", defaultMaxTries))
+	o.tryTimeout = cfg.Properties.ParseTimeDuration("try_timeout", defaultTryTimeout)
+	o.retryDelay = cfg.Properties.ParseTimeDuration("retry_delay", defaultRetryDelay)
+	o.maxRetryDelay = cfg.Properties.ParseTimeDuration("max_retry_delay", defaultMaxRetryDelay)
 	return o, nil
 }

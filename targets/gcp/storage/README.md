@@ -27,13 +27,11 @@ bindings:
       kind: source.query
       name: kubemq-query
       properties:
-        host: "localhost"
-        port: "50000"
+        address: "kubemq-cluster:50000"
         client_id: "kubemq-query-gcp-storage-connector"
         auth_token: ""
         channel: "query.gcp.storage"
         group:   ""
-        concurrency: "1"
         auto_reconnect: "true"
         reconnect_interval_seconds: "1"
         max_reconnects: "0"

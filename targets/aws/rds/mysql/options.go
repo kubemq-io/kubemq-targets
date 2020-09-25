@@ -12,14 +12,14 @@ const (
 	defaultMaxOpenConnections           = 100
 	defaultConnectionMaxLifetimeSeconds = 3600
 	defaultToken                        = ""
-	defaultDBPort = 3306
+	defaultDBPort                       = 3306
 )
 
 type options struct {
-	awsKey                 string
-	awsSecretKey           string
-	region                 string
-	token                  string
+	awsKey       string
+	awsSecretKey string
+	region       string
+	token        string
 
 	dbPort   int
 	dbName   string
@@ -37,49 +37,49 @@ type options struct {
 func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
-	o.awsKey, err = cfg.MustParseString("aws_key")
+	o.awsKey, err = cfg.Properties.MustParseString("aws_key")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing aws_key , %w", err)
 	}
 
-	o.awsSecretKey, err = cfg.MustParseString("aws_secret_key")
+	o.awsSecretKey, err = cfg.Properties.MustParseString("aws_secret_key")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing aws_secret_key , %w", err)
 	}
 
-	o.region, err = cfg.MustParseString("region")
+	o.region, err = cfg.Properties.MustParseString("region")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing region , %w", err)
 	}
 
-	o.token = cfg.ParseString("token", defaultToken)
+	o.token = cfg.Properties.ParseString("token", defaultToken)
 
-	o.dbName, err = cfg.MustParseString("db_name")
+	o.dbName, err = cfg.Properties.MustParseString("db_name")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing db_name , %w", err)
 	}
-	o.dbUser, err = cfg.MustParseString("db_user")
+	o.dbUser, err = cfg.Properties.MustParseString("db_user")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing db_user , %w", err)
 	}
-	o.endPoint, err = cfg.MustParseString("end_point")
+	o.endPoint, err = cfg.Properties.MustParseString("end_point")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing end_point , %w", err)
 	}
 
-	o.dbPort = cfg.ParseInt("db_port",defaultDBPort)
+	o.dbPort = cfg.Properties.ParseInt("db_port", defaultDBPort)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing end_point , %w", err)
 	}
-	o.maxIdleConnections, err = cfg.ParseIntWithRange("max_idle_connections", defaultMaxIdleConnections, 1, math.MaxInt32)
+	o.maxIdleConnections, err = cfg.Properties.ParseIntWithRange("max_idle_connections", defaultMaxIdleConnections, 1, math.MaxInt32)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing max idle connections value, %w", err)
 	}
-	o.maxOpenConnections, err = cfg.ParseIntWithRange("max_open_connections", defaultMaxOpenConnections, 1, math.MaxInt32)
+	o.maxOpenConnections, err = cfg.Properties.ParseIntWithRange("max_open_connections", defaultMaxOpenConnections, 1, math.MaxInt32)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing max open connections value, %w", err)
 	}
-	o.connectionMaxLifetimeSeconds, err = cfg.ParseIntWithRange("connection_max_lifetime_seconds", defaultConnectionMaxLifetimeSeconds, 1, math.MaxInt32)
+	o.connectionMaxLifetimeSeconds, err = cfg.Properties.ParseIntWithRange("connection_max_lifetime_seconds", defaultConnectionMaxLifetimeSeconds, 1, math.MaxInt32)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing connection max lifetime seconds value, %w", err)
 	}

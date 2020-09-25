@@ -14,15 +14,15 @@ type options struct {
 func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
-	o.gateway, err = cfg.MustParseString("gateway")
+	o.gateway, err = cfg.Properties.MustParseString("gateway")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing gateway value, %w", err)
 	}
-	o.username, err = cfg.MustParseString("username")
+	o.username, err = cfg.Properties.MustParseString("username")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing username value, %w", err)
 	}
-	o.password, err = cfg.MustParseString("password")
+	o.password, err = cfg.Properties.MustParseString("password")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing password value, %w", err)
 	}

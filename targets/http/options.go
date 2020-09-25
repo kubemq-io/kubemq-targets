@@ -30,15 +30,15 @@ func parseOptions(cfg config.Spec) (options, error) {
 		defaultHeaders:   map[string]string{},
 	}
 	var err error
-	o.authType = cfg.ParseString("auth_type", "no_auth")
-	o.username = cfg.ParseString("username", "")
-	o.password = cfg.ParseString("password", "")
-	o.token = cfg.ParseString("token", "")
-	o.proxy = cfg.ParseString("proxy", "")
-	o.rootCertificate = cfg.ParseString("root_certificate", "")
-	o.clientPrivateKey = cfg.ParseString("client_private_key", "")
-	o.clientPublicKey = cfg.ParseString("client_public_key", "")
-	o.defaultHeaders, err = cfg.MustParseJsonMap("default_headers")
+	o.authType = cfg.Properties.ParseString("auth_type", "no_auth")
+	o.username = cfg.Properties.ParseString("username", "")
+	o.password = cfg.Properties.ParseString("password", "")
+	o.token = cfg.Properties.ParseString("token", "")
+	o.proxy = cfg.Properties.ParseString("proxy", "")
+	o.rootCertificate = cfg.Properties.ParseString("root_certificate", "")
+	o.clientPrivateKey = cfg.Properties.ParseString("client_private_key", "")
+	o.clientPublicKey = cfg.Properties.ParseString("client_public_key", "")
+	o.defaultHeaders, err = cfg.Properties.MustParseJsonMap("default_headers")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing default_headers value, %w", err)
 	}

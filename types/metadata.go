@@ -3,6 +3,7 @@ package types
 import (
 	"errors"
 	"fmt"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -206,7 +207,17 @@ func (m Metadata) GetValidSupportedTypes(possibleValues map[string]string, typeN
 	}
 	return errors.New(s)
 }
-
+func (m Metadata) MustParseStringList(key string) ([]string, error) {
+	if val, ok := m[key]; ok && val != "" {
+		list := strings.Split(val, ",")
+		if len(list) == 0 {
+			return nil, fmt.Errorf("value of key %s cannot be empty", key)
+		}
+		return list, nil
+	} else {
+		return nil, fmt.Errorf("value of key %s cannot be empty", key)
+	}
+}
 func (m Metadata) MustParseAddress(key, defaultValue string) (string, int, error) {
 	var host string
 	var port int
@@ -229,4 +240,18 @@ func (m Metadata) MustParseAddress(key, defaultValue string) (string, int, error
 		return "", 0, fmt.Errorf("no valid port found")
 	}
 	return host, port, nil
+}
+
+func (m Metadata) MustParseEnv(key, envVar, defaultValue string) (string, error) {
+	envValue := os.Getenv(envVar)
+	if envValue != "" {
+		return envValue, nil
+	}
+	if val, ok := m[key]; ok && val != "" {
+		return val, nil
+	}
+	if defaultValue != "" {
+		return defaultValue, nil
+	}
+	return "", fmt.Errorf("cannot extract key %s from environment variable", key)
 }
