@@ -62,7 +62,7 @@ A list of supported targets is below.
 | Storage    |                                                                     |                              |                                                    |                                         |
 |            | [Minio/S3](https://min.io/)                                         | target.storage.minio         | [Usage](targets/storage/minio)                     | [Example](examples/storage/minio)       |
 | Serverless |                                                                     |                              |                                                    |                                         |
-|            | [OpenFaas](https://www.openfaas.com/)                               | target.serverless.openfaas   | [Usage](targets/serverless/openfass)               | [Example](examples/serverless/openfass) |
+|            | [OpenFaas](https://www.openfaas.com/)                               | target.serverless.openfaas   | [Usage](targets/serverless/openfass)               | [Example](examples/serverless/openfaas) |
 | Http       |                                                                     |                              |                                                    |                                         |
 |            | Http                                                                | target.http                  | [Usage](targets/http)                              | [Example](examples/http)                |
 
