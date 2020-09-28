@@ -12,7 +12,7 @@ tasks:
       - go list -u -m -json -mod=mod all | go-mod-outdated -update -direct
   lint:
     cmds:
-      - golangci-lint run --disable gocritic --enable misspell --enable gosec
+      - golangci-lint run --disable gocritic --enable misspell
   test:
     cmds:
       - go test -timeout 30m ./...
@@ -27,6 +27,7 @@ tasks:
       - docker tag kubemq/{{.BINARY_NAME}}:{{.VERSION}} kubemq/{{.BINARY_NAME}}:latest
   release:
     cmds:
+      - task: lint
       - git tag -a {{.VERSION}} -m {{.VERSION}}
       - git push origin master --tags
       - task: docker
