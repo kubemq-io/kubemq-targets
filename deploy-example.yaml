@@ -21,6 +21,6 @@ spec:
           kind: target.cache.redis
           name: target-redis
           properties:
-            url: "redis://redis-cluster:6379"
+            url: "redis://redis-cluster.default.svc.cluster.local:6379"
         properties:
           log_level: "info"
