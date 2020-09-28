@@ -27,6 +27,8 @@ tasks:
       - docker tag kubemq/{{.BINARY_NAME}}:{{.VERSION}} kubemq/{{.BINARY_NAME}}:latest
   release:
     cmds:
+      - git tag -a {{.VERSION}} -m {{.VERSION}}
+      - git push origin master --tags
       - task: docker
       - docker push kubemq/{{.BINARY_NAME}}:{{.VERSION}}
       - docker push kubemq/{{.BINARY_NAME}}:latest
