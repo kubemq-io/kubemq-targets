@@ -78,8 +78,7 @@ func run() error {
 				continue
 			}
 		case <-gracefulShutdown:
-
-			apiServer.Stop()
+			_=apiServer.Stop()
 			bindingsService.Stop()
 			return nil
 		}
