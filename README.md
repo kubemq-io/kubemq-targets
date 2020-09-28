@@ -129,7 +129,10 @@ A list of supported targets is below.
 
 #### Microsoft Azure
 
-(Work in Progress)
+| Category   | Target                                                              | Kind                       | Configuration                              | Example                                       |
+|:-----------|:--------------------------------------------------------------------|:---------------------------|:-------------------------------------------|:----------------------------------------------|
+
+Coming soon
 
 ### Source
 
