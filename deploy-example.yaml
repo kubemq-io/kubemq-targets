@@ -23,4 +23,4 @@ spec:
           properties:
             url: "redis://redis-cluster:6379"
         properties:
-          log_level: "error"
+          log_level: "info"

@@ -208,18 +208,22 @@ Response received on request to get the data stored in Redis for key "log"
 
 ### Kubernetes
 
-An example of Kubernetes deployment for Redis target connectors can be found below:
-
-1. Run Redis Cluster deployment yaml
+1. Install KubeMQ Cluster
 
 ```bash
-kubectl apply -f ./redis-example.yaml -n kubemq
+kubectl apply -f https://get.kubemq.io/deploy
+```
+
+2. Run Redis Cluster deployment yaml
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubemq-hub/kubemq-targets/master/redis-example.yaml
 ```
 
 2. Run KubeMQ Targets deployment yaml
 
 ```bash
-kubectl apply -f ./deployment-example.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubemq-hub/kubemq-targets/master/deploy-example.yaml
 ```
 
 ### Binary (Cross-platform)
