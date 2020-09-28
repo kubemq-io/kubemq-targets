@@ -1,6 +1,6 @@
 # Kubemq Events Store Source
 
-Kubemq Events Store source provides rpc events subscriber for processing targets commands.
+Kubemq Events Store source provides an events-store subscriber for processing source events-store.
 
 ## Prerequisites
 The following are required to run events source connector:

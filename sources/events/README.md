@@ -1,6 +1,6 @@
 # Kubemq Events Source
 
-Kubemq Events source provides rpc events subscriber for processing targets commands.
+Kubemq Events source provides an events subscriber for processing source events.
 
 ## Prerequisites
 The following are required to run events source connector:

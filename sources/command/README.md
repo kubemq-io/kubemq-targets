@@ -1,6 +1,6 @@
 # Kubemq Command Source
 
-Kubemq Command source provides rpc command subscriber for processing targets commands.
+Kubemq Command source provides rpc command subscriber for processing source commands.
 
 ## Prerequisites
 The following are required to run command source connector:

@@ -33,7 +33,7 @@ Binding is a 1:1 connection between Source and Target. Every Binding runs indepe
 
 Target is an external service that exposes an API allowing to interact and serve his functionalists with other services.
 
-Targets can be Cache systems such as Redis and Memcached, SQL Databases such as Postgres and MySql, and event an HTTP generic Rest interface.
+Targets can be Cache systems such as Redis and Memcached, SQL Databases such as Postgres and MySql, and even an HTTP generic Rest interface.
 
 KubeMQ Targets integrate each one of the supported targets and service requests based on the request data.
 

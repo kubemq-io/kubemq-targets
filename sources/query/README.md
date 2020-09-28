@@ -1,6 +1,6 @@
 # Kubemq Query Source
 
-Kubemq Query source provides rpc query subscriber for processing targets commands.
+Kubemq Query source provides rpc query subscriber for processing source queries.
 
 ## Prerequisites
 The following are required to run query source connector:

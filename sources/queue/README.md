@@ -1,6 +1,6 @@
 # Kubemq Queue Source
 
-Kubemq Queue source provides rpc queue subscriber for processing targets commands.
+Kubemq Queue source provides a queue subscriber for processing source queues.
 
 ## Prerequisites
 The following are required to run queue source connector:
