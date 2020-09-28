@@ -42,7 +42,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 	}
 	o.group = cfg.Properties.ParseString("group", "")
 	o.autoReconnect = cfg.Properties.ParseBool("auto_reconnect", defaultAutoReconnect)
-	interval, err := cfg.Properties.MustParseIntWithRange("reconnect_interval_seconds", 1, 1000000)
+	interval, err := cfg.Properties.ParseIntWithRange("reconnect_interval_seconds",0, 0, 1000000)
 	if err != nil {
 		return o, fmt.Errorf("error parsing reconnect interval seconds value, %w", err)
 	}
