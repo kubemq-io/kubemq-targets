@@ -1,0 +1,26 @@
+apiVersion: core.k8s.kubemq.io/v1alpha1
+kind: KubemqConnector
+metadata:
+  name: kubemq-targets
+  namespace: kubemq
+spec:
+  type: targets
+  replicas: 1
+  config: |-
+    bindings:
+      - name: kubemq-query-redis
+        source:
+          kind: source.query
+          name: kubemq-query
+          properties:
+            host: "kubemq-cluster:50000"
+            port: "50000"
+            client_id: "kubemq-query-redis-connector"
+            channel: "query.redis"
+        target:
+          kind: target.cache.redis
+          name: target-redis
+          properties:
+            url: "redis://redis-cluster:6379"
+        properties:
+          log_level: "error"
