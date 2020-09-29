@@ -41,7 +41,7 @@ bindings:
         max_reconnects: "0"
     target:
       kind: target.gcp.cloudfunctions
-      name: gcp-functions-target
+      name: target-gcp-couldfunctions
       properties:
         project: "testproject"
         credentials: "./../key.json"
