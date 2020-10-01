@@ -57,11 +57,17 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 
 func (c *Client) send(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
 	m := servicebus.NewMessage(data)
+	if data == nil {
+		return nil, errors.New("missing data")
+	}
 	if meta.label != "" {
 		m.Label = meta.label
 	}
 	if meta.contentType != "" {
 		m.ContentType = meta.contentType
+	}
+	if meta.timeToLive > 0 {
+		m.TTL = &meta.timeToLive
 	}
 	err := c.client.Send(ctx, m)
 	if err != nil {
@@ -81,13 +87,13 @@ func (c *Client) sendBatch(ctx context.Context, meta metadata, data []byte) (*ty
 	var sm []*servicebus.Message
 	for _, m := range messages {
 		message := servicebus.NewMessageFromString(m)
-		if meta.timeToLive > 0 {
-			message.TTL = &meta.timeToLive
-		}
 		sm = append(sm, message)
 	}
 
 	for _, m := range sm {
+		if meta.timeToLive > 0 {
+			m.TTL = &meta.timeToLive
+		}
 		if meta.label != "" {
 			m.Label = meta.label
 		}

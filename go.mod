@@ -63,5 +63,5 @@ require (
 
 
 replace (
-	github.com/Azure/azure-service-bus-go => github.com/Azure/azure-service-bus-go v0.10.3 
+	github.com/Azure/azure-service-bus-go => github.com/Azure/azure-service-bus-go v0.10.3
 )
