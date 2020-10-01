@@ -77,7 +77,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	blobMetadata, err := meta.MustParseJsonMap("blob_metadata")
 	if err != nil {
 		return metadata{}, fmt.Errorf("error parsing blob_metadata, %w", err)
-	}else{
+	} else {
 		m.blobMetadata = blobMetadata
 	}
 

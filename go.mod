@@ -14,10 +14,10 @@ require (
 	github.com/Azure/azure-event-hubs-go/v3 v3.3.0
 	github.com/Azure/azure-pipeline-go v0.2.3
 	github.com/Azure/azure-sdk-for-go v46.1.0+incompatible // indirect
+	github.com/Azure/azure-service-bus-go v0.10.3 
 	github.com/Azure/azure-storage-blob-go v0.10.0
 	github.com/Azure/azure-storage-file-go v0.8.0
 	github.com/Azure/azure-storage-queue-go v0.0.0-20191125232315-636801874cdd
-	github.com/Azure/go-amqp v0.12.8 // indirect
 	github.com/Azure/go-autorest/autorest v0.11.6 // indirect
 	github.com/Azure/go-autorest/autorest/to v0.4.0 // indirect
 	github.com/Azure/go-autorest/autorest/validation v0.3.0 // indirect
@@ -59,4 +59,9 @@ require (
 	google.golang.org/api v0.32.0
 	google.golang.org/genproto v0.0.0-20200925023002-c2d885f95484
 	google.golang.org/grpc v1.32.0
+)
+
+
+replace (
+	github.com/Azure/azure-service-bus-go => github.com/Azure/azure-service-bus-go v0.10.3
 )

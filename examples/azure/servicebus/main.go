@@ -26,10 +26,10 @@ func main() {
 	// send
 	sendRequest := types.NewRequest().
 		SetMetadataKeyValue("method", "send").
-		SetMetadataKeyValue("properties", `{"tag-1":"test","tag-2":"test2"}`).
+		SetMetadataKeyValue("label", `test`).
 		SetData(body)
 	sendUploadResponse, err := client.SetQuery(sendRequest.ToQuery()).
-		SetChannel("target.azure.eventhubs").
+		SetChannel("target.azure.servicebus").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)

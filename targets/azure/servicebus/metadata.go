@@ -1,0 +1,42 @@
+package servicebus
+
+import (
+	"github.com/Azure/azure-service-bus-go"
+	"github.com/kubemq-hub/kubemq-targets/types"
+	"time"
+)
+
+const (
+	DefaultTimeToLive   = 1000000000
+	DefaultContentType  = ""
+	DefaultLabel        = ""
+	DefaultMaxBatchSize = 1024
+)
+
+var methodsMap = map[string]string{
+	"send":       "send",
+	"send_batch": "send_batch",
+}
+
+type metadata struct {
+	method       string
+	label        string
+	contentType  string
+	maxBatchSize servicebus.MaxMessageSizeInBytes
+	timeToLive   time.Duration
+}
+
+func parseMetadata(meta types.Metadata) (metadata, error) {
+	m := metadata{}
+	var err error
+	m.method, err = meta.ParseStringMap("method", methodsMap)
+	if err != nil {
+		return metadata{}, meta.GetValidMethodTypes(methodsMap)
+	}
+	m.timeToLive = meta.ParseTimeDuration("time_to_live", DefaultTimeToLive)
+	m.contentType = meta.ParseString("content_type", DefaultContentType)
+	m.label = meta.ParseString("label", DefaultLabel)
+	maxBatchSize := meta.ParseInt("max_batch_size", DefaultMaxBatchSize)
+	m.maxBatchSize = servicebus.MaxMessageSizeInBytes(maxBatchSize)
+	return m, nil
+}

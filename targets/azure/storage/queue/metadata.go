@@ -8,8 +8,8 @@ import (
 
 const (
 	DefaultMaxMessages       = 32
-	DefaultVisibilityTimeout = 1000000000
-	DefaultTimeToLive        = 1000000000
+	DefaultVisibilityTimeout = 100000000
+	DefaultTimeToLive        = 100000000
 )
 
 var methodsMap = map[string]string{

@@ -17,6 +17,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/s3"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/sns"
 	"github.com/kubemq-hub/kubemq-targets/targets/azure/eventhubs"
+	"github.com/kubemq-hub/kubemq-targets/targets/azure/servicebus"
 	"github.com/kubemq-hub/kubemq-targets/targets/azure/storage/blob"
 	"github.com/kubemq-hub/kubemq-targets/targets/azure/storage/files"
 	"github.com/kubemq-hub/kubemq-targets/targets/azure/storage/queue"
@@ -380,6 +381,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 		return target, nil
 	case "target.azure.eventhubs":
 		target := eventhubs.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "target.azure.servicebus":
+		target := servicebus.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}

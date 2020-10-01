@@ -129,10 +129,20 @@ A list of supported targets is below.
 
 #### Microsoft Azure
 
-| Category   | Target                                                              | Kind                       | Configuration                              | Example                                       |
-|:-----------|:--------------------------------------------------------------------|:---------------------------|:-------------------------------------------|:----------------------------------------------|
-
-Coming soon
+| Category   | Target                                                        	    | Kind                               | Configuration                                               | Example                                      |
+|:-----------|:---------------------------------------------------------------------|:-----------------------------------|:------------------------------------------------------------|:---------------------------------------------|
+| Stores/db  |                                                               	    |                                    |                                                             |                                              |
+|            | [Azuresql](https://docs.microsoft.com/en-us/azure/mysql/) 		    | target.azure.stores.azuresql       | [Usage](targets/azure/stores/azuresql)                      | [Example](examples/azure/store/azuresql)     |
+|            | [Mysql](https://aws.amazon.com/dynamodb/)                            | target.azure.stores.mysql          | [Usage](targets/azure/stores/mysql)                         | [Example](examples/azure/store/mysql)        |
+|            | [Postgres](https://azure.microsoft.com/en-us/services/postgresql/)   | target.azure.stores.postgres       | [Usage](targets/azure/stores/postgres)                	   | [Example](examples/azure/store/postgres)     |
+| Storage    |                                                                      |                                    |                                                             |                                              |
+|            | [Blob](https://azure.microsoft.com/en-us/services/storage/blobs/)    | target.azure.storage.blob          | [Usage](targets/azure/storage/blob)                         | [Example](examples/azure/storage/blob)       |
+|            | [Files](https://azure.microsoft.com/en-us/services/storage/files/)   | target.azure.storage.files         | [Usage](targets/azure/storage/files)                        | [Example](examples/azure/storage/files)      |       
+|            | [Queue](https://docs.microsoft.com/en-us/azure/storage/queues/)      | target.aws.kinesis                 | [Usage](targets/azure/storage/queue)                        | [Example](examples/azure/storage/queue)      |  
+| EventHubs  |                                                               	    |                                    |                                                             |                                              |
+|            | [EventHubs](https://azure.microsoft.com/en-us/services/event-hubs/)  | target.azure.eventhubs        	   | [Usage](targets/azure/eventhubs)                          | [Example](examples/azure/eventhubs)          | 
+| ServiceBus |                                                              	    |                                    |                                                             |                                              |
+|            | [ServiceBus](https://azure.microsoft.com/en-us/services/service-bus/)| target.azure.servicebus       	   | [Usage](targets/azure/servicebus)                         | [Example](examples/azure/servicebus)         |
 
 ### Source
 

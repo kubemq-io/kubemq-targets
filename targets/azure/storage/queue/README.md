@@ -86,8 +86,8 @@ Push metadata setting:
 | service_url       | yes      | service url path                                                          | "https://test.queue.core.windows.net/test/test.txt"   |                         
 | queue_name        | yes      | the name of the queue to send the message to                              | "my_queue"                                            |   
 | queue_metadata    | no       | key value string string queue Metadata                                    | "{"tag":"test","name":"myname"}",default(none)        |                         
-| visibility_timeout| no       | visibility timeout value,in milliseconds                                  | "2000000000",default(1000000000)                      |                
-| time_to_live      | no       | maximum time to allow the message to be in the queue,in milliseconds      | "2000000000",default(1000000000)                      |            
+| visibility_timeout| no       | visibility timeout value,in milliseconds                                  | "2000000000",default(100000000)                      |                
+| time_to_live      | no       | maximum time to allow the message to be in the queue,in milliseconds      | "2000000000",default(100000000)                      |            
 
 
 Example:
