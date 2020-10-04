@@ -19,7 +19,6 @@ type options struct {
 	authToken       string
 	channel         string
 	responseChannel string
-	concurrency     int
 	batchSize       int
 	waitTimeout     int
 }
@@ -40,11 +39,6 @@ func parseOptions(cfg config.Spec) (options, error) {
 		return options{}, fmt.Errorf("error parsing channel value, %w", err)
 	}
 	o.responseChannel = cfg.Properties.ParseString("response_channel", "")
-
-	o.concurrency, err = cfg.Properties.ParseIntWithRange("concurrency", 1, 1, 100)
-	if err != nil {
-		return options{}, fmt.Errorf("error parsing concurrency value, %w", err)
-	}
 
 	o.batchSize, err = cfg.Properties.ParseIntWithRange("batch_size", defaultBatchSize, 1, 1024)
 	if err != nil {

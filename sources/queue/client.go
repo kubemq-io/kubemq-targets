@@ -59,9 +59,9 @@ func (c *Client) Start(ctx context.Context, target middleware.Middleware) error 
 	} else {
 		c.target = target
 	}
-	for i := 0; i < c.opts.concurrency; i++ {
-		go c.run(ctx)
-	}
+
+	go c.run(ctx)
+
 	return nil
 }
 

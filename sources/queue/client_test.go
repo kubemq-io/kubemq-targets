@@ -28,7 +28,6 @@ func setupClient(ctx context.Context, target middleware.Middleware) (*Client, er
 			"auth_token":       "",
 			"channel":          "queue",
 			"response_channel": "queue.response",
-			"concurrency":      "1",
 			"batch_size":       "1",
 			"wait_timeout":     "60",
 		},
