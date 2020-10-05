@@ -14,7 +14,7 @@ require (
 	github.com/Azure/azure-event-hubs-go/v3 v3.3.0
 	github.com/Azure/azure-pipeline-go v0.2.3
 	github.com/Azure/azure-sdk-for-go v46.1.0+incompatible // indirect
-	github.com/Azure/azure-service-bus-go v0.10.3 
+	github.com/Azure/azure-service-bus-go v0.10.3
 	github.com/Azure/azure-storage-blob-go v0.10.0
 	github.com/Azure/azure-storage-file-go v0.8.0
 	github.com/Azure/azure-storage-queue-go v0.0.0-20191125232315-636801874cdd
@@ -40,6 +40,8 @@ require (
 	github.com/googleapis/gax-go/v2 v2.0.5
 	github.com/jpillora/backoff v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.10
+	github.com/kubemq-hub/builder v0.1.1
+	github.com/kubemq-hub/kubemq-sources v0.2.3
 	github.com/kubemq-io/kubemq-go v1.4.3
 	github.com/labstack/echo/v4 v4.1.17
 	github.com/lib/pq v1.8.0
@@ -61,7 +63,4 @@ require (
 	google.golang.org/grpc v1.32.0
 )
 
-
-replace (
-	github.com/Azure/azure-service-bus-go => github.com/Azure/azure-service-bus-go v0.10.3
-)
+replace github.com/Azure/azure-service-bus-go => github.com/Azure/azure-service-bus-go v0.10.3

@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"github.com/kubemq-hub/kubemq-targets/api"
 	"github.com/kubemq-hub/kubemq-targets/binding"
 	"github.com/kubemq-hub/kubemq-targets/config"
@@ -19,6 +20,9 @@ var (
 )
 
 var (
+	generateManifest = flag.Bool("manifest", false, "generate source connectors manifest")
+	build            = flag.Bool("build", false, "build sources configuration")
+	configFile       = flag.String("config", "config.yaml", "set config file name")
 	log *logger.Logger
 )
 
