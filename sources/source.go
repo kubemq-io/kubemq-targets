@@ -3,6 +3,7 @@ package sources
 import (
 	"context"
 	"fmt"
+	"github.com/kubemq-hub/builder/common"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/middleware"
 	"github.com/kubemq-hub/kubemq-targets/sources/command"
@@ -16,7 +17,7 @@ type Source interface {
 	Init(ctx context.Context, cfg config.Spec) error
 	Start(ctx context.Context, target middleware.Middleware) error
 	Stop() error
-	Name() string
+	Connector() *common.Connector
 }
 
 func Init(ctx context.Context, cfg config.Spec) (Source, error) {
@@ -58,4 +59,14 @@ func Init(ctx context.Context, cfg config.Spec) (Source, error) {
 		return nil, fmt.Errorf("invalid kind %s for source %s", cfg.Kind, cfg.Name)
 	}
 
+}
+
+func Connectors() []*common.Connector {
+	return []*common.Connector{
+		queue.Connector(),
+		events.Connector(),
+		events_store.Connector(),
+		command.Connector(),
+		query.Connector(),
+	}
 }
