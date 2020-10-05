@@ -22,8 +22,8 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return m, err
 	}
-	m.saslUsername = cfg.Properties.ParseString("saslUsername", "")
-	m.saslPassword = cfg.Properties.ParseString("saslPassword", "")
+	m.saslUsername = cfg.Properties.ParseString("sasl_username", "")
+	m.saslPassword = cfg.Properties.ParseString("sasl_password", "")
 
 	return m, nil
 }

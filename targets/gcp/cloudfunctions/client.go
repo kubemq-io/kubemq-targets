@@ -49,11 +49,11 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		return err
 	}
 	c.client = client
-	c.parrantProject = c.opts.parrentProject
+	c.parrantProject = c.opts.parentProject
 
 	if c.opts.locationMatch {
 		it := client.ListFunctions(ctx, &functionspb.ListFunctionsRequest{
-			Parent: fmt.Sprintf("projects/%s/locations/-", c.opts.parrentProject),
+			Parent: fmt.Sprintf("projects/%s/locations/-", c.opts.parentProject),
 		})
 
 		for {

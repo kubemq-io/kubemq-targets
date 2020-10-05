@@ -4,18 +4,32 @@ import (
 	"github.com/kubemq-hub/builder/common"
 )
 
-// TODO
 func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("target.serverless.openfaas").
-		SetDescription("Elastic Search Target")
-	//
-	//AddProperty(
-	//	common.NewProperty().
-	//		SetKind("string").
-	//		SetName("address").
-	//		SetDescription("Sets Kubemq grpc endpoint address").
-	//		SetMust(true).
-	//		SetDefault("localhost:50000"),
-	//)
+		SetDescription("Openfaas Target").
+		AddProperty(
+			common.NewProperty().
+				SetKind("string").
+				SetName("gateway").
+				SetDescription("Sets Openfaas gateway address").
+				SetMust(true).
+				SetDefault("localhost:27017"),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("string").
+				SetName("username").
+				SetDescription("Sets Openfaas username").
+				SetMust(true).
+				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("string").
+				SetName("password").
+				SetDescription("Sets Openfaas password").
+				SetMust(true).
+				SetDefault(""),
+		)
 }

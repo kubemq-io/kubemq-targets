@@ -6,7 +6,7 @@ Kubemq kafka target connector allows services using kubemq server to store messa
 The following are required to run the redis target connector:
 
 - kubemq cluster
-- kafka TODO version
+- kafka server
 - kubemq-targets deployment
 
 ## Configuration
@@ -17,9 +17,8 @@ Kafka source connector configuration properties:
 |:---------------|:---------|:-------------------------------------------|:-----------------|
 | brokers        | yes      | kafka brokers connection, comma separated  | "localhost:9092" |
 | topic          | yes      | kafka stored topic                         | "TestTopic"      |
-| consumerGroup  | yes      | kafka consumer group name                  | "Group1          |
-| saslUsername   | no       | SASL based authentication with broker      | "user"           |
-| saslPassword   | no       | SASL based authentication with broker      | "pass"           |
+| sasl_username   | no       | SASL based authentication with broker      | "user"           |
+| sasl_password   | no       | SASL based authentication with broker      | "pass"           |
 
 Example:
 

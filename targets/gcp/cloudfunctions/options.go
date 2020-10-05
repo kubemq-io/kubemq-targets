@@ -7,15 +7,15 @@ import (
 )
 
 type options struct {
-	parrentProject string
-	locationMatch  bool
-	credentials    string
+	parentProject string
+	locationMatch bool
+	credentials   string
 }
 
 func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
-	o.parrentProject, err = cfg.Properties.MustParseString("project")
+	o.parentProject, err = cfg.Properties.MustParseString("project_id")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing project, %w", err)
 	}

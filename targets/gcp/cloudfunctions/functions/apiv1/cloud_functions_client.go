@@ -135,7 +135,7 @@ func NewCloudFunctionsClient(ctx context.Context, opts ...option.ClientOption) (
 		// If this does happen, we could leak connp. However, we cannot close conn:
 		// If the user invoked the constructor with option.WithGRPCConn,
 		// we would close a connection that's still in use.
-		// TODO: investigate error conditions.
+
 		return nil, err
 	}
 	return c, nil
