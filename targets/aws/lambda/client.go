@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/lambda"
+	"github.com/kubemq-hub/builder/common"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
@@ -21,10 +22,10 @@ type Client struct {
 
 func New() *Client {
 	return &Client{}
-	
+
 }
 func (c *Client) Connector() *common.Connector {
-return Connector()
+	return Connector()
 }
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
@@ -33,7 +34,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-	
+
 	sess, err := session.NewSession(&aws.Config{
 		Region:      aws.String(c.opts.region),
 		Credentials: credentials.NewStaticCredentials(c.opts.awsKey, c.opts.awsSecretKey, c.opts.token),
@@ -41,10 +42,10 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-	
+
 	svc := lambda.New(sess)
 	c.client = svc
-	
+
 	return nil
 }
 
@@ -98,7 +99,7 @@ func (c *Client) create(ctx context.Context, meta metadata, data []byte) (*types
 		Runtime:      aws.String(meta.runtime),
 		Timeout:      aws.Int64(meta.timeout),
 	}
-	
+
 	result, err := c.client.CreateFunctionWithContext(ctx, input)
 	if err != nil {
 		return nil, err
@@ -114,7 +115,7 @@ func (c *Client) create(ctx context.Context, meta metadata, data []byte) (*types
 }
 
 func (c *Client) run(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
-	
+
 	result, err := c.client.InvokeWithContext(ctx, &lambda.InvokeInput{FunctionName: aws.String(meta.functionName), Payload: data})
 	if err != nil {
 		return nil, err
@@ -130,7 +131,7 @@ func (c *Client) run(ctx context.Context, meta metadata, data []byte) (*types.Re
 }
 
 func (c *Client) delete(ctx context.Context, meta metadata) (*types.Response, error) {
-	
+
 	_, err := c.client.DeleteFunctionWithContext(ctx, &lambda.DeleteFunctionInput{FunctionName: aws.String(meta.functionName)})
 	if err != nil {
 		return nil, err

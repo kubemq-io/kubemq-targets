@@ -106,7 +106,7 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 		})
 	}
 }
@@ -161,8 +161,8 @@ func TestClient_Create_Bucket(t *testing.T) {
 func TestClient_Upload_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name:       "google-storage-target",
-		Kind:       "",
+		Name: "google-storage-target",
+		Kind: "",
 		Properties: map[string]string{
 			"credentials": dat.cred,
 		},
@@ -247,11 +247,11 @@ func TestClient_Upload_Object(t *testing.T) {
 func TestClient_Delete_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name:       "google-storage-target",
-		Kind:       "",
+		Name: "google-storage-target",
+		Kind: "",
 		Properties: map[string]string{
 			"credentials": dat.cred,
-			},
+		},
 	}
 	require.NoError(t, err)
 	tests := []struct {
@@ -320,11 +320,11 @@ func TestClient_Delete_Object(t *testing.T) {
 func TestClient_Download_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name:       "google-storage-target",
-		Kind:       "",
+		Name: "google-storage-target",
+		Kind: "",
 		Properties: map[string]string{
 			"credentials": dat.cred,
-			},
+		},
 	}
 	require.NoError(t, err)
 	tests := []struct {
@@ -394,11 +394,11 @@ func TestClient_Download_Object(t *testing.T) {
 func TestClient_List_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name:       "google-storage-target",
-		Kind:       "",
+		Name: "google-storage-target",
+		Kind: "",
 		Properties: map[string]string{
 			"credentials": dat.cred,
-			},
+		},
 	}
 	require.NoError(t, err)
 	tests := []struct {
@@ -452,11 +452,11 @@ func TestClient_List_Object(t *testing.T) {
 func TestClient_Rename_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name:       "google-storage-target",
-		Kind:       "",
+		Name: "google-storage-target",
+		Kind: "",
 		Properties: map[string]string{
 			"credentials": dat.cred,
-			},
+		},
 	}
 	require.NoError(t, err)
 	tests := []struct {
@@ -537,8 +537,8 @@ func TestClient_Rename_Object(t *testing.T) {
 func TestClient_Copy_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name:       "google-storage-target",
-		Kind:       "",
+		Name: "google-storage-target",
+		Kind: "",
 		Properties: map[string]string{
 			"credentials": dat.cred,
 		},
@@ -629,8 +629,8 @@ func TestClient_Copy_Object(t *testing.T) {
 func TestClient_Move_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name:       "google-storage-target",
-		Kind:       "",
+		Name: "google-storage-target",
+		Kind: "",
 		Properties: map[string]string{
 			"credentials": dat.cred,
 		},

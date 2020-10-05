@@ -91,7 +91,7 @@ func TestClient_Init(t *testing.T) {
 				t.Errorf("Init() error = %v, wantPutErr %v", err, tt.wantErr)
 				return
 			}
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 		})
 	}
 }

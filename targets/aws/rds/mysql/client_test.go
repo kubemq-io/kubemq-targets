@@ -218,7 +218,7 @@ func TestClient_Init(t *testing.T) {
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
 				return
 			}
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 			require.NoError(t, err)
 			err = c.CloseClient()
 			require.NoError(t, err)

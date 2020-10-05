@@ -1,4 +1,4 @@
-package firebase
+package openfaas
 
 import (
 	"github.com/kubemq-hub/builder/common"
@@ -7,8 +7,8 @@ import (
 // TODO
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.gcp.firebase").
-		SetDescription("GCP firebase Target")
+		SetKind("target.serverless.openfaas").
+		SetDescription("Elastic Search Target")
 	//
 	//AddProperty(
 	//	common.NewProperty().

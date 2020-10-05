@@ -58,7 +58,7 @@ func TestClient_Init(t *testing.T) {
 				Name: "target.gcp.spanner",
 				Kind: "target.gcp.spanner",
 				Properties: map[string]string{
-					"db": dat.db,
+					"db":          dat.db,
 					"credentials": dat.cred,
 				},
 			},
@@ -74,7 +74,7 @@ func TestClient_Init(t *testing.T) {
 				},
 			},
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid init - missing credentials",
 			cfg: config.Spec{
 				Name: "target.gcp.spanner",
@@ -102,7 +102,7 @@ func TestClient_Init(t *testing.T) {
 				_ = c.CloseClient()
 			}()
 			require.NoError(t, err)
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 		})
 	}
 }
@@ -115,7 +115,7 @@ func TestClient_Query(t *testing.T) {
 		Name: "target.gcp.spanner",
 		Kind: "target.gcp.spanner",
 		Properties: map[string]string{
-			"db": dat.db,
+			"db":          dat.db,
 			"credentials": dat.cred,
 		},
 	}
@@ -176,7 +176,7 @@ func TestClient_Read(t *testing.T) {
 		Name: "target.gcp.spanner",
 		Kind: "target.gcp.spanner",
 		Properties: map[string]string{
-			"db": dat.db,
+			"db":          dat.db,
 			"credentials": dat.cred,
 		},
 	}
@@ -196,7 +196,7 @@ func TestClient_Read(t *testing.T) {
 		{
 			name: "invalid read - missing data",
 			queryRequest: types.NewRequest().
-				SetMetadataKeyValue("method",  "read").
+				SetMetadataKeyValue("method", "read").
 				SetMetadataKeyValue("table_name", dat.tableName),
 			wantErr: true,
 		},
@@ -245,7 +245,7 @@ func TestClient_Insert(t *testing.T) {
 		Name: "target.gcp.spanner",
 		Kind: "target.gcp.spanner",
 		Properties: map[string]string{
-			"db": dat.db,
+			"db":          dat.db,
 			"credentials": dat.cred,
 		},
 	}
@@ -309,7 +309,7 @@ func TestClient_Update(t *testing.T) {
 		Name: "target.gcp.spanner",
 		Kind: "target.gcp.spanner",
 		Properties: map[string]string{
-			"db": dat.db,
+			"db":          dat.db,
 			"credentials": dat.cred,
 		},
 	}
@@ -363,12 +363,12 @@ func TestClient_UpdateDatabaseDdl(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	var statements []string
-	statements = append(statements,"mystatment")
+	statements = append(statements, "mystatment")
 	cfg := config.Spec{
 		Name: "target.gcp.spanner",
 		Kind: "target.gcp.spanner",
 		Properties: map[string]string{
-			"db": dat.db,
+			"db":          dat.db,
 			"credentials": dat.cred,
 		},
 	}
@@ -431,7 +431,7 @@ func TestClient_InsertOrUpdate(t *testing.T) {
 		Name: "target.gcp.spanner",
 		Kind: "target.gcp.spanner",
 		Properties: map[string]string{
-			"db": dat.db,
+			"db":          dat.db,
 			"credentials": dat.cred,
 		},
 	}

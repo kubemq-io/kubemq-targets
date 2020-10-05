@@ -5,6 +5,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"github.com/kubemq-hub/builder/common"
 	"strings"
 	"time"
 
@@ -30,7 +31,7 @@ func New() *Client {
 	return &Client{}
 }
 func (c *Client) Connector() *common.Connector {
-return Connector()
+	return Connector()
 }
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name

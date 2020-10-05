@@ -55,7 +55,7 @@ func TestClient_customToken(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, r.Data)
-			require.EqualValues(t, cfg.Name, c.Name())
+
 		})
 	}
 }
@@ -106,7 +106,7 @@ func TestClient_verifyToken(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, r.Data)
-			require.EqualValues(t, cfg.Name, c.Name())
+
 		})
 	}
 }

@@ -8,7 +8,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
 	"io/ioutil"
-	
+
 	"testing"
 	"time"
 )
@@ -18,7 +18,7 @@ type testStructure struct {
 	awsSecretKey string
 	region       string
 	token        string
-	
+
 	shardCount    string
 	streamName    string
 	partitionKey  string
@@ -47,7 +47,7 @@ func getTestStructure() (*testStructure, error) {
 	}
 	t.region = fmt.Sprintf("%s", dat)
 	t.token = ""
-	
+
 	dat, err = ioutil.ReadFile("./../../../credentials/aws/kinesis/shardCount.txt")
 	if err != nil {
 		return nil, err
@@ -151,7 +151,7 @@ func TestClient_Init(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
 			c := New()
-			
+
 			err := c.Init(ctx, tt.cfg)
 			if tt.wantErr {
 				require.Error(t, err)
@@ -159,7 +159,7 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 		})
 	}
 }
@@ -179,7 +179,7 @@ func TestClient_ListStreams(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	
+
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	tests := []struct {
@@ -223,7 +223,7 @@ func TestClient_ListStreamConsumers(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	
+
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	tests := []struct {
@@ -268,7 +268,7 @@ func TestClient_CreateStream(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	
+
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	tests := []struct {
@@ -314,7 +314,7 @@ func TestClient_ListShards(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	
+
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	tests := []struct {
@@ -364,7 +364,7 @@ func TestClient_GetShardIterator(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	
+
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	tests := []struct {
@@ -450,21 +450,21 @@ func TestClient_PutRecord(t *testing.T) {
 				SetMetadataKeyValue("stream_name", dat.streamName).
 				SetData([]byte(data)),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid put_record - missing partition_key",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "put_record").
 				SetMetadataKeyValue("stream_name", dat.streamName).
 				SetData([]byte(data)),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid put_record  - missing stream_name ",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "put_record").
 				SetMetadataKeyValue("partition_key", dat.partitionKey).
 				SetData([]byte(data)),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid put_record - missing data",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "put_record").
@@ -505,7 +505,7 @@ func TestClient_PutRecords(t *testing.T) {
 	rm := make(map[string][]byte)
 	data := `{"my_result":"ok"}`
 	data2 := `{"my_result2":"ok!"}`
-	
+
 	rm["1"] = []byte(data)
 	rm["2"] = []byte(data2)
 	b, err := json.Marshal(rm)

@@ -69,7 +69,7 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 		})
 	}
 }
@@ -145,8 +145,8 @@ func TestClient_Do(t *testing.T) {
 				Name: "target.google.pubsub",
 				Kind: "target.google.pubsub",
 				Properties: map[string]string{
-					"project":       "pubsubdemo-281010",
-					"credentials":   credentials,
+					"project":        "pubsubdemo-281010",
+					"credentials":    credentials,
 					"location_match": "false",
 				},
 			},

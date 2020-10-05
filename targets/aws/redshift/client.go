@@ -8,6 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/redshift"
+	"github.com/kubemq-hub/builder/common"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
@@ -20,10 +21,10 @@ type Client struct {
 
 func New() *Client {
 	return &Client{}
-	
+
 }
 func (c *Client) Connector() *common.Connector {
-return Connector()
+	return Connector()
 }
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
@@ -39,7 +40,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-	
+
 	svc := redshift.New(sess)
 	c.client = svc
 	return nil
@@ -64,7 +65,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "list_snapshots_by_tags_values":
 		return c.listSnapshotsTagsValues(ctx, req.Data)
 	case "describe_cluster":
-		return c.describeCluster(ctx,meta)
+		return c.describeCluster(ctx, meta)
 	case "list_clusters":
 		return c.listClusters(ctx)
 	case "list_clusters_by_tags_keys":
@@ -72,7 +73,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "list_clusters_by_tags_values":
 		return c.listClustersByTagsValues(ctx, req.Data)
 	}
-	
+
 	return nil, errors.New("invalid method type")
 }
 

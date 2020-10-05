@@ -7,15 +7,15 @@ import (
 // TODO
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.stores.elastic").
+		SetKind("target.stores.elasticsearch").
 		SetDescription("Elastic Search Target")
-		//
-		//AddProperty(
-		//	common.NewProperty().
-		//		SetKind("string").
-		//		SetName("address").
-		//		SetDescription("Sets Kubemq grpc endpoint address").
-		//		SetMust(true).
-		//		SetDefault("localhost:50000"),
-		//)
+	//
+	//AddProperty(
+	//	common.NewProperty().
+	//		SetKind("string").
+	//		SetName("address").
+	//		SetDescription("Sets Kubemq grpc endpoint address").
+	//		SetMust(true).
+	//		SetDefault("localhost:50000"),
+	//)
 }

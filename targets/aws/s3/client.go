@@ -11,6 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/s3/s3manager"
+	"github.com/kubemq-hub/builder/common"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
@@ -28,7 +29,7 @@ func New() *Client {
 
 }
 func (c *Client) Connector() *common.Connector {
-return Connector()
+	return Connector()
 }
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
@@ -124,7 +125,7 @@ func (c *Client) createBucket(ctx context.Context, meta metadata) (*types.Respon
 	if err != nil {
 		return nil, err
 	}
-	if meta.waitForCompletion  {
+	if meta.waitForCompletion {
 		err = c.client.WaitUntilBucketExistsWithContext(ctx, &s3.HeadBucketInput{
 			Bucket: aws.String(meta.bucketName),
 		})
@@ -149,7 +150,7 @@ func (c *Client) deleteBucket(ctx context.Context, meta metadata) (*types.Respon
 	if err != nil {
 		return nil, err
 	}
-	if meta.waitForCompletion  {
+	if meta.waitForCompletion {
 		err = c.client.WaitUntilBucketNotExistsWithContext(ctx, &s3.HeadBucketInput{
 			Bucket: aws.String(meta.bucketName),
 		})
@@ -170,7 +171,7 @@ func (c *Client) deleteItemFromBucket(ctx context.Context, meta metadata) (*type
 	if err != nil {
 		return nil, err
 	}
-	if meta.waitForCompletion  {
+	if meta.waitForCompletion {
 		err = c.client.WaitUntilObjectNotExistsWithContext(ctx, &s3.HeadObjectInput{
 			Bucket: aws.String(meta.bucketName),
 			Key:    aws.String(meta.itemName),

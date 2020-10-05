@@ -192,7 +192,7 @@ func TestClient_Init(t *testing.T) {
 			if err := c.Init(ctx, tt.cfg); (err != nil) != tt.wantErr {
 				t.Errorf("Init() error = %v, wantErr %v", err, tt.wantErr)
 			}
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 		})
 	}
 }

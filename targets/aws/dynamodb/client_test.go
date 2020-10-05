@@ -116,7 +116,7 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 		})
 	}
 }
@@ -394,7 +394,6 @@ func TestClient_GetItem(t *testing.T) {
 	}
 }
 
-
 func TestClient_UpdateItem(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
@@ -497,7 +496,7 @@ func TestClient_DeleteItem(t *testing.T) {
 					},
 					"TableName": "%s"
 				}`,
-				dat.tableName)
+		dat.tableName)
 
 	tests := []struct {
 		name    string

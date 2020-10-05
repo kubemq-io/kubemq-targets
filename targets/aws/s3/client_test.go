@@ -1,4 +1,3 @@
-
 package s3
 
 import (
@@ -189,7 +188,7 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 			if tt.wantDownloader {
 				require.NotNil(t, c.downloader)
 			} else {
@@ -711,7 +710,6 @@ func TestClient_Delete_All_Items(t *testing.T) {
 		})
 	}
 }
-
 
 func TestClient_Delete_Bucket(t *testing.T) {
 	dat, err := getTestStructure()

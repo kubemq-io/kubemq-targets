@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"github.com/kubemq-hub/builder/common"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
 	"github.com/kubemq-hub/kubemq-targets/types"
@@ -28,7 +29,7 @@ func New() *Client {
 
 }
 func (c *Client) Connector() *common.Connector {
-return Connector()
+	return Connector()
 }
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
@@ -39,13 +40,13 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		return err
 	}
 	b := []byte(c.opts.credentials)
-	adminClient, err := database.NewDatabaseAdminClient(ctx,option.WithCredentialsJSON(b))
+	adminClient, err := database.NewDatabaseAdminClient(ctx, option.WithCredentialsJSON(b))
 	if err != nil {
 		return err
 	}
 
 	c.adminClient = adminClient
-	Client, err := spanner.NewClient(ctx, c.opts.db,option.WithCredentialsJSON(b))
+	Client, err := spanner.NewClient(ctx, c.opts.db, option.WithCredentialsJSON(b))
 	if err != nil {
 		return err
 	}

@@ -121,7 +121,7 @@ func TestClient_Init(t *testing.T) {
 				_ = c.CloseClient()
 			}()
 			require.NoError(t, err)
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 		})
 	}
 }
@@ -488,7 +488,7 @@ func TestClient_Insert_To_Table(t *testing.T) {
 				SetMetadataKeyValue("table_name", dat.tableName).
 				SetData(bRows),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid insert to table - missing table_name",
 			cfg: config.Spec{
 				Name: "target-gcp-bigquery",
@@ -503,7 +503,7 @@ func TestClient_Insert_To_Table(t *testing.T) {
 				SetMetadataKeyValue("dataset_id", dat.dataSetID).
 				SetData(bRows),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid insert to table - missing dataset_id",
 			cfg: config.Spec{
 				Name: "target-gcp-bigquery",

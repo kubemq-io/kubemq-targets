@@ -23,7 +23,7 @@ var (
 	generateManifest = flag.Bool("manifest", false, "generate source connectors manifest")
 	build            = flag.Bool("build", false, "build sources configuration")
 	configFile       = flag.String("config", "config.yaml", "set config file name")
-	log *logger.Logger
+	log              *logger.Logger
 )
 
 func run() error {
@@ -82,7 +82,7 @@ func run() error {
 				continue
 			}
 		case <-gracefulShutdown:
-			_=apiServer.Stop()
+			_ = apiServer.Stop()
 			bindingsService.Stop()
 			return nil
 		}
@@ -90,6 +90,24 @@ func run() error {
 }
 func main() {
 	log = logger.NewLogger("main")
+	flag.Parse()
+	if *generateManifest {
+		err := saveManifest()
+		if err != nil {
+			log.Error(err)
+			os.Exit(1)
+		}
+		log.Infof("generated manifest.json completed")
+		os.Exit(0)
+	}
+	if *build {
+		err := buildConfig()
+		if err != nil {
+			log.Error(err)
+			os.Exit(1)
+		}
+	}
+	config.SetConfigFile(*configFile)
 	log.Infof("starting kubemq targets connector version: %s, commit: %s, date %s", version, commit, date)
 	if err := run(); err != nil {
 		log.Error(err)

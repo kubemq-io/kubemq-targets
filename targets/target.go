@@ -54,7 +54,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/kafka"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/mqtt"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/rabbitmq"
-	"github.com/kubemq-hub/kubemq-targets/targets/serverless/openfass"
+	"github.com/kubemq-hub/kubemq-targets/targets/serverless/openfaas"
 	"github.com/kubemq-hub/kubemq-targets/targets/storage/minio"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/cassandra"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/couchbase"
@@ -338,7 +338,7 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 			return nil, err
 		}
 		return target, nil
-	case "target.stores.elastic-search":
+	case "target.stores.elasticsearch":
 		target := elastic.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
@@ -351,7 +351,7 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 		}
 		return target, nil
 	case "target.serverless.openfaas":
-		target := openfass.New()
+		target := openfaas.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
@@ -419,6 +419,83 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 
 func Connectors() []*common.Connector {
 	return []*common.Connector{
+		// cache
+		redis.Connector(),
+		memcached.Connector(),
 
+		//stores
+		postgres.Connector(),
+		mysql.Connector(),
+		mssql.Connector(),
+		mongodb.Connector(),
+		elastic.Connector(),
+		cassandra.Connector(),
+		couchbase.Connector(),
+
+		// http
+		http.Connector(),
+
+		// messaging
+		mqtt.Connector(),
+		rabbitmq.Connector(),
+		kafka.Connector(),
+		activemq.Connector(),
+
+		//storage
+		minio.Connector(),
+
+		// serverless
+		openfaas.Connector(),
+
+		// aws
+		sqs.Connector(),
+		sns.Connector(),
+		s3.Connector(),
+		amazonmq.Connector(),
+
+		awspostgres.Connector(),
+		awsmysql.Connector(),
+		awsmariadb.Connector(),
+		awsmssql.Connector(),
+		dynamodb.Connector(),
+		redshift.Connector(),
+		redshiftsvc.Connector(),
+		athena.Connector(),
+
+		msk.Connector(),
+		lambda.Connector(),
+		kinesis.Connector(),
+		keyspaces.Connector(),
+		elasticsearch.Connector(),
+
+		events.Connector(),
+		logs.Connector(),
+		metrics.Connector(),
+
+		// gcp
+
+		pubsub.Connector(),
+		gcpredis.Connector(),
+		gcpmemcached.Connector(),
+		gcppostgres.Connector(),
+		gcpmemcached.Connector(),
+		spanner.Connector(),
+		bigtable.Connector(),
+		bigtable.Connector(),
+		cloudfunctions.Connector(),
+		firebase.Connector(),
+		firestore.Connector(),
+		storage.Connector(),
+
+		// azure
+
+		azurpostgres.Connector(),
+		azurmysql.Connector(),
+		azurmysql.Connector(),
+		queue.Connector(),
+		files.Connector(),
+		blob.Connector(),
+		servicebus.Connector(),
+		eventhubs.Connector(),
 	}
 }

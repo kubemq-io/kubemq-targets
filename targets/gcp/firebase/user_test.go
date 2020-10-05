@@ -74,7 +74,7 @@ func TestClient_createUser(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, r.Data)
-			require.EqualValues(t, cfg.Name, c.Name())
+
 		})
 	}
 }
@@ -145,7 +145,7 @@ func TestClient_retrieveUser(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, r.Data)
-			require.EqualValues(t, cfg.Name, c.Name())
+
 			t.Logf("received response: %s for test: %s", r.Data, tt.name)
 		})
 	}
@@ -190,7 +190,7 @@ func TestClient_listUsers(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, r.Data)
-			require.EqualValues(t, cfg.Name, c.Name())
+
 			t.Logf("received response: %s for test: %s", r.Data, tt.name)
 		})
 	}
@@ -241,7 +241,7 @@ func TestClient_updateUser(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, r.Data)
-			require.EqualValues(t, cfg.Name, c.Name())
+
 		})
 	}
 }
@@ -249,7 +249,7 @@ func TestClient_updateUser(t *testing.T) {
 func TestClient_deleteUser(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
-	u :=[]string{dat.uid,dat.uid2}
+	u := []string{dat.uid, dat.uid2}
 	b, err := json.Marshal(&u)
 	require.NoError(t, err)
 	cfg := config.Spec{
@@ -296,7 +296,7 @@ func TestClient_deleteUser(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, r.Data)
-			require.EqualValues(t, cfg.Name, c.Name())
+
 		})
 	}
 }

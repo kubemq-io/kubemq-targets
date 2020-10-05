@@ -1,4 +1,4 @@
-package command
+package rabbitmq
 
 import (
 	"github.com/kubemq-hub/builder/common"
@@ -7,15 +7,15 @@ import (
 // TODO
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.").
-		SetDescription(""),
-		//
-		//AddProperty(
-		//	common.NewProperty().
-		//		SetKind("string").
-		//		SetName("address").
-		//		SetDescription("Sets Kubemq grpc endpoint address").
-		//		SetMust(true).
-		//		SetDefault("localhost:50000"),
-		//)
+		SetKind("target.messaging.rabbitmq").
+		SetDescription("RabbitMQ Messaging Target")
+	//
+	//AddProperty(
+	//	common.NewProperty().
+	//		SetKind("string").
+	//		SetName("address").
+	//		SetDescription("Sets Kubemq grpc endpoint address").
+	//		SetMust(true).
+	//		SetDefault("localhost:50000"),
+	//)
 }

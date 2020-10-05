@@ -8,7 +8,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
 	"io/ioutil"
-	
+
 	"testing"
 	"time"
 )
@@ -18,9 +18,9 @@ type testStructure struct {
 	awsSecretKey string
 	region       string
 	token        string
-	
+
 	resourceName string
-	resourceARN string
+	resourceARN  string
 }
 
 func getTestStructure() (*testStructure, error) {
@@ -41,7 +41,7 @@ func getTestStructure() (*testStructure, error) {
 	}
 	t.region = fmt.Sprintf("%s", dat)
 	t.token = ""
-	
+
 	dat, err = ioutil.ReadFile("./../../../credentials/aws/rds/redshift/resourceName.txt")
 	if err != nil {
 		return nil, err
@@ -116,7 +116,7 @@ func TestClient_Init(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
 			c := New()
-			
+
 			err := c.Init(ctx, tt.cfg)
 			if tt.wantErr {
 				require.Error(t, err)
@@ -124,7 +124,7 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 		})
 	}
 }
@@ -148,7 +148,7 @@ func TestClient_Create_Tags(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	
+
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	tests := []struct {
@@ -163,13 +163,13 @@ func TestClient_Create_Tags(t *testing.T) {
 				SetMetadataKeyValue("resource_arn", dat.resourceARN).
 				SetData(b),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid create - missing resource_name ",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "create_tags").
 				SetData(b),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid create - missing body",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "create_tags").
@@ -205,13 +205,13 @@ func TestClient_Delete_Tags(t *testing.T) {
 	}
 	var keys []*string
 	tag := "test1-key"
-	keys = append(keys,&tag)
+	keys = append(keys, &tag)
 	b, err := json.Marshal(keys)
 	require.NoError(t, err)
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	
+
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	tests := []struct {
@@ -226,13 +226,13 @@ func TestClient_Delete_Tags(t *testing.T) {
 				SetMetadataKeyValue("resource_arn", dat.resourceName).
 				SetData(b),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid delete - missing resource_name ",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete_tags").
 				SetData(b),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid delete - missing body",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete_tags").
@@ -269,7 +269,7 @@ func TestClient_List_Tags(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	
+
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	tests := []struct {
@@ -298,7 +298,6 @@ func TestClient_List_Tags(t *testing.T) {
 	}
 }
 
-
 func TestClient_List_Snapshots(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
@@ -314,7 +313,7 @@ func TestClient_List_Snapshots(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	
+
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	tests := []struct {
@@ -360,9 +359,9 @@ func TestClient_List_Snapshots_By_Tags_Keys(t *testing.T) {
 	c := New()
 	var keys []*string
 	tag := "test1-key"
-	keys = append(keys,&tag)
+	keys = append(keys, &tag)
 	b, err := json.Marshal(keys)
-	require.NoError(t,err)
+	require.NoError(t, err)
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	tests := []struct {
@@ -376,7 +375,7 @@ func TestClient_List_Snapshots_By_Tags_Keys(t *testing.T) {
 				SetMetadataKeyValue("method", "list_snapshots_by_tags_keys").
 				SetData(b),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid list snapshots by tags - missing data",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "list_snapshots_by_tags_keys"),
@@ -397,7 +396,6 @@ func TestClient_List_Snapshots_By_Tags_Keys(t *testing.T) {
 	}
 }
 
-
 func TestClient_List_Snapshots_By_Tags_Values(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
@@ -415,9 +413,9 @@ func TestClient_List_Snapshots_By_Tags_Values(t *testing.T) {
 	c := New()
 	var keys []*string
 	tag := "test1-value"
-	keys = append(keys,&tag)
+	keys = append(keys, &tag)
 	b, err := json.Marshal(keys)
-	require.NoError(t,err)
+	require.NoError(t, err)
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	tests := []struct {
@@ -431,7 +429,7 @@ func TestClient_List_Snapshots_By_Tags_Values(t *testing.T) {
 				SetMetadataKeyValue("method", "list_snapshots_by_tags_values").
 				SetData(b),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid list snapshots by values - missing data",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "list_snapshots_by_tags_values"),
@@ -467,7 +465,7 @@ func TestClient_Describe_Clusters(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	
+
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	tests := []struct {
@@ -480,13 +478,13 @@ func TestClient_Describe_Clusters(t *testing.T) {
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "describe_cluster").
 				SetMetadataKeyValue("resource_name", dat.resourceName),
-				
+
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid describe cluster - missing resource_name",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "describe_cluster"),
-			
+
 			wantErr: true,
 		},
 	}
@@ -519,7 +517,7 @@ func TestClient_List_Clusters(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	
+
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	tests := []struct {
@@ -565,9 +563,9 @@ func TestClient_List_Clusters_By_Tags_Keys(t *testing.T) {
 	c := New()
 	var keys []*string
 	tag := "test1-key"
-	keys = append(keys,&tag)
+	keys = append(keys, &tag)
 	b, err := json.Marshal(keys)
-	require.NoError(t,err)
+	require.NoError(t, err)
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	tests := []struct {
@@ -581,7 +579,7 @@ func TestClient_List_Clusters_By_Tags_Keys(t *testing.T) {
 				SetMetadataKeyValue("method", "list_clusters_by_tags_keys").
 				SetData(b),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid list - missing data",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "list_clusters_by_tags_keys"),
@@ -619,9 +617,9 @@ func TestClient_List_Clusters_By_Tags_Values(t *testing.T) {
 	c := New()
 	var keys []*string
 	tag := "test1-value"
-	keys = append(keys,&tag)
+	keys = append(keys, &tag)
 	b, err := json.Marshal(keys)
-	require.NoError(t,err)
+	require.NoError(t, err)
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	tests := []struct {
@@ -635,7 +633,7 @@ func TestClient_List_Clusters_By_Tags_Values(t *testing.T) {
 				SetMetadataKeyValue("method", "list_clusters_by_tags_values").
 				SetData(b),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid list - missing data",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "list_clusters_by_tags_values"),

@@ -13,12 +13,12 @@ import (
 )
 
 type testStructure struct {
-	storageAccessKey       string
-	storageAccount         string
-	fileName               string
+	storageAccessKey string
+	storageAccount   string
+	fileName         string
 	fileWithMetadata string
-	serviceURL             string
-	file                   []byte
+	serviceURL       string
+	file             []byte
 }
 
 func getTestStructure() (*testStructure, error) {
@@ -108,7 +108,7 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 		})
 	}
 }
@@ -137,7 +137,7 @@ func TestClient_Upload_Item(t *testing.T) {
 				SetMetadataKeyValue("service_url", dat.serviceURL).
 				SetData(dat.file),
 			wantErr: false,
-		},{
+		}, {
 			name: "valid upload item with metadata",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "upload").
@@ -200,9 +200,9 @@ func TestClient_Get_Item(t *testing.T) {
 		},
 	}
 	tests := []struct {
-		name    string
-		request *types.Request
-		wantErr bool
+		name             string
+		request          *types.Request
+		wantErr          bool
 		wantBlobMetadata bool
 	}{
 		{
@@ -212,14 +212,14 @@ func TestClient_Get_Item(t *testing.T) {
 				SetMetadataKeyValue("file_name", dat.fileName).
 				SetMetadataKeyValue("service_url", dat.serviceURL),
 			wantErr: false,
-		},{
+		}, {
 			name: "valid get item - with blob metadata",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "get").
 				SetMetadataKeyValue("file_name", dat.fileWithMetadata).
 				SetMetadataKeyValue("service_url", dat.serviceURL),
 			wantBlobMetadata: true,
-			wantErr: false,
+			wantErr:          false,
 		}, {
 			name: "valid get item with offset and count",
 			request: types.NewRequest().
@@ -258,10 +258,10 @@ func TestClient_Get_Item(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, got.Data)
-			if tt.wantBlobMetadata{
-				require.NotNil(t,got.Metadata["blob_metadata"])
-			}else{
-				require.Equal(t,got.Metadata["blob_metadata"],"")
+			if tt.wantBlobMetadata {
+				require.NotNil(t, got.Metadata["blob_metadata"])
+			} else {
+				require.Equal(t, got.Metadata["blob_metadata"], "")
 			}
 		})
 	}

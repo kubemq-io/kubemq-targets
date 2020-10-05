@@ -16,6 +16,14 @@ tasks:
   test:
     cmds:
       - go test -timeout 30m ./...
+  build:
+    env:
+      GOOS: '{{OS}}'
+      GOARCH: '{{ARCH}}'
+    cmds:
+      - go mod tidy
+      - go mod vendor
+      - go build -o "{{.BINARY_NAME}}.exe" -ldflags "-X main.version={{.VERSION}}"
   docker:
     env:
       GOOS: linux
@@ -29,10 +37,24 @@ tasks:
     cmds:
       - docker push kubemq/{{.BINARY_NAME}}:{{.VERSION}}
       - docker push kubemq/{{.BINARY_NAME}}:latest
+  update-manifest:
+    cmds:
+      - task: build
+      - ./{{.BINARY_NAME}}.exe --manifest
+  commit-modifed:
+    cmds:
+      - git add -A
+      - git commit -a -m "release {{.VERSION}}"
+      - git push origin master
+  tag:
+    cmds:
+      - git tag -a {{.VERSION}} -m {{.VERSION}}
+      - git push origin master --tags
   release:
     cmds:
       - task: lint
-      - git tag -a {{.VERSION}} -m {{.VERSION}}
-      - git push origin master --tags
+      - task: update-manifest
+      - task: commit-modifed
       - task: docker
       - task: push
+      - task: tag

@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"github.com/Azure/azure-pipeline-go/pipeline"
 	"github.com/Azure/azure-storage-blob-go/azblob"
+	"github.com/kubemq-hub/builder/common"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"net/url"
@@ -25,7 +26,7 @@ func New() *Client {
 
 }
 func (c *Client) Connector() *common.Connector {
-return Connector()
+	return Connector()
 }
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
@@ -126,7 +127,7 @@ func (c *Client) get(ctx context.Context, meta metadata) (*types.Response, error
 		}
 		return types.NewResponse().
 				SetData(b).
-				SetMetadataKeyValue("blob_metadata", fmt.Sprintf("%s",jsonString)).
+				SetMetadataKeyValue("blob_metadata", fmt.Sprintf("%s", jsonString)).
 				SetMetadataKeyValue("result", "ok"),
 			nil
 	}

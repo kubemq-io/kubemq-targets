@@ -8,6 +8,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/sns"
+	"github.com/kubemq-hub/builder/common"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
@@ -23,7 +24,7 @@ func New() *Client {
 
 }
 func (c *Client) Connector() *common.Connector {
-return Connector()
+	return Connector()
 }
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
@@ -59,13 +60,13 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	case "list_subscriptions_by_topic":
 		return c.listSubscriptionsByTopic(ctx, meta)
 	case "create_topic":
-		return c.createTopic(ctx, meta,req.Data)
+		return c.createTopic(ctx, meta, req.Data)
 	case "delete_topic":
 		return c.deleteTopic(ctx, meta)
 	case "send_message":
 		return c.sendingMessageToTopic(ctx, meta, req.Data)
 	case "subscribe":
-		return c.subscribeToTopic(ctx, meta,req.Data)
+		return c.subscribeToTopic(ctx, meta, req.Data)
 
 	default:
 		return nil, errors.New("invalid method type")

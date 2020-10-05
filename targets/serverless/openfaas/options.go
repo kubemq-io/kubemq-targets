@@ -1,4 +1,4 @@
-package openfass
+package openfaas
 
 import (
 	"fmt"

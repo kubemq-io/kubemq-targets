@@ -102,7 +102,7 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 		})
 	}
 }
@@ -122,7 +122,7 @@ func TestClient_putMetrics(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	b :=[]byte(`[{"Counts":null,"Dimensions":null,"MetricName":"New Metric","StatisticValues":null,"StorageResolution":null,"Timestamp":"2020-08-12T17:09:48.3895822+03:00","Unit":"Count","Value":131,"Values":null}]`)
+	b := []byte(`[{"Counts":null,"Dimensions":null,"MetricName":"New Metric","StatisticValues":null,"StorageResolution":null,"Timestamp":"2020-08-12T17:09:48.3895822+03:00","Unit":"Count","Value":131,"Values":null}]`)
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	tests := []struct {
@@ -138,14 +138,14 @@ func TestClient_putMetrics(t *testing.T) {
 				SetData(b),
 
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid put - missing namespace",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "put_metrics").
 				SetData(b),
 
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid put - missing data",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "put_metrics").

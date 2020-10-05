@@ -94,7 +94,7 @@ func TestClient_db(t *testing.T) {
 				SetMetadataKeyValue("ref_path", "test").
 				SetMetadataKeyValue("child_ref", "test_child_ref"),
 			wantErr: false,
-		},{
+		}, {
 			name: "valid db-update - no child ref ",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete_db").
@@ -111,7 +111,7 @@ func TestClient_db(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-			require.EqualValues(t, cfg.Name, c.Name())
+
 			t.Logf("received response: %s for test: %s", r.Data, tt.name)
 		})
 	}

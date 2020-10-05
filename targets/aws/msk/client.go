@@ -3,6 +3,7 @@ package msk
 import (
 	"context"
 	"crypto/tls"
+	"github.com/kubemq-hub/builder/common"
 	"strconv"
 
 	kafka "github.com/Shopify/sarama"
@@ -77,5 +78,5 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 
 }
 func (c *Client) Connector() *common.Connector {
-return Connector()
+	return Connector()
 }

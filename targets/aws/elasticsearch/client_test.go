@@ -18,13 +18,12 @@ type testStructure struct {
 	region       string
 	token        string
 
-	json string
-	domain string
-	index string
+	json     string
+	domain   string
+	index    string
 	endpoint string
-	service string
-	id string
-
+	service  string
+	id       string
 }
 
 func getTestStructure() (*testStructure, error) {
@@ -76,7 +75,6 @@ func getTestStructure() (*testStructure, error) {
 		return nil, err
 	}
 	t.id = string(dat)
-
 
 	return t, nil
 }
@@ -135,7 +133,7 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 		})
 	}
 }
@@ -174,7 +172,7 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("service", dat.service).
 				SetMetadataKeyValue("id", dat.id),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid post - missing method",
 			request: types.NewRequest().
 				SetMetadataKeyValue("region", dat.region).
@@ -210,7 +208,7 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("service", dat.service).
 				SetMetadataKeyValue("id", dat.id),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid post - missing json",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "POST").
@@ -221,7 +219,7 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("service", dat.service).
 				SetMetadataKeyValue("id", dat.id),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid post - missing domain",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "POST").
@@ -232,7 +230,7 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("service", dat.service).
 				SetMetadataKeyValue("id", dat.id),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid post - missing endpoint",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "POST").
@@ -243,7 +241,7 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("service", dat.service).
 				SetMetadataKeyValue("id", dat.id),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid post - missing index",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "POST").
@@ -254,7 +252,7 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("service", dat.service).
 				SetMetadataKeyValue("id", dat.id),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid post - missing service ",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "POST").
@@ -265,7 +263,7 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("index", dat.index).
 				SetMetadataKeyValue("id", dat.id),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid post - missing id",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "POST").
@@ -277,7 +275,6 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("service", dat.service),
 			wantErr: true,
 		},
-
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

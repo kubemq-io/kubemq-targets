@@ -37,7 +37,7 @@ func getTestStructure() (*testStructure, error) {
 	}
 	t.endPoint = string(dat)
 
-	t.tlsPath ="https://www.amazontrust.com/repository/AmazonRootCA1.pem"
+	t.tlsPath = "https://www.amazontrust.com/repository/AmazonRootCA1.pem"
 
 	return t, nil
 }
@@ -181,7 +181,7 @@ func TestClient_Init(t *testing.T) {
 				t.Errorf("Init() error = %v, wantExecErr %v", err, tt.wantErr)
 				return
 			}
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 		})
 	}
 }

@@ -11,7 +11,7 @@ import (
 )
 
 type testStructure struct {
-	connectionString string
+	connectionString        string
 	connectionStringBadPort string
 }
 
@@ -200,7 +200,7 @@ func TestClient_Init(t *testing.T) {
 				t.Errorf("Init() error = %v, wantExecErr %v", err, tt.wantErr)
 				return
 			}
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 		})
 	}
 }

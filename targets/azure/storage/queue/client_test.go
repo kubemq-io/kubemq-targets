@@ -96,7 +96,7 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 		})
 	}
 }
@@ -210,7 +210,7 @@ func TestClient_Push(t *testing.T) {
 				SetMetadataKeyValue("service_url", dat.serviceURL).
 				SetData(b),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid push item - fake queue",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "push").
@@ -218,21 +218,21 @@ func TestClient_Push(t *testing.T) {
 				SetMetadataKeyValue("service_url", dat.serviceURL).
 				SetData(b),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid push item - missing data",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "push").
 				SetMetadataKeyValue("queue_name", dat.queueName).
 				SetMetadataKeyValue("service_url", dat.serviceURL),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid push item - missing queue name",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "push").
 				SetMetadataKeyValue("service_url", dat.serviceURL).
 				SetData(b),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid push item - missing service url",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "push").
@@ -288,13 +288,13 @@ func TestClient_Peek(t *testing.T) {
 				SetMetadataKeyValue("queue_name", dat.queueName).
 				SetMetadataKeyValue("service_url", dat.serviceURL),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid peek - missing queue name",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "peek").
 				SetMetadataKeyValue("service_url", dat.serviceURL),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid peek - missing service_url",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "peek").
@@ -351,13 +351,13 @@ func TestClient_GetMessageCount(t *testing.T) {
 				SetMetadataKeyValue("queue_name", dat.queueName).
 				SetMetadataKeyValue("service_url", dat.serviceURL),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid get_messages_count - missing queue name",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "peek").
 				SetMetadataKeyValue("service_url", dat.serviceURL),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid get_messages_count - missing service_url",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "peek").
@@ -414,13 +414,13 @@ func TestClient_Pop(t *testing.T) {
 				SetMetadataKeyValue("queue_name", dat.queueName).
 				SetMetadataKeyValue("service_url", dat.serviceURL),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid pop - missing queue name",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "pop").
 				SetMetadataKeyValue("service_url", dat.serviceURL),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid pop - missing service_url",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "pop").

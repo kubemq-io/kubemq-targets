@@ -41,7 +41,6 @@ require (
 	github.com/jpillora/backoff v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.10
 	github.com/kubemq-hub/builder v0.1.1
-	github.com/kubemq-hub/kubemq-sources v0.2.3
 	github.com/kubemq-io/kubemq-go v1.4.3
 	github.com/labstack/echo/v4 v4.1.17
 	github.com/lib/pq v1.8.0
@@ -50,7 +49,7 @@ require (
 	github.com/nats-io/nuid v1.0.1
 	github.com/olivere/elastic/v7 v7.0.20
 	github.com/prometheus/client_golang v1.7.1
-	github.com/spf13/pflag v1.0.5
+	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.7.1
 	github.com/streadway/amqp v1.0.0
 	github.com/stretchr/testify v1.6.1

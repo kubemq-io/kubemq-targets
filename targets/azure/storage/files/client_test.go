@@ -90,7 +90,7 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 		})
 	}
 }
@@ -279,7 +279,7 @@ func TestClient_Get_Item(t *testing.T) {
 			require.NotNil(t, got.Data)
 			if tt.wantFileMetadata {
 				require.NotNil(t, got.Metadata["file_metadata"])
-				t.Logf("%s",got.Metadata["file_metadata"])
+				t.Logf("%s", got.Metadata["file_metadata"])
 			} else {
 				require.Equal(t, got.Metadata["file_metadata"], "")
 			}
@@ -309,7 +309,7 @@ func TestClient_Delete_Item(t *testing.T) {
 				SetMetadataKeyValue("method", "delete").
 				SetMetadataKeyValue("service_url", dat.serviceURL),
 			wantErr: false,
-		},{
+		}, {
 			name: "valid delete file with tags",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete").

@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/go-sql-driver/mysql"
+	"github.com/kubemq-hub/builder/common"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -35,12 +36,12 @@ func New() *Client {
 	return &Client{}
 }
 func (c *Client) Connector() *common.Connector {
-return Connector()
+	return Connector()
 }
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 
 	c.name = cfg.Name
-    var err error
+	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
 		return err
@@ -58,7 +59,6 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	}
 	mysqlCfp.AllowNativePasswords = true
 	mysqlCfp.AllowCleartextPasswords = true
-
 
 	mysqlCfp.Passwd, err = rdsutils.BuildAuthToken(host, c.opts.region, mysqlCfp.User, credentials.NewStaticCredentials(c.opts.awsKey, c.opts.awsSecretKey, c.opts.token))
 	if err != nil {
@@ -234,6 +234,7 @@ func parseWithRawBytes(rows *sql.Rows, cols []string, colsTypes []*sql.ColumnTyp
 func (c *Client) CloseClient() error {
 	return c.db.Close()
 }
+
 //https://github.com/aws/aws-sdk-go/issues/1248
 func registerRDSMysqlCerts(c *http.Client) error {
 	resp, err := c.Get("https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem")

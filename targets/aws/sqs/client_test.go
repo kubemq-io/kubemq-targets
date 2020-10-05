@@ -69,7 +69,7 @@ func TestClient_Init(t *testing.T) {
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
 					"aws_secret_key": dat.awsSecretKey,
-					"token": dat.token,
+					"token":          dat.token,
 					"region":         dat.region,
 					"max_retries":    "0",
 					"max_receive":    "10",
@@ -86,7 +86,7 @@ func TestClient_Init(t *testing.T) {
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
 					"aws_secret_key": dat.awsSecretKey,
-					"token": dat.token,
+					"token":          dat.token,
 					"region":         "",
 					"max_retries":    "0",
 				},
@@ -100,7 +100,7 @@ func TestClient_Init(t *testing.T) {
 				Properties: map[string]string{
 					"aws_key":        "",
 					"aws_secret_key": dat.awsSecretKey,
-					"token": dat.token,
+					"token":          dat.token,
 					"queue":          dat.sqsQueue,
 					"region":         dat.region,
 					"max_retries":    "0",
@@ -116,7 +116,7 @@ func TestClient_Init(t *testing.T) {
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
 					"aws_secret_key": "",
-					"token": dat.token,
+					"token":          dat.token,
 					"region":         dat.region,
 					"max_retries":    "0",
 				},
@@ -134,7 +134,7 @@ func TestClient_Init(t *testing.T) {
 				t.Errorf("Init() error = %v, wantSetErr %v", err, tt.wantErr)
 				return
 			}
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 		})
 	}
 }
@@ -185,7 +185,7 @@ func TestClient_Do(t *testing.T) {
 					"aws_secret_key": dat.awsSecretKey,
 					"region":         dat.region,
 					"max_retries":    "0",
-					"retries": "0",
+					"retries":        "0",
 				},
 			},
 			request: types.NewRequest().
@@ -208,7 +208,7 @@ func TestClient_Do(t *testing.T) {
 					"aws_secret_key": dat.awsSecretKey,
 					"region":         dat.region,
 					"max_retries":    "0",
-					"retries": "0",
+					"retries":        "0",
 				},
 			},
 			request: types.NewRequest().
@@ -251,7 +251,7 @@ func TestClient_Do(t *testing.T) {
 					"aws_secret_key": dat.awsSecretKey,
 					"region":         dat.region,
 					"max_retries":    "0",
-					"retries": "1",
+					"retries":        "1",
 				},
 			},
 			request: types.NewRequest().
@@ -303,7 +303,7 @@ func TestClient_SetQueueAttributes(t *testing.T) {
 					"max_receive":    "10",
 					"dead_letter":    dat.deadLetter,
 					"max_retries":    "0",
-					"retries": "0",
+					"retries":        "0",
 				},
 			},
 			queueURL: dat.sqsQueue,
@@ -319,7 +319,7 @@ func TestClient_SetQueueAttributes(t *testing.T) {
 					"region":         dat.region,
 					"dead_letter":    dat.deadLetter,
 					"max_retries":    "0",
-					"retries": "0",
+					"retries":        "0",
 				},
 			},
 			queueURL: dat.sqsQueue,

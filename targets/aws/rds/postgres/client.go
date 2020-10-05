@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/service/rds/rdsutils"
+	"github.com/kubemq-hub/builder/common"
 	"net/url"
 	"strings"
 	"time"
@@ -30,7 +31,7 @@ func New() *Client {
 	return &Client{}
 }
 func (c *Client) Connector() *common.Connector {
-return Connector()
+	return Connector()
 }
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
@@ -46,7 +47,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		return err
 	}
 	dnsStr := fmt.Sprintf("postgres://%s:%s@%s/%s",
-		c.opts.dbUser, url.PathEscape(authToken), c.opts.endPoint,c.opts.dbName)
+		c.opts.dbUser, url.PathEscape(authToken), c.opts.endPoint, c.opts.dbName)
 
 	c.db, err = sql.Open("postgres", dnsStr)
 	if err != nil {
@@ -56,7 +57,6 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-
 
 	c.db.SetMaxOpenConns(c.opts.maxOpenConnections)
 	c.db.SetMaxIdleConns(c.opts.maxIdleConnections)

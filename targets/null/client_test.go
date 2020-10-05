@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
-	"github.com/stretchr/testify/require"
 	"reflect"
 	"testing"
 	"time"
@@ -91,7 +90,6 @@ func TestClient_Do(t *testing.T) {
 			if !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("Do() got = %v, want %v", got, tt.want)
 			}
-			require.EqualValues(t, "null", c.Name())
 		})
 	}
 }

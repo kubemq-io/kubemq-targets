@@ -2,6 +2,7 @@ package null
 
 import (
 	"context"
+	"github.com/kubemq-hub/builder/common"
 
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
@@ -17,7 +18,7 @@ type Client struct {
 }
 
 func (c *Client) Connector() *common.Connector {
-return Connector()
+	return Connector()
 }
 func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Response, error) {
 	select {

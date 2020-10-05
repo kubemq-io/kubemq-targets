@@ -11,8 +11,6 @@ import (
 	"time"
 )
 
-
-
 type testStructure struct {
 	awsKey       string
 	awsSecretKey string
@@ -58,7 +56,6 @@ func getTestStructure() (*testStructure, error) {
 	t.endPoint = string(dat)
 	return t, nil
 }
-
 
 type post struct {
 	Id      int    `json:"id"`
@@ -214,7 +211,7 @@ func TestClient_Init(t *testing.T) {
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
 				return
 			}
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 			require.NoError(t, err)
 			err = c.CloseClient()
 			require.NoError(t, err)

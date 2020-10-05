@@ -91,7 +91,7 @@ func TestClient_Init(t *testing.T) {
 				t.Errorf("Init() error = %v, wantSetErr %v", err, tt.wantErr)
 				return
 			}
-			require.EqualValues(t, tt.cfg.Name, c.Name())
+
 		})
 	}
 }
@@ -157,8 +157,8 @@ func TestClient_Set_Get(t *testing.T) {
 				SetMetadataKeyValue("key", "some-key").
 				SetMetadataKeyValue("result", "ok"),
 			wantGetResponse: nil,
-			wantSetErr: false,
-			wantGetErr: true,
+			wantSetErr:      false,
+			wantGetErr:      true,
 		},
 	}
 	for _, tt := range tests {
@@ -226,7 +226,7 @@ func TestClient_Delete(t *testing.T) {
 	gotGetResponse, err = c.Do(ctx, getRequest)
 	require.Error(t, err)
 	require.Nil(t, gotGetResponse)
-	}
+}
 func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name    string
