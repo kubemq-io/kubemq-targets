@@ -76,6 +76,6 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 	return r, nil
 
 }
-func (c *Client) Name() string {
-	return c.name
+func (c *Client) Connector() *common.Connector {
+return Connector()
 }

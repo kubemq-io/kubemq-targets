@@ -16,8 +16,8 @@ type Client struct {
 	ResponseError error
 }
 
-func (c *Client) Name() string {
-	return c.name
+func (c *Client) Connector() *common.Connector {
+return Connector()
 }
 func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Response, error) {
 	select {

@@ -3,6 +3,7 @@ package targets
 import (
 	"context"
 	"fmt"
+	"github.com/kubemq-hub/builder/common"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/amazonmq"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/athena"
 	"github.com/kubemq-hub/kubemq-targets/targets/aws/cloudwatch/events"
@@ -67,7 +68,7 @@ import (
 type Target interface {
 	Init(ctx context.Context, cfg config.Spec) error
 	Do(ctx context.Context, request *types.Request) (*types.Response, error)
-	Name() string
+	Connector() *common.Connector
 }
 
 func Init(ctx context.Context, cfg config.Spec) (Target, error) {
@@ -414,4 +415,10 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 		return nil, fmt.Errorf("invalid kind %s for target %s", cfg.Kind, cfg.Name)
 	}
 
+}
+
+func Connectors() []*common.Connector {
+	return []*common.Connector{
+
+	}
 }
