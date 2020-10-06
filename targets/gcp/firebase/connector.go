@@ -47,6 +47,6 @@ func Connector() *common.Connector {
 				SetDescription("Sets Firebase db url").
 				SetMust(false).
 				SetDefault(""),
-		).
+		)
 
 }
