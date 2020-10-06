@@ -22,7 +22,6 @@ KubeMQ Targets building blocks are:
  - Target
  - Request/Response
 
-
 ### Binding
 
 Binding is a 1:1 connection between Source and Target. Every Binding runs independently.
@@ -97,52 +96,53 @@ A list of supported targets is below.
 #### Amazon Web Service (AWS)
 
 
-| Category   | Target                                                        | Kind                               | Configuration                                               | Example                                      |
-|:-----------|:--------------------------------------------------------------|:-----------------------------------|:------------------------------------------------------------|:---------------------------------------------|
-| Stores/db  |                                                               |                                    |                                                             |                                              |
-|            | [Athena](https://docs.aws.amazon.com/athena)                  | target.aws.athena                  | [Usage](targets/aws/athena)                                 | [Example](examples/aws/athena)               |
-|            | [DynamoDB](https://aws.amazon.com/dynamodb/)                  | target.aws.dynamodb                | [Usage](targets/aws/dynamodb)                               | [Example](examples/aws/dynamodb)             |
-|            | [Elasticsearch](https://aws.amazon.com/elasticsearch-service/)| target.aws.elasticsearch           | [Usage](targets/aws/elasticsearch)                          | [Example](examples/aws/elasticsearch)        |
-|            | [KeySpaces](https://docs.aws.amazon.com/keyspaces)            | target.aws.keyspaces               | [Usage](targets/aws/keyspaces)                              | [Example](examples/aws/keyspaces)            |
-|            | [MariaDB](https://aws.amazon.com/rds/mariadb/)                | target.aws.rds.mariadb             | [Usage](targets/aws/rds/mariadb)                            | [Example](examples/aws/rds/mariadb)          |
-|            | [MSSql](https://aws.amazon.com/rds/sqlserver/)                | target.aws.rds.mssql               | [Usage](targets/aws/rds/mssql)                              | [Example](examples/aws/rds/mssql)            |
-|            | [MySQL](https://aws.amazon.com/rds/mysql/)                    | target.aws.rds.mysql               | [Usage](targets/aws/rds/mysql)                              | [Example](examples/aws/rds/mysql)            |       
-|            | [Postgres](https://aws.amazon.com/rds/postgresql/)            | target.aws.rds.postgres            | [Usage](targets/aws/rds/postgres)                           | [Example](examples/aws/rds/postgres)         |     
-|            | [RedShift](https://aws.amazon.com/redshift/)                  | target.aws.rds.redshift            | [Usage](targets/aws/rds/redshift)                           | [Example](examples/aws/rds/redshift)         |
-|            | [RedShiftSVC](https://aws.amazon.com/redshift/)               | target.aws.rds.redshift.service    | [Usage](targets/aws/redshift)                               | [Example](examples/aws/redshift)             |
-| Messaging  |                                                               |                                    |                                                             |                                              |
-|            | [AmazonMQ](https://aws.amazon.com/amazon-mq/)                 | target.aws.amazonmq                | [Usage](targets/aws/amazonmq)                               | [Example](examples/aws/amazonmq)             |
-|            | [msk](https://aws.amazon.com/msk/)                            | target.aws.msk                     | [Usage](targets/aws/msk)                                    | [Example](examples/aws/msk)                  |       
-|            | [Kinesis](https://aws.amazon.com/kinesis/)                    | target.aws.kinesis                 | [Usage](targets/aws/kinesis)                                | [Example](examples/aws/kinesis)              |  
-|            | [SQS](https://aws.amazon.com/sqs/)                            | target.aws.sqs                     | [Usage](targets/aws/sqs)                                    | [Example](examples/aws/sqs)                  |         
-|            | [SNS](https://aws.amazon.com/sns/)                            | target.aws.sns                     | [Usage](targets/aws/sns)                                    | [Example](examples/aws/sns)                  |       
-| Storage    |                                                               |                                    |                                                             |                                              |
-|            | [s3](https://aws.amazon.com/s3/)                              | target.aws.s3                      | [Usage](targets/aws/s3)                                     | [Example](examples/aws/s3)                   |
-| Serverless |                                                               |                                    |                                                             |                                              |
-|            | [lambda](https://aws.amazon.com/lambda/)                      | target.aws.lambda                  | [Usage](targets/aws/lambda)                                 | [Example](examples/aws/lambda)               | 
-| Other      |                                                               |                                    |                                                             |                                              |
-|            | [Cloud Watch](https://aws.amazon.com/cloudwatch/)             | target.aws.cloudwatch.logs         | [Usage](targets/aws/cloudwatch/logs)                        | [Example](examples/aws/cloudwatch/logs)      |
-|            | [Cloud Watch](https://aws.amazon.com/cloudwatch/)             | target.aws.cloudwatch.events       | [Usage](targets/aws/cloudwatch/events)                      | [Example](examples/aws/cloudwatch/events)    |
-|            | [Cloud Watch](https://aws.amazon.com/cloudwatch/)             | target.aws.cloudwatch.metrics      | [Usage](targets/aws/cloudwatch/metrics)                     | [Example](examples/aws/cloudwatch/metrics)   |
-|            |                                                               |                                    |                                                             |                                              |
+| Category   | Target                                                         | Kind                            | Configuration                           | Example                                    |
+|:-----------|:---------------------------------------------------------------|:--------------------------------|:----------------------------------------|:-------------------------------------------|
+| Stores/db  |                                                                |                                 |                                         |                                            |
+|            | [Athena](https://docs.aws.amazon.com/athena)                   | target.aws.athena               | [Usage](targets/aws/athena)             | [Example](examples/aws/athena)             |
+|            | [DynamoDB](https://aws.amazon.com/dynamodb/)                   | target.aws.dynamodb             | [Usage](targets/aws/dynamodb)           | [Example](examples/aws/dynamodb)           |
+|            | [Elasticsearch](https://aws.amazon.com/elasticsearch-service/) | target.aws.elasticsearch        | [Usage](targets/aws/elasticsearch)      | [Example](examples/aws/elasticsearch)      |
+|            | [KeySpaces](https://docs.aws.amazon.com/keyspaces)             | target.aws.keyspaces            | [Usage](targets/aws/keyspaces)          | [Example](examples/aws/keyspaces)          |
+|            | [MariaDB](https://aws.amazon.com/rds/mariadb/)                 | target.aws.rds.mariadb          | [Usage](targets/aws/rds/mariadb)        | [Example](examples/aws/rds/mariadb)        |
+|            | [MSSql](https://aws.amazon.com/rds/sqlserver/)                 | target.aws.rds.mssql            | [Usage](targets/aws/rds/mssql)          | [Example](examples/aws/rds/mssql)          |
+|            | [MySQL](https://aws.amazon.com/rds/mysql/)                     | target.aws.rds.mysql            | [Usage](targets/aws/rds/mysql)          | [Example](examples/aws/rds/mysql)          |
+|            | [Postgres](https://aws.amazon.com/rds/postgresql/)             | target.aws.rds.postgres         | [Usage](targets/aws/rds/postgres)       | [Example](examples/aws/rds/postgres)       |
+|            | [RedShift](https://aws.amazon.com/redshift/)                   | target.aws.rds.redshift         | [Usage](targets/aws/rds/redshift)       | [Example](examples/aws/rds/redshift)       |
+|            | [RedShiftSVC](https://aws.amazon.com/redshift/)                | target.aws.rds.redshift.service | [Usage](targets/aws/redshift)           | [Example](examples/aws/redshift)           |
+| Messaging  |                                                                |                                 |                                         |                                            |
+|            | [AmazonMQ](https://aws.amazon.com/amazon-mq/)                  | target.aws.amazonmq             | [Usage](targets/aws/amazonmq)           | [Example](examples/aws/amazonmq)           |
+|            | [msk](https://aws.amazon.com/msk/)                             | target.aws.msk                  | [Usage](targets/aws/msk)                | [Example](examples/aws/msk)                |
+|            | [Kinesis](https://aws.amazon.com/kinesis/)                     | target.aws.kinesis              | [Usage](targets/aws/kinesis)            | [Example](examples/aws/kinesis)            |
+|            | [SQS](https://aws.amazon.com/sqs/)                             | target.aws.sqs                  | [Usage](targets/aws/sqs)                | [Example](examples/aws/sqs)                |
+|            | [SNS](https://aws.amazon.com/sns/)                             | target.aws.sns                  | [Usage](targets/aws/sns)                | [Example](examples/aws/sns)                |
+| Storage    |                                                                |                                 |                                         |                                            |
+|            | [s3](https://aws.amazon.com/s3/)                               | target.aws.s3                   | [Usage](targets/aws/s3)                 | [Example](examples/aws/s3)                 |
+| Serverless |                                                                |                                 |                                         |                                            |
+|            | [lambda](https://aws.amazon.com/lambda/)                       | target.aws.lambda               | [Usage](targets/aws/lambda)             | [Example](examples/aws/lambda)             |
+| Other      |                                                                |                                 |                                         |                                            |
+|            | [Cloud Watch](https://aws.amazon.com/cloudwatch/)              | target.aws.cloudwatch.logs      | [Usage](targets/aws/cloudwatch/logs)    | [Example](examples/aws/cloudwatch/logs)    |
+|            | [Cloud Watch](https://aws.amazon.com/cloudwatch/)              | target.aws.cloudwatch.events    | [Usage](targets/aws/cloudwatch/events)  | [Example](examples/aws/cloudwatch/events)  |
+|            | [Cloud Watch](https://aws.amazon.com/cloudwatch/)              | target.aws.cloudwatch.metrics   | [Usage](targets/aws/cloudwatch/metrics) | [Example](examples/aws/cloudwatch/metrics) |
+
 
 
 #### Microsoft Azure
 
-| Category   | Target                                                        	    | Kind                               | Configuration                                               | Example                                      |
-|:-----------|:---------------------------------------------------------------------|:-----------------------------------|:------------------------------------------------------------|:---------------------------------------------|
-| Stores/db  |                                                               	    |                                    |                                                             |                                              |
-|            | [Azuresql](https://docs.microsoft.com/en-us/azure/mysql/) 		    | target.azure.stores.azuresql       | [Usage](targets/azure/stores/azuresql)                      | [Example](examples/azure/store/azuresql)     |
-|            | [Mysql](https://aws.amazon.com/dynamodb/)                            | target.azure.stores.mysql          | [Usage](targets/azure/stores/mysql)                         | [Example](examples/azure/store/mysql)        |
-|            | [Postgres](https://azure.microsoft.com/en-us/services/postgresql/)   | target.azure.stores.postgres       | [Usage](targets/azure/stores/postgres)                	   | [Example](examples/azure/store/postgres)     |
-| Storage    |                                                                      |                                    |                                                             |                                              |
-|            | [Blob](https://azure.microsoft.com/en-us/services/storage/blobs/)    | target.azure.storage.blob          | [Usage](targets/azure/storage/blob)                         | [Example](examples/azure/storage/blob)       |
-|            | [Files](https://azure.microsoft.com/en-us/services/storage/files/)   | target.azure.storage.files         | [Usage](targets/azure/storage/files)                        | [Example](examples/azure/storage/files)      |       
-|            | [Queue](https://docs.microsoft.com/en-us/azure/storage/queues/)      | target.aws.kinesis                 | [Usage](targets/azure/storage/queue)                        | [Example](examples/azure/storage/queue)      |  
-| EventHubs  |                                                               	    |                                    |                                                             |                                              |
-|            | [EventHubs](https://azure.microsoft.com/en-us/services/event-hubs/)  | target.azure.eventhubs        	   | [Usage](targets/azure/eventhubs)                          | [Example](examples/azure/eventhubs)          | 
-| ServiceBus |                                                              	    |                                    |                                                             |                                              |
-|            | [ServiceBus](https://azure.microsoft.com/en-us/services/service-bus/)| target.azure.servicebus       	   | [Usage](targets/azure/servicebus)                         | [Example](examples/azure/servicebus)         |
+| Category   | Target                                                                | Kind                         | Configuration                          | Example                                  |
+|:-----------|:----------------------------------------------------------------------|:-----------------------------|:---------------------------------------|:-----------------------------------------|
+| Stores/db  |                                                                       |                              |                                        |                                          |
+|            | [Azuresql](https://docs.microsoft.com/en-us/azure/mysql/)             | target.azure.stores.azuresql | [Usage](targets/azure/stores/azuresql) | [Example](examples/azure/store/azuresql) |
+|            | [Mysql](https://aws.amazon.com/dynamodb/)                             | target.azure.stores.mysql    | [Usage](targets/azure/stores/mysql)    | [Example](examples/azure/store/mysql)    |
+|            | [Postgres](https://azure.microsoft.com/en-us/services/postgresql/)    | target.azure.stores.postgres | [Usage](targets/azure/stores/postgres) | [Example](examples/azure/store/postgres) |
+| Storage    |                                                                       |                              |                                        |                                          |
+|            | [Blob](https://azure.microsoft.com/en-us/services/storage/blobs/)     | target.azure.storage.blob    | [Usage](targets/azure/storage/blob)    | [Example](examples/azure/storage/blob)   |
+|            | [Files](https://azure.microsoft.com/en-us/services/storage/files/)    | target.azure.storage.files   | [Usage](targets/azure/storage/files)   | [Example](examples/azure/storage/files)  |
+|            | [Queue](https://docs.microsoft.com/en-us/azure/storage/queues/)       | target.aws.kinesis           | [Usage](targets/azure/storage/queue)   | [Example](examples/azure/storage/queue)  |
+| EventHubs  |                                                                       |                              |                                        |                                          |
+|            | [EventHubs](https://azure.microsoft.com/en-us/services/event-hubs/)   | target.azure.eventhubs       | [Usage](targets/azure/eventhubs)       | [Example](examples/azure/eventhubs)      |
+| ServiceBus |                                                                       |                              |                                        |                                          |
+|            | [ServiceBus](https://azure.microsoft.com/en-us/services/service-bus/) | target.azure.servicebus      | [Usage](targets/azure/servicebus)      | [Example](examples/azure/servicebus)     |
+
 
 ### Source
 
@@ -170,10 +170,11 @@ A request is an object that sends to a designated target with metadata and data 
 
 ##### Request Object Structure
 
-| Field  | Type | Description                |
-|:-------|:---------|:---------------------------|
-| metadata | string, string object      | contains metadata information for action           |
-| data  | bytes array      | contains raw data for action |
+| Field    | Type                  | Description                              |
+|:---------|:----------------------|:-----------------------------------------|
+| metadata | string, string object | contains metadata information for action |
+| data     | bytes array           | contains raw data for action             |
+
 
 ##### Example
 
@@ -245,9 +246,8 @@ Ideally, you should install it somewhere in your PATH for easy use. /usr/local/b
 Running KubeMQ Targets
 
 ```bash
-kubemq-targets --config config.yaml
+./kubemq-targets --config config.yaml
 ```
-
 
 ## Configuration
 
@@ -277,6 +277,14 @@ bindings:
       name: name-of-target # targets name
       properties: # a set of key/value settings per each target kind
         - .....
+```
+
+### Build Wizard 
+
+KubeMQ Targets configuration can be build with --build flag
+
+```
+./kubemq-targets --build
 ```
 
 ### Properties
