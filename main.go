@@ -3,10 +3,15 @@ package main
 import (
 	"context"
 	"flag"
+	"github.com/kubemq-hub/builder/common"
+	"github.com/kubemq-hub/builder/connector"
 	"github.com/kubemq-hub/kubemq-targets/api"
 	"github.com/kubemq-hub/kubemq-targets/binding"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
+	"github.com/kubemq-hub/kubemq-targets/sources"
+	"github.com/kubemq-hub/kubemq-targets/targets"
+	"io/ioutil"
 
 	"os"
 	"os/signal"
@@ -25,6 +30,36 @@ var (
 	configFile       = flag.String("config", "config.yaml", "set config file name")
 	log              *logger.Logger
 )
+
+func saveManifest() error {
+	sourceConnectors := sources.Connectors()
+	if err := sourceConnectors.Validate(); err != nil {
+		return err
+	}
+	targetConnectors := targets.Connectors()
+	if err := targetConnectors.Validate(); err != nil {
+		return err
+	}
+	return common.NewManifest().
+		SetSchema("targets").
+		SetVersion(version).
+		SetSourceConnectors(sourceConnectors).
+		SetTargetConnectors(targetConnectors).
+		Save("manifest.json")
+}
+
+func buildConfig() error {
+	var err error
+	var bindingsYaml []byte
+	if bindingsYaml, err = connector.NewTarget().
+		SetManifestFile("./manifest.json").
+		SetDefaultOptions(common.NewDefaultOptions().
+			Add("kubemq-address", []string{"localhost:50000", "Other"})).
+		Render(); err != nil {
+		return err
+	}
+	return ioutil.WriteFile("config.yaml", bindingsYaml, 0644)
+}
 
 func run() error {
 	var gracefulShutdown = make(chan os.Signal, 1)
@@ -90,6 +125,12 @@ func run() error {
 }
 func main() {
 	log = logger.NewLogger("main")
+
+	c := targets.Connectors()
+	if err := c.Validate(); err != nil {
+		log.Fatal(err)
+	}
+
 	flag.Parse()
 	if *generateManifest {
 		err := saveManifest()

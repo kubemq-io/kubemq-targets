@@ -417,7 +417,7 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 
 }
 
-func Connectors() []*common.Connector {
+func Connectors() common.Connectors {
 	return []*common.Connector{
 		// cache
 		redis.Connector(),
@@ -477,13 +477,11 @@ func Connectors() []*common.Connector {
 		pubsub.Connector(),
 		gcpredis.Connector(),
 		gcpmemcached.Connector(),
-		gcppostgres.ConnectorWithProxy(),
-		gcppostgres.ConnectorDirect(),
-		gcpmysql.ConnectorWithProxy(),
-		gcpmysql.ConnectorDirect(),
+		gcppostgres.Connector(),
+		gcpmysql.Connector(),
 		spanner.Connector(),
 		bigtable.Connector(),
-		bigtable.Connector(),
+		bigquery.Connector(),
 		cloudfunctions.Connector(),
 		firebase.Connector(),
 		firestore.Connector(),
@@ -493,7 +491,7 @@ func Connectors() []*common.Connector {
 
 		azurpostgres.Connector(),
 		azurmysql.Connector(),
-		azurmysql.Connector(),
+		azuresql.Connector(),
 		queue.Connector(),
 		files.Connector(),
 		blob.Connector(),

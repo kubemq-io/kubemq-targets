@@ -28,7 +28,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("bool").
 				SetName("auth_client").
-				SetDescription("Sets Firebase target is auth client").
+				SetDescription("Sets Firebase target is a auth client").
 				SetMust(false).
 				SetDefault("false"),
 		).
@@ -36,7 +36,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("bool").
 				SetName("db_client").
-				SetDescription("Sets Firebase target is db client").
+				SetDescription("Sets Firebase target is a db client").
 				SetMust(false).
 				SetDefault("false"),
 		).
@@ -47,6 +47,13 @@ func Connector() *common.Connector {
 				SetDescription("Sets Firebase db url").
 				SetMust(false).
 				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("bool").
+				SetName("messaging_client").
+				SetDescription("Sets Firebase target is a messaging client").
+				SetMust(false).
+				SetDefault("false"),
 		)
-
 }
