@@ -1,0 +1,102 @@
+apiVersion: core.k8s.kubemq.io/v1alpha1
+kind: KubemqCluster
+metadata:
+  name: kubemq-cluster-a
+  namespace: kubemq
+spec:
+  replicas: 3
+  grpc:
+    expose: NodePort
+    nodePort: 30501
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubemq-targets-config
+  namespace: kubemq
+data:
+  config.yaml: |-
+    apiPort: 8080
+    bindings:
+      - name: kubemq-query-redis
+        source:
+          kind: source.query
+          name: kubemq-query
+          properties:
+            host: "kubemq-cluster-grpc"
+            port: "50000"
+            client_id: "kubemq-query-redis-connector"
+            auth_token: ""
+            channel: "query.redis"
+            group:   ""
+            auto_reconnect: "true"
+            reconnect_interval_seconds: "1"
+            max_reconnects: "0"
+        target:
+          kind: target.cache.redis
+          name: target-redis
+          properties:
+            url: "rediss://:bicam2fjm2ci38ai@private-redis-dev-do-user-7215618-0.a.db.ondigitalocean.com:25061"
+        properties:
+          log_level: "debug"
+      - name: kubemq-query-cassandra
+        source:
+          kind: source.query
+          name: kubemq-query
+          properties:
+            host: "kubemq-cluster-grpc"
+            port: "50000"
+            client_id: "kubemq-query-cassandra-connector"
+            auth_token: ""
+            channel: "query.cassandra"
+            group:   ""
+            auto_reconnect: "true"
+            reconnect_interval_seconds: "1"
+            max_reconnects: "0"
+        target:
+          kind: target.stores.cassandra
+          name: target-cassandra
+          properties:
+            hosts: "161.35.12.23,161.35.12.187,161.35.8.202,161.35.0.90,161.35.0.216,161.35.4.237"
+            port: "9042"
+            username: "cassandra"
+            password: "4e33b9c577e3675a49f9b834f239aaa2ee642ce0f425fb35a42a71a292821be5"
+            proto_version: "4"
+            replication_factor: "1"
+            consistency: "One"
+        properties:
+          log_level: "error"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubemq-targets-deployment
+  namespace: kubemq
+  labels:
+    app: kubemq-targets
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kubemq-targets
+  template:
+    metadata:
+      labels:
+        app: kubemq-targets
+    spec:
+      containers:
+        - name: kubemq-targets
+          image: kubemq/kubemq-targets:latest
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /kubemq-connector/config.yaml
+              name: config-file
+              subPath: config.yaml
+      volumes:
+        - name: config-file
+          configMap:
+            name: kubemq-targets-config
+            items:
+              - key: config.yaml
+                path: config.yaml

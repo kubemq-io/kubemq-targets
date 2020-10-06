@@ -62,7 +62,4 @@ require (
 	google.golang.org/grpc v1.32.0
 )
 
-replace (
-	github.com/Azure/azure-service-bus-go => github.com/Azure/azure-service-bus-go v0.10.3
-//	github.com/kubemq-hub/builder => ../builder
-)
+replace github.com/Azure/azure-service-bus-go => github.com/Azure/azure-service-bus-go v0.10.3
