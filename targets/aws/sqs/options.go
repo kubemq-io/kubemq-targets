@@ -44,7 +44,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 		return options{}, fmt.Errorf("error parsing region , %w", err)
 	}
 
-	o.defaultDelay = DefaultDelay
+	o.defaultDelay = cfg.Properties.ParseInt("default_delay", DefaultDelay)
 	o.maxReceiveCount = cfg.Properties.ParseInt("max_receive", DefaultMaxReceive)
 	o.deadLetterQueue = cfg.Properties.ParseString("dead_letter", DefaultDeadLetter)
 	o.token = cfg.Properties.ParseString("token", DefaultToken)

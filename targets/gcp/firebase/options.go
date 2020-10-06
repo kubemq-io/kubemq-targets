@@ -29,18 +29,18 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return options{}, err
 	}
-	o.authClient = cfg.Properties.ParseBool("auth_client", false)
+	o.authClient, err = cfg.Properties.MustParseBool("auth_client")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing auth_client, %w", err)
 	}
 
-	o.dbClient = cfg.Properties.ParseBool("db_client", false)
+	o.dbClient, err = cfg.Properties.MustParseBool("db_client")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing db_client, %w", err)
 	}
 	o.dbURL = cfg.Properties.ParseString("db_url", "")
 
-	o.messagingClient = cfg.Properties.ParseBool("messaging_client", false)
+	o.messagingClient, err = cfg.Properties.MustParseBool("messaging_client")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing messaging_client, %w", err)
 	}
@@ -58,12 +58,12 @@ func parseOptions(cfg config.Spec) (options, error) {
 
 		n = cfg.Properties.ParseString("defaultmultimsg", "")
 		if n != "" {
-			mmulti := &messaging.MulticastMessage{}
-			err := json.Unmarshal([]byte(n), mmulti)
+			multi := &messaging.MulticastMessage{}
+			err := json.Unmarshal([]byte(n), multi)
 			if err != nil {
 				return o, err
 			}
-			o.defaultMessaging.multicast = mmulti
+			o.defaultMessaging.multicast = multi
 		}
 	}
 	return o, nil

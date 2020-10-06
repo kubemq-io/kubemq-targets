@@ -11,13 +11,13 @@ const (
 	defaultPolicy        = "retry_policy_exponential"
 	defaultMaxTries      = 1
 	defaultTryTimeout    = 1000
-	defaultRetryDelay    = 60
-	defaultMaxRetryDelay = 180
+	defaultRetryDelay    = 60000
+	defaultMaxRetryDelay = 180000
 )
 
 var policyMap = map[string]string{
-	"retry_policy_exponential": "retry_policy_exponential",
-	"retry_policy_fixed":       "retry_policy_fixed",
+	"exponential": "retry_policy_exponential",
+	"fixed":       "retry_policy_fixed",
 }
 
 type options struct {

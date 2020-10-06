@@ -66,7 +66,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 		return options{}, fmt.Errorf("error parsing end_point , %w", err)
 	}
 
-	o.dbPort = cfg.Properties.ParseInt("db_port", defaultDBPort)
+	o.dbPort, err = cfg.Properties.ParseIntWithRange("db_port", defaultDBPort, 0, 65535)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing end_point , %w", err)
 	}

@@ -16,8 +16,8 @@ const (
 )
 
 var policyMap = map[string]string{
-	"retry_policy_exponential": "retry_policy_exponential",
-	"retry_policy_fixed":       "retry_policy_fixed",
+	"exponential": "retry_policy_exponential",
+	"fixed":       "retry_policy_fixed",
 }
 
 type options struct {

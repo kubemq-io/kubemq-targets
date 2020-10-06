@@ -32,7 +32,7 @@ func New() *Client {
 	return &Client{}
 }
 func (c *Client) Connector() *common.Connector {
-	return Connector()
+	return ConnectorWithProxy()
 }
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 
