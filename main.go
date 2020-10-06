@@ -126,11 +126,6 @@ func run() error {
 func main() {
 	log = logger.NewLogger("main")
 
-	c := targets.Connectors()
-	if err := c.Validate(); err != nil {
-		log.Fatal(err)
-	}
-
 	flag.Parse()
 	if *generateManifest {
 		err := saveManifest()
