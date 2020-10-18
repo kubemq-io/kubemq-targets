@@ -43,6 +43,7 @@ bindings:
       properties:
         aws_key: "id"
         aws_secret_key: 'json'
+        token: ""
         region:  "region"
 ```
 
