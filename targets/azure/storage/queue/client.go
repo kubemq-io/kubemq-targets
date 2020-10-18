@@ -6,7 +6,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/Azure/azure-storage-queue-go/azqueue"
-	"github.com/kubemq-hub/builder/common"
+	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"net/url"

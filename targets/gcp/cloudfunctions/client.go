@@ -3,7 +3,7 @@ package cloudfunctions
 import (
 	"context"
 	"fmt"
-	"github.com/kubemq-hub/builder/common"
+	"github.com/kubemq-hub/builder/connector/common"
 	"strings"
 
 	"github.com/kubemq-hub/kubemq-targets/config"

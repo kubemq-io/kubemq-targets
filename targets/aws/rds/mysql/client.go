@@ -9,7 +9,7 @@ import (
 	"fmt"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/go-sql-driver/mysql"
-	"github.com/kubemq-hub/builder/common"
+	"github.com/kubemq-hub/builder/connector/common"
 	"io/ioutil"
 	"net/http"
 	"strconv"

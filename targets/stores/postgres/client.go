@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"fmt"
 	jsoniter "github.com/json-iterator/go"
-	"github.com/kubemq-hub/builder/common"
+	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	_ "github.com/lib/pq"

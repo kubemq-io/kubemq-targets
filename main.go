@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"flag"
-	"github.com/kubemq-hub/builder/common"
-	"github.com/kubemq-hub/builder/connector"
+	"github.com/kubemq-hub/builder/connector/common"
+	connectorTargets "github.com/kubemq-hub/builder/connector/targets"
 	"github.com/kubemq-hub/kubemq-targets/api"
 	"github.com/kubemq-hub/kubemq-targets/binding"
 	"github.com/kubemq-hub/kubemq-targets/config"
@@ -51,7 +51,7 @@ func saveManifest() error {
 func buildConfig() error {
 	var err error
 	var bindingsYaml []byte
-	if bindingsYaml, err = connector.NewTarget().
+	if bindingsYaml, err = connectorTargets.NewTarget("kubemq-targets").
 		SetManifestFile("./manifest.json").
 		SetDefaultOptions(common.NewDefaultOptions().
 			Add("kubemq-address", []string{"localhost:50000", "Other"})).

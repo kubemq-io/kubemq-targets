@@ -7,7 +7,7 @@ import (
 	"firebase.google.com/go/v4/auth"
 	"firebase.google.com/go/v4/db"
 	"firebase.google.com/go/v4/messaging"
-	"github.com/kubemq-hub/builder/common"
+	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"google.golang.org/api/option"
