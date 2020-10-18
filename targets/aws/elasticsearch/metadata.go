@@ -6,24 +6,22 @@ import (
 )
 
 const (
-	DefaultJson = ""
+	DefaultJson    = ""
 	DefaultService = "es"
 )
 
 type metadata struct {
 	method string
 
-	region     string
-	json       string
+	region string
+	json   string
 
-	domain     string
-	index      string
-	endpoint   string
-	service    string
-	id         string
+	domain   string
+	index    string
+	endpoint string
+	service  string
+	id       string
 }
-
-
 
 var httpMethodsMap = map[string]string{
 	"GET":     "GET",
@@ -32,8 +30,6 @@ var httpMethodsMap = map[string]string{
 	"DELETE":  "DELETE",
 	"OPTIONS": "OPTIONS",
 }
-
-
 
 func parseMetadata(meta types.Metadata) (metadata, error) {
 	m := metadata{}
@@ -47,8 +43,8 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		return metadata{}, fmt.Errorf("error failed to parse region , %w", err)
 	}
 	if m.method == "GET" {
-		m.json = meta.ParseString("json",DefaultJson )
-	}else{
+		m.json = meta.ParseString("json", DefaultJson)
+	} else {
 		m.json, err = meta.MustParseString("json")
 		if err != nil {
 			return metadata{}, fmt.Errorf("error failed to parse json , %w", err)
@@ -66,7 +62,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if err != nil {
 		return metadata{}, fmt.Errorf("error failed to parse endpoint , %w", err)
 	}
-	m.service = meta.ParseString("service",DefaultService)
+	m.service = meta.ParseString("service", DefaultService)
 	m.id, err = meta.MustParseString("id")
 	if err != nil {
 		return metadata{}, fmt.Errorf("error failed to parse id , %w", err)

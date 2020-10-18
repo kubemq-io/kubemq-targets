@@ -6,15 +6,14 @@ import (
 )
 
 const (
-	defaultDescription           = ""
-	defaultMemorySize           = 256
-	defaultTimeout = 15
+	defaultDescription = ""
+	defaultMemorySize  = 256
+	defaultTimeout     = 15
 )
-
 
 type metadata struct {
 	method string
-	
+
 	zipFileName  string
 	functionName string
 	handlerName  string
@@ -31,7 +30,6 @@ var methodsMap = map[string]string{
 	"run":    "run",
 	"delete": "delete",
 }
-
 
 func parseMetadata(meta types.Metadata) (metadata, error) {
 	m := metadata{}
@@ -59,10 +57,10 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		}
 		i := meta.ParseInt("memory_size", defaultMemorySize)
 		m.memorySize = int64(i)
-		
+
 		i = meta.ParseInt("timeout", defaultTimeout)
 		m.timeout = int64(i)
-		
+
 		m.description = meta.ParseString("description", defaultDescription)
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing runtime, %w", err)

@@ -4,6 +4,11 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/config"
 )
 
+const (
+	DefaultSaslUsername = ""
+	DefaultSaslPassword = ""
+)
+
 type options struct {
 	brokers      []string
 	topic        string
@@ -22,8 +27,8 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return m, err
 	}
-	m.saslUsername = cfg.Properties.ParseString("saslUsername", "")
-	m.saslPassword = cfg.Properties.ParseString("saslPassword", "")
+	m.saslUsername = cfg.Properties.ParseString("saslUsername", DefaultSaslUsername)
+	m.saslPassword = cfg.Properties.ParseString("saslPassword", DefaultSaslPassword)
 
 	return m, nil
 }
