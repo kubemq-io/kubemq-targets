@@ -153,7 +153,7 @@ func TestClient_Do(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "valid sqs sent",
+			name: "valid sqs sent without tags",
 			cfg: config.Spec{
 				Name: "target-aws-sqs",
 				Kind: "target.aws.sqs",
@@ -176,7 +176,7 @@ func TestClient_Do(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "valid sqs sent - tags",
+			name: "valid sqs sent - with tags",
 			cfg: config.Spec{
 				Name: "target-aws-sqs",
 				Kind: "target.aws.sqs",
