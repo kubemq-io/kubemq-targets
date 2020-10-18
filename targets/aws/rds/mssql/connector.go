@@ -1,7 +1,7 @@
 package mssql
 
 import (
-	"github.com/kubemq-hub/builder/common"
+	"github.com/kubemq-hub/builder/connector/common"
 	"math"
 )
 

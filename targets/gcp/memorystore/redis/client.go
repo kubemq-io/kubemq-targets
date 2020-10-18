@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	redisClient "github.com/go-redis/redis/v7"
-	"github.com/kubemq-hub/builder/common"
+	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"strconv"
