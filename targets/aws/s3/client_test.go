@@ -148,7 +148,7 @@ func TestClient_Init(t *testing.T) {
 			wantDownloader: true,
 			wantErr:        false,
 		}, {
-			name: "init - missing secret key",
+			name: "invalid init - missing secret key",
 			cfg: config.Spec{
 				Name: "target-aws-s3",
 				Kind: "target.aws.s3",
@@ -161,7 +161,7 @@ func TestClient_Init(t *testing.T) {
 			wantDownloader: false,
 			wantErr:        true,
 		}, {
-			name: "init - missing key",
+			name: "invalid init - missing key",
 			cfg: config.Spec{
 				Name: "target-aws-s3",
 				Kind: "target.aws.s3",
@@ -404,15 +404,6 @@ func TestClient_Upload_Item(t *testing.T) {
 			setUploader: true,
 		},
 		{
-			name: "invalid upload - missing item",
-			request: types.NewRequest().
-				SetMetadataKeyValue("method", "upload_item").
-				SetMetadataKeyValue("bucket_name", dat.testBucketName).
-				SetData(dat.file),
-			wantErr:     true,
-			setUploader: true,
-		},
-		{
 			name: "invalid upload - missing uploader",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "upload_item").
@@ -571,7 +562,7 @@ func TestClient_Delete_Item(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "invalid delete - missing bucketName",
+			name: "invalid delete - missing bucket_name",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete_item_from_bucket").
 				SetMetadataKeyValue("wait_for_completion", "true").
@@ -635,7 +626,7 @@ func TestClient_Copy_Items(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "invalid copy items - missing target bucket",
+			name: "invalid copy items - missing copy_source ",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "copy_item").
 				SetMetadataKeyValue("bucket_name", dat.testBucketName).

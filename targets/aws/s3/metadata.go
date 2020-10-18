@@ -27,7 +27,6 @@ var methodsMap = map[string]string{
 	"get_item":                     "get_item",
 }
 
-
 func parseMetadata(meta types.Metadata) (metadata, error) {
 	m := metadata{}
 	var err error
@@ -44,7 +43,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		if m.method == "upload_item" || m.method == "copy" || m.method == "delete_item_from_bucket" || m.method == "copy_item" || m.method == "get_item" {
 			m.itemName, err = meta.MustParseString("item_name")
 			if err != nil {
-				return metadata{}, fmt.Errorf("error parsing item_name, %w", err)
+				return metadata{}, fmt.Errorf("item_name is required this action , error parsing item_name, %w", err)
 			}
 			if m.method == "copy_item" {
 				m.copySource, err = meta.MustParseString("copy_source")

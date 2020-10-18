@@ -19,3 +19,5 @@ go.sum
 credentials/
 targets/aws/keyspaces/tls.pem
 *.pem
+manifest_test_yaml/
+manifests_files/

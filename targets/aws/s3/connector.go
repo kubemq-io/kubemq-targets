@@ -44,7 +44,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("bool").
 				SetName("downloader").
-				SetDescription("Sets S3 downloader mode").
+				SetDescription("Create S3 downloader instance").
 				SetMust(false).
 				SetDefault("false"),
 		).
@@ -52,7 +52,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("bool").
 				SetName("uploader").
-				SetDescription("Sets S3 uploader mode").
+				SetDescription("Create S3 uploader instance").
 				SetMust(false).
 				SetDefault("false"),
 		)

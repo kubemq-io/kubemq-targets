@@ -5,6 +5,12 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
+const (
+	DefaultEndPoint    = ""
+	DefaultPhoneNumber = ""
+	DefaultSubject     = ""
+)
+
 type metadata struct {
 	method string
 	topic  string
@@ -13,10 +19,10 @@ type metadata struct {
 	protocol           string
 	returnSubscription bool
 
-	message           string
-	phoneNumber       string
-	subject           string
-	targetArn         string
+	message     string
+	phoneNumber string
+	subject     string
+	targetArn   string
 }
 
 var methodsMap = map[string]string{
@@ -42,7 +48,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 			return metadata{}, fmt.Errorf("error parsing topic, %w", err)
 		}
 		if m.method == "subscribe" {
-			m.endPoint = meta.ParseString("end_point","")
+			m.endPoint = meta.ParseString("end_point", DefaultEndPoint)
 			if err != nil {
 				return metadata{}, fmt.Errorf("error parsing end_point, %w", err)
 			}
@@ -72,8 +78,8 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing message, %w", err)
 		}
-		m.phoneNumber = meta.ParseString("phone_number", "")
-		m.subject = meta.ParseString("subject", "")
+		m.phoneNumber = meta.ParseString("phone_number", DefaultPhoneNumber)
+		m.subject = meta.ParseString("subject", DefaultSubject)
 	}
 	return m, nil
 }

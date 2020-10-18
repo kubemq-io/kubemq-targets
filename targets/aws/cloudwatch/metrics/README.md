@@ -45,6 +45,7 @@ bindings:
         aws_key: "id"
         aws_secret_key: 'json'
         region:  "region"
+        token: ""
 ```
 
 ## Usage

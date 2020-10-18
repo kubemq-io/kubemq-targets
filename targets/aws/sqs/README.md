@@ -21,7 +21,7 @@ sqs target connector configuration properties:
 | retries        | no       | number of retries on send                                         | 1 (default 0)                   |
 | token          | no       | aws token ("default" empty string                                 | "my token"                      |
 | dead_letter    | no       | dead letter queue name (only relevant to SetQueueAttributes)      | "my_dead_letter_queue"          |
-| max_receive    | no       | max receive of queue (only relevant to SetQueueAttributes)        | "0"                      |
+| max_receive    | no       | max receive of queue (only relevant to SetQueueAttributes)        | "0"                              |
 
 
 Example:
@@ -48,6 +48,7 @@ bindings:
         aws_key: "id"
         aws_secret_key: 'json'
         region:  "instance"
+        token:  ""
         retries: "1"
 ```
 

@@ -363,7 +363,7 @@ func TestClient_SendMessage(t *testing.T) {
 			"region":         dat.region,
 		},
 	}
-	attributes, err := createSendMessageAttributes("my_store", "my_event")
+	attributes, err := createSendMessageAttributes("mystore", "test")
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -429,8 +429,7 @@ func TestClient_Subscribe(t *testing.T) {
 	attributes := make(map[string]*string)
 	RawMessageDelivery := `{
 	"store": ["mystore"],
-    "event": [{"anything-but": "my-event"}],
-}`
+    "event": [{"anything-but": "my-event"}]}`
 	attributes["FilterPolicy"] = &RawMessageDelivery
 	b, err := json.Marshal(attributes)
 	require.NoError(t, err)

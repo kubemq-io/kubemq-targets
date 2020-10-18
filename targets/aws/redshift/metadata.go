@@ -31,7 +31,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if err != nil {
 		return metadata{}, meta.GetValidMethodTypes(methodsMap)
 	}
-	
+
 	if m.method == "create_tags" || m.method == "delete_tags" {
 		m.resourceARN, err = meta.MustParseString("resource_arn")
 		if err != nil {
@@ -43,6 +43,6 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 			return metadata{}, fmt.Errorf("error parsing resource_name, %w", err)
 		}
 	}
-	
+
 	return m, nil
 }
