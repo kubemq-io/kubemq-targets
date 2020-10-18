@@ -53,6 +53,15 @@ func Connector() *common.Connector {
 		AddProperty(
 			common.NewProperty().
 				SetKind("int").
+				SetName("retries").
+				SetDescription("Sets SQS number of retries on send  ").
+				SetMust(false).
+				SetDefault("0").
+				SetMax(math.MaxInt32),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("int").
 				SetName("default_delay").
 				SetDescription("Sets SQS default delay in seconds").
 				SetMust(false).

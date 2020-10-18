@@ -79,7 +79,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "init - error no region",
+			name: "invalid init - no region",
 			cfg: config.Spec{
 				Name: "target-aws-sqs",
 				Kind: "target.aws.sqs",
@@ -93,7 +93,7 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: true,
 		}, {
-			name: "init - error no aws_key",
+			name: "invalid  init - no aws_key",
 			cfg: config.Spec{
 				Name: "target-aws-sqs",
 				Kind: "target.aws.sqs",
@@ -109,7 +109,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init -error no aws_secret_key",
+			name: "invalid  init - no aws_secret_key",
 			cfg: config.Spec{
 				Name: "target-aws-sqs",
 				Kind: "target.aws.sqs",
@@ -221,7 +221,7 @@ func TestClient_Do(t *testing.T) {
 
 			wantErr: false,
 		}, {
-			name: "incorrect signature",
+			name: "invalid send - incorrect signature",
 			cfg: config.Spec{
 				Name: "target-aws-sqs",
 				Kind: "target.aws.sqs",
@@ -242,7 +242,7 @@ func TestClient_Do(t *testing.T) {
 
 			wantErr: true,
 		}, {
-			name: "incorrect queue",
+			name: "invalid send - incorrect queue",
 			cfg: config.Spec{
 				Name: "target-aws-sqs",
 				Kind: "target.aws.sqs",
@@ -309,7 +309,7 @@ func TestClient_SetQueueAttributes(t *testing.T) {
 			queueURL: dat.sqsQueue,
 			wantErr:  false,
 		}, {
-			name: "in-valid set queue attribute",
+			name: "invalid - set queue attribute",
 			cfg: config.Spec{
 				Name: "target-aws-sqs",
 				Kind: "target.aws.sqs",

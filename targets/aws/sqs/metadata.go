@@ -8,8 +8,8 @@ import (
 )
 
 type metadata struct {
-	delay int
-	tags  map[string]*sqs.MessageAttributeValue
+	delay    int
+	tags     map[string]*sqs.MessageAttributeValue
 	queueURL string
 }
 
