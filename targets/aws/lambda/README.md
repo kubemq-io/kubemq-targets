@@ -52,7 +52,9 @@ bindings:
 
 ### List Lambda
 
-List Buckets:
+List all lambdas
+
+List Lambda:
 
 | Metadata Key      | Required | Description                             | Possible values                            |
 |:------------------|:---------|:----------------------------------------|:-------------------------------------------|
@@ -72,6 +74,8 @@ Example:
 ```
 
 ### Create Lambda
+
+create a new lambda.
 
 Create Lambda:
 
@@ -111,13 +115,15 @@ Example:
 
 ### Run Lambda
 
+run a specific lambda
+
 Run Lambda:
 
 | Metadata Key      | Required | Description                                     | Possible values                            |
 |:------------------|:---------|:------------------------------------------------|:-------------------------------------------|
 | method            | yes      | type of method                                  | "run"                     |
 | function_name     | yes      | lambda function name                            | string                |
-| data              | yes      | the run request code , in byte array               | byte array            |
+| data              | yes      | the run request code , in byte array            | byte array            |
 
 
 

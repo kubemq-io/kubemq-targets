@@ -28,7 +28,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("region").
-				SetDescription("Sets Lambda region").
+				SetDescription("Sets Lambda aws region").
 				SetMust(true).
 				SetDefault(""),
 		).

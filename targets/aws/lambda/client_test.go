@@ -107,7 +107,7 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: false,
 		}, {
-			name: "init - missing key",
+			name: "invalid init - missing aws_key",
 			cfg: config.Spec{
 				Name: "target-aws-lambda",
 				Kind: "target.aws.lambda",
@@ -118,7 +118,7 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: true,
 		}, {
-			name: "init - missing region",
+			name: "invalid init - missing region",
 			cfg: config.Spec{
 				Name: "target-aws-lambda",
 				Kind: "target.aws.lambda",
@@ -129,7 +129,7 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: true,
 		}, {
-			name: "init - missing secret key",
+			name: "invalid init - missing aws_secret_key",
 			cfg: config.Spec{
 				Name: "target-aws-lambda",
 				Kind: "target.aws.lambda",
@@ -311,7 +311,7 @@ func TestClient_Delete(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "invalid delete- does not exists",
+			name: "invalid delete - does not exists",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete").
 				SetMetadataKeyValue("function_name", dat.functionName),
@@ -370,6 +370,13 @@ func TestClient_Run(t *testing.T) {
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "run").
 				SetMetadataKeyValue("function_name", "not_a_real_function").
+				SetData(b),
+			wantErr: true,
+		},
+		{
+			name: "invalid run - missing function name",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "run").
 				SetData(b),
 			wantErr: true,
 		},
