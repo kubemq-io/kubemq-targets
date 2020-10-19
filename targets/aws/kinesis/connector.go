@@ -28,7 +28,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("region").
-				SetDescription("Sets Kinesis region").
+				SetDescription("Sets Kinesis aws region").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -36,7 +36,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("token").
-				SetDescription("Sets Kinesis token").
+				SetDescription("Sets Kinesis aws token").
 				SetMust(false).
 				SetDefault(""),
 		)

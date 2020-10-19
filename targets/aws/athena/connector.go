@@ -36,7 +36,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("token").
-				SetDescription("Sets Athena token").
+				SetDescription("Sets Athena aws token").
 				SetMust(false).
 				SetDefault(""),
 		)

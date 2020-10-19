@@ -94,7 +94,7 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: false,
 		}, {
-			name: "init - missing aws key",
+			name: "invalid init - missing aws_key",
 			cfg: config.Spec{
 				Name: "target-aws-athena",
 				Kind: "target.aws.athena",
@@ -116,7 +116,7 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: true,
 		}, {
-			name: "init - missing secret key",
+			name: "invalid init - missing aws_secret_key",
 			cfg: config.Spec{
 				Name: "target-aws-athena",
 				Kind: "target.aws.athena",
