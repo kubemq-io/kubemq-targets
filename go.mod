@@ -40,7 +40,7 @@ require (
 	github.com/googleapis/gax-go/v2 v2.0.5
 	github.com/jpillora/backoff v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.10
-	github.com/kubemq-hub/builder v0.3.0
+	github.com/kubemq-hub/builder v0.3.1
 	github.com/kubemq-io/kubemq-go v1.4.3
 	github.com/labstack/echo/v4 v4.1.17
 	github.com/lib/pq v1.8.0
@@ -63,4 +63,5 @@ require (
 )
 
 replace github.com/Azure/azure-service-bus-go => github.com/Azure/azure-service-bus-go v0.10.3
-replace github.com/kubemq-hub/builder => ../builder
+
+//replace github.com/kubemq-hub/builder => ../builder
