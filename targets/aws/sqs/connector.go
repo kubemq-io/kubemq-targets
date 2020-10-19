@@ -29,7 +29,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("region").
-				SetDescription("Sets SQS region").
+				SetDescription("Sets SQS aws region").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -54,7 +54,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("retries").
-				SetDescription("Sets SQS number of retries on send  ").
+				SetDescription("Sets SQS number of retries on failed send request").
 				SetMust(false).
 				SetDefault("0").
 				SetMax(math.MaxInt32),

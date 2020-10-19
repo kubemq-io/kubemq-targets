@@ -112,7 +112,7 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: false,
 		}, {
-			name: "init - missing key",
+			name: "invalid init - missing aws_key",
 			cfg: config.Spec{
 				Name: "target-aws-kinesis",
 				Kind: "target.aws.kinesis",
@@ -123,7 +123,7 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: true,
 		}, {
-			name: "init - missing region",
+			name: "invalid init - missing region",
 			cfg: config.Spec{
 				Name: "target-aws-kinesis",
 				Kind: "target.aws.kinesis",
@@ -134,7 +134,7 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: true,
 		}, {
-			name: "init - missing secret key",
+			name: "invalid init - missing aws_secret_key",
 			cfg: config.Spec{
 				Name: "target-aws-kinesis",
 				Kind: "target.aws.kinesis",
@@ -395,7 +395,7 @@ func TestClient_GetShardIterator(t *testing.T) {
 				SetMetadataKeyValue("shard_id", dat.shardID),
 			wantErr: true,
 		}, {
-			name: "valid get_shard_iterator - missing shard_id",
+			name: "invalid get_shard_iterator - missing shard_id",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "get_shard_iterator").
 				SetMetadataKeyValue("stream_name", dat.streamName).

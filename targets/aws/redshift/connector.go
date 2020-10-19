@@ -28,7 +28,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("region").
-				SetDescription("Sets Redshift Service region").
+				SetDescription("Sets Redshift Service aws region").
 				SetMust(true).
 				SetDefault(""),
 		).

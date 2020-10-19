@@ -35,12 +35,12 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if m.method == "create_tags" || m.method == "delete_tags" {
 		m.resourceARN, err = meta.MustParseString("resource_arn")
 		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing resource_arn, %w", err)
+			return metadata{}, fmt.Errorf("resource_arn is required when using :%s,error parsing resource_arn, %w", m.method, err)
 		}
 	} else if m.method == "describe_cluster" {
 		m.resourceName, err = meta.MustParseString("resource_name")
 		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing resource_name, %w", err)
+			return metadata{}, fmt.Errorf("resource_name is required when using :%s ,error parsing resource_name, %w", m.method, err)
 		}
 	}
 

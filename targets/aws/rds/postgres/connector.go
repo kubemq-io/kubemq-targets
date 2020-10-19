@@ -29,7 +29,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("region").
-				SetDescription("Sets Postgres region").
+				SetDescription("Sets Postgres aws region").
 				SetMust(true).
 				SetDefault(""),
 		).

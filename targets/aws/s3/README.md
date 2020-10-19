@@ -56,6 +56,8 @@ bindings:
 
 ### List Buckets
 
+list all buckets.
+
 List Buckets:
 
 | Metadata Key      | Required | Description                             | Possible values                            |
@@ -77,6 +79,8 @@ Example:
 
 
 ### List Bucket Items
+
+list all items in the selected bucket
 
 List Bucket Items:
 
@@ -102,6 +106,8 @@ Example:
 
 ### Create Bucket 
 
+create a new bucket, name must be unique
+
 Create Bucket :
 
 | Metadata Key      | Required | Description                             | Possible values                            |
@@ -125,15 +131,17 @@ Example:
 
 ### Upload Item 
 
-Upload Bucket  Items:
+upload item to bucket.
+
+Upload Bucket Items:
 
 | Metadata Key        | Required | Description                             | Possible values                      |
 |:--------------------|:---------|:----------------------------------------|:-------------------------------------|
 | method              | yes      | type of method                          | "upload_item"                        |
 | bucket_name         | yes      | s3 bucket name                          | "my_bucket_name"                     |
 | wait_for_completion | no       | wait for operation to end               | "true","false" (default of false )   |
-| item_name           | yes      | the name of the item                    |"valid-string"   |
-| data                | yes      | the object data in byte array           |"valid-string"   |
+| item_name           | yes      | the name of the item                    | "valid-string"                       |
+| data                | yes      | the object data in byte array           | "valid-string"                       |
 
 
 Example:
@@ -150,6 +158,8 @@ Example:
 ```
 
 ### Get Item 
+
+Get item by item name from bucket
 
 Get Bucket Items:
 
@@ -174,6 +184,8 @@ Example:
 ```
 
 ### Delete Item 
+
+delete item by item name from bucket
 
 Delete Item:
 
@@ -202,6 +214,8 @@ Example:
 
 ### Delete All Items
 
+delete all items from a bucket
+
 Delete All Items:
 
 | Metadata Key        | Required | Description                             | Possible values                      |
@@ -227,14 +241,16 @@ Example:
 
 ### Copy Item
 
+copy an item from one bucket to another
+
 Copy Items:
 
 | Metadata Key        | Required | Description                             | Possible values                      |
 |:--------------------|:---------|:----------------------------------------|:-------------------------------------|
-| method              | yes      | type of method                          | "copy_item"                        |
+| method              | yes      | type of method                          | "copy_item"                          |
 | bucket_name         | yes      | s3 bucket name                          | "my_bucket_name"                     |
-| copy_source         | yes      | s3 bucket name source name              | "my_bucket_source_name"                     |
-| item_name           | yes      | the name of the item                    | "valid-string"   |
+| copy_source         | yes      | s3 bucket name source name              | "my_bucket_source_name"              |
+| item_name           | yes      | the name of the item                    | "valid-string"                       |
 | wait_for_completion | no       | wait for operation to end               | "true","false" (default of false )   |
 
 
@@ -256,11 +272,13 @@ Example:
 
 ### Delete Bucket
 
+delete a bucket by name.
+
 Delete Bucket:
 
 | Metadata Key        | Required | Description                             | Possible values                      |
 |:--------------------|:---------|:----------------------------------------|:-------------------------------------|
-| method              | yes      | type of method                          | "delete_bucket"                        |
+| method              | yes      | type of method                          | "delete_bucket"                      |
 | bucket_name         | yes      | s3 bucket name                          | "my_bucket_name"                     |
 | wait_for_completion | no       | wait for operation to end               | "true","false" (default of false )   |
 

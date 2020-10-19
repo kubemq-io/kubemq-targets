@@ -13,7 +13,7 @@ import (
 
 func main() {
 	client, err := kubemq.NewClient(context.Background(),
-		kubemq.WithAddress("localhost", 50000),
+		kubemq.WithAddress("kubemq-cluster", 50000),
 		kubemq.WithClientId(nuid.Next()),
 		kubemq.WithTransportType(kubemq.TransportTypeGRPC))
 	if err != nil {
@@ -47,7 +47,7 @@ func main() {
 	partitionKey := string(dat)
 	// putRecord
 	putRequest := types.NewRequest().
-		SetMetadataKeyValue("method", "list_streams").
+		SetMetadataKeyValue("method", "put_record").
 		SetMetadataKeyValue("partition_key", partitionKey).
 		SetMetadataKeyValue("stream_name", streamName).
 		SetData([]byte("{\"my_result\":\"ok\"})"))

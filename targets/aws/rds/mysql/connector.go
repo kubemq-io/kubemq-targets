@@ -29,7 +29,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("region").
-				SetDescription("Sets MySQL region").
+				SetDescription("Sets MySQL aws region").
 				SetMust(true).
 				SetDefault(""),
 		).

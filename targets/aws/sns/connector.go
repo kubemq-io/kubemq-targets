@@ -28,7 +28,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("region").
-				SetDescription("Sets SNS region").
+				SetDescription("Sets SNS aws region").
 				SetMust(true).
 				SetDefault(""),
 		).
