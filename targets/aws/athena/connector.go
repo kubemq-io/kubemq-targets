@@ -28,7 +28,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("region").
-				SetDescription("Sets Athena region").
+				SetDescription("Sets Athena aws region").
 				SetMust(true).
 				SetDefault(""),
 		).

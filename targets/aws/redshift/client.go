@@ -79,12 +79,12 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 
 func (c *Client) createTags(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
 	if data == nil {
-		return nil, errors.New("missing data , tag list is required")
+		return nil, errors.New("missing data,tag list is required")
 	}
 	tags := make(map[string]string)
 	err := json.Unmarshal(data, &tags)
 	if err != nil {
-		return nil, errors.New("data should be map[string]string , tag key , tag value")
+		return nil, errors.New("data should be map[string]string,tag key(string),tag value(string)")
 	}
 	var redshiftTags []*redshift.Tag
 	for k, v := range tags {
@@ -159,7 +159,7 @@ func (c *Client) listSnapshots(ctx context.Context) (*types.Response, error) {
 
 func (c *Client) listSnapshotsByTagsKeys(ctx context.Context, data []byte) (*types.Response, error) {
 	if data == nil {
-		return nil, errors.New("missing data , tag list is required")
+		return nil, errors.New("missing data,tag list keys is required")
 	}
 	var tags []*string
 	err := json.Unmarshal(data, &tags)
@@ -184,7 +184,7 @@ func (c *Client) listSnapshotsByTagsKeys(ctx context.Context, data []byte) (*typ
 
 func (c *Client) listSnapshotsTagsValues(ctx context.Context, data []byte) (*types.Response, error) {
 	if data == nil {
-		return nil, errors.New("missing data , tag list is required")
+		return nil, errors.New("missing data,tag list values is required")
 	}
 	var tags []*string
 	err := json.Unmarshal(data, &tags)
@@ -241,7 +241,7 @@ func (c *Client) listClusters(ctx context.Context) (*types.Response, error) {
 
 func (c *Client) listClustersByTagsKeys(ctx context.Context, data []byte) (*types.Response, error) {
 	if data == nil {
-		return nil, errors.New("missing data , tag list is required")
+		return nil, errors.New("missing data,list of tags keys is required")
 	}
 	var tags []*string
 	err := json.Unmarshal(data, &tags)
@@ -266,7 +266,7 @@ func (c *Client) listClustersByTagsKeys(ctx context.Context, data []byte) (*type
 
 func (c *Client) listClustersByTagsValues(ctx context.Context, data []byte) (*types.Response, error) {
 	if data == nil {
-		return nil, errors.New("missing data , tag list is required")
+		return nil, errors.New("missing data,tag list is required")
 	}
 	var tags []*string
 	err := json.Unmarshal(data, &tags)

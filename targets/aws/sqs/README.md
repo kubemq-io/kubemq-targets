@@ -56,6 +56,8 @@ bindings:
 
 ### Send Message
 
+send message to sqs.
+
 Send Message:
 
 | Metadata Key      | Required | Description                             | Possible values                            |

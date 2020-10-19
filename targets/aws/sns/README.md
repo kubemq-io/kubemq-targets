@@ -52,6 +52,8 @@ bindings:
 
 ### List Topics
 
+list all topics
+
 List Topics:
 
 | Metadata Key      | Required | Description                             | Possible values                            |
@@ -74,6 +76,8 @@ Example:
 
 ### List Subscriptions
 
+list all subscriptions
+
 List Subscriptions:
 
 | Metadata Key      | Required | Description                             | Possible values                            |
@@ -94,6 +98,8 @@ Example:
 
 
 ### List Subscriptions By Topic
+
+list all Subscriptions of the selected topic
 
 List Subscriptions By Topic:
 
@@ -117,6 +123,8 @@ Example:
 
 
 ### Create Topic
+
+create a new topic , topic name must by unique 
 
 Create Topic:
 
@@ -142,10 +150,12 @@ Example:
 
 ### Send Message
 
+send a message to topic.
+
 Send Message:
 
-| Metadata Key      | Required | Description                             | Possible values                            |
-|:------------------|:---------|:----------------------------------------|:-------------------------------------------|
+| Metadata Key      | Required                            | Description                  | Possible values                            |
+|:------------------|:------------------------------------|:-----------------------------|:-------------------------------------------|
 | method            | yes                                 | type of method               | "send_message"                           |
 | topic             | no(unless target_arn is missing)    | topic_name                   | "arn:aws-my-topic"                     |
 | target_arn        | no(unless topic is missing)         | target_arn                   | "arn:aws-my-topic"                     |
@@ -172,7 +182,9 @@ Example:
 
 ### Subscribe
 
-Send Message:
+Subscribe to topic
+
+Subscribe:
 
 | Metadata Key      | Required | Description                             | Possible values                                           |
 |:--------------------|:------------------------------------|:---------------------------------|:--------------------------------------|
@@ -195,7 +207,9 @@ Example:
 
 ### Delete Topic
 
-Delete Message:
+delete the selected topic
+
+Delete Topic:
 
 | Metadata Key      | Required | Description                             | Possible values                                           |
 |:--------------------|:------------------------------------|:-------------------------------|:--------------------------------------|

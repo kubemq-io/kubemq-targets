@@ -28,7 +28,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("region").
-				SetDescription("Sets S3 region").
+				SetDescription("Sets S3 aws region").
 				SetMust(true).
 				SetDefault(""),
 		).

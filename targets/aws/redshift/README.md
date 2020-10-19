@@ -2,10 +2,10 @@
 Kubemq aws-redshift target connector allows services using kubemq server to access aws redshift service.
 
 ## Prerequisites
-The following required to run the aws-redshift target connector:
+The following required to run the aws-redshift service target connector:
 
 - kubemq cluster
-- aws account with redshift active service
+- aws account with redshift active service(Not rds, see rds/redshift)
 - kubemq-source deployment
 
 ## Configuration
@@ -51,6 +51,8 @@ bindings:
 
 ### Create Tags
 
+create a tag for a resource ,must be accessible to redshift cluster.
+
 Create Tags:
 
 | Metadata Key      | Required | Description                             | Possible values                            |
@@ -74,6 +76,8 @@ Example:
 ```
 
 ### Delete Tags
+
+delete tag from resource,must be accessible to redshift cluster.
 
 Delete Tags:
 
@@ -99,6 +103,8 @@ Example:
 
 ### List Tags
 
+list all tags on the redshift cluster
+
 List Tags:
 
 | Metadata Key      | Required | Description                             | Possible values                            |
@@ -119,6 +125,8 @@ Example:
 ```
 
 ### List Snapshots
+
+list all redshift snapshots.
 
 List Snapshots:
 
@@ -141,11 +149,13 @@ Example:
 
 ### List Snapshots By Tag Keys
 
+list all redshift snapshots with the matching tag keys.
+
 List Snapshots By Tag Keys:
 
 | Metadata Key      | Required | Description                             | Possible values                            |
 |:------------------|:---------|:----------------------------------------|:-------------------------------------------|
-| method            | yes      | type of method                          | "list_snapshots_by_tags_keys"                     |            |
+| method            | yes      | type of method                          | "list_snapshots_by_tags_keys"              |            |
 | data              | yes      | key slice of tags to search by(by keys) | "WyJ0ZXN0MS1rZXkiXQ=="                     |
 
 
@@ -161,6 +171,8 @@ Example:
 ```
 
 ### List Snapshots By Tag Values
+
+list all redshift snapshots with the matching tag Values.
 
 List Snapshots By Tag Values:
 
@@ -205,6 +217,8 @@ Example:
 
 ### List Clusters
 
+list clusters under redshift service
+
 List Clusters:
 
 | Metadata Key      | Required | Description                             | Possible values                            |
@@ -225,6 +239,8 @@ Example:
 ```
 
 ### List Clusters By Tag Keys
+
+list clusters under redshift service by tag keys
 
 List Clusters By Tag Keys:
 
@@ -247,11 +263,13 @@ Example:
 
 ### List Clusters By Tag Values
 
+list clusters under redshift service by tag values
+
 List Clusters By Tag Values:
 
 | Metadata Key      | Required | Description                               | Possible values                            |
 |:------------------|:---------|:------------------------------------------|:-------------------------------------------|
-| method            | yes      | type of method                            | "list_clusters_by_tags_values"                     |            |
+| method            | yes      | type of method                            | "list_clusters_by_tags_values"             |            |
 | data              | yes      | key slice of tags to search by(by values) | "WyJ0ZXN0MS1rZXkiXQ=="                     |
 
 

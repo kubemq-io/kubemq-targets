@@ -42,12 +42,12 @@ func getTestStructure() (*testStructure, error) {
 	t.region = fmt.Sprintf("%s", dat)
 	t.token = ""
 
-	dat, err = ioutil.ReadFile("./../../../credentials/aws/rds/redshift/resourceName.txt")
+	dat, err = ioutil.ReadFile("./../../../credentials/aws/redshift-svc/resourceName.txt")
 	if err != nil {
 		return nil, err
 	}
 	t.resourceName = fmt.Sprintf("%s", dat)
-	dat, err = ioutil.ReadFile("./../../../credentials/aws/rds/redshift/resourceARN.txt")
+	dat, err = ioutil.ReadFile("./../../../credentials/aws/redshift-svc/resourceARN.txt")
 	if err != nil {
 		return nil, err
 	}
