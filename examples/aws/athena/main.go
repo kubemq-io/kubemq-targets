@@ -59,7 +59,8 @@ func main() {
 	}
 	executionCode := qryResponse.Metadata["execution_id"]
 	log.Println(fmt.Sprintf("qry executed, executionCode: %s", executionCode))
-
+	//Give query time to end
+	time.Sleep(2 * time.Second)
 	// get query result
 	getResultRequest := types.NewRequest().
 		SetMetadataKeyValue("method", "get_query_result").
