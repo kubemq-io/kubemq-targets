@@ -7,7 +7,7 @@ import (
 
 type metadata struct {
 	method string
-	
+
 	tableName string
 }
 
@@ -21,7 +21,6 @@ var methodsMap = map[string]string{
 	"update_item":  "update_item",
 }
 
-
 func parseMetadata(meta types.Metadata) (metadata, error) {
 	m := metadata{}
 	var err error
@@ -32,7 +31,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if m.method == "insert_item" || m.method == "delete_table" {
 		m.tableName, err = meta.MustParseString("table_name")
 		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing table_name, %w", err)
+			return metadata{}, fmt.Errorf("table_name is requeired for method:%s, error parsing table_name, %w", m.method, err)
 		}
 	}
 	return m, nil

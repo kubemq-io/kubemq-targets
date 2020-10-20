@@ -18,9 +18,9 @@ AmazonMQ target connector configuration properties:
 
 | Properties Key                  | Required | Description                                 | Example                                                                |
 |:--------------------------------|:---------|:--------------------------------------------|:-----------------------------------------------------------------------|
-| host                            | yes     | AmazonMQ connection host (stomp+ssl endpoint)| "localhost:1883" |
-| username                        | no      | set AmazonMQ username                        | "username" |
-| password                        | no      | set AmazonMQ password                        | "password" |
+| host                            | yes      | AmazonMQ connection host (stomp+ssl endpoint)| "localhost:1883" |
+| username                        | no       | set AmazonMQ username                        | "username" |
+| password                        | no       | set AmazonMQ password                        | "password" |
 
 
 Example:
@@ -57,7 +57,7 @@ Request metadata setting:
 
 | Metadata Key   | Required | Description         | Possible values |
 |:---------------|:---------|:--------------------|:----------------|
-| destination          | yes      | set destination name | "destination"         |
+| destination    | yes      | set destination name| "destination"         |
 
 
 

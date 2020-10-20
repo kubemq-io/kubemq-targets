@@ -12,7 +12,7 @@ import (
 
 func main() {
 	client, err := kubemq.NewClient(context.Background(),
-		kubemq.WithAddress("localhost", 50000),
+		kubemq.WithAddress("kubemq-cluster", 50000),
 		kubemq.WithClientId(nuid.Next()),
 		kubemq.WithTransportType(kubemq.TransportTypeGRPC))
 	if err != nil {
@@ -23,7 +23,7 @@ func main() {
 	setRequest := types.NewRequest().
 		SetMetadataKeyValue("method", "set").
 		SetMetadataKeyValue("key", randomKey).
-		SetMetadataKeyValue("consistency", "local_quorum").
+		SetMetadataKeyValue("consistency", "LocalQuorum").
 		SetData([]byte("some-data"))
 	querySetResponse, err := client.SetQuery(setRequest.ToQuery()).
 		SetChannel("aws.query.keyspaces").
@@ -41,7 +41,7 @@ func main() {
 	getRequest := types.NewRequest().
 		SetMetadataKeyValue("method", "get").
 		SetMetadataKeyValue("key", randomKey).
-		SetMetadataKeyValue("consistency", "local_quorum")
+		SetMetadataKeyValue("consistency", "LocalQuorum")
 
 	queryGetResponse, err := client.SetQuery(getRequest.ToQuery()).
 		SetChannel("aws.query.keyspaces").
@@ -59,7 +59,7 @@ func main() {
 
 	delRequest := types.NewRequest().
 		SetMetadataKeyValue("method", "delete").
-		SetMetadataKeyValue("consistency", "local_quorum").
+		SetMetadataKeyValue("consistency", "LocalQuorum").
 		SetMetadataKeyValue("key", randomKey)
 
 	queryDelResponse, err := client.SetQuery(delRequest.ToQuery()).

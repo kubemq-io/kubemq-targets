@@ -28,7 +28,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("region").
-				SetDescription("Sets Dynamodb region").
+				SetDescription("Sets Dynamodb aws region").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -36,7 +36,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("token").
-				SetDescription("Sets Dynamodb token").
+				SetDescription("Sets Dynamodb aws token").
 				SetMust(false).
 				SetDefault(""),
 		)

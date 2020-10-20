@@ -99,7 +99,7 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: false,
 		}, {
-			name: "init - missing key",
+			name: "invalid init - missing aws_key",
 			cfg: config.Spec{
 				Name: "target-aws-elasticsearch",
 				Kind: "target.aws.elasticsearch",
@@ -109,7 +109,7 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: true,
 		}, {
-			name: "init - missing secret key",
+			name: "invalid init - missing aws_secret_key",
 			cfg: config.Spec{
 				Name: "target-aws-elasticsearch",
 				Kind: "target.aws.elasticsearch",
@@ -250,17 +250,6 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("domain", dat.domain).
 				SetMetadataKeyValue("endpoint", dat.endpoint).
 				SetMetadataKeyValue("service", dat.service).
-				SetMetadataKeyValue("id", dat.id),
-			wantErr: true,
-		}, {
-			name: "invalid post - missing service ",
-			request: types.NewRequest().
-				SetMetadataKeyValue("method", "POST").
-				SetMetadataKeyValue("region", dat.region).
-				SetMetadataKeyValue("json", dat.json).
-				SetMetadataKeyValue("domain", dat.domain).
-				SetMetadataKeyValue("endpoint", dat.endpoint).
-				SetMetadataKeyValue("index", dat.index).
 				SetMetadataKeyValue("id", dat.id),
 			wantErr: true,
 		}, {

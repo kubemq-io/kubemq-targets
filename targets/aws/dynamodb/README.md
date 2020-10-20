@@ -52,6 +52,8 @@ bindings:
 
 ### List Tables 
 
+list all tables under dynamodb.
+
 List Tables:
 
 | Metadata Key      | Required | Description                             | Possible values                            |
@@ -71,6 +73,8 @@ Example:
 ```
 
 ### Create Table 
+
+create a new table under dynamodb.
 
 Create Table:
 
@@ -92,6 +96,8 @@ Example:
 ```
 
 ### Delete Table 
+
+delete a table under dynamodb.
 
 Delete Table:
 
@@ -116,6 +122,8 @@ Example:
 
 ### Insert Item 
 
+insert item to table under dynamodb.
+
 Insert Item :
 
 | Metadata Key      | Required | Description                             | Possible values                            |
@@ -139,6 +147,8 @@ Example:
 
 ### Get Item 
 
+get an item from a table under dynamodb.
+
 Get Item :
 
 | Metadata Key      | Required | Description                             | Possible values                            |
@@ -160,6 +170,9 @@ Example:
 
 ### Update Item 
 
+update an item from a table under dynamodb.
+
+
 Update Item :
 
 | Metadata Key      | Required | Description                             | Possible values                            |
@@ -180,6 +193,8 @@ Example:
 ```
 
 ### Delete Item 
+
+delete an item from a table under dynamodb.
 
 Delete Item :
 

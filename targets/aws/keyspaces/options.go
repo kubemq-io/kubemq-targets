@@ -41,10 +41,6 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing hosts, %w", err)
 	}
-	o.tls, err = cfg.Properties.MustParseString("tls")
-	if err != nil {
-		return options{}, fmt.Errorf("error parsing tls, %w", err)
-	}
 	o.port, err = cfg.Properties.ParseIntWithRange("port", defaultPort, 1, 65535)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing port value, %w", err)
@@ -59,7 +55,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 	}
 	o.username = cfg.Properties.ParseString("username", defaultUsername)
 	o.password = cfg.Properties.ParseString("password", defaultPassword)
-	o.consistency, err = getConsistency(cfg.Properties.ParseString("consistency", "local_quorum"))
+	o.consistency, err = getConsistency(cfg.Properties.ParseString("consistency", "LocalQuorum"))
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing consistency value, %w", err)
 	}
@@ -75,16 +71,20 @@ func parseOptions(cfg config.Spec) (options, error) {
 		return options{}, fmt.Errorf("error parsing timeout seconds value, %w", err)
 	}
 	o.timeoutSeconds = time.Duration(timeout) * time.Second
+	o.tls, err = cfg.Properties.MustParseString("tls")
+	if err != nil {
+		return options{}, fmt.Errorf("error parsing tls, %w", err)
+	}
 	return o, nil
 }
 
 func getConsistency(consistency string) (gocql.Consistency, error) {
 	switch consistency {
-	case "one":
+	case "One":
 		return gocql.One, nil
-	case "local_quorum":
+	case "LocalQuorum":
 		return gocql.LocalQuorum, nil
-	case "local_one":
+	case "LocalOne":
 		return gocql.LocalOne, nil
 	case "":
 		return defaultConsistency, nil

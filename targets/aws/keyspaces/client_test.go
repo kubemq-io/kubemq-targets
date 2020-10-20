@@ -62,7 +62,7 @@ func TestClient_Init(t *testing.T) {
 					"password":           dat.password,
 					"proto_version":      "4",
 					"replication_factor": "1",
-					"consistency":        "local_one",
+					"consistency":        "LocalOne",
 					"default_table":      "test",
 					"default_keyspace":   "test",
 					"tls":                dat.tlsPath,
@@ -71,7 +71,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "init - bad hosts",
+			name: "invalid init - bad hosts",
 			cfg: config.Spec{
 				Name: "target-aws-keyspaces",
 				Kind: "target.aws.keyspaces",
@@ -82,7 +82,7 @@ func TestClient_Init(t *testing.T) {
 					"password":           dat.password,
 					"proto_version":      "4",
 					"replication_factor": "1",
-					"consistency":        "local_one",
+					"consistency":        "LocalOne",
 					"default_table":      "test",
 					"default_keyspace":   "test",
 					"tls":                dat.tlsPath,
@@ -91,7 +91,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init - bad port",
+			name: "invalid init - bad port",
 			cfg: config.Spec{
 				Name: "target-aws-keyspaces",
 				Kind: "target.aws.keyspaces",
@@ -102,7 +102,7 @@ func TestClient_Init(t *testing.T) {
 					"password":           dat.password,
 					"proto_version":      "4",
 					"replication_factor": "1",
-					"consistency":        "local_one",
+					"consistency":        "LocalOne",
 					"default_table":      "test",
 					"default_keyspace":   "test",
 					"tls":                dat.tlsPath,
@@ -111,7 +111,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init - pad proto version",
+			name: "invalid init - pad proto version",
 			cfg: config.Spec{
 				Name: "target-aws-keyspaces",
 				Kind: "target.aws.keyspaces",
@@ -122,7 +122,7 @@ func TestClient_Init(t *testing.T) {
 					"password":           dat.password,
 					"proto_version":      "-1",
 					"replication_factor": "1",
-					"consistency":        "local_one",
+					"consistency":        "LocalOne",
 					"default_table":      "test",
 					"default_keyspace":   "test",
 					"tls":                dat.tlsPath,
@@ -131,7 +131,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init - bad replication factor",
+			name: "invalid init - bad replication factor",
 			cfg: config.Spec{
 				Name: "target-aws-keyspaces",
 				Kind: "target.aws.keyspaces",
@@ -142,7 +142,7 @@ func TestClient_Init(t *testing.T) {
 					"password":           dat.password,
 					"proto_version":      "4",
 					"replication_factor": "-1",
-					"consistency":        "local_one",
+					"consistency":        "LocalOne",
 					"default_table":      "test",
 					"default_keyspace":   "test",
 					"tls":                dat.tlsPath,
@@ -151,7 +151,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init - bad consistency",
+			name: "invalid init - bad consistency",
 			cfg: config.Spec{
 				Name: "target-aws-keyspaces",
 				Kind: "target.aws.keyspaces",
@@ -211,7 +211,7 @@ func TestClient_Set_Get(t *testing.T) {
 					"password":           dat.password,
 					"proto_version":      "4",
 					"replication_factor": "1",
-					"consistency":        "local_one",
+					"consistency":        "LocalOne",
 					"default_table":      "test",
 					"default_keyspace":   "test",
 					"tls":                dat.tlsPath,
@@ -220,12 +220,12 @@ func TestClient_Set_Get(t *testing.T) {
 			setRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "set").
 				SetMetadataKeyValue("key", "some-id").
-				SetMetadataKeyValue("consistency", "local_quorum").
+				SetMetadataKeyValue("consistency", "LocalQuorum").
 				SetData([]byte("some-data")),
 			getRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "get").
 				SetMetadataKeyValue("key", "some-id").
-				SetMetadataKeyValue("consistency", "local_quorum"),
+				SetMetadataKeyValue("consistency", "LocalQuorum"),
 
 			wantSetResponse: types.NewResponse().
 				SetMetadataKeyValue("key", "some-id").
@@ -248,7 +248,7 @@ func TestClient_Set_Get(t *testing.T) {
 					"password":           dat.password,
 					"proto_version":      "4",
 					"replication_factor": "1",
-					"consistency":        "local_one",
+					"consistency":        "LocalOne",
 					"default_table":      "test",
 					"default_keyspace":   "test",
 					"tls":                dat.tlsPath,
@@ -257,12 +257,12 @@ func TestClient_Set_Get(t *testing.T) {
 			setRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "set").
 				SetMetadataKeyValue("key", "some-id").
-				SetMetadataKeyValue("consistency", "local_quorum").
+				SetMetadataKeyValue("consistency", "LocalQuorum").
 				SetData([]byte("some-data-2")),
 			getRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "get").
 				SetMetadataKeyValue("key", "some-id").
-				SetMetadataKeyValue("consistency", "local_quorum"),
+				SetMetadataKeyValue("consistency", "LocalQuorum"),
 
 			wantSetResponse: types.NewResponse().
 				SetMetadataKeyValue("key", "some-id").
@@ -285,7 +285,7 @@ func TestClient_Set_Get(t *testing.T) {
 					"password":           dat.password,
 					"proto_version":      "4",
 					"replication_factor": "1",
-					"consistency":        "local_one",
+					"consistency":        "LocalOne",
 					"default_table":      "test",
 					"default_keyspace":   "test",
 					"tls":                dat.tlsPath,
@@ -294,7 +294,7 @@ func TestClient_Set_Get(t *testing.T) {
 			setRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "set").
 				SetMetadataKeyValue("key", "some-id").
-				SetMetadataKeyValue("consistency", "local_quorum").
+				SetMetadataKeyValue("consistency", "LocalQuorum").
 				SetMetadataKeyValue("table", "bad-table").
 				SetMetadataKeyValue("keyspace", "bad-keyspace").
 				SetData([]byte("some-data")),
@@ -316,7 +316,7 @@ func TestClient_Set_Get(t *testing.T) {
 					"password":           dat.password,
 					"proto_version":      "4",
 					"replication_factor": "1",
-					"consistency":        "local_one",
+					"consistency":        "LocalOne",
 					"default_table":      "test",
 					"default_keyspace":   "test",
 					"tls":                dat.tlsPath,
@@ -325,14 +325,14 @@ func TestClient_Set_Get(t *testing.T) {
 			setRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "set").
 				SetMetadataKeyValue("key", "some-id").
-				SetMetadataKeyValue("consistency", "local_quorum").
+				SetMetadataKeyValue("consistency", "LocalQuorum").
 				SetData([]byte("some-data")),
 			getRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "get").
 				SetMetadataKeyValue("key", "some-id").
 				SetMetadataKeyValue("table", "bad-table").
 				SetMetadataKeyValue("keyspace", "bad-keyspace").
-				SetMetadataKeyValue("consistency", "local_quorum"),
+				SetMetadataKeyValue("consistency", "LocalQuorum"),
 			wantSetResponse: types.NewResponse().
 				SetMetadataKeyValue("key", "some-id").
 				SetMetadataKeyValue("result", "ok"),
@@ -352,7 +352,7 @@ func TestClient_Set_Get(t *testing.T) {
 					"password":           dat.password,
 					"proto_version":      "4",
 					"replication_factor": "1",
-					"consistency":        "local_one",
+					"consistency":        "LocalOne",
 					"default_table":      "test",
 					"default_keyspace":   "test",
 					"tls":                dat.tlsPath,
@@ -361,12 +361,12 @@ func TestClient_Set_Get(t *testing.T) {
 			setRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "set").
 				SetMetadataKeyValue("key", "some-id").
-				SetMetadataKeyValue("consistency", "local_quorum").
+				SetMetadataKeyValue("consistency", "LocalQuorum").
 				SetData([]byte("some-data")),
 			getRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "get").
 				SetMetadataKeyValue("key", "not-exist-key").
-				SetMetadataKeyValue("consistency", "local_quorum"),
+				SetMetadataKeyValue("consistency", "LocalQuorum"),
 			wantSetResponse: types.NewResponse().
 				SetMetadataKeyValue("key", "some-id").
 				SetMetadataKeyValue("result", "ok"),
@@ -427,7 +427,7 @@ func TestClient_Query_Exec(t *testing.T) {
 					"password":           dat.password,
 					"proto_version":      "4",
 					"replication_factor": "1",
-					"consistency":        "local_one",
+					"consistency":        "LocalOne",
 					"default_table":      "test",
 					"default_keyspace":   "test",
 					"tls":                dat.tlsPath,
@@ -435,11 +435,11 @@ func TestClient_Query_Exec(t *testing.T) {
 			},
 			execRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "exec").
-				SetMetadataKeyValue("consistency", "local_quorum").
+				SetMetadataKeyValue("consistency", "LocalQuorum").
 				SetData([]byte(`INSERT INTO test.test (key, value) VALUES (textAsBlob('some-key'), textAsBlob('some-data'));`)),
 			queryRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "query").
-				SetMetadataKeyValue("consistency", "local_quorum").
+				SetMetadataKeyValue("consistency", "LocalQuorum").
 				SetData([]byte(`SELECT value FROM test.test WHERE key = textAsBlob('some-key')`)),
 			wantExecResponse: types.NewResponse().
 				SetMetadataKeyValue("result", "ok"),
@@ -461,7 +461,7 @@ func TestClient_Query_Exec(t *testing.T) {
 					"password":           dat.password,
 					"proto_version":      "4",
 					"replication_factor": "1",
-					"consistency":        "local_one",
+					"consistency":        "LocalOne",
 					"default_table":      "test",
 					"default_keyspace":   "test",
 					"tls":                dat.tlsPath,
@@ -469,7 +469,7 @@ func TestClient_Query_Exec(t *testing.T) {
 			},
 			execRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "exec").
-				SetMetadataKeyValue("consistency", "local_quorum").
+				SetMetadataKeyValue("consistency", "LocalQuorum").
 				SetData(nil),
 			queryRequest:      nil,
 			wantExecResponse:  nil,
@@ -489,7 +489,7 @@ func TestClient_Query_Exec(t *testing.T) {
 					"password":           dat.password,
 					"proto_version":      "4",
 					"replication_factor": "1",
-					"consistency":        "local_one",
+					"consistency":        "LocalOne",
 					"default_table":      "test",
 					"default_keyspace":   "test",
 					"tls":                dat.tlsPath,
@@ -497,7 +497,7 @@ func TestClient_Query_Exec(t *testing.T) {
 			},
 			execRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "exec").
-				SetMetadataKeyValue("consistency", "local_quorum").
+				SetMetadataKeyValue("consistency", "LocalQuorum").
 				SetData([]byte("some bad exec query")),
 			queryRequest:      nil,
 			wantExecResponse:  nil,
@@ -517,7 +517,7 @@ func TestClient_Query_Exec(t *testing.T) {
 					"password":           dat.password,
 					"proto_version":      "4",
 					"replication_factor": "1",
-					"consistency":        "local_one",
+					"consistency":        "LocalOne",
 					"default_table":      "test",
 					"default_keyspace":   "test",
 					"tls":                dat.tlsPath,
@@ -525,11 +525,11 @@ func TestClient_Query_Exec(t *testing.T) {
 			},
 			execRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "exec").
-				SetMetadataKeyValue("consistency", "local_quorum").
+				SetMetadataKeyValue("consistency", "LocalQuorum").
 				SetData([]byte(`INSERT INTO test.test (key, value) VALUES (textAsBlob('some-key'),textAsBlob('some-data'))`)),
 			queryRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "query").
-				SetMetadataKeyValue("consistency", "local_quorum").
+				SetMetadataKeyValue("consistency", "LocalQuorum").
 				SetData(nil),
 			wantExecResponse: types.NewResponse().
 				SetMetadataKeyValue("result", "ok"),
@@ -549,7 +549,7 @@ func TestClient_Query_Exec(t *testing.T) {
 					"password":           dat.password,
 					"proto_version":      "4",
 					"replication_factor": "1",
-					"consistency":        "local_one",
+					"consistency":        "LocalOne",
 					"default_table":      "test",
 					"default_keyspace":   "test",
 					"tls":                dat.tlsPath,
@@ -557,11 +557,11 @@ func TestClient_Query_Exec(t *testing.T) {
 			},
 			execRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "exec").
-				SetMetadataKeyValue("consistency", "local_quorum").
+				SetMetadataKeyValue("consistency", "LocalQuorum").
 				SetData([]byte(`INSERT INTO test.test (key, value) VALUES (textAsBlob('some-key'),textAsBlob('some-data'))`)),
 			queryRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "query").
-				SetMetadataKeyValue("consistency", "local_quorum").
+				SetMetadataKeyValue("consistency", "LocalQuorum").
 				SetData([]byte("some bad query")),
 			wantExecResponse: types.NewResponse().
 				SetMetadataKeyValue("result", "ok"),
@@ -612,7 +612,7 @@ func TestClient_Delete(t *testing.T) {
 			"password":           dat.password,
 			"proto_version":      "4",
 			"replication_factor": "1",
-			"consistency":        "local_quorum",
+			"consistency":        "LocalQuorum",
 			"default_table":      "test",
 			"default_keyspace":   "test",
 			"tls":                dat.tlsPath,
@@ -623,7 +623,7 @@ func TestClient_Delete(t *testing.T) {
 	setRequest := types.NewRequest().
 		SetMetadataKeyValue("method", "set").
 		SetMetadataKeyValue("key", key).
-		SetMetadataKeyValue("consistency", "local_quorum").
+		SetMetadataKeyValue("consistency", "LocalQuorum").
 		SetData([]byte("some-data"))
 
 	_, err = c.Do(ctx, setRequest)
@@ -631,7 +631,7 @@ func TestClient_Delete(t *testing.T) {
 	getRequest := types.NewRequest().
 		SetMetadataKeyValue("method", "get").
 		SetMetadataKeyValue("key", key).
-		SetMetadataKeyValue("consistency", "local_quorum")
+		SetMetadataKeyValue("consistency", "LocalQuorum")
 	gotGetResponse, err := c.Do(ctx, getRequest)
 	require.NoError(t, err)
 	require.NotNil(t, gotGetResponse)
@@ -639,7 +639,7 @@ func TestClient_Delete(t *testing.T) {
 
 	delRequest := types.NewRequest().
 		SetMetadataKeyValue("method", "delete").
-		SetMetadataKeyValue("consistency", "local_quorum").
+		SetMetadataKeyValue("consistency", "LocalQuorum").
 		SetMetadataKeyValue("key", key)
 	_, err = c.Do(ctx, delRequest)
 	require.NoError(t, err)
@@ -679,7 +679,7 @@ func TestClient_Do(t *testing.T) {
 					"password":           dat.password,
 					"proto_version":      "4",
 					"replication_factor": "1",
-					"consistency":        "local_one",
+					"consistency":        "LocalOne",
 					"default_table":      "test",
 					"default_keyspace":   "test",
 					"tls":                dat.tlsPath,
@@ -688,7 +688,7 @@ func TestClient_Do(t *testing.T) {
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "set").
 				SetMetadataKeyValue("key", nuid.Next()).
-				SetMetadataKeyValue("consistency", "local_quorum").
+				SetMetadataKeyValue("consistency", "LocalQuorum").
 				SetData([]byte("some-data")),
 			wantErr: false,
 		},
@@ -704,7 +704,7 @@ func TestClient_Do(t *testing.T) {
 					"password":           dat.password,
 					"proto_version":      "4",
 					"replication_factor": "1",
-					"consistency":        "local_one",
+					"consistency":        "LocalOne",
 					"default_table":      "test",
 					"default_keyspace":   "test",
 					"tls":                dat.tlsPath,
@@ -713,7 +713,7 @@ func TestClient_Do(t *testing.T) {
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "bad-method").
 				SetMetadataKeyValue("key", "some-key").
-				SetMetadataKeyValue("consistency", "local_quorum").
+				SetMetadataKeyValue("consistency", "LocalQuorum").
 				SetData([]byte("some-data")),
 			wantErr: true,
 		},
@@ -729,7 +729,7 @@ func TestClient_Do(t *testing.T) {
 					"password":           dat.password,
 					"proto_version":      "4",
 					"replication_factor": "1",
-					"consistency":        "local_one",
+					"consistency":        "LocalOne",
 					"default_table":      "test",
 					"default_keyspace":   "test",
 					"tls":                dat.tlsPath,
@@ -737,7 +737,7 @@ func TestClient_Do(t *testing.T) {
 			},
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "set").
-				SetMetadataKeyValue("consistency", "local_quorum").
+				SetMetadataKeyValue("consistency", "LocalQuorum").
 				SetData([]byte("some-data")),
 			wantErr: true,
 		},
@@ -753,7 +753,7 @@ func TestClient_Do(t *testing.T) {
 					"password":           dat.password,
 					"proto_version":      "4",
 					"replication_factor": "1",
-					"consistency":        "local_one",
+					"consistency":        "LocalOne",
 					"default_table":      "test",
 					"default_keyspace":   "test",
 					"tls":                dat.tlsPath,

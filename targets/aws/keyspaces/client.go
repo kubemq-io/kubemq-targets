@@ -113,21 +113,21 @@ func (c *Client) Get(ctx context.Context, meta metadata) (*types.Response, error
 	session := c.session
 
 	switch meta.consistency {
-	case "one":
+	case "One":
 		sess, err := c.createSession(gocql.One)
 		if err != nil {
 			return nil, err
 		}
 		defer sess.Close()
 		session = sess
-	case "local_one":
+	case "LocalOne":
 		sess, err := c.createSession(gocql.LocalOne)
 		if err != nil {
 			return nil, err
 		}
 		defer sess.Close()
 		session = sess
-	case "local_quorum":
+	case "LocalQuorum":
 		sess, err := c.createSession(gocql.LocalQuorum)
 		if err != nil {
 			return nil, err
@@ -158,21 +158,21 @@ func (c *Client) Get(ctx context.Context, meta metadata) (*types.Response, error
 func (c *Client) Exec(ctx context.Context, meta metadata, value []byte) (*types.Response, error) {
 	session := c.session
 	switch meta.consistency {
-	case "one":
+	case "One":
 		sess, err := c.createSession(gocql.One)
 		if err != nil {
 			return nil, err
 		}
 		defer sess.Close()
 		session = sess
-	case "local_one":
+	case "LocalOne":
 		sess, err := c.createSession(gocql.LocalOne)
 		if err != nil {
 			return nil, err
 		}
 		defer sess.Close()
 		session = sess
-	case "local_quorum":
+	case "LocalQuorum":
 		sess, err := c.createSession(gocql.LocalQuorum)
 		if err != nil {
 			return nil, err
@@ -196,21 +196,21 @@ func (c *Client) Exec(ctx context.Context, meta metadata, value []byte) (*types.
 func (c *Client) Query(ctx context.Context, meta metadata, value []byte) (*types.Response, error) {
 	session := c.session
 	switch meta.consistency {
-	case "one":
+	case "One":
 		sess, err := c.createSession(gocql.One)
 		if err != nil {
 			return nil, err
 		}
 		defer sess.Close()
 		session = sess
-	case "local_one":
+	case "LocalOne":
 		sess, err := c.createSession(gocql.LocalOne)
 		if err != nil {
 			return nil, err
 		}
 		defer sess.Close()
 		session = sess
-	case "local_quorum":
+	case "LocalQuorum":
 		sess, err := c.createSession(gocql.LocalQuorum)
 		if err != nil {
 			return nil, err
@@ -239,21 +239,21 @@ func (c *Client) Set(ctx context.Context, meta metadata, value []byte) (*types.R
 	session := c.session
 
 	switch meta.consistency {
-	case "one":
+	case "One":
 		sess, err := c.createSession(gocql.One)
 		if err != nil {
 			return nil, err
 		}
 		defer sess.Close()
 		session = sess
-	case "local_one":
+	case "LocalOne":
 		sess, err := c.createSession(gocql.LocalOne)
 		if err != nil {
 			return nil, err
 		}
 		defer sess.Close()
 		session = sess
-	case "local_quorum":
+	case "LocalQuorum":
 		sess, err := c.createSession(gocql.LocalQuorum)
 		if err != nil {
 			return nil, err

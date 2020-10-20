@@ -68,7 +68,7 @@ func getTestStructure() (*testStructure, error) {
 
 func main() {
 	client, err := kubemq.NewClient(context.Background(),
-		kubemq.WithAddress("localhost", 50000),
+		kubemq.WithAddress("kubemq-cluster", 50000),
 		kubemq.WithClientId(nuid.Next()),
 		kubemq.WithTransportType(kubemq.TransportTypeGRPC))
 	if err != nil {
@@ -98,5 +98,5 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(fmt.Sprintf("do executed, response: %s", response.Data))
+	log.Println(fmt.Sprintf("executed, response: %s", response.Data))
 }

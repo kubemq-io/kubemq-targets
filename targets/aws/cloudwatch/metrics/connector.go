@@ -26,7 +26,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("region").
-				SetDescription("Sets Cloudwatch Metrics region").
+				SetDescription("Sets Cloudwatch Metrics aws region").
 				SetMust(true).
 				SetDefault(""),
 		).

@@ -3,7 +3,7 @@
 Kubemq athena target connector allows services using kubemq server to access aws athena service.
 
 ## Prerequisites
-The following required to run the aws-dynamodb target connector:
+The following required to run the aws-athena target connector:
 
 - kubemq cluster
 - aws account with athena active service
@@ -52,6 +52,8 @@ bindings:
 
 ### List Catalogs 
 
+list all catalogs
+
 List Catalogs:
 
 | Metadata Key      | Required | Description                             | Possible values                            |
@@ -71,6 +73,8 @@ Example:
 ```
 
 ### List Databases 
+
+list all databases 
 
 List Databases:
 
@@ -94,6 +98,8 @@ Example:
 
 
 ### Query 
+
+create a query request return execution_id.
 
 Query:
 
@@ -123,6 +129,8 @@ Example:
 
 
 ### Get Query Result
+
+get Query result by execution_id that return from Query result.
 
 Get Query Result:
 
