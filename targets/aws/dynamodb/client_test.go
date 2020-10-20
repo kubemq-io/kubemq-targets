@@ -69,7 +69,7 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: false,
 		}, {
-			name: "init - missing key",
+			name: "invalid init - missing aws_key",
 			cfg: config.Spec{
 				Name: "target-aws-dynamodb",
 				Kind: "target.aws.dynamodb",
@@ -80,7 +80,7 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: true,
 		}, {
-			name: "init - missing region",
+			name: "invalid init - missing region",
 			cfg: config.Spec{
 				Name: "target-aws-dynamodb",
 				Kind: "target.aws.dynamodb",
@@ -91,7 +91,7 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: true,
 		}, {
-			name: "init - missing secret key",
+			name: "invalid init - missing aws_secret_key",
 			cfg: config.Spec{
 				Name: "target-aws-dynamodb",
 				Kind: "target.aws.dynamodb",
