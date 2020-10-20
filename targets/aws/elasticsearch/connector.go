@@ -28,7 +28,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("token").
-				SetDescription("Sets Elastic Search token").
+				SetDescription("Sets Elastic Search aws token").
 				SetMust(false).
 				SetDefault(""),
 		)

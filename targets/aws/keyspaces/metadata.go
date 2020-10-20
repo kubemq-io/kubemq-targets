@@ -20,10 +20,10 @@ var methodsMap = map[string]string{
 }
 
 var consistencyMap = map[string]string{
-	"One":          "One",
+	"One":         "One",
 	"LocalOne":    "LocalOne",
 	"LocalQuorum": "LocalQuorum",
-	"":             "",
+	"":            "",
 }
 
 type metadata struct {

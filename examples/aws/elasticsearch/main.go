@@ -98,5 +98,5 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(fmt.Sprintf("do executed, response: %s", response.Data))
+	log.Println(fmt.Sprintf("executed, response: %s", response.Data))
 }
