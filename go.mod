@@ -64,4 +64,4 @@ require (
 
 replace github.com/Azure/azure-service-bus-go => github.com/Azure/azure-service-bus-go v0.10.3
 
-//replace github.com/kubemq-hub/builder => ../builder
+replace github.com/kubemq-hub/builder => ../builder

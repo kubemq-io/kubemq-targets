@@ -46,7 +46,7 @@ func saveManifest() error {
 		SetVersion(version).
 		SetSourceConnectors(sourceConnectors).
 		SetTargetConnectors(targetConnectors).
-		Save("manifest.json")
+		Save()
 }
 func loadCfgBindings() []*common.Binding {
 	file, err := ioutil.ReadFile("./config.yaml")
