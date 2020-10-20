@@ -22,7 +22,7 @@ keyspaces target connector configuration properties:
 | replication_factor        | no       | set replication factor                 | "1"                            |
 | username                  | no       | set keyspaces username                 | "keyspaces"                         |
 | password                  | no       | set keyspaces password                 | "keyspaces"                         |
-| consistency               | no       | set keyspaces consistency              | "one","local_one","local_quorum"  see https://docs.aws.amazon.com/keyspaces/latest/devguide/consistency.html    |
+| consistency               | no       | set keyspaces consistency              | "One","LocalOne","LocalQuorum"  see https://docs.aws.amazon.com/keyspaces/latest/devguide/consistency.html    |
 | default_table             | no       | set table name                         | "test"                              |
 | default_keyspace          | no       | set keyspace name                      | "test"                              |
 | tls                       | yes      | aws keyspace certificate               | aws tls link see https://docs.aws.amazon.com/keyspaces/latest/devguide/using_go_driver.html                  |
@@ -59,7 +59,7 @@ bindings:
         password: "keyspaces"
         proto_version: "4"
         replication_factor: "1"
-        consistency: "local_quorum"
+        consistency: "LocalQuorum"
         default_table: "test"
         default_keyspace: "test"
         tls: "https://www.amazontrust.com/repository/AmazonRootCA1.pem"

@@ -20,9 +20,9 @@ var methodsMap = map[string]string{
 }
 
 var consistencyMap = map[string]string{
-	"one":          "one",
-	"local_one":    "local_one",
-	"local_quorum": "local_quorum",
+	"One":          "One",
+	"LocalOne":    "LocalOne",
+	"LocalQuorum": "LocalQuorum",
 	"":             "",
 }
 

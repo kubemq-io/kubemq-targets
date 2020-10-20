@@ -12,16 +12,8 @@ func Connector() *common.Connector {
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
-				SetName("host").
+				SetName("hosts").
 				SetDescription("Sets Keyspaces hosts addresses").
-				SetMust(true).
-				SetDefault(""),
-		).
-		AddProperty(
-			common.NewProperty().
-				SetKind("string").
-				SetName("tls").
-				SetDescription("Sets Keyspaces tls download url").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -33,7 +25,7 @@ func Connector() *common.Connector {
 				SetMust(true).
 				SetMin(0).
 				SetMax(65535).
-				SetDefault("9042"),
+				SetDefault("9142"),
 		).
 		AddProperty(
 			common.NewProperty().
@@ -53,6 +45,14 @@ func Connector() *common.Connector {
 		).
 		AddProperty(
 			common.NewProperty().
+				SetKind("string").
+				SetName("tls").
+				SetDescription("Sets Keyspaces tls download url").
+				SetMust(true).
+				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
 				SetKind("int").
 				SetName("replication_factor").
 				SetDescription("Sets Keyspaces replication factor").
@@ -63,12 +63,22 @@ func Connector() *common.Connector {
 		).
 		AddProperty(
 			common.NewProperty().
+				SetKind("int").
+				SetName("proto_version").
+				SetDescription("Sets Keyspaces protoVersion").
+				SetMust(false).
+				SetDefault("4").
+				SetMin(1).
+				SetMax(math.MaxInt32),
+		).
+		AddProperty(
+			common.NewProperty().
 				SetKind("string").
 				SetName("consistency").
 				SetDescription("Sets Keyspaces consistency").
 				SetMust(true).
-				SetOptions([]string{"All", "One", "Two", "Three", "Quorum", "LocalQuorum", "EachQuorum", "LocalOne", "Any"}).
-				SetDefault("All"),
+				SetOptions([]string{"One", "LocalQuorum", "local_one"}).
+				SetDefault("LocalQuorum"),
 		).
 		AddProperty(
 			common.NewProperty().
