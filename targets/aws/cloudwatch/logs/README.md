@@ -7,6 +7,7 @@ The following required to run the aws-cloudwatch-logs target connector:
 
 - kubemq cluster
 - aws account with cloudwatch-logs active service
+- some action will need cloudwatch-logs permission (IAM User)
 - kubemq-source deployment
 
 ## Configuration
@@ -52,6 +53,8 @@ bindings:
 
 ### Create log Stream 
 
+create a new log stream
+
 Create log Stream:
 
 | Metadata Key      | Required | Description                             | Possible values                            |
@@ -78,6 +81,8 @@ Example:
 
 ### Describe log Stream 
 
+describe a selected log stream by group_name
+
 Describe log Stream:
 
 | Metadata Key      | Required | Description                             | Possible values                            |
@@ -100,6 +105,8 @@ Example:
 ```
 
 ### Delete log Stream 
+
+delete log stream
 
 Delete log Stream:
 
@@ -126,6 +133,8 @@ Example:
 
 ### Get log Event
 
+get log event 
+
 Get log Stream:
 
 | Metadata Key      | Required | Description                             | Possible values                            |
@@ -151,6 +160,8 @@ Example:
 
 ### Create Log Event Group
 
+create a new log event group
+
 Create Log Event Group:
 
 | Metadata Key      | Required | Description                             | Possible values                            |
@@ -174,6 +185,8 @@ Example:
 ```
 
 ### Put Log 
+
+put a log in log stream
 
 Put Log Event:
 
@@ -202,6 +215,8 @@ Example:
 
 ### Describe Log Event Group
 
+describe log event group
+
 Describe Log Event Group:
 
 | Metadata Key      | Required | Description                             | Possible values                            |
@@ -225,6 +240,8 @@ Example:
 
 
 ### Delete Log Event Group
+
+delete log event group
 
 Delete Log Event Group:
 

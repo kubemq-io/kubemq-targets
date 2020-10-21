@@ -6,14 +6,14 @@ import (
 )
 
 const (
-	defaultLimit = 100
+	defaultLimit         = 100
 	defaultSequenceToken = ""
 )
 
 type metadata struct {
 	method         string
 	sequenceToken  string
-	limit int64
+	limit          int64
 	logGroupName   string
 	logStreamName  string
 	logGroupPrefix string
@@ -30,7 +30,6 @@ var methodsMap = map[string]string{
 	"describe_log_group":        "describe_log_group",
 }
 
-
 func parseMetadata(meta types.Metadata) (metadata, error) {
 	m := metadata{}
 	var err error
@@ -42,17 +41,17 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if m.method == "describe_log_group" {
 		m.logGroupPrefix, err = meta.MustParseString("log_group_prefix")
 		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing log_group_prefix, %w", err)
+			return metadata{}, fmt.Errorf(" log_group_prefix is requried for method :%s error parsing log_group_prefix, %w", m.method, err)
 		}
 	} else {
 		m.logGroupName, err = meta.MustParseString("log_group_name")
 		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing log_group_name, %w", err)
+			return metadata{}, fmt.Errorf("log_group_name is required for method %s,error parsing log_group_name, %w", m.method, err)
 		}
 		if m.method == "put_log_event" || m.method == "get_log_event" || m.method == "create_log_event_stream" || m.method == "delete_log_event_stream" {
 			m.logStreamName, err = meta.MustParseString("log_stream_name")
 			if err != nil {
-				return metadata{}, fmt.Errorf("error parsing log_stream_name, %w", err)
+				return metadata{}, fmt.Errorf("log_stream_name is required for method %s,error parsing log_stream_name, %w", m.method, err)
 			}
 			if m.method == "put_log_event" {
 				m.sequenceToken = meta.ParseString("sequence_token", defaultSequenceToken)
