@@ -67,7 +67,7 @@ func buildConfig() error {
 	var bindingsYaml []byte
 	if bindingsYaml, err = connectorTargets.NewTarget("kubemq-targets").
 		SetBindings(loadCfgBindings()).
-		SetManifestFile("./manifest.json").
+		SetManifestFile("./targets-manifest.json").
 		SetDefaultOptions(common.NewDefaultOptions().
 			Add("kubemq-address", []string{"localhost:50000", "Other"})).
 		Render(); err != nil {
