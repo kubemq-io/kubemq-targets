@@ -41,7 +41,8 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if m.method == "put_targets" {
 		m.rule, err = meta.MustParseString("rule")
 		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing rule, %w", err)
+			return metadata{}, fmt.Errorf("rule is required for method:%s ,error parsing rule, %w", m.method,
+				err)
 		}
 	}
 	return m, nil

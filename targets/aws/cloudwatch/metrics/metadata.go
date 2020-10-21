@@ -19,8 +19,6 @@ var methodsMap = map[string]string{
 	"list_metrics": "list_metrics",
 }
 
-
-
 func parseMetadata(meta types.Metadata) (metadata, error) {
 	m := metadata{}
 	var err error
@@ -31,7 +29,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if m.method == "put_metrics" {
 		m.namespace, err = meta.MustParseString("namespace")
 		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing namespace, %w", err)
+			return metadata{}, fmt.Errorf("namespace is required for method %s ,error parsing namespace, %w", m.method, err)
 		}
 	} else if m.method == "list_metrics" {
 		m.namespace = meta.ParseString("namespace", defaultNameSpace)

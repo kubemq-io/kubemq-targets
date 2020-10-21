@@ -16,8 +16,8 @@ The following are required to run the AmazonMQ target connector:
 
 AmazonMQ target connector configuration properties:
 
-| Properties Key                  | Required | Description                                 | Example                                                                |
-|:--------------------------------|:---------|:--------------------------------------------|:-----------------------------------------------------------------------|
+| Properties Key                  | Required | Description                                  | Example                                                                |
+|:--------------------------------|:---------|:---------------------------------------------|:-----------------------------------------------------------------------|
 | host                            | yes      | AmazonMQ connection host (stomp+ssl endpoint)| "localhost:1883" |
 | username                        | no       | set AmazonMQ username                        | "username" |
 | password                        | no       | set AmazonMQ password                        | "password" |
