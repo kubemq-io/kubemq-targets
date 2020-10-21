@@ -7,7 +7,7 @@ bindings:
         address: "kubemq-cluster:50000"
         client_id: "kubemq-query-aws-mariadb-connector"
         auth_token: ""
-        channel: "query.mariadb"
+        channel: "query.aws.mariadb"
         group: ""
         auto_reconnect: "true"
         reconnect_interval_seconds: "1"
