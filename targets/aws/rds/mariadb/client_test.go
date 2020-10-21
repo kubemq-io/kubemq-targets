@@ -5,6 +5,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
+	"io/ioutil"
 	"testing"
 	"time"
 )
@@ -47,6 +48,21 @@ var allPosts = posts{
 	},
 }
 
+type testStructure struct {
+	connection string
+}
+
+func getTestStructure() (*testStructure, error) {
+	t := &testStructure{}
+	dat, err := ioutil.ReadFile("./../../../../credentials/aws/sql/mariadbConnection.txt")
+	if err != nil {
+		return nil, err
+	}
+	t.connection = string(dat)
+	return t, nil
+}
+
+
 const (
 	createPostTable = `DROP TABLE IF EXISTS post;
 	       CREATE TABLE post (
@@ -64,6 +80,10 @@ const (
 )
 
 func TestClient_Init(t *testing.T) {
+
+	dat, err := getTestStructure()
+	require.NoError(t, err)
+
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -75,7 +95,7 @@ func TestClient_Init(t *testing.T) {
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
+					"connection":                      dat.connection,
 					"max_idle_connections":            "",
 					"max_open_connections":            "",
 					"connection_max_lifetime_seconds": "",
@@ -84,7 +104,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "init - bad connection string",
+			name: "invalid init - bad connection string",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
@@ -98,7 +118,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init - bad port connection string",
+			name: "invalid init - bad port connection string",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
@@ -112,7 +132,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init - no connection string",
+			name: "invalid init - no connection string",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
@@ -125,12 +145,12 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init - bad max idle connections",
+			name: "invalid init - bad max idle connections",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
+					"connection":                      dat.connection,
 					"max_idle_connections":            "-1",
 					"max_open_connections":            "",
 					"connection_max_lifetime_seconds": "",
@@ -139,12 +159,12 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init - bad max open connections",
+			name: "invalid init - bad max open connections",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
+					"connection":                      dat.connection,
 					"max_idle_connections":            "",
 					"max_open_connections":            "-1",
 					"connection_max_lifetime_seconds": "",
@@ -153,12 +173,12 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init - bad connection max lifetime seconds",
+			name: "invalid init - bad connection max lifetime seconds",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
+					"connection":                      dat.connection,
 					"max_idle_connections":            "",
 					"max_open_connections":            "",
 					"connection_max_lifetime_seconds": "-1",
@@ -183,6 +203,8 @@ func TestClient_Init(t *testing.T) {
 }
 
 func TestClient_Query_Exec_Transaction(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
 	tests := []struct {
 		name              string
 		cfg               config.Spec
@@ -199,7 +221,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
+					"connection":                      dat.connection,
 					"max_idle_connections":            "",
 					"max_open_connections":            "",
 					"connection_max_lifetime_seconds": "",
@@ -225,7 +247,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
+					"connection":                      dat.connection,
 					"max_idle_connections":            "",
 					"max_open_connections":            "",
 					"connection_max_lifetime_seconds": "",
@@ -246,7 +268,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
+					"connection":                      dat.connection,
 					"max_idle_connections":            "",
 					"max_open_connections":            "",
 					"connection_max_lifetime_seconds": "",
@@ -267,7 +289,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
+					"connection":                      dat.connection,
 					"max_idle_connections":            "",
 					"max_open_connections":            "",
 					"connection_max_lifetime_seconds": "",
@@ -291,7 +313,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
+					"connection":                      dat.connection,
 					"max_idle_connections":            "",
 					"max_open_connections":            "",
 					"connection_max_lifetime_seconds": "",
@@ -315,7 +337,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
+					"connection":                      dat.connection,
 					"max_idle_connections":            "",
 					"max_open_connections":            "",
 					"connection_max_lifetime_seconds": "",
@@ -340,7 +362,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
+					"connection":                      dat.connection,
 					"max_idle_connections":            "",
 					"max_open_connections":            "",
 					"connection_max_lifetime_seconds": "",
@@ -366,7 +388,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
+					"connection":                      dat.connection,
 					"max_idle_connections":            "",
 					"max_open_connections":            "",
 					"connection_max_lifetime_seconds": "",
@@ -386,7 +408,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
+					"connection":                      dat.connection,
 					"max_idle_connections":            "",
 					"max_open_connections":            "",
 					"connection_max_lifetime_seconds": "",
@@ -407,7 +429,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
+					"connection":                      dat.connection,
 					"max_idle_connections":            "",
 					"max_open_connections":            "",
 					"connection_max_lifetime_seconds": "",
@@ -465,6 +487,8 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 }
 
 func TestClient_Do(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -477,7 +501,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
+					"connection":                      dat.connection,
 					"max_idle_connections":            "",
 					"max_open_connections":            "",
 					"connection_max_lifetime_seconds": "",
@@ -495,7 +519,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
+					"connection":                      dat.connection,
 					"max_idle_connections":            "",
 					"max_open_connections":            "",
 					"connection_max_lifetime_seconds": "",
@@ -513,7 +537,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
+					"connection":                      dat.connection,
 					"max_idle_connections":            "",
 					"max_open_connections":            "",
 					"connection_max_lifetime_seconds": "",
@@ -531,7 +555,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
+					"connection":                      dat.connection,
 					"max_idle_connections":            "",
 					"max_open_connections":            "",
 					"connection_max_lifetime_seconds": "",
@@ -549,7 +573,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
+					"connection":                      dat.connection,
 					"max_idle_connections":            "",
 					"max_open_connections":            "",
 					"connection_max_lifetime_seconds": "",
@@ -565,7 +589,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "target-aws-rds-mariadb",
 				Kind: "target.aws.rds.mariadb",
 				Properties: map[string]string{
-					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
+					"connection":                      dat.connection,
 					"max_idle_connections":            "",
 					"max_open_connections":            "",
 					"connection_max_lifetime_seconds": "",

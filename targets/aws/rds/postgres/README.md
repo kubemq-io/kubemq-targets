@@ -29,7 +29,7 @@ Postgres target connector configuration properties:
 | aws_secret_key                  | yes      | aws secret key                              | aws secret key supplied by aws  |
 | region                          | yes      | region                                      | aws region                      |
 | token                           | no       | aws token ("default" empty string           | aws token                       |
-| end_point                       | yes      | aws rds endpoint                            | "<aws rds end point"        |
+| end_point                       | yes      | aws rds end point                           | "<aws rds end point"        |
 
                                                               |
 
@@ -56,9 +56,9 @@ bindings:
       name: target-aws-rds-postgres
       properties:
               instance_connection_name: "test"
-              db_user:                  "test"
-              db_name:                  "test"
-              end_point:              "my-end-point"
+              db_user:  "test"
+              db_name:  "test"
+              end_point: "my-end-point"
               aws_key: "id"
               aws_secret_key: 'json'
               region:  "region"

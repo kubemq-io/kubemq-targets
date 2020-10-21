@@ -1,6 +1,7 @@
 # Kubemq redshift Target Connector (RDS Connector)
 
 Kubemq redshift target connector allows services using kubemq server to access redshift database services.
+-- see https://docs.aws.amazon.com/redshift/latest/mgmt/connecting-from-psql.html
 
 ## Prerequisites
 The following are required to run the redshift target connector:
@@ -33,7 +34,7 @@ bindings:
         address: "kubemq-cluster:50000"
         client_id: "kubemq-query-redshift-connector"
         auth_token: ""
-        channel: "query.redshift"
+        channel: "query.rds.redshift"
         group:   ""
         auto_reconnect: "true"
         reconnect_interval_seconds: "1"

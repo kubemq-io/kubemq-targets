@@ -26,7 +26,7 @@ var (
 
 func main() {
 	client, err := kubemq.NewClient(context.Background(),
-		kubemq.WithAddress("localhost", 50000),
+		kubemq.WithAddress("kubemq-cluster", 50000),
 		kubemq.WithClientId(nuid.Next()),
 		kubemq.WithTransportType(kubemq.TransportTypeGRPC))
 	if err != nil {
@@ -37,7 +37,7 @@ func main() {
 		SetMetadataKeyValue("method", "transaction").
 		SetData([]byte(transactionString))
 	queryTransactionResponse, err := client.SetQuery(transactionRequest.ToQuery()).
-		SetChannel("query.client.redshift").
+		SetChannel("query.rds.redshift").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)
@@ -53,7 +53,7 @@ func main() {
 		SetData([]byte(queryString))
 
 	queryResponse, err := client.SetQuery(queryRequest.ToQuery()).
-		SetChannel("query.client.redshift").
+		SetChannel("query.rds.redshift").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)
