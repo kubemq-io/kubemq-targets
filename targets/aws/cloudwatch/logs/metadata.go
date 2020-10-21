@@ -41,7 +41,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if m.method == "describe_log_group" {
 		m.logGroupPrefix, err = meta.MustParseString("log_group_prefix")
 		if err != nil {
-			return metadata{}, fmt.Errorf(" log_group_prefix is requried for method :%s error parsing log_group_prefix, %w", m.method, err)
+			return metadata{}, fmt.Errorf(" log_group_prefix is required  for method :%s error parsing log_group_prefix, %w", m.method, err)
 		}
 	} else {
 		m.logGroupName, err = meta.MustParseString("log_group_name")
