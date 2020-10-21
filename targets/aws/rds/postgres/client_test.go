@@ -23,7 +23,7 @@ type testStructure struct {
 
 func getTestStructure() (*testStructure, error) {
 	t := &testStructure{}
-	dat, err := ioutil.ReadFile("./../../../../../credentials/aws/awsKey.txt")
+	dat, err := ioutil.ReadFile("./../../../../credentials/aws/awsKey.txt")
 	if err != nil {
 		return nil, err
 	}
@@ -192,6 +192,20 @@ func TestClient_Init(t *testing.T) {
 				Properties: map[string]string{
 					"end_point": dat.endPoint,
 					"region":    dat.region,
+					"db_user":   dat.dbUser,
+					"aws_key":   dat.awsKey,
+					"db_name":   dat.dbName,
+				},
+			},
+			wantErr: true,
+		},{
+			name: "invalid init - missing region",
+			cfg: config.Spec{
+				Name: "target-aws-rds-postgres",
+				Kind: "target.aws.rds.postgres",
+				Properties: map[string]string{
+					"end_point": dat.endPoint,
+					"aws_secret_key": dat.awsKey,
 					"db_user":   dat.dbUser,
 					"aws_key":   dat.awsKey,
 					"db_name":   dat.dbName,

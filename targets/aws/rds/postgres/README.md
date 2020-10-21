@@ -2,6 +2,7 @@
 Please see before starting:
 
 - https://aws.amazon.com/premiumsupport/knowledge-center/users-connect-rds-iam/
+- https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.IAMDBAuth.DBAccounts.html
 
 Kubemq postgres-aws  target connector allows services using kubemq server to access postgres database services.
 
@@ -9,7 +10,7 @@ Kubemq postgres-aws  target connector allows services using kubemq server to acc
 The following are required to run the postgres-aws target connector:
 
 - kubemq cluster
-- aws rds with IAM user mysql server
+- aws rds with IAM user postgres server
 - db user with IAM Authentication privileges 
 - kubemq-targets deployment
 

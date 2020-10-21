@@ -37,7 +37,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("token").
-				SetDescription("Sets Postgres token").
+				SetDescription("Sets Postgres aws token").
 				SetMust(false).
 				SetDefault(""),
 		).
@@ -63,7 +63,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("db_user").
-				SetDescription("Sets Postgres db user").
+				SetDescription("Sets Postgres db user(should match user created for IAM Access)").
 				SetMust(true).
 				SetDefault(""),
 		).
