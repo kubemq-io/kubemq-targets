@@ -7,7 +7,7 @@ bindings:
         address: "kubemq-cluster:50000"
         client_id: "kubemq-query-redshift-connector"
         auth_token: ""
-        channel: "query.client.redshift"
+        channel: "query.rds.redshift"
         group:   ""
         auto_reconnect: "true"
         reconnect_interval_seconds: "1"
