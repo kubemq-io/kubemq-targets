@@ -64,6 +64,7 @@ bindings:
         aws_secret_key: 'json'
         region:  "region"
         token: ""
+        db_port:  "3306",
         max_idle_connections: "10"
         max_open_connections: "100"
         connection_max_lifetime_seconds: "3600"

@@ -22,6 +22,7 @@ bindings:
         aws_key: "id"
         aws_secret_key: 'json'
         region:  "region"
+        db_port:  "3306",
         token: ""
         max_idle_connections: "10"
         max_open_connections: "100"

@@ -37,7 +37,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("token").
-				SetDescription("Sets MySQL token").
+				SetDescription("Sets MySQL aws token").
 				SetMust(false).
 				SetDefault(""),
 		).
@@ -55,7 +55,7 @@ func Connector() *common.Connector {
 				SetName("db_port").
 				SetDescription("Sets MySQL end point port").
 				SetMust(true).
-				SetDefault("5432").
+				SetDefault("3306").
 				SetMin(0).
 				SetMax(65535),
 		).
@@ -105,13 +105,4 @@ func Connector() *common.Connector {
 				SetMin(1).
 				SetMax(math.MaxInt32),
 		)
-	//
-	//AddProperty(
-	//	common.NewProperty().
-	//		SetKind("string").
-	//		SetName("address").
-	//		SetDescription("Sets Kubemq grpc endpoint address").
-	//		SetMust(true).
-	//		SetDefault("localhost:50000"),
-	//)
 }
