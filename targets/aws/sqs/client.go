@@ -107,3 +107,7 @@ func (c *Client) SetQueueAttributes(ctx context.Context, QueueUrl string) error 
 	}
 	return fmt.Errorf("failed to SetQueueAttributesWithContext need to verify max_receive and dead_letter exists")
 }
+
+func (c *Client) Stop() error {
+	return nil
+}

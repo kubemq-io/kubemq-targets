@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/Azure/azure-service-bus-go"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-hub/kubemq-targets/config"
@@ -36,7 +37,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	}
 	c.client, err = ns.NewQueue(c.opts.queueName)
 	if err != nil {
-		return err
+		return fmt.Errorf("error connecting to servicebus at %s: %w", c.opts.connectionString, err)
 	}
 	return nil
 }
@@ -111,6 +112,9 @@ func (c *Client) sendBatch(ctx context.Context, meta metadata, data []byte) (*ty
 		nil
 }
 
-func (c *Client) Close(ctx context.Context) error {
-	return c.client.Close(ctx)
+func (c *Client) Stop() error {
+	if c.client != nil {
+		return c.client.Close(context.Background())
+	}
+	return nil
 }

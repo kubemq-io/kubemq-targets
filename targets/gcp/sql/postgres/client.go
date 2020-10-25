@@ -60,7 +60,8 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		}
 		err = c.db.PingContext(ctx)
 		if err != nil {
-			return err
+			_ = c.db.Close()
+			return fmt.Errorf("error reaching postgres at %s: %w", c.opts.connection, err)
 		}
 	} else {
 		c.db, err = sql.Open("postgres", c.opts.connection)
@@ -69,7 +70,8 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		}
 		err = c.db.PingContext(ctx)
 		if err != nil {
-			return err
+			_ = c.db.Close()
+			return fmt.Errorf("error reaching postgres at %s: %w", c.opts.connection, err)
 		}
 
 	}
@@ -209,6 +211,9 @@ func parseToMap(rows *sql.Rows, cols []string) map[string]interface{} {
 	}
 	return m
 }
-func (c *Client) CloseClient() error {
-	return c.db.Close()
+func (c *Client) Stop() error {
+	if c.db != nil {
+		return c.db.Close()
+	}
+	return nil
 }

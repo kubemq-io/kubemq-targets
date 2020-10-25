@@ -80,3 +80,10 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
+func (c *Client) Stop() error {
+	if c.producer != nil {
+		return c.producer.Close()
+	}
+	return nil
+}

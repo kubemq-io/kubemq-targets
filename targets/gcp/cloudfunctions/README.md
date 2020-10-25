@@ -18,14 +18,14 @@ Kafka source connector configuration properties:
 |:---------------|:---------|:-----------------------------------------------|:-----------------|
 | project        | yes      | gcp project name                               | "testproject"    |
 | credentials    | yes      | gcp service account key location (json)        | "TestTopic"      |
-| location_match  | no       | match missing function location (default true) | "false"          |
+| location_match | no       | match missing function location (default true) | "true"          |
 
 
 Example:
 
 ```yaml
 bindings:
-  - name: kubemq-query-kafka
+  - name: kubemq-query
     source:
       kind: source.kubemq.query
       name: kubemq-query
@@ -44,7 +44,8 @@ bindings:
       name: target-gcp-couldfunctions
       properties:
         project: "testproject"
-        credentials: "./../key.json"
+        credentials: "myKey"
+        location_match: "true"
 ```
 
 ## Usage

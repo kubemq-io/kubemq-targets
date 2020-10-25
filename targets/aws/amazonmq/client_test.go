@@ -144,7 +144,7 @@ func TestClient_Do(t *testing.T) {
 			err := c.Init(ctx, tt.cfg)
 			require.NoError(t, err)
 			defer func() {
-				err = c.Close()
+				err = c.Stop()
 				require.NoError(t, err)
 			}()
 			gotResponse, err := c.Do(ctx, tt.request)

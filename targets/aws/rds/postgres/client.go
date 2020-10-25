@@ -55,7 +55,8 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	}
 	err = c.db.PingContext(ctx)
 	if err != nil {
-		return err
+		_ = c.db.Close()
+		return fmt.Errorf("error reaching postgres at %s: %w", c.opts.endPoint, err)
 	}
 
 	c.db.SetMaxOpenConns(c.opts.maxOpenConnections)
@@ -194,6 +195,7 @@ func parseToMap(rows *sql.Rows, cols []string) map[string]interface{} {
 	}
 	return m
 }
-func (c *Client) CloseClient() error {
+func (c *Client) Stop() error {
 	return c.db.Close()
 }
+

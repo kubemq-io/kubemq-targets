@@ -40,3 +40,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
 	return nil
 }
+
+func (c *Client) Stop() error {
+	return nil
+}

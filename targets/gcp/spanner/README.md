@@ -48,6 +48,8 @@ bindings:
 
 ### Query Request
 
+create query request.
+
 Query metadata setting:
 
 | Metadata Key | Required | Description                  | Possible values       |
@@ -71,6 +73,8 @@ Example:
 
 ### Read Table Request by columns
 
+read table by table_name
+
 Read Table metadata setting:
 
 | Metadata Key | Required | Description               | Possible values                         |
@@ -92,6 +96,8 @@ Example:
 ```
 
 ### Insert Or Update Table
+
+insert or update a table
 
 Insert Or Update metadata setting:
 

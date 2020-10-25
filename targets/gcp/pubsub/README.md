@@ -51,6 +51,8 @@ bindings:
 
 ### Send Message 
 
+send a message to pub sub
+
 Send Message metadata setting:
 
 | Metadata Key | Required | Description                            | Possible values       |

@@ -153,3 +153,7 @@ func (c *Client) delete(ctx context.Context, meta metadata) (*types.Response, er
 			SetMetadataKeyValue("result", "ok"),
 		nil
 }
+
+func (c *Client) Stop() error {
+	return nil
+}

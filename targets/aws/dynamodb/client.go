@@ -212,3 +212,7 @@ func (c *Client) deleteItem(ctx context.Context, data []byte) (*types.Response, 
 			SetData(b),
 		nil
 }
+
+func (c *Client) Stop() error {
+	return nil
+}

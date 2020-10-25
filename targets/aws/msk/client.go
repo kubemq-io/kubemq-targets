@@ -3,6 +3,7 @@ package msk
 import (
 	"context"
 	"crypto/tls"
+	"fmt"
 	"github.com/kubemq-hub/builder/connector/common"
 	"strconv"
 
@@ -48,7 +49,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 
 	c.producer, err = kafka.NewSyncProducer(c.opts.brokers, kc)
 	if err != nil {
-		return err
+		return fmt.Errorf("error connecting to kafka at %s: %w", c.opts.brokers, err)
 	}
 
 	return nil
@@ -79,4 +80,8 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 }
 func (c *Client) Connector() *common.Connector {
 	return Connector()
+}
+
+func (c *Client) Stop() error {
+	return c.producer.Close()
 }

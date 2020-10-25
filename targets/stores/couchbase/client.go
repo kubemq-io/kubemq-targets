@@ -47,6 +47,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.bucket = c.cluster.Bucket(c.opts.bucket)
 	err = c.bucket.WaitUntilReady(defaultWaitBucketReady, nil)
 	if err != nil {
+		_ = c.cluster.Close(&gocb.ClusterCloseOptions{})
 		return fmt.Errorf("couchbase error: unable to connect to bucket %s - %v ", c.opts.bucket, err)
 	}
 	if c.opts.collection == "" {
@@ -147,4 +148,8 @@ func (c *Client) Delete(ctx context.Context, meta metadata) (*types.Response, er
 			SetMetadataKeyValue("key", meta.key).
 			SetMetadataKeyValue("result", "ok"),
 		nil
+}
+
+func (c *Client) Stop() error {
+	return c.cluster.Close(&gocb.ClusterCloseOptions{})
 }

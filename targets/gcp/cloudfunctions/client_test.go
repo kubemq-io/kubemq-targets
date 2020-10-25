@@ -34,7 +34,7 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: false,
 		}, {
-			name: "init-missing-credentials",
+			name: "invalid init-missing-credentials",
 			cfg: config.Spec{
 				Name: "google-pubsub-target",
 				Kind: "",
@@ -45,7 +45,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init-missing-project-id",
+			name: "invalid init-missing-project-id",
 			cfg: config.Spec{
 				Name: "google-pubsub-target",
 				Kind: "",

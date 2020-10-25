@@ -104,3 +104,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	}
 	return nil, errors.New("invalid method type")
 }
+
+func (c *Client) Stop() error {
+	return nil
+}

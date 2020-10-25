@@ -43,6 +43,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		return err
 	}
 	c.client = client
+
 	return nil
 }
 
@@ -145,7 +146,7 @@ func (c *Client) list(ctx context.Context, meta metadata) (*types.Response, erro
 		attrs = append(attrs, attr)
 	}
 	if len(attrs) == 0 {
-		return nil, fmt.Errorf("received 0 objects from list for bucket %s", meta.bucket)
+		return nil, fmt.Errorf("received 0 objects from list for bucket: %s", meta.bucket)
 	}
 	b, err := json.Marshal(attrs)
 	if err != nil {
@@ -199,6 +200,6 @@ func (c *Client) move(ctx context.Context, meta metadata) (*types.Response, erro
 		nil
 }
 
-func (c *Client) CloseClient() error {
+func (c *Client) Stop() error {
 	return c.client.Close()
 }

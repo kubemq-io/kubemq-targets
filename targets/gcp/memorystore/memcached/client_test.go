@@ -30,7 +30,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "init - error no connection",
+			name: "invalid init - error no connection",
 			cfg: config.Spec{
 				Name: "target-gcp-memcached",
 				Kind: "target.gcp.cache.memcached",
@@ -43,7 +43,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init - bad options - invalid hosts",
+			name: "invalid init - bad options - invalid hosts",
 			cfg: config.Spec{
 				Name: "target-gcp-memcached",
 				Kind: "target.gcp.cache.memcached",
@@ -55,7 +55,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init - bad options - invalid max idle connection",
+			name: "invalid init - bad options - invalid max idle connection",
 			cfg: config.Spec{
 				Name: "target-gcp-memcached",
 				Kind: "target.gcp.cache.memcached",
@@ -68,7 +68,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init - bad options - invalid default timeout seconds",
+			name: "invalid init - bad options - invalid default timeout seconds",
 			cfg: config.Spec{
 				Name: "target-gcp-memcached",
 				Kind: "target.gcp.cache.memcached",

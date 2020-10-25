@@ -103,3 +103,7 @@ func newResultFromHttpResponse(hr *http.Response) (*types.Response, error) {
 	}
 	return resp, nil
 }
+
+func (c *Client) Stop() error {
+	return nil
+}

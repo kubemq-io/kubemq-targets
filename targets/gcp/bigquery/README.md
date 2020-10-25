@@ -47,6 +47,8 @@ bindings:
 
 ### Query Request
 
+query request.
+
 Query metadata setting:
 
 | Metadata Key | Required | Description                  | Possible values       |
@@ -70,6 +72,26 @@ Example:
 
 ### Create Table Request
 
+create a new table under data se
+
+Crate this method required a body of rows of string [bigquery.TableMetadata]
+
+
+
+Example how to create the struct:
+```go
+    mySchema := bigquery.Schema{
+    		{Name: "name", Type: bigquery.StringFieldType},
+    		{Name: "age", Type: bigquery.IntegerFieldType},
+    	}
+    
+    	metaData := &bigquery.TableMetadata{
+    		Schema:         mySchema,
+    		ExpirationTime: time.Now().AddDate(2, 1, 0), // Table will deleted in 2 years and 1 month.
+    	}
+    	bSchema, err := json.Marshal(metaData)
+```
+
 Create table metadata setting:
 
 | Metadata Key | Required | Description                             | Possible values       |
@@ -88,13 +110,15 @@ Example:
     "dataset_id": "<mySet>",
     "table_name": "<myTable>"
   },
-  "data": null
+  "data": "eyJOYW1lIjoiIiwiTG9jYXRpb24iOiIiLCJEZXNjcmlwdGlvbiI6IiIsIlNjaGVtYSI6W3siTmFtZSI6Im5hbWUiLCJEZXNjcmlwdGlvbiI6IiIsIlJlcGVhdGVkIjpmYWxzZSwiUmVxdWlyZWQiOmZhbHNlLCJUeXBlIjoiU1RSSU5HIiwiUG9saWN5VGFncyI6bnVsbCwiU2NoZW1hIjpudWxsfSx7Ik5hbWUiOiJhZ2UiLCJEZXNjcmlwdGlvbiI6IiIsIlJlcGVhdGVkIjpmYWxzZSwiUmVxdWlyZWQiOmZhbHNlLCJUeXBlIjoiSU5URUdFUiIsIlBvbGljeVRhZ3MiOm51bGwsIlNjaGVtYSI6bnVsbH1dLCJNYXRlcmlhbGl6ZWRWaWV3IjpudWxsLCJWaWV3UXVlcnkiOiIiLCJVc2VMZWdhY3lTUUwiOmZhbHNlLCJVc2VTdGFuZGFyZFNRTCI6ZmFsc2UsIlRpbWVQYXJ0aXRpb25pbmciOm51bGwsIlJhbmdlUGFydGl0aW9uaW5nIjpudWxsLCJSZXF1aXJlUGFydGl0aW9uRmlsdGVyIjpmYWxzZSwiQ2x1c3RlcmluZyI6bnVsbCwiRXhwaXJhdGlvblRpbWUiOiIyMDIyLTExLTI1VDEwOjQxOjI1LjIyNjQ1NyswMjowMCIsIkxhYmVscyI6bnVsbCwiRXh0ZXJuYWxEYXRhQ29uZmlnIjpudWxsLCJFbmNyeXB0aW9uQ29uZmlnIjpudWxsLCJGdWxsSUQiOiIiLCJUeXBlIjoiIiwiQ3JlYXRpb25UaW1lIjoiMDAwMS0wMS0wMVQwMDowMDowMFoiLCJMYXN0TW9kaWZpZWRUaW1lIjoiMDAwMS0wMS0wMVQwMDowMDowMFoiLCJOdW1CeXRlcyI6MCwiTnVtTG9uZ1Rlcm1CeXRlcyI6MCwiTnVtUm93cyI6MCwiU3RyZWFtaW5nQnVmZmVyIjpudWxsLCJFVGFnIjoiIn0="
 }
 ```
 
 
 
 ### Get DataSets Request
+
+get data sets.
 
 Get DataSets setting:
 
@@ -115,6 +139,8 @@ Example:
 ```
 
 ### Get Table Info
+
+get basic information on a table by name
 
 Get table Info
 
@@ -140,6 +166,8 @@ Example:
 
 
 ### Insert To Table
+
+insert rows to table
 
 Insert To Table this method required a body of rows of string [bigquery.value]
 

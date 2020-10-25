@@ -30,17 +30,17 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if m.method == "query" {
 		m.query, err = meta.MustParseString("query")
 		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing query, %w", err)
+			return metadata{}, fmt.Errorf("query is required for method: %s ,error parsing query, %w", m.method, err)
 		}
 	}
 	if m.method == "create_table" || m.method == "get_table_info" || m.method == "insert" {
 		m.tableName, err = meta.MustParseString("table_name")
 		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing table_name, %w", err)
+			return metadata{}, fmt.Errorf("table_name is required for method: %s ,error parsing table_name, %w", m.method, err)
 		}
 		m.datasetID, err = meta.MustParseString("dataset_id")
 		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing dataset_id, %w", err)
+			return metadata{}, fmt.Errorf("dataset_id is required for method: %s ,error parsing dataset_id, %w", m.method, err)
 		}
 	}
 

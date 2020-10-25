@@ -235,3 +235,8 @@ func (c *Client) describeLogGroup(ctx context.Context, meta metadata) (*types.Re
 			SetData(b),
 		nil
 }
+
+func (c *Client) Stop() error {
+	return nil
+}
+

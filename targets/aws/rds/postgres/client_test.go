@@ -227,7 +227,7 @@ func TestClient_Init(t *testing.T) {
 			}
 
 			require.NoError(t, err)
-			err = c.CloseClient()
+			err = c.Stop()
 			require.NoError(t, err)
 		})
 	}
@@ -506,7 +506,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			err := c.Init(ctx, tt.cfg)
 			require.NoError(t, err)
 			defer func() {
-				err = c.CloseClient()
+				err = c.Stop()
 				require.NoError(t, err)
 			}()
 			gotSetResponse, err := c.Do(ctx, tt.execRequest)
@@ -676,7 +676,7 @@ func TestClient_Do(t *testing.T) {
 			err := c.Init(ctx, tt.cfg)
 			require.NoError(t, err)
 			defer func() {
-				err = c.CloseClient()
+				err = c.Stop()
 				require.NoError(t, err)
 			}()
 			_, err = c.Do(ctx, tt.request)

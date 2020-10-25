@@ -226,7 +226,7 @@ func TestClient_Init(t *testing.T) {
 			}
 
 			require.NoError(t, err)
-			err = c.CloseClient()
+			err = c.Stop()
 			require.NoError(t, err)
 		})
 	}
