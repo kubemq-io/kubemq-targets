@@ -6,6 +6,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/middleware"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/kubemq-io/kubemq-go"
+	"time"
 
 	"errors"
 	"fmt"
@@ -16,6 +17,9 @@ import (
 var (
 	errInvalidTarget = errors.New("invalid controller received, cannot be null")
 )
+const (
+	retriesInterval = 1 * time.Second
+)
 
 type Client struct {
 	name   string
@@ -23,6 +27,7 @@ type Client struct {
 	client *kubemq.Client
 	log    *logger.Logger
 	target middleware.Middleware
+	isStopped bool
 }
 
 func New() *Client {
@@ -45,7 +50,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		kubemq.WithClientId(c.opts.clientId),
 		kubemq.WithTransportType(kubemq.TransportTypeGRPC),
 		kubemq.WithAuthToken(c.opts.authToken),
-		kubemq.WithCheckConnection(false),
+		kubemq.WithCheckConnection(true),
 	)
 	if err != nil {
 		return err
@@ -68,10 +73,14 @@ func (c *Client) Start(ctx context.Context, target middleware.Middleware) error 
 
 func (c *Client) run(ctx context.Context) {
 	for {
+		if c.isStopped {
+			return
+		}
 		queueMessages, err := c.getQueueMessages(ctx)
 		if err != nil {
 			c.log.Error(err.Error())
-			return
+			time.Sleep(retriesInterval)
+			continue
 		}
 		for _, message := range queueMessages {
 			resp := c.processQueueMessage(ctx, message)
@@ -116,5 +125,6 @@ func (c *Client) processQueueMessage(ctx context.Context, msg *kubemq.QueueMessa
 }
 
 func (c *Client) Stop() error {
+	c.isStopped = true
 	return c.client.Close()
 }

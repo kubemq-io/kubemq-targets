@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 	"github.com/ghodss/yaml"
 	"github.com/kubemq-hub/builder/connector/common"
 	connectorTargets "github.com/kubemq-hub/builder/connector/targets"
@@ -107,29 +108,26 @@ func run() error {
 	for {
 		select {
 		case newConfig := <-configCh:
-			err = cfg.Validate()
+			err = newConfig.Validate()
 			if err != nil {
-				log.Errorf("error on validation new config file: %s", err.Error())
-				continue
+				return fmt.Errorf("error on validation new config file: %s", err.Error())
+
 			}
 			bindingsService.Stop()
 			err = bindingsService.Start(ctx, newConfig)
 			if err != nil {
-				log.Errorf("error on restarting service with new config file: %s", err.Error())
-				continue
+				return fmt.Errorf("error on restarting service with new config file: %s", err.Error())
 			}
 			if apiServer != nil {
 				err = apiServer.Stop()
 				if err != nil {
-					log.Errorf("error on shutdown api server: %s", err.Error())
-					continue
+					return fmt.Errorf("error on shutdown api server: %s", err.Error())
 				}
 			}
 
 			apiServer, err = api.Start(ctx, newConfig.ApiPort, bindingsService)
 			if err != nil {
-				log.Errorf("error on start api server: %s", err.Error())
-				continue
+				return fmt.Errorf("error on start api server: %s", err.Error())
 			}
 		case <-gracefulShutdown:
 			_ = apiServer.Stop()
