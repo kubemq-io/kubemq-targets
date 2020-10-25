@@ -1,6 +1,6 @@
 apiPort: 8081
 bindings:
-  - name: kubemq-query-redis
+  - name: kubemq-query-redis2
     source:
       kind: source.query
       name: kubemq-query
@@ -244,32 +244,32 @@ bindings:
 #        secret_access_key: "minio123"
 #    properties:
 #      log_level: "error"
-  - name: kubemq-query-cassandra
-    source:
-      kind: source.query
-      name: kubemq-query
-      properties:
-        address: "kubemq-cluster:50000"
-        client_id: "kubemq-query-cassandra-connector"
-        auth_token: ""
-        channel: "query.cassandra"
-        group:   ""
-        auto_reconnect: "true"
-        reconnect_interval_seconds: "1"
-        max_reconnects: "0"
-    target:
-      kind: target.stores.cassandra
-      name: target-cassandra
-      properties:
-        hosts: "161.35.12.23,161.35.12.187,161.35.8.202,161.35.0.90,161.35.0.216,161.35.4.237"
-        port: "9042"
-        username: "cassandra"
-        password: "4e33b9c577e3675a49f9b834f239aaa2ee642ce0f425fb35a42a71a292821be5"
-        proto_version: "4"
-        replication_factor: "1"
-        consistency: "One"
-    properties:
-      log_level: "error"
+#  - name: kubemq-query-cassandra
+#    source:
+#      kind: source.query
+#      name: kubemq-query
+#      properties:
+#        address: "kubemq-cluster:50000"
+#        client_id: "kubemq-query-cassandra-connector"
+#        auth_token: ""
+#        channel: "query.cassandra"
+#        group:   ""
+#        auto_reconnect: "true"
+#        reconnect_interval_seconds: "1"
+#        max_reconnects: "0"
+#    target:
+#      kind: target.stores.cassandra
+#      name: target-cassandra
+#      properties:
+#        hosts: "161.35.12.23,161.35.12.187,161.35.8.202,161.35.0.90,161.35.0.216,161.35.4.237"
+#        port: "9042"
+#        username: "cassandra"
+#        password: "4e33b9c577e3675a49f9b834f239aaa2ee642ce0f425fb35a42a71a292821be5"
+#        proto_version: "4"
+#        replication_factor: "1"
+#        consistency: "One"
+#    properties:
+#      log_level: "error"
 #  - name: kubemq-query-rabbitmq
 #    source:
 #      kind: source.query

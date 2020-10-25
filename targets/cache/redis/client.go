@@ -46,10 +46,18 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.redis = redisClient.NewClient(redisInfo)
 	_, err = c.redis.WithContext(ctx).Ping().Result()
 	if err != nil {
+		_ = c.redis.Close()
 		return fmt.Errorf("error connecting to redis at %s: %w", redisInfo.Addr, err)
 	}
 	c.replicas, err = c.getConnectedSlaves(ctx)
 	return err
+}
+
+func (c *Client) Stop() error {
+	if c.redis != nil {
+		return c.redis.Close()
+	}
+	return nil
 }
 func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, error) {
 	meta, err := parseMetadata(req.Metadata)

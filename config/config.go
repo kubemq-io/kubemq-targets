@@ -31,9 +31,9 @@ func (c *Config) Validate() error {
 	if c.ApiPort == 0 {
 		c.ApiPort = defaultApiPort
 	}
-	if len(c.Bindings) == 0 {
-		return fmt.Errorf("at least one binding must be defined")
-	}
+	//if len(c.Bindings) == 0 {
+	//	return fmt.Errorf("at least one binding must be defined")
+	//}
 	for _, binding := range c.Bindings {
 		if err := binding.Validate(); err != nil {
 			return err
@@ -150,5 +150,6 @@ func Load(cfgCh chan *Config) (*Config, error) {
 			cfgCh <- cfg
 		}
 	})
+	logr.Infof("%d bindings loaded", len(cfg.Bindings))
 	return cfg, err
 }
