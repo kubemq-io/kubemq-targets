@@ -76,7 +76,8 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	}
 	err = c.db.PingContext(ctx)
 	if err != nil {
-		return err
+		_ = c.db.Close()
+		return fmt.Errorf("error reaching mysql at %s: %w", c.opts.endPoint, err)
 	}
 
 	c.db.SetMaxOpenConns(c.opts.maxOpenConnections)
@@ -231,9 +232,6 @@ func parseWithRawBytes(rows *sql.Rows, cols []string, colsTypes []*sql.ColumnTyp
 	}
 	return m
 }
-func (c *Client) CloseClient() error {
-	return c.db.Close()
-}
 
 //https://github.com/aws/aws-sdk-go/issues/1248
 func registerRDSMysqlCerts(c *http.Client) error {
@@ -259,3 +257,11 @@ func registerRDSMysqlCerts(c *http.Client) error {
 	}
 	return nil
 }
+
+func (c *Client) Stop() error {
+	if c.db != nil {
+		return c.db.Close()
+	}
+	return nil
+}
+

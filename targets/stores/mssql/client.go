@@ -41,7 +41,8 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	}
 	err = c.db.PingContext(ctx)
 	if err != nil {
-		return err
+		_ = c.db.Close()
+		return fmt.Errorf("error reaching mssql at %s: %w", c.opts.connection, err)
 	}
 	c.db.SetMaxOpenConns(c.opts.maxOpenConnections)
 	c.db.SetMaxIdleConns(c.opts.maxIdleConnections)
@@ -179,4 +180,11 @@ func parseToMap(rows *sql.Rows, cols []string) map[string]interface{} {
 		}
 	}
 	return m
+}
+
+func (c *Client) Stop() error {
+	if c.db != nil {
+		return c.db.Close()
+	}
+	return nil
 }

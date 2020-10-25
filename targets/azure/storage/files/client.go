@@ -50,6 +50,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		},
 	})
 
+
 	return nil
 }
 
@@ -174,4 +175,9 @@ func (c *Client) delete(ctx context.Context, meta metadata) (*types.Response, er
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok"),
 		nil
+}
+
+
+func (c *Client) Stop() error {
+	return nil
 }

@@ -99,7 +99,7 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			defer func() {
-				_ = c.CloseClient()
+				_ = c.Stop()
 			}()
 			require.NoError(t, err)
 
@@ -148,7 +148,7 @@ func TestClient_Query(t *testing.T) {
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	defer func() {
-		err = c.CloseClient()
+		err = c.Stop()
 		require.NoError(t, err)
 	}()
 	for _, tt := range tests {
@@ -213,7 +213,7 @@ func TestClient_Read(t *testing.T) {
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	defer func() {
-		err = c.CloseClient()
+		err = c.Stop()
 		require.NoError(t, err)
 	}()
 	for _, tt := range tests {
@@ -278,7 +278,7 @@ func TestClient_Insert(t *testing.T) {
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	defer func() {
-		err = c.CloseClient()
+		err = c.Stop()
 		require.NoError(t, err)
 	}()
 	for _, tt := range tests {
@@ -342,7 +342,7 @@ func TestClient_Update(t *testing.T) {
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	defer func() {
-		err = c.CloseClient()
+		err = c.Stop()
 		require.NoError(t, err)
 	}()
 	for _, tt := range tests {
@@ -400,7 +400,7 @@ func TestClient_UpdateDatabaseDdl(t *testing.T) {
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	defer func() {
-		err = c.CloseClient()
+		err = c.Stop()
 		require.NoError(t, err)
 	}()
 	for _, tt := range tests {
@@ -464,7 +464,7 @@ func TestClient_InsertOrUpdate(t *testing.T) {
 	err = c.Init(ctx, cfg)
 	require.NoError(t, err)
 	defer func() {
-		err = c.CloseClient()
+		err = c.Stop()
 		require.NoError(t, err)
 	}()
 	for _, tt := range tests {

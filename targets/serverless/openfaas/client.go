@@ -65,3 +65,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		SetMetadataKeyValue("status", fmt.Sprintf("%d", resp.RawResponse.StatusCode)).
 		SetData(body), nil
 }
+
+func (c *Client) Stop() error {
+	return nil
+}

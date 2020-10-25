@@ -82,7 +82,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "google-big_table-target",
+				Name: "target-gcp-bigtable",
 				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -92,9 +92,9 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: false,
 		}, {
-			name: "init-missing-credentials",
+			name: "invalid init-missing-credentials",
 			cfg: config.Spec{
-				Name: "google-big_table-target",
+				Name: "target-gcp-bigtable",
 				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -104,9 +104,9 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init-missing-project-id",
+			name: "invalid init-missing-project-id",
 			cfg: config.Spec{
-				Name: "google-big_table-target",
+				Name: "target-gcp-bigtable",
 				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"instance": dat.instance,
@@ -115,9 +115,9 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init-missing-instance",
+			name: "invalid init-missing-instance",
 			cfg: config.Spec{
-				Name: "google-big_table-target",
+				Name: "target-gcp-bigtable",
 				Kind: "target.gcp.bigtable",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
@@ -139,11 +139,11 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			defer func() {
-				_ = c.CloseClient()
+				_ = c.Stop()
 			}()
 			require.NoError(t, err)
 
-			err = c.CloseClient()
+			err = c.Stop()
 			require.NoError(t, err)
 		})
 	}
@@ -234,7 +234,7 @@ func TestClient_Create_Column_Family(t *testing.T) {
 			require.NotNil(t, gotSetResponse)
 		})
 	}
-	err = c.CloseClient()
+	err = c.Stop()
 	require.NoError(t, err)
 }
 
@@ -295,7 +295,7 @@ func TestClient_Create_Delete_Table(t *testing.T) {
 	err = c.Init(ctx, cfg2)
 	require.NoError(t, err)
 	defer func() {
-		err = c.CloseClient()
+		err = c.Stop()
 		require.NoError(t, err)
 	}()
 	for _, tt := range tests {
@@ -380,7 +380,7 @@ func TestClient_write(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			defer func() {
-				err = c.CloseClient()
+				err = c.Stop()
 				require.NoError(t, err)
 			}()
 			require.NoError(t, err)
@@ -480,7 +480,7 @@ func TestClient_Delete_Rows(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			defer func() {
-				_ = c.CloseClient()
+				_ = c.Stop()
 			}()
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.deleteRequest)
@@ -617,7 +617,7 @@ func TestClient_Read_Rows(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			defer func() {
-				_ = c.CloseClient()
+				_ = c.Stop()
 			}()
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.writeRequest)

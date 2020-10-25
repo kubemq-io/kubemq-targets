@@ -32,13 +32,4 @@ func Connector() *common.Connector {
 				SetMust(false).
 				SetDefault("true"),
 		)
-	//
-	//AddProperty(
-	//	common.NewProperty().
-	//		SetKind("string").
-	//		SetName("address").
-	//		SetDescription("Sets Kubemq grpc endpoint address").
-	//		SetMust(true).
-	//		SetDefault("localhost:50000"),
-	//)
 }

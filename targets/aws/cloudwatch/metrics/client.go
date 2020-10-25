@@ -104,3 +104,8 @@ func (c *Client) listMetrics(ctx context.Context, meta metadata) (*types.Respons
 			SetData(b),
 		nil
 }
+
+func (c *Client) Stop() error {
+	return nil
+}
+

@@ -96,7 +96,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "invalid init - missing project_id",
 			cfg: config.Spec{
-				Name: "google-big_table-target",
+				Name: "target-gcp-bigtable",
 				Kind: "target.gcp.bigquery",
 				Properties: map[string]string{
 					"credentials": dat.cred,
@@ -118,7 +118,7 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			defer func() {
-				_ = c.CloseClient()
+				_ = c.Stop()
 			}()
 			require.NoError(t, err)
 
@@ -185,7 +185,7 @@ func TestClient_Query(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			defer func() {
-				err = c.CloseClient()
+				err = c.Stop()
 				require.NoError(t, err)
 			}()
 			require.NoError(t, err)
@@ -295,7 +295,7 @@ func TestClient_Create_Table(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			defer func() {
-				err = c.CloseClient()
+				err = c.Stop()
 				require.NoError(t, err)
 			}()
 			require.NoError(t, err)
@@ -342,7 +342,7 @@ func TestClient_Get_Data_Sets(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			defer func() {
-				err = c.CloseClient()
+				err = c.Stop()
 				require.NoError(t, err)
 			}()
 			require.NoError(t, err)
@@ -435,7 +435,7 @@ func TestClient_Get_Table_Info(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			defer func() {
-				err = c.CloseClient()
+				err = c.Stop()
 				require.NoError(t, err)
 			}()
 			require.NoError(t, err)
@@ -527,7 +527,7 @@ func TestClient_Insert_To_Table(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			defer func() {
-				err = c.CloseClient()
+				err = c.Stop()
 				require.NoError(t, err)
 			}()
 			require.NoError(t, err)

@@ -43,7 +43,6 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 
 	svc := sns.New(sess)
 	c.client = svc
-
 	return nil
 }
 
@@ -206,3 +205,8 @@ func (c *Client) deleteTopic(ctx context.Context, meta metadata) (*types.Respons
 			SetMetadataKeyValue("result", "ok"),
 		nil
 }
+
+func (c *Client) Stop() error {
+	return nil
+}
+

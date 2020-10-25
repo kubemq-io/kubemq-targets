@@ -36,7 +36,7 @@ func New() *Client {
 	return &Client{}
 }
 func (c *Client) Connector() *common.Connector {
-return Connector()
+	return Connector()
 }
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
@@ -51,10 +51,12 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	}
 	wc, err := c.getWriteConcernObject(c.opts.writeConcurrency)
 	if err != nil {
+		_ = c.client.Disconnect(context.Background())
 		return fmt.Errorf("error in getting write concern object: %s", err)
 	}
 	rc, err := c.getReadConcernObject(c.opts.readConcurrency)
 	if err != nil {
+		_ = c.client.Disconnect(context.Background())
 		return fmt.Errorf("error in getting read concern object: %s", err)
 	}
 
@@ -178,4 +180,8 @@ func (c *Client) Delete(ctx context.Context, meta metadata) (*types.Response, er
 			SetMetadataKeyValue("key", meta.key).
 			SetMetadataKeyValue("result", "ok"),
 		nil
+}
+
+func (c *Client) Stop() error {
+	return c.client.Disconnect(context.Background())
 }

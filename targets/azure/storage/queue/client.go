@@ -39,6 +39,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		return fmt.Errorf("failed to create shared key credential on error %s , please check storage access key and acccount are correct", err.Error())
 	}
 
+
 	return nil
 }
 
@@ -236,4 +237,8 @@ func (c *Client) pop(ctx context.Context, meta metadata) (*types.Response, error
 			SetData(b).
 			SetMetadataKeyValue("result", "ok"),
 		nil
+}
+
+func (c *Client) Stop() error {
+	return nil
 }

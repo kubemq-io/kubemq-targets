@@ -46,6 +46,8 @@ bindings:
 
 ### Create bucket 
 
+create a new bucket under storage
+
 Create bucket metadata settings:
 
 | Metadata Key        | Required | Description                            | Possible values          |
@@ -75,6 +77,8 @@ Example:
 
 ### Upload file 
 
+upload a file to selected bucket
+
 Upload file metadata settings:
 
 | Metadata Key | Required | Description                             | Possible values                                   |
@@ -101,6 +105,8 @@ Example:
 
 ### Delete file 
 
+delete file from a bucket
+
 Delete file metadata settings:
 
 | Metadata Key | Required | Description                             | Possible values |
@@ -125,6 +131,8 @@ Example:
 
 ### Download file 
 
+download file from bucket by object name
+
 Download file metadata settings:
 
 | Metadata Key | Required | Description                            | Possible values |
@@ -148,6 +156,8 @@ Example:
 
 
 ### Rename file 
+
+rename an object under the same bucket
 
 Rename file metadata settings:
 
@@ -174,6 +184,8 @@ Example:
 
 
 ### Copy file 
+
+copy file from one bucket to another
 
 Copy file metadata settings:
 
@@ -203,6 +215,8 @@ Example:
 
 ### Move file 
 
+move a file from one bucket to another
+
 Move file metadata settings:
 
 | Metadata Key        | Required | Description                            | Possible values          |
@@ -229,6 +243,8 @@ Example:
 ```
 
 ### List files
+
+list all files from a bucket
 
 List files metadata settings:
 

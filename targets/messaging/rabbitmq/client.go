@@ -34,6 +34,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	}
 	c.channel, err = conn.Channel()
 	if err != nil {
+		_ = conn.Close()
 		return fmt.Errorf("error getting rabbitmq channel, %w", err)
 	}
 	return nil
@@ -56,4 +57,11 @@ func (c *Client) Publish(ctx context.Context, meta metadata, data []byte) (*type
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok"),
 		nil
+}
+
+func (c *Client) Stop() error {
+	if c.channel != nil {
+		return c.channel.Close()
+	}
+	return nil
 }

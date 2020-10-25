@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"github.com/Azure/azure-event-hubs-go/v3"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-hub/kubemq-targets/config"
@@ -32,7 +33,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	}
 	c.client, err = eventhub.NewHubFromConnectionString(c.opts.connectionString)
 	if err != nil {
-		return err
+		return fmt.Errorf("error connecting to eventhub at %s: %w", c.opts.connectionString, err)
 	}
 	return nil
 }
@@ -97,4 +98,11 @@ func (c *Client) sendBatch(ctx context.Context, meta metadata, data []byte) (*ty
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok"),
 		nil
+}
+
+func (c *Client) Stop() error {
+	if c.client != nil {
+		return c.client.Close(context.Background())
+	}
+	return nil
 }

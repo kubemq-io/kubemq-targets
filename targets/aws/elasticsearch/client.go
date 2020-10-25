@@ -73,3 +73,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 			SetData(b),
 		nil
 }
+
+func (c *Client) Stop() error {
+	return nil
+}

@@ -140,3 +140,7 @@ func (c *Client) getQueryResult(ctx context.Context, meta metadata) (*types.Resp
 			SetData(b),
 		nil
 }
+
+func (c *Client) Stop() error {
+	return nil
+}

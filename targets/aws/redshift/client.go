@@ -288,3 +288,8 @@ func (c *Client) listClustersByTagsValues(ctx context.Context, data []byte) (*ty
 			SetData(b),
 		nil
 }
+
+func (c *Client) Stop() error {
+	return nil
+}
+

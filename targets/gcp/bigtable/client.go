@@ -330,7 +330,7 @@ func (c *Client) getMultipleColumnsFromBody(body []byte) ([]map[string]interface
 	return s, nil
 }
 
-func (c *Client) CloseClient() error {
+func (c *Client) Stop() error {
 	err := c.client.Close()
 	if err != nil {
 		return err

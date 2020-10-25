@@ -66,13 +66,6 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 			}
 			if resp != nil {
 				c.list = append(c.list, resp.GetName())
-				/*
-					if strings.Contains(fmt.Sprintf("%v", resp.GetTrigger()), "event_type") {
-						c.nameFunctions[resp.GetName()] = "event_type"
-					} else {
-						c.nameFunctions[resp.GetName()] = "url"
-					}
-				*/
 			}
 		}
 	}
@@ -103,10 +96,6 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 		return nil, fmt.Errorf("no location found for function")
 	}
 
-	// if c.nameFunctions[name] == "event_type" {
-	// 	data = b64.StdEncoding.EncodeToString(request.Data)
-	// }
-
 	cfo := &functionspb.CallFunctionRequest{
 		Name: name,
 		Data: string(request.Data),
@@ -121,7 +110,14 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 	}
 	return types.NewResponse().
 		SetMetadataKeyValue("result", res.Result).
-		SetMetadataKeyValue("executionid", res.ExecutionId).
+		SetMetadataKeyValue("execution_id", res.ExecutionId).
 		SetData([]byte(res.Result)), nil
 
+}
+
+func (c *Client) Stop() error {
+	if c.client != nil {
+		return c.client.Close()
+	}
+	return nil
 }

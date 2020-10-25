@@ -45,6 +45,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	
 	svc := kinesis.New(sess)
 	c.client = svc
+
 	return nil
 }
 
@@ -233,4 +234,8 @@ func (c *Client) getRecord(ctx context.Context, meta metadata) (*types.Response,
 			SetMetadataKeyValue("result", "ok").
 			SetData(b),
 		nil
+}
+
+func (c *Client) Stop() error {
+	return nil
 }

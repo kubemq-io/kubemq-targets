@@ -26,7 +26,6 @@ var methodsMap = map[string]string{
 	"get_all_rows_by_column": "get_all_rows_by_column",
 }
 
-
 func parseMetadata(meta types.Metadata) (metadata, error) {
 	m := metadata{}
 	var err error
@@ -37,24 +36,24 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if m.method != "get_tables" {
 		m.tableName, err = meta.MustParseString("table_name")
 		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing table_name, %w", err)
+			return metadata{}, fmt.Errorf("table_name is required for method:%s , error parsing table_name, %w", m.method, err)
 		}
 	}
 	if m.method == "write" || m.method == "write_batch" || m.method == "create_column_family" {
 		m.columnFamily, err = meta.MustParseString("column_family")
 		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing column_family, %w", err)
+			return metadata{}, fmt.Errorf("column_family is required for method:%s ,error parsing column_family, %w", m.method, err)
 		}
 	} else if m.method == "delete_row" || m.method == "get_row" {
 		m.rowKeyPrefix, err = meta.MustParseString("row_key_prefix")
 		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing row_key_prefix, %w", err)
+			return metadata{}, fmt.Errorf("row_key_prefix is required for method:%s ,error parsing row_key_prefix, %w", m.method, err)
 		}
 	}
 	if m.method == "get_all_rows_by_column" {
 		m.readColumnName, err = meta.MustParseString("column_name")
 		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing column_name, %w", err)
+			return metadata{}, fmt.Errorf("column_name is required for method:%s , error parsing column_name, %w", m.method, err)
 		}
 	}
 

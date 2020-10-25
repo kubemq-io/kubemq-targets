@@ -50,6 +50,8 @@ bindings:
 
 ### Create Column Family
 
+create a new column family
+
 Create Column Family:
 
 | Metadata Key      | Required | Description                             | Possible values                            |
@@ -72,13 +74,39 @@ Example:
 }
 ```
 
-### Create Or Delete Table
+### Create Table
 
-Create or delete from the table:
+create a new table.
+
+Create a table:
 
 | Metadata Key | Required | Description                             | Possible values                         |
 |:-------------|:---------|:----------------------------------------|:----------------------------------------|
-| method       | yes      | type of method                          | "create_table", "delete_table"          |
+| method       | yes      | type of method                          | "create_table"         |
+| table_name   | yes      | the table name                          | "table name to delete or create"        |
+
+
+Example:
+
+```json
+{
+  "metadata": {
+    "method": "create_table",
+    "table_name": "valid_table_string"
+  },
+  "data": null
+}
+```
+
+### Delete Table
+
+delete table by name
+
+Delete the table:
+
+| Metadata Key | Required | Description                             | Possible values                         |
+|:-------------|:---------|:----------------------------------------|:----------------------------------------|
+| method       | yes      | type of method                          | "delete_table"          |
 | table_name   | yes      | the table name                          | "table name to delete or create"        |
 
 
@@ -95,7 +123,10 @@ Example:
 ```
 
 
+
 ### Write Rows
+
+write new rows to table by column family
 
 Write rows to table:
 
@@ -120,6 +151,8 @@ Example:
 
 ### Delete Rows
 
+delete rows from table by prefix
+
 Delete rows from the table:
 
 | Metadata Key      | Required | Description                             | Possible values                         |
@@ -142,13 +175,13 @@ Example:
 ```
 
 
-### Delete Rows
+### get all Rows
 
-Delete rows from the table:
+get all rows from the table:
 
 | Metadata Key      | Required | Description                  | Possible values                            |
 |:------------------|:---------|:-----------------------------|:-------------------------------------------|
-| method            | yes      | type of method               | "delete_row"                               |
+| method            | yes      | type of method               | "get_all_rows"                               |
 | table_name        | yes      | the table name               | "table name to delete or create"           |
 | row_key_prefix    | no       | the row key                  | "valid unique string"                      |
 | column_name       | no       | the column to return         | "column name"                              |

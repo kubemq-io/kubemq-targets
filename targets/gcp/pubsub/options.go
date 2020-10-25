@@ -25,7 +25,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 	o.retries = cfg.Properties.ParseInt("retries", DefaultRetries)
 	o.credentials, err = cfg.Properties.MustParseString("credentials")
 	if err != nil {
-		return options{}, err
+		return options{}, fmt.Errorf("error parsing credentials, %w", err)
 	}
 	return o, nil
 }

@@ -26,7 +26,7 @@ func New() *Client {
 	return &Client{}
 }
 func (c *Client) Connector() *common.Connector {
-return Connector()
+	return Connector()
 }
 
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
@@ -52,24 +52,23 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.cluster.SslOpts = &gocql.SslOptions{
 		CaPath: "tls.pem",
 	}
-	session, err := c.cluster.CreateSession()
+	c.session, err = c.cluster.CreateSession()
 	if err != nil {
-		return fmt.Errorf("error creating session: %s", err)
+		return fmt.Errorf("error creating session to keyspace at %s: %w", c.opts.hosts, err)
 	}
-	c.session = session
 	if c.opts.defaultKeyspace != "" && c.opts.defaultTable != "" {
 		err = c.tryCreateKeyspace(c.opts.defaultKeyspace, c.opts.replicationFactor)
 		if err != nil {
+			c.session.Close()
 			return fmt.Errorf("error creating defaultKeyspace %s: %s", c.opts.defaultTable, err)
 		}
 		err = c.tryCreateTable(c.opts.defaultTable, c.opts.defaultKeyspace)
 		if err != nil {
+			c.session.Close()
 			return fmt.Errorf("error creating defaultKeyspace %s: %s", c.opts.defaultTable, err)
 		}
-
 		c.table = fmt.Sprintf("%s.%s", c.opts.defaultKeyspace, c.opts.defaultTable)
 	}
-
 
 	return nil
 }
@@ -316,5 +315,12 @@ func (c *Client) downloadFile() error {
 		return err
 	}
 
+	return nil
+}
+
+func (c *Client) Stop() error {
+	if c.session != nil {
+		c.session.Close()
+	}
 	return nil
 }

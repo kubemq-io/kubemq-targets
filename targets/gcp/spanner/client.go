@@ -253,7 +253,10 @@ func (c *Client) updateDatabaseDdl(ctx context.Context, body []byte) (*types.Res
 		nil
 }
 
-func (c *Client) CloseClient() error {
-	c.client.Close()
-	return c.adminClient.Close()
+func (c *Client) Stop() error {
+	if c.client != nil {
+		c.client.Close()
+		return c.adminClient.Close()
+	}
+	return nil
 }

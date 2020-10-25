@@ -53,12 +53,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	return err
 }
 
-func (c *Client) Stop() error {
-	if c.redis != nil {
-		return c.redis.Close()
-	}
-	return nil
-}
+
 func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, error) {
 	meta, err := parseMetadata(req.Metadata)
 	if err != nil {
@@ -185,4 +180,11 @@ func (c *Client) Delete(ctx context.Context, meta metadata) (*types.Response, er
 			SetMetadataKeyValue("key", meta.key).
 			SetMetadataKeyValue("result", "ok"),
 		nil
+}
+
+func (c *Client) Stop() error {
+	if c.redis != nil {
+		return c.redis.Close()
+	}
+	return nil
 }

@@ -52,3 +52,9 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	}
 	return types.NewResponse().SetMetadataKeyValue("result", "ok"), nil
 }
+func (c *Client) Stop() error {
+	if c.conn != nil {
+		return c.conn.Disconnect()
+	}
+	return nil
+}

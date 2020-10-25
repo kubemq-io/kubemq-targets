@@ -38,11 +38,12 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	}
 	c.db, err = sql.Open("mysql", c.opts.connection)
 	if err != nil {
-		return err
+		return fmt.Errorf("error connecting to mariadb at %s: %w", c.opts.connection, err)
 	}
 	err = c.db.PingContext(ctx)
 	if err != nil {
-		return err
+		_ = c.db.Close()
+		return fmt.Errorf("error reaching mariadb at %s: %w", c.opts.connection, err)
 	}
 	c.db.SetMaxOpenConns(c.opts.maxOpenConnections)
 	c.db.SetMaxIdleConns(c.opts.maxIdleConnections)
@@ -195,4 +196,11 @@ func parseWithRawBytes(rows *sql.Rows, cols []string, colsTypes []*sql.ColumnTyp
 		}
 	}
 	return m
+}
+
+func (c *Client) Stop() error {
+	if c.db != nil {
+		return c.db.Close()
+	}
+	return nil
 }

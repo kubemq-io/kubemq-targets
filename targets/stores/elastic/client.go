@@ -89,3 +89,7 @@ func (c *Client) Delete(ctx context.Context, meta metadata) (*types.Response, er
 			SetMetadataKeyValue("result", delResp.Result),
 		nil
 }
+
+func (c *Client) Stop() error {
+	return nil
+}

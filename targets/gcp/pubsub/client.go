@@ -94,6 +94,9 @@ func (c *Client) list(ctx context.Context) (*types.Response, error) {
 		nil
 }
 
-func (c *Client) CloseClient() error {
-	return c.client.Close()
+func (c *Client) Stop() error {
+	if c.client != nil {
+		return c.client.Close()
+	}
+	return nil
 }

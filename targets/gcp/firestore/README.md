@@ -47,9 +47,11 @@ bindings:
 
 ## Usage
 
-### Set Key 
+### Add Key 
 
-Set Key  metadata setting:
+add a key under collection
+
+Add Key  metadata setting:
 
 | Metadata Key | Required | Description                            | Possible values      |
 |:-------------|:---------|:---------------------------------------|:---------------------|
@@ -72,6 +74,8 @@ Example:
 
 ### get Values by document key
 
+get values by key under collection
+
 Get Key  metadata setting:
 
 | Metadata Key | Required | Description                            | Possible values            |
@@ -90,11 +94,13 @@ Example:
     "collection": "my_collection",
     "item": "<valid existing key>"
   },
-  "data": "ZG9jdW1lbnRzIGFsbCBtZXNzYWdl"
+  "data": null
 }
 ```
 
 ### get all Values
+
+get all values under collection
 
 Get all metadata setting:
 | Metadata Key | Required | Description                             | Possible values        |
@@ -111,12 +117,14 @@ Example:
     "method": "documents_all",
     "collection": "my_collection"
   },
-  "data": "ZG9jdW1lbnRzIGFsbCBtZXNzYWdl"
+  "data": null
 }
 ```
 
 
 ### delete key
+
+delete key in collection
 
 Delete key metadata setting:
 
@@ -136,6 +144,6 @@ Example:
     "collection": "my_collection",
     "item": "valid existing key"
   },
-  "data": "ZGVsZXRlIGtleQ=="
+  "data": null
 }
 ```

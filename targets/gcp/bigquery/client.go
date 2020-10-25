@@ -186,6 +186,6 @@ func (c *Client) getDataSetsFromIterator(iter *bigquery.DatasetIterator) ([]*big
 	}
 }
 
-func (c *Client) CloseClient() error {
+func (c *Client) Stop() error {
 	return c.client.Close()
 }

@@ -285,3 +285,6 @@ func (c *Client) downloadItem(ctx context.Context, meta metadata) (*types.Respon
 			SetData(b),
 		nil
 }
+func (c *Client) Stop() error {
+	return nil
+}
