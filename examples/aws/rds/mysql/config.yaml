@@ -16,12 +16,13 @@ bindings:
       kind: target.aws.rds.mysql
       name: target-aws-rds-mysql
       properties:
-        db_user:                  "test"
-        db_name:                  "test"
-        end_point:              "my-end-point"
+        db_user: "test"
+        db_name: "test"
+        end_point: "my-end-point"
         aws_key: "id"
         aws_secret_key: 'json'
         region:  "region"
+        db_port:  "3306",
         token: ""
         max_idle_connections: "10"
         max_open_connections: "100"

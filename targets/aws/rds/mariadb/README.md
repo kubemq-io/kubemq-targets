@@ -15,7 +15,7 @@ Aws-MariaDB target connector configuration properties:
 
 | Properties Key                  | Required | Description                                 | Example                                                                |
 |:--------------------------------|:---------|:--------------------------------------------|:-----------------------------------------------------------------------|
-| connection                      | yes      | mariadb connection string address           | "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local" |
+| connection                      | yes      | mariadb connection string address           | "username:password@(endpoint:port)/dbname?charset=utf8&parseTime=True&loc=Local" |
 | max_idle_connections            | no       | set max idle connections                    | "10"                                                                   |
 | max_open_connections            | no       | set max open connections                    | "100"                                                                  |
 | connection_max_lifetime_seconds | no       | set max lifetime for connections in seconds | "3600"                                                                 |
