@@ -33,10 +33,10 @@ func (i InsertOrUpdate) validate() error {
 		return fmt.Errorf("please verify table_name is not empty")
 	}
 	if len(i.ColumnName) != len(i.ColumnValue) {
-		return fmt.Errorf("please verify column_values and column_names are the same size")
+		return fmt.Errorf("please verify that column_values and column_names are the same size")
 	}
 	if len(i.ColumnValue) != len(i.ColumnType) {
-		return fmt.Errorf("please verify column_type and column_values are the same size")
+		return fmt.Errorf("please verify that column_type and column_values are the same size")
 	}
 	for r := 0; r < len(i.ColumnType); r++ {
 		switch i.ColumnType[r] {
