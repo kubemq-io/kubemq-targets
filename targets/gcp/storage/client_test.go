@@ -84,13 +84,22 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "google-storage-target",
-				Kind: "",
+				Name: "target-gcp-storage",
+				Kind: "target.gcp.storage",
 				Properties: map[string]string{
 					"credentials": dat.cred,
 				},
 			},
 			wantErr: false,
+		}, {
+			name: "invalid init - missing credentials",
+			cfg: config.Spec{
+				Name: "target-gcp-storage",
+				Kind: "target.gcp.storage",
+				Properties: map[string]string{
+				},
+			},
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
@@ -114,8 +123,8 @@ func TestClient_Init(t *testing.T) {
 func TestClient_Create_Bucket(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name: "google-storage-target",
-		Kind: "",
+		Name: "target-gcp-storage",
+		Kind: "target.gcp.storage",
 		Properties: map[string]string{
 			"credentials": dat.cred,
 		},
@@ -135,6 +144,47 @@ func TestClient_Create_Bucket(t *testing.T) {
 				SetMetadataKeyValue("project_id", dat.projectID).
 				SetMetadataKeyValue("location", dat.location),
 			wantErr: false,
+		},{
+			name: "invalid create bucket - already exists",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "create_bucket").
+				SetMetadataKeyValue("bucket", dat.bucket).
+				SetMetadataKeyValue("storage_class", dat.storageClass).
+				SetMetadataKeyValue("project_id", dat.projectID).
+				SetMetadataKeyValue("location", dat.location),
+			wantErr: true,
+		},{
+			name: "invalid create bucket - missing bucket",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "create_bucket").
+				SetMetadataKeyValue("storage_class", dat.storageClass).
+				SetMetadataKeyValue("project_id", dat.projectID).
+				SetMetadataKeyValue("location", dat.location),
+			wantErr: true,
+		},{
+			name: "invalid create bucket - missing storage class",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "create_bucket").
+				SetMetadataKeyValue("bucket", dat.bucket).
+				SetMetadataKeyValue("project_id", dat.projectID).
+				SetMetadataKeyValue("location", dat.location),
+			wantErr: true,
+		},{
+			name: "invalid create bucket - missing project_id",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "create_bucket").
+				SetMetadataKeyValue("bucket", dat.bucket).
+				SetMetadataKeyValue("storage_class", dat.storageClass).
+				SetMetadataKeyValue("location", dat.location),
+			wantErr: true,
+		},{
+			name: "invalid create bucket - missing location",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "create_bucket").
+				SetMetadataKeyValue("bucket", dat.bucket).
+				SetMetadataKeyValue("storage_class", dat.storageClass).
+				SetMetadataKeyValue("project_id", dat.projectID),
+			wantErr: true,
 		},
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
@@ -161,8 +211,8 @@ func TestClient_Create_Bucket(t *testing.T) {
 func TestClient_Upload_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name: "google-storage-target",
-		Kind: "",
+		Name: "target-gcp-storage",
+		Kind: "target.gcp.storage",
 		Properties: map[string]string{
 			"credentials": dat.cred,
 		},
@@ -247,8 +297,8 @@ func TestClient_Upload_Object(t *testing.T) {
 func TestClient_Delete_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name: "google-storage-target",
-		Kind: "",
+		Name: "target-gcp-storage",
+		Kind: "target.gcp.storage",
 		Properties: map[string]string{
 			"credentials": dat.cred,
 		},
@@ -266,6 +316,13 @@ func TestClient_Delete_Object(t *testing.T) {
 				SetMetadataKeyValue("bucket", dat.bucket).
 				SetMetadataKeyValue("object", dat.object),
 			wantErr: false,
+		},{
+			name: "invalid delete object - object already deleted",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "delete").
+				SetMetadataKeyValue("bucket", dat.bucket).
+				SetMetadataKeyValue("object", dat.object),
+			wantErr: true,
 		}, {
 			name: "invalid delete object - object doesn't exist ",
 			request: types.NewRequest().
@@ -320,8 +377,8 @@ func TestClient_Delete_Object(t *testing.T) {
 func TestClient_Download_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name: "google-storage-target",
-		Kind: "",
+		Name: "target-gcp-storage",
+		Kind: "target.gcp.storage",
 		Properties: map[string]string{
 			"credentials": dat.cred,
 		},
@@ -394,8 +451,8 @@ func TestClient_Download_Object(t *testing.T) {
 func TestClient_List_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name: "google-storage-target",
-		Kind: "",
+		Name: "target-gcp-storage",
+		Kind: "target.gcp.storage",
 		Properties: map[string]string{
 			"credentials": dat.cred,
 		},
@@ -452,8 +509,8 @@ func TestClient_List_Object(t *testing.T) {
 func TestClient_Rename_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name: "google-storage-target",
-		Kind: "",
+		Name: "target-gcp-storage",
+		Kind: "target.gcp.storage",
 		Properties: map[string]string{
 			"credentials": dat.cred,
 		},
@@ -537,8 +594,8 @@ func TestClient_Rename_Object(t *testing.T) {
 func TestClient_Copy_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name: "google-storage-target",
-		Kind: "",
+		Name: "target-gcp-storage",
+		Kind: "target.gcp.storage",
 		Properties: map[string]string{
 			"credentials": dat.cred,
 		},
@@ -629,8 +686,8 @@ func TestClient_Copy_Object(t *testing.T) {
 func TestClient_Move_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name: "google-storage-target",
-		Kind: "",
+		Name: "target-gcp-storage",
+		Kind: "target.gcp.storage",
 		Properties: map[string]string{
 			"credentials": dat.cred,
 		},

@@ -61,13 +61,25 @@ Send Message metadata setting:
 | tags         | no       | type of method                         | key value string          |
 
 
-Example:
+Example with tags:
 
 ```json
 {
   "metadata": {
     "topic_id": "my_topic",
     "tags": "{\"tag-1\":\"test\",\"tag-2\":\"test2\"}"
+  },
+  "data": "c3RyaW5n"
+}
+```
+
+
+Example without tags:
+
+```json
+{
+  "metadata": {
+    "topic_id": "my_topic"
   },
   "data": "c3RyaW5n"
 }
