@@ -184,7 +184,7 @@ func TestClient_Create_Column_Family(t *testing.T) {
 				SetMetadataKeyValue("table_name", dat.tableName),
 			wantErr: false,
 		}, {
-			name: "invalid create-column-family -invalid type",
+			name: "invalid create-column-family -invalid table_name",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
 				Kind: "target.gcp.bigtable",
@@ -195,12 +195,12 @@ func TestClient_Create_Column_Family(t *testing.T) {
 				},
 			},
 			request: types.NewRequest().
-				SetMetadataKeyValue("method", "create_column_family2").
+				SetMetadataKeyValue("method", "create_column_family").
 				SetMetadataKeyValue("column_family", dat.columnFamily).
-				SetMetadataKeyValue("table_name", dat.tableName),
+				SetMetadataKeyValue("table_name", "fake table"),
 			wantErr: true,
 		}, {
-			name: "invalid create-column-family- already exists",
+			name: "invalid create-column-family - already exists",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
 				Kind: "target.gcp.bigtable",
@@ -238,7 +238,7 @@ func TestClient_Create_Column_Family(t *testing.T) {
 	require.NoError(t, err)
 }
 
-func TestClient_Create_Delete_Table(t *testing.T) {
+func TestClient_Create_Table(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg2 := config.Spec{
@@ -263,19 +263,56 @@ func TestClient_Create_Delete_Table(t *testing.T) {
 				SetMetadataKeyValue("method", "create_table").
 				SetMetadataKeyValue("table_name", dat.tempTable),
 			wantError: false,
-		}, {
-			name: "invalid create table -invalid type",
-			request: types.NewRequest().
-				SetMetadataKeyValue("method", "create_table2").
-				SetMetadataKeyValue("table_name", dat.tempTable),
-			wantError: true,
-		}, {
+		},{
 			name: "invalid create table- already exists",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "create_table").
 				SetMetadataKeyValue("table_name", dat.tempTable),
 			wantError: true,
-		}, {
+		},
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 35*time.Second)
+	defer cancel()
+	c := New()
+	err = c.Init(ctx, cfg2)
+	require.NoError(t, err)
+	defer func() {
+		err = c.Stop()
+		require.NoError(t, err)
+	}()
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotSetResponse, err := c.Do(ctx, tt.request)
+			if tt.wantError {
+				require.Error(t, err)
+				return
+			}
+			require.NoError(t, err)
+			require.NotNil(t, gotSetResponse)
+		})
+	}
+}
+
+func TestClient_Delete_Table(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
+	cfg2 := config.Spec{
+		Name: "target-gcp-bigtable",
+		Kind: "target.gcp.bigtable",
+		Properties: map[string]string{
+			"project_id":  dat.projectID,
+			"instance":    dat.instance,
+			"credentials": dat.cred,
+		},
+	}
+	require.NoError(t, err)
+	tests := []struct {
+		name      string
+		cfg       config.Spec
+		request   *types.Request
+		wantError bool
+	}{
+		{
 			name: "valid delete table",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete_table").
@@ -310,6 +347,8 @@ func TestClient_Create_Delete_Table(t *testing.T) {
 		})
 	}
 }
+
+
 
 func TestClient_write(t *testing.T) {
 	dat, err := getTestStructure()
@@ -628,7 +667,7 @@ func TestClient_Read_Rows(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, gotSetResponse)
-			t.Logf("init() error = %v, response %v", err, fmt.Sprintf("%s", gotSetResponse.Data))
+			t.Logf("read() error = %v, response %v", err, fmt.Sprintf("%s", gotSetResponse.Data))
 		})
 	}
 }

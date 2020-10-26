@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"time"
 
@@ -12,16 +13,21 @@ import (
 )
 
 func main() {
+	dat, err := ioutil.ReadFile("./credentials/projectID.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	projectID := string(dat)
 	client, err := kubemq.NewClient(context.Background(),
-		kubemq.WithAddress("localhost", 50000),
+		kubemq.WithAddress("kubemq-cluster", 50000),
 		kubemq.WithClientId(nuid.Next()),
 		kubemq.WithTransportType(kubemq.TransportTypeGRPC))
 	if err != nil {
 		log.Fatal(err)
 	}
 	publishRequest := types.NewRequest().
-		SetMetadataKeyValue("name", "test-kubemq").
-		SetMetadataKeyValue("project", "pubsubdemo-281010").
+		SetMetadataKeyValue("name", "kube-test").
+		SetMetadataKeyValue("project", projectID).
 		SetMetadataKeyValue("location", "us-central1").
 		SetData([]byte(`{"message":"test"}`))
 	queryPublishResponse, err := client.SetQuery(publishRequest.ToQuery()).
