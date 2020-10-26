@@ -30,8 +30,7 @@ bindings:
       kind: source.kubemq.query
       name: kubemq-query
       properties:
-        host: "localhost"
-        port: "50000"
+        address: "kubemq-cluster:50000"
         client_id: "kubemq-query-gcpfucntions-connector"
         auth_token: ""
         channel: "query.gcp.functions"

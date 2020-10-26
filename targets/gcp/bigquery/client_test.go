@@ -163,7 +163,7 @@ func TestClient_Query(t *testing.T) {
 				SetMetadataKeyValue("method", "query"),
 			wantErr: true,
 		}, {
-			name: "valid query- empty table",
+			name: "valid query - empty table",
 			cfg: config.Spec{
 				Name: "target-gcp-bigquery",
 				Kind: "target.gcp.bigquery",
@@ -197,6 +197,180 @@ func TestClient_Query(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, gotSetResponse)
+		})
+	}
+}
+
+// See https://cloud.google.com/bigquery/docs/locations
+func TestClient_Create_Data_Set(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
+	tests := []struct {
+		name         string
+		cfg          config.Spec
+		queryRequest *types.Request
+		wantErr      bool
+	}{
+		{
+			name: "valid get create_data_set",
+			cfg: config.Spec{
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
+				Properties: map[string]string{
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
+				},
+			},
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "create_data_set").
+				SetMetadataKeyValue("location", "US").
+				SetMetadataKeyValue("dataset_id", dat.dataSetID),
+			wantErr: false,
+		}, {
+			name: "invalid create_data_set - already exists",
+			cfg: config.Spec{
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
+				Properties: map[string]string{
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
+					"location":    "US",
+				},
+			},
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "create_data_set").
+				SetMetadataKeyValue("location", "US").
+				SetMetadataKeyValue("dataset_id", dat.dataSetID),
+			wantErr: true,
+		}, {
+			name: "invalid get get_table_info - missing location",
+			cfg: config.Spec{
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
+				Properties: map[string]string{
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
+				},
+			},
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "get_table_info").
+				SetMetadataKeyValue("location", "US").
+				SetMetadataKeyValue("dataset_id", dat.dataSetID),
+			wantErr: true,
+		}, {
+			name: "invalid get get_table_info - invalid location",
+			cfg: config.Spec{
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
+				Properties: map[string]string{
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
+				},
+			},
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "get_table_info").
+				SetMetadataKeyValue("location", "fake").
+				SetMetadataKeyValue("dataset_id", dat.dataSetID),
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			ctx, cancel := context.WithCancel(context.Background())
+			defer cancel()
+			c := New()
+			err := c.Init(ctx, tt.cfg)
+			defer func() {
+				err = c.Stop()
+				require.NoError(t, err)
+			}()
+			require.NoError(t, err)
+			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
+			if tt.wantErr {
+				t.Logf("init() error = %v, wantErr %v", err, tt.wantErr)
+				require.Error(t, err)
+				return
+			}
+			require.NoError(t, err)
+			require.NotNil(t, gotSetResponse)
+			require.EqualValues(t, gotSetResponse.Metadata["result"], "ok")
+		})
+	}
+}
+
+func TestClient_Delete_Data_Set(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
+	tests := []struct {
+		name         string
+		cfg          config.Spec
+		queryRequest *types.Request
+		wantErr      bool
+	}{
+		{
+			name: "valid delete_data_set",
+			cfg: config.Spec{
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
+				Properties: map[string]string{
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
+				},
+			},
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "delete_data_set").
+				SetMetadataKeyValue("dataset_id", dat.dataSetID),
+			wantErr: false,
+		}, {
+			name: "invalid delete_data_set - not exists",
+			cfg: config.Spec{
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
+				Properties: map[string]string{
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
+					"location":    "US",
+				},
+			},
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "delete_data_set").
+				SetMetadataKeyValue("dataset_id", dat.dataSetID),
+			wantErr: true,
+		}, {
+			name: "invalid get delete_data_set - missing dataset_id",
+			cfg: config.Spec{
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
+				Properties: map[string]string{
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
+				},
+			},
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "delete_data_set"),
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			ctx, cancel := context.WithCancel(context.Background())
+			defer cancel()
+			c := New()
+			err := c.Init(ctx, tt.cfg)
+			defer func() {
+				err = c.Stop()
+				require.NoError(t, err)
+			}()
+			require.NoError(t, err)
+			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
+			if tt.wantErr {
+				t.Logf("init() error = %v, wantErr %v", err, tt.wantErr)
+				require.Error(t, err)
+				return
+			}
+			require.NoError(t, err)
+			require.NotNil(t, gotSetResponse)
+			require.EqualValues(t, gotSetResponse.Metadata["result"], "ok")
 		})
 	}
 }
@@ -236,7 +410,7 @@ func TestClient_Create_Table(t *testing.T) {
 			},
 			queryRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "create_table").
-				SetMetadataKeyValue("dataset_id", "my_data_set").
+				SetMetadataKeyValue("dataset_id", dat.dataSetID).
 				SetMetadataKeyValue("table_name", dat.tableName).
 				SetData(bSchema),
 			wantErr: false,
@@ -252,7 +426,7 @@ func TestClient_Create_Table(t *testing.T) {
 			},
 			queryRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "create_table").
-				SetMetadataKeyValue("dataset_id", "my_data_set").
+				SetMetadataKeyValue("dataset_id", dat.dataSetID).
 				SetData(bSchema),
 			wantErr: true,
 		}, {
@@ -267,7 +441,7 @@ func TestClient_Create_Table(t *testing.T) {
 			},
 			queryRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "create_table").
-				SetMetadataKeyValue("dataset_id", "my_data_set").
+				SetMetadataKeyValue("dataset_id", dat.dataSetID).
 				SetMetadataKeyValue("table_name", dat.tableName).
 				SetData(bSchema),
 			wantErr: true,
@@ -311,6 +485,99 @@ func TestClient_Create_Table(t *testing.T) {
 	}
 }
 
+func TestClient_Delete_Table(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
+
+	tests := []struct {
+		name         string
+		cfg          config.Spec
+		queryRequest *types.Request
+		wantErr      bool
+	}{
+		{
+			name: "valid delete_table table",
+			cfg: config.Spec{
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
+				Properties: map[string]string{
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
+				},
+			},
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "delete_table").
+				SetMetadataKeyValue("dataset_id", dat.dataSetID).
+				SetMetadataKeyValue("table_name", dat.tableName),
+			wantErr: false,
+		}, {
+			name: "invalid delete_table - missing tableName",
+			cfg: config.Spec{
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
+				Properties: map[string]string{
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
+				},
+			},
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "delete_table").
+				SetMetadataKeyValue("dataset_id", dat.dataSetID),
+			wantErr: true,
+		}, {
+			name: "invalid delete_table - table already deleted",
+			cfg: config.Spec{
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
+				Properties: map[string]string{
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
+				},
+			},
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "delete_table").
+				SetMetadataKeyValue("dataset_id", dat.dataSetID).
+				SetMetadataKeyValue("table_name", dat.tableName),
+			wantErr: true,
+		}, {
+			name: "invalid delete_table - missing dataset_id",
+			cfg: config.Spec{
+				Name: "target-gcp-bigquery",
+				Kind: "target.gcp.bigquery",
+				Properties: map[string]string{
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
+				},
+			},
+			queryRequest: types.NewRequest().
+				SetMetadataKeyValue("method", "delete_table").
+				SetMetadataKeyValue("table_name", dat.tableName),
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
+			defer cancel()
+			c := New()
+			err := c.Init(ctx, tt.cfg)
+			defer func() {
+				err = c.Stop()
+				require.NoError(t, err)
+			}()
+			require.NoError(t, err)
+			gotSetResponse, err := c.Do(ctx, tt.queryRequest)
+			if tt.wantErr {
+				t.Logf("init() error = %v, wantErr %v", err, tt.wantErr)
+				require.Error(t, err)
+				return
+			}
+			require.NoError(t, err)
+			require.NotNil(t, gotSetResponse)
+		})
+	}
+}
+
 func TestClient_Get_Data_Sets(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
@@ -321,7 +588,7 @@ func TestClient_Get_Data_Sets(t *testing.T) {
 		wantErr      bool
 	}{
 		{
-			name: "valid get Data-Sets",
+			name: "valid get_data_sets",
 			cfg: config.Spec{
 				Name: "target-gcp-bigquery",
 				Kind: "target.gcp.bigquery",
@@ -352,9 +619,9 @@ func TestClient_Get_Data_Sets(t *testing.T) {
 				require.Error(t, err)
 				return
 			}
-			require.EqualValues(t, gotSetResponse.Metadata["result"], "ok")
 			require.NoError(t, err)
 			require.NotNil(t, gotSetResponse)
+			require.EqualValues(t, gotSetResponse.Metadata["result"], "ok")
 		})
 	}
 }
@@ -369,7 +636,7 @@ func TestClient_Get_Table_Info(t *testing.T) {
 		wantErr      bool
 	}{
 		{
-			name: "valid get table-info",
+			name: "valid get get_table_info",
 			cfg: config.Spec{
 				Name: "target-gcp-bigquery",
 				Kind: "target.gcp.bigquery",
@@ -384,7 +651,7 @@ func TestClient_Get_Table_Info(t *testing.T) {
 				SetMetadataKeyValue("table_name", dat.tableName),
 			wantErr: false,
 		}, {
-			name: "invalid get table-info - missing dataset_id",
+			name: "invalid get get_table_info - missing dataset_id",
 			cfg: config.Spec{
 				Name: "target-gcp-bigquery",
 				Kind: "target.gcp.bigquery",
@@ -398,7 +665,7 @@ func TestClient_Get_Table_Info(t *testing.T) {
 				SetMetadataKeyValue("table_name", dat.tableName),
 			wantErr: true,
 		}, {
-			name: "invalid get table-info - missing table_name",
+			name: "invalid get get_table_info - missing table_name",
 			cfg: config.Spec{
 				Name: "target-gcp-bigquery",
 				Kind: "target.gcp.bigquery",
@@ -412,7 +679,7 @@ func TestClient_Get_Table_Info(t *testing.T) {
 				SetMetadataKeyValue("dataset_id", dat.dataSetID),
 			wantErr: true,
 		}, {
-			name: "valid get table-info - missing NotExistingTable",
+			name: "valid get get_table_info - not existing table",
 			cfg: config.Spec{
 				Name: "target-gcp-bigquery",
 				Kind: "target.gcp.bigquery",

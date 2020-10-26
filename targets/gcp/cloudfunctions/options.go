@@ -21,7 +21,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 	}
 	o.credentials, err = cfg.Properties.MustParseString("credentials")
 	if err != nil {
-		return options{}, err
+		return options{}, fmt.Errorf("error parsing credentials, %w", err)
 	}
 	o.locationMatch = cfg.Properties.ParseBool("location_match", true)
 

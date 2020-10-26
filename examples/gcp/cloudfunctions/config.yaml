@@ -1,5 +1,5 @@
 bindings:
-  - name: kubemq-query-kafka
+  - name: kubemq-query
     source:
       kind: source.kubemq.query
       name: kubemq-query
@@ -18,3 +18,4 @@ bindings:
       properties:
         project: "testproject"
         credentials: "./../key.json"
+        location_match: "true"

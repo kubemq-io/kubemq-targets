@@ -62,7 +62,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 				break
 			}
 			if err != nil {
-				c.log.Errorf("error parsing existing functions %s", err.Error())
+				return err
 			}
 			if resp != nil {
 				c.list = append(c.list, resp.GetName())

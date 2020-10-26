@@ -12,11 +12,30 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+type testStructure struct {
+	projectID string
+	cred      string
+}
+
+func getTestStructure() (*testStructure, error) {
+	t := &testStructure{}
+	dat, err := ioutil.ReadFile("./../../../credentials/projectID.txt")
+	if err != nil {
+		return nil, err
+	}
+	t.projectID = string(dat)
+	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
+	if err != nil {
+		return nil, err
+	}
+	t.cred = fmt.Sprintf("%s", dat)
+	return t, nil
+}
+
 func TestClient_Init(t *testing.T) {
 
-	dat, err := ioutil.ReadFile("./../../../credentials/google_cred.json")
+	dat, err := getTestStructure()
 	require.NoError(t, err)
-	credentials := fmt.Sprintf("%s", dat)
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -28,8 +47,8 @@ func TestClient_Init(t *testing.T) {
 				Name: "google-pubsub-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project":     "pubsubdemo-281010",
-					"credentials": credentials,
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
 				},
 			},
 			wantErr: false,
@@ -39,7 +58,7 @@ func TestClient_Init(t *testing.T) {
 				Name: "google-pubsub-target",
 				Kind: "",
 				Properties: map[string]string{
-					"project": "pubsubdemo-281010",
+					"project_id": dat.projectID,
 				},
 			},
 			wantErr: true,
@@ -50,7 +69,7 @@ func TestClient_Init(t *testing.T) {
 				Name: "google-pubsub-target",
 				Kind: "",
 				Properties: map[string]string{
-					"credentials": credentials,
+					"credentials": dat.cred,
 				},
 			},
 			wantErr: true,
@@ -76,9 +95,8 @@ func TestClient_Init(t *testing.T) {
 
 func TestClient_Do(t *testing.T) {
 
-	c, err := ioutil.ReadFile("./../../../credentials/pubsubdemo-281010-11464d7de470.json")
+	dat, err := getTestStructure()
 	require.NoError(t, err)
-	credentials := fmt.Sprintf("%s", c)
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -89,64 +107,46 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid google-function sent",
 			cfg: config.Spec{
-				Name: "target.google.pubsub",
-				Kind: "target.google.pubsub",
+				Name: "target-google-cloudfunctions",
+				Kind: "target.google.cloudfunctions",
 				Properties: map[string]string{
-					"project":     "pubsubdemo-281010",
-					"credentials": credentials,
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
 				},
 			},
 			request: types.NewRequest().
-				SetMetadataKeyValue("name", "kube-test-pubsub").
+				SetMetadataKeyValue("name", "kube-test").
 				SetData([]byte(`{"data":"dGVzdGluZzEyMy4uLg=="}`)),
 			want: types.NewResponse().SetData([]byte("test")),
 
 			wantErr: false,
 		},
-
 		{
 			name: "valid google-function sent",
 			cfg: config.Spec{
-				Name: "target.google.pubsub",
-				Kind: "target.google.pubsub",
+				Name: "target-google-cloudfunctions",
+				Kind: "target.google.cloudfunctions",
 				Properties: map[string]string{
-					"project":     "pubsubdemo-281010",
-					"credentials": credentials,
+					"project_id":  dat.projectID,
+					"credentials": dat.cred,
 				},
 			},
 			request: types.NewRequest().
-				SetMetadataKeyValue("name", "test-kubemq").
-				SetData([]byte(`{"message":"test"}`)),
+				SetMetadataKeyValue("name", "kube-test").
+				SetMetadataKeyValue("project_id", dat.projectID).
+				SetMetadataKeyValue("location", "us-central1").SetData([]byte(`{"data":"dGVzdGluZzEyMy4uLg=="}`)),
 			want: types.NewResponse().SetData([]byte("test")),
 
 			wantErr: false,
 		},
 		{
-			name: "valid google-pubsub sent",
+			name: "invalid  google-function location with no match",
 			cfg: config.Spec{
-				Name: "target.google.pubsub",
-				Kind: "target.google.pubsub",
+				Name: "target-google-cloudfunctions",
+				Kind: "target.google.cloudfunctions",
 				Properties: map[string]string{
-					"project":     "pubsubdemo-281010",
-					"credentials": credentials,
-				},
-			},
-			request: types.NewRequest().
-				SetMetadataKeyValue("name", "test-kubemq").
-				SetMetadataKeyValue("project", "pubsubdemo-281010").
-				SetMetadataKeyValue("location", "us-central1").SetData([]byte(`{"message":"test"}`)),
-			want: types.NewResponse().SetData([]byte("test")),
-
-			wantErr: false,
-		},
-		{
-			name: "missing  google-function location with no match",
-			cfg: config.Spec{
-				Name: "target.google.pubsub",
-				Kind: "target.google.pubsub",
-				Properties: map[string]string{
-					"project":        "pubsubdemo-281010",
-					"credentials":    credentials,
+					"project_id":     dat.projectID,
+					"credentials":    dat.cred,
 					"location_match": "false",
 				},
 			},
@@ -155,7 +155,7 @@ func TestClient_Do(t *testing.T) {
 				SetData([]byte(`{"message":"test"}`)),
 			want: types.NewResponse().SetData([]byte("test")),
 
-			wantErr: false,
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {

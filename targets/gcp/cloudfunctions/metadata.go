@@ -18,7 +18,7 @@ func parseMetadata(meta types.Metadata, opts options) (metadata, error) {
 	var err error
 	m.name, err = meta.MustParseString("name")
 	if err != nil {
-		return metadata{}, fmt.Errorf("error parsing topic_id, %w", err)
+		return metadata{}, fmt.Errorf("error parsing name, %w", err)
 	}
 	m.project = meta.ParseString("project", "")
 	m.location = meta.ParseString("location", "")

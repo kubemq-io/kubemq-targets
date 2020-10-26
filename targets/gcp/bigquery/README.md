@@ -43,6 +43,7 @@ bindings:
         credentials: 'json'
 ```
 
+
 ## Usage
 
 ### Query Request
@@ -72,9 +73,9 @@ Example:
 
 ### Create Table Request
 
-create a new table under data se
+create a new table under data set
 
-Crate this method required a body of rows of string [bigquery.TableMetadata]
+This method required a body of rows of string [bigquery.TableMetadata]
 
 
 
@@ -115,6 +116,82 @@ Example:
 ```
 
 
+### Delete Table Request
+
+delete a new table under data set
+
+Delete table metadata setting:
+
+| Metadata Key | Required | Description                             | Possible values       |
+|:-------------|:---------|:----------------------------------------|:----------------------|
+| method       | yes      | type of method                          | "create_table"        |
+| dataset_id   | yes      | dataset to assign the table to          | "your data set ID"  |
+| table_name   | yes      | table name                              | "unique name" |
+
+
+Example:
+
+```json
+{
+  "metadata": {
+    "method": "delete_table",
+    "dataset_id": "<mySet>",
+    "table_name": "<myTable>"
+  },
+  "data":null
+}
+```
+
+### Create Data Set Request
+
+Create a Data Set
+
+Create Data Set metadata setting:
+
+| Metadata Key | Required | Description                             | Possible values       |
+|:-------------|:---------|:----------------------------------------|:----------------------|
+| method       | yes      | type of method                          | "create_data_set"        |
+| dataset_id   | yes      | dataset to assign the table to          | "your data set ID"  |
+| location     | yes      | dataset location to set                 | "US"  See https://cloud.google.com/bigquery/docs/locations |
+
+
+Example:
+
+```json
+{
+  "metadata": {
+    "method": "create_data_set",
+    "dataset_id": "<mySet>",
+    "location": "US"
+  },
+  "data":null
+}
+```
+
+
+### Delete Data Set Request
+
+delete a Data Set
+
+Delete Data Set metadata setting:
+
+| Metadata Key | Required | Description                             | Possible values       |
+|:-------------|:---------|:----------------------------------------|:----------------------|
+| method       | yes      | type of method                          | "delete_data_set"        |
+| dataset_id   | yes      | dataset to assign the table to          | "your data set ID"  |
+
+
+Example:
+
+```json
+{
+  "metadata": {
+    "method": "delete_data_set",
+    "dataset_id": "<mySet>"
+  },
+  "data":null
+}
+```
 
 ### Get DataSets Request
 
