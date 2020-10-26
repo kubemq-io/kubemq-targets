@@ -43,6 +43,8 @@ bindings:
         credentials: 'json'
 ```
 
+// See https://cloud.google.com/bigquery/docs/locations
+
 ## Usage
 
 ### Query Request

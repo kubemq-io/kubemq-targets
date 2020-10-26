@@ -55,6 +55,12 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.query(ctx, meta)
 	case "create_table":
 		return c.createTable(ctx, meta, req.Data)
+	case "delete_table":
+		return c.deleteTable(ctx, meta)
+	case "create_data_set":
+		return c.createDataSet(ctx, meta)
+	case "delete_data_set":
+		return c.deleteDataSet(ctx, meta)
 	case "get_table_info":
 		return c.getTableInfo(ctx, meta)
 	case "get_data_sets":
@@ -123,6 +129,29 @@ func (c *Client) query(ctx context.Context, meta metadata) (*types.Response, err
 		nil
 }
 
+func (c *Client) createDataSet(ctx context.Context, meta metadata) (*types.Response, error) {
+	met := &bigquery.DatasetMetadata{
+		Location: meta.location, // See https://cloud.google.com/bigquery/docs/locations
+	}
+	err := c.client.Dataset(meta.datasetID).Create(ctx, met)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok"),
+		nil
+}
+
+func (c *Client) deleteDataSet(ctx context.Context, meta metadata) (*types.Response, error) {
+	err := c.client.Dataset(meta.datasetID).Delete(ctx)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok"),
+		nil
+}
+
 func (c *Client) insert(ctx context.Context, meta metadata, body []byte) (*types.Response, error) {
 	var metaData []genericRecord
 
@@ -149,6 +178,17 @@ func (c *Client) createTable(ctx context.Context, meta metadata, body []byte) (*
 	}
 	tableRef := c.client.Dataset(meta.datasetID).Table(meta.tableName)
 	err = tableRef.Create(ctx, metaData)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok"),
+		nil
+}
+
+func (c *Client) deleteTable(ctx context.Context, meta metadata) (*types.Response, error) {
+	tableRef := c.client.Dataset(meta.datasetID).Table(meta.tableName)
+	err := tableRef.Delete(ctx)
 	if err != nil {
 		return nil, err
 	}
