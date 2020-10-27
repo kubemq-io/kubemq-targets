@@ -44,6 +44,12 @@ func Connector() *common.Connector {
 						SetDefault(""),
 					common.NewProperty().
 						SetKind("string").
+						SetName("db_name").
+						SetDescription("Sets Mysql db name").
+						SetMust(true).
+						SetDefault(""),
+					common.NewProperty().
+						SetKind("string").
 						SetName("credentials").
 						SetDescription("Sets MySQL credentials").
 						SetMust(true).
