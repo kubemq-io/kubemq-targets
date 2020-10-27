@@ -74,7 +74,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -85,7 +85,7 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init - missing credentials",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
@@ -96,7 +96,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "invalid init - missing project_id",
 			cfg: config.Spec{
-				Name: "target-gcp-bigtable",
+				Name: "gcp-bigtable",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"credentials": dat.cred,
@@ -138,7 +138,7 @@ func TestClient_Query(t *testing.T) {
 		{
 			name: "valid query",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -152,7 +152,7 @@ func TestClient_Query(t *testing.T) {
 		}, {
 			name: "invalid query - missing query",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -165,7 +165,7 @@ func TestClient_Query(t *testing.T) {
 		}, {
 			name: "valid query - empty table",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -214,7 +214,7 @@ func TestClient_Create_Data_Set(t *testing.T) {
 		{
 			name: "valid get create_data_set",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -229,7 +229,7 @@ func TestClient_Create_Data_Set(t *testing.T) {
 		}, {
 			name: "invalid create_data_set - already exists",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -245,7 +245,7 @@ func TestClient_Create_Data_Set(t *testing.T) {
 		}, {
 			name: "invalid get get_table_info - missing location",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -260,7 +260,7 @@ func TestClient_Create_Data_Set(t *testing.T) {
 		}, {
 			name: "invalid get get_table_info - invalid location",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -310,7 +310,7 @@ func TestClient_Delete_Data_Set(t *testing.T) {
 		{
 			name: "valid delete_data_set",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -324,7 +324,7 @@ func TestClient_Delete_Data_Set(t *testing.T) {
 		}, {
 			name: "invalid delete_data_set - not exists",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -339,7 +339,7 @@ func TestClient_Delete_Data_Set(t *testing.T) {
 		}, {
 			name: "invalid get delete_data_set - missing dataset_id",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -401,7 +401,7 @@ func TestClient_Create_Table(t *testing.T) {
 		{
 			name: "valid create table",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -417,7 +417,7 @@ func TestClient_Create_Table(t *testing.T) {
 		}, {
 			name: "invalid create_table - missing tableName",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -432,7 +432,7 @@ func TestClient_Create_Table(t *testing.T) {
 		}, {
 			name: "invalid create_table - table already exists",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -448,7 +448,7 @@ func TestClient_Create_Table(t *testing.T) {
 		}, {
 			name: "invalid create_table - missing dataset_id",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -498,7 +498,7 @@ func TestClient_Delete_Table(t *testing.T) {
 		{
 			name: "valid delete_table table",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -513,7 +513,7 @@ func TestClient_Delete_Table(t *testing.T) {
 		}, {
 			name: "invalid delete_table - missing tableName",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -527,7 +527,7 @@ func TestClient_Delete_Table(t *testing.T) {
 		}, {
 			name: "invalid delete_table - table already deleted",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -542,7 +542,7 @@ func TestClient_Delete_Table(t *testing.T) {
 		}, {
 			name: "invalid delete_table - missing dataset_id",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -590,7 +590,7 @@ func TestClient_Get_Data_Sets(t *testing.T) {
 		{
 			name: "valid get_data_sets",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -638,7 +638,7 @@ func TestClient_Get_Table_Info(t *testing.T) {
 		{
 			name: "valid get get_table_info",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -653,7 +653,7 @@ func TestClient_Get_Table_Info(t *testing.T) {
 		}, {
 			name: "invalid get get_table_info - missing dataset_id",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -667,7 +667,7 @@ func TestClient_Get_Table_Info(t *testing.T) {
 		}, {
 			name: "invalid get get_table_info - missing table_name",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -681,7 +681,7 @@ func TestClient_Get_Table_Info(t *testing.T) {
 		}, {
 			name: "valid get get_table_info - not existing table",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -742,7 +742,7 @@ func TestClient_Insert_To_Table(t *testing.T) {
 		{
 			name: "valid insert to table",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -758,7 +758,7 @@ func TestClient_Insert_To_Table(t *testing.T) {
 		}, {
 			name: "invalid insert to table - missing table_name",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
@@ -773,7 +773,7 @@ func TestClient_Insert_To_Table(t *testing.T) {
 		}, {
 			name: "invalid insert to table - missing dataset_id",
 			cfg: config.Spec{
-				Name: "target-gcp-bigquery",
+				Name: "gcp-bigquery",
 				Kind: "gcp.bigquery",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,

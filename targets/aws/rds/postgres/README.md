@@ -52,8 +52,8 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:aws.rds.postgres
-      name: target-aws-rds-postgres
+      kind: aws.rds.postgres
+      name: aws-rds-postgres
       properties:
               instance_connection_name: "test"
               db_user:  "test"

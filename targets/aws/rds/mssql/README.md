@@ -39,8 +39,8 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:aws.rds.mssql
-      name: target-aws-rds-mssql
+      kind: aws.rds.mssql
+      name: aws-rds-mssql
       properties:
         connection: "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master"
         max_idle_connections: "10"

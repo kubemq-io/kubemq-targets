@@ -13,8 +13,8 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:aws.redshift.service
-      name: target-aws-redshift-service
+      kind: aws.redshift.service
+      name: aws-redshift-service
       properties:
         aws_key: "id"
         aws_secret_key: 'json'

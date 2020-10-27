@@ -37,7 +37,7 @@ func TestParseMetaData(t *testing.T) {
 		{
 			name: "invalid method write - missing column_family",
 			cfg: config.Spec{
-				Name: "target-gcp-bigtable",
+				Name: "gcp-bigtable",
 				Kind: "",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
@@ -99,7 +99,7 @@ func TestParseMetaData(t *testing.T) {
 		{
 			name: "invalid method delete_row - missing row_key_prefix",
 			cfg: config.Spec{
-				Name: "target-gcp-bigtable",
+				Name: "gcp-bigtable",
 				Kind: "",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
@@ -157,7 +157,7 @@ func TestParseMetaData(t *testing.T) {
 		}, {
 			name: "invalid method type",
 			cfg: config.Spec{
-				Name: "target-gcp-bigtable",
+				Name: "gcp-bigtable",
 				Kind: "",
 				Properties: map[string]string{
 					"project_id": dat.projectID,

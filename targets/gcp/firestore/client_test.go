@@ -28,7 +28,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "target-gcp-firestore",
+				Name: "gcp-firestore",
 				Kind: "gcp.firestore",
 				Properties: map[string]string{
 					"project_id":  projectID,
@@ -39,7 +39,7 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init-missing-credentials",
 			cfg: config.Spec{
-				Name: "target-gcp-firestore",
+				Name: "gcp-firestore",
 				Kind: "gcp.firestore",
 				Properties: map[string]string{
 					"project_id": projectID,
@@ -50,7 +50,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "invalid init-missing-project-id",
 			cfg: config.Spec{
-				Name:       "target-gcp-firestore",
+				Name:       "gcp-firestore",
 				Kind:       "",
 				Properties: map[string]string{},
 			},
@@ -104,7 +104,7 @@ func TestClient_Set_Get(t *testing.T) {
 		{
 			name: "valid set get request",
 			cfg: config.Spec{
-				Name: "target-gcp-firestore",
+				Name: "gcp-firestore",
 				Kind: "gcp.firestore",
 				Properties: map[string]string{
 					"project_id":  projectID,
@@ -176,7 +176,7 @@ func TestClient_Delete(t *testing.T) {
 		{
 			name: "valid delete request",
 			cfg: config.Spec{
-				Name: "target-gcp-firestore",
+				Name: "gcp-firestore",
 				Kind: "gcp.firestore",
 				Properties: map[string]string{
 					"project_id":  projectID,
@@ -195,7 +195,7 @@ func TestClient_Delete(t *testing.T) {
 		}, {
 			name: "invalid delete request - missing item",
 			cfg: config.Spec{
-				Name: "target-gcp-firestore",
+				Name: "gcp-firestore",
 				Kind: "gcp.firestore",
 				Properties: map[string]string{
 					"project_id":  projectID,

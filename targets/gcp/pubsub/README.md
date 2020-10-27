@@ -39,7 +39,7 @@ bindings:
         max_reconnects: "0"
     target:
       kind:gcp.pubsub
-      name: target-gcp-pubsub
+      name: gcp-pubsub
       properties:
         project_id: "projectID"
         retries:    "0"

@@ -14,7 +14,7 @@
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:gcp.cache.redis
-      name: target-gcp-redis
+      kind: gcp.cache.redis
+      name: gcp-redis
       properties:
         url: "redis://localhost:6379"

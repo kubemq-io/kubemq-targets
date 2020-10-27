@@ -13,8 +13,8 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:gcp.cache.memcached
-      name: target-gcp-memcached
+      kind: gcp.cache.memcached
+      name: gcp-memcached
       properties:
         hosts: "localhost:11211"
         max_idle_connections: "2"

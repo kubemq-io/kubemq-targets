@@ -37,7 +37,7 @@ bindings:
         max_reconnects: "0"
     target:
       kind:gcp.bigquery
-      name: target-gcp-bigquery
+      name: gcp-bigquery
       properties:
         project_id: "id"
         credentials: 'json'

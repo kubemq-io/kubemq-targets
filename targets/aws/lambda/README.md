@@ -39,8 +39,8 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:aws.lambda
-      name: target-aws-lambda
+      kind: aws.lambda
+      name: aws-lambda
       properties:
         aws_key: "id"
         aws_secret_key: 'json'

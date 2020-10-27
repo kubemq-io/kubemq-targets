@@ -41,8 +41,8 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:aws.amazonmq
-      name: target-aws-amazonmq
+      kind: aws.amazonmq
+      name: aws-amazonmq
       properties:
         host: "localhost:61613"
         username: "admin"

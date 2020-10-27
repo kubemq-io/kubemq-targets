@@ -97,7 +97,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "target-aws-lambda",
+				Name: "aws-lambda",
 				Kind: "aws.lambda",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
@@ -109,7 +109,7 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init - missing aws_key",
 			cfg: config.Spec{
-				Name: "target-aws-lambda",
+				Name: "aws-lambda",
 				Kind: "aws.lambda",
 				Properties: map[string]string{
 					"aws_secret_key": dat.awsSecretKey,
@@ -120,7 +120,7 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init - missing region",
 			cfg: config.Spec{
-				Name: "target-aws-lambda",
+				Name: "aws-lambda",
 				Kind: "aws.lambda",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
@@ -131,7 +131,7 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init - missing aws_secret_key",
 			cfg: config.Spec{
-				Name: "target-aws-lambda",
+				Name: "aws-lambda",
 				Kind: "aws.lambda",
 				Properties: map[string]string{
 					"aws_key": dat.awsKey,
@@ -163,7 +163,7 @@ func TestClient_List(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-aws-lambda",
+		Name: "aws-lambda",
 		Kind: "aws.lambda",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
@@ -206,7 +206,7 @@ func TestClient_Create(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-aws-lambda",
+		Name: "aws-lambda",
 		Kind: "aws.lambda",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
@@ -284,7 +284,7 @@ func TestClient_Delete(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-aws-lambda",
+		Name: "aws-lambda",
 		Kind: "aws.lambda",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
@@ -336,7 +336,7 @@ func TestClient_Run(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-aws-lambda",
+		Name: "aws-lambda",
 		Kind: "aws.lambda",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,

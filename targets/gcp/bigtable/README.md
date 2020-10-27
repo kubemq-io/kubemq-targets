@@ -39,7 +39,7 @@ bindings:
         max_reconnects: "0"
     target:
       kind:gcp.bigtable
-      name: target-gcp-bigtable
+      name: gcp-bigtable
       properties:
         project_id: "id"
         credentials: 'json'

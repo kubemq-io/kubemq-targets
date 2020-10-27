@@ -40,8 +40,8 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:aws.rds.redshift
-      name: target-aws-rds-redshift
+      kind: aws.rds.redshift
+      name: aws-rds-redshift
       properties:
         connection: "sslmode=require user=myuser password=mypass host=myhost port=5439 dbname=redshiftdb"
         max_idle_connections: "10"

@@ -50,8 +50,8 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:aws.keyspaces
-      name: target-aws-keyspaces
+      kind: aws.keyspaces
+      name: aws-keyspaces
       properties:
         hosts: "cassandra.us-east-2.amazonaws.com"
         port: "9142"

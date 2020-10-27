@@ -84,7 +84,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "target-gcp-storage",
+				Name: "gcp-storage",
 				Kind: "gcp.storage",
 				Properties: map[string]string{
 					"credentials": dat.cred,
@@ -94,7 +94,7 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init - missing credentials",
 			cfg: config.Spec{
-				Name:       "target-gcp-storage",
+				Name:       "gcp-storage",
 				Kind:       "gcp.storage",
 				Properties: map[string]string{},
 			},
@@ -122,7 +122,7 @@ func TestClient_Init(t *testing.T) {
 func TestClient_Create_Bucket(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name: "target-gcp-storage",
+		Name: "gcp-storage",
 		Kind: "gcp.storage",
 		Properties: map[string]string{
 			"credentials": dat.cred,
@@ -210,7 +210,7 @@ func TestClient_Create_Bucket(t *testing.T) {
 func TestClient_Upload_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name: "target-gcp-storage",
+		Name: "gcp-storage",
 		Kind: "gcp.storage",
 		Properties: map[string]string{
 			"credentials": dat.cred,
@@ -296,7 +296,7 @@ func TestClient_Upload_Object(t *testing.T) {
 func TestClient_Delete_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name: "target-gcp-storage",
+		Name: "gcp-storage",
 		Kind: "gcp.storage",
 		Properties: map[string]string{
 			"credentials": dat.cred,
@@ -376,7 +376,7 @@ func TestClient_Delete_Object(t *testing.T) {
 func TestClient_Download_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name: "target-gcp-storage",
+		Name: "gcp-storage",
 		Kind: "gcp.storage",
 		Properties: map[string]string{
 			"credentials": dat.cred,
@@ -450,7 +450,7 @@ func TestClient_Download_Object(t *testing.T) {
 func TestClient_List_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name: "target-gcp-storage",
+		Name: "gcp-storage",
 		Kind: "gcp.storage",
 		Properties: map[string]string{
 			"credentials": dat.cred,
@@ -508,7 +508,7 @@ func TestClient_List_Object(t *testing.T) {
 func TestClient_Rename_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name: "target-gcp-storage",
+		Name: "gcp-storage",
 		Kind: "gcp.storage",
 		Properties: map[string]string{
 			"credentials": dat.cred,
@@ -593,7 +593,7 @@ func TestClient_Rename_Object(t *testing.T) {
 func TestClient_Copy_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name: "target-gcp-storage",
+		Name: "gcp-storage",
 		Kind: "gcp.storage",
 		Properties: map[string]string{
 			"credentials": dat.cred,
@@ -685,7 +685,7 @@ func TestClient_Copy_Object(t *testing.T) {
 func TestClient_Move_Object(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
-		Name: "target-gcp-storage",
+		Name: "gcp-storage",
 		Kind: "gcp.storage",
 		Properties: map[string]string{
 			"credentials": dat.cred,
