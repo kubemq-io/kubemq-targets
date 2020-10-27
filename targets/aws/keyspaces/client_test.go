@@ -53,7 +53,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "target-aws-keyspaces",
+				Name: "aws-elasticsearch",
 				Kind: "aws.keyspaces",
 				Properties: map[string]string{
 					"hosts":              dat.endPoint,
@@ -73,7 +73,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "invalid init - bad hosts",
 			cfg: config.Spec{
-				Name: "target-aws-keyspaces",
+				Name: "aws-elasticsearch",
 				Kind: "aws.keyspaces",
 				Properties: map[string]string{
 					"hosts":              "",
@@ -93,7 +93,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "invalid init - bad port",
 			cfg: config.Spec{
-				Name: "target-aws-keyspaces",
+				Name: "aws-elasticsearch",
 				Kind: "aws.keyspaces",
 				Properties: map[string]string{
 					"hosts":              dat.endPoint,
@@ -113,7 +113,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "invalid init - pad proto version",
 			cfg: config.Spec{
-				Name: "target-aws-keyspaces",
+				Name: "aws-elasticsearch",
 				Kind: "aws.keyspaces",
 				Properties: map[string]string{
 					"hosts":              dat.endPoint,
@@ -133,7 +133,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "invalid init - bad replication factor",
 			cfg: config.Spec{
-				Name: "target-aws-keyspaces",
+				Name: "aws-elasticsearch",
 				Kind: "aws.keyspaces",
 				Properties: map[string]string{
 					"hosts":              dat.endPoint,
@@ -153,7 +153,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "invalid init - bad consistency",
 			cfg: config.Spec{
-				Name: "target-aws-keyspaces",
+				Name: "aws-elasticsearch",
 				Kind: "aws.keyspaces",
 				Properties: map[string]string{
 					"hosts":              dat.endPoint,
@@ -202,7 +202,7 @@ func TestClient_Set_Get(t *testing.T) {
 		{
 			name: "valid set get request",
 			cfg: config.Spec{
-				Name: "target-aws-keyspaces",
+				Name: "aws-elasticsearch",
 				Kind: "aws.keyspaces",
 				Properties: map[string]string{
 					"hosts":              dat.endPoint,
@@ -239,7 +239,7 @@ func TestClient_Set_Get(t *testing.T) {
 		{
 			name: "update set get request",
 			cfg: config.Spec{
-				Name: "target-aws-keyspaces",
+				Name: "aws-elasticsearch",
 				Kind: "aws.keyspaces",
 				Properties: map[string]string{
 					"hosts":              dat.endPoint,
@@ -276,7 +276,7 @@ func TestClient_Set_Get(t *testing.T) {
 		{
 			name: "invalid set",
 			cfg: config.Spec{
-				Name: "target-aws-keyspaces",
+				Name: "aws-elasticsearch",
 				Kind: "aws.keyspaces",
 				Properties: map[string]string{
 					"hosts":              dat.endPoint,
@@ -307,7 +307,7 @@ func TestClient_Set_Get(t *testing.T) {
 		{
 			name: "valid set - bad get table",
 			cfg: config.Spec{
-				Name: "target-aws-keyspaces",
+				Name: "aws-elasticsearch",
 				Kind: "aws.keyspaces",
 				Properties: map[string]string{
 					"hosts":              dat.endPoint,
@@ -343,7 +343,7 @@ func TestClient_Set_Get(t *testing.T) {
 		{
 			name: "valid set - empty result",
 			cfg: config.Spec{
-				Name: "target-aws-keyspaces",
+				Name: "aws-elasticsearch",
 				Kind: "aws.keyspaces",
 				Properties: map[string]string{
 					"hosts":              dat.endPoint,
@@ -418,7 +418,7 @@ func TestClient_Query_Exec(t *testing.T) {
 		{
 			name: "valid exec query request",
 			cfg: config.Spec{
-				Name: "target-aws-keyspaces",
+				Name: "aws-elasticsearch",
 				Kind: "aws.keyspaces",
 				Properties: map[string]string{
 					"hosts":              dat.endPoint,
@@ -452,7 +452,7 @@ func TestClient_Query_Exec(t *testing.T) {
 		{
 			name: "invalid exec request - empty",
 			cfg: config.Spec{
-				Name: "target-aws-keyspaces",
+				Name: "aws-elasticsearch",
 				Kind: "aws.keyspaces",
 				Properties: map[string]string{
 					"hosts":              dat.endPoint,
@@ -480,7 +480,7 @@ func TestClient_Query_Exec(t *testing.T) {
 		{
 			name: "invalid exec request",
 			cfg: config.Spec{
-				Name: "target-aws-keyspaces",
+				Name: "aws-elasticsearch",
 				Kind: "aws.keyspaces",
 				Properties: map[string]string{
 					"hosts":              dat.endPoint,
@@ -508,7 +508,7 @@ func TestClient_Query_Exec(t *testing.T) {
 		{
 			name: "invalid query request - empty",
 			cfg: config.Spec{
-				Name: "target-aws-keyspaces",
+				Name: "aws-elasticsearch",
 				Kind: "aws.keyspaces",
 				Properties: map[string]string{
 					"hosts":              dat.endPoint,
@@ -540,7 +540,7 @@ func TestClient_Query_Exec(t *testing.T) {
 		{
 			name: "invalid query request - empty",
 			cfg: config.Spec{
-				Name: "target-aws-keyspaces",
+				Name: "aws-elasticsearch",
 				Kind: "aws.keyspaces",
 				Properties: map[string]string{
 					"hosts":              dat.endPoint,
@@ -603,7 +603,7 @@ func TestClient_Delete(t *testing.T) {
 	defer cancel()
 	c := New()
 	err = c.Init(ctx, config.Spec{
-		Name: "target-aws-keyspaces",
+		Name: "aws-elasticsearch",
 		Kind: "aws.keyspaces",
 		Properties: map[string]string{
 			"hosts":              dat.endPoint,
@@ -670,7 +670,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request",
 			cfg: config.Spec{
-				Name: "target-aws-keyspaces",
+				Name: "aws-elasticsearch",
 				Kind: "aws.keyspaces",
 				Properties: map[string]string{
 					"hosts":              dat.endPoint,
@@ -695,7 +695,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad method",
 			cfg: config.Spec{
-				Name: "target-aws-keyspaces",
+				Name: "aws-elasticsearch",
 				Kind: "aws.keyspaces",
 				Properties: map[string]string{
 					"hosts":              dat.endPoint,
@@ -720,7 +720,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - no key",
 			cfg: config.Spec{
-				Name: "target-aws-keyspaces",
+				Name: "aws-elasticsearch",
 				Kind: "aws.keyspaces",
 				Properties: map[string]string{
 					"hosts":              dat.endPoint,
@@ -744,7 +744,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad consistency key",
 			cfg: config.Spec{
-				Name: "target-aws-keyspaces",
+				Name: "aws-elasticsearch",
 				Kind: "aws.keyspaces",
 				Properties: map[string]string{
 					"hosts":              dat.endPoint,

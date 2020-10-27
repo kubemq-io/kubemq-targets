@@ -40,7 +40,7 @@ bindings:
         max_reconnects: "0"
     target:
       kind:aws.kinesis
-      name: target-aws-kinesis
+      name: aws-kinesis
       properties:
         aws_key: "id"
         aws_secret_key: 'json'

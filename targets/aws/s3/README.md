@@ -42,7 +42,7 @@ bindings:
         max_reconnects: "0"
     target:
       kind:aws.s3
-      name: target-aws-s3
+      name: aws-s3
       properties:
         aws_key: "id"
         aws_secret_key: 'json'

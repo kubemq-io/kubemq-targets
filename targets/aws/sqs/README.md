@@ -43,7 +43,7 @@ bindings:
         max_reconnects: "0"
     target:
       kind:aws.sqs
-      name: target-aws-sqs
+      name: aws-sqs
       properties:
         aws_key: "id"
         aws_secret_key: 'json'

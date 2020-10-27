@@ -29,7 +29,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "target-aws-kafka",
+				Name: "aws-kafka",
 				Kind: "aws.kafka",
 				Properties: map[string]string{
 					"brokers": "localhost:9092",
@@ -65,7 +65,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid publish request ",
 			cfg: config.Spec{
-				Name: "target-aws-kafka",
+				Name: "aws-kafka",
 				Kind: "aws.kafka",
 				Properties: map[string]string{
 					"brokers": "localhost:9092",
@@ -83,7 +83,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid publish request with headers",
 			cfg: config.Spec{
-				Name: "target-aws-kafka",
+				Name: "aws-kafka",
 				Kind: "aws.kafka",
 				Properties: map[string]string{
 					"brokers": "localhost:9092",

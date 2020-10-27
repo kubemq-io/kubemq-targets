@@ -84,7 +84,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "target-aws-athena",
+				Name: "aws-athena",
 				Kind: "aws.athena",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
@@ -96,7 +96,7 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init - missing aws_key",
 			cfg: config.Spec{
-				Name: "target-aws-athena",
+				Name: "aws-athena",
 				Kind: "aws.athena",
 				Properties: map[string]string{
 					"aws_secret_key": dat.awsSecretKey,
@@ -107,7 +107,7 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "init - missing region",
 			cfg: config.Spec{
-				Name: "target-aws-athena",
+				Name: "aws-athena",
 				Kind: "aws.athena",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
@@ -118,7 +118,7 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init - missing aws_secret_key",
 			cfg: config.Spec{
-				Name: "target-aws-athena",
+				Name: "aws-athena",
 				Kind: "aws.athena",
 				Properties: map[string]string{
 					"aws_key": dat.awsKey,
@@ -150,7 +150,7 @@ func TestClient_ListCatalogs(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-aws-athena",
+		Name: "aws-athena",
 		Kind: "aws.athena",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
@@ -193,7 +193,7 @@ func TestClient_ListDatabases(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-aws-athena",
+		Name: "aws-athena",
 		Kind: "aws.athena",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
@@ -243,7 +243,7 @@ func TestClient_Query(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-aws-athena",
+		Name: "aws-athena",
 		Kind: "aws.athena",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
@@ -326,7 +326,7 @@ func TestClient_GetQueryResult(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-aws-athena",
+		Name: "aws-athena",
 		Kind: "aws.athena",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,

@@ -40,7 +40,7 @@ bindings:
         max_reconnects: "0"
     target:
       kind:aws.dynamodb
-      name: target-aws-dynamodb
+      name: aws-dynamodb
       properties:
         aws_key: "id"
         aws_secret_key: 'json'

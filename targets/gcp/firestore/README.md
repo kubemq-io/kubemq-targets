@@ -38,7 +38,7 @@ bindings:
         max_reconnects: "0"
     target:
       kind:gcp.firestore
-      name: target-gcp-firestore
+      name: gcp-firestore
       properties:
         project_id: "id"
         credentials: 'json'

@@ -40,7 +40,7 @@ bindings:
         max_reconnects: "0"
     target:
       kind:aws.rds.mariadb
-      name: target-aws-rds-mariadb
+      name: aws-rds-mariadb
       properties:
         connection: "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local"
         max_idle_connections: "10"

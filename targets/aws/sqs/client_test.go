@@ -64,7 +64,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "target-aws-sqs",
+				Name: "aws-sqs",
 				Kind: "aws.sqs",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
@@ -81,7 +81,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "invalid init - no region",
 			cfg: config.Spec{
-				Name: "target-aws-sqs",
+				Name: "aws-sqs",
 				Kind: "aws.sqs",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
@@ -95,7 +95,7 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid  init - no aws_key",
 			cfg: config.Spec{
-				Name: "target-aws-sqs",
+				Name: "aws-sqs",
 				Kind: "aws.sqs",
 				Properties: map[string]string{
 					"aws_key":        "",
@@ -111,7 +111,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "invalid  init - no aws_secret_key",
 			cfg: config.Spec{
-				Name: "target-aws-sqs",
+				Name: "aws-sqs",
 				Kind: "aws.sqs",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
@@ -155,7 +155,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid sqs sent without tags",
 			cfg: config.Spec{
-				Name: "target-aws-sqs",
+				Name: "aws-sqs",
 				Kind: "aws.sqs",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
@@ -178,7 +178,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid sqs sent - with tags",
 			cfg: config.Spec{
-				Name: "target-aws-sqs",
+				Name: "aws-sqs",
 				Kind: "aws.sqs",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
@@ -201,7 +201,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid sqs sent",
 			cfg: config.Spec{
-				Name: "target-aws-sqs",
+				Name: "aws-sqs",
 				Kind: "aws.sqs",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
@@ -223,7 +223,7 @@ func TestClient_Do(t *testing.T) {
 		}, {
 			name: "invalid send - incorrect signature",
 			cfg: config.Spec{
-				Name: "target-aws-sqs",
+				Name: "aws-sqs",
 				Kind: "aws.sqs",
 				Properties: map[string]string{
 					"aws_key":        "Incorrect",
@@ -244,7 +244,7 @@ func TestClient_Do(t *testing.T) {
 		}, {
 			name: "invalid send - incorrect queue",
 			cfg: config.Spec{
-				Name: "target-aws-sqs",
+				Name: "aws-sqs",
 				Kind: "aws.sqs",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
@@ -294,7 +294,7 @@ func TestClient_SetQueueAttributes(t *testing.T) {
 		{
 			name: "valid set queue attribute",
 			cfg: config.Spec{
-				Name: "target-aws-sqs",
+				Name: "aws-sqs",
 				Kind: "aws.sqs",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
@@ -311,7 +311,7 @@ func TestClient_SetQueueAttributes(t *testing.T) {
 		}, {
 			name: "invalid - set queue attribute",
 			cfg: config.Spec{
-				Name: "target-aws-sqs",
+				Name: "aws-sqs",
 				Kind: "aws.sqs",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,

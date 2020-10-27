@@ -39,7 +39,7 @@ bindings:
         max_reconnects: "0"
     target:
       kind:aws.elasticsearch
-      name: target-aws-elasticsearch
+      name: aws-elasticsearch
       properties:
         aws_key: "id"
         aws_secret_key: 'json'

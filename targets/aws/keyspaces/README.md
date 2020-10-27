@@ -51,7 +51,7 @@ bindings:
         max_reconnects: "0"
     target:
       kind:aws.keyspaces
-      name: target-aws-keyspaces
+      name: aws-elasticsearch
       properties:
         hosts: "cassandra.us-east-2.amazonaws.com"
         port: "9142"

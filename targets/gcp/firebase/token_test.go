@@ -13,7 +13,7 @@ func TestClient_customToken(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "google-firebase-target",
+		Name: "gcp-firebase",
 		Kind: "gcp.firebase",
 		Properties: map[string]string{
 			"project_id":  dat.projectID,
@@ -64,7 +64,7 @@ func TestClient_verifyToken(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "google-firebase-target",
+		Name: "gcp-firebase",
 		Kind: "gcp.firebase",
 		Properties: map[string]string{
 			"project_id":  dat.projectID,

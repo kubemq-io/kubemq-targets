@@ -54,7 +54,7 @@ bindings:
         max_reconnects: "0"
     target:
       kind:aws.rds.mysql
-      name: target-aws-rds-mysql
+      name: aws-rds-mysql
       properties:
         instance_connection_name: "test"
         db_user:                  "test"

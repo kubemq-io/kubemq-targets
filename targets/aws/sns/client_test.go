@@ -99,7 +99,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init ",
 			cfg: config.Spec{
-				Name: "aws.sns",
+				Name: "aws-sns",
 				Kind: "aws.sns",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
@@ -111,7 +111,7 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "init - missing secret key",
 			cfg: config.Spec{
-				Name: "aws.sns",
+				Name: "aws-sns",
 				Kind: "aws.sns",
 				Properties: map[string]string{
 					"aws_key": dat.awsKey,
@@ -122,7 +122,7 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "init - missing key",
 			cfg: config.Spec{
-				Name: "aws.sns",
+				Name: "aws-sns",
 				Kind: "aws.sns",
 				Properties: map[string]string{
 					"aws_secret_key": dat.awsSecretKey,
@@ -154,7 +154,7 @@ func TestClient_List_Topics(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws.sns",
+		Name: "aws-sns",
 		Kind: "aws.sns",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
@@ -198,7 +198,7 @@ func TestClient_List_Subscriptions(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws.sns",
+		Name: "aws-sns",
 		Kind: "aws.sns",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
@@ -242,7 +242,7 @@ func TestClient_List_Subscriptions_By_Topic(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws.sns",
+		Name: "aws-sns",
 		Kind: "aws.sns",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
@@ -298,7 +298,7 @@ func TestClient_Create_Topic(t *testing.T) {
 	b, err := json.Marshal(attributes)
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws.sns",
+		Name: "aws-sns",
 		Kind: "aws.sns",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
@@ -355,7 +355,7 @@ func TestClient_SendMessage(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws.sns",
+		Name: "aws-sns",
 		Kind: "aws.sns",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
@@ -418,7 +418,7 @@ func TestClient_Subscribe(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws.sns",
+		Name: "aws-sns",
 		Kind: "aws.sns",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
@@ -507,7 +507,7 @@ func TestClient_Delete_Topic(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "aws.sns",
+		Name: "aws-sns",
 		Kind: "aws.sns",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,

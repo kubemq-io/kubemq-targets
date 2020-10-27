@@ -102,7 +102,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "target-aws-kinesis",
+				Name: "aws-kinesis",
 				Kind: "aws.kinesis",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
@@ -114,7 +114,7 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init - missing aws_key",
 			cfg: config.Spec{
-				Name: "target-aws-kinesis",
+				Name: "aws-kinesis",
 				Kind: "aws.kinesis",
 				Properties: map[string]string{
 					"aws_secret_key": dat.awsSecretKey,
@@ -125,7 +125,7 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init - missing region",
 			cfg: config.Spec{
-				Name: "target-aws-kinesis",
+				Name: "aws-kinesis",
 				Kind: "aws.kinesis",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
@@ -136,7 +136,7 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init - missing aws_secret_key",
 			cfg: config.Spec{
-				Name: "target-aws-kinesis",
+				Name: "aws-kinesis",
 				Kind: "aws.kinesis",
 				Properties: map[string]string{
 					"aws_key": dat.awsKey,
@@ -168,7 +168,7 @@ func TestClient_ListStreams(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-aws-kinesis",
+		Name: "aws-kinesis",
 		Kind: "aws.kinesis",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
@@ -212,7 +212,7 @@ func TestClient_ListStreamConsumers(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-aws-kinesis",
+		Name: "aws-kinesis",
 		Kind: "aws.kinesis",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
@@ -257,7 +257,7 @@ func TestClient_CreateStream(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-aws-kinesis",
+		Name: "aws-kinesis",
 		Kind: "aws.kinesis",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
@@ -303,7 +303,7 @@ func TestClient_ListShards(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-aws-kinesis",
+		Name: "aws-kinesis",
 		Kind: "aws.kinesis",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
@@ -353,7 +353,7 @@ func TestClient_GetShardIterator(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-aws-kinesis",
+		Name: "aws-kinesis",
 		Kind: "aws.kinesis",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
@@ -423,7 +423,7 @@ func TestClient_PutRecord(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-aws-kinesis",
+		Name: "aws-kinesis",
 		Kind: "aws.kinesis",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
@@ -491,7 +491,7 @@ func TestClient_PutRecords(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-aws-kinesis",
+		Name: "aws-kinesis",
 		Kind: "aws.kinesis",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
@@ -545,7 +545,7 @@ func TestClient_GetRecords(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-aws-kinesis",
+		Name: "aws-kinesis",
 		Kind: "aws.kinesis",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
