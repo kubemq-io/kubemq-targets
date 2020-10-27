@@ -26,8 +26,8 @@ var methodsMap = map[string]string{
 	"delete_db": "delete_db",
 	"set_db":    "set_db",
 	//--------Messaging---------//
-	"SendMessage":      "SendMessage",
-	"SendMessageBatch": "SendMessageBatch",
+	"send_message":      "send_message",
+	"send_multi": "send_multi",
 }
 
 var retrieveMap = map[string]string{

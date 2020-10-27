@@ -20,4 +20,6 @@ bindings:
         project_id: "project_id"
         credentials: 'json'
         db_client: "true"
+        auth_client: "false"
+        messaging_client: "false"
         db_url: "db_url"

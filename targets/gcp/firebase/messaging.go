@@ -2,6 +2,7 @@ package firebase
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"strconv"
 
@@ -24,9 +25,17 @@ func (c *Client) sendMessage(ctx context.Context, req *types.Request, opts optio
 	if err != nil {
 		return nil, err
 	}
-	return types.NewResponse().SetMetadataKeyValue("result", r), nil
+	data, err := json.Marshal(r)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetData(data).
+			SetMetadataKeyValue("result", "ok"),
+		nil
 
 }
+
 
 func (c *Client) sendMessageMulti(ctx context.Context, req *types.Request, opts options) (*types.Response, error) {
 	m, err := parseMetadataMessages(req.Data, opts, SendBatch)
