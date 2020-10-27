@@ -16,9 +16,11 @@ func TestClient_customToken(t *testing.T) {
 		Name: "gcp-firebase",
 		Kind: "gcp.firebase",
 		Properties: map[string]string{
-			"project_id":  dat.projectID,
-			"credentials": dat.cred,
-			"auth_client": "true",
+			"project_id":       dat.projectID,
+			"credentials":      dat.cred,
+			"auth_client":      "true",
+			"messaging_client": "false",
+			"db_client":        "false",
 		},
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
@@ -42,7 +44,7 @@ func TestClient_customToken(t *testing.T) {
 			name: "custom token -valid - missing token",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "custom_token"),
-			wantErr: false,
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
@@ -67,9 +69,11 @@ func TestClient_verifyToken(t *testing.T) {
 		Name: "gcp-firebase",
 		Kind: "gcp.firebase",
 		Properties: map[string]string{
-			"project_id":  dat.projectID,
-			"credentials": dat.cred,
-			"auth_client": "true",
+			"project_id":       dat.projectID,
+			"credentials":      dat.cred,
+			"auth_client":      "true",
+			"messaging_client": "false",
+			"db_client":        "false",
 		},
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)

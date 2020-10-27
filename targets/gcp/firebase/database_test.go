@@ -21,6 +21,8 @@ func TestClient_db(t *testing.T) {
 			"credentials": dat.cred,
 			"db_client":   "true",
 			"db_url":      dat.dbName,
+			"auth_client": "false",
+			"messaging_client": "false",
 		},
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
@@ -111,7 +113,6 @@ func TestClient_db(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 			t.Logf("received response: %s for test: %s", r.Data, tt.name)
 		})
 	}

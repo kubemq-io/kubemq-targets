@@ -48,7 +48,7 @@ func TestMessageMetadata(t *testing.T) {
 			name:    "parse message",
 			isMulti: false,
 			request: types.NewRequest().
-				SetMetadataKeyValue("method", "SendMessage").
+				SetMetadataKeyValue("method", "send_message").
 				SetData(mb),
 			wantmsg: messages{single: m},
 			wantErr: true,
@@ -64,6 +64,7 @@ func TestMessageMetadata(t *testing.T) {
 				Notification: &messaging.Notification{
 					Title: "title",
 				},
+				Data: map[string]string{"key": "val"},
 			}},
 			wantErr: true,
 		},
@@ -113,10 +114,12 @@ func TestOptionsParse(t *testing.T) {
 				Name: "test",
 				Kind: "test",
 				Properties: map[string]string{
-					"project_id":      "123",
-					"credentials":     "noc",
+					"project_id":       "123",
+					"credentials":      "noc",
 					"messaging_client": "true",
-					"defaultmsg":      ms,
+					"auth_client":      "false",
+					"db_client":        "false",
+					"defaultmsg":       ms,
 				},
 			},
 			wantmsg: &m,
@@ -132,7 +135,7 @@ func TestOptionsParse(t *testing.T) {
 		})
 	}
 }
-func TestDefultMessage(t *testing.T) {
+func TestDefaultMessage(t *testing.T) {
 
 	tests := []struct {
 		name    string
@@ -147,10 +150,12 @@ func TestDefultMessage(t *testing.T) {
 				Name: "test",
 				Kind: "test",
 				Properties: map[string]string{
-					"project_id":      "123",
-					"credentials":     "noc",
+					"project_id":       "123",
+					"credentials":      "noc",
 					"messaging_client": "true",
-					"defaultmsg":      `{"topic":"defult"}`,
+					"auth_client":      "false",
+					"db_client":        "false",
+					"defaultmsg":       `{"topic":"defult"}`,
 				},
 			},
 			wantmsg: &messages{single: &messaging.Message{
@@ -159,7 +164,7 @@ func TestDefultMessage(t *testing.T) {
 			},
 			},
 			request: types.NewRequest().
-				SetMetadataKeyValue("method", "SendMessage"),
+				SetMetadataKeyValue("method", "send_message"),
 			wantErr: true,
 		},
 		{
@@ -168,10 +173,12 @@ func TestDefultMessage(t *testing.T) {
 				Name: "test",
 				Kind: "test",
 				Properties: map[string]string{
-					"project_id":      "123",
-					"credentials":     "noc",
+					"project_id":       "123",
+					"credentials":      "noc",
 					"messaging_client": "true",
-					"defaultmsg":      `{"topic":"defult"}`,
+					"auth_client":      "false",
+					"db_client":        "false",
+					"defaultmsg":       `{"topic":"defult"}`,
 				},
 			},
 			wantmsg: &messages{single: &messaging.Message{
@@ -180,7 +187,7 @@ func TestDefultMessage(t *testing.T) {
 			},
 			},
 			request: types.NewRequest().
-				SetMetadataKeyValue("method", "SendMessage").SetData([]byte(`{"Topic":"defult","data":{"key1":"val1"}}`)),
+				SetMetadataKeyValue("method", "send_message").SetData([]byte(`{"Topic":"defult","data":{"key1":"val1"}}`)),
 			wantErr: false,
 		},
 		{
@@ -189,14 +196,16 @@ func TestDefultMessage(t *testing.T) {
 				Name: "test",
 				Kind: "test",
 				Properties: map[string]string{
-					"project_id":      "123",
-					"credentials":     "noc",
+					"project_id":       "123",
+					"credentials":      "noc",
 					"messaging_client": "true",
-					"defaultmsg":      `{"Topic":"defult","token":"1234"}`,
+					"auth_client":      "false",
+					"db_client":        "false",
+					"defaultmsg":       `{"Topic":"defult","token":"1234"}`,
 				},
 			},
 			request: types.NewRequest().
-				SetMetadataKeyValue("method", "SendMessage").
+				SetMetadataKeyValue("method", "send_message").
 				SetData([]byte(`{"Topic":"newTopic"}`)),
 			wantmsg: &messages{single: &messaging.Message{
 				Topic: "newTopic",
@@ -211,14 +220,16 @@ func TestDefultMessage(t *testing.T) {
 				Name: "test",
 				Kind: "test",
 				Properties: map[string]string{
-					"project_id":      "123",
-					"credentials":     "noc",
+					"project_id":       "123",
+					"credentials":      "noc",
 					"messaging_client": "true",
-					"defaultmsg":      `{"Topic":"defult"}`,
+					"auth_client":      "false",
+					"db_client":        "false",
+					"defaultmsg":       `{"Topic":"defult"}`,
 				},
 			},
 			request: types.NewRequest().
-				SetMetadataKeyValue("method", "SendMessage").
+				SetMetadataKeyValue("method", "send_message").
 				SetData([]byte(`{"Topic":"newTopic"}`)),
 			wantmsg: &messages{single: &messaging.Message{
 				Topic: "newTopic",
@@ -249,8 +260,8 @@ func TestDefultMessage(t *testing.T) {
 
 func TestClientDo(t *testing.T) {
 
-	cred := `{
-	  }`
+	dat, err := getTestStructure()
+	require.NoError(t, err)
 
 	tests := []struct {
 		name    string
@@ -264,13 +275,15 @@ func TestClientDo(t *testing.T) {
 				Kind: "test",
 				Name: "test",
 				Properties: map[string]string{
-					"project_id":      "pubsubdemo-281010",
-					"credentials":     cred,
+					"project_id":       dat.projectID,
+					"credentials":      dat.cred,
 					"messaging_client": "true",
+					"auth_client":      "false",
+					"db_client":        "false",
 				},
 			},
 			request: types.NewRequest().
-				SetMetadataKeyValue("method", "SendMessage").
+				SetMetadataKeyValue("method", "send_message").
 				SetData([]byte(`{"Topic":"test"}`)),
 			wantErr: false,
 		},
@@ -287,11 +300,12 @@ func TestClientDo(t *testing.T) {
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
 				return
 			}
-			res, err := c.Do(ctx, tt.request)
+			require.NoError(t, err)
+			_, err = c.Do(ctx, tt.request)
 			if err != nil {
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
 			}
-			fmt.Print(res)
+			require.NoError(t, err)
 		})
 	}
 }

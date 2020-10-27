@@ -13,7 +13,7 @@ import (
 
 func main() {
 	client, err := kubemq.NewClient(context.Background(),
-		kubemq.WithAddress("localhost", 50000),
+		kubemq.WithAddress("kubemq-cluster", 50000),
 		kubemq.WithClientId(nuid.Next()),
 		kubemq.WithTransportType(kubemq.TransportTypeGRPC))
 	if err != nil {
@@ -21,10 +21,7 @@ func main() {
 	}
 	publishRequest := types.NewRequest().
 		SetMetadataKeyValue("method", "send_message").
-		SetData([]byte(`{"Topic":"test",
-								"data":{
-									"key1":"value1"
-										}}`))
+		SetData([]byte(`{"Topic":"test"}`))
 
 	queryPublishResponse, err := client.SetQuery(publishRequest.ToQuery()).
 		SetChannel("query.gcp.firebase").
@@ -36,6 +33,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(fmt.Sprintf("publish message, response: %s", publishResponse.Metadata.String()))
+	log.Println(fmt.Sprintf("publish message, response: %s", publishResponse.Data))
 
 }

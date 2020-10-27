@@ -34,9 +34,11 @@ func TestClient_createUser(t *testing.T) {
 		Name: "gcp-firebase",
 		Kind: "gcp.firebase",
 		Properties: map[string]string{
-			"project_id":  dat.projectID,
-			"credentials": dat.cred,
-			"auth_client": "true",
+			"project_id":       dat.projectID,
+			"credentials":      dat.cred,
+			"auth_client":      "true",
+			"messaging_client": "false",
+			"db_client":        "false",
 		},
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
@@ -87,9 +89,11 @@ func TestClient_retrieveUser(t *testing.T) {
 		Name: "gcp-firebase",
 		Kind: "gcp.firebase",
 		Properties: map[string]string{
-			"project_id":  dat.projectID,
-			"credentials": dat.cred,
-			"auth_client": "true",
+			"project_id":       dat.projectID,
+			"credentials":      dat.cred,
+			"auth_client":      "true",
+			"messaging_client": "false",
+			"db_client":        "false",
 		},
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
@@ -158,9 +162,11 @@ func TestClient_listUsers(t *testing.T) {
 		Name: "gcp-firebase",
 		Kind: "gcp.firebase",
 		Properties: map[string]string{
-			"project_id":  dat.projectID,
-			"credentials": dat.cred,
-			"auth_client": "true",
+			"project_id":       dat.projectID,
+			"credentials":      dat.cred,
+			"auth_client":      "true",
+			"messaging_client": "false",
+			"db_client":        "false",
 		},
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
@@ -200,16 +206,18 @@ func TestClient_updateUser(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	u := make(map[string]interface{})
-	u["email"] = "test2@test2.com"
+	u["email"] = "test315413a@test.com"
 	b, err := json.Marshal(&u)
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "gcp-firebase",
 		Kind: "gcp.firebase",
 		Properties: map[string]string{
-			"project_id":  dat.projectID,
-			"credentials": dat.cred,
-			"auth_client": "true",
+			"project_id":       dat.projectID,
+			"credentials":      dat.cred,
+			"auth_client":      "true",
+			"messaging_client": "false",
+			"db_client":        "false",
 		},
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
@@ -256,9 +264,11 @@ func TestClient_deleteUser(t *testing.T) {
 		Name: "gcp-firebase",
 		Kind: "gcp.firebase",
 		Properties: map[string]string{
-			"project_id":  dat.projectID,
-			"credentials": dat.cred,
-			"auth_client": "true",
+			"project_id":       dat.projectID,
+			"credentials":      dat.cred,
+			"auth_client":      "true",
+			"messaging_client": "false",
+			"db_client":        "false",
 		},
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
@@ -295,8 +305,7 @@ func TestClient_deleteUser(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-			require.NotNil(t, r.Data)
-
+			require.NotNil(t, r.Metadata)
 		})
 	}
 }

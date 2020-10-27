@@ -16,11 +16,10 @@ bindings:
       kind: gcp.firebase
       name: gcp-firebase
       properties:
-        project_id: "pubsubdemo-281010"
-        credentials: '{
-          "type": "service_account",
-          "project_id": "pubsubdemo-281010",
-          "private_key_id": ""}'
+        project_id: "myproject"
+        credentials: 'json'
         messaging_client: "true"
         defaultmsg: '{"Topic":"Multi"}'
+        auth_client: "false"
+        db_client: "false"
       
