@@ -46,7 +46,7 @@ bindings:
         max_reconnects: "0"
     target:
       kind:gcp.firebase
-      name: target-gcp-firebase
+      name: gcp-firebase
       properties:
         project_id: "project_id"
         credentials: 'json'
@@ -186,7 +186,7 @@ bindings:
         max_reconnects: "0"
     target:
       kind:gcp.firebase
-      name: target-gcp-firebase
+      name: gcp-firebase
       properties:
         project_id: "project_id"
         credentials: 'json'

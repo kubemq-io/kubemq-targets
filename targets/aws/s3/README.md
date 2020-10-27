@@ -41,7 +41,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:aws.s3
+      kind: aws.s3
       name: aws-s3
       properties:
         aws_key: "id"

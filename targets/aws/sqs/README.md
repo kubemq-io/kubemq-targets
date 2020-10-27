@@ -42,7 +42,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:aws.sqs
+      kind: aws.sqs
       name: aws-sqs
       properties:
         aws_key: "id"

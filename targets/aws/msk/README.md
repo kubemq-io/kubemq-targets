@@ -39,8 +39,8 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:aws.msk
-      name: msk-stream
+      kind: aws.msk
+      name: aws-msk
       properties:
         brokers: "localhost:9092"
         topic: "TestTopic"

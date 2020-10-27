@@ -53,7 +53,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:aws.rds.mysql
+      kind: aws.rds.mysql
       name: aws-rds-mysql
       properties:
         instance_connection_name: "test"

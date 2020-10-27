@@ -22,35 +22,29 @@ func TestClient_Init(t *testing.T) {
 				Name: "redis-target",
 				Kind: "",
 				Properties: map[string]string{
-					"host":       "localhost:6379",
-					"password":   "",
-					"enable_tls": "false",
+					"url": "redis://localhost:6379",
 				},
 			},
 			wantErr: false,
 		},
 		{
-			name: "init - error no host",
+			name: "invalid init - error no url",
 			cfg: config.Spec{
 				Name: "redis-target",
 				Kind: "",
 				Properties: map[string]string{
 
-					"password":   "",
-					"enable_tls": "false",
 				},
 			},
 			wantErr: true,
 		},
 		{
-			name: "init - error",
+			name: "invalid init - error",
 			cfg: config.Spec{
 				Name: "redis-target",
 				Kind: "",
 				Properties: map[string]string{
-					"host":       "localhost:2000",
-					"password":   "",
-					"enable_tls": "false",
+					"url": "localurl:2000",
 				},
 			},
 			wantErr: true,
@@ -87,11 +81,7 @@ func TestClient_Set_Get(t *testing.T) {
 				Name: "redis",
 				Kind: "redis",
 				Properties: map[string]string{
-					"host":                        "localhost:6379",
-					"password":                    "",
-					"enable_tls":                  "false",
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
+					"url": "redis://localhost:6379",
 				},
 			},
 			setRequest: types.NewRequest().
@@ -117,11 +107,7 @@ func TestClient_Set_Get(t *testing.T) {
 				Name: "redis",
 				Kind: "redis",
 				Properties: map[string]string{
-					"host":                        "localhost:6379",
-					"password":                    "",
-					"enable_tls":                  "false",
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
+					"url": "redis://localhost:6379",
 				},
 			},
 			setRequest: types.NewRequest().
@@ -175,11 +161,7 @@ func TestClient_Delete(t *testing.T) {
 		Name: "redis",
 		Kind: "redis",
 		Properties: map[string]string{
-			"host":                        "localhost:6379",
-			"password":                    "",
-			"enable_tls":                  "false",
-			"max_retries":                 "0",
-			"max_retries_backoff_seconds": "0",
+			"url": "redis://localhost:6379",
 		},
 	})
 	key := nuid.Next()
@@ -221,11 +203,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "redis",
 				Kind: "redis",
 				Properties: map[string]string{
-					"host":                        "localhost:6379",
-					"password":                    "",
-					"enable_tls":                  "false",
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
+					"url": "redis://localhost:6379",
 				},
 			},
 			request: types.NewRequest().
@@ -240,7 +218,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "redis",
 				Kind: "redis",
 				Properties: map[string]string{
-					"host":                        "localhost:6379",
+					"url":                         "redis://localhost:6379",
 					"password":                    "",
 					"enable_tls":                  "false",
 					"max_retries":                 "0",
@@ -259,11 +237,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "redis",
 				Kind: "redis",
 				Properties: map[string]string{
-					"host":                        "localhost:6379",
-					"password":                    "",
-					"enable_tls":                  "false",
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
+					"url": "redis://localhost:6379",
 				},
 			},
 			request: types.NewRequest().
@@ -277,11 +251,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "redis",
 				Kind: "redis",
 				Properties: map[string]string{
-					"host":                        "localhost:6379",
-					"password":                    "",
-					"enable_tls":                  "false",
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
+					"url": "redis://localhost:6379",
 				},
 			},
 			request: types.NewRequest().
@@ -297,11 +267,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "redis",
 				Kind: "redis",
 				Properties: map[string]string{
-					"host":                        "localhost:6379",
-					"password":                    "",
-					"enable_tls":                  "false",
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
+					"url": "redis://localhost:6379",
 				},
 			},
 			request: types.NewRequest().
@@ -316,11 +282,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "redis",
 				Kind: "redis",
 				Properties: map[string]string{
-					"host":                        "localhost:6379",
-					"password":                    "",
-					"enable_tls":                  "false",
-					"max_retries":                 "0",
-					"max_retries_backoff_seconds": "0",
+					"url": "redis://localhost:6379",
 				},
 			},
 			request: types.NewRequest().

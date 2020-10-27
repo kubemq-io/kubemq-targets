@@ -13,8 +13,8 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:aws.sns
-      name: target-aws-sns
+      kind: aws.sns
+      name: aws-sns
       properties:
         aws_key: "id"
         aws_secret_key: 'json'

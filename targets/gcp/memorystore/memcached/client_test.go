@@ -19,7 +19,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "target-gcp-memcached",
+				Name: "gcp-memcached",
 				Kind: "gcp.cache.memcached",
 				Properties: map[string]string{
 					"hosts":                   "localhost:31211",
@@ -32,7 +32,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "invalid init - error no connection",
 			cfg: config.Spec{
-				Name: "target-gcp-memcached",
+				Name: "gcp-memcached",
 				Kind: "gcp.cache.memcached",
 				Properties: map[string]string{
 					"hosts":                   "localhost:3000",
@@ -45,7 +45,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "invalid init - bad options - invalid hosts",
 			cfg: config.Spec{
-				Name: "target-gcp-memcached",
+				Name: "gcp-memcached",
 				Kind: "gcp.cache.memcached",
 				Properties: map[string]string{
 					"max_idle_connections":    "2",
@@ -57,7 +57,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "invalid init - bad options - invalid max idle connection",
 			cfg: config.Spec{
-				Name: "target-gcp-memcached",
+				Name: "gcp-memcached",
 				Kind: "gcp.cache.memcached",
 				Properties: map[string]string{
 					"hosts":                   "localhost:11211",
@@ -70,7 +70,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "invalid init - bad options - invalid default timeout seconds",
 			cfg: config.Spec{
-				Name: "target-gcp-memcached",
+				Name: "gcp-memcached",
 				Kind: "gcp.cache.memcached",
 				Properties: map[string]string{
 					"hosts":                   "localhost:11211",
