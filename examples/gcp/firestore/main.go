@@ -28,7 +28,7 @@ func main() {
 		panic(err)
 	}
 	client, err := kubemq.NewClient(context.Background(),
-		kubemq.WithAddress("localhost", 50000),
+		kubemq.WithAddress("kubemq-cluster", 50000),
 		kubemq.WithClientId(nuid.Next()),
 		kubemq.WithTransportType(kubemq.TransportTypeGRPC))
 	if err != nil {
@@ -72,5 +72,5 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(fmt.Sprintf("delete file request for topic : %s executed, with id %s , is_error: %v", topicID, deleteKey, deleteResponse.IsError))
+	log.Println(fmt.Sprintf("delete_document_key request for topic : %s executed, with id %s , is_error: %v", topicID, deleteKey, deleteResponse.IsError))
 }

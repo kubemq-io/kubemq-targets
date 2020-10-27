@@ -18,7 +18,7 @@ func main() {
 	}
 	topicID := string(dat)
 	client, err := kubemq.NewClient(context.Background(),
-		kubemq.WithAddress("localhost", 50000),
+		kubemq.WithAddress("kubemq-cluster", 50000),
 		kubemq.WithClientId(nuid.Next()),
 		kubemq.WithTransportType(kubemq.TransportTypeGRPC))
 	if err != nil {
@@ -38,5 +38,5 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(fmt.Sprintf("set request for sending for topic : %s executed, is_error: %v", topicID, setResponse.IsError))
+	log.Println(fmt.Sprintf("set request with tags for topic : %s executed, is_error: %v", topicID, setResponse.IsError))
 }

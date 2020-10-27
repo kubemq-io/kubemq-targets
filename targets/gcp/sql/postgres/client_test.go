@@ -108,7 +108,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
@@ -116,58 +116,63 @@ func TestClient_Init(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			wantErr: false,
 		}, {
 			name: "invalid init - missing db_user",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			wantErr: true,
 		}, {
 			name: "invalid init - missing db_name",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
 					"db_user":                  dat.dbUser,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			wantErr: true,
 		}, {
 			name: "invalid init - missing connection",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"db_user":     dat.dbUser,
 					"db_name":     dat.dbName,
 					"db_password": dat.dbPassword,
 					"credentials": dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			wantErr: true,
 		}, {
 			name: "invalid init - missing db_password",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
 					"db_name":                  dat.dbName,
 					"db_user":                  dat.dbUser,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			wantErr: true,
@@ -208,7 +213,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec query request",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
@@ -216,6 +221,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -235,7 +241,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "empty exec request",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
@@ -243,6 +249,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -256,7 +263,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "invalid exec request",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
@@ -264,6 +271,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -278,7 +286,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec empty query request",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
@@ -286,6 +294,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -303,7 +312,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec bad query request",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
@@ -311,6 +320,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -328,7 +338,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec valid query - no results",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
@@ -336,6 +346,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -354,7 +365,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec query request",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
@@ -362,6 +373,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -381,7 +393,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "empty transaction request",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
@@ -389,6 +401,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -402,7 +415,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "invalid transaction request",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
@@ -410,6 +423,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -424,7 +438,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid transaction empty query request",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
@@ -432,6 +446,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -501,7 +516,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
@@ -509,6 +524,7 @@ func TestClient_Do(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			request: types.NewRequest().
@@ -520,7 +536,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 2",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
@@ -528,6 +544,7 @@ func TestClient_Do(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			request: types.NewRequest().
@@ -539,7 +556,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 3",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
@@ -547,6 +564,7 @@ func TestClient_Do(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			request: types.NewRequest().
@@ -558,7 +576,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 3",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
@@ -566,6 +584,7 @@ func TestClient_Do(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			request: types.NewRequest().
@@ -577,7 +596,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad method",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
@@ -585,6 +604,7 @@ func TestClient_Do(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			request: types.NewRequest().
@@ -594,7 +614,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad isolation level",
 			cfg: config.Spec{
-				Name: "target-gcp-postgres",
+				Name: "target-gcp-stores-postgres",
 				Kind: "target.gcp.stores.postgres",
 				Properties: map[string]string{
 					"instance_connection_name": dat.instanceConnectionName,
@@ -602,6 +622,7 @@ func TestClient_Do(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			request: types.NewRequest().

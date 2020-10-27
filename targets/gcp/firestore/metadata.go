@@ -15,7 +15,7 @@ var methodsMap = map[string]string{
 type metadata struct {
 	method string
 	key    string
-	item   string 
+	item   string
 }
 
 func parseMetadata(meta types.Metadata) (metadata, error) {
@@ -33,7 +33,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if m.method == "document_key" || m.method == "delete_document_key" {
 		m.item, err = meta.MustParseString("item")
 		if err != nil {
-			return metadata{}, fmt.Errorf("error on parsing item value, %w", err)
+			return metadata{}, fmt.Errorf("item is required for method: %s,error on parsing item value, %w", m.method, err)
 		}
 	}
 

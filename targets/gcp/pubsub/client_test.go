@@ -60,7 +60,7 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: false,
 		}, {
-			name: "init-missing-credentials",
+			name: "invalid init-missing-credentials",
 			cfg: config.Spec{
 				Name: "target-gcp-pubsub",
 				Kind: "target.gcp.pubsub",
@@ -72,7 +72,7 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init-missing-project-id",
+			name: "invalid init-missing-project-id",
 			cfg: config.Spec{
 				Name: "target-gcp-pubsub",
 				Kind: "target.gcp.pubsub",
@@ -115,7 +115,7 @@ func TestClient_Do(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "valid google-pubsub sent",
+			name: "valid google-pubsub sent with tags",
 			cfg: config.Spec{
 				Name: "target-gcp-pubsub",
 				Kind: "target.gcp.pubsub",
@@ -134,8 +134,27 @@ func TestClient_Do(t *testing.T) {
 				SetData(validBody),
 
 			wantErr: false,
+		},{
+			name: "valid google-pubsub sent without tags",
+			cfg: config.Spec{
+				Name: "target-gcp-pubsub",
+				Kind: "target.gcp.pubsub",
+				Properties: map[string]string{
+					"project_id":  dat.projectID,
+					"retries":     "0",
+					"topic_id":    dat.topicID,
+					"credentials": dat.credentials,
+				},
+			},
+			request: types.NewRequest().
+				SetMetadataKeyValue("topic_id", dat.topicID).
+				SetData(validBody),
+			want: types.NewResponse().
+				SetData(validBody),
+
+			wantErr: false,
 		}, {
-			name: "missing topic google-pubsub sent",
+			name: "invalid missing topic google-pubsub sent",
 			cfg: config.Spec{
 				Name: "target-gcp-pubsub",
 				Kind: "target.gcp.pubsub",

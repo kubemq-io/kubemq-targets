@@ -7,7 +7,7 @@ bindings:
         address: "kubemq-cluster:50000"
         client_id: "kubemq-query-gcp-postgres-connector"
         auth_token: ""
-        channel: "query.postgres"
+        channel: "query.gcp.postgres"
         group:   ""
         auto_reconnect: "true"
         reconnect_interval_seconds: "1"

@@ -36,7 +36,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if m.method == "read" {
 		m.tableName, err = meta.MustParseString("table_name")
 		if err != nil {
-			return metadata{}, fmt.Errorf("error parsing table_name, %w", err)
+			return metadata{}, fmt.Errorf("table_name is required for method :%s , error parsing table_name, %w", m.method, err)
 		}
 	}
 

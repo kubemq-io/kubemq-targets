@@ -15,14 +15,14 @@ spanner target connector configuration properties:
 
 | Properties Key | Required | Description                                | Example                         |
 |:---------------|:---------|:-------------------------------------------|:--------------------------------|
-| db             | yes      | gcp spanner db name                        | "<googleurl>/mydb"              |
+| db             | yes      | gcp spanner db name                        | "<googleurl>/mydb"  should conform to pattern "^projects/(?P<project>[^/]+)/instances/(?P<instance>[^/]+)/databases/(?P<database>[^/]+)$"            |
 | credentials    | yes      | gcp credentials files                      | "<google json credentials"      |
 
 Example:
 
 ```yaml
 bindings:
-  - name: kubemq-query-gcp-bigquery
+  - name: kubemq-query-gcp-spanner
     source:
       kind: source.query
       name: kubemq-query

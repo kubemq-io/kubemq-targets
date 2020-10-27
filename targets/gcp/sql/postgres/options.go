@@ -40,7 +40,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 		}
 		o.dbUser, err = cfg.Properties.MustParseString("db_user")
 		if err != nil {
-			return options{}, fmt.Errorf("error parsing db_user string, %w", err)
+			return options{}, fmt.Errorf("error parsing db_user string , , %w", err)
 		}
 		o.dbName, err = cfg.Properties.MustParseString("db_name")
 		if err != nil {
