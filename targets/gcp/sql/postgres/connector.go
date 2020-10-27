@@ -44,8 +44,14 @@ func Connector() *common.Connector {
 						SetDefault(""),
 					common.NewProperty().
 						SetKind("string").
+						SetName("db_name").
+						SetDescription("Sets Postgres db name").
+						SetMust(true).
+						SetDefault(""),
+					common.NewProperty().
+						SetKind("string").
 						SetName("credentials").
-						SetDescription("Sets Postgres credentials").
+						SetDescription("Sets GCP credentials").
 						SetMust(true).
 						SetDefault(""),
 				}).

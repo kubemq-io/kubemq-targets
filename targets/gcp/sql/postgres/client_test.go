@@ -116,6 +116,7 @@ func TestClient_Init(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			wantErr: false,
@@ -129,6 +130,7 @@ func TestClient_Init(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			wantErr: true,
@@ -142,6 +144,7 @@ func TestClient_Init(t *testing.T) {
 					"db_user":                  dat.dbUser,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			wantErr: true,
@@ -155,6 +158,7 @@ func TestClient_Init(t *testing.T) {
 					"db_name":     dat.dbName,
 					"db_password": dat.dbPassword,
 					"credentials": dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			wantErr: true,
@@ -168,6 +172,7 @@ func TestClient_Init(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_user":                  dat.dbUser,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			wantErr: true,
@@ -216,6 +221,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -243,6 +249,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -264,6 +271,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -286,6 +294,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -311,6 +320,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -336,6 +346,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -362,6 +373,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -389,6 +401,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -410,6 +423,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -432,6 +446,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			execRequest: types.NewRequest().
@@ -509,6 +524,7 @@ func TestClient_Do(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			request: types.NewRequest().
@@ -528,6 +544,7 @@ func TestClient_Do(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			request: types.NewRequest().
@@ -547,6 +564,7 @@ func TestClient_Do(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			request: types.NewRequest().
@@ -566,6 +584,7 @@ func TestClient_Do(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			request: types.NewRequest().
@@ -585,6 +604,7 @@ func TestClient_Do(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			request: types.NewRequest().
@@ -602,6 +622,7 @@ func TestClient_Do(t *testing.T) {
 					"db_name":                  dat.dbName,
 					"db_password":              dat.dbPassword,
 					"credentials":              dat.cred,
+					"use_proxy":                "true",
 				},
 			},
 			request: types.NewRequest().
