@@ -10,7 +10,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("project_id").
-				SetDescription("Sets GCP project ID").
+				SetDescription("Set GCP project ID").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -18,7 +18,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("credentials").
-				SetDescription("Sets GCP credentials").
+				SetDescription("Set GCP credentials").
 				SetMust(true).
 				SetDefault(""),
 		)

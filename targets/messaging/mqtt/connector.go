@@ -12,7 +12,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("host").
-				SetDescription("Sets MQTT broker host").
+				SetDescription("Set MQTT broker host").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -20,7 +20,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("username").
-				SetDescription("Sets MQTT broker username").
+				SetDescription("Set MQTT broker username").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -28,7 +28,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("password").
-				SetDescription("Sets MQTT broker password").
+				SetDescription("Set MQTT broker password").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -36,7 +36,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("client_id").
-				SetDescription("Sets MQTT broker client id").
+				SetDescription("Set MQTT broker client id").
 				SetMust(true).
 				SetDefault(""),
 		)

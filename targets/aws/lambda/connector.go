@@ -12,7 +12,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("aws_key").
-				SetDescription("Sets Lambda aws key").
+				SetDescription("Set Lambda aws key").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -20,7 +20,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("aws_secret_key").
-				SetDescription("Sets Lambda aws secret key").
+				SetDescription("Set Lambda aws secret key").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -28,7 +28,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("region").
-				SetDescription("Sets Lambda aws region").
+				SetDescription("Set Lambda aws region").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -36,7 +36,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("token").
-				SetDescription("Sets Lambda token").
+				SetDescription("Set Lambda token").
 				SetMust(false).
 				SetDefault(""),
 		)

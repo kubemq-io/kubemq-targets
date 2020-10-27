@@ -14,7 +14,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("host").
-				SetDescription("Sets Couchbase url").
+				SetDescription("Set Couchbase url").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -22,7 +22,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("username").
-				SetDescription("Sets Couchbase username").
+				SetDescription("Set Couchbase username").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -30,7 +30,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("password").
-				SetDescription("Sets Couchbase password").
+				SetDescription("Set Couchbase password").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -38,7 +38,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("bucket").
-				SetDescription("Sets Couchbase bucket").
+				SetDescription("Set Couchbase bucket").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -46,7 +46,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("collection").
-				SetDescription("Sets Couchbase collection").
+				SetDescription("Set Couchbase collection").
 				SetMust(false).
 				SetDefault(""),
 		).
@@ -54,7 +54,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("num_to_replicate").
-				SetDescription("Sets Couchbase number of nodes to replicate").
+				SetDescription("Set Couchbase number of nodes to replicate").
 				SetMust(false).
 				SetDefault("1").
 				SetMin(1).
@@ -64,7 +64,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("num_to_persist").
-				SetDescription("Sets Couchbase number of node to persist").
+				SetDescription("Set Couchbase number of node to persist").
 				SetMust(false).
 				SetDefault("1").
 				SetMin(1).

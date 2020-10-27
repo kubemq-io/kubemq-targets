@@ -12,7 +12,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("aws_key").
-				SetDescription("Sets Elastic Search aws key").
+				SetDescription("Set Elastic Search aws key").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -20,7 +20,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("aws_secret_key").
-				SetDescription("Sets Elastic Search aws secret key").
+				SetDescription("Set Elastic Search aws secret key").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -28,7 +28,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("token").
-				SetDescription("Sets Elastic Search aws token").
+				SetDescription("Set Elastic Search aws token").
 				SetMust(false).
 				SetDefault(""),
 		)

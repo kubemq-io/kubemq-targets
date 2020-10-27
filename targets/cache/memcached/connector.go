@@ -13,7 +13,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("hosts").
-				SetDescription("Sets Memcached hosts").
+				SetDescription("Set Memcached hosts").
 				SetMust(true).
 				SetDefault("localhost:11211"),
 		).
@@ -21,7 +21,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("max_idle_connections").
-				SetDescription("Sets Memcached max idle connections").
+				SetDescription("Set Memcached max idle connections").
 				SetDefault("2").
 				SetMin(1).
 				SetMax(math.MaxInt32).
@@ -31,7 +31,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("default_timeout_seconds").
-				SetDescription("Sets Memcached default timeout seconds").
+				SetDescription("Set Memcached default timeout seconds").
 				SetDefault("30").
 				SetMin(1).
 				SetMax(math.MaxInt32).

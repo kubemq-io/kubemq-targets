@@ -12,7 +12,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("db").
-				SetDescription("Sets GCP Spanner DB").
+				SetDescription("Set GCP Spanner DB").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -20,7 +20,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("credentials").
-				SetDescription("Sets GCP credentials").
+				SetDescription("Set GCP credentials").
 				SetMust(true).
 				SetDefault(""),
 		)

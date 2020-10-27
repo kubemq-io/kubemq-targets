@@ -12,7 +12,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("gateway").
-				SetDescription("Sets RabbitMQ url connection string").
+				SetDescription("Set RabbitMQ url connection string").
 				SetMust(true).
 				SetDefault("amqp://rabbitmq:rabbitmq@localhost:5672/"),
 		)

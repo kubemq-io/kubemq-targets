@@ -13,7 +13,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("connection").
-				SetDescription("Sets MSSQL connection string").
+				SetDescription("Set MSSQL connection string").
 				SetMust(true).
 				SetDefault("sqlserver://sa:n8x2Nz!f@localhost:1433?database=master"),
 		).
@@ -21,7 +21,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("max_idle_connections").
-				SetDescription("Sets MSSQL max idle connections").
+				SetDescription("Set MSSQL max idle connections").
 				SetMust(false).
 				SetDefault("10").
 				SetMin(1).
@@ -31,7 +31,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("max_open_connections").
-				SetDescription("Sets MSSQL max open connections").
+				SetDescription("Set MSSQL max open connections").
 				SetMust(false).
 				SetDefault("100").
 				SetMin(1).
@@ -41,7 +41,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("connection_max_lifetime_seconds").
-				SetDescription("Sets MSSQL connection max lifetime seconds").
+				SetDescription("Set MSSQL connection max lifetime seconds").
 				SetMust(false).
 				SetDefault("3600").
 				SetMin(1).

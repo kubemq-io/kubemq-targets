@@ -13,7 +13,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("connection").
-				SetDescription("Sets MySQL connection string").
+				SetDescription("Set MySQL connection string").
 				SetMust(true).
 				SetDefault("root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local"),
 		).
@@ -21,7 +21,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("max_idle_connections").
-				SetDescription("Sets MySQL max idle connections").
+				SetDescription("Set MySQL max idle connections").
 				SetMust(false).
 				SetDefault("10").
 				SetMin(1).
@@ -31,7 +31,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("max_open_connections").
-				SetDescription("Sets MySQL max open connections").
+				SetDescription("Set MySQL max open connections").
 				SetMust(false).
 				SetDefault("100").
 				SetMin(1).
@@ -41,7 +41,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("connection_max_lifetime_seconds").
-				SetDescription("Sets MySQL connection max lifetime seconds").
+				SetDescription("Set MySQL connection max lifetime seconds").
 				SetMust(false).
 				SetDefault("3600").
 				SetMin(1).

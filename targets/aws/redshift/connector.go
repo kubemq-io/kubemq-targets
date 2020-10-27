@@ -12,7 +12,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("aws_key").
-				SetDescription("Sets Redshift Service aws key").
+				SetDescription("Set Redshift Service aws key").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -20,7 +20,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("aws_secret_key").
-				SetDescription("Sets Redshift Service aws secret key").
+				SetDescription("Set Redshift Service aws secret key").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -28,7 +28,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("region").
-				SetDescription("Sets Redshift Service aws region").
+				SetDescription("Set Redshift Service aws region").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -36,7 +36,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("token").
-				SetDescription("Sets Redshift Service token").
+				SetDescription("Set Redshift Service token").
 				SetMust(false).
 				SetDefault(""),
 		)

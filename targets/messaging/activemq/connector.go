@@ -12,7 +12,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("gateway").
-				SetDescription("Sets ActiveMQ host address").
+				SetDescription("Set ActiveMQ host address").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -20,7 +20,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("username").
-				SetDescription("Sets ActiveMQ username").
+				SetDescription("Set ActiveMQ username").
 				SetMust(false).
 				SetDefault(""),
 		).
@@ -28,7 +28,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("password").
-				SetDescription("Sets ActiveMQ password").
+				SetDescription("Set ActiveMQ password").
 				SetMust(false).
 				SetDefault(""),
 		)

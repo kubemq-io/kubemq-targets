@@ -13,7 +13,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("storage_access_key").
-				SetDescription("Sets Blob Storage storage access key").
+				SetDescription("Set Blob Storage storage access key").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -21,7 +21,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("storage account").
-				SetDescription("Sets Blob Storage storage account").
+				SetDescription("Set Blob Storage storage account").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -29,7 +29,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("policy").
-				SetDescription("Sets Blob Storage retry policy").
+				SetDescription("Set Blob Storage retry policy").
 				SetOptions([]string{"exponential", "fixed"}).
 				SetMust(true).
 				SetDefault("exponential"),
@@ -38,7 +38,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("max_tries").
-				SetDescription("Sets Blob Storage max tries").
+				SetDescription("Set Blob Storage max tries").
 				SetMust(false).
 				SetDefault("1").
 				SetMin(1).
@@ -48,7 +48,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("try_timeout").
-				SetDescription("Sets Blob Storage try timeout in milliseconds").
+				SetDescription("Set Blob Storage try timeout in milliseconds").
 				SetMust(false).
 				SetDefault("1000").
 				SetMin(1).
@@ -58,7 +58,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("retry_delay").
-				SetDescription("Sets Blob Storage retry delay in milliseconds").
+				SetDescription("Set Blob Storage retry delay in milliseconds").
 				SetMust(false).
 				SetDefault("60000").
 				SetMin(1).
@@ -68,7 +68,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("max_retry_delay").
-				SetDescription("Sets Blob Storage max retry delay in milliseconds").
+				SetDescription("Set Blob Storage max retry delay in milliseconds").
 				SetMust(false).
 				SetDefault("180000").
 				SetMin(1).

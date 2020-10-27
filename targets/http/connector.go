@@ -12,7 +12,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("condition").
 				SetName("auth_type").
-				SetDescription("Sets Auth type").
+				SetDescription("Set Auth type").
 				SetMust(true).
 				SetOptions([]string{"No Auth", "Basic", "Token"}).
 				SetDefault("No Auth").
@@ -20,7 +20,7 @@ func Connector() *common.Connector {
 					common.NewProperty().
 						SetKind("null").
 						SetName("auth_type").
-						SetDescription("Sets Auth type").
+						SetDescription("Set Auth type").
 						SetMust(true).
 						SetDefault("no_auth"),
 				}).
@@ -28,19 +28,19 @@ func Connector() *common.Connector {
 					common.NewProperty().
 						SetKind("null").
 						SetName("auth_type").
-						SetDescription("Sets Auth type").
+						SetDescription("Set Auth type").
 						SetMust(true).
 						SetDefault("basic"),
 					common.NewProperty().
 						SetKind("string").
 						SetName("username").
-						SetDescription("Sets Basic auth username").
+						SetDescription("Set Basic auth username").
 						SetMust(true).
 						SetDefault(""),
 					common.NewProperty().
 						SetKind("string").
 						SetName("password").
-						SetDescription("Sets Basic auth password").
+						SetDescription("Set Basic auth password").
 						SetMust(true).
 						SetDefault(""),
 				}).
@@ -48,13 +48,13 @@ func Connector() *common.Connector {
 					common.NewProperty().
 						SetKind("null").
 						SetName("auth_type").
-						SetDescription("Sets Auth type").
+						SetDescription("Set Auth type").
 						SetMust(true).
 						SetDefault("auth_token"),
 					common.NewProperty().
 						SetKind("multilines").
 						SetName("token").
-						SetDescription("Sets Auth token").
+						SetDescription("Set Auth token").
 						SetMust(true).
 						SetDefault(""),
 				}),
@@ -63,7 +63,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("proxy").
-				SetDescription("Sets Proxy address").
+				SetDescription("Set Proxy address").
 				SetMust(false).
 				SetDefault(""),
 		).
@@ -71,7 +71,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("multilines").
 				SetName("root_certificate").
-				SetDescription("Sets Root Certificate").
+				SetDescription("Set Root Certificate").
 				SetMust(false).
 				SetDefault(""),
 		).
@@ -79,21 +79,21 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("multilines").
 				SetName("client_private_key").
-				SetDescription("Sets Client private key").
+				SetDescription("Set Client private key").
 				SetMust(false).
 				SetDefault(""),
 		).AddProperty(
 		common.NewProperty().
 			SetKind("multilines").
 			SetName("client_public_key").
-			SetDescription("Sets Client public key").
+			SetDescription("Set Client public key").
 			SetMust(false).
 			SetDefault(""),
 	).AddProperty(
 		common.NewProperty().
 			SetKind("map").
 			SetName("default_headers").
-			SetDescription("Sets Default headers  (key1=value1;key2=value2;...)").
+			SetDescription("Set Default headers  (key1=value1;key2=value2;...)").
 			SetMust(false).
 			SetDefault(""),
 	)

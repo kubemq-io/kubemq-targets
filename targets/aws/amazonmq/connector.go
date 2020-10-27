@@ -12,7 +12,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("host").
-				SetDescription("Sets AmazonMQ host").
+				SetDescription("Set AmazonMQ host").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -20,7 +20,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("username").
-				SetDescription("Sets AmazonMQ username").
+				SetDescription("Set AmazonMQ username").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -28,7 +28,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("password").
-				SetDescription("Sets AmazonMQ password").
+				SetDescription("Set AmazonMQ password").
 				SetMust(true).
 				SetDefault(""),
 		)

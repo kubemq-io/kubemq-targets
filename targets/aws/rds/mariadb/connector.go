@@ -13,7 +13,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("connection").
-				SetDescription("Sets MariaDB connection string").
+				SetDescription("Set MariaDB connection string").
 				SetMust(true).
 				SetDefault("root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local"),
 		).
@@ -21,7 +21,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("max_idle_connections").
-				SetDescription("Sets MariaDB max idle connections").
+				SetDescription("Set MariaDB max idle connections").
 				SetMust(false).
 				SetDefault("10").
 				SetMin(1).
@@ -31,7 +31,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("max_open_connections").
-				SetDescription("Sets MariaDB max open connections").
+				SetDescription("Set MariaDB max open connections").
 				SetMust(false).
 				SetDefault("100").
 				SetMin(1).
@@ -41,7 +41,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("connection_max_lifetime_seconds").
-				SetDescription("Sets MariaDB connection max lifetime seconds").
+				SetDescription("Set MariaDB connection max lifetime seconds").
 				SetMust(false).
 				SetDefault("3600").
 				SetMin(1).

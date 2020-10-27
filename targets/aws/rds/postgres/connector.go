@@ -13,7 +13,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("aws_key").
-				SetDescription("Sets Postgres aws key").
+				SetDescription("Set Postgres aws key").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -21,7 +21,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("aws_secret_key").
-				SetDescription("Sets Postgres aws secret key").
+				SetDescription("Set Postgres aws secret key").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -29,7 +29,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("region").
-				SetDescription("Sets Postgres aws region").
+				SetDescription("Set Postgres aws region").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -37,7 +37,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("token").
-				SetDescription("Sets Postgres aws token").
+				SetDescription("Set Postgres aws token").
 				SetMust(false).
 				SetDefault(""),
 		).
@@ -45,7 +45,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("end_point").
-				SetDescription("Sets Postgres end point address").
+				SetDescription("Set Postgres end point address").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -53,7 +53,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("db_port").
-				SetDescription("Sets Postgres end point port").
+				SetDescription("Set Postgres end point port").
 				SetMust(true).
 				SetDefault("5432").
 				SetMin(0).
@@ -63,7 +63,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("db_user").
-				SetDescription("Sets Postgres db user(should match user created for IAM Access)").
+				SetDescription("Set Postgres db user(should match user created for IAM Access)").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -71,7 +71,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("db_name").
-				SetDescription("Sets Postgres db name").
+				SetDescription("Set Postgres db name").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -79,7 +79,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("max_idle_connections").
-				SetDescription("Sets Postgres max idle connections").
+				SetDescription("Set Postgres max idle connections").
 				SetMust(false).
 				SetDefault("10").
 				SetMin(1).
@@ -89,7 +89,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("max_open_connections").
-				SetDescription("Sets Postgres max open connections").
+				SetDescription("Set Postgres max open connections").
 				SetMust(false).
 				SetDefault("100").
 				SetMin(1).
@@ -99,7 +99,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("connection_max_lifetime_seconds").
-				SetDescription("Sets Postgres connection max lifetime seconds").
+				SetDescription("Set Postgres connection max lifetime seconds").
 				SetMust(false).
 				SetDefault("3600").
 				SetMin(1).

@@ -13,7 +13,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("host").
-				SetDescription("Sets Cassandra hosts addresses").
+				SetDescription("Set Cassandra hosts addresses").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -21,7 +21,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("port").
-				SetDescription("Sets Cassandra port").
+				SetDescription("Set Cassandra port").
 				SetMust(true).
 				SetMin(0).
 				SetMax(65535).
@@ -31,7 +31,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("username").
-				SetDescription("Sets Cassandra username").
+				SetDescription("Set Cassandra username").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -39,7 +39,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("password").
-				SetDescription("Sets Cassandra password").
+				SetDescription("Set Cassandra password").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -47,7 +47,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("replication_factor").
-				SetDescription("Sets Cassandra replication factor").
+				SetDescription("Set Cassandra replication factor").
 				SetMust(false).
 				SetDefault("1").
 				SetMin(1).
@@ -57,7 +57,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("consistency").
-				SetDescription("Sets Cassandra consistency").
+				SetDescription("Set Cassandra consistency").
 				SetMust(true).
 				SetOptions([]string{"All", "One", "Two", "Three", "Quorum", "LocalQuorum", "EachQuorum", "LocalOne", "Any"}).
 				SetDefault("All"),
@@ -66,7 +66,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("default_table").
-				SetDescription("Sets Cassandra default table").
+				SetDescription("Set Cassandra default table").
 				SetMust(false).
 				SetDefault(""),
 		).
@@ -74,7 +74,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("default_keyspace").
-				SetDescription("Sets Cassandra default keyspace").
+				SetDescription("Set Cassandra default keyspace").
 				SetMust(false).
 				SetDefault(""),
 		).
@@ -82,7 +82,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("connect_timeout_seconds").
-				SetDescription("Sets Cassandra connection timeout in seconds").
+				SetDescription("Set Cassandra connection timeout in seconds").
 				SetMust(false).
 				SetDefault("60").
 				SetMin(1).
@@ -92,7 +92,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("timeout_seconds").
-				SetDescription("Sets Cassandra operation timeout in seconds").
+				SetDescription("Set Cassandra operation timeout in seconds").
 				SetMust(false).
 				SetDefault("60").
 				SetMin(1).

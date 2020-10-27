@@ -12,7 +12,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("brokers").
-				SetDescription("Sets Kafka brokers list").
+				SetDescription("Set Kafka brokers list").
 				SetMust(true).
 				SetDefault("localhost:9092"),
 		).
@@ -20,7 +20,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("sasl_username").
-				SetDescription("Sets Kafka username").
+				SetDescription("Set Kafka username").
 				SetMust(false).
 				SetDefault(""),
 		).
@@ -28,7 +28,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("sasl_password").
-				SetDescription("Sets Kafka password").
+				SetDescription("Set Kafka password").
 				SetMust(false).
 				SetDefault(""),
 		).
@@ -36,7 +36,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("topic").
-				SetDescription("Sets Kafka topic").
+				SetDescription("Set Kafka topic").
 				SetMust(true).
 				SetDefault(""),
 		)

@@ -12,7 +12,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("credentials").
-				SetDescription("Sets GCP credentials").
+				SetDescription("Set GCP credentials").
 				SetMust(true).
 				SetDefault(""),
 		)

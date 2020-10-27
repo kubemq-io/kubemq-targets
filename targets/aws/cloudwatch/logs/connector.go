@@ -10,7 +10,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("aws_key").
-				SetDescription("Sets Cloudwatch-Logs aws key").
+				SetDescription("Set Cloudwatch-Logs aws key").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -18,7 +18,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("aws_secret_key").
-				SetDescription("Sets Cloudwatch-Logs aws secret key").
+				SetDescription("Set Cloudwatch-Logs aws secret key").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -26,7 +26,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("region").
-				SetDescription("Sets Cloudwatch-Logs aws region").
+				SetDescription("Set Cloudwatch-Logs aws region").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -34,7 +34,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("token").
-				SetDescription("Sets Cloudwatch-Logs aws token").
+				SetDescription("Set Cloudwatch-Logs aws token").
 				SetMust(false).
 				SetDefault(""),
 		)

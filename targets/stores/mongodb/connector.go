@@ -13,7 +13,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("host").
-				SetDescription("Sets MongoDB host address").
+				SetDescription("Set MongoDB host address").
 				SetMust(true).
 				SetDefault("localhost:27017"),
 		).
@@ -21,7 +21,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("username").
-				SetDescription("Sets MongoDB username").
+				SetDescription("Set MongoDB username").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -29,7 +29,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("password").
-				SetDescription("Sets MongoDB password").
+				SetDescription("Set MongoDB password").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -37,7 +37,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("collection").
-				SetDescription("Sets MongoDB collection").
+				SetDescription("Set MongoDB collection").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -45,7 +45,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("params").
-				SetDescription("Sets MongoDB params").
+				SetDescription("Set MongoDB params").
 				SetMust(false).
 				SetDefault(""),
 		).
@@ -53,7 +53,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("read_concurrency").
-				SetDescription("Sets MongoDB read concurrency").
+				SetDescription("Set MongoDB read concurrency").
 				SetOptions([]string{"local", "majority", "available", "linearizable", "snapshot"}).
 				SetMust(false).
 				SetDefault("local"),
@@ -62,7 +62,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("write_concurrency").
-				SetDescription("Sets MongoDB write concurrency").
+				SetDescription("Set MongoDB write concurrency").
 				SetOptions([]string{"majority", "Other"}).
 				SetMust(false).
 				SetDefault("majority"),
@@ -71,7 +71,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("operation_timeout_seconds").
-				SetDescription("Sets MongoDB operation timeout seconds").
+				SetDescription("Set MongoDB operation timeout seconds").
 				SetMust(false).
 				SetDefault("30").
 				SetMin(0).

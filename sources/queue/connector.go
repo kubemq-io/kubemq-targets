@@ -12,7 +12,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("address").
-				SetDescription("Sets Kubemq grpc endpoint address").
+				SetDescription("Set Kubemq grpc endpoint address").
 				SetMust(true).
 				SetDefault("").
 				SetLoadedOptions("kubemq-address"),
@@ -21,23 +21,15 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("channel").
-				SetDescription("Sets Queue channel").
+				SetDescription("Set Queue channel").
 				SetMust(true).
 				SetDefault("queues"),
 		).
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
-				SetName("group").
-				SetDescription("Sets Queue channel group").
-				SetMust(false).
-				SetDefault(""),
-		).
-		AddProperty(
-			common.NewProperty().
-				SetKind("string").
 				SetName("response_channel").
-				SetDescription("Sets Queue response channel").
+				SetDescription("Set Queue response channel").
 				SetMust(false).
 				SetDefault(""),
 		).
@@ -45,7 +37,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("client_id").
-				SetDescription("Sets Queue connection client Id").
+				SetDescription("Set Queue connection client Id").
 				SetMust(false).
 				SetDefault(""),
 		).
@@ -53,7 +45,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("multilines").
 				SetName("auth_token").
-				SetDescription("Sets Queue connection authentication token").
+				SetDescription("Set Queue connection authentication token").
 				SetMust(false).
 				SetDefault(""),
 		)

@@ -12,7 +12,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("gateway").
-				SetDescription("Sets Openfaas gateway address").
+				SetDescription("Set Openfaas gateway address").
 				SetMust(true).
 				SetDefault("localhost:27017"),
 		).
@@ -20,7 +20,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("username").
-				SetDescription("Sets Openfaas username").
+				SetDescription("Set Openfaas username").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -28,7 +28,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("password").
-				SetDescription("Sets Openfaas password").
+				SetDescription("Set Openfaas password").
 				SetMust(true).
 				SetDefault(""),
 		)

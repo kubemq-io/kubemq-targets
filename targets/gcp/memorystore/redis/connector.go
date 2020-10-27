@@ -12,7 +12,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("url").
-				SetDescription("Sets Redis url").
+				SetDescription("Set Redis url").
 				SetMust(true).
 				SetDefault("redis://localhost:6379"),
 		)

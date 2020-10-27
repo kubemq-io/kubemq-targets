@@ -13,7 +13,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("condition").
 				SetName("connection-type").
-				SetDescription("Sets Postgres Connection Type").
+				SetDescription("Set Postgres Connection Type").
 				SetMust(true).
 				SetOptions([]string{"Proxy", "Direct"}).
 				SetDefault("Proxy").
@@ -21,37 +21,31 @@ func Connector() *common.Connector {
 					common.NewProperty().
 						SetKind("null").
 						SetName("use_proxy").
-						SetDescription("Sets use proxy").
+						SetDescription("Set use proxy").
 						SetMust(true).
 						SetDefault("true"),
 					common.NewProperty().
 						SetKind("string").
 						SetName("instance_connection_name").
-						SetDescription("Sets Postgres instance connection name").
+						SetDescription("Set Postgres instance connection name").
 						SetMust(true).
 						SetDefault(""),
 					common.NewProperty().
 						SetKind("string").
 						SetName("db_user").
-						SetDescription("Sets Postgres db user").
+						SetDescription("Set Postgres db user").
 						SetMust(true).
 						SetDefault(""),
 					common.NewProperty().
 						SetKind("string").
 						SetName("db_password").
-						SetDescription("Sets Postgres db password").
-						SetMust(true).
-						SetDefault(""),
-					common.NewProperty().
-						SetKind("string").
-						SetName("db_name").
-						SetDescription("Sets Postgres db name").
+						SetDescription("Set Postgres db password").
 						SetMust(true).
 						SetDefault(""),
 					common.NewProperty().
 						SetKind("string").
 						SetName("credentials").
-						SetDescription("Sets GCP credentials").
+						SetDescription("Set Postgres credentials").
 						SetMust(true).
 						SetDefault(""),
 				}).
@@ -59,13 +53,13 @@ func Connector() *common.Connector {
 					common.NewProperty().
 						SetKind("null").
 						SetName("use_proxy").
-						SetDescription("Sets use proxy").
+						SetDescription("Set use proxy").
 						SetMust(true).
 						SetDefault("false"),
 					common.NewProperty().
 						SetKind("string").
 						SetName("connection").
-						SetDescription("Sets Postgres connection string").
+						SetDescription("Set Postgres connection string").
 						SetMust(true).
 						SetDefault("postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"),
 				}),
@@ -74,7 +68,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("max_idle_connections").
-				SetDescription("Sets Postgres max idle connections").
+				SetDescription("Set Postgres max idle connections").
 				SetMust(false).
 				SetDefault("10").
 				SetMin(1).
@@ -84,7 +78,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("max_open_connections").
-				SetDescription("Sets Postgres max open connections").
+				SetDescription("Set Postgres max open connections").
 				SetMust(false).
 				SetDefault("100").
 				SetMin(1).
@@ -94,7 +88,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("connection_max_lifetime_seconds").
-				SetDescription("Sets Postgres connection max lifetime seconds").
+				SetDescription("Set Postgres connection max lifetime seconds").
 				SetMust(false).
 				SetDefault("3600").
 				SetMin(1).

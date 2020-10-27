@@ -12,7 +12,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("host").
-				SetDescription("Sets Elastic Search Urls").
+				SetDescription("Set Elastic Search Urls").
 				SetMust(true).
 				SetDefault("http://localhost:9200"),
 		).
@@ -20,7 +20,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("username").
-				SetDescription("Sets Elastic Search username").
+				SetDescription("Set Elastic Search username").
 				SetMust(false).
 				SetDefault(""),
 		).
@@ -28,7 +28,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("password").
-				SetDescription("Sets Elastic Search password").
+				SetDescription("Set Elastic Search password").
 				SetMust(false).
 				SetDefault(""),
 		).
@@ -36,7 +36,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("bool").
 				SetName("sniff").
-				SetDescription("Sets Elastic Search sniff mode").
+				SetDescription("Set Elastic Search sniff mode").
 				SetMust(false).
 				SetDefault("true"),
 		)

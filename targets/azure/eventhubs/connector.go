@@ -12,7 +12,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("end_point").
-				SetDescription("Sets EventHubs end point").
+				SetDescription("Set EventHubs end point").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -20,7 +20,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("shared_access_key_name").
-				SetDescription("Sets EventHubs shared access key name").
+				SetDescription("Set EventHubs shared access key name").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -28,7 +28,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("shared_access_key").
-				SetDescription("Sets EventHubs shared access key").
+				SetDescription("Set EventHubs shared access key").
 				SetMust(true).
 				SetDefault(""),
 		).
@@ -36,7 +36,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("entity_path").
-				SetDescription("Sets EventHubs entity path").
+				SetDescription("Set EventHubs entity path").
 				SetMust(true).
 				SetDefault(""),
 		)

@@ -13,7 +13,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("connection").
-				SetDescription("Sets Postgres connection string").
+				SetDescription("Set Postgres connection string").
 				SetMust(true).
 				SetDefault("postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"),
 		).
@@ -21,7 +21,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("max_idle_connections").
-				SetDescription("Sets Postgres max idle connections").
+				SetDescription("Set Postgres max idle connections").
 				SetMust(false).
 				SetDefault("10").
 				SetMin(1).
@@ -31,7 +31,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("max_open_connections").
-				SetDescription("Sets Postgres max open connections").
+				SetDescription("Set Postgres max open connections").
 				SetMust(false).
 				SetDefault("100").
 				SetMin(1).
@@ -41,7 +41,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("connection_max_lifetime_seconds").
-				SetDescription("Sets Postgres connection max lifetime seconds").
+				SetDescription("Set Postgres connection max lifetime seconds").
 				SetMust(false).
 				SetDefault("3600").
 				SetMin(1).
