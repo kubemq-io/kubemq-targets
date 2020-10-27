@@ -27,7 +27,7 @@ Example:
 bindings:
   - name: kubemq-query
     source:
-      kind: source.kubemq.query
+      kind: kubemq.kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
@@ -39,7 +39,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.gcp.cloudfunctions
+      kind:gcp.cloudfunctions
       name: target-gcp-couldfunctions
       properties:
         project: "testproject"

@@ -66,7 +66,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init - db client",
 			cfg: config.Spec{
 				Name: "google-firebase-target",
-				Kind: "target.gcp.firebase",
+				Kind: "gcp.firebase",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -80,7 +80,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init - auth client",
 			cfg: config.Spec{
 				Name: "google-firebase-target",
-				Kind: "target.gcp.firebase",
+				Kind: "gcp.firebase",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -93,7 +93,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init - multiclient",
 			cfg: config.Spec{
 				Name: "google-firebase-target",
-				Kind: "target.gcp.firebase",
+				Kind: "gcp.firebase",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -108,7 +108,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init-firebase-project-id - missing project_id",
 			cfg: config.Spec{
 				Name: "google-firebase-target",
-				Kind: "target.gcp.firebase",
+				Kind: "gcp.firebase",
 				Properties: map[string]string{
 					"credentials": dat.cred,
 					"auth_client": "true",
@@ -121,7 +121,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init-firebase-instance missing credentials",
 			cfg: config.Spec{
 				Name: "google-firebase-target",
-				Kind: "target.gcp.firebase",
+				Kind: "gcp.firebase",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"auth_client": "true",

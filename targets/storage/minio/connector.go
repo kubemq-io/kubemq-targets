@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.storage.minio").
+		SetKind("storage.minio").
 		SetDescription("Minio Storage Target").
 		AddProperty(
 			common.NewProperty().

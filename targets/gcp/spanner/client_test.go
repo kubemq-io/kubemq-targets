@@ -56,7 +56,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init",
 			cfg: config.Spec{
 				Name: "target-gcp-spanner",
-				Kind: "target.gcp.spanner",
+				Kind: "gcp.spanner",
 				Properties: map[string]string{
 					"db":          dat.db,
 					"credentials": dat.cred,
@@ -68,7 +68,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - missing db",
 			cfg: config.Spec{
 				Name: "target-gcp-spanner",
-				Kind: "target.gcp.spanner",
+				Kind: "gcp.spanner",
 				Properties: map[string]string{
 					"credentials": dat.cred,
 				},
@@ -78,7 +78,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - missing credentials",
 			cfg: config.Spec{
 				Name: "target-gcp-spanner",
-				Kind: "target.gcp.spanner",
+				Kind: "gcp.spanner",
 				Properties: map[string]string{
 					"db": dat.db,
 				},
@@ -113,7 +113,7 @@ func TestClient_Query(t *testing.T) {
 
 	cfg := config.Spec{
 		Name: "target-gcp-spanner",
-		Kind: "target.gcp.spanner",
+		Kind: "gcp.spanner",
 		Properties: map[string]string{
 			"db":          dat.db,
 			"credentials": dat.cred,
@@ -174,7 +174,7 @@ func TestClient_Read(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-gcp-spanner",
-		Kind: "target.gcp.spanner",
+		Kind: "gcp.spanner",
 		Properties: map[string]string{
 			"db":          dat.db,
 			"credentials": dat.cred,
@@ -243,7 +243,7 @@ func TestClient_Insert(t *testing.T) {
 	var inputs []InsertOrUpdate
 	cfg := config.Spec{
 		Name: "target-gcp-spanner",
-		Kind: "target.gcp.spanner",
+		Kind: "gcp.spanner",
 		Properties: map[string]string{
 			"db":          dat.db,
 			"credentials": dat.cred,
@@ -307,7 +307,7 @@ func TestClient_Update(t *testing.T) {
 	var inputs []InsertOrUpdate
 	cfg := config.Spec{
 		Name: "target-gcp-spanner",
-		Kind: "target.gcp.spanner",
+		Kind: "gcp.spanner",
 		Properties: map[string]string{
 			"db":          dat.db,
 			"credentials": dat.cred,
@@ -366,7 +366,7 @@ func TestClient_UpdateDatabaseDdl(t *testing.T) {
 	statements = append(statements, "mystatment")
 	cfg := config.Spec{
 		Name: "target-gcp-spanner",
-		Kind: "target.gcp.spanner",
+		Kind: "gcp.spanner",
 		Properties: map[string]string{
 			"db":          dat.db,
 			"credentials": dat.cred,
@@ -429,7 +429,7 @@ func TestClient_InsertOrUpdate(t *testing.T) {
 	var inputs []InsertOrUpdate
 	cfg := config.Spec{
 		Name: "target-gcp-spanner",
-		Kind: "target.gcp.spanner",
+		Kind: "gcp.spanner",
 		Properties: map[string]string{
 			"db":          dat.db,
 			"credentials": dat.cred,

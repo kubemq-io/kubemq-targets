@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.gcp.firestore").
+		SetKind("gcp.firestore").
 		SetDescription("GCP Firestore Target").
 		AddProperty(
 			common.NewProperty().

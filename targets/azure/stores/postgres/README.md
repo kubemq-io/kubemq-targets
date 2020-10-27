@@ -27,19 +27,19 @@ Example:
 bindings:
   - name: kubemq-query-azure-postgres
     source:
-      kind: source.query
+      kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
         client_id: "kubemq-query-azure-postgres-connector"
         auth_token: ""
-        channel: "target.azure.stores.azure-postgres"
+        channel: "azure.stores.azure-postgres"
         group:   ""
         auto_reconnect: "true"
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.azure.stores.postgres
+      kind:azure.stores.postgres
       name: target-azure-stores-postgres
       properties:
         connection: "host=zzz user=yyy password=rrr dbname=nnn sslmode=disable"

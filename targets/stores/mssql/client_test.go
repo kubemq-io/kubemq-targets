@@ -474,8 +474,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request",
 			cfg: config.Spec{
-				Name: "target.mssql",
-				Kind: "target.mssql",
+				Name: "mssql",
+				Kind: "mssql",
 				Properties: map[string]string{
 					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
 					"max_idle_connections":            "",
@@ -492,8 +492,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 2",
 			cfg: config.Spec{
-				Name: "target.mssql",
-				Kind: "target.mssql",
+				Name: "mssql",
+				Kind: "mssql",
 				Properties: map[string]string{
 					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
 					"max_idle_connections":            "",
@@ -510,8 +510,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 3",
 			cfg: config.Spec{
-				Name: "target.mssql",
-				Kind: "target.mssql",
+				Name: "mssql",
+				Kind: "mssql",
 				Properties: map[string]string{
 					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
 					"max_idle_connections":            "",
@@ -528,8 +528,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 3",
 			cfg: config.Spec{
-				Name: "target.mssql",
-				Kind: "target.mssql",
+				Name: "mssql",
+				Kind: "mssql",
 				Properties: map[string]string{
 					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
 					"max_idle_connections":            "",
@@ -546,8 +546,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad method",
 			cfg: config.Spec{
-				Name: "target.mssql",
-				Kind: "target.mssql",
+				Name: "mssql",
+				Kind: "mssql",
 				Properties: map[string]string{
 					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
 					"max_idle_connections":            "",
@@ -562,8 +562,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad isolation level",
 			cfg: config.Spec{
-				Name: "target.mssql",
-				Kind: "target.mssql",
+				Name: "mssql",
+				Kind: "mssql",
 				Properties: map[string]string{
 					"connection":                      "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master",
 					"max_idle_connections":            "",

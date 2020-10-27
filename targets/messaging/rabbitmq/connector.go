@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.messaging.rabbitmq").
+		SetKind("messaging.rabbitmq").
 		SetDescription("RabbitMQ Messaging Target").
 		AddProperty(
 			common.NewProperty().

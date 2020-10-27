@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.serverless.openfaas").
+		SetKind("serverless.openfaas").
 		SetDescription("Openfaas Target").
 		AddProperty(
 			common.NewProperty().

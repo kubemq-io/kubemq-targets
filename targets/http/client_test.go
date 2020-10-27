@@ -90,8 +90,8 @@ func TestClient_Do(t *testing.T) {
 				getError:  false,
 			},
 			cfg: config.Spec{
-				Name: "target.http",
-				Kind: "target.http",
+				Name: "http",
+				Kind: "http",
 				Properties: map[string]string{
 					"auth_type":       "no_auth",
 					"username":        "",
@@ -117,8 +117,8 @@ func TestClient_Do(t *testing.T) {
 				getError:  false,
 			},
 			cfg: config.Spec{
-				Name: "target.http",
-				Kind: "target.http",
+				Name: "http",
+				Kind: "http",
 				Properties: map[string]string{
 					"auth_type":       "no_auth",
 					"username":        "",
@@ -143,8 +143,8 @@ func TestClient_Do(t *testing.T) {
 				getError:  false,
 			},
 			cfg: config.Spec{
-				Name: "target.http",
-				Kind: "target.http",
+				Name: "http",
+				Kind: "http",
 				Properties: map[string]string{
 					"auth_type":       "no_auth",
 					"username":        "",
@@ -168,8 +168,8 @@ func TestClient_Do(t *testing.T) {
 				getError:  false,
 			},
 			cfg: config.Spec{
-				Name: "target.http",
-				Kind: "target.http",
+				Name: "http",
+				Kind: "http",
 				Properties: map[string]string{
 					"auth_type":       "no_auth",
 					"username":        "",
@@ -193,8 +193,8 @@ func TestClient_Do(t *testing.T) {
 				getError:  false,
 			},
 			cfg: config.Spec{
-				Name: "target.http",
-				Kind: "target.http",
+				Name: "http",
+				Kind: "http",
 				Properties: map[string]string{
 					"auth_type":       "no_auth",
 					"username":        "",
@@ -217,8 +217,8 @@ func TestClient_Do(t *testing.T) {
 				getError:  false,
 			},
 			cfg: config.Spec{
-				Name: "target.http",
-				Kind: "target.http",
+				Name: "http",
+				Kind: "http",
 				Properties: map[string]string{
 					"auth_type":       "no_auth",
 					"username":        "",
@@ -244,8 +244,8 @@ func TestClient_Do(t *testing.T) {
 				getError:  false,
 			},
 			cfg: config.Spec{
-				Name: "target.http",
-				Kind: "target.http",
+				Name: "http",
+				Kind: "http",
 				Properties: map[string]string{
 					"auth_type":       "no_auth",
 					"username":        "",

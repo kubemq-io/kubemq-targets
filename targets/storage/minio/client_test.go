@@ -112,8 +112,8 @@ func TestClient_Objects(t *testing.T) {
 		{
 			name: "valid set get remove request",
 			cfg: config.Spec{
-				Name: "target.minio",
-				Kind: "target.minio",
+				Name: "minio",
+				Kind: "minio",
 				Properties: map[string]string{
 					"endpoint":          "localhost:9001",
 					"access_key_id":     "minio",
@@ -148,8 +148,8 @@ func TestClient_Objects(t *testing.T) {
 		{
 			name: "invalid put request",
 			cfg: config.Spec{
-				Name: "target.minio",
-				Kind: "target.minio",
+				Name: "minio",
+				Kind: "minio",
 				Properties: map[string]string{
 					"endpoint":          "localhost:9001",
 					"access_key_id":     "minio",
@@ -173,8 +173,8 @@ func TestClient_Objects(t *testing.T) {
 		{
 			name: "invalid get  request",
 			cfg: config.Spec{
-				Name: "target.minio",
-				Kind: "target.minio",
+				Name: "minio",
+				Kind: "minio",
 				Properties: map[string]string{
 					"endpoint":          "localhost:9001",
 					"access_key_id":     "minio",
@@ -198,8 +198,8 @@ func TestClient_Objects(t *testing.T) {
 		{
 			name: "invalid get request - 2",
 			cfg: config.Spec{
-				Name: "target.minio",
-				Kind: "target.minio",
+				Name: "minio",
+				Kind: "minio",
 				Properties: map[string]string{
 					"endpoint":          "localhost:9001",
 					"access_key_id":     "minio",
@@ -223,8 +223,8 @@ func TestClient_Objects(t *testing.T) {
 		{
 			name: "invalid remove request",
 			cfg: config.Spec{
-				Name: "target.minio",
-				Kind: "target.minio",
+				Name: "minio",
+				Kind: "minio",
 				Properties: map[string]string{
 					"endpoint":          "localhost:9001",
 					"access_key_id":     "minio",
@@ -310,8 +310,8 @@ func TestClient_Buckets(t *testing.T) {
 		{
 			name: "valid make exist list remove request",
 			cfg: config.Spec{
-				Name: "target.minio",
-				Kind: "target.minio",
+				Name: "minio",
+				Kind: "minio",
 				Properties: map[string]string{
 					"endpoint":          "localhost:9001",
 					"access_key_id":     "minio",
@@ -353,8 +353,8 @@ func TestClient_Buckets(t *testing.T) {
 		{
 			name: "invalid make",
 			cfg: config.Spec{
-				Name: "target.minio",
-				Kind: "target.minio",
+				Name: "minio",
+				Kind: "minio",
 				Properties: map[string]string{
 					"endpoint":          "localhost:9001",
 					"access_key_id":     "minio",
@@ -383,8 +383,8 @@ func TestClient_Buckets(t *testing.T) {
 		{
 			name: "invalid exist",
 			cfg: config.Spec{
-				Name: "target.minio",
-				Kind: "target.minio",
+				Name: "minio",
+				Kind: "minio",
 				Properties: map[string]string{
 					"endpoint":          "localhost:9001",
 					"access_key_id":     "minio",
@@ -413,8 +413,8 @@ func TestClient_Buckets(t *testing.T) {
 		{
 			name: "invalid remove",
 			cfg: config.Spec{
-				Name: "target.minio",
-				Kind: "target.minio",
+				Name: "minio",
+				Kind: "minio",
 				Properties: map[string]string{
 					"endpoint":          "localhost:9001",
 					"access_key_id":     "minio",
@@ -512,8 +512,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request",
 			cfg: config.Spec{
-				Name: "target.minio",
-				Kind: "target.minio",
+				Name: "minio",
+				Kind: "minio",
 				Properties: map[string]string{
 					"endpoint":          "localhost:9001",
 					"access_key_id":     "minio",
@@ -529,8 +529,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid metadata request",
 			cfg: config.Spec{
-				Name: "target.minio",
-				Kind: "target.minio",
+				Name: "minio",
+				Kind: "minio",
 				Properties: map[string]string{
 					"endpoint":          "localhost:9001",
 					"access_key_id":     "minio",

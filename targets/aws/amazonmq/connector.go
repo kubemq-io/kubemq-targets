@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.aws.amazonmq").
+		SetKind("aws.amazonmq").
 		SetDescription("AWS AmazonMQ Target").
 		AddProperty(
 			common.NewProperty().

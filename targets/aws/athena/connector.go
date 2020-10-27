@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.aws.athena").
+		SetKind("aws.athena").
 		SetDescription("AWS Athena Target").
 		AddProperty(
 			common.NewProperty().

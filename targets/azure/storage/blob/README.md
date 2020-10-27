@@ -32,20 +32,20 @@ Example:
 bindings:
   - name: kubemq-query-azure-blob
     source:
-      kind: source.query
+      kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
         client_id: "kubemq-query-azure-blob-connector"
         auth_token: ""
-        channel: "target.azure.storage.blob"
+        channel: "azure.storage.blob"
         group:   ""
         concurrency: "1"
         auto_reconnect: "true"
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.azure.storage.blob
+      kind:azure.storage.blob
       name: target-azure-storage-blob
       properties:
         storage_account: "id"

@@ -7,7 +7,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.aws.rds.mysql").
+		SetKind("aws.rds.mysql").
 		SetDescription("AWS RDS MySQL Target").
 		AddProperty(
 			common.NewProperty().

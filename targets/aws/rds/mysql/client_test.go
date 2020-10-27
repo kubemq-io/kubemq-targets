@@ -124,7 +124,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point":      dat.endPoint,
 					"region":         dat.region,
@@ -140,7 +140,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - missing db_user",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point":      dat.endPoint,
 					"region":         dat.region,
@@ -155,7 +155,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - missing db_name",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point":      dat.endPoint,
 					"region":         dat.region,
@@ -170,7 +170,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - missing end_point",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"region":         dat.region,
 					"db_user":        dat.dbUser,
@@ -185,7 +185,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - missing aws_key",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point":      dat.endPoint,
 					"region":         dat.region,
@@ -200,13 +200,13 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - missing aws_secret_key",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point": dat.endPoint,
 					"region":    dat.region,
 					"db_user":   dat.dbUser,
 					"aws_key":   dat.awsKey,
-					"db_port":        "3306",
+					"db_port":   "3306",
 					"db_name":   dat.dbName,
 				},
 			},
@@ -249,7 +249,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			name: "valid exec query request",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point":      dat.endPoint,
 					"region":         dat.region,
@@ -278,7 +278,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			name: "empty exec request",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point":      dat.endPoint,
 					"region":         dat.region,
@@ -302,7 +302,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			name: "invalid exec request",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point":      dat.endPoint,
 					"region":         dat.region,
@@ -326,7 +326,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			name: "valid exec empty query request",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point":      dat.endPoint,
 					"region":         dat.region,
@@ -353,7 +353,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			name: "valid exec bad query request",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point":      dat.endPoint,
 					"region":         dat.region,
@@ -380,7 +380,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			name: "valid exec valid query - no results",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point":      dat.endPoint,
 					"region":         dat.region,
@@ -408,7 +408,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			name: "valid exec query request",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point":      dat.endPoint,
 					"region":         dat.region,
@@ -437,7 +437,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			name: "empty transaction request",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point":      dat.endPoint,
 					"region":         dat.region,
@@ -460,7 +460,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			name: "invalid transaction request",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point":      dat.endPoint,
 					"region":         dat.region,
@@ -484,7 +484,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			name: "valid transaction empty query request",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point":      dat.endPoint,
 					"region":         dat.region,
@@ -559,7 +559,7 @@ func TestClient_Do(t *testing.T) {
 			name: "valid request",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point":      dat.endPoint,
 					"region":         dat.region,
@@ -580,7 +580,7 @@ func TestClient_Do(t *testing.T) {
 			name: "valid request - 2",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point":      dat.endPoint,
 					"region":         dat.region,
@@ -601,7 +601,7 @@ func TestClient_Do(t *testing.T) {
 			name: "valid request - 3",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point":      dat.endPoint,
 					"region":         dat.region,
@@ -622,7 +622,7 @@ func TestClient_Do(t *testing.T) {
 			name: "valid request - 3",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point":      dat.endPoint,
 					"region":         dat.region,
@@ -643,7 +643,7 @@ func TestClient_Do(t *testing.T) {
 			name: "invalid request - bad method",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point":      dat.endPoint,
 					"region":         dat.region,
@@ -662,7 +662,7 @@ func TestClient_Do(t *testing.T) {
 			name: "invalid request - bad isolation level",
 			cfg: config.Spec{
 				Name: "target-aws-rds-mysql",
-				Kind: "target.aws.rds.mysql",
+				Kind: "aws.rds.mysql",
 				Properties: map[string]string{
 					"end_point":      dat.endPoint,
 					"region":         dat.region,

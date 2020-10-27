@@ -7,7 +7,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.stores.couchbase").
+		SetKind("stores.couchbase").
 		SetDescription("Couchbase Target").
 		//
 		AddProperty(

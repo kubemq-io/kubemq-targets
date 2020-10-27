@@ -4,7 +4,7 @@ import "github.com/kubemq-hub/builder/connector/common"
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.aws.cloudwatch.metrics").
+		SetKind("aws.cloudwatch.metrics").
 		SetDescription("AWS Cloudwatch Metrics Target").
 		AddProperty(
 			common.NewProperty().

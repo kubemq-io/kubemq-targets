@@ -22,8 +22,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request",
 			cfg: config.Spec{
-				Name: "target.openfass",
-				Kind: "target.openfass",
+				Name: "openfass",
+				Kind: "openfass",
 				Properties: map[string]string{
 					"gateway":  "http://127.0.0.1:31112",
 					"username": "admin",
@@ -39,8 +39,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - execution error",
 			cfg: config.Spec{
-				Name: "target.openfass",
-				Kind: "target.openfass",
+				Name: "openfass",
+				Kind: "openfass",
 				Properties: map[string]string{
 					"gateway":  "http://bad:31112",
 					"username": "admin",

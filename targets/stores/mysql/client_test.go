@@ -474,8 +474,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request",
 			cfg: config.Spec{
-				Name: "target.mysql",
-				Kind: "target.mysql",
+				Name: "mysql",
+				Kind: "mysql",
 				Properties: map[string]string{
 					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
 					"max_idle_connections":            "",
@@ -492,8 +492,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 2",
 			cfg: config.Spec{
-				Name: "target.mysql",
-				Kind: "target.mysql",
+				Name: "mysql",
+				Kind: "mysql",
 				Properties: map[string]string{
 					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
 					"max_idle_connections":            "",
@@ -510,8 +510,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 3",
 			cfg: config.Spec{
-				Name: "target.mysql",
-				Kind: "target.mysql",
+				Name: "mysql",
+				Kind: "mysql",
 				Properties: map[string]string{
 					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
 					"max_idle_connections":            "",
@@ -528,8 +528,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 3",
 			cfg: config.Spec{
-				Name: "target.mysql",
-				Kind: "target.mysql",
+				Name: "mysql",
+				Kind: "mysql",
 				Properties: map[string]string{
 					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
 					"max_idle_connections":            "",
@@ -546,8 +546,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad method",
 			cfg: config.Spec{
-				Name: "target.mysql",
-				Kind: "target.mysql",
+				Name: "mysql",
+				Kind: "mysql",
 				Properties: map[string]string{
 					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
 					"max_idle_connections":            "",
@@ -562,8 +562,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad isolation level",
 			cfg: config.Spec{
-				Name: "target.mysql",
-				Kind: "target.mysql",
+				Name: "mysql",
+				Kind: "mysql",
 				Properties: map[string]string{
 					"connection":                      "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local",
 					"max_idle_connections":            "",

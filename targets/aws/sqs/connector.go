@@ -7,7 +7,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.aws.sqs").
+		SetKind("aws.sqs").
 		SetDescription("AWS SQS Target").
 		AddProperty(
 			common.NewProperty().

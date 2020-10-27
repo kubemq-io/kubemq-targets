@@ -7,7 +7,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.azure.stores.azuresql").
+		SetKind("azure.stores.azuresql").
 		SetDescription("Azure SQL Target").
 		AddProperty(
 			common.NewProperty().

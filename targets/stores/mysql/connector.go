@@ -7,7 +7,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.stores.mysql").
+		SetKind("stores.mysql").
 		SetDescription("MySQL Target").
 		AddProperty(
 			common.NewProperty().

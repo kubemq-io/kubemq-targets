@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.messaging.kafka").
+		SetKind("messaging.kafka").
 		SetDescription("Kafka Messaging Target").
 		AddProperty(
 			common.NewProperty().

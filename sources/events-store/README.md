@@ -36,7 +36,7 @@ Example:
 bindings:
   - name: kubemq-events-store-elastic-search
     source:
-      kind: source.events-store
+      kind: kubemq.events-store
       name: kubemq-events
       properties:
         address: "kubemq-cluster:50000"
@@ -49,7 +49,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.stores.elastic-search
+      kind:stores.elastic-search
       name: target-elastic-search
       properties:
         urls: "http://localhost:9200"

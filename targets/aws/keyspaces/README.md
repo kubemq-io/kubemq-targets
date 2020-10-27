@@ -38,7 +38,7 @@ Example:
 bindings:
   - name: kubemq-query-keyspaces
     source:
-      kind: source.query
+      kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
@@ -50,7 +50,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.aws.keyspaces
+      kind:aws.keyspaces
       name: target-aws-keyspaces
       properties:
         hosts: "cassandra.us-east-2.amazonaws.com"

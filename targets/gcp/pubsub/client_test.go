@@ -51,7 +51,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init",
 			cfg: config.Spec{
 				Name: "target-gcp-pubsub",
-				Kind: "target.gcp.pubsub",
+				Kind: "gcp.pubsub",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"retries":     "0",
@@ -63,7 +63,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init-missing-credentials",
 			cfg: config.Spec{
 				Name: "target-gcp-pubsub",
-				Kind: "target.gcp.pubsub",
+				Kind: "gcp.pubsub",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 					"retries":    "0",
@@ -75,7 +75,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init-missing-project-id",
 			cfg: config.Spec{
 				Name: "target-gcp-pubsub",
-				Kind: "target.gcp.pubsub",
+				Kind: "gcp.pubsub",
 				Properties: map[string]string{
 					"retries":     "0",
 					"credentials": dat.credentials,
@@ -118,7 +118,7 @@ func TestClient_Do(t *testing.T) {
 			name: "valid google-pubsub sent with tags",
 			cfg: config.Spec{
 				Name: "target-gcp-pubsub",
-				Kind: "target.gcp.pubsub",
+				Kind: "gcp.pubsub",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"retries":     "0",
@@ -134,11 +134,11 @@ func TestClient_Do(t *testing.T) {
 				SetData(validBody),
 
 			wantErr: false,
-		},{
+		}, {
 			name: "valid google-pubsub sent without tags",
 			cfg: config.Spec{
 				Name: "target-gcp-pubsub",
-				Kind: "target.gcp.pubsub",
+				Kind: "gcp.pubsub",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"retries":     "0",
@@ -157,7 +157,7 @@ func TestClient_Do(t *testing.T) {
 			name: "invalid missing topic google-pubsub sent",
 			cfg: config.Spec{
 				Name: "target-gcp-pubsub",
-				Kind: "target.gcp.pubsub",
+				Kind: "gcp.pubsub",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"retries":     "0",
@@ -204,7 +204,7 @@ func TestClient_list(t *testing.T) {
 			name: "valid google-pubsub-list",
 			cfg: config.Spec{
 				Name: "target-gcp-pubsub",
-				Kind: "target.gcp.pubsub",
+				Kind: "gcp.pubsub",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.credentials,

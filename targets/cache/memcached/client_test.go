@@ -109,8 +109,8 @@ func TestClient_Set_Get(t *testing.T) {
 		{
 			name: "valid set get request",
 			cfg: config.Spec{
-				Name: "target.memcached",
-				Kind: "target.memcached",
+				Name: "memcached",
+				Kind: "memcached",
 				Properties: map[string]string{
 					"hosts":                   "localhost:11211",
 					"max_idle_connections":    "2",
@@ -137,8 +137,8 @@ func TestClient_Set_Get(t *testing.T) {
 		{
 			name: "valid set , no key get request",
 			cfg: config.Spec{
-				Name: "target.memcached",
-				Kind: "target.memcached",
+				Name: "memcached",
+				Kind: "memcached",
 				Properties: map[string]string{
 					"hosts":                   "localhost:11211",
 					"max_idle_connections":    "2",
@@ -193,8 +193,8 @@ func TestClient_Delete(t *testing.T) {
 	defer cancel()
 	c := New()
 	err := c.Init(ctx, config.Spec{
-		Name: "target.memcached",
-		Kind: "target.memcached",
+		Name: "memcached",
+		Kind: "memcached",
 		Properties: map[string]string{
 			"hosts":                   "localhost:11211",
 			"max_idle_connections":    "2",
@@ -237,8 +237,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request",
 			cfg: config.Spec{
-				Name: "target.memcached",
-				Kind: "target.memcached",
+				Name: "memcached",
+				Kind: "memcached",
 				Properties: map[string]string{
 					"hosts":                   "localhost:11211",
 					"max_idle_connections":    "2",
@@ -254,8 +254,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad method",
 			cfg: config.Spec{
-				Name: "target.memcached",
-				Kind: "target.memcached",
+				Name: "memcached",
+				Kind: "memcached",
 				Properties: map[string]string{
 					"hosts":                   "localhost:11211",
 					"max_idle_connections":    "2",
@@ -271,8 +271,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - no key",
 			cfg: config.Spec{
-				Name: "target.memcached",
-				Kind: "target.memcached",
+				Name: "memcached",
+				Kind: "memcached",
 				Properties: map[string]string{
 					"hosts":                   "localhost:11211",
 					"max_idle_connections":    "2",

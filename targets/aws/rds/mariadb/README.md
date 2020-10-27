@@ -27,7 +27,7 @@ Example:
 bindings:
   - name: kubemq-query-aws-mariadb
     source:
-      kind: source.query
+      kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
@@ -39,7 +39,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.aws.rds.mariadb
+      kind:aws.rds.mariadb
       name: target-aws-rds-mariadb
       properties:
         connection: "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local"

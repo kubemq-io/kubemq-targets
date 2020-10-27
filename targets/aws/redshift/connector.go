@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.aws.redshift.service").
+		SetKind("aws.redshift.service").
 		SetDescription("AWS Redshift Service Target").
 		AddProperty(
 			common.NewProperty().

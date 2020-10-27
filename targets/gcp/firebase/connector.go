@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.gcp.firebase").
+		SetKind("gcp.firebase").
 		SetDescription("GCP Firebase Target").
 		AddProperty(
 			common.NewProperty().

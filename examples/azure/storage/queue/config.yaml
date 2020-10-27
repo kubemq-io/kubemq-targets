@@ -1,19 +1,19 @@
 bindings:
   - name: kubemq-query-azure-queue
     source:
-      kind: source.query
+      kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
         client_id: "kubemq-query-azure-queue-connector"
         auth_token: ""
-        channel: "target.azure.storage.queue"
+        channel: "azure.storage.queue"
         group:   ""
         auto_reconnect: "true"
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.azure.storage.queue
+      kind:azure.storage.queue
       name: target-azure-storage-queue
       properties:
         storage_account: "id"

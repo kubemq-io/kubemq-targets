@@ -547,8 +547,8 @@ func TestClient_Delete(t *testing.T) {
 	defer cancel()
 	c := New()
 	err := c.Init(ctx, config.Spec{
-		Name: "target.cassandra",
-		Kind: "target.cassandra",
+		Name: "cassandra",
+		Kind: "cassandra",
 		Properties: map[string]string{
 			"hosts":              "localhost",
 			"port":               "9042",
@@ -611,8 +611,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request",
 			cfg: config.Spec{
-				Name: "target.cassandra",
-				Kind: "target.cassandra",
+				Name: "cassandra",
+				Kind: "cassandra",
 				Properties: map[string]string{
 					"hosts":              "localhost",
 					"port":               "9042",
@@ -635,8 +635,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad method",
 			cfg: config.Spec{
-				Name: "target.cassandra",
-				Kind: "target.cassandra",
+				Name: "cassandra",
+				Kind: "cassandra",
 				Properties: map[string]string{
 					"hosts":              "localhost",
 					"port":               "9042",
@@ -659,8 +659,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - no key",
 			cfg: config.Spec{
-				Name: "target.cassandra",
-				Kind: "target.cassandra",
+				Name: "cassandra",
+				Kind: "cassandra",
 				Properties: map[string]string{
 					"hosts":              "localhost",
 					"port":               "9042",
@@ -682,8 +682,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad consistency key",
 			cfg: config.Spec{
-				Name: "target.cassandra",
-				Kind: "target.cassandra",
+				Name: "cassandra",
+				Kind: "cassandra",
 				Properties: map[string]string{
 					"hosts":              "localhost",
 					"port":               "9042",

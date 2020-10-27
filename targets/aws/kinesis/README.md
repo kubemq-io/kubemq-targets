@@ -27,7 +27,7 @@ Example:
 bindings:
   - name: kubemq-query-aws-kinesis
     source:
-      kind: source.query
+      kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
@@ -39,7 +39,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.aws.kinesis
+      kind:aws.kinesis
       name: target-aws-kinesis
       properties:
         aws_key: "id"

@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("source.queue").
+		SetKind("kubemq.queue").
 		SetDescription("Kubemq Queue Source").
 		AddProperty(
 			common.NewProperty().

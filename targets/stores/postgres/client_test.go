@@ -467,8 +467,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request",
 			cfg: config.Spec{
-				Name: "target.postgres",
-				Kind: "target.postgres",
+				Name: "postgres",
+				Kind: "postgres",
 				Properties: map[string]string{
 					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
 					"max_idle_connections":            "",
@@ -485,8 +485,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 2",
 			cfg: config.Spec{
-				Name: "target.postgres",
-				Kind: "target.postgres",
+				Name: "postgres",
+				Kind: "postgres",
 				Properties: map[string]string{
 					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
 					"max_idle_connections":            "",
@@ -503,8 +503,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 3",
 			cfg: config.Spec{
-				Name: "target.postgres",
-				Kind: "target.postgres",
+				Name: "postgres",
+				Kind: "postgres",
 				Properties: map[string]string{
 					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
 					"max_idle_connections":            "",
@@ -521,8 +521,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 3",
 			cfg: config.Spec{
-				Name: "target.postgres",
-				Kind: "target.postgres",
+				Name: "postgres",
+				Kind: "postgres",
 				Properties: map[string]string{
 					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
 					"max_idle_connections":            "",
@@ -539,8 +539,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad method",
 			cfg: config.Spec{
-				Name: "target.postgres",
-				Kind: "target.postgres",
+				Name: "postgres",
+				Kind: "postgres",
 				Properties: map[string]string{
 					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
 					"max_idle_connections":            "",
@@ -555,8 +555,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad isolation level",
 			cfg: config.Spec{
-				Name: "target.postgres",
-				Kind: "target.postgres",
+				Name: "postgres",
+				Kind: "postgres",
 				Properties: map[string]string{
 					"connection":                      "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable",
 					"max_idle_connections":            "",

@@ -91,7 +91,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init",
 			cfg: config.Spec{
 				Name: "target-aws-elasticsearch",
-				Kind: "target.aws.elasticsearch",
+				Kind: "aws.elasticsearch",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
 					"aws_secret_key": dat.awsSecretKey,
@@ -102,7 +102,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - missing aws_key",
 			cfg: config.Spec{
 				Name: "target-aws-elasticsearch",
-				Kind: "target.aws.elasticsearch",
+				Kind: "aws.elasticsearch",
 				Properties: map[string]string{
 					"aws_secret_key": dat.awsSecretKey,
 				},
@@ -112,7 +112,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - missing aws_secret_key",
 			cfg: config.Spec{
 				Name: "target-aws-elasticsearch",
-				Kind: "target.aws.elasticsearch",
+				Kind: "aws.elasticsearch",
 				Properties: map[string]string{
 					"aws_key": dat.awsKey,
 				},
@@ -143,7 +143,7 @@ func TestClient_Do(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-aws-elasticsearch",
-		Kind: "target.aws.elasticsearch",
+		Kind: "aws.elasticsearch",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,

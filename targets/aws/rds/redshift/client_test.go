@@ -84,7 +84,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      dat.connection,
 					"max_idle_connections":            "",
@@ -98,7 +98,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - bad connection string",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      "",
 					"max_idle_connections":            "",
@@ -112,7 +112,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - bad port connection string",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      "sslmode=require user=myuser password=mypass host=myhost port=5555 dbname=redshiftdb",
 					"max_idle_connections":            "",
@@ -126,7 +126,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - no connection",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"max_idle_connections":            "",
 					"max_open_connections":            "",
@@ -139,7 +139,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - bad max_idle_connections",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      dat.connection,
 					"max_idle_connections":            "-1",
@@ -153,7 +153,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - bad max_open_connections",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      dat.connection,
 					"max_idle_connections":            "",
@@ -167,7 +167,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - bad connection_max_lifetime_seconds",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      dat.connection,
 					"max_idle_connections":            "",
@@ -210,7 +210,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			name: "valid exec query request",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      dat.connection,
 					"max_idle_connections":            "",
@@ -236,7 +236,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			name: "empty exec request",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      dat.connection,
 					"max_idle_connections":            "",
@@ -256,7 +256,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			name: "invalid exec request",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      dat.connection,
 					"max_idle_connections":            "",
@@ -277,7 +277,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			name: "valid exec empty query request",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      dat.connection,
 					"max_idle_connections":            "",
@@ -301,7 +301,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			name: "valid exec bad query request",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      dat.connection,
 					"max_idle_connections":            "",
@@ -325,7 +325,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			name: "valid exec valid query - no results",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      dat.connection,
 					"max_idle_connections":            "",
@@ -350,7 +350,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			name: "valid exec query request",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      dat.connection,
 					"max_idle_connections":            "",
@@ -376,7 +376,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			name: "empty transaction request",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      dat.connection,
 					"max_idle_connections":            "",
@@ -396,7 +396,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			name: "invalid transaction request",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      dat.connection,
 					"max_idle_connections":            "",
@@ -417,7 +417,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			name: "valid transaction empty query request",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      dat.connection,
 					"max_idle_connections":            "",
@@ -489,7 +489,7 @@ func TestClient_Do(t *testing.T) {
 			name: "valid request",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      dat.connection,
 					"max_idle_connections":            "",
@@ -507,7 +507,7 @@ func TestClient_Do(t *testing.T) {
 			name: "valid request - 2",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      dat.connection,
 					"max_idle_connections":            "",
@@ -525,7 +525,7 @@ func TestClient_Do(t *testing.T) {
 			name: "valid request - 3",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      dat.connection,
 					"max_idle_connections":            "",
@@ -543,7 +543,7 @@ func TestClient_Do(t *testing.T) {
 			name: "valid request - 3",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      dat.connection,
 					"max_idle_connections":            "",
@@ -561,7 +561,7 @@ func TestClient_Do(t *testing.T) {
 			name: "invalid request - bad method",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      dat.connection,
 					"max_idle_connections":            "",
@@ -577,7 +577,7 @@ func TestClient_Do(t *testing.T) {
 			name: "invalid request - bad isolation_level",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"connection":                      dat.connection,
 					"max_idle_connections":            "",

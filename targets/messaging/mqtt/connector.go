@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.messaging.mqtt").
+		SetKind("messaging.mqtt").
 		SetDescription("MQTT Messaging Target").
 		AddProperty(
 			common.NewProperty().

@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.azure.servicebus").
+		SetKind("azure.servicebus").
 		SetDescription("Azure Service Bus Target").
 		AddProperty(
 			common.NewProperty().

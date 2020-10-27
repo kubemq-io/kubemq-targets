@@ -7,7 +7,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.gcp.stores.mysql").
+		SetKind("gcp.stores.mysql").
 		SetDescription("GCP MySQL Direct Mode Target").
 		AddProperty(
 			common.NewProperty().

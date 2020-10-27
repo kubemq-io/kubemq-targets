@@ -29,7 +29,7 @@ Example:
 bindings:
   - name: kubemq-query-gcp-mysql
     source:
-      kind: source.query
+      kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
@@ -41,7 +41,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.gcp.stores.mysql
+      kind:gcp.stores.mysql
       name: target-gcp-mysql
       properties:
         instance_connection_name: "test"

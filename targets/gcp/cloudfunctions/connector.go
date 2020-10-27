@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.gcp.cloudfunctions").
+		SetKind("gcp.cloudfunctions").
 		SetDescription("GCP Cloud Functions Target").
 		AddProperty(
 			common.NewProperty().

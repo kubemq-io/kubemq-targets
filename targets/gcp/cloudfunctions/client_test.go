@@ -108,7 +108,7 @@ func TestClient_Do(t *testing.T) {
 			name: "valid google-function sent",
 			cfg: config.Spec{
 				Name: "target-google-cloudfunctions",
-				Kind: "target.google.cloudfunctions",
+				Kind: "google.cloudfunctions",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -125,7 +125,7 @@ func TestClient_Do(t *testing.T) {
 			name: "valid google-function sent",
 			cfg: config.Spec{
 				Name: "target-google-cloudfunctions",
-				Kind: "target.google.cloudfunctions",
+				Kind: "google.cloudfunctions",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -143,7 +143,7 @@ func TestClient_Do(t *testing.T) {
 			name: "invalid  google-function location with no match",
 			cfg: config.Spec{
 				Name: "target-google-cloudfunctions",
-				Kind: "target.google.cloudfunctions",
+				Kind: "google.cloudfunctions",
 				Properties: map[string]string{
 					"project_id":     dat.projectID,
 					"credentials":    dat.cred,

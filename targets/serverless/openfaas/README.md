@@ -26,7 +26,7 @@ Example:
 bindings:
   - name: kubemq-query-OpenFaas
     source:
-      kind: source.query
+      kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
@@ -38,7 +38,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.serverless.openfaas
+      kind:serverless.openfaas
       name: target-serverless-openfaas
       properties:
         gateway: "http://localhost:31112"

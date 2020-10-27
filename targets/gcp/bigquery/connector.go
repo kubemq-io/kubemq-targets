@@ -4,7 +4,7 @@ import "github.com/kubemq-hub/builder/connector/common"
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.gcp.bigquery").
+		SetKind("gcp.bigquery").
 		SetDescription("GCP Bigquery Target").
 		AddProperty(
 			common.NewProperty().

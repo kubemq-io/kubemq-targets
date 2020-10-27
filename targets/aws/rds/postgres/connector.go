@@ -7,7 +7,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.aws.rds.postgres").
+		SetKind("aws.rds.postgres").
 		SetDescription("AWS RDS Postgres Target").
 		AddProperty(
 			common.NewProperty().

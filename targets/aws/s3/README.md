@@ -29,7 +29,7 @@ Example:
 bindings:
   - name: kubemq-query-aws-s3
     source:
-      kind: source.query
+      kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
@@ -41,7 +41,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.aws.s3
+      kind:aws.s3
       name: target-aws-s3
       properties:
         aws_key: "id"

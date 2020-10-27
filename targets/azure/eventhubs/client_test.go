@@ -58,7 +58,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init ",
 			cfg: config.Spec{
 				Name: "target-azure-eventhubs",
-				Kind: "target.azure.eventhubs",
+				Kind: "azure.eventhubs",
 				Properties: map[string]string{
 					"end_point":              dat.endPoint,
 					"shared_access_key_name": dat.sharedAccessKeyName,
@@ -92,7 +92,7 @@ func TestClient_Send(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-azure-eventhubs",
-		Kind: "target.azure.eventhubs",
+		Kind: "azure.eventhubs",
 		Properties: map[string]string{
 			"end_point":              dat.endPoint,
 			"shared_access_key_name": dat.sharedAccessKeyName,
@@ -153,7 +153,7 @@ func TestClient_SendBatch(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-azure-eventhubs",
-		Kind: "target.azure.eventhubs",
+		Kind: "azure.eventhubs",
 		Properties: map[string]string{
 			"end_point":              dat.endPoint,
 			"shared_access_key_name": dat.sharedAccessKeyName,

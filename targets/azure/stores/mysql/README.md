@@ -27,7 +27,7 @@ Example:
 bindings:
   - name: kubemq-query-azure-mysql
     source:
-      kind: source.query
+      kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
@@ -40,7 +40,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.azure.stores.mysql
+      kind:azure.stores.mysql
       name: target-azure-stores-mysql
       properties:
         connection: "username@host:password@tcp(endpoint:3306)/dbname?allowNativePasswords=true"

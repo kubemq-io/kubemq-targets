@@ -7,7 +7,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.azure.stores.postgres").
+		SetKind("azure.stores.postgres").
 		SetDescription("Azure Postgres Target").
 		AddProperty(
 			common.NewProperty().

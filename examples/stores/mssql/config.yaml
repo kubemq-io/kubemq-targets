@@ -1,7 +1,7 @@
 bindings:
   - name: kubemq-query-mssql
     source:
-      kind: source.query
+      kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
@@ -13,7 +13,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.stores.mssql
+      kind:stores.mssql
       name: target-mssql
       properties:
         connection: "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master"

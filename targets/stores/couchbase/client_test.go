@@ -175,8 +175,8 @@ func TestClient_Set_Get(t *testing.T) {
 		{
 			name: "valid set get request",
 			cfg: config.Spec{
-				Name: "target.couchbase",
-				Kind: "target.couchbase",
+				Name: "couchbase",
+				Kind: "couchbase",
 				Properties: map[string]string{
 					"url":              "localhost",
 					"username":         "couchbase",
@@ -208,8 +208,8 @@ func TestClient_Set_Get(t *testing.T) {
 		{
 			name: "valid set , no key get request",
 			cfg: config.Spec{
-				Name: "target.couchbase",
-				Kind: "target.couchbase",
+				Name: "couchbase",
+				Kind: "couchbase",
 				Properties: map[string]string{
 					"url":              "localhost",
 					"username":         "couchbase",
@@ -237,8 +237,8 @@ func TestClient_Set_Get(t *testing.T) {
 		{
 			name: "invalid set request",
 			cfg: config.Spec{
-				Name: "target.couchbase",
-				Kind: "target.couchbase",
+				Name: "couchbase",
+				Kind: "couchbase",
 				Properties: map[string]string{
 					"url":              "localhost",
 					"username":         "couchbase",
@@ -294,8 +294,8 @@ func TestClient_Delete(t *testing.T) {
 	defer cancel()
 	c := New()
 	err := c.Init(ctx, config.Spec{
-		Name: "target.couchbase",
-		Kind: "target.couchbase",
+		Name: "couchbase",
+		Kind: "couchbase",
 		Properties: map[string]string{
 			"url":              "localhost",
 			"username":         "couchbase",
@@ -343,8 +343,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request",
 			cfg: config.Spec{
-				Name: "target.couchbase",
-				Kind: "target.couchbase",
+				Name: "couchbase",
+				Kind: "couchbase",
 				Properties: map[string]string{
 					"url":              "localhost",
 					"username":         "couchbase",
@@ -364,8 +364,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad method",
 			cfg: config.Spec{
-				Name: "target.couchbase",
-				Kind: "target.couchbase",
+				Name: "couchbase",
+				Kind: "couchbase",
 				Properties: map[string]string{
 					"url":              "localhost",
 					"username":         "couchbase",
@@ -385,8 +385,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - no key",
 			cfg: config.Spec{
-				Name: "target.couchbase",
-				Kind: "target.couchbase",
+				Name: "couchbase",
+				Kind: "couchbase",
 				Properties: map[string]string{
 					"url":              "localhost",
 					"username":         "couchbase",
@@ -405,8 +405,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad cas",
 			cfg: config.Spec{
-				Name: "target.couchbase",
-				Kind: "target.couchbase",
+				Name: "couchbase",
+				Kind: "couchbase",
 				Properties: map[string]string{
 					"url":              "localhost",
 					"username":         "couchbase",
@@ -427,8 +427,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad expiry",
 			cfg: config.Spec{
-				Name: "target.couchbase",
-				Kind: "target.couchbase",
+				Name: "couchbase",
+				Kind: "couchbase",
 				Properties: map[string]string{
 					"url":              "localhost",
 					"username":         "couchbase",

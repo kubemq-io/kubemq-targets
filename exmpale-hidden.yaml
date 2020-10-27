@@ -20,7 +20,7 @@ data:
     bindings:
       - name: kubemq-query-redis
         source:
-          kind: source.query
+          kind: kubemq.query
           name: kubemq-query
           properties:
             host: "kubemq-cluster-grpc"
@@ -33,7 +33,7 @@ data:
             reconnect_interval_seconds: "1"
             max_reconnects: "0"
         target:
-          kind: target.cache.redis
+          kind:cache.redis
           name: target-redis
           properties:
             url: "rediss://:bicam2fjm2ci38ai@private-redis-dev-do-user-7215618-0.a.db.ondigitalocean.com:25061"
@@ -41,7 +41,7 @@ data:
           log_level: "debug"
       - name: kubemq-query-cassandra
         source:
-          kind: source.query
+          kind: kubemq.query
           name: kubemq-query
           properties:
             host: "kubemq-cluster-grpc"
@@ -54,7 +54,7 @@ data:
             reconnect_interval_seconds: "1"
             max_reconnects: "0"
         target:
-          kind: target.stores.cassandra
+          kind:stores.cassandra
           name: target-cassandra
           properties:
             hosts: "161.35.12.23,161.35.12.187,161.35.8.202,161.35.0.90,161.35.0.216,161.35.4.237"

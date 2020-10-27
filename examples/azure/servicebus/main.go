@@ -29,7 +29,7 @@ func main() {
 		SetMetadataKeyValue("label", `test`).
 		SetData(body)
 	sendUploadResponse, err := client.SetQuery(sendRequest.ToQuery()).
-		SetChannel("target.azure.servicebus").
+		SetChannel("azure.servicebus").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)

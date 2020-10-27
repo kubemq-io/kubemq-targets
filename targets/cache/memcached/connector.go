@@ -7,7 +7,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.cache.memcached").
+		SetKind("cache.memcached").
 		SetDescription("Memcached Target").
 		AddProperty(
 			common.NewProperty().

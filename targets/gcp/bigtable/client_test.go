@@ -83,7 +83,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
-				Kind: "target.gcp.bigtable",
+				Kind: "gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"instance":    dat.instance,
@@ -95,7 +95,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init-missing-credentials",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
-				Kind: "target.gcp.bigtable",
+				Kind: "gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -107,7 +107,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init-missing-project-id",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
-				Kind: "target.gcp.bigtable",
+				Kind: "gcp.bigtable",
 				Properties: map[string]string{
 					"instance": dat.instance,
 				},
@@ -118,7 +118,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init-missing-instance",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
-				Kind: "target.gcp.bigtable",
+				Kind: "gcp.bigtable",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 				},
@@ -153,7 +153,7 @@ func TestClient_Create_Column_Family(t *testing.T) {
 	dat, err := getTestStructure()
 	cfg2 := config.Spec{
 		Name: "target-gcp-bigtable",
-		Kind: "target.gcp.bigtable",
+		Kind: "gcp.bigtable",
 		Properties: map[string]string{
 			"project_id":  dat.projectID,
 			"instance":    dat.instance,
@@ -171,7 +171,7 @@ func TestClient_Create_Column_Family(t *testing.T) {
 			name: "valid create create-column-family",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
-				Kind: "target.gcp.bigtable",
+				Kind: "gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"instance":    dat.instance,
@@ -187,7 +187,7 @@ func TestClient_Create_Column_Family(t *testing.T) {
 			name: "invalid create-column-family -invalid table_name",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
-				Kind: "target.gcp.bigtable",
+				Kind: "gcp.bigtable",
 				Properties: map[string]string{
 					"instance":    dat.instance,
 					"project_id":  dat.projectID,
@@ -203,7 +203,7 @@ func TestClient_Create_Column_Family(t *testing.T) {
 			name: "invalid create-column-family - already exists",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
-				Kind: "target.gcp.bigtable",
+				Kind: "gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"instance":    dat.instance,
@@ -243,7 +243,7 @@ func TestClient_Create_Table(t *testing.T) {
 	require.NoError(t, err)
 	cfg2 := config.Spec{
 		Name: "target-gcp-bigtable",
-		Kind: "target.gcp.bigtable",
+		Kind: "gcp.bigtable",
 		Properties: map[string]string{
 			"project_id":  dat.projectID,
 			"instance":    dat.instance,
@@ -263,7 +263,7 @@ func TestClient_Create_Table(t *testing.T) {
 				SetMetadataKeyValue("method", "create_table").
 				SetMetadataKeyValue("table_name", dat.tempTable),
 			wantError: false,
-		},{
+		}, {
 			name: "invalid create table- already exists",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "create_table").
@@ -298,7 +298,7 @@ func TestClient_Delete_Table(t *testing.T) {
 	require.NoError(t, err)
 	cfg2 := config.Spec{
 		Name: "target-gcp-bigtable",
-		Kind: "target.gcp.bigtable",
+		Kind: "gcp.bigtable",
 		Properties: map[string]string{
 			"project_id":  dat.projectID,
 			"instance":    dat.instance,
@@ -348,8 +348,6 @@ func TestClient_Delete_Table(t *testing.T) {
 	}
 }
 
-
-
 func TestClient_write(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
@@ -375,7 +373,7 @@ func TestClient_write(t *testing.T) {
 			name: "valid single write",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
-				Kind: "target.gcp.bigtable",
+				Kind: "gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"instance":    dat.instance,
@@ -395,7 +393,7 @@ func TestClient_write(t *testing.T) {
 			name: "valid single write",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
-				Kind: "target.gcp.bigtable",
+				Kind: "gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -449,7 +447,7 @@ func TestClient_Delete_Rows(t *testing.T) {
 			name: "valid delete rows",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
-				Kind: "target.gcp.bigtable",
+				Kind: "gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"instance":    dat.instance,
@@ -466,7 +464,7 @@ func TestClient_Delete_Rows(t *testing.T) {
 			name: "invalid delete rows - missing row_key_prefix",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
-				Kind: "target.gcp.bigtable",
+				Kind: "gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"instance":    dat.instance,
@@ -482,7 +480,7 @@ func TestClient_Delete_Rows(t *testing.T) {
 			name: "invalid delete rows - missing table name",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
-				Kind: "target.gcp.bigtable",
+				Kind: "gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"instance":    dat.instance,
@@ -498,7 +496,7 @@ func TestClient_Delete_Rows(t *testing.T) {
 			name: "invalid delete rows - table doesnt exists",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
-				Kind: "target.gcp.bigtable",
+				Kind: "gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"instance":    dat.instance,
@@ -555,7 +553,7 @@ func TestClient_Read_Rows(t *testing.T) {
 			name: "valid read all rows",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
-				Kind: "target.gcp.bigtable",
+				Kind: "gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"instance":    dat.instance,
@@ -571,7 +569,7 @@ func TestClient_Read_Rows(t *testing.T) {
 			name: "valid read all rows by keys",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
-				Kind: "target.gcp.bigtable",
+				Kind: "gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -587,7 +585,7 @@ func TestClient_Read_Rows(t *testing.T) {
 			name: "valid read all rows - column_filter",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
-				Kind: "target.gcp.bigtable",
+				Kind: "gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -604,7 +602,7 @@ func TestClient_Read_Rows(t *testing.T) {
 			name: "valid read all rows by keys - column_filter",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
-				Kind: "target.gcp.bigtable",
+				Kind: "gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"credentials": dat.cred,
@@ -620,7 +618,7 @@ func TestClient_Read_Rows(t *testing.T) {
 			name: "invalid read all rows - column_filter - missing column_name",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
-				Kind: "target.gcp.bigtable",
+				Kind: "gcp.bigtable",
 				Properties: map[string]string{
 					"project_id":  dat.projectID,
 					"instance":    dat.instance,
@@ -636,7 +634,7 @@ func TestClient_Read_Rows(t *testing.T) {
 			name: "valid read row",
 			cfg: config.Spec{
 				Name: "target-gcp-bigtable",
-				Kind: "target.gcp.bigtable",
+				Kind: "gcp.bigtable",
 				Properties: map[string]string{
 					"project_id": dat.projectID,
 					"instance":   dat.instance,

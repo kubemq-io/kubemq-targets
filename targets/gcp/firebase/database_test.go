@@ -15,7 +15,7 @@ func TestClient_db(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "google-firebase-target",
-		Kind: "target.gcp.firebase",
+		Kind: "gcp.firebase",
 		Properties: map[string]string{
 			"project_id":  dat.projectID,
 			"credentials": dat.cred,

@@ -7,7 +7,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.gcp.stores.postgres").
+		SetKind("gcp.stores.postgres").
 		SetDescription("GCP Postgres Direct Mode Target").
 		AddProperty(
 			common.NewProperty().

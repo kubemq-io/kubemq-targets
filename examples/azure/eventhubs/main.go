@@ -29,7 +29,7 @@ func main() {
 		SetMetadataKeyValue("properties", `{"tag-1":"test","tag-2":"test2"}`).
 		SetData(body)
 	sendUploadResponse, err := client.SetQuery(sendRequest.ToQuery()).
-		SetChannel("target.azure.eventhubs").
+		SetChannel("azure.eventhubs").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)

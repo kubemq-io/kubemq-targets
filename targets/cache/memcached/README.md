@@ -25,7 +25,7 @@ Example:
 bindings:
   - name: kubemq-query-memcached
     source:
-      kind: source.query
+      kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
@@ -38,7 +38,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.cache.memcached
+      kind:cache.memcached
       name: target-memcached
       properties:
         hosts: "localhost:11211"

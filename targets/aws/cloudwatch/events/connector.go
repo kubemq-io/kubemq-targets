@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.aws.cloudwatch.events").
+		SetKind("aws.cloudwatch.events").
 		SetDescription("AWS Cloudwatch Events Target").
 		AddProperty(
 			common.NewProperty().

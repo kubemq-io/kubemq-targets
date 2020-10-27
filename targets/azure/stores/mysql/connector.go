@@ -7,7 +7,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.azure.stores.mysql").
+		SetKind("azure.stores.mysql").
 		SetDescription("Azure MySQL Target").
 		AddProperty(
 			common.NewProperty().

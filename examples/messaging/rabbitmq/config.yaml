@@ -1,7 +1,7 @@
 bindings:
   - name: kubemq-query-rabbitmq
     source:
-      kind: source.query
+      kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
@@ -13,7 +13,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.messaging.rabbitmq
+      kind:messaging.rabbitmq
       name: target-rabbitmq
       properties:
         url: "amqp://rabbitmq:rabbitmq@localhost:5672/"

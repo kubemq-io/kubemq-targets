@@ -7,7 +7,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.stores.mongodb").
+		SetKind("stores.mongodb").
 		SetDescription("MongoDB Target").
 		AddProperty(
 			common.NewProperty().

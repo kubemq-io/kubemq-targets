@@ -7,7 +7,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.aws.keyspaces").
+		SetKind("aws.keyspaces").
 		SetDescription("AWS Keyspaces Target").
 		AddProperty(
 			common.NewProperty().

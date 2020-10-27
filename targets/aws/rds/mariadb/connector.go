@@ -7,7 +7,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.aws.rds.mariadb").
+		SetKind("aws.rds.mariadb").
 		SetDescription("AWS RDS MariaDB Target").
 		AddProperty(
 			common.NewProperty().

@@ -1,7 +1,7 @@
 bindings:
   - name: kubemq-query-minio
     source:
-      kind: source.query
+      kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
@@ -13,7 +13,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.storage.minio
+      kind:storage.minio
       name: target-minio
       properties:
         endpoint: "localhost:9001"

@@ -20,7 +20,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init",
 			cfg: config.Spec{
 				Name: "target-gcp-cache-redis",
-				Kind: "target.gcp.cache.redis",
+				Kind: "gcp.cache.redis",
 				Properties: map[string]string{
 					"host":       "localhost:6379",
 					"password":   "",
@@ -33,7 +33,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init - error no host",
 			cfg: config.Spec{
 				Name: "target-gcp-cache-redis",
-				Kind: "target.gcp.cache.redis",
+				Kind: "gcp.cache.redis",
 				Properties: map[string]string{
 
 					"password":   "",
@@ -46,7 +46,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init - error",
 			cfg: config.Spec{
 				Name: "target-gcp-cache-redis",
-				Kind: "target.gcp.cache.redis",
+				Kind: "gcp.cache.redis",
 				Properties: map[string]string{
 					"host":       "localhost:2000",
 					"password":   "",
@@ -85,7 +85,7 @@ func TestClient_Set_Get(t *testing.T) {
 			name: "valid set get request",
 			cfg: config.Spec{
 				Name: "target-gcp-cache-redis",
-				Kind: "target.gcp.cache.redis",
+				Kind: "gcp.cache.redis",
 				Properties: map[string]string{
 					"host":                        "localhost:6379",
 					"password":                    "",
@@ -115,7 +115,7 @@ func TestClient_Set_Get(t *testing.T) {
 			name: "valid set , no key get request",
 			cfg: config.Spec{
 				Name: "target-gcp-cache-redis",
-				Kind: "target.gcp.cache.redis",
+				Kind: "gcp.cache.redis",
 				Properties: map[string]string{
 					"host":                        "localhost:6379",
 					"password":                    "",
@@ -173,7 +173,7 @@ func TestClient_Delete(t *testing.T) {
 	c := New()
 	err := c.Init(ctx, config.Spec{
 		Name: "target-gcp-cache-redis",
-		Kind: "target.gcp.cache.redis",
+		Kind: "gcp.cache.redis",
 		Properties: map[string]string{
 			"host":                        "localhost:6379",
 			"password":                    "",
@@ -219,7 +219,7 @@ func TestClient_Do(t *testing.T) {
 			name: "valid request",
 			cfg: config.Spec{
 				Name: "target-gcp-cache-redis",
-				Kind: "target.gcp.cache.redis",
+				Kind: "gcp.cache.redis",
 				Properties: map[string]string{
 					"host":                        "localhost:6379",
 					"password":                    "",
@@ -238,7 +238,7 @@ func TestClient_Do(t *testing.T) {
 			name: "invalid request - bad method",
 			cfg: config.Spec{
 				Name: "target-gcp-cache-redis",
-				Kind: "target.gcp.cache.redis",
+				Kind: "gcp.cache.redis",
 				Properties: map[string]string{
 					"host":                        "localhost:6379",
 					"password":                    "",
@@ -257,7 +257,7 @@ func TestClient_Do(t *testing.T) {
 			name: "invalid request - no key",
 			cfg: config.Spec{
 				Name: "target-gcp-cache-redis",
-				Kind: "target.gcp.cache.redis",
+				Kind: "gcp.cache.redis",
 				Properties: map[string]string{
 					"host":                        "localhost:6379",
 					"password":                    "",
@@ -275,7 +275,7 @@ func TestClient_Do(t *testing.T) {
 			name: "invalid request - bad etag",
 			cfg: config.Spec{
 				Name: "target-gcp-cache-redis",
-				Kind: "target.gcp.cache.redis",
+				Kind: "gcp.cache.redis",
 				Properties: map[string]string{
 					"host":                        "localhost:6379",
 					"password":                    "",
@@ -295,7 +295,7 @@ func TestClient_Do(t *testing.T) {
 			name: "invalid request - bad concurrency",
 			cfg: config.Spec{
 				Name: "target-gcp-cache-redis",
-				Kind: "target.gcp.cache.redis",
+				Kind: "gcp.cache.redis",
 				Properties: map[string]string{
 					"host":                        "localhost:6379",
 					"password":                    "",
@@ -314,7 +314,7 @@ func TestClient_Do(t *testing.T) {
 			name: "invalid request - bad consistency",
 			cfg: config.Spec{
 				Name: "target-gcp-cache-redis",
-				Kind: "target.gcp.cache.redis",
+				Kind: "gcp.cache.redis",
 				Properties: map[string]string{
 					"host":                        "localhost:6379",
 					"password":                    "",

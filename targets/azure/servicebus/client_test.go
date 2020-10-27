@@ -59,7 +59,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init ",
 			cfg: config.Spec{
 				Name: "target-azure-servicebus",
-				Kind: "target.azure.servicebus",
+				Kind: "azure.servicebus",
 				Properties: map[string]string{
 					"end_point":              dat.endPoint,
 					"shared_access_key_name": dat.sharedAccessKeyName,
@@ -72,7 +72,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init - missing shared_access_key_name",
 			cfg: config.Spec{
 				Name: "target-azure-servicebus",
-				Kind: "target.azure.servicebus",
+				Kind: "azure.servicebus",
 				Properties: map[string]string{
 					"end_point":         dat.endPoint,
 					"shared_access_key": dat.sharedAccessKey,
@@ -84,7 +84,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init - missing shared_access_key",
 			cfg: config.Spec{
 				Name: "target-azure-servicebus",
-				Kind: "target.azure.servicebus",
+				Kind: "azure.servicebus",
 				Properties: map[string]string{
 					"end_point":              dat.endPoint,
 					"shared_access_key_name": dat.sharedAccessKeyName,
@@ -97,7 +97,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init - missing queue_name",
 			cfg: config.Spec{
 				Name: "target-azure-servicebus",
-				Kind: "target.azure.servicebus",
+				Kind: "azure.servicebus",
 				Properties: map[string]string{
 					"end_point":              dat.endPoint,
 					"shared_access_key_name": dat.sharedAccessKeyName,
@@ -130,7 +130,7 @@ func TestClient_Send_Item(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-azure-servicebus",
-		Kind: "target.azure.servicebus",
+		Kind: "azure.servicebus",
 		Properties: map[string]string{
 			"end_point":              dat.endPoint,
 			"shared_access_key_name": dat.sharedAccessKeyName,
@@ -184,7 +184,7 @@ func TestClient_Send_Batch_Items(t *testing.T) {
 	b, err := json.Marshal(data)
 	cfg := config.Spec{
 		Name: "target-azure-servicebus",
-		Kind: "target.azure.servicebus",
+		Kind: "azure.servicebus",
 		Properties: map[string]string{
 			"end_point":              dat.endPoint,
 			"shared_access_key_name": dat.sharedAccessKeyName,

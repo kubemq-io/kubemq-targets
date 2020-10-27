@@ -59,7 +59,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init ",
 			cfg: config.Spec{
 				Name: "target-azure-storage-queue",
-				Kind: "target.azure.storage.queue",
+				Kind: "azure.storage.queue",
 				Properties: map[string]string{
 					"storage_access_key": dat.storageAccessKey,
 					"storage_account":    dat.storageAccount,
@@ -75,7 +75,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init - missing account",
 			cfg: config.Spec{
 				Name: "target-azure-storage-queue",
-				Kind: "target.azure.storage.queue",
+				Kind: "azure.storage.queue",
 				Properties: map[string]string{
 					"storage_access_key": dat.storageAccessKey,
 				},
@@ -106,7 +106,7 @@ func TestClient_Create_Queue(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-azure-storage-queue",
-		Kind: "target.azure.storage.queue",
+		Kind: "azure.storage.queue",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
 			"storage_account":    dat.storageAccount,
@@ -186,7 +186,7 @@ func TestClient_Push(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-azure-storage-queue",
-		Kind: "target.azure.storage.queue",
+		Kind: "azure.storage.queue",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
 			"storage_account":    dat.storageAccount,
@@ -265,7 +265,7 @@ func TestClient_Peek(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-azure-storage-queue",
-		Kind: "target.azure.storage.queue",
+		Kind: "azure.storage.queue",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
 			"storage_account":    dat.storageAccount,
@@ -328,7 +328,7 @@ func TestClient_GetMessageCount(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-azure-storage-queue",
-		Kind: "target.azure.storage.queue",
+		Kind: "azure.storage.queue",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
 			"storage_account":    dat.storageAccount,
@@ -391,7 +391,7 @@ func TestClient_Pop(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-azure-storage-queue",
-		Kind: "target.azure.storage.queue",
+		Kind: "azure.storage.queue",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
 			"storage_account":    dat.storageAccount,
@@ -454,7 +454,7 @@ func TestClient_Delete_Queue(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-azure-storage-queue",
-		Kind: "target.azure.storage.queue",
+		Kind: "azure.storage.queue",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
 			"storage_account":    dat.storageAccount,

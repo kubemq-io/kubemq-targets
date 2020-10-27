@@ -31,7 +31,7 @@ Example:
 bindings:
   - name: kubemq-query-https
     source:
-      kind: source.query
+      kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
@@ -43,7 +43,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.http
+      kind:http
       name: target-http
       properties:
         auth_type: "no-auth"

@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.aws.dynamodb").
+		SetKind("aws.dynamodb").
 		SetDescription("AWS Dynamodb Target").
 		AddProperty(
 			common.NewProperty().

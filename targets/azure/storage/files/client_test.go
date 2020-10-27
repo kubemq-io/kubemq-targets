@@ -58,7 +58,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init ",
 			cfg: config.Spec{
 				Name: "target-azure-storage-files",
-				Kind: "target.azure.storage.files",
+				Kind: "azure.storage.files",
 				Properties: map[string]string{
 					"storage_access_key": dat.storageAccessKey,
 					"storage_account":    dat.storageAccount,
@@ -69,7 +69,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init - missing account",
 			cfg: config.Spec{
 				Name: "target-azure-storage-files",
-				Kind: "target.azure.storage.files",
+				Kind: "azure.storage.files",
 				Properties: map[string]string{
 					"storage_access_key": dat.storageAccessKey,
 				},
@@ -100,7 +100,7 @@ func TestClient_Create_Item(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-azure-storage-files",
-		Kind: "target.azure.storage.files",
+		Kind: "azure.storage.files",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
 			"storage_account":    dat.storageAccount,
@@ -158,7 +158,7 @@ func TestClient_Upload_Item(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-azure-storage-files",
-		Kind: "target.azure.storage.files",
+		Kind: "azure.storage.files",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
 			"storage_account":    dat.storageAccount,
@@ -222,7 +222,7 @@ func TestClient_Get_Item(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-azure-storage-files",
-		Kind: "target.azure.storage.files",
+		Kind: "azure.storage.files",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
 			"storage_account":    dat.storageAccount,
@@ -292,7 +292,7 @@ func TestClient_Delete_Item(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-azure-storage-files",
-		Kind: "target.azure.storage.files",
+		Kind: "azure.storage.files",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
 			"storage_account":    dat.storageAccount,

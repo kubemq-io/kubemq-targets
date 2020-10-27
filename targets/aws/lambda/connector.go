@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.aws.lambda").
+		SetKind("aws.lambda").
 		SetDescription("AWS Lambda Target").
 		AddProperty(
 			common.NewProperty().

@@ -67,7 +67,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init ",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
 					"aws_secret_key": dat.awsSecretKey,
@@ -79,7 +79,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init ",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"aws_key":        dat.awsKey,
 					"aws_secret_key": dat.awsSecretKey,
@@ -91,7 +91,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - missing aws_secret_key",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"aws_key": dat.awsKey,
 					"region":  dat.region,
@@ -102,7 +102,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - missing aws_key",
 			cfg: config.Spec{
 				Name: "target-aws-rds-redshift",
-				Kind: "target.aws.rds.redshift",
+				Kind: "aws.rds.redshift",
 				Properties: map[string]string{
 					"aws_secret_key": dat.awsSecretKey,
 					"region":         dat.region,
@@ -134,7 +134,7 @@ func TestClient_Create_Tags(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-aws-rds-redshift",
-		Kind: "target.aws.rds.redshift",
+		Kind: "aws.rds.redshift",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -196,7 +196,7 @@ func TestClient_Delete_Tags(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-aws-rds-redshift",
-		Kind: "target.aws.rds.redshift",
+		Kind: "aws.rds.redshift",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -259,7 +259,7 @@ func TestClient_List_Tags(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-aws-rds-redshift",
-		Kind: "target.aws.rds.redshift",
+		Kind: "aws.rds.redshift",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -303,7 +303,7 @@ func TestClient_List_Snapshots(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-aws-rds-redshift",
-		Kind: "target.aws.rds.redshift",
+		Kind: "aws.rds.redshift",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -347,7 +347,7 @@ func TestClient_List_Snapshots_By_Tags_Keys(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-aws-rds-redshift",
-		Kind: "target.aws.rds.redshift",
+		Kind: "aws.rds.redshift",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -401,7 +401,7 @@ func TestClient_List_Snapshots_By_Tags_Values(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-aws-rds-redshift",
-		Kind: "target.aws.rds.redshift",
+		Kind: "aws.rds.redshift",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -455,7 +455,7 @@ func TestClient_Describe_Clusters(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-aws-rds-redshift",
-		Kind: "target.aws.rds.redshift",
+		Kind: "aws.rds.redshift",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -507,7 +507,7 @@ func TestClient_List_Clusters(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-aws-rds-redshift",
-		Kind: "target.aws.rds.redshift",
+		Kind: "aws.rds.redshift",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -551,7 +551,7 @@ func TestClient_List_Clusters_By_Tags_Keys(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-aws-rds-redshift",
-		Kind: "target.aws.rds.redshift",
+		Kind: "aws.rds.redshift",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,
@@ -605,7 +605,7 @@ func TestClient_List_Clusters_By_Tags_Values(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "target-aws-rds-redshift",
-		Kind: "target.aws.rds.redshift",
+		Kind: "aws.rds.redshift",
 		Properties: map[string]string{
 			"aws_key":        dat.awsKey,
 			"aws_secret_key": dat.awsSecretKey,

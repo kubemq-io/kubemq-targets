@@ -84,8 +84,8 @@ func TestClient_Set_Get(t *testing.T) {
 		{
 			name: "valid set get request",
 			cfg: config.Spec{
-				Name: "target.redis",
-				Kind: "target.redis",
+				Name: "redis",
+				Kind: "redis",
 				Properties: map[string]string{
 					"host":                        "localhost:6379",
 					"password":                    "",
@@ -114,8 +114,8 @@ func TestClient_Set_Get(t *testing.T) {
 		{
 			name: "valid set , no key get request",
 			cfg: config.Spec{
-				Name: "target.redis",
-				Kind: "target.redis",
+				Name: "redis",
+				Kind: "redis",
 				Properties: map[string]string{
 					"host":                        "localhost:6379",
 					"password":                    "",
@@ -172,8 +172,8 @@ func TestClient_Delete(t *testing.T) {
 	defer cancel()
 	c := New()
 	err := c.Init(ctx, config.Spec{
-		Name: "target.redis",
-		Kind: "target.redis",
+		Name: "redis",
+		Kind: "redis",
 		Properties: map[string]string{
 			"host":                        "localhost:6379",
 			"password":                    "",
@@ -218,8 +218,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request",
 			cfg: config.Spec{
-				Name: "target.redis",
-				Kind: "target.redis",
+				Name: "redis",
+				Kind: "redis",
 				Properties: map[string]string{
 					"host":                        "localhost:6379",
 					"password":                    "",
@@ -237,8 +237,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad method",
 			cfg: config.Spec{
-				Name: "target.redis",
-				Kind: "target.redis",
+				Name: "redis",
+				Kind: "redis",
 				Properties: map[string]string{
 					"host":                        "localhost:6379",
 					"password":                    "",
@@ -256,8 +256,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - no key",
 			cfg: config.Spec{
-				Name: "target.redis",
-				Kind: "target.redis",
+				Name: "redis",
+				Kind: "redis",
 				Properties: map[string]string{
 					"host":                        "localhost:6379",
 					"password":                    "",
@@ -274,8 +274,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad etag",
 			cfg: config.Spec{
-				Name: "target.redis",
-				Kind: "target.redis",
+				Name: "redis",
+				Kind: "redis",
 				Properties: map[string]string{
 					"host":                        "localhost:6379",
 					"password":                    "",
@@ -294,8 +294,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad concurrency",
 			cfg: config.Spec{
-				Name: "target.redis",
-				Kind: "target.redis",
+				Name: "redis",
+				Kind: "redis",
 				Properties: map[string]string{
 					"host":                        "localhost:6379",
 					"password":                    "",
@@ -313,8 +313,8 @@ func TestClient_Do(t *testing.T) {
 		}, {
 			name: "invalid request - bad consistency",
 			cfg: config.Spec{
-				Name: "target.redis",
-				Kind: "target.redis",
+				Name: "redis",
+				Kind: "redis",
 				Properties: map[string]string{
 					"host":                        "localhost:6379",
 					"password":                    "",

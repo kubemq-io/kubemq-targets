@@ -24,7 +24,7 @@ Example:
 bindings:
   - name: kubemq-query-redis
     source:
-      kind: source.kubemq.query
+      kind: kubemq.kubemq.query
       name: kubemq-query
       properties:
         host: "localhost"
@@ -38,7 +38,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.cache.redis
+      kind:cache.redis
       name: target-redis
       properties:
           url: "redis://localhost:6379"

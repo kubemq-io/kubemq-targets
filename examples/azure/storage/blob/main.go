@@ -40,7 +40,7 @@ func main() {
 		SetMetadataKeyValue("service_url", serviceURL).
 		SetData(contents)
 	queryUploadResponse, err := client.SetQuery(uploadRequest.ToQuery()).
-		SetChannel("target.azure.storage.blob").
+		SetChannel("azure.storage.blob").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)
@@ -58,7 +58,7 @@ func main() {
 		SetMetadataKeyValue("service_url", serviceURL)
 
 	getQueryResponse, err := client.SetQuery(getRequest.ToQuery()).
-		SetChannel("target.azure.storage.blob").
+		SetChannel("azure.storage.blob").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)

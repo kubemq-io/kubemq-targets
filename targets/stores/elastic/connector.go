@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.stores.elasticsearch").
+		SetKind("stores.elasticsearch").
 		SetDescription("Elastic Search Target").
 		AddProperty(
 			common.NewProperty().

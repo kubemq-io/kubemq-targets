@@ -7,7 +7,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.azure.storage.queue").
+		SetKind("azure.storage.queue").
 		SetDescription("Azure Queue Storage Target").
 		AddProperty(
 			common.NewProperty().

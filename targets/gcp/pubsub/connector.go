@@ -7,7 +7,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.gcp.pubsub").
+		SetKind("gcp.pubsub").
 		SetDescription("GCP PubSub Target").
 		AddProperty(
 			common.NewProperty().

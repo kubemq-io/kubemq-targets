@@ -75,337 +75,337 @@ type Target interface {
 func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 
 	switch cfg.Kind {
-	case "target.aws.sqs":
+	case "aws.sqs":
 		target := sqs.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.aws.sns":
+	case "aws.sns":
 		target := sns.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.aws.s3":
+	case "aws.s3":
 		target := s3.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.aws.lambda":
+	case "aws.lambda":
 		target := lambda.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.aws.dynamodb":
+	case "aws.dynamodb":
 		target := dynamodb.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.aws.athena":
+	case "aws.athena":
 		target := athena.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.aws.kinesis":
+	case "aws.kinesis":
 		target := kinesis.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.aws.elasticsearch":
+	case "aws.elasticsearch":
 		target := elasticsearch.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.aws.cloudwatch.logs":
+	case "aws.cloudwatch.logs":
 		target := logs.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.aws.cloudwatch.events":
+	case "aws.cloudwatch.events":
 		target := events.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.aws.cloudwatch.metrics":
+	case "aws.cloudwatch.metrics":
 		target := metrics.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.aws.rds.mysql":
+	case "aws.rds.mysql":
 		target := awsmysql.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.aws.rds.postgres":
+	case "aws.rds.postgres":
 		target := awspostgres.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.aws.rds.mariadb":
+	case "aws.rds.mariadb":
 		target := awsmariadb.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.aws.rds.mssql":
+	case "aws.rds.mssql":
 		target := awsmssql.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.aws.rds.redshift":
+	case "aws.rds.redshift":
 		target := redshift.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.aws.redshift.service":
+	case "aws.redshift.service":
 		target := redshiftsvc.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.aws.keyspaces":
+	case "aws.keyspaces":
 		target := keyspaces.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.aws.msk":
+	case "aws.msk":
 		target := msk.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.aws.amazonmq":
+	case "aws.amazonmq":
 		target := amazonmq.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.cache.redis":
+	case "cache.redis":
 		target := redis.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.cache.memcached":
+	case "cache.memcached":
 		target := memcached.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.gcp.cache.memcached":
+	case "gcp.cache.memcached":
 		target := gcpmemcached.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.gcp.cache.redis":
+	case "gcp.cache.redis":
 		target := gcpredis.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.gcp.bigquery":
+	case "gcp.bigquery":
 		target := bigquery.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.gcp.bigtable":
+	case "gcp.bigtable":
 		target := bigtable.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.gcp.cloudfunctions":
+	case "gcp.cloudfunctions":
 		target := cloudfunctions.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.gcp.firestore":
+	case "gcp.firestore":
 		target := firestore.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.gcp.firebase":
+	case "gcp.firebase":
 		target := firebase.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.gcp.stores.postgres":
+	case "gcp.stores.postgres":
 		target := gcppostgres.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.gcp.stores.mysql":
+	case "gcp.stores.mysql":
 		target := gcpmysql.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.gcp.pubsub":
+	case "gcp.pubsub":
 		target := pubsub.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.gcp.spanner":
+	case "gcp.spanner":
 		target := spanner.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.gcp.storage":
+	case "gcp.storage":
 		target := storage.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.http":
+	case "http":
 		target := http.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.messaging.activemq":
+	case "messaging.activemq":
 		target := activemq.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.messaging.kafka":
+	case "messaging.kafka":
 		target := kafka.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.messaging.mqtt":
+	case "messaging.mqtt":
 		target := mqtt.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.messaging.rabbitmq":
+	case "messaging.rabbitmq":
 		target := rabbitmq.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.stores.cassandra":
+	case "stores.cassandra":
 		target := cassandra.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.stores.couchbase":
+	case "stores.couchbase":
 		target := couchbase.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.stores.mongodb":
+	case "stores.mongodb":
 		target := mongodb.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.stores.mssql":
+	case "stores.mssql":
 		target := mssql.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.stores.mysql":
+	case "stores.mysql":
 		target := mysql.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.stores.elasticsearch":
+	case "stores.elasticsearch":
 		target := elastic.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.stores.postgres":
+	case "stores.postgres":
 		target := postgres.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.serverless.openfaas":
+	case "serverless.openfaas":
 		target := openfaas.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.storage.minio":
+	case "storage.minio":
 		target := minio.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.azure.storage.blob":
+	case "azure.storage.blob":
 		target := blob.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.azure.storage.queue":
+	case "azure.storage.queue":
 		target := queue.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.azure.storage.files":
+	case "azure.storage.files":
 		target := files.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.azure.eventhubs":
+	case "azure.eventhubs":
 		target := eventhubs.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.azure.servicebus":
+	case "azure.servicebus":
 		target := servicebus.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.azure.stores.azuresql":
+	case "azure.stores.azuresql":
 		target := azuresql.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.azure.stores.postgres":
+	case "azure.stores.postgres":
 		target := azurpostgres.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "target.azure.stores.mysql":
+	case "azure.stores.mysql":
 		target := azurmysql.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err

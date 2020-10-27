@@ -28,19 +28,19 @@ Example:
 bindings:
   - name: kubemq-query-azure-servicebus
     source:
-      kind: source.query
+      kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
         client_id: "kubemq-query-azure-servicebus-connector"
         auth_token: ""
-        channel: "target.azure.servicebus"
+        channel: "azure.servicebus"
         group:   ""
         auto_reconnect: "true"
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.azure.servicebus
+      kind:azure.servicebus
       name: target-azure-servicebus
       properties:
         end_point: "sb://my_account.net"

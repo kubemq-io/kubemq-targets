@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("source.events-store").
+		SetKind("kubemq.events-store").
 		SetDescription("Kubemq Events-Store Source").
 		AddProperty(
 			common.NewProperty().

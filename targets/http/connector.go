@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.http").
+		SetKind("http").
 		SetDescription("HTTP/Rest Target").
 		AddProperty(
 			common.NewProperty().

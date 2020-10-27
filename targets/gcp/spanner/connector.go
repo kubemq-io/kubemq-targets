@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.gcp.spanner").
+		SetKind("gcp.spanner").
 		SetDescription("GCP Spanner Target").
 		AddProperty(
 			common.NewProperty().

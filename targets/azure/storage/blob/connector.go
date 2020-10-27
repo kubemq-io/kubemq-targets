@@ -7,7 +7,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.azure.storage.blob").
+		SetKind("azure.storage.blob").
 		SetDescription("Azure Blob Storage Target").
 		AddProperty(
 			common.NewProperty().

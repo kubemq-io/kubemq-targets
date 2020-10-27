@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.aws.sns").
+		SetKind("aws.sns").
 		SetDescription("AWS SNS Target").
 		AddProperty(
 			common.NewProperty().

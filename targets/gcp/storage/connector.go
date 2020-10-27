@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.gcp.storage").
+		SetKind("gcp.storage").
 		SetDescription("GCP Storage Target").
 		AddProperty(
 			common.NewProperty().

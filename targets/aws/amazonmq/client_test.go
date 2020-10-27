@@ -54,7 +54,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init",
 			cfg: config.Spec{
 				Name: "target-aws-amazonmq",
-				Kind: "target.aws.amazonmq",
+				Kind: "aws.amazonmq",
 				Properties: map[string]string{
 					"host":     dat.host,
 					"username": dat.username,
@@ -66,7 +66,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init - no host",
 			cfg: config.Spec{
 				Name: "target-aws-amazonmq",
-				Kind: "target.aws.amazonmq",
+				Kind: "aws.amazonmq",
 				Properties: map[string]string{
 					"username": dat.username,
 					"password": dat.password,
@@ -104,7 +104,7 @@ func TestClient_Do(t *testing.T) {
 			name: "valid publish request",
 			cfg: config.Spec{
 				Name: "target-aws-amazonmq",
-				Kind: "target.aws.amazonmq",
+				Kind: "aws.amazonmq",
 				Properties: map[string]string{
 					"host":     dat.host,
 					"username": dat.username,
@@ -122,7 +122,7 @@ func TestClient_Do(t *testing.T) {
 			name: "invalid publish request - no destination",
 			cfg: config.Spec{
 				Name: "target-aws-amazonmq",
-				Kind: "target.aws.amazonmq",
+				Kind: "aws.amazonmq",
 				Properties: map[string]string{
 					"host":     dat.host,
 					"username": dat.username,

@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.messaging.activemq").
+		SetKind("messaging.activemq").
 		SetDescription("ActiveMQ Messaging Target").
 		AddProperty(
 			common.NewProperty().

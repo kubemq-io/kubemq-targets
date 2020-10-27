@@ -30,7 +30,7 @@ Example:
 bindings:
   - name: kubemq-command-elastic-search
     source:
-      kind: source.command
+      kind: kubemq.command
       name: kubemq-command
       properties:
         address: "kubemq-cluster:50000"
@@ -42,7 +42,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.stores.elastic-search
+      kind:stores.elastic-search
       name: target-elastic-search
       properties:
         urls: "http://localhost:9200"

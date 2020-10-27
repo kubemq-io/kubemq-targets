@@ -364,8 +364,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "bad request - bad method",
 			cfg: config.Spec{
-				Name: "target.elastic",
-				Kind: "target.elastic",
+				Name: "elastic",
+				Kind: "elastic",
 				Properties: map[string]string{
 					"urls":     "http://localhost:9200",
 					"sniff":    "false",
@@ -381,8 +381,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "bad request - no index",
 			cfg: config.Spec{
-				Name: "target.elastic",
-				Kind: "target.elastic",
+				Name: "elastic",
+				Kind: "elastic",
 				Properties: map[string]string{
 					"urls":     "http://localhost:9200",
 					"sniff":    "false",
@@ -398,8 +398,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "bad request - no id",
 			cfg: config.Spec{
-				Name: "target.elastic",
-				Kind: "target.elastic",
+				Name: "elastic",
+				Kind: "elastic",
 				Properties: map[string]string{
 					"urls":     "http://localhost:9200",
 					"sniff":    "false",

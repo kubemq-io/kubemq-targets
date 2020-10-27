@@ -7,7 +7,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.stores.mssql").
+		SetKind("stores.mssql").
 		SetDescription("MSSQL Target").
 		AddProperty(
 			common.NewProperty().

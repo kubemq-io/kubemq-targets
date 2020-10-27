@@ -37,7 +37,7 @@ func main() {
 		SetMetadataKeyValue("method", "transaction").
 		SetData([]byte(transactionString))
 	queryTransactionResponse, err := client.SetQuery(transactionRequest.ToQuery()).
-		SetChannel("target.azure.stores.azure-postgres").
+		SetChannel("azure.stores.azure-postgres").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)
@@ -53,7 +53,7 @@ func main() {
 		SetData([]byte(queryString))
 
 	queryResponse, err := client.SetQuery(queryRequest.ToQuery()).
-		SetChannel("target.azure.stores.azure-postgres").
+		SetChannel("azure.stores.azure-postgres").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)

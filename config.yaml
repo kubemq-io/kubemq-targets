@@ -2,7 +2,7 @@ apiPort: 8081
 bindings:
   - name: kubemq-query-redis2
     source:
-      kind: source.query
+      kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
@@ -14,7 +14,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.cache.redis
+      kind:cache.redis
       name: target-redis
       properties:
         url: "redis://localhost:6379"
@@ -27,7 +27,7 @@ bindings:
       retry_delay_type: "fixed"
 #  - name: kubemq-query-memcached
 #    source:
-#      kind: source.query
+#      kind: kubemq.query
 #      name: kubemq-query
 #      properties:
 #        host: "localhost"
@@ -40,7 +40,7 @@ bindings:
 #        reconnect_interval_seconds: "1"
 #        max_reconnects: "0"
 #    target:
-#      kind: target.cache.memcached
+#      kind:cache.memcached
 #      name: target-memcached
 #      properties:
 #        hosts: "localhost:11211"
@@ -50,7 +50,7 @@ bindings:
 #      log_level: "error"
 #  - name: kubemq-query-OpenFaas
 #    source:
-#      kind: source.query
+#      kind: kubemq.query
 #      name: kubemq-query
 #      properties:
 #        host: "localhost"
@@ -63,7 +63,7 @@ bindings:
 #        reconnect_interval_seconds: "1"
 #        max_reconnects: "0"
 #    target:
-#      kind: target.serverless.openfaas
+#      kind:serverless.openfaas
 #      name: target-serverless-openfaas
 #      properties:
 #        gateway: "http://localhost:31112"
@@ -72,7 +72,7 @@ bindings:
 #    properties : {}
 #  - name: kubemq-query-http
 #    source:
-#      kind: source.query
+#      kind: kubemq.query
 #      name: kubemq-query
 #      properties:
 #        host: "localhost"
@@ -85,7 +85,7 @@ bindings:
 #        reconnect_interval_seconds: "1"
 #        max_reconnects: "0"
 #    target:
-#      kind: target.http
+#      kind:http
 #      name: target-http
 #      properties:
 #        auth_type: "no-auth"
@@ -94,7 +94,7 @@ bindings:
 #      log_level: "error"
 #  - name: kubemq-query-postgres
 #    source:
-#      kind: source.query
+#      kind: kubemq.query
 #      name: kubemq-query
 #      properties:
 #        host: "localhost"
@@ -107,7 +107,7 @@ bindings:
 #        reconnect_interval_seconds: "1"
 #        max_reconnects: "0"
 #    target:
-#      kind: target.stores.postgres
+#      kind:stores.postgres
 #      name: target-postgres
 #      properties:
 #        connection: "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"
@@ -118,7 +118,7 @@ bindings:
 #      log_level: "error"
 #  - name: kubemq-query-mysql
 #    source:
-#      kind: source.query
+#      kind: kubemq.query
 #      name: kubemq-query
 #      properties:
 #        host: "localhost"
@@ -131,7 +131,7 @@ bindings:
 #        reconnect_interval_seconds: "1"
 #        max_reconnects: "0"
 #    target:
-#      kind: target.stores.mysql
+#      kind:stores.mysql
 #      name: target-mysql
 #      properties:
 #        connection: "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local"
@@ -142,7 +142,7 @@ bindings:
 #      log_level: "error"
 #  - name: kubemq-query-mssql
 #    source:
-#      kind: source.query
+#      kind: kubemq.query
 #      name: kubemq-query
 #      properties:
 #        host: "localhost"
@@ -155,7 +155,7 @@ bindings:
 #        reconnect_interval_seconds: "1"
 #        max_reconnects: "0"
 #    target:
-#      kind: target.stores.mssql
+#      kind:stores.mssql
 #      name: target-mssql
 #      properties:
 #        connection: "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master"
@@ -166,7 +166,7 @@ bindings:
 #      log_level: "error"
 #  - name: kubemq-query-mongodb
 #    source:
-#      kind: source.query
+#      kind: kubemq.query
 #      name: kubemq-query
 #      properties:
 #        host: "localhost"
@@ -179,7 +179,7 @@ bindings:
 #        reconnect_interval_seconds: "1"
 #        max_reconnects: "0"
 #    target:
-#      kind: target.stores.mongodb
+#      kind:stores.mongodb
 #      name: target-mongodb
 #      properties:
 #        host: "localhost:27017"
@@ -195,7 +195,7 @@ bindings:
 #      log_level: "error"
 #  - name: kubemq-query-couchbase
 #    source:
-#      kind: source.query
+#      kind: kubemq.query
 #      name: kubemq-query
 #      properties:
 #        host: "localhost"
@@ -208,7 +208,7 @@ bindings:
 #        reconnect_interval_seconds: "1"
 #        max_reconnects: "0"
 #    target:
-#      kind: target.stores.couchbase
+#      kind:stores.couchbase
 #      name: target-couchbase
 #      properties:
 #        url: "localhost"
@@ -222,7 +222,7 @@ bindings:
 #      log_level: "error"
 #  - name: kubemq-query-minio
 #    source:
-#      kind: source.query
+#      kind: kubemq.query
 #      name: kubemq-query
 #      properties:
 #        host: "localhost"
@@ -235,7 +235,7 @@ bindings:
 #        reconnect_interval_seconds: "1"
 #        max_reconnects: "0"
 #    target:
-#      kind: target.storage.minio
+#      kind:storage.minio
 #      name: target-minio
 #      properties:
 #        endpoint: "localhost:9001"
@@ -246,7 +246,7 @@ bindings:
 #      log_level: "error"
 #  - name: kubemq-query-cassandra
 #    source:
-#      kind: source.query
+#      kind: kubemq.query
 #      name: kubemq-query
 #      properties:
 #        address: "kubemq-cluster:50000"
@@ -258,7 +258,7 @@ bindings:
 #        reconnect_interval_seconds: "1"
 #        max_reconnects: "0"
 #    target:
-#      kind: target.stores.cassandra
+#      kind:stores.cassandra
 #      name: target-cassandra
 #      properties:
 #        hosts: "161.35.12.23,161.35.12.187,161.35.8.202,161.35.0.90,161.35.0.216,161.35.4.237"
@@ -272,7 +272,7 @@ bindings:
 #      log_level: "error"
 #  - name: kubemq-query-rabbitmq
 #    source:
-#      kind: source.query
+#      kind: kubemq.query
 #      name: kubemq-query
 #      properties:
 #        host: "localhost"
@@ -285,7 +285,7 @@ bindings:
 #        reconnect_interval_seconds: "1"
 #        max_reconnects: "0"
 #    target:
-#      kind: target.messaging.rabbitmq
+#      kind:messaging.rabbitmq
 #      name: target-rabbitmq
 #      properties:
 #        url: "amqp://rabbitmq:rabbitmq@localhost:7238/"
@@ -293,7 +293,7 @@ bindings:
 #      log_level: "error"
 #  - name: kubemq-query-mqtt
 #    source:
-#      kind: source.query
+#      kind: kubemq.query
 #      name: kubemq-query
 #      properties:
 #        host: "localhost"
@@ -306,7 +306,7 @@ bindings:
 #        reconnect_interval_seconds: "1"
 #        max_reconnects: "0"
 #    target:
-#      kind: target.messaging.mqtt
+#      kind:messaging.mqtt
 #      name: target-mqtt
 #      properties:
 #        host: "localhost:1883"
@@ -317,7 +317,7 @@ bindings:
 #      log_level: "error"
 #  - name: kubemq-query-activemq
 #    source:
-#      kind: source.query
+#      kind: kubemq.query
 #      name: kubemq-query
 #      properties:
 #        host: "localhost"
@@ -330,7 +330,7 @@ bindings:
 #        reconnect_interval_seconds: "1"
 #        max_reconnects: "0"
 #    target:
-#      kind: target.messaging.activemq
+#      kind:messaging.activemq
 #      name: target-activemq
 #      properties:
 #        host: "localhost:61613"
@@ -340,7 +340,7 @@ bindings:
 #      log_level: "error"
 #  - name: kubemq-query-elastic-search
 #    source:
-#      kind: source.query
+#      kind: kubemq.query
 #      name: kubemq-query
 #      properties:
 #        host: "localhost"
@@ -353,7 +353,7 @@ bindings:
 #        reconnect_interval_seconds: "1"
 #        max_reconnects: "0"
 #    target:
-#      kind: target.stores.elastic-search
+#      kind:stores.elastic-search
 #      name: target-elastic-search
 #      properties:
 #        urls: "http://localhost:9200"

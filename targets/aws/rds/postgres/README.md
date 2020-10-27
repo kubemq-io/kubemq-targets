@@ -40,7 +40,7 @@ Example:
 bindings:
   - name: kubemq-query-aws-postgres
     source:
-      kind: source.query
+      kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
@@ -52,7 +52,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.aws.rds.postgres
+      kind:aws.rds.postgres
       name: target-aws-rds-postgres
       properties:
               instance_connection_name: "test"

@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.aws.s3").
+		SetKind("aws.s3").
 		SetDescription("AWS S3 Target").
 		AddProperty(
 			common.NewProperty().

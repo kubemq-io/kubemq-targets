@@ -32,7 +32,7 @@ func TestClient_createUser(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "google-firebase-target",
-		Kind: "target.gcp.firebase",
+		Kind: "gcp.firebase",
 		Properties: map[string]string{
 			"project_id":  dat.projectID,
 			"credentials": dat.cred,
@@ -85,7 +85,7 @@ func TestClient_retrieveUser(t *testing.T) {
 	u := getUserStruct()
 	cfg := config.Spec{
 		Name: "google-firebase-target",
-		Kind: "target.gcp.firebase",
+		Kind: "gcp.firebase",
 		Properties: map[string]string{
 			"project_id":  dat.projectID,
 			"credentials": dat.cred,
@@ -156,7 +156,7 @@ func TestClient_listUsers(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "google-firebase-target",
-		Kind: "target.gcp.firebase",
+		Kind: "gcp.firebase",
 		Properties: map[string]string{
 			"project_id":  dat.projectID,
 			"credentials": dat.cred,
@@ -205,7 +205,7 @@ func TestClient_updateUser(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "google-firebase-target",
-		Kind: "target.gcp.firebase",
+		Kind: "gcp.firebase",
 		Properties: map[string]string{
 			"project_id":  dat.projectID,
 			"credentials": dat.cred,
@@ -254,7 +254,7 @@ func TestClient_deleteUser(t *testing.T) {
 	require.NoError(t, err)
 	cfg := config.Spec{
 		Name: "google-firebase-target",
-		Kind: "target.gcp.firebase",
+		Kind: "gcp.firebase",
 		Properties: map[string]string{
 			"project_id":  dat.projectID,
 			"credentials": dat.cred,

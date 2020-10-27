@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.gcp.bigtable").
+		SetKind("gcp.bigtable").
 		SetDescription("GCP Bigtable Target").
 		AddProperty(
 			common.NewProperty().

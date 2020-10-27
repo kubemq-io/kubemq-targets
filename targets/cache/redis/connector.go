@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.cache.redis").
+		SetKind("cache.redis").
 		SetDescription("Redis Target").
 		AddProperty(
 			common.NewProperty().

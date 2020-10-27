@@ -21,34 +21,32 @@ type Source interface {
 }
 
 func Init(ctx context.Context, cfg config.Spec) (Source, error) {
-
 	switch cfg.Kind {
-
-	case "source.command":
+	case "source.command", "kubemq.command":
 		source := command.New()
 		if err := source.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return source, nil
-	case "source.query":
+	case "source.query", "kubemq.query":
 		target := query.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return target, nil
-	case "source.events":
+	case "source.events", "kubemq.events":
 		source := events.New()
 		if err := source.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return source, nil
-	case "source.events-store":
+	case "source.events-store", "kubemq.events-store":
 		source := events_store.New()
 		if err := source.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
 		return source, nil
-	case "source.queue":
+	case "source.queue", "kubemq.queue":
 		source := queue.New()
 		if err := source.Init(ctx, cfg); err != nil {
 			return nil, err

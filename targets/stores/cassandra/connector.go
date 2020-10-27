@@ -7,7 +7,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.stores.cassandra").
+		SetKind("stores.cassandra").
 		SetDescription("Cassandra Target").
 		AddProperty(
 			common.NewProperty().

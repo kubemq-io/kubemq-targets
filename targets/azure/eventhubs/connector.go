@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.azure.eventhubs").
+		SetKind("azure.eventhubs").
 		SetDescription("Azure EventHubs Target").
 		AddProperty(
 			common.NewProperty().

@@ -6,7 +6,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.aws.kinesis").
+		SetKind("aws.kinesis").
 		SetDescription("AWS Kinesis Target").
 		AddProperty(
 			common.NewProperty().

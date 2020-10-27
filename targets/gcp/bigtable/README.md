@@ -26,7 +26,7 @@ Example:
 bindings:
   - name: kubemq-query-gcp-bigtable
     source:
-      kind: source.query
+      kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
@@ -38,7 +38,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.gcp.bigtable
+      kind:gcp.bigtable
       name: target-gcp-bigtable
       properties:
         project_id: "id"

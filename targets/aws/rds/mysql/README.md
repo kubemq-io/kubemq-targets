@@ -41,7 +41,7 @@ Example:
 bindings:
   - name: kubemq-query-aws-mysql
     source:
-      kind: source.query
+      kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
@@ -53,7 +53,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: target.aws.rds.mysql
+      kind:aws.rds.mysql
       name: target-aws-rds-mysql
       properties:
         instance_connection_name: "test"

@@ -7,7 +7,7 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("target.aws.rds.redshift").
+		SetKind("aws.rds.redshift").
 		SetDescription("AWS RDS Redshift Target").
 		AddProperty(
 			common.NewProperty().
