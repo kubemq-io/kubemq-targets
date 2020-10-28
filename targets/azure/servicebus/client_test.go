@@ -56,9 +56,9 @@ func TestClient_Init(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "init ",
+			name: "init",
 			cfg: config.Spec{
-				Name: "target-azure-servicebus",
+				Name: "azure-servicebus",
 				Kind: "azure.servicebus",
 				Properties: map[string]string{
 					"end_point":              dat.endPoint,
@@ -69,9 +69,9 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: false,
 		}, {
-			name: "init - missing shared_access_key_name",
+			name: "invalid init - missing shared_access_key_name",
 			cfg: config.Spec{
-				Name: "target-azure-servicebus",
+				Name: "azure-servicebus",
 				Kind: "azure.servicebus",
 				Properties: map[string]string{
 					"end_point":         dat.endPoint,
@@ -81,9 +81,9 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: true,
 		}, {
-			name: "init - missing shared_access_key",
+			name: "invalid init - missing shared_access_key",
 			cfg: config.Spec{
-				Name: "target-azure-servicebus",
+				Name: "azure-servicebus",
 				Kind: "azure.servicebus",
 				Properties: map[string]string{
 					"end_point":              dat.endPoint,
@@ -94,9 +94,9 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init - missing queue_name",
+			name: "invalid init - missing queue_name",
 			cfg: config.Spec{
-				Name: "target-azure-servicebus",
+				Name: "azure-servicebus",
 				Kind: "azure.servicebus",
 				Properties: map[string]string{
 					"end_point":              dat.endPoint,
@@ -129,7 +129,7 @@ func TestClient_Send_Item(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-azure-servicebus",
+		Name: "azure-servicebus",
 		Kind: "azure.servicebus",
 		Properties: map[string]string{
 			"end_point":              dat.endPoint,
@@ -183,7 +183,7 @@ func TestClient_Send_Batch_Items(t *testing.T) {
 	data = append(data, "message2")
 	b, err := json.Marshal(data)
 	cfg := config.Spec{
-		Name: "target-azure-servicebus",
+		Name: "azure-servicebus",
 		Kind: "azure.servicebus",
 		Properties: map[string]string{
 			"end_point":              dat.endPoint,
@@ -198,10 +198,17 @@ func TestClient_Send_Batch_Items(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "valid send batch item",
+			name: "valid send batch item with label",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "send_batch").
 				SetMetadataKeyValue("label", "my_label").
+				SetMetadataKeyValue("content_type", "content_type").
+				SetData(b),
+			wantErr: false,
+		}, {
+			name: "valid send batch item",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "send_batch").
 				SetMetadataKeyValue("content_type", "content_type").
 				SetData(b),
 			wantErr: false,

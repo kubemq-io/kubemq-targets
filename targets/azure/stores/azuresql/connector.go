@@ -15,7 +15,7 @@ func Connector() *common.Connector {
 				SetName("connection").
 				SetDescription("Set MSSQL connection string").
 				SetMust(true).
-				SetDefault("sqlserver://sa:n8x2Nz!f@localhost:1433?database=master"),
+				SetDefault("server=server.net;user id=test;password=test;port=1433;database=initial_db;"),
 		).
 		AddProperty(
 			common.NewProperty().

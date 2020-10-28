@@ -7,14 +7,14 @@ bindings:
         address: "kubemq-cluster:50000"
         client_id: "kubemq-query-azure-postgres-connector"
         auth_token: ""
-        channel: "azure.stores.azure-postgres"
+        channel: "azure.stores.azure.postgres"
         group:   ""
         auto_reconnect: "true"
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:azure.stores.postgres
-      name: target-azure-stores-postgres
+      kind: azure.stores.postgres
+      name: azure-stores-postgres
       properties:
         connection: "host=zzz user=yyy password=rrr dbname=nnn sslmode=require"
         max_idle_connections: "10"

@@ -46,7 +46,7 @@ bindings:
         max_reconnects: "0"
     target:
       kind:azure.storage.files
-      name: target-azure-storage-files
+      name: azure-storage-files
       properties:
         storage_account: "id"
         storage_access_key: "key"

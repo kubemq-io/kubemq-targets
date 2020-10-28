@@ -20,7 +20,7 @@ func Connector() *common.Connector {
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
-				SetName("storage account").
+				SetName("storage_account").
 				SetDescription("Set Files Storage storage account").
 				SetMust(true).
 				SetDefault(""),

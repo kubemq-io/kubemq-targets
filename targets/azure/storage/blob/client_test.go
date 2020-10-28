@@ -64,7 +64,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init ",
 			cfg: config.Spec{
-				Name: "target-azure-storage-blob",
+				Name: "azure-storage-blob",
 				Kind: "azure.storage.blob",
 				Properties: map[string]string{
 					"storage_access_key": dat.storageAccessKey,
@@ -73,20 +73,19 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: false,
 		}, {
-			name: "init ",
+			name: "invalid init - missing storage_access_key ",
 			cfg: config.Spec{
-				Name: "target-azure-storage-blob",
+				Name: "azure-storage-blob",
 				Kind: "azure.storage.blob",
 				Properties: map[string]string{
-					"storage_access_key": dat.storageAccessKey,
 					"storage_account":    dat.storageAccount,
 				},
 			},
-			wantErr: false,
+			wantErr: true,
 		}, {
-			name: "init - missing account",
+			name: "init - missing storage_account",
 			cfg: config.Spec{
-				Name: "target-azure-storage-blob",
+				Name: "azure-storage-blob",
 				Kind: "azure.storage.blob",
 				Properties: map[string]string{
 					"storage_access_key": dat.storageAccessKey,
@@ -117,7 +116,7 @@ func TestClient_Upload_Item(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-azure-storage-blob",
+		Name: "azure-storage-blob",
 		Kind: "azure.storage.blob",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
@@ -192,7 +191,7 @@ func TestClient_Get_Item(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-azure-storage-blob",
+		Name: "azure-storage-blob",
 		Kind: "azure.storage.blob",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
@@ -271,7 +270,7 @@ func TestClient_Delete_Item(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-azure-storage-blob",
+		Name: "azure-storage-blob",
 		Kind: "azure.storage.blob",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,

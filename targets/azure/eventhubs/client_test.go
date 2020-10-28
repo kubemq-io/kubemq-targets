@@ -57,7 +57,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init ",
 			cfg: config.Spec{
-				Name: "target-azure-eventhubs",
+				Name: "azure-eventhubs",
 				Kind: "azure.eventhubs",
 				Properties: map[string]string{
 					"end_point":              dat.endPoint,
@@ -67,6 +67,54 @@ func TestClient_Init(t *testing.T) {
 				},
 			},
 			wantErr: false,
+		},{
+			name: "invalid init - missing end_point",
+			cfg: config.Spec{
+				Name: "azure-eventhubs",
+				Kind: "azure.eventhubs",
+				Properties: map[string]string{
+					"shared_access_key_name": dat.sharedAccessKeyName,
+					"shared_access_key":      dat.sharedAccessKey,
+					"entity_path":            dat.entityPath,
+				},
+			},
+			wantErr: true,
+		},{
+			name: "invalid init - missing shared_access_key_name",
+			cfg: config.Spec{
+				Name: "azure-eventhubs",
+				Kind: "azure.eventhubs",
+				Properties: map[string]string{
+					"end_point":              dat.endPoint,
+					"shared_access_key":      dat.sharedAccessKey,
+					"entity_path":            dat.entityPath,
+				},
+			},
+			wantErr: true,
+		},{
+			name: "invalid init - missing shared_access_key",
+			cfg: config.Spec{
+				Name: "azure-eventhubs",
+				Kind: "azure.eventhubs",
+				Properties: map[string]string{
+					"end_point":              dat.endPoint,
+					"shared_access_key_name": dat.sharedAccessKeyName,
+					"entity_path":            dat.entityPath,
+				},
+			},
+			wantErr: true,
+		},{
+			name: "invalid init - missing entity_path",
+			cfg: config.Spec{
+				Name: "azure-eventhubs",
+				Kind: "azure.eventhubs",
+				Properties: map[string]string{
+					"end_point":              dat.endPoint,
+					"shared_access_key_name": dat.sharedAccessKeyName,
+					"shared_access_key":      dat.sharedAccessKey,
+				},
+			},
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
@@ -91,7 +139,7 @@ func TestClient_Send(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-azure-eventhubs",
+		Name: "azure-eventhubs",
 		Kind: "azure.eventhubs",
 		Properties: map[string]string{
 			"end_point":              dat.endPoint,
@@ -131,7 +179,7 @@ func TestClient_Send(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
 			c := New()
 			err = c.Init(ctx, cfg)
@@ -152,7 +200,7 @@ func TestClient_SendBatch(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-azure-eventhubs",
+		Name: "azure-eventhubs",
 		Kind: "azure.eventhubs",
 		Properties: map[string]string{
 			"end_point":              dat.endPoint,

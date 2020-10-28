@@ -58,7 +58,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init ",
 			cfg: config.Spec{
-				Name: "target-azure-storage-queue",
+				Name: "azure-storage-queue",
 				Kind: "azure.storage.queue",
 				Properties: map[string]string{
 					"storage_access_key": dat.storageAccessKey,
@@ -74,7 +74,7 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "init - missing account",
 			cfg: config.Spec{
-				Name: "target-azure-storage-queue",
+				Name: "azure-storage-queue",
 				Kind: "azure.storage.queue",
 				Properties: map[string]string{
 					"storage_access_key": dat.storageAccessKey,
@@ -105,7 +105,7 @@ func TestClient_Create_Queue(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-azure-storage-queue",
+		Name: "azure-storage-queue",
 		Kind: "azure.storage.queue",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
@@ -185,7 +185,7 @@ func TestClient_Push(t *testing.T) {
 	b, err := json.Marshal(myMessage)
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-azure-storage-queue",
+		Name: "azure-storage-queue",
 		Kind: "azure.storage.queue",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
@@ -233,7 +233,7 @@ func TestClient_Push(t *testing.T) {
 				SetData(b),
 			wantErr: true,
 		}, {
-			name: "invalid push item - missing service url",
+			name: "invalid push item - missing service_url",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "push").
 				SetMetadataKeyValue("queue_name", dat.queueName).
@@ -264,7 +264,7 @@ func TestClient_Peek(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-azure-storage-queue",
+		Name: "azure-storage-queue",
 		Kind: "azure.storage.queue",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
@@ -327,7 +327,7 @@ func TestClient_GetMessageCount(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-azure-storage-queue",
+		Name: "azure-storage-queue",
 		Kind: "azure.storage.queue",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
@@ -352,7 +352,7 @@ func TestClient_GetMessageCount(t *testing.T) {
 				SetMetadataKeyValue("service_url", dat.serviceURL),
 			wantErr: false,
 		}, {
-			name: "invalid get_messages_count - missing queue name",
+			name: "invalid get_messages_count - missing queue_name",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "peek").
 				SetMetadataKeyValue("service_url", dat.serviceURL),
@@ -390,7 +390,7 @@ func TestClient_Pop(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-azure-storage-queue",
+		Name: "azure-storage-queue",
 		Kind: "azure.storage.queue",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
@@ -453,7 +453,7 @@ func TestClient_Delete_Queue(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-azure-storage-queue",
+		Name: "azure-storage-queue",
 		Kind: "azure.storage.queue",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,

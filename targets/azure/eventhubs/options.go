@@ -28,6 +28,6 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing entity_path , %w", err)
 	}
-	o.connectionString = fmt.Sprintf("Endpoint=%s;SharedAccessKeyName=%s;SharedAccessKey=%s=;EntityPath=%s", endPoint, sharedAccessKeyName, sharedAccessKey, entityPath)
+	o.connectionString = fmt.Sprintf("Endpoint=%s;SharedAccessKeyName=%s;SharedAccessKey=%s;EntityPath=%s", endPoint, sharedAccessKeyName, sharedAccessKey, entityPath)
 	return o, nil
 }

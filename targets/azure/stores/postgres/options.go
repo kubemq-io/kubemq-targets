@@ -32,15 +32,15 @@ func parseOptions(cfg config.Spec) (options, error) {
 
 	o.maxIdleConnections, err = cfg.Properties.ParseIntWithRange("max_idle_connections", defaultMaxIdleConnections, 1, math.MaxInt32)
 	if err != nil {
-		return options{}, fmt.Errorf("error parsing max idle connections value, %w", err)
+		return options{}, fmt.Errorf("error parsing max_idle_connections, %w", err)
 	}
 	o.maxOpenConnections, err = cfg.Properties.ParseIntWithRange("max_open_connections", defaultMaxOpenConnections, 1, math.MaxInt32)
 	if err != nil {
-		return options{}, fmt.Errorf("error parsing max open connections value, %w", err)
+		return options{}, fmt.Errorf("error parsing max_open_connections value, %w", err)
 	}
 	o.connectionMaxLifetimeSeconds, err = cfg.Properties.ParseIntWithRange("connection_max_lifetime_seconds", defaultConnectionMaxLifetimeSeconds, 1, math.MaxInt32)
 	if err != nil {
-		return options{}, fmt.Errorf("error parsing connection max lifetime seconds value, %w", err)
+		return options{}, fmt.Errorf("error parsing connection_max_lifetime_seconds value, %w", err)
 	}
 	return o, nil
 }

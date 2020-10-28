@@ -20,7 +20,7 @@ func Connector() *common.Connector {
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
-				SetName("storage account").
+				SetName("storage_account").
 				SetDescription("Set Queue Storage storage account").
 				SetMust(true).
 				SetDefault(""),
@@ -30,9 +30,9 @@ func Connector() *common.Connector {
 				SetKind("string").
 				SetName("policy").
 				SetDescription("Set Queue Storage retry policy").
-				SetOptions([]string{"exponential", "fixed"}).
+				SetOptions([]string{"retry_policy_exponential", "retry_policy_fixed"}).
 				SetMust(true).
-				SetDefault("exponential"),
+				SetDefault("retry_policy_exponential"),
 		).
 		AddProperty(
 			common.NewProperty().
@@ -74,13 +74,4 @@ func Connector() *common.Connector {
 				SetMin(1).
 				SetMax(math.MaxInt32),
 		)
-	//
-	//AddProperty(
-	//	common.NewProperty().
-	//		SetKind("string").
-	//		SetName("address").
-	//		SetDescription("Set Kubemq grpc endpoint address").
-	//		SetMust(true).
-	//		SetDefault("localhost:50000"),
-	//)
 }
