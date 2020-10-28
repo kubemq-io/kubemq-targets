@@ -13,8 +13,13 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:azure.storage.queue
-      name: target-azure-storage-queue
+      kind: azure.storage.queue
+      name: azure-storage-queue
       properties:
         storage_account: "id"
         storage_access_key: "key"
+        max_retry_delay: "180000"
+        max_tries: "1"
+        policy: retry_policy_exponential
+        retry_delay: "60000"
+        try_timeout: "1000"

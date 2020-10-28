@@ -223,7 +223,7 @@ func (c *Client) pop(ctx context.Context, meta metadata) (*types.Response, error
 		messages = append(messages, msg)
 		msgIdUrl := messageUrl.NewMessageIDURL(msg.ID)
 
-		// PopReciept is required to delete the Message. If deletion fails using this popreceipt then the message has
+		// PopReceipt represents a Message's opaque pop receipt.
 		_, err = msgIdUrl.Delete(ctx, msg.PopReceipt)
 		if err != nil {
 			return nil, err
