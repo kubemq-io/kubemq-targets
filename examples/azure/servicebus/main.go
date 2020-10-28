@@ -38,6 +38,6 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	log.Println(fmt.Sprintf("send request executed, error: %v", sendResponse.Error))
+	log.Println(fmt.Sprintf("send request executed, error: %v , response:%s", sendResponse.Error,sendResponse.Metadata["result"]))
 
 }
