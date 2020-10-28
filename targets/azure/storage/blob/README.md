@@ -46,7 +46,7 @@ bindings:
         max_reconnects: "0"
     target:
       kind:azure.storage.blob
-      name: target-azure-storage-blob
+      name: azure-storage-blob
       properties:
         storage_account: "id"
         storage_access_key: "key"

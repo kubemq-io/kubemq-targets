@@ -4,7 +4,7 @@ Kubemq azuresql target connector allows services using kubemq server to access a
 
 ## Prerequisites
 The following are required to run the azuresql target connector:
-
+- access to db through azure firewall
 - kubemq cluster
 - azuresql server
 - kubemq-targets deployment
@@ -39,8 +39,8 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:azure.stores.azuresql
-      name: target-azure-stores-azuresql
+      kind: azure.stores.azuresql
+      name: azure-stores-azuresql
       properties:
         connection: "server=server.net;user id=test;password=test;port=1433;database=initial_db;"
         max_idle_connections: "10"

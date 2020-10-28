@@ -35,7 +35,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	}
 	isolationLevel, err := meta.ParseStringMap("isolation_level", isolationLevelsMap)
 	if err != nil {
-		return metadata{}, fmt.Errorf("isolation_level is required for method :%s ,error parsing isolation level, %w", m.method, err)
+		return metadata{}, fmt.Errorf("isolation_level is required for method :%s ,error parsing isolation_level, %w", m.method, err)
 	}
 	m.isolationLevel = covertToSqlIsolationLevel(isolationLevel)
 	return m, nil

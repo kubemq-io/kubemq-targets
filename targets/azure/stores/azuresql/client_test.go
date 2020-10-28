@@ -95,7 +95,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionString,
@@ -107,9 +107,9 @@ func TestClient_Init(t *testing.T) {
 			wantErr: false,
 		},
 		{
-			name: "init - bad connection string",
+			name: "invalid init - bad connection string",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      "bad connection string",
@@ -121,9 +121,9 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init - bad port connection string",
+			name: "invalid init - bad port connection string",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionStringBadPort,
@@ -135,9 +135,9 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init - no connection string",
+			name: "invalid init - no connection string",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"max_idle_connections":            "",
@@ -148,9 +148,9 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init - bad max idle connections",
+			name: "invalid init - bad max idle connections",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionString,
@@ -162,9 +162,9 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init - bad max open connections",
+			name: "invalid init - bad max open connections",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionString,
@@ -176,9 +176,9 @@ func TestClient_Init(t *testing.T) {
 			wantErr: true,
 		},
 		{
-			name: "init - bad connection max lifetime seconds",
+			name: "invalid init - bad connection max lifetime seconds",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionString,
@@ -221,7 +221,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec query request",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionString,
@@ -247,7 +247,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "empty exec request",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionString,
@@ -268,7 +268,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "invalid exec request",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionString,
@@ -289,7 +289,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec empty query request",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionString,
@@ -313,7 +313,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec bad query request",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionString,
@@ -337,7 +337,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec valid query - no results",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionString,
@@ -362,7 +362,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid exec query request",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionString,
@@ -388,7 +388,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "empty transaction request",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionString,
@@ -408,7 +408,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "invalid transaction request",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionString,
@@ -429,7 +429,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 		{
 			name: "valid transaction empty query request",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionString,
@@ -501,7 +501,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionString,
@@ -519,7 +519,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 2",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionString,
@@ -537,7 +537,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 3",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionString,
@@ -555,7 +555,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request - 3",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionString,
@@ -573,7 +573,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad method",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionString,
@@ -589,7 +589,7 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - bad isolation level",
 			cfg: config.Spec{
-				Name: "target-azure-stores-azuresql",
+				Name: "azure-stores-azuresql",
 				Kind: "azure.stores.azuresql",
 				Properties: map[string]string{
 					"connection":                      dat.connectionString,

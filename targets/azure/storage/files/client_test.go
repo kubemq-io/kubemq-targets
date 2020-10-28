@@ -57,7 +57,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init ",
 			cfg: config.Spec{
-				Name: "target-azure-storage-files",
+				Name: "azure-storage-files",
 				Kind: "azure.storage.files",
 				Properties: map[string]string{
 					"storage_access_key": dat.storageAccessKey,
@@ -66,12 +66,22 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: false,
 		}, {
-			name: "init - missing account",
+			name: "invalid init - missing storage_account",
 			cfg: config.Spec{
-				Name: "target-azure-storage-files",
+				Name: "azure-storage-files",
 				Kind: "azure.storage.files",
 				Properties: map[string]string{
 					"storage_access_key": dat.storageAccessKey,
+				},
+			},
+			wantErr: true,
+		},{
+			name: "invalid init - missing storage_access_key",
+			cfg: config.Spec{
+				Name: "azure-storage-files",
+				Kind: "azure.storage.files",
+				Properties: map[string]string{
+					"storage_account":    dat.storageAccount,
 				},
 			},
 			wantErr: true,
@@ -99,7 +109,7 @@ func TestClient_Create_Item(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-azure-storage-files",
+		Name: "azure-storage-files",
 		Kind: "azure.storage.files",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
@@ -157,7 +167,7 @@ func TestClient_Upload_Item(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-azure-storage-files",
+		Name: "azure-storage-files",
 		Kind: "azure.storage.files",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
@@ -185,7 +195,7 @@ func TestClient_Upload_Item(t *testing.T) {
 				SetData(dat.file),
 			wantErr: false,
 		}, {
-			name: "invalid upload item - missing service url",
+			name: "invalid upload item - missing service_url",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "upload").
 				SetData(dat.file),
@@ -221,7 +231,7 @@ func TestClient_Get_Item(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-azure-storage-files",
+		Name: "azure-storage-files",
 		Kind: "azure.storage.files",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
@@ -291,7 +301,7 @@ func TestClient_Delete_Item(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	cfg := config.Spec{
-		Name: "target-azure-storage-files",
+		Name: "azure-storage-files",
 		Kind: "azure.storage.files",
 		Properties: map[string]string{
 			"storage_access_key": dat.storageAccessKey,
