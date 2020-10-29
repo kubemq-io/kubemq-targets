@@ -66,11 +66,9 @@ func loadCfgBindings() []*common.Binding {
 func buildConfig() error {
 	var err error
 	var bindingsYaml []byte
-	if bindingsYaml, err = connectorTargets.NewTarget("kubemq-targets").
-		SetBindings(loadCfgBindings()).
+	loadedOptions := common.NewDefaultOptions().Add("kubemq-address", []string{"localhost:50000", "Other"})
+	if bindingsYaml, err = connectorTargets.NewTarget("kubemq-targets", loadCfgBindings(), loadedOptions, nil).
 		SetManifestFile("./targets-manifest.json").
-		SetDefaultOptions(common.NewDefaultOptions().
-			Add("kubemq-address", []string{"localhost:50000", "Other"})).
 		Render(); err != nil {
 		return err
 	}
