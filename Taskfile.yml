@@ -52,6 +52,7 @@ tasks:
       - git push origin master --tags
   release:
     cmds:
+      - go mod vendor
       - task: lint
       - task: update-manifest
       - task: commit-modifed

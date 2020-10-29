@@ -54,7 +54,7 @@ func Init(ctx context.Context, cfg config.Spec) (Source, error) {
 		return source, nil
 
 	default:
-		return nil, fmt.Errorf("invalid kind %s for source %s", cfg.Kind, cfg.Name)
+		return nil, fmt.Errorf("invalid kind %s for source", cfg.Kind)
 	}
 
 }

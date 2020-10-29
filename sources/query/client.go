@@ -20,7 +20,6 @@ var (
 )
 
 type Client struct {
-	name   string
 	opts   options
 	client *kubemq.Client
 	log    *logger.Logger
@@ -35,7 +34,7 @@ func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
-	c.name = cfg.Name
+
 	c.log = logger.NewLogger(cfg.Name)
 	var err error
 	c.opts, err = parseOptions(cfg)
