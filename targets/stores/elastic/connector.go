@@ -39,5 +39,29 @@ func Connector() *common.Connector {
 				SetDescription("Set Elastic Search sniff mode").
 				SetMust(false).
 				SetDefault("true"),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("method").
+				SetKind("string").
+				SetDescription("Select Elastic method").
+				SetOptions([]string{"get","set","delete"}).
+				SetDefault("get").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("index").
+				SetKind("string").
+				SetDescription("Select Elastic index").
+				SetDefault("").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("id").
+				SetKind("string").
+				SetDescription("Select Elastic document id").
+				SetMust(true),
 		)
 }
