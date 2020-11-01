@@ -77,7 +77,7 @@ func Connector() *common.Connector {
 			common.NewMetadata().
 				SetName("storage_class").
 				SetKind("string").
-				SetDescription("Set gcp-storage_class").
+				SetDescription("Set GCP storage class").
 				SetDefault("").
 				SetMust(false),
 		).
@@ -85,7 +85,7 @@ func Connector() *common.Connector {
 			common.NewMetadata().
 				SetName("location").
 				SetKind("string").
-				SetDescription("Set GCP storage  location ").
+				SetDescription("Set GCP storage location").
 				SetDefault("").
 				SetMust(false),
 		)
