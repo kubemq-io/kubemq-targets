@@ -2,6 +2,7 @@ package events
 
 import (
 	"github.com/kubemq-hub/builder/connector/common"
+	"math"
 )
 
 func Connector() *common.Connector {
@@ -39,5 +40,56 @@ func Connector() *common.Connector {
 				SetDescription("Set Cloudwatch-Events aws token").
 				SetMust(false).
 				SetDefault(""),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("method").
+				SetKind("string").
+				SetDescription("Set Cloudwatch-Events execution method").
+				SetOptions([]string{"put_targets", "send_event", "list_buses"}).
+				SetDefault("send_event").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("rule").
+				SetKind("string").
+				SetDescription("Set Cloudwatch-Events rule").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("detail").
+				SetKind("string").
+				SetDescription("Set Cloudwatch-Events detail").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("detail_type").
+				SetKind("string").
+				SetDescription("Set Cloudwatch-Events detail type").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("source").
+				SetKind("string").
+				SetDescription("Set Cloudwatch-Events source").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("int").
+				SetName("limit").
+				SetDescription("Set Cloudwatch-Events limit").
+				SetMust(false).
+				SetDefault("100").
+				SetMin(0).
+				SetMax(math.MaxInt32),
 		)
 }

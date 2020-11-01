@@ -22,7 +22,7 @@ func Connector() *common.Connector {
 				SetKind("string").
 				SetDescription("Set GCP Storage method").
 				SetOptions([]string{"upload", "create_bucket", "download", "delete", "rename", "copy", "move", "list"}).
-				SetDefault("make_bucket").
+				SetDefault("create_bucket").
 				SetMust(true),
 		).
 		AddMetadata(

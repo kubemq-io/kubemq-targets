@@ -62,7 +62,7 @@ func Connector() *common.Connector {
 				SetKind("string").
 				SetDescription("Set GCP Firebase execution method").
 				SetOptions([]string{"custom_token", "verify_token", "retrieve_user", "create_user", "delete_user", "delete_multiple_users", "list_users", "get_db", "delete_db", "set_db", "send_message", "send_multi"}).
-				SetDefault("custom_token").
+				SetDefault("create_user").
 				SetMust(true),
 		).
 		AddMetadata(

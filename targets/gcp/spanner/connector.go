@@ -37,7 +37,7 @@ func Connector() *common.Connector {
 			common.NewMetadata().
 				SetName("query").
 				SetKind("string").
-				SetDescription("Set query request").
+				SetDescription("Set Spanner query request").
 				SetDefault("").
 				SetMust(false),
 		).

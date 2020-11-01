@@ -39,6 +39,22 @@ func Connector() *common.Connector {
 				SetDescription("Set MSK topic").
 				SetMust(true).
 				SetDefault(""),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("headers").
+				SetKind("string").
+				SetDescription("Set Kafka headers").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("key").
+				SetKind("string").
+				SetDescription("Set Kafka Key").
+				SetDefault("").
+				SetMust(false),
 		)
 
 }

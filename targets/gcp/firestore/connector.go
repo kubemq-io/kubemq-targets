@@ -30,7 +30,7 @@ func Connector() *common.Connector {
 				SetKind("string").
 				SetDescription("Set GCP Firestore execution method").
 				SetOptions([]string{"documents_all", "document_key", "delete_document_key", "add"}).
-				SetDefault("documents_all").
+				SetDefault("add").
 				SetMust(true),
 		).
 		AddMetadata(

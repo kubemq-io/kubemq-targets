@@ -46,5 +46,23 @@ func Connector() *common.Connector {
 				SetDefault("3600").
 				SetMin(1).
 				SetMax(math.MaxInt32),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("method").
+				SetKind("string").
+				SetDescription("Set Redshift execution method").
+				SetOptions([]string{"query", "exec", "transaction"}).
+				SetDefault("query").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("isolation_level").
+				SetKind("string").
+				SetDescription("Set Redshift isolation level").
+				SetOptions([]string{"read_uncommitted", "read_committed", "repeatable_read", "serializable", ""}).
+				SetDefault("read_committed").
+				SetMust(false),
 		)
 }
