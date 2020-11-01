@@ -22,7 +22,7 @@ func Connector() *common.Connector {
 				SetKind("string").
 				SetName("username").
 				SetDescription("Set MongoDB username").
-				SetMust(true).
+				SetMust(false).
 				SetDefault(""),
 		).
 		AddProperty(
@@ -30,6 +30,14 @@ func Connector() *common.Connector {
 				SetKind("string").
 				SetName("password").
 				SetDescription("Set MongoDB password").
+				SetMust(false).
+				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("string").
+				SetName("database").
+				SetDescription("Set MongoDB database").
 				SetMust(true).
 				SetDefault(""),
 		).

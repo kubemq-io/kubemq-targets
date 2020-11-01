@@ -12,7 +12,7 @@ func Connector() *common.Connector {
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
-				SetName("host").
+				SetName("hosts").
 				SetDescription("Set Cassandra hosts addresses").
 				SetMust(true).
 				SetDefault(""),
@@ -32,7 +32,7 @@ func Connector() *common.Connector {
 				SetKind("string").
 				SetName("username").
 				SetDescription("Set Cassandra username").
-				SetMust(true).
+				SetMust(false).
 				SetDefault(""),
 		).
 		AddProperty(
@@ -40,7 +40,7 @@ func Connector() *common.Connector {
 				SetKind("string").
 				SetName("password").
 				SetDescription("Set Cassandra password").
-				SetMust(true).
+				SetMust(false).
 				SetDefault(""),
 		).
 		AddProperty(
@@ -103,7 +103,7 @@ func Connector() *common.Connector {
 				SetName("method").
 				SetKind("string").
 				SetDescription("Set Cassandra execution method").
-				SetOptions([]string{"get", "set", "delete","query","exec"}).
+				SetOptions([]string{"get", "set", "delete", "query", "exec"}).
 				SetDefault("get").
 				SetMust(true),
 		).

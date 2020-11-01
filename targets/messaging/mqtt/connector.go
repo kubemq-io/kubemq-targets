@@ -21,7 +21,7 @@ func Connector() *common.Connector {
 				SetKind("string").
 				SetName("username").
 				SetDescription("Set MQTT broker username").
-				SetMust(true).
+				SetMust(false).
 				SetDefault(""),
 		).
 		AddProperty(
@@ -29,7 +29,7 @@ func Connector() *common.Connector {
 				SetKind("string").
 				SetName("password").
 				SetDescription("Set MQTT broker password").
-				SetMust(true).
+				SetMust(false).
 				SetDefault(""),
 		).
 		AddProperty(
@@ -37,7 +37,7 @@ func Connector() *common.Connector {
 				SetKind("string").
 				SetName("client_id").
 				SetDescription("Set MQTT broker client id").
-				SetMust(true).
+				SetMust(false).
 				SetDefault(""),
 		).
 		AddMetadata(

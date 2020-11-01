@@ -11,7 +11,7 @@ func Connector() *common.Connector {
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
-				SetName("gateway").
+				SetName("host").
 				SetDescription("Set ActiveMQ host address").
 				SetMust(true).
 				SetDefault(""),

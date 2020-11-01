@@ -13,7 +13,7 @@ func Connector() *common.Connector {
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
-				SetName("host").
+				SetName("url").
 				SetDescription("Set Couchbase url").
 				SetMust(true).
 				SetDefault(""),
