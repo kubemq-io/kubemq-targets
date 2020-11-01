@@ -39,5 +39,30 @@ func Connector() *common.Connector {
 				SetDescription("Set EventHubs entity path").
 				SetMust(true).
 				SetDefault(""),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("method").
+				SetKind("string").
+				SetDescription("Set EventHubs execution method").
+				SetOptions([]string{"send", "send_batch"}).
+				SetDefault("send").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("properties").
+				SetKind("string").
+				SetDescription("Set EventHubs properties").
+				SetDefault("").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("partition_key").
+				SetKind("string").
+				SetDescription("Set EventHubs partition key").
+				SetDefault("").
+				SetMust(false),
 		)
 }

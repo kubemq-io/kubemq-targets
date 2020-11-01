@@ -6,7 +6,6 @@ import (
 )
 
 const (
-	DefaultProperties   = ""
 	DefaultPartitionKey = ""
 )
 

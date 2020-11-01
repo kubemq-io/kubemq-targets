@@ -73,5 +73,46 @@ func Connector() *common.Connector {
 				SetDefault("180000").
 				SetMin(1).
 				SetMax(math.MaxInt32),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("method").
+				SetKind("string").
+				SetDescription("Set Queue Storage execution method").
+				SetOptions([]string{"query", "create_data_set", "delete_data_set", "create_table","delete_table", "get_table_info", "get_data_sets", "insert"}).
+				SetDefault("query").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("query").
+				SetKind("string").
+				SetDescription("Set Queue Storage query").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("table_name").
+				SetKind("string").
+				SetDescription("Set Queue Storage table name").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("dataset_id").
+				SetKind("string").
+				SetDescription("Set Queue Storage dataset id").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("location").
+				SetKind("string").
+				SetDescription("Set Queue Storage location").
+				SetDefault("").
+				SetMust(false),
 		)
 }
