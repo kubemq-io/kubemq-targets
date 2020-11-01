@@ -45,7 +45,7 @@ func Connector() *common.Connector {
 				SetName("method").
 				SetKind("string").
 				SetDescription("Set Elastic execution method").
-				SetOptions([]string{"get", "set", "delete", "index.exist", "index.create", "index.delete"}).
+				SetOptions([]string{"get", "set", "delete", "index.exists", "index.create", "index.delete"}).
 				SetDefault("get").
 				SetMust(true),
 		).
