@@ -9,7 +9,7 @@ var methodsMap = map[string]string{
 	"get":          "get",
 	"set":          "set",
 	"delete":       "delete",
-	"index.exist":  "index.exists",
+	"index.exists": "index.exists",
 	"index.create": "index.create",
 	"index.delete": "index.delete",
 }
