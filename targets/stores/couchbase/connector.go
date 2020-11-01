@@ -69,5 +69,21 @@ func Connector() *common.Connector {
 				SetDefault("1").
 				SetMin(1).
 				SetMax(math.MaxInt32),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("method").
+				SetKind("string").
+				SetDescription("Set Couchbase execution method").
+				SetOptions([]string{"get", "set", "delete"}).
+				SetDefault("get").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("key").
+				SetKind("string").
+				SetDescription("Couchbase key to set get or delete").
+				SetMust(true),
 		)
 }

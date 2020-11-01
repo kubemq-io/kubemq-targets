@@ -51,14 +51,14 @@ Request metadata setting:
 | Metadata Key   | Required | Description         | Possible values |
 |:---------------|:---------|:--------------------|:----------------|
 | queue          | yes      | set queue name | "queue"         |
-| exchange       | no      | set exchange name | "exchange"         |
-| mandatory      | no      | set mandatory | "true","false"         |
-| immediate      | no      | set immediate | "true","false"         |
-| delivery_mode  | no      | set delivery mode | "1","2"         |
-| priority       | no      | set priority | "0"-"9"         |
-| correlation_id | no      | set correlation id | "some id"         |
-| reply_to       | no      | set set reply to | ""         |
-| expiry_seconds | no      | set message expiry in seconds| "3600"         |
+| exchange       | no       | set exchange name | "exchange"         |
+| mandatory      | no       | set mandatory | "true","false"         |
+| immediate      | no       | set immediate | "true","false"         |
+| delivery_mode  | no       | set delivery mode | "1","2"         |
+| priority       | no       | set priority | "0"-"9"         |
+| correlation_id | no       | set correlation id | "some id"         |
+| reply_to       | no       | set set reply to | ""         |
+| expiry_seconds | no       | set message expiry in seconds| "3600"         |
 
 
 Query request data setting:

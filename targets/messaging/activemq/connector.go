@@ -31,5 +31,13 @@ func Connector() *common.Connector {
 				SetDescription("Set ActiveMQ password").
 				SetMust(false).
 				SetDefault(""),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("destination").
+				SetKind("string").
+				SetDescription("Set ActiveMQ destination").
+				SetDefault("").
+				SetMust(true),
 		)
 }
