@@ -43,8 +43,8 @@ func Connector() *common.Connector {
 						SetMust(true).
 						SetDefault(""),
 					common.NewProperty().
-						SetKind("string").
-						SetName("credentials").
+						SetKind("multilines").
+				SetName("credentials").
 						SetDescription("Set Postgres credentials").
 						SetMust(true).
 						SetDefault(""),

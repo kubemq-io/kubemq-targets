@@ -10,7 +10,7 @@ func Connector() *common.Connector {
 		SetDescription("GCP Storage Target").
 		AddProperty(
 			common.NewProperty().
-				SetKind("string").
+				SetKind("multilines").
 				SetName("credentials").
 				SetDescription("Set GCP credentials").
 				SetMust(true).
