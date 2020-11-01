@@ -21,11 +21,11 @@ func Connector() *common.Connector {
 			common.NewMetadata().
 				SetName("method").
 				SetKind("string").
-				SetDescription("Select Redis method").
-				SetOptions([]string{"get","set","delete"}).
+				SetDescription("Set Redis execution method").
+				SetOptions([]string{"get", "set", "delete"}).
 				SetDefault("get").
 				SetMust(true),
-					).
+		).
 		AddMetadata(
 			common.NewMetadata().
 				SetName("key").
@@ -48,7 +48,7 @@ func Connector() *common.Connector {
 				SetName("concurrency").
 				SetKind("string").
 				SetDescription("Set Redis write concurrency").
-				SetOptions([]string{"first-write","last-write",""}).
+				SetOptions([]string{"first-write", "last-write", ""}).
 				SetDefault("").
 				SetMust(false),
 		).
@@ -57,10 +57,9 @@ func Connector() *common.Connector {
 				SetName("consistency").
 				SetKind("string").
 				SetDescription("Set Redis read consistency").
-				SetOptions([]string{"strong","eventual",""}).
+				SetOptions([]string{"strong", "eventual", ""}).
 				SetDefault("").
 				SetMust(false),
-	)
-
+		)
 
 }

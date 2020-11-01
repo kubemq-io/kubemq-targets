@@ -76,5 +76,21 @@ func Connector() *common.Connector {
 				SetDefault("30").
 				SetMin(0).
 				SetMax(math.MaxInt32),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("method").
+				SetKind("string").
+				SetDescription("Set MongoDB execution method").
+				SetOptions([]string{"get", "set", "delete"}).
+				SetDefault("get").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("key").
+				SetKind("string").
+				SetDescription("Set MongoDB key").
+				SetMust(true),
 		)
 }

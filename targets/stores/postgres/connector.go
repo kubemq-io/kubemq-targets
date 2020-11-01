@@ -51,18 +51,17 @@ func Connector() *common.Connector {
 			common.NewMetadata().
 				SetName("method").
 				SetKind("string").
-				SetDescription("Select Postgres method").
-				SetOptions([]string{"query","exec","transaction"}).
+				SetDescription("Set Postgres execution method").
+				SetOptions([]string{"query", "exec", "transaction"}).
 				SetDefault("query").
 				SetMust(true),
 		).
-
 		AddMetadata(
 			common.NewMetadata().
 				SetName("isolation_level").
 				SetKind("string").
 				SetDescription("Set Postgres isolation level").
-				SetOptions([]string{"Default","ReadUncommitted","ReadCommitted","RepeatableRead","Serializable"}).
+				SetOptions([]string{"Default", "ReadUncommitted", "ReadCommitted", "RepeatableRead", "Serializable"}).
 				SetDefault("Default").
 				SetMust(false),
 		)

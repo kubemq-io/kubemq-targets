@@ -44,8 +44,8 @@ func Connector() *common.Connector {
 			common.NewMetadata().
 				SetName("method").
 				SetKind("string").
-				SetDescription("Select Elastic method").
-				SetOptions([]string{"get","set","delete"}).
+				SetDescription("Set Elastic execution method").
+				SetOptions([]string{"get", "set", "delete"}).
 				SetDefault("get").
 				SetMust(true),
 		).

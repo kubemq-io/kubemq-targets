@@ -36,11 +36,11 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if err != nil {
 		return metadata{}, fmt.Errorf("error parsing isolation_level, %w", err)
 	}
-	m.isolationLevel = covertToSqlIsolationLevel(isolationLevel)
+	m.isolationLevel = convertToSqlIsolationLevel(isolationLevel)
 	return m, nil
 }
 
-func covertToSqlIsolationLevel(value string) sql.IsolationLevel {
+func convertToSqlIsolationLevel(value string) sql.IsolationLevel {
 	switch value {
 	case "ReadUncommitted":
 		return sql.LevelReadCommitted
