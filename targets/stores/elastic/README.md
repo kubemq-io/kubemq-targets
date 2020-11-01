@@ -101,7 +101,7 @@ Example:
     "index": "log",
     "id": "doc-id"
   },
-  "data": "c29tZS1kYXRh" 
+  "data": "ewoJImlkIjogInNvbWUtaWQiLAoiZGF0YSI6InNvbWUtZGF0YSIKfQ==" 
 }
 ```
 ### Delete Request
