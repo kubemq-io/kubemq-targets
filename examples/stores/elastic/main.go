@@ -53,7 +53,7 @@ func main() {
 	}
 
 	existRequest := types.NewRequest().
-		SetMetadataKeyValue("method", "index.exist").
+		SetMetadataKeyValue("method", "index.exists").
 		SetMetadataKeyValue("index", "log")
 
 	queryExistResponse, err := client.SetQuery(existRequest.ToQuery()).
@@ -68,7 +68,7 @@ func main() {
 		log.Fatal(err)
 	}
 	log.Println(fmt.Sprintf("check if log index exist executed, response: %s", existResponse.Metadata.String()))
-	exist, err := strconv.ParseBool(existResponse.Metadata["exist"])
+	exist, err := strconv.ParseBool(existResponse.Metadata["exists"])
 	if err != nil {
 		log.Fatal(err)
 	}

@@ -40,7 +40,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:stores.elastic-search
+      kind: stores.elastic
       name: target-elastic-search
       properties:
         urls: "http://localhost:9200"
@@ -57,7 +57,7 @@ Get request metadata setting:
 
 | Metadata Key | Required | Description                | Possible values |
 |:-------------|:---------|:---------------------------|:----------------|
-| method       | yes      | method name get                        | "get"           |
+| method       | yes      | method name get                        | "get"|
 | index        | yes      | elastic-search index table | any string      |
 | id           | yes      | document id                | any string      |
 
@@ -120,6 +120,29 @@ Example:
 {
   "metadata": {
     "method": "delete",
+    "index": "log",
+    "id": "doc-id"
+  },
+  "data": null
+}
+```
+### Index Exists Request
+
+Index exists request metadata setting:
+
+| Metadata Key | Required | Description                | Possible values |
+|:-------------|:---------|:---------------------------|:----------------|
+| method       | yes      | method name get                        | "index"|
+| index        | yes      | elastic-search index table | any string      |
+| id           | yes      | document id                | any string      |
+
+
+Example:
+
+```json
+{
+  "metadata": {
+    "method": "get",
     "index": "log",
     "id": "doc-id"
   },
