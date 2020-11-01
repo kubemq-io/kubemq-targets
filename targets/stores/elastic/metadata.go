@@ -31,9 +31,13 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if err != nil {
 		return metadata{}, fmt.Errorf("error parsing index value, %w", err)
 	}
-	m.id, err = meta.MustParseString("id")
-	if err != nil {
-		return metadata{}, fmt.Errorf("error on parsing id value, %w", err)
+	switch m.method {
+	case "set", "get", "delete":
+		m.id, err = meta.MustParseString("id")
+		if err != nil {
+			return metadata{}, fmt.Errorf("error on parsing id value, %w", err)
+		}
 	}
+
 	return m, nil
 }
