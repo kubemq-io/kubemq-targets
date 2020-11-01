@@ -31,5 +31,13 @@ func Connector() *common.Connector {
 				SetDescription("Set Openfaas password").
 				SetMust(true).
 				SetDefault(""),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("topic").
+				SetKind("string").
+				SetDescription("Set OpenFaas function topic").
+				SetDefault("").
+				SetMust(true),
 		)
 }

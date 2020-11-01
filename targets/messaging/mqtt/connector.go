@@ -39,5 +39,23 @@ func Connector() *common.Connector {
 				SetDescription("Set MQTT broker client id").
 				SetMust(true).
 				SetDefault(""),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("string").
+				SetName("topic").
+				SetDescription("Set MQTT topic").
+				SetDefault("").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("int").
+				SetName("qos").
+				SetDescription("Set MQTT qos level").
+				SetMust(true).
+				SetMin(0).
+				SetMax(2).
+				SetDefault("0"),
 		)
 }

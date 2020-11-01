@@ -39,5 +39,30 @@ func Connector() *common.Connector {
 				SetDescription("Set Minio secret access key").
 				SetMust(false).
 				SetDefault(""),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("method").
+				SetKind("string").
+				SetDescription("Set Minio method").
+				SetOptions([]string{"make_bucket", "list_buckets", "bucket_exists", "remove_bucket", "list_objects", "put", "get", "remove"}).
+				SetDefault("make_bucket").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("param1").
+				SetKind("string").
+				SetDescription("Set Minio bucket name").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("param2").
+				SetKind("string").
+				SetDescription("Set Minio object name").
+				SetDefault("").
+				SetMust(false),
 		)
 }

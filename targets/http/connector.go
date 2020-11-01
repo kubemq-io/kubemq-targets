@@ -96,5 +96,30 @@ func Connector() *common.Connector {
 			SetDescription("Set Default headers  (key1=value1;key2=value2;...)").
 			SetMust(false).
 			SetDefault(""),
-	)
+	).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("method").
+				SetKind("string").
+				SetDescription("Set method").
+				SetOptions([]string{"post", "get", "head", "put", "delete", "patch", "options"}).
+				SetDefault("post").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("url").
+				SetKind("string").
+				SetDescription("Set HTTP URL bucket name").
+				SetDefault("").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("headers").
+				SetKind("string").
+				SetDescription("Set HTTP headers").
+				SetDefault("").
+				SetMust(false),
+		)
 }

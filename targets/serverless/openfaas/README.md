@@ -38,7 +38,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:serverless.openfaas
+      kind: serverless.openfaas
       name: target-serverless-openfaas
       properties:
         gateway: "http://localhost:31112"
