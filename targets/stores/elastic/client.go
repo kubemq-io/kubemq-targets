@@ -39,8 +39,12 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
+	_, _, err = c.elastic.Ping(c.opts.urls[0]).Do(ctx)
+	if err != nil {
+		return err
+	}
 
-	return err
+	return nil
 }
 func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, error) {
 	meta, err := parseMetadata(req.Metadata)
@@ -54,9 +58,16 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.Set(ctx, meta, req.Data)
 	case "delete":
 		return c.Delete(ctx, meta)
-
+	case "index.exist":
+		return c.IndexExists(ctx, meta)
+	case "index.create":
+		return c.IndexCreate(ctx, meta, req.Data)
+	case "index.delete":
+		return c.IndexDelete(ctx, meta)
+	default:
+		return nil, fmt.Errorf("invalid method")
 	}
-	return nil, nil
+
 }
 func (c *Client) Get(ctx context.Context, meta metadata) (*types.Response, error) {
 	getResp, err := c.elastic.Get().Index(meta.index).Id(meta.id).Do(ctx)
@@ -90,6 +101,35 @@ func (c *Client) Delete(ctx context.Context, meta metadata) (*types.Response, er
 		nil
 }
 
+func (c *Client) IndexExists(ctx context.Context, meta metadata) (*types.Response, error) {
+	exists, err := c.elastic.IndexExists(meta.index).Do(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to execute index exist '%s',%w", meta.index, err)
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("exists", fmt.Sprintf("%t", exists)),
+		nil
+}
+func (c *Client) IndexCreate(ctx context.Context, meta metadata, value []byte) (*types.Response, error) {
+	result, err := c.elastic.CreateIndex(meta.index).BodyString(string(value)).Do(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create index'%s',%w", meta.index, err)
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("acknowledged", fmt.Sprintf("%t", result.Acknowledged)).
+			SetMetadataKeyValue("shards_acknowledged", fmt.Sprintf("%t", result.ShardsAcknowledged)).
+			SetMetadataKeyValue("index", result.Index),
+		nil
+}
+func (c *Client) IndexDelete(ctx context.Context, meta metadata) (*types.Response, error) {
+	result, err := c.elastic.DeleteIndex(meta.index).Do(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("failed to delete index'%s',%w", meta.index, err)
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("acknowledged", fmt.Sprintf("%t", result.Acknowledged)),
+		nil
+}
 func (c *Client) Stop() error {
 	return nil
 }

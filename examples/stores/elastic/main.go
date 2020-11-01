@@ -8,8 +8,26 @@ import (
 	"github.com/kubemq-io/kubemq-go"
 	"github.com/nats-io/nuid"
 	"log"
+	"strconv"
 	"time"
 )
+
+const mapping = `{
+	"settings": {
+		"number_of_shards": 1,
+		"number_of_replicas": 0
+	},
+	"mappings": {
+		"properties": {
+			"id": {
+				"type": "keyword"
+			},
+			"data": {
+				"type": "text"
+			}
+		}
+	}
+}`
 
 type logRecord struct {
 	Id   string `json:"id"`
@@ -33,6 +51,63 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	existRequest := types.NewRequest().
+		SetMetadataKeyValue("method", "index.exist").
+		SetMetadataKeyValue("index", "log")
+
+	queryExistResponse, err := client.SetQuery(existRequest.ToQuery()).
+		SetChannel("query.elastic").
+		SetTimeout(10 * time.Second).Send(context.Background())
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	existResponse, err := types.ParseResponse(queryExistResponse.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(fmt.Sprintf("check if log index exist executed, response: %s", existResponse.Metadata.String()))
+	exist, err := strconv.ParseBool(existResponse.Metadata["exist"])
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if exist {
+		deleteIndexRequest := types.NewRequest().
+			SetMetadataKeyValue("method", "index.delete").
+			SetMetadataKeyValue("index", "log")
+
+		queryDeleteIndexResponse, err := client.SetQuery(deleteIndexRequest.ToQuery()).
+			SetChannel("query.elastic").
+			SetTimeout(10 * time.Second).Send(context.Background())
+		if err != nil {
+			log.Fatal(err)
+		}
+		deleteIndexResponse, err := types.ParseResponse(queryDeleteIndexResponse.Body)
+		if err != nil {
+			log.Fatal(err)
+		}
+		log.Println(fmt.Sprintf("delete log index executed, response: %s", deleteIndexResponse.Metadata.String()))
+	}
+
+	createIndexRequest := types.NewRequest().
+		SetMetadataKeyValue("method", "index.create").
+		SetMetadataKeyValue("index", "log").
+		SetData([]byte(mapping))
+
+	queryCreateIndexResponse, err := client.SetQuery(createIndexRequest.ToQuery()).
+		SetChannel("query.elastic").
+		SetTimeout(10 * time.Second).Send(context.Background())
+	if err != nil {
+		log.Fatal(err)
+	}
+	createIndexResponse, err := types.ParseResponse(queryCreateIndexResponse.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+	log.Println(fmt.Sprintf("create log index executed, response: %s", createIndexResponse.Metadata.String()))
+
 	randomKey := nuid.Next()
 	// set request
 	setRequest := types.NewRequest().
@@ -41,7 +116,7 @@ func main() {
 		SetMetadataKeyValue("index", "log").
 		SetData(newLog("some-id", "some-data").marshal())
 	querySetResponse, err := client.SetQuery(setRequest.ToQuery()).
-		SetChannel("query.elastic-search").
+		SetChannel("query.elastic").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)
@@ -59,7 +134,7 @@ func main() {
 		SetMetadataKeyValue("id", randomKey)
 
 	queryGetResponse, err := client.SetQuery(getRequest.ToQuery()).
-		SetChannel("query.elastic-search").
+		SetChannel("query.elastic").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)
@@ -78,7 +153,7 @@ func main() {
 		SetMetadataKeyValue("id", randomKey)
 
 	queryDelResponse, err := client.SetQuery(delRequest.ToQuery()).
-		SetChannel("query.elastic-search").
+		SetChannel("query.elastic").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)

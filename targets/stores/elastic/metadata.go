@@ -6,9 +6,12 @@ import (
 )
 
 var methodsMap = map[string]string{
-	"get":    "get",
-	"set":    "set",
-	"delete": "delete",
+	"get":          "get",
+	"set":          "set",
+	"delete":       "delete",
+	"index.exist":  "index.exist",
+	"index.create": "index.create",
+	"index.delete": "index.delete",
 }
 
 type metadata struct {

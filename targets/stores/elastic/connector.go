@@ -38,14 +38,14 @@ func Connector() *common.Connector {
 				SetName("sniff").
 				SetDescription("Set Elastic Search sniff mode").
 				SetMust(false).
-				SetDefault("true"),
+				SetDefault("false"),
 		).
 		AddMetadata(
 			common.NewMetadata().
 				SetName("method").
 				SetKind("string").
 				SetDescription("Set Elastic execution method").
-				SetOptions([]string{"get", "set", "delete"}).
+				SetOptions([]string{"get", "set", "delete", "index.exist", "index.create", "index.delete"}).
 				SetDefault("get").
 				SetMust(true),
 		).

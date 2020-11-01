@@ -73,6 +73,7 @@ func TestMain(m *testing.M) {
 		}
 
 	}
+
 	_, err = client.CreateIndex(testIndex).BodyString(mapping).Do(ctx)
 	if err != nil {
 		panic(err)
