@@ -116,8 +116,8 @@ func Connector() *common.Connector {
 				SetDefault("").
 				SetMust(true),
 		).
-		AddProperty(
-			common.NewProperty().
+		AddMetadata(
+			common.NewMetadata().
 				SetKind("int").
 				SetName("block_size").
 				SetDescription("Set Blob Storage block size").
@@ -126,8 +126,8 @@ func Connector() *common.Connector {
 				SetMin(0).
 				SetMax(math.MaxInt32),
 		).
-		AddProperty(
-			common.NewProperty().
+		AddMetadata(
+			common.NewMetadata().
 				SetKind("int").
 				SetName("parallelism").
 				SetDescription("Set Blob Storage parallelism").
@@ -136,8 +136,8 @@ func Connector() *common.Connector {
 				SetMin(0).
 				SetMax(math.MaxInt32),
 		).
-		AddProperty(
-			common.NewProperty().
+		AddMetadata(
+			common.NewMetadata().
 				SetKind("int").
 				SetName("count").
 				SetDescription("Set Blob Storage count").
@@ -146,8 +146,8 @@ func Connector() *common.Connector {
 				SetMin(0).
 				SetMax(math.MaxInt32),
 		).
-		AddProperty(
-			common.NewProperty().
+		AddMetadata(
+			common.NewMetadata().
 				SetKind("int").
 				SetName("offset").
 				SetDescription("Set Blob Storage offset").
@@ -156,8 +156,8 @@ func Connector() *common.Connector {
 				SetMin(0).
 				SetMax(math.MaxInt32),
 		).
-		AddProperty(
-			common.NewProperty().
+		AddMetadata(
+			common.NewMetadata().
 				SetKind("int").
 				SetName("max_retry_request").
 				SetDescription("Set Blob Storage max retry request").

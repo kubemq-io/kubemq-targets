@@ -99,18 +99,17 @@ func Connector() *common.Connector {
 				SetDefault("").
 				SetMust(false),
 		).
-		AddProperty(
-			common.NewProperty().
+		AddMetadata(
+			common.NewMetadata().
 				SetKind("int").
 				SetName("range_size").
 				SetDescription("Set files Storage range size").
 				SetMust(false).
 				SetDefault("4194304").
-				SetMin(0).
-				SetMax(math.MaxInt32),
+				SetMin(0),
 		).
-		AddProperty(
-			common.NewProperty().
+		AddMetadata(
+			common.NewMetadata().
 				SetKind("int").
 				SetName("parallelism").
 				SetDescription("Set files Storage parallelism").
@@ -119,8 +118,8 @@ func Connector() *common.Connector {
 				SetMin(0).
 				SetMax(math.MaxInt32),
 		).
-		AddProperty(
-			common.NewProperty().
+		AddMetadata(
+			common.NewMetadata().
 				SetKind("int").
 				SetName("count").
 				SetDescription("Set files Storage count").
@@ -129,8 +128,8 @@ func Connector() *common.Connector {
 				SetMin(0).
 				SetMax(math.MaxInt32),
 		).
-		AddProperty(
-			common.NewProperty().
+		AddMetadata(
+			common.NewMetadata().
 				SetKind("int").
 				SetName("offset").
 				SetDescription("Set files Storage offset").
@@ -139,8 +138,8 @@ func Connector() *common.Connector {
 				SetMin(0).
 				SetMax(math.MaxInt32),
 		).
-		AddProperty(
-			common.NewProperty().
+		AddMetadata(
+			common.NewMetadata().
 				SetKind("int").
 				SetName("max_retry_request").
 				SetDescription("Set files Storage max retry request").
@@ -149,8 +148,8 @@ func Connector() *common.Connector {
 				SetMin(0).
 				SetMax(math.MaxInt32),
 		).
-		AddProperty(
-			common.NewProperty().
+		AddMetadata(
+			common.NewMetadata().
 				SetKind("int").
 				SetName("file_size").
 				SetDescription("Set files Storage file size").

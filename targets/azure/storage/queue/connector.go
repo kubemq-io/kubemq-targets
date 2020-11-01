@@ -79,40 +79,62 @@ func Connector() *common.Connector {
 				SetName("method").
 				SetKind("string").
 				SetDescription("Set Queue Storage execution method").
-				SetOptions([]string{"query", "create_data_set", "delete_data_set", "create_table","delete_table", "get_table_info", "get_data_sets", "insert"}).
-				SetDefault("query").
+				SetOptions([]string{"create", "get_messages_count", "peek", "push","pop", "delete"}).
+				SetDefault("create").
 				SetMust(true),
 		).
 		AddMetadata(
 			common.NewMetadata().
-				SetName("query").
+				SetName("queue_name").
 				SetKind("string").
-				SetDescription("Set Queue Storage query").
+				SetDescription("Set Queue Storage queue name").
+				SetDefault("").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("service_url").
+				SetKind("string").
+				SetDescription("Set Queue Storage service url").
+				SetDefault("").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("queue_metadata").
+				SetKind("string").
+				SetDescription("Set Queue Storage queue metadata").
 				SetDefault("").
 				SetMust(false),
 		).
 		AddMetadata(
 			common.NewMetadata().
-				SetName("table_name").
-				SetKind("string").
-				SetDescription("Set Queue Storage table name").
-				SetDefault("").
-				SetMust(false),
+				SetKind("int").
+				SetName("max_messages").
+				SetDescription("Set Queue Storage max messages").
+				SetMust(false).
+				SetDefault("32").
+				SetMin(1).
+				SetMax(math.MaxInt32),
 		).
 		AddMetadata(
 			common.NewMetadata().
-				SetName("dataset_id").
-				SetKind("string").
-				SetDescription("Set Queue Storage dataset id").
-				SetDefault("").
-				SetMust(false),
+				SetKind("int").
+				SetName("visibility_timeout").
+				SetDescription("Set Queue Storage visibility timeout").
+				SetMust(false).
+				SetDefault("100000000").
+				SetMin(0).
+				SetMax(math.MaxInt32),
 		).
 		AddMetadata(
 			common.NewMetadata().
-				SetName("location").
-				SetKind("string").
-				SetDescription("Set Queue Storage location").
-				SetDefault("").
-				SetMust(false),
+				SetKind("int").
+				SetName("time_to_live").
+				SetDescription("Set Queue Storage time to live").
+				SetMust(false).
+				SetDefault("100000000").
+				SetMin(1).
+				SetMax(math.MaxInt32),
 		)
 }

@@ -66,8 +66,8 @@ func Connector() *common.Connector {
 				SetDefault("").
 				SetMust(false),
 		).
-		AddProperty(
-			common.NewProperty().
+		AddMetadata(
+			common.NewMetadata().
 				SetKind("int").
 				SetName("time_to_live").
 				SetDescription("Set Blob Storage time to live milliseconds").
@@ -76,8 +76,8 @@ func Connector() *common.Connector {
 				SetMin(0).
 				SetMax(math.MaxInt32),
 		).
-		AddProperty(
-			common.NewProperty().
+		AddMetadata(
+			common.NewMetadata().
 				SetKind("int").
 				SetName("max_batch_size").
 				SetDescription("Set Blob Storage max batch size in bytes").
