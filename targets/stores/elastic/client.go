@@ -58,7 +58,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.Set(ctx, meta, req.Data)
 	case "delete":
 		return c.Delete(ctx, meta)
-	case "index.exist":
+	case "index.exists":
 		return c.IndexExists(ctx, meta)
 	case "index.create":
 		return c.IndexCreate(ctx, meta, req.Data)

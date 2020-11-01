@@ -132,9 +132,8 @@ Index exists request metadata setting:
 
 | Metadata Key | Required | Description                | Possible values |
 |:-------------|:---------|:---------------------------|:----------------|
-| method       | yes      | method name get                        | "index"|
+| method       | yes      | method name index.exists                        | "index.exists"|
 | index        | yes      | elastic-search index table | any string      |
-| id           | yes      | document id                | any string      |
 
 
 Example:
@@ -142,9 +141,81 @@ Example:
 ```json
 {
   "metadata": {
-    "method": "get",
-    "index": "log",
-    "id": "doc-id"
+    "method": "index.exists",
+    "index": "log"
+  },
+  "data": null
+}
+```
+
+### Index Create Request
+
+Index create request metadata setting:
+
+| Metadata Key | Required | Description                | Possible values |
+|:-------------|:---------|:---------------------------|:----------------|
+| method       | yes      | method name index.create                        | "index.create"|
+| index        | yes      | elastic-search index table | any string      |
+
+
+Index create data setting:
+
+| Data Key | Required | Description                   | Possible values     |
+|:---------|:---------|:------------------------------|:--------------------|
+| data     | yes      | data to set index mapping| base64 bytes array |
+
+
+Example:
+
+Mapping log index
+```json
+{
+	"settings": {
+		"number_of_shards": 1,
+		"number_of_replicas": 0
+	},
+	"mappings": {
+		"properties": {
+			"id": {
+				"type": "keyword"
+			},
+			"data": {
+				"type": "text"
+			}
+		}
+	}
+}
+
+```
+
+Request:
+
+```json
+{
+  "metadata": {
+    "method": "index.create",
+    "index": "log"
+  },
+  "data": "ewoJInNldHRpbmdzIjogewoJCSJudW1iZXJfb2Zfc2hhcmRzIjogMSwKCQkibnVtYmVyX29mX3JlcGxpY2FzIjogMAoJfSwKCSJtYXBwaW5ncyI6IHsKCQkicHJvcGVydGllcyI6IHsKCQkJImlkIjogewoJCQkJInR5cGUiOiAia2V5d29yZCIKCQkJfSwKCQkJImRhdGEiOiB7CgkJCQkidHlwZSI6ICJ0ZXh0IgoJCQl9CgkJfQoJfQp9"
+}
+```
+### Index Delete Request
+
+Index Delete request metadata setting:
+
+| Metadata Key | Required | Description                | Possible values |
+|:-------------|:---------|:---------------------------|:----------------|
+| method       | yes      | method name index.delete                        | "index.delete"           |
+| index        | yes      | elastic-search index table | any string      |
+
+
+Example:
+
+```json
+{
+  "metadata": {
+    "method": "index.delete",
+    "index": "log"
   },
   "data": null
 }
