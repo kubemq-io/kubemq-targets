@@ -75,5 +75,29 @@ func Connector() *common.Connector {
 				SetDescription("Set SQS dead letter queue").
 				SetMust(false).
 				SetDefault(""),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("queue").
+				SetKind("string").
+				SetDescription("Set EventHubs queue name").
+				SetDefault("").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("tags").
+				SetKind("string").
+				SetDescription("Set EventHubs tags").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("partition_key").
+				SetKind("string").
+				SetDescription("Set EventHubs partition key").
+				SetDefault("").
+				SetMust(false),
 		)
 }

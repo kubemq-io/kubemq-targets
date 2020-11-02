@@ -115,5 +115,47 @@ func Connector() *common.Connector {
 				SetDefault("60").
 				SetMin(1).
 				SetMax(math.MaxInt32),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("method").
+				SetKind("string").
+				SetDescription("Set Keyspaces execution method").
+				SetOptions([]string{"get", "set", "delete","query","exec"}).
+				SetDefault("get").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("method").
+				SetKind("consistency").
+				SetDescription("Set Keyspaces consistency Level").
+				SetOptions([]string{"strong", "eventual", ""}).
+				SetDefault("strong").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("key").
+				SetKind("string").
+				SetDescription("Keyspaces key to set get or delete").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("table").
+				SetKind("string").
+				SetDescription("Keyspaces table name").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("keyspace").
+				SetKind("string").
+				SetDescription("Keyspaces keyspace data container name").
+				SetDefault("").
+				SetMust(false),
 		)
 }

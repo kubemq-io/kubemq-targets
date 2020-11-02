@@ -23,5 +23,30 @@ func Connector() *common.Connector {
 				SetDescription("Set GCP credentials").
 				SetMust(true).
 				SetDefault(""),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("method").
+				SetKind("string").
+				SetDescription("Set GCP Firestore execution method").
+				SetOptions([]string{"documents_all", "document_key", "delete_document_key", "add"}).
+				SetDefault("add").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("collection").
+				SetKind("string").
+				SetDescription("Set Firestore collection name").
+				SetDefault("").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("item").
+				SetKind("string").
+				SetDescription("Set Firestore item name").
+				SetDefault("").
+				SetMust(false),
 		)
 }

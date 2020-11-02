@@ -73,5 +73,97 @@ func Connector() *common.Connector {
 				SetDefault("180000").
 				SetMin(1).
 				SetMax(math.MaxInt32),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("method").
+				SetKind("string").
+				SetDescription("Set blob Storage execution method").
+				SetOptions([]string{"upload", "get", "delete"}).
+				SetDefault("get").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("delete_snapshots_option_type").
+				SetKind("string").
+				SetDescription("Set blob Storage delete snapshots option type").
+				SetOptions([]string{"include", "only", ""}).
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("blob_metadata").
+				SetKind("string").
+				SetDescription("Set Blob Storage blob metadata").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("file_name").
+				SetKind("string").
+				SetDescription("Set Blob Storage blob name").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("service_url").
+				SetKind("string").
+				SetDescription("Set Blob Storage blob service url").
+				SetDefault("").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("int").
+				SetName("block_size").
+				SetDescription("Set Blob Storage block size").
+				SetMust(false).
+				SetDefault("4194304").
+				SetMin(0).
+				SetMax(math.MaxInt32),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("int").
+				SetName("parallelism").
+				SetDescription("Set Blob Storage parallelism").
+				SetMust(false).
+				SetDefault("16").
+				SetMin(0).
+				SetMax(math.MaxInt32),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("int").
+				SetName("count").
+				SetDescription("Set Blob Storage count").
+				SetMust(false).
+				SetDefault("0").
+				SetMin(0).
+				SetMax(math.MaxInt32),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("int").
+				SetName("offset").
+				SetDescription("Set Blob Storage offset").
+				SetMust(false).
+				SetDefault("0").
+				SetMin(0).
+				SetMax(math.MaxInt32),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("int").
+				SetName("max_retry_request").
+				SetDescription("Set Blob Storage max retry request").
+				SetMust(false).
+				SetDefault("1").
+				SetMin(0).
+				SetMax(math.MaxInt32),
 		)
 }

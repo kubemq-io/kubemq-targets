@@ -73,5 +73,68 @@ func Connector() *common.Connector {
 				SetDefault("180000").
 				SetMin(1).
 				SetMax(math.MaxInt32),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("method").
+				SetKind("string").
+				SetDescription("Set Queue Storage execution method").
+				SetOptions([]string{"create", "get_messages_count", "peek", "push","pop", "delete"}).
+				SetDefault("create").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("queue_name").
+				SetKind("string").
+				SetDescription("Set Queue Storage queue name").
+				SetDefault("").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("service_url").
+				SetKind("string").
+				SetDescription("Set Queue Storage service url").
+				SetDefault("").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("queue_metadata").
+				SetKind("string").
+				SetDescription("Set Queue Storage queue metadata").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("int").
+				SetName("max_messages").
+				SetDescription("Set Queue Storage max messages").
+				SetMust(false).
+				SetDefault("32").
+				SetMin(1).
+				SetMax(math.MaxInt32),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("int").
+				SetName("visibility_timeout").
+				SetDescription("Set Queue Storage visibility timeout").
+				SetMust(false).
+				SetDefault("100000000").
+				SetMin(0).
+				SetMax(math.MaxInt32),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("int").
+				SetName("time_to_live").
+				SetDescription("Set Queue Storage time to live").
+				SetMust(false).
+				SetDefault("100000000").
+				SetMin(1).
+				SetMax(math.MaxInt32),
 		)
 }

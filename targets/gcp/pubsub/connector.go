@@ -34,5 +34,21 @@ func Connector() *common.Connector {
 				SetDefault("0").
 				SetMin(0).
 				SetMax(math.MaxInt32),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("topic_id").
+				SetKind("string").
+				SetDescription("Set PubSub request topic id").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("tags").
+				SetKind("string").
+				SetDescription("Set PubSub request tags").
+				SetDefault("").
+				SetMust(false),
 		)
 }

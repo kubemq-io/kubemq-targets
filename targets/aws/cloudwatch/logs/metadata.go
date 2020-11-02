@@ -13,10 +13,10 @@ const (
 type metadata struct {
 	method         string
 	sequenceToken  string
-	limit          int64
 	logGroupName   string
 	logStreamName  string
 	logGroupPrefix string
+	limit          int64
 }
 
 var methodsMap = map[string]string{
@@ -37,7 +37,6 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if err != nil {
 		return metadata{}, meta.GetValidMethodTypes(methodsMap)
 	}
-	m.limit = int64(meta.ParseInt("limit", defaultLimit))
 	if m.method == "describe_log_group" {
 		m.logGroupPrefix, err = meta.MustParseString("log_group_prefix")
 		if err != nil {
@@ -58,5 +57,6 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 			}
 		}
 	}
+	m.limit = int64(meta.ParseInt("limit", defaultLimit))
 	return m, nil
 }

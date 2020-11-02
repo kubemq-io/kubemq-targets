@@ -39,5 +39,54 @@ func Connector() *common.Connector {
 				SetDescription("Set Athena aws token").
 				SetMust(false).
 				SetDefault(""),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("method").
+				SetKind("string").
+				SetDescription("Set Athena execution method").
+				SetOptions([]string{"list_databases", "list_data_catalogs", "query", "get_query_result"}).
+				SetDefault("query").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("query").
+				SetKind("string").
+				SetDescription("Set Athena query").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("catalog").
+				SetKind("string").
+				SetDescription("Set Athena catalog").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("db").
+				SetKind("string").
+				SetDescription("Set Athena db").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("output_location").
+				SetKind("string").
+				SetDescription("Set Athena output location").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("execution_id").
+				SetKind("string").
+				SetDescription("Set Athena execution id").
+				SetDefault("").
+				SetMust(false),
 		)
 }
