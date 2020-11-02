@@ -34,7 +34,7 @@ func Connector() *common.Connector {
 		).
 		AddProperty(
 			common.NewProperty().
-				SetKind("multiline").
+				SetKind("multilines").
 				SetName("secret_access_key").
 				SetDescription("Set Minio secret access key").
 				SetMust(false).

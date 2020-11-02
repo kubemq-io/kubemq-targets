@@ -62,9 +62,9 @@ func Init(ctx context.Context, cfg config.Spec) (Source, error) {
 func Connectors() common.Connectors {
 	return []*common.Connector{
 		queue.Connector(),
+		query.Connector(),
 		events.Connector(),
 		events_store.Connector(),
 		command.Connector(),
-		query.Connector(),
 	}
 }
