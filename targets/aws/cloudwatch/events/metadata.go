@@ -15,10 +15,10 @@ const (
 type metadata struct {
 	method     string
 	rule       string
-	limit      int64
 	detail     string
 	detailType string
 	source     string
+	limit      int64
 }
 
 var methodsMap = map[string]string{
@@ -34,7 +34,6 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if err != nil {
 		return metadata{}, meta.GetValidMethodTypes(methodsMap)
 	}
-	m.limit = int64(meta.ParseInt("limit", defaultLimit))
 	m.detail = meta.ParseString("detail", defaultDetail)
 	m.detailType = meta.ParseString("detail_type", defaultDetailType)
 	m.source = meta.ParseString("source", defaultSource)
@@ -45,5 +44,6 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 				err)
 		}
 	}
+	m.limit = int64(meta.ParseInt("limit", defaultLimit))
 	return m, nil
 }

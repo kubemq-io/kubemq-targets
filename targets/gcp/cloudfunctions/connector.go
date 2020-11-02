@@ -31,5 +31,29 @@ func Connector() *common.Connector {
 				SetDescription("Set Cloud Functions location match").
 				SetMust(false).
 				SetDefault("true"),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("name").
+				SetKind("string").
+				SetDescription("Set Cloud Functions name").
+				SetDefault("").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("project").
+				SetKind("string").
+				SetDescription("Set Cloud Functions project").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("location").
+				SetKind("string").
+				SetDescription("Set Cloud Functions location").
+				SetDefault("").
+				SetMust(false),
 		)
 }

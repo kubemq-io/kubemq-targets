@@ -37,5 +37,22 @@ func Connector() *common.Connector {
 				SetDescription("Set Cloudwatch-Metrics aws token").
 				SetMust(false).
 				SetDefault(""),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("method").
+				SetKind("string").
+				SetDescription("Set Cloudwatch-Metrics execution method").
+				SetOptions([]string{"put_metrics", "list_metrics"}).
+				SetDefault("put_metrics").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("namespace").
+				SetKind("string").
+				SetDescription("Set Cloudwatch-Metrics namespace").
+				SetDefault("").
+				SetMust(false),
 		)
 }

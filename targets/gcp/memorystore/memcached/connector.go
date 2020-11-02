@@ -36,5 +36,21 @@ func Connector() *common.Connector {
 				SetMin(1).
 				SetMax(math.MaxInt32).
 				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("method").
+				SetKind("string").
+				SetDescription("Set Memcached execution method").
+				SetOptions([]string{"get", "set", "delete"}).
+				SetDefault("get").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("key").
+				SetKind("string").
+				SetDescription("Set Memcached key").
+				SetMust(true),
 		)
 }

@@ -73,5 +73,89 @@ func Connector() *common.Connector {
 				SetDefault("180000").
 				SetMin(1).
 				SetMax(math.MaxInt32),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("method").
+				SetKind("string").
+				SetDescription("Set GCP files Storage execution method").
+				SetOptions([]string{"upload", "get", "delete", "create"}).
+				SetDefault("get").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("service_url").
+				SetKind("string").
+				SetDescription("Set files Storage service url").
+				SetDefault("").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("file_metadata").
+				SetKind("string").
+				SetDescription("Set files Storage file metadata").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("int").
+				SetName("range_size").
+				SetDescription("Set files Storage range size").
+				SetMust(false).
+				SetDefault("4194304").
+				SetMin(0),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("int").
+				SetName("parallelism").
+				SetDescription("Set files Storage parallelism").
+				SetMust(false).
+				SetDefault("16").
+				SetMin(0).
+				SetMax(math.MaxInt32),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("int").
+				SetName("count").
+				SetDescription("Set files Storage count").
+				SetMust(false).
+				SetDefault("0").
+				SetMin(0).
+				SetMax(math.MaxInt32),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("int").
+				SetName("offset").
+				SetDescription("Set files Storage offset").
+				SetMust(false).
+				SetDefault("0").
+				SetMin(0).
+				SetMax(math.MaxInt32),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("int").
+				SetName("max_retry_request").
+				SetDescription("Set files Storage max retry request").
+				SetMust(false).
+				SetDefault("1").
+				SetMin(0).
+				SetMax(math.MaxInt32),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("int").
+				SetName("file_size").
+				SetDescription("Set files Storage file size").
+				SetMust(false).
+				SetDefault("1000000").
+				SetMin(0).
+				SetMax(math.MaxInt32),
 		)
 }

@@ -39,5 +39,69 @@ func Connector() *common.Connector {
 				SetDescription("Set SNS token").
 				SetMust(false).
 				SetDefault(""),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("method").
+				SetKind("string").
+				SetDescription("Set SNS execution method").
+				SetOptions([]string{"list_topics", "list_subscriptions", "list_subscriptions_by_topic", "create_topic", "subscribe", "send_message", "delete_topic"}).
+				SetDefault("send_message").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("topic").
+				SetKind("string").
+				SetDescription("Set SNS topic").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("end_point").
+				SetKind("string").
+				SetDescription("Set SNS end point").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("bool").
+				SetName("return_subscription").
+				SetDescription("Set SNS return subscription").
+				SetMust(false).
+				SetDefault("false"),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("string").
+				SetName("target_arn").
+				SetDescription("Set SNS target arn").
+				SetMust(false).
+				SetDefault(""),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("string").
+				SetName("message").
+				SetDescription("Set SNS message").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("string").
+				SetName("phone_number").
+				SetDescription("Set SNS phone number").
+				SetMust(false).
+				SetDefault(""),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("string").
+				SetName("subject").
+				SetDescription("Set SNS subject").
+				SetMust(false).
+				SetDefault(""),
 		)
 }

@@ -39,5 +39,30 @@ func Connector() *common.Connector {
 				SetDescription("Set Redshift Service token").
 				SetMust(false).
 				SetDefault(""),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("method").
+				SetKind("string").
+				SetDescription("Set Redshift Service execution method").
+				SetOptions([]string{"create_tags", "delete_tags", "list_tags", "list_snapshots", "list_snapshots_by_tags_keys", "list_snapshots_by_tags_values", "describe_cluster", "list_clusters", "list_clusters_by_tags_keys", "list_clusters_by_tags_values"}).
+				SetDefault("create_tags").
+				SetMust(true),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("resource_arn").
+				SetKind("string").
+				SetDescription("Set Redshift Service resource arn").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("resource_name").
+				SetKind("string").
+				SetDescription("Set Redshift Service resource name").
+				SetDefault("").
+				SetMust(false),
 		)
 }

@@ -13,14 +13,14 @@ const (
 type metadata struct {
 	method string
 
-	shardCount        int64
 	streamName        string
 	partitionKey      string
 	shardID           string
-	limit             int64
 	streamARN         string
 	shardIteratorType string
 	shardIteratorID   string
+	limit             int64
+	shardCount        int64
 }
 
 var methodsMap = map[string]string{

@@ -42,14 +42,6 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if err != nil {
 		return metadata{}, fmt.Errorf("error failed to parse region , %w", err)
 	}
-	if m.method == "GET" {
-		m.json = meta.ParseString("json", DefaultJson)
-	} else {
-		m.json, err = meta.MustParseString("json")
-		if err != nil {
-			return metadata{}, fmt.Errorf("error failed to parse json , %w", err)
-		}
-	}
 	m.domain, err = meta.MustParseString("domain")
 	if err != nil {
 		return metadata{}, fmt.Errorf("error failed to parse domain , %w", err)
@@ -62,10 +54,18 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	if err != nil {
 		return metadata{}, fmt.Errorf("error failed to parse endpoint , %w", err)
 	}
-	m.service = meta.ParseString("service", DefaultService)
 	m.id, err = meta.MustParseString("id")
 	if err != nil {
 		return metadata{}, fmt.Errorf("error failed to parse id , %w", err)
 	}
+	if m.method == "GET" {
+		m.json = meta.ParseString("json", DefaultJson)
+	} else {
+		m.json, err = meta.MustParseString("json")
+		if err != nil {
+			return metadata{}, fmt.Errorf("error failed to parse json , %w", err)
+		}
+	}
+	m.service = meta.ParseString("service", DefaultService)
 	return m, nil
 }
