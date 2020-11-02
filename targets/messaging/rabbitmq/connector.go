@@ -2,6 +2,7 @@ package rabbitmq
 
 import (
 	"github.com/kubemq-hub/builder/connector/common"
+	"math"
 )
 
 func Connector() *common.Connector {
@@ -91,7 +92,6 @@ func Connector() *common.Connector {
 				SetDescription("Set RabbitMQ expiry in seconds").
 				SetMust(true).
 				SetMin(0).
-				SetMax(4294967295).
-				SetDefault("4294967295"),
+				SetMax(math.MaxInt32),
 		)
 }

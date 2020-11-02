@@ -4,7 +4,7 @@ version: '3'
 
 vars:
   BINARY_NAME: kubemq-targets
-  VERSION: v0.4.18
+  VERSION: v0.4.19
 
 tasks:
   check_update:
@@ -20,6 +20,14 @@ tasks:
     env:
       GOOS: '{{OS}}'
       GOARCH: '{{ARCH}}'
+    cmds:
+      - go mod tidy
+      - go mod vendor
+      - go build -o "{{.BINARY_NAME}}.exe" -ldflags "-X main.version={{.VERSION}}"
+  build-386:
+    env:
+      GOOS: linux
+      GOARCH: 386
     cmds:
       - go mod tidy
       - go mod vendor
