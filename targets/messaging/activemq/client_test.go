@@ -21,9 +21,9 @@ func TestClient_Init(t *testing.T) {
 				Name: "activemq-target",
 				Kind: "",
 				Properties: map[string]string{
-					"host":     "localhost:61613",
-					"username": "",
-					"password": "",
+					"host":     "localhost:8161",
+					"username": "admin",
+					"password": "admin",
 				},
 			},
 			wantErr: false,
@@ -88,7 +88,7 @@ func TestClient_Do(t *testing.T) {
 				},
 			},
 			request: types.NewRequest().
-				SetMetadataKeyValue("destination", "some-destination").
+				SetMetadataKeyValue("destination", "some-queue").
 				SetData([]byte("some-data")),
 			wantResponse: types.NewResponse().
 				SetMetadataKeyValue("result", "ok"),
@@ -101,8 +101,8 @@ func TestClient_Do(t *testing.T) {
 				Kind: "",
 				Properties: map[string]string{
 					"host":     "localhost:61613",
-					"username": "",
-					"password": "",
+					"username": "admin",
+					"password": "admin",
 				},
 			},
 			request: types.NewRequest().

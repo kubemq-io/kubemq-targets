@@ -21,7 +21,7 @@ type Client struct {
 
 func New() *Client {
 	return &Client{}
-	
+
 }
 func (c *Client) Connector() *common.Connector {
 	return Connector()
@@ -34,7 +34,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-	
+
 	sess, err := session.NewSession(&aws.Config{
 		Region:      aws.String(c.opts.region),
 		Credentials: credentials.NewStaticCredentials(c.opts.awsKey, c.opts.awsSecretKey, c.opts.token),
@@ -42,7 +42,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-	
+
 	svc := kinesis.New(sess)
 	c.client = svc
 
@@ -61,6 +61,8 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.listStreamConsumers(ctx, meta)
 	case "create_stream":
 		return c.createStream(ctx, meta)
+	case "create_stream_consumer":
+		return c.createStreamConsumer(ctx, meta)
 	case "delete_stream":
 		return c.deleteStream(ctx, meta)
 	case "put_record":
@@ -222,6 +224,24 @@ func (c *Client) getRecord(ctx context.Context, meta metadata) (*types.Response,
 	m, err := c.client.GetRecordsWithContext(ctx, &kinesis.GetRecordsInput{
 		ShardIterator: aws.String(meta.shardIteratorID),
 		Limit:         aws.Int64(meta.limit),
+	})
+	if err != nil {
+		return nil, err
+	}
+	b, err := json.Marshal(m)
+	if err != nil {
+		return nil, err
+	}
+	return types.NewResponse().
+			SetMetadataKeyValue("result", "ok").
+			SetData(b),
+		nil
+}
+
+func (c *Client) createStreamConsumer(ctx context.Context, meta metadata) (*types.Response, error) {
+	m, err := c.client.RegisterStreamConsumerWithContext(ctx, &kinesis.RegisterStreamConsumerInput{
+		ConsumerName: aws.String(meta.consumerName),
+		StreamARN:    aws.String(meta.streamARN),
 	})
 	if err != nil {
 		return nil, err

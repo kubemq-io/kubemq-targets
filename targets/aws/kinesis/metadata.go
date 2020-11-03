@@ -19,20 +19,22 @@ type metadata struct {
 	streamARN         string
 	shardIteratorType string
 	shardIteratorID   string
+	consumerName      string
 	limit             int64
 	shardCount        int64
 }
 
 var methodsMap = map[string]string{
-	"list_streams":          "list_streams",
-	"list_stream_consumers": "list_stream_consumers",
-	"create_stream":         "create_stream",
-	"delete_stream":         "delete_stream",
-	"put_record":            "put_record",
-	"put_records":           "put_records",
-	"get_records":           "get_records",
-	"get_shard_iterator":    "get_shard_iterator",
-	"list_shards":           "list_shards",
+	"list_streams":           "list_streams",
+	"list_stream_consumers":  "list_stream_consumers",
+	"create_stream":          "create_stream",
+	"delete_stream":          "delete_stream",
+	"put_record":             "put_record",
+	"put_records":            "put_records",
+	"get_records":            "get_records",
+	"get_shard_iterator":     "get_shard_iterator",
+	"list_shards":            "list_shards",
+	"create_stream_consumer": "create_stream_consumer",
 }
 
 func parseMetadata(meta types.Metadata) (metadata, error) {
@@ -44,7 +46,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	}
 	m.shardCount = int64(meta.ParseInt("shard_count", DefaultShardCount))
 	m.limit = int64(meta.ParseInt("limit", DefaultLimit))
-	if m.method != "list_streams" && m.method != "list_stream_consumers" && m.method != "get_record" {
+	if m.method != "list_streams" && m.method != "list_stream_consumers" && m.method != "get_record" && m.method != "create_stream_consumer" {
 		m.streamName, err = meta.MustParseString("stream_name")
 		if err != nil {
 			return metadata{}, fmt.Errorf("error parsing stream_name, %w", err)
@@ -75,6 +77,16 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		if err != nil {
 			return metadata{}, fmt.Errorf("stream_arn error is required when using %s,parsing stream_arn, %w", m.method, err)
 		}
+	case "create_stream_consumer":
+		m.streamARN, err = meta.MustParseString("stream_arn")
+		if err != nil {
+			return metadata{}, fmt.Errorf("stream_arn error is required when using %s,parsing stream_arn, %w", m.method, err)
+		}
+		m.consumerName, err = meta.MustParseString("consumer_name")
+		if err != nil {
+			return metadata{}, fmt.Errorf("consumer_name error is required when using %s,parsing consumer_name, %w", m.method, err)
+		}
+
 	}
 
 	return m, nil
