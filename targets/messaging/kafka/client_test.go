@@ -29,14 +29,34 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "kafka-target",
-				Kind: "",
+				Name: "messaging-kafka",
+				Kind: "messaging.kafka",
 				Properties: map[string]string{
 					"brokers": "localhost:9092",
 					"topic":   "TestTopic",
 				},
 			},
 			wantErr: false,
+		},{
+			name: "invalid init - missing brokers",
+			cfg: config.Spec{
+				Name: "messaging-kafka",
+				Kind: "messaging.kafka",
+				Properties: map[string]string{
+					"topic":   "TestTopic",
+				},
+			},
+			wantErr: true,
+		},{
+			name: "invalid init - missing topic",
+			cfg: config.Spec{
+				Name: "messaging-kafka",
+				Kind: "messaging.kafka",
+				Properties: map[string]string{
+					"brokers": "localhost:9092",
+				},
+			},
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
@@ -65,11 +85,11 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid publish request ",
 			cfg: config.Spec{
-				Name: "kafka-target",
-				Kind: "",
+				Name: "messaging-kafka",
+				Kind: "messaging.kafka",
 				Properties: map[string]string{
 					"brokers": "localhost:9092",
-					"topic":   "NewTestTopic",
+					"topic":   "TestTopic",
 				},
 			},
 			request: types.NewRequest().
@@ -77,17 +97,17 @@ func TestClient_Do(t *testing.T) {
 				SetData([]byte("new-data")),
 			wantResponse: types.NewResponse().
 				SetMetadataKeyValue("partition", "0").
-				SetMetadataKeyValue("offset", "0"),
+				SetMetadataKeyValue("offset", "1"),
 			wantErr: false,
 		},
 		{
 			name: "valid publish request with headers",
 			cfg: config.Spec{
-				Name: "kafka-target",
-				Kind: "",
+				Name: "messaging-kafka",
+				Kind: "messaging.kafka",
 				Properties: map[string]string{
 					"brokers": "localhost:9092",
-					"topic":   "NewTestTopic",
+					"topic":   "TestTopic",
 				},
 			},
 			request: types.NewRequest().
@@ -96,7 +116,7 @@ func TestClient_Do(t *testing.T) {
 				"Headers", `[{"Key": "_replaceHK_","Value": "_replaceHV_"}]`),
 			wantResponse: types.NewResponse().
 				SetMetadataKeyValue("partition", "0").
-				SetMetadataKeyValue("offset", "1"),
+				SetMetadataKeyValue("offset", "2"),
 			wantErr: false,
 		},
 	}
