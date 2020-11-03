@@ -58,7 +58,7 @@ func Connector() *common.Connector {
 				SetKind("string").
 				SetName("consistency").
 				SetDescription("Set Cassandra consistency").
-				SetMust(true).
+				SetMust(false).
 				SetOptions([]string{"All", "One", "Two", "Three", "Quorum", "LocalQuorum", "EachQuorum", "LocalOne", "Any"}).
 				SetDefault("All"),
 		).

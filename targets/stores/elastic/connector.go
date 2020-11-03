@@ -14,7 +14,7 @@ func Connector() *common.Connector {
 				SetName("urls").
 				SetDescription("Set Elastic Search Urls").
 				SetMust(true).
-				SetDefault("http://localhost:9200"),
+				SetDefault(""),
 		).
 		AddProperty(
 			common.NewProperty().

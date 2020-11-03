@@ -15,7 +15,7 @@ func Connector() *common.Connector {
 				SetName("connection").
 				SetDescription("Set MySQL connection string").
 				SetMust(true).
-				SetDefault("root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local"),
+				SetDefault(""),
 		).
 		AddProperty(
 			common.NewProperty().

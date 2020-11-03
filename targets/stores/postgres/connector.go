@@ -15,7 +15,7 @@ func Connector() *common.Connector {
 				SetName("connection").
 				SetDescription("Set Postgres connection string").
 				SetMust(true).
-				SetDefault("postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"),
+				SetDefault(""),
 		).
 		AddProperty(
 			common.NewProperty().

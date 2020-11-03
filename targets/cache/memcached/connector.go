@@ -15,7 +15,7 @@ func Connector() *common.Connector {
 				SetName("hosts").
 				SetDescription("Set Memcached hosts").
 				SetMust(true).
-				SetDefault("localhost:11211"),
+				SetDefault(""),
 		).
 		AddProperty(
 			common.NewProperty().

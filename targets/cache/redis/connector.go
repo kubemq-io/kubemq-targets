@@ -15,7 +15,7 @@ func Connector() *common.Connector {
 				SetName("url").
 				SetDescription("Set Redis url").
 				SetMust(true).
-				SetDefault("redis://redis.redis:6379"),
+				SetDefault(""),
 		).
 		AddMetadata(
 			common.NewMetadata().

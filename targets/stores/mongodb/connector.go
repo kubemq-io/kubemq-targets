@@ -15,7 +15,7 @@ func Connector() *common.Connector {
 				SetName("host").
 				SetDescription("Set MongoDB host address").
 				SetMust(true).
-				SetDefault("localhost:27017"),
+				SetDefault(""),
 		).
 		AddProperty(
 			common.NewProperty().

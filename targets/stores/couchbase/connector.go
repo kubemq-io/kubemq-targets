@@ -23,7 +23,7 @@ func Connector() *common.Connector {
 				SetKind("string").
 				SetName("username").
 				SetDescription("Set Couchbase username").
-				SetMust(true).
+				SetMust(false).
 				SetDefault(""),
 		).
 		AddProperty(
@@ -31,7 +31,7 @@ func Connector() *common.Connector {
 				SetKind("string").
 				SetName("password").
 				SetDescription("Set Couchbase password").
-				SetMust(true).
+				SetMust(false).
 				SetDefault(""),
 		).
 		AddProperty(

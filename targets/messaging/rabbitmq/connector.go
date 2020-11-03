@@ -15,7 +15,7 @@ func Connector() *common.Connector {
 				SetName("url").
 				SetDescription("Set RabbitMQ url connection string").
 				SetMust(true).
-				SetDefault("amqp://rabbitmq:rabbitmq@localhost:5672/"),
+				SetDefault(""),
 		).
 		AddMetadata(
 			common.NewMetadata().
