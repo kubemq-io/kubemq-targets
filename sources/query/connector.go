@@ -23,7 +23,7 @@ func Connector() *common.Connector {
 				SetName("channel").
 				SetDescription("Set Query channel").
 				SetMust(true).
-				SetDefault("queries"),
+				SetDefaultFromKey("channel.query"),
 		).
 		AddProperty(
 			common.NewProperty().
