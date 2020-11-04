@@ -137,7 +137,7 @@ A list of supported targets is below.
 | Storage    |                                                                       |                              |                                        |                                          |
 |            | [Blob](https://azure.microsoft.com/en-us/services/storage/blobs/)     |azure.storage.blob    | [Usage](targets/azure/storage/blob)    | [Example](examples/azure/storage/blob)   |
 |            | [Files](https://azure.microsoft.com/en-us/services/storage/files/)    |azure.storage.files   | [Usage](targets/azure/storage/files)   | [Example](examples/azure/storage/files)  |
-|            | [Queue](https://docs.microsoft.com/en-us/azure/storage/queues/)       |aws.kinesis           | [Usage](targets/azure/storage/queue)   | [Example](examples/azure/storage/queue)  |
+|            | [Queue](https://docs.microsoft.com/en-us/azure/storage/queues/)       |azure.storage.queue           | [Usage](targets/azure/storage/queue)   | [Example](examples/azure/storage/queue)  |
 | EventHubs  |                                                                       |                              |                                        |                                          |
 |            | [EventHubs](https://azure.microsoft.com/en-us/services/event-hubs/)   |azure.eventhubs       | [Usage](targets/azure/eventhubs)       | [Example](examples/azure/eventhubs)      |
 | ServiceBus |                                                                       |                              |                                        |                                          |
