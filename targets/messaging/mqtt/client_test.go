@@ -18,8 +18,8 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "mqtt-target",
-				Kind: "",
+				Name: "messaging.mqtt",
+				Kind: "messaging.mqtt",
 				Properties: map[string]string{
 					"host":      "localhost:1883",
 					"username":  "",
@@ -32,8 +32,8 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init - bad host",
 			cfg: config.Spec{
-				Name: "mqtt-target",
-				Kind: "",
+				Name: "messaging.mqtt",
+				Kind: "messaging.mqtt",
 				Properties: map[string]string{
 					"host":      "localhost:6000",
 					"username":  "",
@@ -45,8 +45,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "init - no host",
 			cfg: config.Spec{
-				Name: "mqtt-target",
-				Kind: "",
+				Name: "messaging.mqtt",
+				Kind: "messaging.mqtt",
 				Properties: map[string]string{
 					"username":  "",
 					"password":  "",
@@ -82,8 +82,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid publish request with confirmation",
 			cfg: config.Spec{
-				Name: "mqtt-target",
-				Kind: "",
+				Name: "messaging.mqtt",
+				Kind: "messaging.mqtt",
 				Properties: map[string]string{
 					"host":      "localhost:1883",
 					"username":  "",
@@ -92,7 +92,7 @@ func TestClient_Do(t *testing.T) {
 				},
 			},
 			request: types.NewRequest().
-				SetMetadataKeyValue("topic", "some-topic").
+				SetMetadataKeyValue("topic", "some-queue").
 				SetMetadataKeyValue("qos", "0").
 				SetData([]byte("some-data")),
 			wantResponse: types.NewResponse().
@@ -102,8 +102,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid publish request - no topic",
 			cfg: config.Spec{
-				Name: "mqtt-target",
-				Kind: "",
+				Name: "messaging.mqtt",
+				Kind: "messaging.mqtt",
 				Properties: map[string]string{
 					"host":      "localhost:1883",
 					"username":  "",
@@ -121,8 +121,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid publish request - bad qos",
 			cfg: config.Spec{
-				Name: "mqtt-target",
-				Kind: "",
+				Name: "messaging.mqtt",
+				Kind: "messaging.mqtt",
 				Properties: map[string]string{
 					"host":      "localhost:1883",
 					"username":  "",
@@ -131,7 +131,7 @@ func TestClient_Do(t *testing.T) {
 				},
 			},
 			request: types.NewRequest().
-				SetMetadataKeyValue("topic", "some-topic").
+				SetMetadataKeyValue("topic", "some-queue").
 				SetMetadataKeyValue("qos", "-1").
 				SetData([]byte("some-data")),
 			wantResponse: types.NewResponse().

@@ -1,21 +1,14 @@
 bindings:
-  - name: kubemq-query-rabbitmq
+  - name: rabbitmq
     source:
       kind: kubemq.query
-      name: kubemq-query
       properties:
-        address: "kubemq-cluster:50000"
-        client_id: "kubemq-query-rabbitmq-connector"
+        address: localhost:50000
         auth_token: ""
-        channel: "query.rabbitmq"
-        group:   ""
-        auto_reconnect: "true"
-        reconnect_interval_seconds: "1"
-        max_reconnects: "0"
+        channel: messaging.rabbitmq
+        client_id: test
     target:
-      kind:messaging.rabbitmq
-      name: target-rabbitmq
+      kind: messaging.rabbitmq
       properties:
-        url: "amqp://rabbitmq:rabbitmq@localhost:5672/"
-    properties:
-      log_level: "error"
+        url: amqp://guest:guest@localhost:5672/
+    properties: {}

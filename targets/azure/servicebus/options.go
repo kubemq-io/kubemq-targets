@@ -28,7 +28,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 	o.connectionString = fmt.Sprintf("Endpoint=%s;SharedAccessKeyName=%s;SharedAccessKey=%s", endPoint, sharedAccessKeyName, sharedAccessKey)
 	o.queueName, err = cfg.Properties.MustParseString("queue_name")
 	if err != nil {
-		return options{}, fmt.Errorf("error parsing shared_access_key , %w", err)
+		return options{}, fmt.Errorf("error parsing queue_name , %w", err)
 	}
 	return o, nil
 }

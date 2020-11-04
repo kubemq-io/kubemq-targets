@@ -18,21 +18,21 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "activemq-target",
-				Kind: "",
+				Name: "messaging-activemq",
+				Kind: "messaging.activemq",
 				Properties: map[string]string{
-					"host":     "localhost:61613",
-					"username": "",
-					"password": "",
+					"host":     "localhost:8161",
+					"username": "admin",
+					"password": "admin",
 				},
 			},
 			wantErr: false,
 		},
 		{
-			name: "init - bad host",
+			name: "invalid init - bad host",
 			cfg: config.Spec{
-				Name: "activemq-target",
-				Kind: "",
+				Name: "messaging-activemq",
+				Kind: "messaging.activemq",
 				Properties: map[string]string{
 					"host":     "localhost:6000",
 					"username": "",
@@ -41,10 +41,10 @@ func TestClient_Init(t *testing.T) {
 			},
 			wantErr: true,
 		}, {
-			name: "init - no host",
+			name: "invalid init - no host",
 			cfg: config.Spec{
-				Name: "activemq-target",
-				Kind: "",
+				Name: "messaging-activemq",
+				Kind: "messaging.activemq",
 				Properties: map[string]string{
 					"username": "",
 					"password": "",
@@ -79,8 +79,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid publish request",
 			cfg: config.Spec{
-				Name: "activemq-target",
-				Kind: "",
+				Name: "messaging-activemq",
+				Kind: "messaging.activemq",
 				Properties: map[string]string{
 					"host":     "localhost:61613",
 					"username": "",
@@ -88,7 +88,7 @@ func TestClient_Do(t *testing.T) {
 				},
 			},
 			request: types.NewRequest().
-				SetMetadataKeyValue("destination", "some-destination").
+				SetMetadataKeyValue("destination", "some-queue").
 				SetData([]byte("some-data")),
 			wantResponse: types.NewResponse().
 				SetMetadataKeyValue("result", "ok"),
@@ -97,12 +97,12 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid publish request - no destination",
 			cfg: config.Spec{
-				Name: "activemq-target",
-				Kind: "",
+				Name: "messaging-activemq",
+				Kind: "messaging.activemq",
 				Properties: map[string]string{
 					"host":     "localhost:61613",
-					"username": "",
-					"password": "",
+					"username": "admin",
+					"password": "admin",
 				},
 			},
 			request: types.NewRequest().

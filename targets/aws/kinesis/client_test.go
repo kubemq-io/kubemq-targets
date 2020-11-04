@@ -27,6 +27,7 @@ type testStructure struct {
 	limit         string
 	streamARN     string
 	shardIterator string
+	consumerName  string
 }
 
 func getTestStructure() (*testStructure, error) {
@@ -88,6 +89,8 @@ func getTestStructure() (*testStructure, error) {
 		return nil, err
 	}
 	t.shardIterator = string(dat)
+
+	t.consumerName = "my_consumer"
 	return t, nil
 }
 
@@ -282,6 +285,52 @@ func TestClient_CreateStream(t *testing.T) {
 				SetMetadataKeyValue("method", "create_stream").
 				SetMetadataKeyValue("stream_name", dat.streamName).
 				SetMetadataKeyValue("shard_count", dat.shardCount),
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := c.Do(ctx, tt.request)
+			if tt.wantErr {
+				require.Error(t, err)
+				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
+				return
+			}
+			require.NoError(t, err)
+			require.NotNil(t, got)
+		})
+	}
+}
+
+func TestClient_CreateStreamConsumer(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
+	cfg := config.Spec{
+		Name: "aws-kinesis",
+		Kind: "aws.kinesis",
+		Properties: map[string]string{
+			"aws_key":        dat.awsKey,
+			"aws_secret_key": dat.awsSecretKey,
+			"region":         dat.region,
+		},
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	defer cancel()
+	c := New()
+
+	err = c.Init(ctx, cfg)
+	require.NoError(t, err)
+	tests := []struct {
+		name    string
+		request *types.Request
+		wantErr bool
+	}{
+		{
+			name: "valid create_stream_consumer",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "create_stream_consumer").
+				SetMetadataKeyValue("stream_arn", dat.streamARN).
+				SetMetadataKeyValue("consumer_name", dat.consumerName),
 			wantErr: false,
 		},
 	}

@@ -17,8 +17,8 @@ Kafka source connector configuration properties:
 |:---------------|:---------|:-------------------------------------------|:-----------------|
 | brokers        | yes      | kafka brokers connection, comma separated  | "localhost:9092" |
 | topic          | yes      | kafka stored topic                         | "TestTopic"      |
-| sasl_username   | no       | SASL based authentication with broker      | "user"           |
-| sasl_password   | no       | SASL based authentication with broker      | "pass"           |
+| sasl_username  | no       | SASL based authentication with broker      | "user"           |
+| sasl_password  | no       | SASL based authentication with broker      | "pass"           |
 
 Example:
 
@@ -43,6 +43,8 @@ bindings:
       properties:
         brokers: "localhost:9092"
         topic: "TestTopic"
+        sasl_username: "test"
+        sasl_password: "pass"
 ```
 
 ## Usage

@@ -117,5 +117,13 @@ func Connector() *common.Connector {
 				SetDefault("1").
 				SetMin(0).
 				SetMax(math.MaxInt32),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetKind("string").
+				SetName("consumer_name").
+				SetDescription("Set consumer name").
+				SetDefault("").
+				SetMust(false),
 		)
 }

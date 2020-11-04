@@ -15,6 +15,7 @@ type Client struct {
 	name     string
 	producer kafka.SyncProducer
 	opts     options
+	config   *kafka.Config
 }
 
 func New() *Client {
@@ -45,7 +46,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 			ClientAuth: 0,
 		}
 	}
-
+	c.config = kc
 	c.producer, err = kafka.NewSyncProducer(c.opts.brokers, kc)
 	if err != nil {
 		return err
@@ -83,6 +84,7 @@ func (c *Client) Connector() *common.Connector {
 
 func (c *Client) Stop() error {
 	if c.producer != nil {
+		c.config.MetricRegistry.UnregisterAll()
 		return c.producer.Close()
 	}
 	return nil
