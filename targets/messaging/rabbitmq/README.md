@@ -15,7 +15,7 @@ RabbitMQ target connector configuration properties:
 
 | Properties Key                  | Required | Description                                 | Example                                                                |
 |:--------------------------------|:---------|:--------------------------------------------|:-----------------------------------------------------------------------|
-| url                      | yes      | rabbitmq connection string address          | "amqp://rabbitmq:rabbitmq@localhost:5672/" |
+| url                             | yes      | rabbitmq connection string address          | "amqp://rabbitmq:rabbitmq@localhost:5672/" |
 
 Example:
 
@@ -36,7 +36,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:messaging.rabbitmq
+      kind: messaging.rabbitmq
       name: target-rabbitmq
       properties:
         url: "amqp://rabbitmq:rabbitmq@localhost:5672/"

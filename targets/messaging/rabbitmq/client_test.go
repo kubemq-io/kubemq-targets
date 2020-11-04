@@ -18,10 +18,10 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "rabbitmq-target",
-				Kind: "",
+				Name: "messaging-rabbitmq",
+				Kind: "messaging.rabbitmq",
 				Properties: map[string]string{
-					"url": "amqp://rabbitmq:rabbitmq@localhost:5672/",
+					"url": "amqp://guest:guest@localhost:5672/",
 				},
 			},
 			wantErr: false,
@@ -29,8 +29,8 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init - bad url",
 			cfg: config.Spec{
-				Name: "rabbitmq-target",
-				Kind: "",
+				Name: "messaging-rabbitmq",
+				Kind: "messaging.rabbitmq",
 				Properties: map[string]string{
 					"url": "amqp://rabbitmq:rabbitmq@localhost:6000/",
 				},
@@ -39,7 +39,7 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "init - no url",
 			cfg: config.Spec{
-				Name:       "rabbitmq-target",
+				Name:       "messaging-rabbitmq",
 				Kind:       "",
 				Properties: map[string]string{},
 			},
@@ -72,10 +72,10 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid publish request without confirmation",
 			cfg: config.Spec{
-				Name: "rabbitmq-target",
-				Kind: "",
+				Name: "messaging-rabbitmq",
+				Kind: "messaging.rabbitmq",
 				Properties: map[string]string{
-					"url": "amqp://rabbitmq:rabbitmq@localhost:5672/",
+					"url": "amqp://guest:guest@localhost:5672/",
 				},
 			},
 			request: types.NewRequest().
@@ -91,10 +91,10 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid publish request - no queue",
 			cfg: config.Spec{
-				Name: "rabbitmq-target",
-				Kind: "",
+				Name: "messaging-rabbitmq",
+				Kind: "messaging.rabbitmq",
 				Properties: map[string]string{
-					"url": "amqp://rabbitmq:rabbitmq@localhost:5672/",
+					"url": "amqp://guest:guest@localhost:5672/",
 				},
 			},
 			request: types.NewRequest().
@@ -106,10 +106,10 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid publish request - bad delivery mode",
 			cfg: config.Spec{
-				Name: "rabbitmq-target",
-				Kind: "",
+				Name: "messaging-rabbitmq",
+				Kind: "messaging.rabbitmq",
 				Properties: map[string]string{
-					"url": "amqp://rabbitmq:rabbitmq@localhost:5672/",
+					"url": "amqp://guest:guest@localhost:5672/",
 				},
 			},
 			request: types.NewRequest().
@@ -123,10 +123,10 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid publish request - bad priority",
 			cfg: config.Spec{
-				Name: "rabbitmq-target",
-				Kind: "",
+				Name: "messaging-rabbitmq",
+				Kind: "messaging.rabbitmq",
 				Properties: map[string]string{
-					"url": "amqp://rabbitmq:rabbitmq@localhost:5672/",
+					"url": "amqp://guest:guest@localhost:5672/",
 				},
 			},
 			request: types.NewRequest().
@@ -140,10 +140,10 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid publish request - bad expiry",
 			cfg: config.Spec{
-				Name: "rabbitmq-target",
-				Kind: "",
+				Name: "messaging-rabbitmq",
+				Kind: "messaging.rabbitmq",
 				Properties: map[string]string{
-					"url": "amqp://rabbitmq:rabbitmq@localhost:5672/",
+					"url": "amqp://guest:guest@localhost:5672/",
 				},
 			},
 			request: types.NewRequest().
