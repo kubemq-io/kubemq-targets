@@ -38,6 +38,8 @@ require (
 	github.com/golang/protobuf v1.4.2
 	github.com/google/uuid v1.1.2
 	github.com/googleapis/gax-go/v2 v2.0.5
+	github.com/ibm-messaging/mq-golang-jms20 v1.2.0
+	github.com/ibm-messaging/mq-golang/v5 v5.0.0 // indirect
 	github.com/jpillora/backoff v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.10
 	github.com/kubemq-hub/builder v0.5.9
