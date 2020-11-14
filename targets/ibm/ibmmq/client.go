@@ -59,6 +59,9 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 }
 
 func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, error) {
+	if req.Data == nil {
+		return nil, fmt.Errorf("missing body")
+	}
 	jmsErr := c.producer.SendString(c.queue, fmt.Sprintf("%s", req.Data))
 	if jmsErr != nil {
 		return nil, fmt.Errorf("failed to create context on error %s", jmsErr.GetReason())

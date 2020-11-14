@@ -7,7 +7,9 @@ import (
 
 const (
 	defaultCertificateLabel = ""
+	defaultPassword         = ""
 	defaultTimeToLive       = 3600000
+	defaultPort             = 1414
 	deliveryMode            = 1
 )
 
@@ -36,10 +38,6 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing host_name, %w", err)
 	}
-	o.portNumber, err = cfg.Properties.MustParseInt("port_number")
-	if err != nil {
-		return options{}, fmt.Errorf("error parsing port_number, %w", err)
-	}
 	o.channelName, err = cfg.Properties.MustParseString("channel_name")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing channel_name, %w", err)
@@ -52,10 +50,6 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing key_repository, %w", err)
 	}
-	o.Password, err = cfg.Properties.MustParseString("password")
-	if err != nil {
-		return options{}, fmt.Errorf("error parsing password, %w", err)
-	}
 	o.queueName, err = cfg.Properties.MustParseString("queue_name")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing queue_name, %w", err)
@@ -63,6 +57,8 @@ func parseOptions(cfg config.Spec) (options, error) {
 	o.certificateLabel = cfg.Properties.ParseString("certificate_label", defaultCertificateLabel)
 	o.timeToLive = cfg.Properties.ParseInt("ttl", defaultTimeToLive)
 	o.deliveryMode = cfg.Properties.ParseInt("delivery_mode", deliveryMode)
+	o.portNumber = cfg.Properties.ParseInt("port_number", defaultPort)
+	o.Password = cfg.Properties.ParseString("password", defaultPassword)
 
 	return o, nil
 }

@@ -91,6 +91,102 @@ func TestClient_Init(t *testing.T) {
 				},
 			},
 			wantErr: false,
+		}, {
+			name: "invalid init - missing host_name",
+			cfg: config.Spec{
+				Name: "ibm-mq",
+				Kind: "ibm.mq",
+				Properties: map[string]string{
+					"queue_manager_name": dat.queueManagerName,
+					"port_number":        dat.listenerPort,
+					"channel_name":       dat.applicationChannelName,
+					"user_name":          dat.mqUsername,
+					"key_repository":     dat.apiKey,
+					"password":           dat.password,
+					"queue_name":         dat.QueueName,
+				},
+			},
+			wantErr: true,
+		}, {
+			name: "invalid init - missing queue_manager_name",
+			cfg: config.Spec{
+				Name: "ibm-mq",
+				Kind: "ibm.mq",
+				Properties: map[string]string{
+					"host_name":      dat.hostname,
+					"port_number":    dat.listenerPort,
+					"channel_name":   dat.applicationChannelName,
+					"user_name":      dat.mqUsername,
+					"key_repository": dat.apiKey,
+					"password":       dat.password,
+					"queue_name":     dat.QueueName,
+				},
+			},
+			wantErr: true,
+		}, {
+			name: "invalid init - missing channel_name",
+			cfg: config.Spec{
+				Name: "ibm-mq",
+				Kind: "ibm.mq",
+				Properties: map[string]string{
+					"queue_manager_name": dat.queueManagerName,
+					"host_name":          dat.hostname,
+					"port_number":        dat.listenerPort,
+					"user_name":          dat.mqUsername,
+					"key_repository":     dat.apiKey,
+					"password":           dat.password,
+					"queue_name":         dat.QueueName,
+				},
+			},
+			wantErr: true,
+		}, {
+			name: "invalid init - missing user_name",
+			cfg: config.Spec{
+				Name: "ibm-mq",
+				Kind: "ibm.mq",
+				Properties: map[string]string{
+					"queue_manager_name": dat.queueManagerName,
+					"host_name":          dat.hostname,
+					"port_number":        dat.listenerPort,
+					"channel_name":       dat.applicationChannelName,
+					"key_repository":     dat.apiKey,
+					"password":           dat.password,
+					"queue_name":         dat.QueueName,
+				},
+			},
+			wantErr: true,
+		}, {
+			name: "invalid init - missing key_repository",
+			cfg: config.Spec{
+				Name: "ibm-mq",
+				Kind: "ibm.mq",
+				Properties: map[string]string{
+					"queue_manager_name": dat.queueManagerName,
+					"host_name":          dat.hostname,
+					"port_number":        dat.listenerPort,
+					"channel_name":       dat.applicationChannelName,
+					"user_name":          dat.mqUsername,
+					"password":           dat.password,
+					"queue_name":         dat.QueueName,
+				},
+			},
+			wantErr: true,
+		}, {
+			name: "invalid init - missing queue_name",
+			cfg: config.Spec{
+				Name: "ibm-mq",
+				Kind: "ibm.mq",
+				Properties: map[string]string{
+					"queue_manager_name": dat.queueManagerName,
+					"host_name":          dat.hostname,
+					"port_number":        dat.listenerPort,
+					"channel_name":       dat.applicationChannelName,
+					"user_name":          dat.mqUsername,
+					"key_repository":     dat.apiKey,
+					"password":           dat.password,
+				},
+			},
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
@@ -115,7 +211,6 @@ func TestClient_Init(t *testing.T) {
 		})
 	}
 }
-
 
 func TestClient_Do(t *testing.T) {
 	dat, err := getTestStructure()
@@ -148,8 +243,27 @@ func TestClient_Do(t *testing.T) {
 			request: types.NewRequest().
 				SetData(validBody),
 
-			wantErr: false,
 
+			wantErr: false,
+		}, {
+			name: "invalid - send missing data",
+			cfg: config.Spec{
+				Name: "ibm-mq",
+				Kind: "ibm.mq",
+				Properties: map[string]string{
+					"queue_manager_name": dat.queueManagerName,
+					"host_name":          dat.hostname,
+					"port_number":        dat.listenerPort,
+					"channel_name":       dat.applicationChannelName,
+					"user_name":          dat.mqUsername,
+					"key_repository":     dat.apiKey,
+					"password":           dat.password,
+					"queue_name":         dat.QueueName,
+				},
+			},
+			request: types.NewRequest(),
+
+			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
