@@ -13,7 +13,7 @@ bindings:
         password: passw0rd
         port_number: "1414"
         queue_manager_name: QM1
-        queue_name: admin
+        queue_name: DEV.QUEUE.1
         tls_client_auth: NONE
         transport_type: "0"
         ttl: "1000000"
