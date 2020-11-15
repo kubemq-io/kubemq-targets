@@ -8,9 +8,11 @@ import (
 const (
 	defaultCertificateLabel = ""
 	defaultPassword         = ""
+	defaultKeyRepository    = ""
 	defaultTimeToLive       = 3600000
 	defaultPort             = 1414
-	deliveryMode            = 1
+	defaultTransportType    = 0
+	defaultTlsClientAuth    = "NONE"
 )
 
 type options struct {
@@ -23,8 +25,9 @@ type options struct {
 	certificateLabel string
 	queueName        string
 	Password         string
-	deliveryMode     int
+	transportType    int
 	timeToLive       int
+	tlsClientAuth    string
 }
 
 func parseOptions(cfg config.Spec) (options, error) {
@@ -32,7 +35,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 	var err error
 	o.qMName, err = cfg.Properties.MustParseString("queue_manager_name")
 	if err != nil {
-		return options{}, fmt.Errorf("error parsing qm_name, %w", err)
+		return options{}, fmt.Errorf("error parsing queue_manager_name, %w", err)
 	}
 	o.hostname, err = cfg.Properties.MustParseString("host_name")
 	if err != nil {
@@ -46,19 +49,17 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing user_name, %w", err)
 	}
-	o.keyRepository, err = cfg.Properties.MustParseString("key_repository")
-	if err != nil {
-		return options{}, fmt.Errorf("error parsing key_repository, %w", err)
-	}
 	o.queueName, err = cfg.Properties.MustParseString("queue_name")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing queue_name, %w", err)
 	}
 	o.certificateLabel = cfg.Properties.ParseString("certificate_label", defaultCertificateLabel)
 	o.timeToLive = cfg.Properties.ParseInt("ttl", defaultTimeToLive)
-	o.deliveryMode = cfg.Properties.ParseInt("delivery_mode", deliveryMode)
+	o.transportType = cfg.Properties.ParseInt("transport_type", defaultTransportType)
 	o.portNumber = cfg.Properties.ParseInt("port_number", defaultPort)
 	o.Password = cfg.Properties.ParseString("password", defaultPassword)
+	o.tlsClientAuth = cfg.Properties.ParseString("tls_client_auth", defaultTlsClientAuth)
+	o.keyRepository = cfg.Properties.ParseString("key_repository", defaultKeyRepository)
 
 	return o, nil
 }

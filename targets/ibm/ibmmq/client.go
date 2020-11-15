@@ -3,8 +3,8 @@ package ibmmq
 import (
 	"context"
 	"fmt"
-	"github.com/ibm-messaging/mq-golang-jms20/jms20subset"
-	"github.com/ibm-messaging/mq-golang-jms20/mqjms"
+	"github.com/kubemq-hub/ibmmq-sdk/mq-golang-jms20/jms20subset"
+	"github.com/kubemq-hub/ibmmq-sdk/mq-golang-jms20/mqjms"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
 	"github.com/kubemq-hub/kubemq-targets/types"
@@ -24,9 +24,6 @@ func New() *Client {
 
 }
 
-//func (c *Client) Connector() *common.Connector {
-//	return Connector()
-//}
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.name = cfg.Name
 	c.log = logger.NewLogger(cfg.Name)
@@ -41,8 +38,8 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		PortNumber:       c.opts.portNumber,
 		ChannelName:      c.opts.channelName,
 		UserName:         c.opts.userName,
-		TransportType:    mqjms.TransportType_CLIENT,
-		TLSClientAuth:    mqjms.TLSClientAuth_NONE,
+		TransportType:    c.opts.transportType,
+		TLSClientAuth:    c.opts.tlsClientAuth,
 		KeyRepository:    c.opts.keyRepository,
 		Password:         c.opts.Password,
 		CertificateLabel: c.opts.certificateLabel,
@@ -54,7 +51,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	}
 	c.jmsContext = jmsContext
 	c.queue = jmsContext.CreateQueue(c.opts.queueName)
-	c.producer = c.jmsContext.CreateProducer().SetDeliveryMode(c.opts.deliveryMode).SetTimeToLive(c.opts.timeToLive)
+	c.producer = c.jmsContext.CreateProducer().SetDeliveryMode(c.opts.transportType).SetTimeToLive(c.opts.timeToLive)
 	return nil
 }
 

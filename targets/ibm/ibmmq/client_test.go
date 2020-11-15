@@ -78,7 +78,7 @@ func TestClient_Init(t *testing.T) {
 			name: "init",
 			cfg: config.Spec{
 				Name: "ibm-mq",
-				Kind: "ibm.mq",
+				Kind: "ibm.ibmmq",
 				Properties: map[string]string{
 					"queue_manager_name": dat.queueManagerName,
 					"host_name":          dat.hostname,
@@ -95,7 +95,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - missing host_name",
 			cfg: config.Spec{
 				Name: "ibm-mq",
-				Kind: "ibm.mq",
+				Kind: "ibm.ibmmq",
 				Properties: map[string]string{
 					"queue_manager_name": dat.queueManagerName,
 					"port_number":        dat.listenerPort,
@@ -111,7 +111,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - missing queue_manager_name",
 			cfg: config.Spec{
 				Name: "ibm-mq",
-				Kind: "ibm.mq",
+				Kind: "ibm.ibmmq",
 				Properties: map[string]string{
 					"host_name":      dat.hostname,
 					"port_number":    dat.listenerPort,
@@ -127,7 +127,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - missing channel_name",
 			cfg: config.Spec{
 				Name: "ibm-mq",
-				Kind: "ibm.mq",
+				Kind: "ibm.ibmmq",
 				Properties: map[string]string{
 					"queue_manager_name": dat.queueManagerName,
 					"host_name":          dat.hostname,
@@ -143,7 +143,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - missing user_name",
 			cfg: config.Spec{
 				Name: "ibm-mq",
-				Kind: "ibm.mq",
+				Kind: "ibm.ibmmq",
 				Properties: map[string]string{
 					"queue_manager_name": dat.queueManagerName,
 					"host_name":          dat.hostname,
@@ -159,7 +159,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - missing key_repository",
 			cfg: config.Spec{
 				Name: "ibm-mq",
-				Kind: "ibm.mq",
+				Kind: "ibm.ibmmq",
 				Properties: map[string]string{
 					"queue_manager_name": dat.queueManagerName,
 					"host_name":          dat.hostname,
@@ -175,7 +175,7 @@ func TestClient_Init(t *testing.T) {
 			name: "invalid init - missing queue_name",
 			cfg: config.Spec{
 				Name: "ibm-mq",
-				Kind: "ibm.mq",
+				Kind: "ibm.ibmmq",
 				Properties: map[string]string{
 					"queue_manager_name": dat.queueManagerName,
 					"host_name":          dat.hostname,
@@ -228,7 +228,7 @@ func TestClient_Do(t *testing.T) {
 			name: "valid - send",
 			cfg: config.Spec{
 				Name: "ibm-mq",
-				Kind: "ibm.mq",
+				Kind: "ibm.ibmmq",
 				Properties: map[string]string{
 					"queue_manager_name": dat.queueManagerName,
 					"host_name":          dat.hostname,
@@ -249,7 +249,7 @@ func TestClient_Do(t *testing.T) {
 			name: "invalid - send missing data",
 			cfg: config.Spec{
 				Name: "ibm-mq",
-				Kind: "ibm.mq",
+				Kind: "ibm.ibmmq",
 				Properties: map[string]string{
 					"queue_manager_name": dat.queueManagerName,
 					"host_name":          dat.hostname,
