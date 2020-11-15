@@ -55,7 +55,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		return fmt.Errorf("failed to create context on error %s", jmsErr.GetReason())
 	}
 	c.jmsContext = jmsContext
-	c.queue = jmsContext.CreateQueue(c.opts.queueName)
+	c.queue = c.jmsContext.CreateQueue(c.opts.queueName)
 
 	c.producer = c.jmsContext.CreateProducer().SetDeliveryMode(c.opts.transportType).SetTimeToLive(c.opts.timeToLive)
 	return nil

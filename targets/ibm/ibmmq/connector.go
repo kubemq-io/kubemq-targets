@@ -90,7 +90,7 @@ func Connector() *common.Connector {
 				SetName("port_number").
 				SetDescription("Set IBM-MQ server port_number").
 				SetDefault("1414").
-				SetMax(1000000000).
+				SetMax(10000).
 				SetMin(0).
 				SetMust(false),
 		).
