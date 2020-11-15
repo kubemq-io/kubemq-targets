@@ -3,6 +3,7 @@ package ibmmq
 import (
 	"context"
 	"fmt"
+	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-hub/ibmmq-sdk/mq-golang-jms20/jms20subset"
 	"github.com/kubemq-hub/ibmmq-sdk/mq-golang-jms20/mqjms"
 	"github.com/kubemq-hub/kubemq-targets/config"
@@ -22,6 +23,10 @@ type Client struct {
 func New() *Client {
 	return &Client{}
 
+}
+
+func (c *Client) Connector() *common.Connector {
+	return Connector()
 }
 
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
@@ -51,6 +56,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	}
 	c.jmsContext = jmsContext
 	c.queue = jmsContext.CreateQueue(c.opts.queueName)
+
 	c.producer = c.jmsContext.CreateProducer().SetDeliveryMode(c.opts.transportType).SetTimeToLive(c.opts.timeToLive)
 	return nil
 }

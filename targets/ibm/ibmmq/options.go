@@ -45,9 +45,9 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing channel_name, %w", err)
 	}
-	o.userName, err = cfg.Properties.MustParseString("user_name")
+	o.userName, err = cfg.Properties.MustParseString("username")
 	if err != nil {
-		return options{}, fmt.Errorf("error parsing user_name, %w", err)
+		return options{}, fmt.Errorf("error parsing username, %w", err)
 	}
 	o.queueName, err = cfg.Properties.MustParseString("queue_name")
 	if err != nil {
