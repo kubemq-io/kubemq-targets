@@ -41,7 +41,7 @@ require (
 	github.com/jpillora/backoff v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.10
 	github.com/kubemq-hub/builder v0.5.9
-	github.com/kubemq-hub/ibmmq-sdk v0.3.5
+	github.com/kubemq-hub/ibmmq-sdk v0.3.6
 	github.com/kubemq-io/kubemq-go v1.4.4
 	github.com/labstack/echo/v4 v4.1.17
 	github.com/lib/pq v1.8.0
