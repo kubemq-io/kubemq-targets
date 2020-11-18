@@ -1,0 +1,50 @@
+ARG BASE_IMAGE=ubuntu:19.10
+FROM $BASE_IMAGE
+
+ARG GOPATH_ARG="/go"
+
+ENV GOVERSION=1.14 \
+    GOPATH=$GOPATH_ARG \
+    ORG="github.com/ibm-messaging"
+
+
+
+RUN export DEBIAN_FRONTEND=noninteractive \
+  && bash -c 'source /etc/os-release; \
+     echo "deb http://archive.ubuntu.com/ubuntu/ ${UBUNTU_CODENAME} main restricted" > /etc/apt/sources.list; \
+     echo "deb http://archive.ubuntu.com/ubuntu/ ${UBUNTU_CODENAME}-updates main restricted" >> /etc/apt/sources.list; \
+     echo "deb http://archive.ubuntu.com/ubuntu/ ${UBUNTU_CODENAME}-backports main restricted universe" >> /etc/apt/sources.list; \
+     echo "deb http://archive.ubuntu.com/ubuntu/ ${UBUNTU_CODENAME} universe" >> /etc/apt/sources.list; \
+     echo "deb http://archive.ubuntu.com/ubuntu/ ${UBUNTU_CODENAME}-updates universe" >> /etc/apt/sources.list;' \
+  && apt-get update \
+  && apt-get install -y --no-install-recommends \
+    git \
+    ca-certificates \
+    curl \
+    wget \
+    tar \
+    bash \
+    go-dep \
+    build-essential \
+  && rm -rf /var/lib/apt/lists/*
+RUN wget https://dl.google.com/go/go1.15.5.linux-amd64.tar.gz
+RUN tar -C /usr/local -xzf ./go1.15.5.linux-amd64.tar.gz
+ENV PATH=$PATH:/usr/local/go/bin
+RUN mkdir -p /opt/mqm \
+  && chmod a+rx /opt/mqm
+
+# Location of the downloadable MQ client package \
+ENV RDURL="https://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/messaging/mqdev/redist" \
+    RDTAR="IBM-MQC-Redist-LinuxX64.tar.gz" \
+    VRMF=9.2.0.0
+
+ENV genmqpkg_incnls=1 \
+    genmqpkg_incsdk=1 \
+    genmqpkg_inctls=1
+
+RUN cd /opt/mqm \
+ && curl -LO "$RDURL/$VRMF-$RDTAR" \
+ && tar -zxf ./*.tar.gz \
+ && rm -f ./*.tar.gz \
+ && bin/genmqpkg.sh -b /opt/mqm
+

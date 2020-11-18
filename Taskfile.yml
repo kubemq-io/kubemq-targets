@@ -7,6 +7,9 @@ vars:
   VERSION: v0.5.0
 
 tasks:
+  default:
+    cmds:
+      - go build -buildmode=exe -o "{{.BINARY_NAME}}.exe"
   check_update:
     cmds:
       - go list -u -m -json -mod=mod all | go-mod-outdated -update -direct
@@ -23,7 +26,7 @@ tasks:
     cmds:
       - go mod tidy
       - go mod vendor
-      - go build -o "{{.BINARY_NAME}}.exe" -ldflags "-X main.version={{.VERSION}}"
+      - go build -buildmode=exe -o "{{.BINARY_NAME}}.exe" -ldflags "-X main.version={{.VERSION}}"
   build-386:
     env:
       GOOS: linux
@@ -32,6 +35,10 @@ tasks:
       - go mod tidy
       - go mod vendor
       - go build -o "{{.BINARY_NAME}}.exe" -ldflags "-X main.version={{.VERSION}}"
+  docker-builder:
+    cmds:
+      - docker build . -f Docker_builder kubemq/gobuilder-ubuntu
+      - docker push kubemq/gobuilder-ubuntu
   docker:
     env:
       GOOS: linux

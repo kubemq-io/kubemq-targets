@@ -26,7 +26,7 @@ import (
 	azurmysql "github.com/kubemq-hub/kubemq-targets/targets/azure/stores/mysql"
 	azurpostgres "github.com/kubemq-hub/kubemq-targets/targets/azure/stores/postgres"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/firebase"
-	"github.com/kubemq-hub/kubemq-targets/targets/ibm/ibmmq"
+	"github.com/kubemq-hub/kubemq-targets/targets/messaging/ibmmq"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/elastic"
 
 	"github.com/kubemq-hub/kubemq-targets/config"
@@ -310,6 +310,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 			return nil, err
 		}
 		return target, nil
+	case "messaging.ibmmq":
+		target := ibmmq.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
 	case "stores.cassandra":
 		target := cassandra.New()
 		if err := target.Init(ctx, cfg); err != nil {
@@ -412,12 +418,7 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 			return nil, err
 		}
 		return target, nil
-	case "ibm.ibmmq":
-		target := ibmmq.New()
-		if err := target.Init(ctx, cfg); err != nil {
-			return nil, err
-		}
-		return target, nil
+
 
 	default:
 		return nil, fmt.Errorf("invalid kind %s for target %s", cfg.Kind, cfg.Name)

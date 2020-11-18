@@ -47,7 +47,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: ibm.ibmmq
+      kind: messaging.ibmmq
       name: ibm-ibmmq
       properties:
         queue_manager_name: "QM1"
