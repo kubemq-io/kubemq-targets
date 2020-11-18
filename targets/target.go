@@ -449,6 +449,7 @@ func Connectors() common.Connectors {
 		rabbitmq.Connector(),
 		kafka.Connector(),
 		activemq.Connector(),
+		ibmmq.Connector(),
 
 		//storage
 		minio.Connector(),
@@ -507,7 +508,6 @@ func Connectors() common.Connectors {
 		servicebus.Connector(),
 		eventhubs.Connector(),
 
-		//ibm
-		ibmmq.Connector(),
+
 	}
 }
