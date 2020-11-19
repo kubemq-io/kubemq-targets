@@ -1,4 +1,4 @@
 mkdir -p /opt/mqm
-cp ./LinuxX64.tar.gz /opt/mqm
+cp ./ci/ibmmq-sdk/LinuxX64.tar.gz /opt/mqm
 cd /opt/mqm
-tar -zxf ./LinuxX64.tar.gz
+tar -zxf ./ci/ibmmq-sdk/LinuxX64.tar.gz
