@@ -58,7 +58,7 @@ A list of supported targets is below.
 |            | [RabbitMQ](https://www.rabbitmq.com/)                               |messaging.rabbitmq    | [Usage](targets/messaging/rabbitmq)                | [Example](examples/messaging/rabbitmq)  |
 |            | [MQTT](http://mqtt.org/)                                            |messaging.mqtt        | [Usage](targets/messaging/mqtt)                    | [Example](examples/messaging/mqtt)      |
 |            | [ActiveMQ](http://activemq.apache.org/)                             |messaging.activemq    | [Usage](targets/messaging/activemq)                | [Example](examples/messaging/activemq)  |
-|            | [IBM-MQ](https://developer.ibm.com/components/ibm-mq)               |messaging.activemq    | [Usage](targets/messaging/ibmmq)                   | [Example](examples/messaging/ibmmq)  |
+|            | [IBM-MQ](https://developer.ibm.com/components/ibm-mq)               |messaging.ibmmq    | [Usage](targets/messaging/ibmmq)                   | [Example](examples/messaging/ibmmq)  |
 | Storage    |                                                                     |                              |                                                    |                                         |
 |            | [Minio/S3](https://min.io/)                                         |storage.minio         | [Usage](targets/storage/minio)                     | [Example](examples/storage/minio)       |
 | Serverless |                                                                     |                              |                                                    |                                         |
