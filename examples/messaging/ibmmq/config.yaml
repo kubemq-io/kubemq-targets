@@ -4,9 +4,9 @@ bindings:
       kind: kubemq.query
       properties:
         address: localhost:50000
-        channel: query.ibm.ibmmq
+        channel: query.messaging.ibmmq
     target:
-      kind: ibm.ibmmq
+      kind: messaging.ibmmq
       properties:
         channel_name: DEV.APP.SVRCONN
         host_name: localhost

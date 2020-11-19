@@ -28,7 +28,7 @@ func main() {
 		SetData(validBody)
 
 	querySendResponse, err := client.SetQuery(sendRequest.ToQuery()).
-		SetChannel("query.ibm.ibmmq").
+		SetChannel("query.messaging.ibmmq").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)
