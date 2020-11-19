@@ -41,14 +41,14 @@ bindings:
         address: "kubemq-cluster:50000"
         client_id: "kubemq-query-IBM-MQ-connector"
         auth_token: ""
-        channel: "query.ibm.ibmmq"
+        channel: "query.messaging.ibmmq"
         group:   ""
         auto_reconnect: "true"
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
       kind: messaging.ibmmq
-      name: ibm-ibmmq
+      name: messaging-ibmmq
       properties:
         queue_manager_name: "QM1"
         host_name: "localhost"
@@ -66,9 +66,10 @@ bindings:
 
 Query request data setting:
 
-| Data Key | Required | Description     | Possible values    |
-|:---------|:---------|:----------------|:-------------------|
-| data     | yes      | data to publish | base64 bytes array |
+| Data Key          | Required | Description                               | Possible values    |
+|:------------------|:---------|:------------------------------------------|:-------------------|
+| data              | yes      | data to publish                           | base64 bytes array |
+| dynamic_queue     | no       | queue name to change from option settings | "" |
 
 Example:
 

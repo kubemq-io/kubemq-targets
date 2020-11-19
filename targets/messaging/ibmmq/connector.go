@@ -109,5 +109,13 @@ func Connector() *common.Connector {
 				SetDescription("Set IBM-MQ key_repository a certificate store").
 				SetDefault("").
 				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("dynamic_queue").
+				SetKind("string").
+				SetDescription("set new IBM-MQ queue route").
+				SetDefault("").
+				SetMust(false),
 		)
 }

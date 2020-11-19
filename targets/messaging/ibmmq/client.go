@@ -2,6 +2,7 @@ package ibmmq
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-hub/ibmmq-sdk/mq-golang-jms20/jms20subset"
@@ -62,8 +63,15 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 }
 
 func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, error) {
+	meta, err := parseMetadata(req.Metadata)
+	if err != nil {
+		return nil, err
+	}
+	if meta.dynamicQueue != "" {
+		c.queue = c.jmsContext.CreateQueue(meta.dynamicQueue)
+	}
 	if req.Data == nil {
-		return nil, fmt.Errorf("missing body")
+		return nil, errors.New("missing body")
 	}
 	jmsErr := c.producer.SendString(c.queue, fmt.Sprintf("%s", req.Data))
 	if jmsErr != nil {

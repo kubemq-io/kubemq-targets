@@ -76,8 +76,8 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "ibm-ibmmq",
-				Kind: "ibm.ibmmq",
+				Name: "messaging-ibmmq",
+				Kind: "messaging.ibmmq",
 				Properties: map[string]string{
 					"queue_manager_name": dat.queueManagerName,
 					"host_name":          dat.hostname,
@@ -93,8 +93,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init incorrect username",
 			cfg: config.Spec{
-				Name: "ibm-ibmmq",
-				Kind: "ibm.ibmmq",
+				Name: "messaging-ibmmq",
+				Kind: "messaging.ibmmq",
 				Properties: map[string]string{
 					"queue_manager_name": dat.queueManagerName,
 					"host_name":          dat.hostname,
@@ -110,8 +110,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init - incorrect password",
 			cfg: config.Spec{
-				Name: "ibm-ibmmq",
-				Kind: "ibm.ibmmq",
+				Name: "messaging-ibmmq",
+				Kind: "messaging.ibmmq",
 				Properties: map[string]string{
 					"queue_manager_name": dat.queueManagerName,
 					"host_name":          dat.hostname,
@@ -127,8 +127,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init - incorrect host_name",
 			cfg: config.Spec{
-				Name: "ibm-ibmmq",
-				Kind: "ibm.ibmmq",
+				Name: "messaging-ibmmq",
+				Kind: "messaging.ibmmq",
 				Properties: map[string]string{
 					"queue_manager_name": dat.queueManagerName,
 					"host_name":          "fake host name",
@@ -144,8 +144,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init - missing host_name",
 			cfg: config.Spec{
-				Name: "ibm-ibmmq",
-				Kind: "ibm.ibmmq",
+				Name: "messaging-ibmmq",
+				Kind: "messaging.ibmmq",
 				Properties: map[string]string{
 					"queue_manager_name": dat.queueManagerName,
 					"port_number":        dat.listenerPort,
@@ -160,8 +160,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init - missing queue_manager_name",
 			cfg: config.Spec{
-				Name: "ibm-ibmmq",
-				Kind: "ibm.ibmmq",
+				Name: "messaging-ibmmq",
+				Kind: "messaging.ibmmq",
 				Properties: map[string]string{
 					"host_name":      dat.hostname,
 					"port_number":    dat.listenerPort,
@@ -176,8 +176,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init - missing channel_name",
 			cfg: config.Spec{
-				Name: "ibm-ibmmq",
-				Kind: "ibm.ibmmq",
+				Name: "messaging-ibmmq",
+				Kind: "messaging.ibmmq",
 				Properties: map[string]string{
 					"queue_manager_name": dat.queueManagerName,
 					"host_name":          dat.hostname,
@@ -192,8 +192,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init - missing username",
 			cfg: config.Spec{
-				Name: "ibm-ibmmq",
-				Kind: "ibm.ibmmq",
+				Name: "messaging-ibmmq",
+				Kind: "messaging.ibmmq",
 				Properties: map[string]string{
 					"queue_manager_name": dat.queueManagerName,
 					"host_name":          dat.hostname,
@@ -208,8 +208,8 @@ func TestClient_Init(t *testing.T) {
 		}, {
 			name: "invalid init - missing queue_name",
 			cfg: config.Spec{
-				Name: "ibm-ibmmq",
-				Kind: "ibm.ibmmq",
+				Name: "messaging-ibmmq",
+				Kind: "messaging.ibmmq",
 				Properties: map[string]string{
 					"queue_manager_name": dat.queueManagerName,
 					"host_name":          dat.hostname,
@@ -228,7 +228,6 @@ func TestClient_Init(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
 			c := New()
-
 			err := c.Init(ctx, tt.cfg)
 			if tt.wantErr {
 				require.Error(t, err)
@@ -250,7 +249,6 @@ func TestClient_Do(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 
-
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -261,8 +259,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid - send",
 			cfg: config.Spec{
-				Name: "ibm-ibmmq",
-				Kind: "ibm.ibmmq",
+				Name: "messaging-ibmmq",
+				Kind: "messaging.ibmmq",
 				Properties: map[string]string{
 					"queue_manager_name": dat.queueManagerName,
 					"host_name":          dat.hostname,
@@ -280,10 +278,32 @@ func TestClient_Do(t *testing.T) {
 
 			wantErr: false,
 		}, {
+			name: "valid - send override queue",
+			cfg: config.Spec{
+				Name: "messaging-ibmmq",
+				Kind: "messaging.ibmmq",
+				Properties: map[string]string{
+					"queue_manager_name": dat.queueManagerName,
+					"host_name":          dat.hostname,
+					"port_number":        dat.listenerPort,
+					"channel_name":       dat.applicationChannelName,
+					"username":           dat.mqUsername,
+					"key_repository":     dat.apiKey,
+					"password":           dat.password,
+					"queue_name":         "test",
+				},
+			},
+			request: types.NewRequest().
+				SetMetadataKeyValue("dynamic_queue", dat.QueueName).
+				SetData([]byte("some-data")),
+
+
+			wantErr: false,
+		}, {
 			name: "invalid - send missing data",
 			cfg: config.Spec{
-				Name: "ibm-ibmmq",
-				Kind: "ibm.ibmmq",
+				Name: "messaging-ibmmq",
+				Kind: "messaging.ibmmq",
 				Properties: map[string]string{
 					"queue_manager_name": dat.queueManagerName,
 					"host_name":          dat.hostname,
