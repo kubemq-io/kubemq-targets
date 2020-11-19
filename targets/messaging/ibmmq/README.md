@@ -66,9 +66,10 @@ bindings:
 
 Query request data setting:
 
-| Data Key | Required | Description     | Possible values    |
-|:---------|:---------|:----------------|:-------------------|
-| data     | yes      | data to publish | base64 bytes array |
+| Data Key          | Required | Description                               | Possible values    |
+|:------------------|:---------|:------------------------------------------|:-------------------|
+| data              | yes      | data to publish                           | base64 bytes array |
+| dynamic_queue     | no       | queue name to change from option settings | "" |
 
 Example:
 

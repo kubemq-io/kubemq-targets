@@ -228,7 +228,6 @@ func TestClient_Init(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
 			c := New()
-
 			err := c.Init(ctx, tt.cfg)
 			if tt.wantErr {
 				require.Error(t, err)
@@ -249,7 +248,6 @@ func TestClient_Init(t *testing.T) {
 func TestClient_Do(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
-
 
 	tests := []struct {
 		name    string
@@ -275,6 +273,28 @@ func TestClient_Do(t *testing.T) {
 				},
 			},
 			request: types.NewRequest().
+				SetData([]byte("some-data")),
+
+
+			wantErr: false,
+		}, {
+			name: "valid - send override queue",
+			cfg: config.Spec{
+				Name: "ibm-ibmmq",
+				Kind: "ibm.ibmmq",
+				Properties: map[string]string{
+					"queue_manager_name": dat.queueManagerName,
+					"host_name":          dat.hostname,
+					"port_number":        dat.listenerPort,
+					"channel_name":       dat.applicationChannelName,
+					"username":           dat.mqUsername,
+					"key_repository":     dat.apiKey,
+					"password":           dat.password,
+					"queue_name":         "test",
+				},
+			},
+			request: types.NewRequest().
+				SetMetadataKeyValue("dynamic_queue", dat.QueueName).
 				SetData([]byte("some-data")),
 
 
