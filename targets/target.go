@@ -27,6 +27,7 @@ import (
 	azurpostgres "github.com/kubemq-hub/kubemq-targets/targets/azure/stores/postgres"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/firebase"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/ibmmq"
+	"github.com/kubemq-hub/kubemq-targets/targets/messaging/nats"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/elastic"
 
 	"github.com/kubemq-hub/kubemq-targets/config"
@@ -316,6 +317,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 			return nil, err
 		}
 		return target, nil
+	case "messaging.nats":
+		target := nats.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
 	case "stores.cassandra":
 		target := cassandra.New()
 		if err := target.Init(ctx, cfg); err != nil {
@@ -450,6 +457,7 @@ func Connectors() common.Connectors {
 		kafka.Connector(),
 		activemq.Connector(),
 		ibmmq.Connector(),
+		nats.Connector(),
 
 		//storage
 		minio.Connector(),

@@ -55,6 +55,7 @@ A list of supported targets is below.
 |            | [Couchbase](https://www.couchbase.com/)                             |stores.couchbase      | [Usage](targets/stores/couchbase)                  | [Example](examples/stores/couchbase)    |
 | Messaging  |                                                                     |                              |                                                    |                                         |
 |            | [Kafka](https://kafka.apache.org/)                                  |messaging.kafka       | [Usage](targets/messaging/kafka)                   | [Example](examples/messaging/kafka)     |
+|            | [Nats](https://nats.io/)                                            |messaging.nats        | [Usage](targets/messaging/nats)                    | [Example](examples/messaging/nats)     |
 |            | [RabbitMQ](https://www.rabbitmq.com/)                               |messaging.rabbitmq    | [Usage](targets/messaging/rabbitmq)                | [Example](examples/messaging/rabbitmq)  |
 |            | [MQTT](http://mqtt.org/)                                            |messaging.mqtt        | [Usage](targets/messaging/mqtt)                    | [Example](examples/messaging/mqtt)      |
 |            | [ActiveMQ](http://activemq.apache.org/)                             |messaging.activemq    | [Usage](targets/messaging/activemq)                | [Example](examples/messaging/activemq)  |
