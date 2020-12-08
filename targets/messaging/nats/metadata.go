@@ -5,6 +5,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
+
 type metadata struct {
 	subject string
 }
