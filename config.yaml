@@ -1,25 +1,13 @@
-apiPort: 8081
 bindings:
-  - name: kubemq-query-elastic-search
-    source:
-      kind: kubemq.query
-      name: kubemq-query
-      properties:
-        address: "kubemq-cluster:50000"
-        client_id: "kubemq-query-elastic-search-connector"
-        auth_token: ""
-        channel: "query.elastic"
-        group:   ""
-        auto_reconnect: "true"
-        reconnect_interval_seconds: "1"
-        max_reconnects: "0"
-    target:
-      kind: stores.elasticsearch
-      name: target-elasticsearch
-      properties:
-        urls: "http://localhost:9201"
-        username: ""
-        password: ""
-        sniff: "false"
+- name: hazelcast
+  source:
+    kind: kubemq.query
     properties:
-      log_level: "error"
+      address: localhost:50000
+      channel: query.hazelcast
+  target:
+    kind: cache.hazelcast
+    properties:
+      address: localhost:5701
+      server name: test
+  properties: {}

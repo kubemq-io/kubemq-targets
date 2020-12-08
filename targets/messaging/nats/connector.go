@@ -49,14 +49,6 @@ func Connector() *common.Connector {
 		).
 		AddProperty(
 			common.NewProperty().
-				SetKind("bool").
-				SetName("dynamic_mapping").
-				SetDescription("Set Subject/Channel dynamic mapping").
-				SetMust(true).
-				SetDefault("false"),
-		).
-		AddProperty(
-			common.NewProperty().
 				SetKind("condition").
 				SetName("tls").
 				SetOptions([]string{"true", "false"}).

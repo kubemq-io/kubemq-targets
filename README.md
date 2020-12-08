@@ -45,6 +45,7 @@ A list of supported targets is below.
 | Cache      |                                                                     |                              |                                                    |                                         |
 |            | [Redis](https://redis.io/)                                          |cache.redis           | [Usage](targets/cache/redis)                       | [Example](examples/cache/redis)         |
 |            | [Memcached](https://memcached.org/)                                 |cache.memcached       | [Usage](targets/cache/memcached)                   | [Example](examples/cache/memcached)    |
+|            | [Hazelcast](https://hazelcast.com/)                                 |cache.hazelcast       | [Usage](targets/cache/hazelcast)                   | [Example](examples/cache/hazelcast)    |
 | Stores/db  |                                                                     |                              |                                                    |                                         |
 |            | [Postgres](https://www.postgresql.org/)                             |stores.postgres       | [Usage](targets/stores/postgres)                   | [Example](examples/stores/postgres)     |
 |            | [Mysql](https://www.mysql.com/)                                     |stores.mysql          | [Usage](targets/stores/mysql)                      | [Example](examples/stores/mysql)        |

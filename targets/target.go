@@ -25,6 +25,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/azure/stores/azuresql"
 	azurmysql "github.com/kubemq-hub/kubemq-targets/targets/azure/stores/mysql"
 	azurpostgres "github.com/kubemq-hub/kubemq-targets/targets/azure/stores/postgres"
+	"github.com/kubemq-hub/kubemq-targets/targets/cache/hazelcast"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/firebase"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/ibmmq"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/nats"
@@ -205,6 +206,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 		return target, nil
 	case "cache.memcached":
 		target := memcached.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "cache.hazelcast":
+		target := hazelcast.New()
 		if err := target.Init(ctx, cfg); err != nil {
 			return nil, err
 		}
@@ -458,6 +465,7 @@ func Connectors() common.Connectors {
 		activemq.Connector(),
 		ibmmq.Connector(),
 		nats.Connector(),
+		hazelcast.Connector(),
 
 		//storage
 		minio.Connector(),
