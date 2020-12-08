@@ -14,10 +14,9 @@ import (
 
 // Client is a Client state store
 type Client struct {
-	name     string
-	client   hazelcast.Client
-	opts     options
-	replicas int
+	name   string
+	client hazelcast.Client
+	opts   options
 }
 
 func New() *Client {
@@ -151,7 +150,7 @@ func setConfig(opts options) (*hazelconfig.Config, error) {
 	if opts.connectionTimeout > 0 {
 		c.NetworkConfig().SetConnectionTimeout(opts.connectionTimeout)
 	}
-	if opts.ssl == true {
+	if opts.ssl {
 
 		cert, err := tls.X509KeyPair([]byte(opts.sslcertificatefile), []byte(opts.sslcertificatekey))
 		if err != nil {
