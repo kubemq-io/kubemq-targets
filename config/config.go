@@ -14,7 +14,7 @@ import (
 	"strings"
 )
 
-const defaultApiPort = 8081
+const defaultApiPort = 8080
 
 var configFile string
 var logr = logger.NewLogger("config")
