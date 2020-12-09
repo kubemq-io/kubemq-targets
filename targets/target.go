@@ -29,6 +29,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/firebase"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/ibmmq"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/nats"
+	"github.com/kubemq-hub/kubemq-targets/targets/stores/cockroachdb"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/elastic"
 
 	"github.com/kubemq-hub/kubemq-targets/config"
@@ -372,6 +373,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 			return nil, err
 		}
 		return target, nil
+	case "stores.cockroachdb":
+		target := cockroachdb.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
 	case "serverless.openfaas":
 		target := openfaas.New()
 		if err := target.Init(ctx, cfg); err != nil {
@@ -454,6 +461,7 @@ func Connectors() common.Connectors {
 		elastic.Connector(),
 		cassandra.Connector(),
 		couchbase.Connector(),
+		cockroachdb.Connector(),
 
 		// http
 		http.Connector(),
