@@ -36,7 +36,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:gcp.storage
+      kind: gcp.storage
       name: gcp-storage
       properties:
         credentials: 'json'

@@ -40,7 +40,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:azure.stores.mysql
+      kind: azure.stores.mysql
       name: target-azure-stores-mysql
       properties:
         connection: "username@host:password@tcp(endpoint:3306)/dbname?allowNativePasswords=true"

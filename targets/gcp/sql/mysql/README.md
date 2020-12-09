@@ -41,7 +41,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:gcp.stores.mysql
+      kind: gcp.stores.mysql
       name: target-gcp-mysql
       properties:
         instance_connection_name: "test"

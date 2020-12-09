@@ -40,7 +40,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:azure.servicebus
+      kind: azure.servicebus
       name: target-azure-servicebus
       properties:
         end_point: "sb://my_account.net"

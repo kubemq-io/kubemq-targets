@@ -38,7 +38,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:gcp.pubsub
+      kind: gcp.pubsub
       name: gcp-pubsub
       properties:
         project_id: "projectID"

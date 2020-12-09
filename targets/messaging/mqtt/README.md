@@ -38,7 +38,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:messaging.mqtt
+      kind: messaging.mqtt
       name: target-mqtt
       properties:
         host: "localhost:1883"

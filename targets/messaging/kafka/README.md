@@ -38,7 +38,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:messaging.kafka
+      kind: messaging.kafka
       name: kafka-stream
       properties:
         brokers: "localhost:9092"

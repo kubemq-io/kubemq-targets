@@ -38,7 +38,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:stores.minio
+      kind: stores.minio
       name: target-minio
       properties:
         endpoint: "localhost:9001"

@@ -37,7 +37,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:gcp.firestore
+      kind: gcp.firestore
       name: gcp-firestore
       properties:
         project_id: "id"

@@ -123,9 +123,9 @@ A list of supported targets is below.
 | Serverless |                                                                |                                 |                                         |                                            |
 |            | [lambda](https://aws.amazon.com/lambda/)                       |aws.lambda               | [Usage](targets/aws/lambda)             | [Example](examples/aws/lambda)             |
 | Other      |                                                                |                                 |                                         |                                            |
-|            | [Cloud Watch](https://aws.amazon.com/cloudwatch/)              |aws.cloudwatch.logs      | [Usage](targets/aws/cloudwatch/logs)    | [Example](examples/aws/cloudwatch/logs)    |
-|            | [Cloud Watch](https://aws.amazon.com/cloudwatch/)              |aws.cloudwatch.events    | [Usage](targets/aws/cloudwatch/events)  | [Example](examples/aws/cloudwatch/events)  |
-|            | [Cloud Watch](https://aws.amazon.com/cloudwatch/)              |aws.cloudwatch.metrics   | [Usage](targets/aws/cloudwatch/metrics) | [Example](examples/aws/cloudwatch/metrics) |
+|            | [Cloud Watch Logs](https://aws.amazon.com/cloudwatch/)              |aws.cloudwatch.logs      | [Usage](targets/aws/cloudwatch/logs)    | [Example](examples/aws/cloudwatch/logs)    |
+|            | [Cloud Watch Events](https://aws.amazon.com/cloudwatch/)              |aws.cloudwatch.events    | [Usage](targets/aws/cloudwatch/events)  | [Example](examples/aws/cloudwatch/events)  |
+|            | [Cloud Watch Metrics ](https://aws.amazon.com/cloudwatch/)              |aws.cloudwatch.metrics   | [Usage](targets/aws/cloudwatch/metrics) | [Example](examples/aws/cloudwatch/metrics) |
 
 
 

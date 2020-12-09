@@ -39,7 +39,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:stores.mysql
+      kind: stores.mysql
       name: target-mysql
       properties:
         connection: "root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local"

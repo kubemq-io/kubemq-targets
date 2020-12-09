@@ -49,7 +49,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:stores.mongodb
+      kind: stores.mongodb
       name: target-mongodb
       properties:
         host: "localhost:27017"

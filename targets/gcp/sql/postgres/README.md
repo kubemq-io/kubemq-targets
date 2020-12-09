@@ -41,7 +41,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:gcp.stores.postgres
+      kind: gcp.stores.postgres
       name: target-gcp-postgres
       properties:
         instance_connection_name: "instanceConnectionName"

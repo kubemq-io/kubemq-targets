@@ -43,7 +43,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:http
+      kind: http
       name: target-http
       properties:
         auth_type: "no-auth"

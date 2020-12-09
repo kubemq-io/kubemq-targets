@@ -39,7 +39,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:stores.postgres
+      kind: stores.postgres
       name: target-postgres
       properties:
         connection: "postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"

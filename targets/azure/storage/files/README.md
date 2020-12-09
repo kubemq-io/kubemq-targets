@@ -45,7 +45,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:azure.storage.files
+      kind: azure.storage.files
       name: azure-storage-files
       properties:
         storage_account: "id"

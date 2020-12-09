@@ -50,7 +50,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:stores.cassandra
+      kind: stores.cassandra
       name: target-cassandra
       properties:
         hosts: "localhost"

@@ -38,7 +38,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:messaging.activemq
+      kind: messaging.activemq
       name: target-activemq
       properties:
         host: "localhost:61613"

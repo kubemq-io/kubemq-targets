@@ -39,7 +39,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:azure.stores.postgres
+      kind: azure.stores.postgres
       name: azure-stores-postgres
       properties:
         connection: "host=zzz user=yyy password=rrr dbname=nnn sslmode=disable"

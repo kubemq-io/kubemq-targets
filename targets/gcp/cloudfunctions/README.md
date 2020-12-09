@@ -39,7 +39,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:gcp.cloudfunctions
+      kind: gcp.cloudfunctions
       name: target-gcp-couldfunctions
       properties:
         project: "testproject"

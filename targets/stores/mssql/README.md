@@ -39,7 +39,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:stores.mssql
+      kind: stores.mssql
       name: target-mssql
       properties:
         connection: "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master"

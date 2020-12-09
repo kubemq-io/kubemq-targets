@@ -38,7 +38,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:cache.memcached
+      kind: cache.memcached
       name: target-memcached
       properties:
         hosts: "localhost:11211"

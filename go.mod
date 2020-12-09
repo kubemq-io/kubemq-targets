@@ -23,6 +23,7 @@ require (
 	github.com/Azure/go-autorest/autorest/validation v0.3.0 // indirect
 	github.com/GoogleCloudPlatform/cloudsql-proxy v1.18.0
 	github.com/Shopify/sarama v1.27.0
+	github.com/apache/thrift v0.13.0 // indirect
 	github.com/aws/aws-sdk-go v1.34.31
 	github.com/bradfitz/gomemcache v0.0.0-20190913173617-a41fca850d0b
 	github.com/cockroachdb/cockroach-go v2.0.1+incompatible
@@ -49,6 +50,7 @@ require (
 	github.com/lib/pq v1.8.0
 	github.com/minio/minio-go/v7 v7.0.0-20200623213017-e5cd2d129325
 	github.com/mitchellh/mapstructure v1.3.3 // indirect
+	github.com/nats-io/nats-server/v2 v2.1.9 // indirect
 	github.com/nats-io/nats.go v1.10.0
 	github.com/nats-io/nuid v1.0.1
 	github.com/olivere/elastic/v7 v7.0.20
