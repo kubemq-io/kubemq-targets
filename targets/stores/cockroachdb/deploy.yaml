@@ -1,4 +1,0 @@
-helm repo add bitnami https://charts.bitnami.com/bitnami
-helm install mysql bitnami/mysql --set root.password=mysql --set db.name=store
-kubectl port-forward --namespace default svc/mysql 3306:3306
-helm delete mysql
