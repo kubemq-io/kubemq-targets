@@ -1,0 +1,12 @@
+bindings:
+  - name: cockroachdb
+    source:
+      kind: kubemq.query
+      properties:
+        address: localhost:50000
+        channel: query.cockroachdb
+    target:
+      kind: stores.cockroachdb
+      properties:
+        connection: postgres://root:postgres@localhost:26257/postgres?sslmode=disable
+    properties: {}
