@@ -1,0 +1,1 @@
+docker run -d --publish 3306:3306 --name percona -e MYSQL_ROOT_PASSWORD=root percona/percona-server:8.0

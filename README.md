@@ -54,6 +54,7 @@ A list of supported targets is below.
 |            | [Elastic Search](https://www.elastic.co/)                           |stores.elastic-search | [Usage](targets/stores/elastic)                    | [Example](examples/stores/elastic)      |
 |            | [Cassandra](https://cassandra.apache.org/)                          |stores.cassandra      | [Usage](targets/stores/cassandra)                  | [Example](examples/stores/cassandra)    |
 |            | [Couchbase](https://www.couchbase.com/)                             |stores.couchbase      | [Usage](targets/stores/couchbase)                  | [Example](examples/stores/couchbase)    |
+|            | [Percona](https://www.percona.com/)                                 |stores.percona        | [Usage](targets/stores/percona)                    | [Example](examples/stores/percona)      |
 | Messaging  |                                                                     |                              |                                                    |                                         |
 |            | [Kafka](https://kafka.apache.org/)                                  |messaging.kafka       | [Usage](targets/messaging/kafka)                   | [Example](examples/messaging/kafka)     |
 |            | [Nats](https://nats.io/)                                            |messaging.nats        | [Usage](targets/messaging/nats)                    | [Example](examples/messaging/nats)     |
