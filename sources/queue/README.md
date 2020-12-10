@@ -41,7 +41,7 @@ bindings:
         batch_size: "1"
         wait_timeout: "60"
     target:
-      kind:stores.elastic-search
+      kind: stores.elastic-search
       name: target-elastic-search
       properties:
         urls: "http://localhost:9200"

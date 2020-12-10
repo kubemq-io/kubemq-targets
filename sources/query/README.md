@@ -47,7 +47,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind:stores.elastic-search
+      kind: stores.elastic-search
       name: target-elastic-search
       properties:
         urls: "http://localhost:9200"
