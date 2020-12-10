@@ -23,6 +23,7 @@ require (
 	github.com/Azure/go-autorest/autorest/validation v0.3.0 // indirect
 	github.com/GoogleCloudPlatform/cloudsql-proxy v1.18.0
 	github.com/Shopify/sarama v1.27.0
+	github.com/aerospike/aerospike-client-go v4.0.0+incompatible
 	github.com/apache/thrift v0.13.0 // indirect
 	github.com/aws/aws-sdk-go v1.34.31
 	github.com/bradfitz/gomemcache v0.0.0-20190913173617-a41fca850d0b
@@ -59,6 +60,7 @@ require (
 	github.com/spf13/viper v1.7.1
 	github.com/streadway/amqp v1.0.0
 	github.com/stretchr/testify v1.6.1
+	github.com/yuin/gopher-lua v0.0.0-20200816102855-ee81675732da // indirect
 	go.mongodb.org/mongo-driver v1.4.1
 	go.uber.org/atomic v1.7.0
 	go.uber.org/zap v1.16.0
