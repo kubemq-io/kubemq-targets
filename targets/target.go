@@ -31,6 +31,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/nats"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/cockroachdb"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/elastic"
+	"github.com/kubemq-hub/kubemq-targets/targets/stores/percona"
 
 	"github.com/kubemq-hub/kubemq-targets/config"
 	awsmariadb "github.com/kubemq-hub/kubemq-targets/targets/aws/rds/mariadb"
@@ -379,6 +380,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 			return nil, err
 		}
 		return target, nil
+	case "stores.percona":
+		target := percona.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
 	case "serverless.openfaas":
 		target := openfaas.New()
 		if err := target.Init(ctx, cfg); err != nil {
@@ -440,7 +447,6 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 		}
 		return target, nil
 
-
 	default:
 		return nil, fmt.Errorf("invalid kind %s for target %s", cfg.Kind, cfg.Name)
 	}
@@ -462,6 +468,7 @@ func Connectors() common.Connectors {
 		cassandra.Connector(),
 		couchbase.Connector(),
 		cockroachdb.Connector(),
+		percona.Connector(),
 
 		// http
 		http.Connector(),
@@ -531,7 +538,5 @@ func Connectors() common.Connectors {
 		blob.Connector(),
 		servicebus.Connector(),
 		eventhubs.Connector(),
-
-
 	}
 }
