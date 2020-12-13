@@ -1,12 +1,13 @@
 bindings:
-- name: percona
+- name: aerospike
   source:
     kind: kubemq.query
     properties:
       address: localhost:50000
-      channel: query.percona
+      channel: query.aerospike
   target:
-    kind: stores.percona
+    kind: stores.aerospike
     properties:
-      connection: root:root@(localhost:3306)/percona?charset=utf8&parseTime=True&loc=Local
+      host: localhost
+      port: "3000"
   properties: {}

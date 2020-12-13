@@ -1,10 +1,11 @@
-package mongodb
+package aerospike
 
 import (
 	"context"
+	"encoding/json"
+	aero "github.com/aerospike/aerospike-client-go"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
-	"github.com/nats-io/nuid"
 	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
@@ -19,148 +20,35 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "mongodb-target",
-				Kind: "",
+				Name: "stores-aerospike",
+				Kind: "stores.aerospike",
 				Properties: map[string]string{
-					"host":                      "localhost:27017",
-					"username":                  "admin",
-					"password":                  "password",
-					"database":                  "admin",
-					"collection":                "test",
-					"write_concurrency":         "majority",
-					"read_concurrency":          "",
-					"params":                    "",
-					"operation_timeout_seconds": "2",
+					"host": "127.0.0.1",
+					"port": "3000",
 				},
 			},
 			wantErr: false,
 		},
 		{
-			name: "init - error connection",
+			name: "init - invalid port",
 			cfg: config.Spec{
-				Name: "mongodb-target",
-				Kind: "",
+				Name: "stores-aerospike",
+				Kind: "stores.aerospike",
 				Properties: map[string]string{
-					"host":                      "bad-host:32017",
-					"username":                  "admin",
-					"password":                  "password",
-					"database":                  "admin",
-					"collection":                "test",
-					"write_concurrency":         "majority",
-					"read_concurrency":          "",
-					"params":                    "",
-					"operation_timeout_seconds": "2",
+					"host": "127.0.0.1",
+					"port": "3001",
 				},
 			},
 			wantErr: true,
 		},
 		{
-			name: "init - bad host",
+			name: "init - invalid host",
 			cfg: config.Spec{
-				Name: "mongodb-target",
-				Kind: "",
+				Name: "stores-aerospike",
+				Kind: "stores.aerospike",
 				Properties: map[string]string{
-					"username":                  "admin",
-					"password":                  "password",
-					"database":                  "admin",
-					"collection":                "test",
-					"write_concurrency":         "",
-					"read_concurrency":          "",
-					"params":                    "",
-					"operation_timeout_seconds": "2",
-				},
-			},
-			wantErr: true,
-		},
-		{
-			name: "init - bad database",
-			cfg: config.Spec{
-				Name: "mongodb-target",
-				Kind: "",
-				Properties: map[string]string{
-					"host":                      "localhost:27017",
-					"username":                  "admin",
-					"password":                  "password",
-					"collection":                "test",
-					"write_concurrency":         "",
-					"read_concurrency":          "",
-					"params":                    "",
-					"operation_timeout_seconds": "2",
-				},
-			},
-			wantErr: true,
-		},
-		{
-			name: "init - bad collection",
-			cfg: config.Spec{
-				Name: "mongodb-target",
-				Kind: "",
-				Properties: map[string]string{
-					"host":                      "localhost:27017",
-					"username":                  "admin",
-					"password":                  "password",
-					"database":                  "admin",
-					"write_concurrency":         "",
-					"read_concurrency":          "",
-					"params":                    "",
-					"operation_timeout_seconds": "2",
-				},
-			},
-			wantErr: true,
-		},
-		{
-			name: "init - bad write concurrency",
-			cfg: config.Spec{
-				Name: "mongodb-target",
-				Kind: "",
-				Properties: map[string]string{
-					"host":                      "localhost:27017",
-					"username":                  "admin",
-					"password":                  "password",
-					"database":                  "admin",
-					"collection":                "test",
-					"write_concurrency":         "bad-concurrency",
-					"read_concurrency":          "",
-					"params":                    "",
-					"operation_timeout_seconds": "2",
-				},
-			},
-			wantErr: true,
-		},
-		{
-			name: "init - bad read concurrency",
-			cfg: config.Spec{
-				Name: "mongodb-target",
-				Kind: "",
-				Properties: map[string]string{
-					"host":                      "localhost:27017",
-					"username":                  "admin",
-					"password":                  "password",
-					"database":                  "admin",
-					"collection":                "test",
-					"write_concurrency":         "",
-					"read_concurrency":          "bad-concurrency",
-					"params":                    "",
-					"operation_timeout_seconds": "2",
-				},
-			},
-			wantErr: true,
-		},
-		{
-			name: "init - bad operation timeout",
-			cfg: config.Spec{
-				Name: "mongodb-target",
-				Kind: "",
-				Properties: map[string]string{
-					"host":                      "localhost:27017",
-					"username":                  "admin",
-					"password":                  "password",
-					"database":                  "admin",
-					"collection":                "test",
-					"write_concurrency":         "",
-					"read_concurrency":          "",
-					"params":                    "",
-					"operation_timeout_seconds": "-2",
+					"host": "00.0.0.1",
+					"port": "3001",
 				},
 			},
 			wantErr: true,
@@ -181,81 +69,52 @@ func TestClient_Init(t *testing.T) {
 	}
 }
 func TestClient_Set_Get(t *testing.T) {
+	k := PutRequest{
+		UserKey:   "user_key1",
+		KeyName:   "some-key",
+		Namespace: "test",
+		BinMap: // define some bins with data
+		aero.BinMap{
+			"bin1": 42,
+			"bin2": "An elephant is a mouse with an operating system",
+			"bin3": []interface{}{"Go", 2009},
+		},
+	}
+	req, err := json.Marshal(k)
+	require.NoError(t, err)
 	tests := []struct {
 		name            string
 		cfg             config.Spec
 		setRequest      *types.Request
 		getRequest      *types.Request
 		wantSetResponse *types.Response
-		wantGetResponse *types.Response
 		wantSetErr      bool
 		wantGetErr      bool
 	}{
 		{
 			name: "valid set get request",
 			cfg: config.Spec{
-				Name: "mongodb",
-				Kind: "mongodb",
+				Name: "stores-aerospike",
+				Kind: "stores.aerospike",
 				Properties: map[string]string{
-					"host":                      "localhost:27017",
-					"username":                  "admin",
-					"password":                  "password",
-					"database":                  "admin",
-					"collection":                "test",
-					"write_concurrency":         "",
-					"read_concurrency":          "",
-					"params":                    "",
-					"operation_timeout_seconds": "2",
+					"host": "127.0.0.1",
+					"port": "3000",
 				},
 			},
 			setRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "set").
-				SetMetadataKeyValue("key", "some-key").
-				SetData([]byte("some-data")),
+				SetData(req),
 			getRequest: types.NewRequest().
 				SetMetadataKeyValue("method", "get").
-				SetMetadataKeyValue("key", "some-key"),
+				SetMetadataKeyValue("namespace", "test").
+				SetMetadataKeyValue("key", "some-key").
+				SetMetadataKeyValue("user_key", "user_key1"),
 
 			wantSetResponse: types.NewResponse().
 				SetMetadataKeyValue("key", "some-key").
 				SetMetadataKeyValue("result", "ok"),
-			wantGetResponse: types.NewResponse().
-				SetMetadataKeyValue("key", "some-key").
-				SetData([]byte("some-data")),
 			wantSetErr: false,
 			wantGetErr: false,
-		},
-		{
-			name: "valid set , no key get request",
-			cfg: config.Spec{
-				Name: "mongodb",
-				Kind: "mongodb",
-				Properties: map[string]string{
-					"host":                      "localhost:27017",
-					"username":                  "admin",
-					"password":                  "password",
-					"database":                  "admin",
-					"collection":                "test",
-					"write_concurrency":         "",
-					"read_concurrency":          "",
-					"params":                    "",
-					"operation_timeout_seconds": "2",
-				},
-			},
-			setRequest: types.NewRequest().
-				SetMetadataKeyValue("method", "set").
-				SetMetadataKeyValue("key", "some-key").
-				SetData([]byte("some-data")),
-			getRequest: types.NewRequest().
-				SetMetadataKeyValue("method", "get").
-				SetMetadataKeyValue("key", "bad-key"),
-
-			wantSetResponse: types.NewResponse().
-				SetMetadataKeyValue("key", "some-key").
-				SetMetadataKeyValue("result", "ok"),
-			wantGetResponse: nil,
-			wantSetErr:      false,
-			wantGetErr:      true,
 		},
 	}
 	for _, tt := range tests {
@@ -280,57 +139,12 @@ func TestClient_Set_Get(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, gotGetResponse)
-			require.EqualValues(t, tt.wantGetResponse, gotGetResponse)
 		})
 	}
 }
+
 func TestClient_Delete(t *testing.T) {
 
-	ctx, cancel := context.WithCancel(context.Background())
-	defer cancel()
-	c := New()
-	err := c.Init(ctx, config.Spec{
-		Name: "mongodb",
-		Kind: "mongodb",
-		Properties: map[string]string{
-			"host":                      "localhost:27017",
-			"username":                  "admin",
-			"password":                  "password",
-			"database":                  "admin",
-			"collection":                "test",
-			"write_concurrency":         "",
-			"read_concurrency":          "",
-			"params":                    "",
-			"operation_timeout_seconds": "2",
-		},
-	})
-	key := nuid.Next()
-	require.NoError(t, err)
-	setRequest := types.NewRequest().
-		SetMetadataKeyValue("method", "set").
-		SetMetadataKeyValue("key", key).
-		SetData([]byte("some-data"))
-
-	_, err = c.Do(ctx, setRequest)
-	require.NoError(t, err)
-	getRequest := types.NewRequest().
-		SetMetadataKeyValue("method", "get").
-		SetMetadataKeyValue("key", key)
-	gotGetResponse, err := c.Do(ctx, getRequest)
-	require.NoError(t, err)
-	require.NotNil(t, gotGetResponse)
-	require.EqualValues(t, []byte("some-data"), gotGetResponse.Data)
-
-	delRequest := types.NewRequest().
-		SetMetadataKeyValue("method", "delete").
-		SetMetadataKeyValue("key", key)
-	_, err = c.Do(ctx, delRequest)
-	require.NoError(t, err)
-	gotGetResponse, err = c.Do(ctx, getRequest)
-	require.Error(t, err)
-	require.Nil(t, gotGetResponse)
-}
-func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -338,72 +152,35 @@ func TestClient_Do(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "valid request",
+			name: "valid Delete",
 			cfg: config.Spec{
-				Name: "mongodb",
-				Kind: "mongodb",
+				Name: "stores-aerospike",
+				Kind: "stores.aerospike",
 				Properties: map[string]string{
-					"host":                      "localhost:27017",
-					"username":                  "admin",
-					"password":                  "password",
-					"database":                  "admin",
-					"collection":                "test",
-					"write_concurrency":         "",
-					"read_concurrency":          "",
-					"params":                    "",
-					"operation_timeout_seconds": "2",
+					"host": "127.0.0.1",
+					"port": "3000",
 				},
 			},
 			request: types.NewRequest().
-				SetMetadataKeyValue("method", "set").
+				SetMetadataKeyValue("method", "delete").
 				SetMetadataKeyValue("key", "some-key").
-				SetData([]byte("some-data")),
-			wantErr: false,
-		},
-		{
-			name: "invalid request - bad method",
+				SetMetadataKeyValue("user_key", "user_key1").
+				SetMetadataKeyValue("namespace", "test"),
+		}, {
+			name: "invalid Delete - no key",
 			cfg: config.Spec{
-				Name: "mongodb",
-				Kind: "mongodb",
+				Name: "stores-aerospike",
+				Kind: "stores.aerospike",
 				Properties: map[string]string{
-					"host":                      "localhost:27017",
-					"username":                  "admin",
-					"password":                  "password",
-					"database":                  "admin",
-					"collection":                "test",
-					"write_concurrency":         "",
-					"read_concurrency":          "",
-					"params":                    "",
-					"operation_timeout_seconds": "2",
+					"host": "127.0.0.1",
+					"port": "3000",
 				},
 			},
 			request: types.NewRequest().
-				SetMetadataKeyValue("method", "bad-method").
+				SetMetadataKeyValue("method", "delete").
 				SetMetadataKeyValue("key", "some-key").
-				SetData([]byte("some-data")),
-			wantErr: true,
-		},
-		{
-			name: "invalid request - no key",
-			cfg: config.Spec{
-				Name: "mongodb",
-				Kind: "mongodb",
-				Properties: map[string]string{
-					"host":                      "localhost:27017",
-					"username":                  "admin",
-					"password":                  "password",
-					"database":                  "admin",
-					"collection":                "test",
-					"write_concurrency":         "",
-					"read_concurrency":          "",
-					"params":                    "",
-					"operation_timeout_seconds": "2",
-				},
-			},
-			request: types.NewRequest().
-				SetMetadataKeyValue("method", "set").
-				SetData([]byte("some-data")),
-			wantErr: true,
+				SetMetadataKeyValue("user_key", "user_key1").
+				SetMetadataKeyValue("namespace", "test"),
 		},
 	}
 	for _, tt := range tests {
@@ -413,13 +190,65 @@ func TestClient_Do(t *testing.T) {
 			c := New()
 			err := c.Init(ctx, tt.cfg)
 			require.NoError(t, err)
-			_, err = c.Do(ctx, tt.request)
+			gotSetResponse, err := c.Do(ctx, tt.request)
 			if tt.wantErr {
 				require.Error(t, err)
 				return
 			}
 			require.NoError(t, err)
+			require.NotNil(t, gotSetResponse)
+		})
+	}
+}
 
+func TestClient_GetBatch(t *testing.T) {
+	var keys []*string
+	key := "some-key"
+	keys = append(keys, &key)
+	k := GetBatchRequest{
+		KeyNames:  keys,
+		Namespace: "test",
+		BinNames:  nil,
+	}
+	req, err := json.Marshal(k)
+	require.NoError(t, err)
+	tests := []struct {
+		name    string
+		cfg     config.Spec
+		request *types.Request
+		wantErr bool
+	}{
+		{
+			name: "valid GetBatch",
+			cfg: config.Spec{
+				Name: "stores-aerospike",
+				Kind: "stores.aerospike",
+				Properties: map[string]string{
+					"host": "127.0.0.1",
+					"port": "3000",
+				},
+			},
+			request: types.NewRequest().
+				SetData(req).
+				SetMetadataKeyValue("method", "get_batch").
+				SetMetadataKeyValue("user_key", "user_key1").
+				SetMetadataKeyValue("namespace", "test"),
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			ctx, cancel := context.WithCancel(context.Background())
+			defer cancel()
+			c := New()
+			err := c.Init(ctx, tt.cfg)
+			require.NoError(t, err)
+			gotSetResponse, err := c.Do(ctx, tt.request)
+			if tt.wantErr {
+				require.Error(t, err)
+				return
+			}
+			require.NoError(t, err)
+			require.NotNil(t, gotSetResponse)
 		})
 	}
 }

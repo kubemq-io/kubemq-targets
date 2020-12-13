@@ -6,14 +6,16 @@ import (
 )
 
 var methodsMap = map[string]string{
-	"get":    "get",
-	"set":    "set",
-	"delete": "delete",
+	"get":       "get",
+	"set":       "set",
+	"delete":    "delete",
+	"get_batch": "get_batch",
 }
 
 type metadata struct {
 	method    string
 	key       string
+	userKey   string
 	namespace string
 }
 
@@ -25,10 +27,9 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		return metadata{}, fmt.Errorf("error parsing method, %w", err)
 	}
 
-	m.key, err = meta.MustParseString("key")
-	if err != nil {
-		return metadata{}, fmt.Errorf("error on parsing key value, %w", err)
-	}
+	m.key = meta.ParseString("key", "")
+	m.userKey = meta.ParseString("user_key", "")
+	m.namespace = meta.ParseString("namespace", "")
 
 	return m, nil
 }

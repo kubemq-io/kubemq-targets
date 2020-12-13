@@ -7,21 +7,31 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("stores.mongodb").
-		SetDescription("MongoDB Target").
+		SetKind("stores.aerospike").
+		SetDescription("Aerospike Target").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
 				SetName("host").
-				SetDescription("Set MongoDB host address").
+				SetDescription("Set Aerospike host address").
 				SetMust(true).
 				SetDefault(""),
 		).
 		AddProperty(
 			common.NewProperty().
+				SetKind("int").
+				SetName("port").
+				SetDescription("Set Aerospike port address").
+				SetMust(true).
+				SetMin(0).
+				SetMax(math.MaxInt32).
+				SetDefault("3000"),
+		).
+		AddProperty(
+			common.NewProperty().
 				SetKind("string").
 				SetName("username").
-				SetDescription("Set MongoDB username").
+				SetDescription("Set Aerospike username").
 				SetMust(false).
 				SetDefault(""),
 		).
@@ -29,59 +39,17 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("password").
-				SetDescription("Set MongoDB password").
+				SetDescription("Set Aerospike password").
 				SetMust(false).
 				SetDefault(""),
-		).
-		AddProperty(
-			common.NewProperty().
-				SetKind("string").
-				SetName("database").
-				SetDescription("Set MongoDB database").
-				SetMust(true).
-				SetDefault(""),
-		).
-		AddProperty(
-			common.NewProperty().
-				SetKind("string").
-				SetName("collection").
-				SetDescription("Set MongoDB collection").
-				SetMust(true).
-				SetDefault(""),
-		).
-		AddProperty(
-			common.NewProperty().
-				SetKind("string").
-				SetName("params").
-				SetDescription("Set MongoDB params").
-				SetMust(false).
-				SetDefault(""),
-		).
-		AddProperty(
-			common.NewProperty().
-				SetKind("string").
-				SetName("read_concurrency").
-				SetDescription("Set MongoDB read concurrency").
-				SetOptions([]string{"local", "majority", "available", "linearizable", "snapshot"}).
-				SetMust(false).
-				SetDefault("local"),
-		).
-		AddProperty(
-			common.NewProperty().
-				SetKind("string").
-				SetName("write_concurrency").
-				SetDescription("Set MongoDB write concurrency").
-				SetOptions([]string{"majority", "Other"}).
-				SetMust(false).
-				SetDefault("majority"),
 		).
 		AddProperty(
 			common.NewProperty().
 				SetKind("int").
-				SetName("operation_timeout_seconds").
-				SetDescription("Set MongoDB operation timeout seconds").
+				SetName("timeout").
+				SetDescription("Set aerospike timeout seconds").
 				SetMust(false).
-				SetDefault("30").
+				SetDefault("5").
 				SetMin(0).
 				SetMax(math.MaxInt32),
 		).
@@ -89,8 +57,8 @@ func Connector() *common.Connector {
 			common.NewMetadata().
 				SetName("method").
 				SetKind("string").
-				SetDescription("Set MongoDB execution method").
-				SetOptions([]string{"get", "set", "delete"}).
+				SetDescription("Set aerospike execution method").
+				SetOptions([]string{"get", "set", "delete", "get_batch"}).
 				SetDefault("get").
 				SetMust(true),
 		).
@@ -98,7 +66,24 @@ func Connector() *common.Connector {
 			common.NewMetadata().
 				SetName("key").
 				SetKind("string").
-				SetDescription("Set MongoDB key").
-				SetMust(true),
+				SetDescription("Set aerospike key").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("user_key").
+				SetKind("string").
+				SetDescription("Set aerospike user key").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("namespace").
+				SetKind("string").
+				SetDescription("Set aerospike namespace").
+				SetDefault("").
+				SetMust(false),
 		)
 }

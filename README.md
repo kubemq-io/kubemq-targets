@@ -56,6 +56,7 @@ A list of supported targets is below.
 |            | [Couchbase](https://www.couchbase.com/)                             |stores.couchbase      | [Usage](targets/stores/couchbase)                  | [Example](examples/stores/couchbase)    |
 |            | [Percona](https://www.percona.com/)                                 |stores.percona        | [Usage](targets/stores/percona)                    | [Example](examples/stores/percona)      |
 |            | [Cockroachdb](https://www.cockroachlabs.com/)                       |stores.cockroachdb    | [Usage](targets/stores/cockroachdb)                | [Example](examples/stores/cockroachdb)  |
+|            | [Aerospike](https://www.aerospike.com/)                             |stores.aerospike      | [Usage](targets/stores/aerospike)                  | [Example](examples/stores/aerospike)    |
 | Messaging  |                                                                     |                              |                                                    |                                         |
 |            | [Kafka](https://kafka.apache.org/)                                  |messaging.kafka       | [Usage](targets/messaging/kafka)                   | [Example](examples/messaging/kafka)     |
 |            | [Nats](https://nats.io/)                                            |messaging.nats        | [Usage](targets/messaging/nats)                    | [Example](examples/messaging/nats)     |
