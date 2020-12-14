@@ -33,6 +33,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/cockroachdb"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/elastic"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/percona"
+	"github.com/kubemq-hub/kubemq-targets/targets/stores/rethinkdb"
 
 	"github.com/kubemq-hub/kubemq-targets/config"
 	awsmariadb "github.com/kubemq-hub/kubemq-targets/targets/aws/rds/mariadb"
@@ -393,6 +394,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 			return nil, err
 		}
 		return target, nil
+	case "stores.rethinkdb":
+		target := rethinkdb.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
 	case "serverless.openfaas":
 		target := openfaas.New()
 		if err := target.Init(ctx, cfg); err != nil {
@@ -477,6 +484,7 @@ func Connectors() common.Connectors {
 		cockroachdb.Connector(),
 		percona.Connector(),
 		aerospike.Connector(),
+		rethinkdb.Connector(),
 
 		// http
 		http.Connector(),
