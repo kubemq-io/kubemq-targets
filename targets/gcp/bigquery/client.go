@@ -3,9 +3,9 @@ package bigquery
 import (
 	"cloud.google.com/go/bigquery"
 	"context"
-	"encoding/json"
 	"errors"
 	"fmt"
+	jsoniter "github.com/json-iterator/go"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
@@ -13,6 +13,8 @@ import (
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
 )
+
+var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 type Client struct {
 	name   string
@@ -153,19 +155,18 @@ func (c *Client) deleteDataSet(ctx context.Context, meta metadata) (*types.Respo
 }
 
 func (c *Client) insert(ctx context.Context, meta metadata, body []byte) (*types.Response, error) {
-	var metaData []genericRecord
-
-	err := json.Unmarshal(body, &metaData)
+	ir, err := newInsertRecord(body)
 	if err != nil {
 		return nil, err
 	}
 	ins := c.client.Dataset(meta.datasetID).Table(meta.tableName).Inserter()
-	err = ins.Put(ctx, metaData)
+	err = ins.Put(ctx, ir.records)
 	if err != nil {
 		return nil, err
 	}
 	return types.NewResponse().
-			SetMetadataKeyValue("result", "ok"),
+			SetMetadataKeyValue("result", "ok").
+			SetMetadataKeyValue("insert_rows", fmt.Sprintf("%d", len(ir.records))),
 		nil
 }
 

@@ -50,8 +50,6 @@ bindings:
 
 ### Create Column Family
 
-create a new column family
-
 Create Column Family:
 
 | Metadata Key      | Required | Description                             | Possible values                            |
@@ -76,8 +74,6 @@ Example:
 
 ### Create Table
 
-create a new table.
-
 Create a table:
 
 | Metadata Key | Required | Description                             | Possible values                         |
@@ -99,8 +95,6 @@ Example:
 ```
 
 ### Delete Table
-
-delete table by name
 
 Delete the table:
 
@@ -126,9 +120,7 @@ Example:
 
 ### Write Rows
 
-write new rows to table by column family
-
-Write rows to table:
+Write new rows to table by column family
 
 | Metadata Key      | Required | Description                             | Possible values                         |
 |:------------------|:---------|:----------------------------------------|:----------------------------------------|
@@ -151,9 +143,7 @@ Example:
 
 ### Delete Rows
 
-delete rows from table by prefix
-
-Delete rows from the table:
+Delete rows from table by prefix
 
 | Metadata Key      | Required | Description                             | Possible values                         |
 |:------------------|:---------|:----------------------------------------|:----------------------------------------|
@@ -175,9 +165,9 @@ Example:
 ```
 
 
-### get all Rows
+### Get All Rows
 
-get all rows from the table:
+Get all rows from the table:
 
 | Metadata Key      | Required | Description                  | Possible values                            |
 |:------------------|:---------|:-----------------------------|:-------------------------------------------|

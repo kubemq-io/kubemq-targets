@@ -3,7 +3,6 @@ package bigquery
 import (
 	"cloud.google.com/go/bigquery"
 	"context"
-	"encoding/json"
 	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"

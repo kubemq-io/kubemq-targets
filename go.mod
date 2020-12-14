@@ -39,7 +39,7 @@ require (
 	github.com/go-stomp/stomp v2.0.6+incompatible
 	github.com/gocql/gocql v0.0.0-20200815110948-5378c8f664e9
 	github.com/golang/protobuf v1.4.2
-	github.com/google/uuid v1.1.2
+	github.com/google/uuid v1.1.2 // indirect
 	github.com/googleapis/gax-go/v2 v2.0.5
 	github.com/hazelcast/hazelcast-go-client v0.6.0
 	github.com/jpillora/backoff v1.0.0 // indirect
