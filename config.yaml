@@ -10,18 +10,7 @@ bindings:
       kind: gcp.bigquery
       properties:
         credentials: |-
-          {
-            "type": "service_account",
-            "project_id": "kubemq",
-            "private_key_id": "c684d1d53802330340294a758c71fbf9cb543bdc",
-            "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDFZ5koJRlweB98\n+krNPgkfAmZeZ7VYL66QTc9wUGk7PghYGiDJSHK4qriqVBSi7rOYlB+bGqv/Ed0p\nrR4F2ounJAWJ9K+fz1mlGmet0bxz/R+kqMEJ74FF7f4fDa4OQmzTcwIrLOREaeH+\n0ZT++8D8Cx8+G6frwiU9/fWzd/wzM9YuyYYnHoXy8+4hu7jo4UGgWD2rnmX+yP2l\nPX81aihIn6JDlfjjLgzgLSeCWqq+RHHqRXrQZ9CFVnBOYD2dlpnn58bb7zo6Jy9R\nyylrEGsw96AYMJMYniHvZfvhf3I7km7HDDWtsWktqGcZyXIWZgVrR/3LfqkrmA6Q\nDh8XT5qjAgMBAAECggEAA7T3p01Vtkr11xRMJfaC7VYk3fj3QCSvvn33kJWx+YQn\nW/WBpXClgYTohX+hXj3lRCQ5Q7cIgSMGEtZGuLgV5JmZ5lv16vurJJ04/TFHEgEw\nKu4QUe4cG1gQwZHcMYsFyCK3aQrQGTNzzvkt4cE7KoB69wubPPjJrOmr8ibP/EDL\nHiM9zBm3a+ejU33f8oIm6B4mNFlDkYTEACLISZtnSzBn9rXM6SJi1vUdHgLEyEg/\nweytEWyinNzpUtLSI1JCWbYJ5eRXEwmAnDWcYDIkjYRQmimsEcDRUEnSPfRmPXUh\nMw6oqrfqB3k6ZQLmok8g/Nk4c5m5rl/bCENAA95SgQKBgQD5xoorCSbtBVBqA2gs\nUZGgERjCYLVSotH4UsCj+zfLCfzH1n84X7Vcz5sPzrgjy8NaEJ7bvn7TJqqymCSg\n2cB0SLKViz4bf0Q4asJjPmVu09+9l0VAeW0luFxDiEL3Ba2OkjqkAuQpoyBS3sz5\nFRtyl+g2nefgcWQ3+0LVqZ6YUQKBgQDKUvR7tGVAq0TR9ZUfO5/FJM0BSndgcLJ5\nn9iSwZxnhbOrvJm+PStPiuUBsf6VSjYy2zmNb9tkPBmskiWATm6fYzfFKR55jhy6\nXCvgbMSfzCH7yEgM2PluQXro7ryUV07T9rhjD+p+Et45wy0VdbEQeQ0h+u9FhFpg\nIBtikuz6swKBgQDinGmQv/3r/u1FMZAa3Wp0we4ntFvt/EDpvhJ+9BZbhNUtbYMA\n33yJFuXFArT37Q9wsDGghoVEBwnJfNWGhejg13AG00zm36FCWkHAjsSyN1IADbVL\n2J7ZIRm8P20Z9rHO7wZ69RCSYiiaZv+qYKcFYaLRopPUgqv9Sl4JwZlc8QKBgB0u\n2/7f5V7vlUynnKvVoNUB2uQdxpxNhSDP8qAwdwvjmCfkW1S6Y/3kLeYRs4P7IVgy\nkNma0c1icd2XcvtP1Nr+p7Ozm6ay3efvlZCYf8AA5MH5gJMB1PCXV1Az51WKRl+C\njdQUHqGyvQUd5unagQC8RS2qkUq4rYSB/RE52h7LAoGBAO4930MlEDiJUAtOh/mP\nB+U7X1T3FXKiUx2HL8v44IW8RFGZQb+pId8QI8hu6Gy/hWg4EllrxMOpgsVRHoa0\nPwHklHrNrb1SIRwNoWnVdyT4lR5/Ojlzb8gu98zhfE/Tsu3ZhQB0vN7ZI2V25MGN\nr7RJgHs4cXTM6Xt98+E11FTc\n-----END PRIVATE KEY-----\n",
-            "client_email": "kubemq-bigquery-sa@kubemq.iam.gserviceaccount.com",
-            "client_id": "101585838711302958819",
-            "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-            "token_uri": "https://oauth2.googleapis.com/token",
-            "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-            "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/kubemq-bigquery-sa%40kubemq.iam.gserviceaccount.com"
-          }
+
         project_id: kubemq
     properties:
       log_level: debug
