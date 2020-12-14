@@ -29,6 +29,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/firebase"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/ibmmq"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/nats"
+	"github.com/kubemq-hub/kubemq-targets/targets/stores/aerospike"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/cockroachdb"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/elastic"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/percona"
@@ -386,6 +387,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 			return nil, err
 		}
 		return target, nil
+	case "stores.aerospike":
+		target := aerospike.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
 	case "serverless.openfaas":
 		target := openfaas.New()
 		if err := target.Init(ctx, cfg); err != nil {
@@ -469,6 +476,7 @@ func Connectors() common.Connectors {
 		couchbase.Connector(),
 		cockroachdb.Connector(),
 		percona.Connector(),
+		aerospike.Connector(),
 
 		// http
 		http.Connector(),
