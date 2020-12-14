@@ -1,13 +1,16 @@
+apiPort: 8081
 bindings:
-- name: aerospike
-  source:
-    kind: kubemq.query
+  - name: bigquery
+    source:
+      kind: kubemq.q
+      properties:
+        address: localhost:50000
+        channel: query.bigquery
+    target:
+      kind: gcp.bigquery
+      properties:
+        credentials: |-
+
+        project_id: kubemq
     properties:
-      address: localhost:50000
-      channel: query.aerospike
-  target:
-    kind: stores.aerospike
-    properties:
-      host: localhost
-      port: "3000"
-  properties: {}
+      log_level: debug

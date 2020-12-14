@@ -246,20 +246,15 @@ Example:
 
 insert rows to table
 
-Insert To Table this method required a body of rows of string [bigquery.value]
+Insert To Table this method required a body of rows as json array
 
-
-
-Example how to create the struct:
-```go
-    var rows = []map[string]bigquery.Value
-	firstRow := make(map[string]bigquery.Value)
-	firstRow["name"] = "myName4"
-	firstRow["age"] = 25
-	rows = append(rows, firstRow)
-	rows = append(rows, secondRow)
-	bRows, err := json.Marshal(&rows)
+```json
+[
+ {"id":"id-1","service":{"id":"service_id_1","value":0.1},"time":"1980-10-10T00:00:00Z"},
+ {"id":"id-2","service":{"id":"service_id_2","value":0.1},"time":"1980-10-10T00:00:00Z"}
+ ]
 ```
+
 
 | Metadata Key | Required | Description                             | Possible values       |
 |:-------------|:---------|:----------------------------------------|:----------------------|
