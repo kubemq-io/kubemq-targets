@@ -1,0 +1,14 @@
+bindings:
+  - name: rethinkdb
+    source:
+      kind: kubemq.query
+      properties:
+        address: localhost:50000
+        channel: query.rethinkdb
+    target:
+      kind: stores.rethinkdb
+      properties:
+        host: localhost:28015
+        password: root
+        username: root
+    properties: {}
