@@ -1,0 +1,6 @@
+docker run -i --init \
+--name singlestore-ciab \
+-e LICENSE_KEY=[INPUT_YOUR_LICENSE_KEY] \
+-e ROOT_PASSWORD = root\
+-p 3306:3306 -p 8080:8080 \
+memsql/cluster-in-a-box
