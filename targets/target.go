@@ -31,9 +31,11 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/nats"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/aerospike"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/cockroachdb"
+	"github.com/kubemq-hub/kubemq-targets/targets/stores/consulkv"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/elastic"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/percona"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/rethinkdb"
+	"github.com/kubemq-hub/kubemq-targets/targets/stores/singlestore"
 
 	"github.com/kubemq-hub/kubemq-targets/config"
 	awsmariadb "github.com/kubemq-hub/kubemq-targets/targets/aws/rds/mariadb"
@@ -400,6 +402,18 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 			return nil, err
 		}
 		return target, nil
+	case "stores.singlestore":
+		target := singlestore.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
+	case "stores.consulkv":
+		target := consulkv.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
 	case "serverless.openfaas":
 		target := openfaas.New()
 		if err := target.Init(ctx, cfg); err != nil {
@@ -485,6 +499,8 @@ func Connectors() common.Connectors {
 		percona.Connector(),
 		aerospike.Connector(),
 		rethinkdb.Connector(),
+		singlestore.Connector(),
+		consulkv.Connector(),
 
 		// http
 		http.Connector(),

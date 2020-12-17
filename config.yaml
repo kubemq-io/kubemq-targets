@@ -1,16 +1,12 @@
-apiPort: 8081
 bindings:
-  - name: bigquery
-    source:
-      kind: kubemq.q
-      properties:
-        address: localhost:50000
-        channel: query.bigquery
-    target:
-      kind: gcp.bigquery
-      properties:
-        credentials: |-
-
-        project_id: kubemq
+- name: consulkv
+  source:
+    kind: kubemq.query
     properties:
-      log_level: debug
+      address: localhost:50000
+      channel: query.consulkv
+  target:
+    kind: stores.consulkv
+    properties:
+      address: localhost:8500
+  properties: {}

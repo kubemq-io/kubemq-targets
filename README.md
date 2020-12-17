@@ -58,6 +58,7 @@ A list of supported targets is below.
 |            | [Cockroachdb](https://www.cockroachlabs.com/)                       |stores.cockroachdb    | [Usage](targets/stores/cockroachdb)                | [Example](examples/stores/cockroachdb)  |
 |            | [Aerospike](https://www.aerospike.com/)                             |stores.aerospike      | [Usage](targets/stores/aerospike)                  | [Example](examples/stores/aerospike)    |
 |            | [RethinkDB](https://rethinkdb.com/)                                 |stores.rethinkdb      | [Usage](targets/stores/rethinkdb)                  | [Example](examples/stores/rethinkdb)    |
+|            | [SingleStore](https://www.singlestore.com/)                         |stores.singlestore    | [Usage](targets/stores/singlestore)                     | [Example](examples/stores/singlestore)       |
 | Messaging  |                                                                     |                              |                                                    |                                         |
 |            | [Kafka](https://kafka.apache.org/)                                  |messaging.kafka       | [Usage](targets/messaging/kafka)                   | [Example](examples/messaging/kafka)     |
 |            | [Nats](https://nats.io/)                                            |messaging.nats        | [Usage](targets/messaging/nats)                    | [Example](examples/messaging/nats)     |

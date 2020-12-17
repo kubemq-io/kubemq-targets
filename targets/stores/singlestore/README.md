@@ -1,21 +1,21 @@
-# Kubemq Mssql-aws Target Connector
+# Kubemq SingleStore Target Connector
 
-Kubemq mssql-aws target connector allows services using kubemq server to access mssql-aws database services.
+Kubemq singlestore target connector allows services using kubemq server to access singlestore database services.
 
 ## Prerequisites
-The following are required to run the mssql target connector:
+The following are required to run the singlestore target connector:
 
 - kubemq cluster
-- mssql server
+- singlestore server
 - kubemq-targets deployment
 
 ## Configuration
 
-Mssql target connector configuration properties:
+SingleStore target connector configuration properties:
 
 | Properties Key                  | Required | Description                                 | Example                                                                |
 |:--------------------------------|:---------|:--------------------------------------------|:-----------------------------------------------------------------------|
-| connection                      | yes      | mssql connection string address             | "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master" |
+| connection                      | yes      | singlestore connection string address       | "root:singlestore@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local" |
 | max_idle_connections            | no       | set max idle connections                    | "10"                                                                   |
 | max_open_connections            | no       | set max open connections                    | "100"                                                                  |
 | connection_max_lifetime_seconds | no       | set max lifetime for connections in seconds | "3600"                                                                 |
@@ -25,24 +25,24 @@ Example:
 
 ```yaml
 bindings:
-  - name: kubemq-query-aws-mssql
+  - name: kubemq-query-singlestore
     source:
       kind: kubemq.query
       name: kubemq-query
       properties:
         address: "kubemq-cluster:50000"
-        client_id: "kubemq-query-mssql-connector"
+        client_id: "kubemq-query-singlestore-connector"
         auth_token: ""
-        channel: "query.aws.rds.mssql"
+        channel: "query.singlestore"
         group:   ""
         auto_reconnect: "true"
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: aws.rds.mssql
-      name: aws-rds-mssql
+      kind: stores.singlestore
+      name: stores-singlestore
       properties:
-        connection: "sqlserver://sa:n8x2Nz!f@localhost:1433?database=master"
+        connection: "root:root@(localhost:3306)/test?charset=utf8&parseTime=True&loc=Local"
         max_idle_connections: "10"
         max_open_connections: "100"
         connection_max_lifetime_seconds: "3600"
@@ -101,7 +101,6 @@ Exec request data setting:
 Example:
 
 Exec string:
-
 ```sql
 INSERT INTO post(ID,TITLE,CONTENT,BIGNUMBER,BOOLVALUE) VALUES
 	                       (0,NULL,'Content One',1231241241231231123,true),
@@ -141,7 +140,6 @@ Transaction request data setting:
 Example:
 
 Transaction string:
-
 ```sql
 DROP TABLE IF EXISTS post;
 CREATE TABLE post (
@@ -153,7 +151,6 @@ CREATE TABLE post (
          CONSTRAINT pk_post PRIMARY KEY(ID)
        );
 ```
-
 ```json
 {
   "metadata": {
