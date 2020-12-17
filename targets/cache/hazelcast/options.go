@@ -60,9 +60,6 @@ func parseOptions(cfg config.Spec) (options, error) {
 	o.sslcertificatekey = cfg.Properties.ParseString("cert_key", "")
 
 	o.serverName = cfg.Properties.ParseString("server_name", defaultServerName)
-	if err != nil {
-		return options{}, fmt.Errorf("error parsing server_name , %w", err)
-	}
 
 	return o, nil
 }

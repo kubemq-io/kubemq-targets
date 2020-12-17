@@ -330,6 +330,7 @@ func TestClient_Delete(t *testing.T) {
 	require.Error(t, err)
 	require.Nil(t, gotGetResponse)
 }
+
 func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name    string

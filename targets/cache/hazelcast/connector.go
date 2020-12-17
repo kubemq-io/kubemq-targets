@@ -73,8 +73,8 @@ func Connector() *common.Connector {
 		AddProperty(
 			common.NewProperty().
 				SetKind("bool").
-				SetName("tls").
-				SetDescription("Set if use tls").
+				SetName("ssl").
+				SetDescription("Set if use ssl").
 				SetMust(false).
 				SetDefault("false"),
 		).

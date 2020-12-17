@@ -40,6 +40,7 @@ require (
 	github.com/gocql/gocql v0.0.0-20200815110948-5378c8f664e9
 	github.com/golang/protobuf v1.4.2
 	github.com/googleapis/gax-go/v2 v2.0.5
+	github.com/hashicorp/consul/api v1.1.0
 	github.com/hazelcast/hazelcast-go-client v0.6.0
 	github.com/jpillora/backoff v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.10
