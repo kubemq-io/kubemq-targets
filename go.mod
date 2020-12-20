@@ -28,6 +28,7 @@ require (
 	github.com/aws/aws-sdk-go v1.34.31
 	github.com/bradfitz/gomemcache v0.0.0-20190913173617-a41fca850d0b
 	github.com/cockroachdb/cockroach-go v2.0.1+incompatible
+	github.com/colinmarc/hdfs/v2 v2.1.1
 	github.com/couchbase/gocb/v2 v2.1.6
 	github.com/denisenkom/go-mssqldb v0.0.0-20200910202707-1e08a3fab204
 	github.com/eclipse/paho.mqtt.golang v1.2.0
