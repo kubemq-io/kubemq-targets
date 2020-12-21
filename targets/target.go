@@ -29,6 +29,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/firebase"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/ibmmq"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/nats"
+	"github.com/kubemq-hub/kubemq-targets/targets/storage/hdfs"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/aerospike"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/cockroachdb"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/consulkv"
@@ -426,6 +427,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 			return nil, err
 		}
 		return target, nil
+	case "storage.hdfs":
+		target := hdfs.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
 	case "azure.storage.blob":
 		target := blob.New()
 		if err := target.Init(ctx, cfg); err != nil {
@@ -516,6 +523,7 @@ func Connectors() common.Connectors {
 
 		//storage
 		minio.Connector(),
+		hdfs.Connector(),
 
 		// serverless
 		openfaas.Connector(),

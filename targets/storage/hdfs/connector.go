@@ -1,4 +1,4 @@
-package s3
+package hdfs
 
 import (
 	"github.com/kubemq-hub/builder/connector/common"
@@ -6,96 +6,56 @@ import (
 
 func Connector() *common.Connector {
 	return common.NewConnector().
-		SetKind("aws.s3").
-		SetDescription("AWS S3 Target").
+		SetKind("storage.hdfs").
+		SetDescription("Hadoop Target").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
-				SetName("aws_key").
-				SetDescription("Set S3 aws key").
+				SetName("address").
+				SetDescription("Set Hadoop address").
 				SetMust(true).
 				SetDefault(""),
 		).
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
-				SetName("aws_secret_key").
-				SetDescription("Set S3 aws secret key").
-				SetMust(true).
-				SetDefault(""),
-		).
-		AddProperty(
-			common.NewProperty().
-				SetKind("string").
-				SetName("region").
-				SetDescription("Set S3 aws region").
-				SetMust(true).
-				SetDefault(""),
-		).
-		AddProperty(
-			common.NewProperty().
-				SetKind("string").
-				SetName("token").
-				SetDescription("Set S3 token").
+				SetName("user").
+				SetDescription("Set Hadoop user").
 				SetMust(false).
 				SetDefault(""),
-		).
-		AddProperty(
-			common.NewProperty().
-				SetKind("bool").
-				SetName("downloader").
-				SetDescription("Create S3 downloader instance").
-				SetMust(false).
-				SetDefault("false"),
-		).
-		AddProperty(
-			common.NewProperty().
-				SetKind("bool").
-				SetName("uploader").
-				SetDescription("Create S3 uploader instance").
-				SetMust(false).
-				SetDefault("false"),
 		).
 		AddMetadata(
 			common.NewMetadata().
 				SetName("method").
 				SetKind("string").
-				SetDescription("Set S3 execution method").
-				SetOptions([]string{"list_buckets", "list_bucket_items", "create_bucket", "delete_bucket", "delete_item_from_bucket", "delete_all_items_from_bucket", "upload_item", "copy_item", "get_item"}).
-				SetDefault("upload_item").
+				SetDescription("Set Hadoop execution method").
+				SetOptions([]string{"write_file", "remove_file", "read_file", "rename_file", "mkdir", "stat"}).
+				SetDefault("read_file").
 				SetMust(true),
 		).
 		AddMetadata(
 			common.NewMetadata().
-				SetName("bucket_name").
+				SetName("file_path").
 				SetKind("string").
-				SetDescription("Set S3 bucket name").
+				SetDescription("Set Hadoop file path").
 				SetDefault("").
 				SetMust(false),
 		).
 		AddMetadata(
 			common.NewMetadata().
-				SetName("copy_source").
+				SetName("old_file_path").
 				SetKind("string").
-				SetDescription("Set S3 copy source").
+				SetDescription("Set Hadoop old file path").
 				SetDefault("").
 				SetMust(false),
 		).
 		AddMetadata(
 			common.NewMetadata().
-				SetKind("bool").
-				SetName("wait_for_completion").
-				SetDescription("Set S3 wait for completion until retuning response").
-				SetMust(false).
-				SetDefault("false"),
-		).
-		AddMetadata(
-			common.NewMetadata().
 				SetKind("string").
-				SetName("item_name").
-				SetDescription("Set S3 item name").
+				SetName("file_mode").
+				SetDescription("Set os file mode").
 				SetMust(false).
-				SetDefault(""),
+				SetDefault("0777"),
 		)
 
 }

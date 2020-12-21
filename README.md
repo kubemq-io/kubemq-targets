@@ -68,6 +68,7 @@ A list of supported targets is below.
 |            | [IBM-MQ](https://developer.ibm.com/components/ibm-mq)               |messaging.ibmmq    | [Usage](targets/messaging/ibmmq)                   | [Example](examples/messaging/ibmmq)  |
 | Storage    |                                                                     |                              |                                                    |                                         |
 |            | [Minio/S3](https://min.io/)                                         |storage.minio         | [Usage](targets/storage/minio)                     | [Example](examples/storage/minio)       |
+|            | [hadoop/hdfs](https://hadoop.apache.org/)                           |storage.hdfs         | [Usage](targets/storage/hdfs)                     | [Example](examples/storage/hdfs)       |
 | Serverless |                                                                     |                              |                                                    |                                         |
 |            | [OpenFaas](https://www.openfaas.com/)                               |serverless.openfaas   | [Usage](targets/serverless/openfass)               | [Example](examples/serverless/openfaas) |
 | Http       |                                                                     |                              |                                                    |                                         |

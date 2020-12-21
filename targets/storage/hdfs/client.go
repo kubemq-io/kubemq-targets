@@ -1,4 +1,4 @@
-package s3
+package hdfs
 
 import (
 	"context"
@@ -63,7 +63,11 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 
 func (c *Client) writeFile(meta metadata, data []byte) (*types.Response, error) {
 
-	err := c.client.CreateEmptyFile(meta.filePath)
+	writer, err := c.client.Create(meta.filePath)
+	if err != nil {
+		return nil, err
+	}
+	_, err = writer.Write(data)
 	if err != nil {
 		return nil, err
 	}
@@ -74,9 +78,6 @@ func (c *Client) writeFile(meta metadata, data []byte) (*types.Response, error) 
 
 func (c *Client) makeDir(meta metadata) (*types.Response, error) {
 	err := c.client.Mkdir(meta.filePath, meta.fileMode)
-	if err != nil {
-		return nil, err
-	}
 	if err != nil {
 		return nil, err
 	}
@@ -154,8 +155,4 @@ func setClientOption(opts options) hdfs.ClientOptions {
 		c.User = opts.user
 	}
 	return c
-}
-
-func createFileStat() {
-
 }

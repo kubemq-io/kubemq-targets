@@ -1,4 +1,4 @@
-package s3
+package hdfs
 
 import (
 	"context"
@@ -44,7 +44,7 @@ func TestClient_Init(t *testing.T) {
 				Kind: "storage.hdfs",
 				Properties: map[string]string{
 					"address": dat.address,
-					"user":    dat.address,
+					"user":    dat.user,
 				},
 			},
 			wantErr: false,
@@ -87,7 +87,7 @@ func TestClient_Mkdir(t *testing.T) {
 		Kind: "storage.hdfs",
 		Properties: map[string]string{
 			"address": dat.address,
-			"user":    dat.address,
+			"user":    dat.user,
 		},
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
@@ -104,11 +104,19 @@ func TestClient_Mkdir(t *testing.T) {
 		{
 			name: "valid mkdir",
 			request: types.NewRequest().
-				SetMetadataKeyValue("file_path", "/hadoop/dfs/name").
-				SetMetadataKeyValue("file_mode", "0755").
+				SetMetadataKeyValue("file_path", "/test").
+				SetMetadataKeyValue("file_mode", "0777").
 				SetMetadataKeyValue("method", "mkdir"),
 			wantErr: false,
-		}, {
+		},
+		{
+			name: "invalid mkdir already exists",
+			request: types.NewRequest().
+				SetMetadataKeyValue("file_path", "/test").
+				SetMetadataKeyValue("file_mode", "0777").
+				SetMetadataKeyValue("method", "mkdir"),
+			wantErr: true,
+		},{
 			name: "invalid mkdir - missing path",
 			request: types.NewRequest().
 				SetMetadataKeyValue("file_mode", "0755").
@@ -145,7 +153,7 @@ func TestClient_Upload(t *testing.T) {
 		Kind: "storage.hdfs",
 		Properties: map[string]string{
 			"address": dat.address,
-			"user":    dat.address,
+			"user":    dat.user,
 		},
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
@@ -162,7 +170,16 @@ func TestClient_Upload(t *testing.T) {
 		{
 			name: "valid upload",
 			request: types.NewRequest().
-				SetMetadataKeyValue("file_path", "/test/foo.txt").
+				SetMetadataKeyValue("file_path", "/test/foo2.txt").
+				SetData(dat.file).
+				SetMetadataKeyValue("file_mode", "0777").
+				SetMetadataKeyValue("method", "write_file"),
+			wantErr: false,
+		},
+		{
+			name: "invalid upload",
+			request: types.NewRequest().
+				SetMetadataKeyValue("file_path", "/test/foo2.txt").
 				SetData(dat.file).
 				SetMetadataKeyValue("method", "write_file"),
 			wantErr: false,
@@ -182,195 +199,219 @@ func TestClient_Upload(t *testing.T) {
 	}
 }
 
-//
-//func TestClient_List_Bucket_Items(t *testing.T) {
-//	dat, err := getTestStructure()
-//	require.NoError(t, err)
-//	cfg := config.Spec{
-//		Name: "storage-hdfs",
-//		Kind: "storage.hdfs",
-//		Properties: map[string]string{
-//			"aws_key":        dat.awsKey,
-//			"aws_secret_key": dat.awsSecretKey,
-//			"region":         dat.region,
-//			"downloader":     "false",
-//			"uploader":       "false",
-//		},
-//	}
-//	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
-//	defer cancel()
-//	c := New()
-//
-//	err = c.Init(ctx, cfg)
-//	require.NoError(t, err)
-//	tests := []struct {
-//		name    string
-//		request *types.Request
-//		wantErr bool
-//	}{
-//		{
-//			name: "valid list",
-//			request: types.NewRequest().
-//				SetMetadataKeyValue("method", "list_bucket_items").
-//				SetMetadataKeyValue("bucket_name", dat.bucketName),
-//			wantErr: false,
-//		},
-//		{
-//			name: "invalid list - missing bucket_name",
-//			request: types.NewRequest().
-//				SetMetadataKeyValue("method", "list_bucket_items"),
-//			wantErr: true,
-//		},
-//	}
-//	for _, tt := range tests {
-//		t.Run(tt.name, func(t *testing.T) {
-//			got, err := c.Do(ctx, tt.request)
-//			if tt.wantErr {
-//				require.Error(t, err)
-//				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
-//				return
-//			}
-//			require.NoError(t, err)
-//			require.NotNil(t, got)
-//		})
-//	}
-//}
-//
-//func TestClient_Create_Bucket(t *testing.T) {
-//	dat, err := getTestStructure()
-//	require.NoError(t, err)
-//	cfg := config.Spec{
-//		Name: "storage-hdfs",
-//		Kind: "storage.hdfs",
-//		Properties: map[string]string{
-//			"aws_key":        dat.awsKey,
-//			"aws_secret_key": dat.awsSecretKey,
-//			"region":         dat.region,
-//			"downloader":     "false",
-//			"uploader":       "false",
-//		},
-//	}
-//	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
-//	defer cancel()
-//	c := New()
-//
-//	err = c.Init(ctx, cfg)
-//	require.NoError(t, err)
-//	tests := []struct {
-//		name    string
-//		request *types.Request
-//		wantErr bool
-//	}{
-//		{
-//			name: "valid create",
-//			request: types.NewRequest().
-//				SetMetadataKeyValue("method", "create_bucket").
-//				SetMetadataKeyValue("wait_for_completion", "true").
-//				SetMetadataKeyValue("bucket_name", dat.testBucketName),
-//			wantErr: false,
-//		},
-//		{
-//			name: "invalid create - missing bucket_name",
-//			request: types.NewRequest().
-//				SetMetadataKeyValue("method", "create_bucket"),
-//			wantErr: true,
-//		},
-//		{
-//			name: "invalid create - Already exists",
-//			request: types.NewRequest().
-//				SetMetadataKeyValue("method", "create_bucket").
-//				SetMetadataKeyValue("bucket_name", dat.testBucketName),
-//			wantErr: true,
-//		},
-//	}
-//	for _, tt := range tests {
-//		t.Run(tt.name, func(t *testing.T) {
-//			got, err := c.Do(ctx, tt.request)
-//			if tt.wantErr {
-//				require.Error(t, err)
-//				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
-//				return
-//			}
-//			require.NoError(t, err)
-//			require.NotNil(t, got)
-//		})
-//	}
-//}
-//
-//func TestClient_Upload_Item(t *testing.T) {
-//	dat, err := getTestStructure()
-//	require.NoError(t, err)
-//	cfg := config.Spec{
-//		Name: "storage-hdfs",
-//		Kind: "storage.hdfs",
-//		Properties: map[string]string{
-//			"aws_key":        dat.awsKey,
-//			"aws_secret_key": dat.awsSecretKey,
-//			"region":         dat.region,
-//			"downloader":     "false",
-//			"uploader":       "true",
-//		},
-//	}
-//	tests := []struct {
-//		name        string
-//		request     *types.Request
-//		wantErr     bool
-//		setUploader bool
-//	}{
-//		{
-//			name: "valid upload item",
-//			request: types.NewRequest().
-//				SetMetadataKeyValue("method", "upload_item").
-//				SetMetadataKeyValue("wait_for_completion", "true").
-//				SetMetadataKeyValue("bucket_name", dat.testBucketName).
-//				SetMetadataKeyValue("item_name", dat.itemName).
-//				SetData(dat.file),
-//			wantErr:     false,
-//			setUploader: true,
-//		},
-//		{
-//			name: "invalid upload - missing item",
-//			request: types.NewRequest().
-//				SetMetadataKeyValue("method", "upload_item").
-//				SetMetadataKeyValue("bucket_name", dat.testBucketName).
-//				SetData(dat.file),
-//			wantErr:     true,
-//			setUploader: true,
-//		},
-//		{
-//			name: "invalid upload - missing uploader",
-//			request: types.NewRequest().
-//				SetMetadataKeyValue("method", "upload_item").
-//				SetMetadataKeyValue("item_name", dat.itemName).
-//				SetMetadataKeyValue("bucket_name", dat.testBucketName),
-//			wantErr:     true,
-//			setUploader: false,
-//		},
-//	}
-//	for _, tt := range tests {
-//		t.Run(tt.name, func(t *testing.T) {
-//			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-//			defer cancel()
-//			c := New()
-//
-//			if !tt.setUploader {
-//				cfg.Properties["uploader"] = "false"
-//			} else {
-//				cfg.Properties["uploader"] = "true"
-//			}
-//			err = c.Init(ctx, cfg)
-//			require.NoError(t, err)
-//			got, err := c.Do(ctx, tt.request)
-//			if tt.wantErr {
-//				require.Error(t, err)
-//				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
-//				return
-//			}
-//			require.NoError(t, err)
-//			require.NotNil(t, got)
-//		})
-//	}
-//}
+
+func TestClient_ReadFile(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
+	cfg := config.Spec{
+		Name: "storage-hdfs",
+		Kind: "storage.hdfs",
+		Properties: map[string]string{
+			"address": dat.address,
+			"user":    dat.user,
+		},
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	defer cancel()
+	c := New()
+
+	err = c.Init(ctx, cfg)
+	require.NoError(t, err)
+	tests := []struct {
+		name    string
+		request *types.Request
+		wantErr bool
+	}{
+		{
+			name: "valid read",
+			request: types.NewRequest().
+				SetMetadataKeyValue("file_path", "/test/foo2.txt").
+				SetMetadataKeyValue("method", "read_file"),
+			wantErr: false,
+		},
+		{
+			name: "invalid read missing file_path",
+			request: types.NewRequest().
+				SetMetadataKeyValue("method", "read_file"),
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := c.Do(ctx, tt.request)
+			if tt.wantErr {
+				require.Error(t, err)
+				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
+				return
+			}
+			require.NoError(t, err)
+			require.NotNil(t, got)
+		})
+	}
+}
+
+func TestClient_Remove_File(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
+	cfg := config.Spec{
+		Name: "storage-hdfs",
+		Kind: "storage.hdfs",
+		Properties: map[string]string{
+			"address": dat.address,
+			"user":    dat.user,
+		},
+	}
+	tests := []struct {
+		name        string
+		request     *types.Request
+		wantErr     bool
+	}{
+		{
+			name: "valid Remove item",
+			request: types.NewRequest().
+				SetMetadataKeyValue("file_path", "/test/foo2.txt").
+				SetMetadataKeyValue("method", "remove_file"),
+			wantErr:     false,
+		},
+		{
+			name: "invalid Remove item - file does not exists",
+			request: types.NewRequest().
+				SetMetadataKeyValue("file_path", "/test/foo2.txt").
+				SetMetadataKeyValue("method", "remove_file"),
+			wantErr:     false,
+		},
+
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+			defer cancel()
+			c := New()
+
+			err = c.Init(ctx, cfg)
+			require.NoError(t, err)
+			got, err := c.Do(ctx, tt.request)
+			if tt.wantErr {
+				require.Error(t, err)
+				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
+				return
+			}
+			require.NoError(t, err)
+			require.NotNil(t, got)
+		})
+	}
+}
+
+func TestClient_Stat(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
+	cfg := config.Spec{
+		Name: "storage-hdfs",
+		Kind: "storage.hdfs",
+		Properties: map[string]string{
+			"address": dat.address,
+			"user":    dat.user,
+		},
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	defer cancel()
+	c := New()
+
+	err = c.Init(ctx, cfg)
+	require.NoError(t, err)
+	tests := []struct {
+		name    string
+		request *types.Request
+		wantErr bool
+	}{
+		{
+			name: "valid stat",
+			request: types.NewRequest().
+				SetMetadataKeyValue("file_path", "/test/foo.txt").
+				SetMetadataKeyValue("method", "stat"),
+			wantErr: false,
+		},{
+			name: "invalid stat - file does not exists",
+			request: types.NewRequest().
+				SetMetadataKeyValue("file_path", "/test/fake.txt").
+				SetMetadataKeyValue("method", "stat"),
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := c.Do(ctx, tt.request)
+			if tt.wantErr {
+				require.Error(t, err)
+				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
+				return
+			}
+			require.NoError(t, err)
+			require.NotNil(t, got)
+		})
+	}
+}
+
+
+func TestClient_Rename(t *testing.T) {
+	dat, err := getTestStructure()
+	require.NoError(t, err)
+	cfg := config.Spec{
+		Name: "storage-hdfs",
+		Kind: "storage.hdfs",
+		Properties: map[string]string{
+			"address": dat.address,
+			"user":    dat.user,
+		},
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	defer cancel()
+	c := New()
+
+	err = c.Init(ctx, cfg)
+	require.NoError(t, err)
+	tests := []struct {
+		name    string
+		request *types.Request
+		wantErr bool
+	}{
+		{
+			name: "valid rename",
+			request: types.NewRequest().
+				SetMetadataKeyValue("file_path", "/test/foo3.txt").
+				SetMetadataKeyValue("old_file_path", "/test/foo2.txt").
+				SetMetadataKeyValue("method", "rename_file"),
+			wantErr: false,
+		},{
+			name: "invalid rename - file does not exists",
+			request: types.NewRequest().
+				SetMetadataKeyValue("file_path", "/test/foo3.txt").
+				SetMetadataKeyValue("old_file_path", "/test/foo2.txt").
+				SetMetadataKeyValue("method", "rename_file"),
+			wantErr: true,
+		},{
+			name: "invalid rename - missing old file path",
+			request: types.NewRequest().
+				SetMetadataKeyValue("file_path", "/test/foo3.txt").
+				SetMetadataKeyValue("method", "rename_file"),
+			wantErr: true,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := c.Do(ctx, tt.request)
+			if tt.wantErr {
+				require.Error(t, err)
+				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
+				return
+			}
+			require.NoError(t, err)
+			require.NotNil(t, got)
+		})
+	}
+}
+
+
 //
 //func TestClient_Get_Item(t *testing.T) {
 //	dat, err := getTestStructure()
