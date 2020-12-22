@@ -1,12 +1,13 @@
 bindings:
-- name: consulkv
+- name: hdfs
   source:
     kind: kubemq.query
     properties:
       address: localhost:50000
-      channel: query.consulkv
+      channel: query.hdfs
   target:
-    kind: stores.consulkv
+    kind: storage.hdfs
     properties:
-      address: localhost:8500
+      address: localhost:9000
+      user: test_user
   properties: {}

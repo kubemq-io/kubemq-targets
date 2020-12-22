@@ -111,6 +111,19 @@ func (m Metadata) ParseInt(key string, defaultValue int) int {
 		return defaultValue
 	}
 }
+
+func (m Metadata) ParseOSFileMode(key string, defaultValue os.FileMode) os.FileMode {
+	if val, ok := m[key]; ok && val != "" {
+		parsedVal, err := strconv.ParseUint(val, 10, 32)
+		if err != nil {
+			return defaultValue
+		} else {
+			return os.FileMode(parsedVal)
+		}
+	} else {
+		return defaultValue
+	}
+}
 func (m Metadata) ParseIntWithRange(key string, defaultValue, min, max int) (int, error) {
 	val := m.ParseInt(key, defaultValue)
 	if val < min {
