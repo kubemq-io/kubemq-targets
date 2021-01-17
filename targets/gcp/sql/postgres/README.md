@@ -18,10 +18,11 @@ Postgres target connector configuration properties:
 | max_idle_connections            | no       | set max idle connections                    | "10"                                                                   |
 | max_open_connections            | no       | set max open connections                    | "100"                                                                  |
 | connection_max_lifetime_seconds | no       | set max lifetime for connections in seconds | "3600"                                                                 |
-| credentials                     | yes      | gcp credentials files                       | "<google json credentials"      |
-| db_user                         | yes      | gcp db user name files                      | "<google user"               |
-| db_name                         | yes      | gcp db name                                 | "<google instance name"      |
-| db_password                     | yes      | gcp db password                             | "<google db password"        |
+| credentials                     | yes      | gcp credentials files                       | "google json credentials"      |
+| instance_connection_name | yes      | set sql instance name | project:us-east1:db-porudction |
+| db_user                         | yes      | gcp db user name files                      | "google user"               |
+| db_name                         | yes      | gcp db name                                 | "google instance name"      |
+| db_password                     | yes      | gcp db password                             | "google db password"        |
 
 Example:
 
