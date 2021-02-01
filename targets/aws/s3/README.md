@@ -149,7 +149,7 @@ Example:
 ```json
 {
   "metadata": {
-    "method": "create_bucket",
+    "method": "upload_item",
     "bucket_name": "my_bucket_name",
     "item_name": "my_item_name"
   },
