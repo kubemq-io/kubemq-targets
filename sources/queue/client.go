@@ -24,7 +24,7 @@ const (
 
 type Client struct {
 	opts      options
-	client    *kubemq.Client
+	clients   []*kubemq.Client
 	log       *logger.Logger
 	target    middleware.Middleware
 	isStopped bool
@@ -38,22 +38,27 @@ func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
-
-	c.log = logger.NewLogger(fmt.Sprintf("kubemq-queue-source-%s", cfg.Name))
+	c.log = logger.NewLogger(fmt.Sprintf("kubemq-queue-transactional-source-%s", cfg.Name))
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
 		return err
 	}
-	c.client, err = kubemq.NewClient(ctx,
-		kubemq.WithAddress(c.opts.host, c.opts.port),
-		kubemq.WithClientId(c.opts.clientId),
-		kubemq.WithTransportType(kubemq.TransportTypeGRPC),
-		kubemq.WithAuthToken(c.opts.authToken),
-		kubemq.WithCheckConnection(true),
-	)
-	if err != nil {
-		return err
+	for i := 0; i < c.opts.sources; i++ {
+		clientId := c.opts.clientId
+		if c.opts.sources > 1 {
+			clientId = fmt.Sprintf("%s-%d", clientId, i)
+		}
+		client, err := kubemq.NewClient(ctx,
+			kubemq.WithAddress(c.opts.host, c.opts.port),
+			kubemq.WithClientId(clientId),
+			kubemq.WithTransportType(kubemq.TransportTypeGRPC),
+			kubemq.WithAuthToken(c.opts.authToken),
+			kubemq.WithCheckConnection(true))
+		if err != nil {
+			return err
+		}
+		c.clients = append(c.clients, client)
 	}
 
 	return nil
@@ -65,18 +70,18 @@ func (c *Client) Start(ctx context.Context, target middleware.Middleware) error 
 	} else {
 		c.target = target
 	}
-
-	go c.run(ctx)
-
+	for i := 0; i < len(c.clients); i++ {
+		go c.run(ctx, c.clients[i])
+	}
 	return nil
 }
 
-func (c *Client) run(ctx context.Context) {
+func (c *Client) run(ctx context.Context, client *kubemq.Client) {
 	for {
 		if c.isStopped {
 			return
 		}
-		queueMessages, err := c.getQueueMessages(ctx)
+		queueMessages, err := c.getQueueMessages(ctx, client)
 		if err != nil {
 			c.log.Error(err.Error())
 			time.Sleep(retriesInterval)
@@ -85,7 +90,7 @@ func (c *Client) run(ctx context.Context) {
 		for _, message := range queueMessages {
 			resp := c.processQueueMessage(ctx, message)
 			if c.opts.responseChannel != "" {
-				_, errSend := c.client.SetQueueMessage(resp.ToQueueMessage()).SetChannel(c.opts.responseChannel).Send(ctx)
+				_, errSend := client.SetQueueMessage(resp.ToQueueMessage()).SetChannel(c.opts.responseChannel).Send(ctx)
 				if errSend != nil {
 					c.log.Errorf("error sending response to a queue, %s", errSend.Error())
 				}
@@ -99,8 +104,8 @@ func (c *Client) run(ctx context.Context) {
 		}
 	}
 }
-func (c *Client) getQueueMessages(ctx context.Context) ([]*kubemq.QueueMessage, error) {
-	receiveResult, err := c.client.NewReceiveQueueMessagesRequest().
+func (c *Client) getQueueMessages(ctx context.Context, client *kubemq.Client) ([]*kubemq.QueueMessage, error) {
+	receiveResult, err := client.NewReceiveQueueMessagesRequest().
 		SetChannel(c.opts.channel).
 		SetMaxNumberOfMessages(c.opts.batchSize).
 		SetWaitTimeSeconds(c.opts.waitTimeout).
@@ -126,5 +131,8 @@ func (c *Client) processQueueMessage(ctx context.Context, msg *kubemq.QueueMessa
 
 func (c *Client) Stop() error {
 	c.isStopped = true
-	return c.client.Close()
+	for _, client := range c.clients {
+		_ = client.Close()
+	}
+	return nil
 }

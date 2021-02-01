@@ -28,6 +28,14 @@ func Connector() *common.Connector {
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
+				SetName("sources").
+				SetDescription("Set how many concurrent Queue sources to run").
+				SetMust(false).
+				SetDefault("1"),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("string").
 				SetName("response_channel").
 				SetDescription("Set Queue response channel").
 				SetMust(false).
@@ -35,9 +43,25 @@ func Connector() *common.Connector {
 		).
 		AddProperty(
 			common.NewProperty().
+				SetKind("int").
+				SetName("batch_size").
+				SetDescription("Set how many messages will pull in one request").
+				SetMust(false).
+				SetDefault("1"),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("int").
+				SetName("wait_timeout").
+				SetDescription("Set how long to wait in seconds for messages during pull of requests").
+				SetMust(false).
+				SetDefault("60"),
+		).
+		AddProperty(
+			common.NewProperty().
 				SetKind("string").
 				SetName("client_id").
-				SetDescription("Set Queue connection client Id").
+				SetDescription("Set Queue connection clients Id").
 				SetMust(false).
 				SetDefault(""),
 		).

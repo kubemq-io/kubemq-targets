@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/middleware"
+	"github.com/kubemq-hub/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-hub/kubemq-targets/targets/null"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/kubemq-io/kubemq-go"
-	"github.com/nats-io/nuid"
 	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
@@ -16,7 +16,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets"
 )
 
-func setupClient(ctx context.Context, target middleware.Middleware) (*Client, error) {
+func setupClient(ctx context.Context, target middleware.Middleware, ch string) (*Client, error) {
 	c := New()
 
 	err := c.Init(ctx, config.Spec{
@@ -24,11 +24,12 @@ func setupClient(ctx context.Context, target middleware.Middleware) (*Client, er
 		Kind: "",
 		Properties: map[string]string{
 			"address":          "localhost:50000",
-			"client_id":        "some-client-id",
+			"client_id":        "some-clients-id",
 			"auth_token":       "",
-			"channel":          "queue",
+			"channel":          ch,
 			"response_channel": "queue.response",
 			"batch_size":       "1",
+			"sources":          "4",
 			"wait_timeout":     "60",
 		},
 	})
@@ -45,7 +46,7 @@ func setupClient(ctx context.Context, target middleware.Middleware) (*Client, er
 func sendQueueMessage(t *testing.T, ctx context.Context, req *types.Request, sendChannel, respChannel string) (*types.Response, error) {
 	client, err := kubemq.NewClient(ctx,
 		kubemq.WithAddress("localhost", 50000),
-		kubemq.WithClientId(nuid.Next()),
+		kubemq.WithClientId(uuid.New().String()),
 		kubemq.WithTransportType(kubemq.TransportTypeGRPC))
 
 	if err != nil {
@@ -62,7 +63,7 @@ func sendQueueMessage(t *testing.T, ctx context.Context, req *types.Request, sen
 		respMsgs, err := client.ReceiveQueueMessages(ctx,
 			client.NewReceiveQueueMessagesRequest().
 				SetChannel(respChannel).
-				SetClientId(nuid.Next()).
+				SetClientId(uuid.New().String()).
 				SetMaxNumberOfMessages(1).
 				SetWaitTimeSeconds(5))
 		if err != nil {
@@ -96,7 +97,7 @@ func TestClient_processQueue(t *testing.T) {
 			respChannel: "queue.response",
 			req:         types.NewRequest().SetData([]byte("some-data")),
 			wantResp:    types.NewResponse().SetData([]byte("some-data")),
-			sendCh:      "queue",
+			sendCh:      uuid.New().String(),
 			wantErr:     false,
 		},
 		{
@@ -109,7 +110,7 @@ func TestClient_processQueue(t *testing.T) {
 			respChannel: "queue.response",
 			req:         types.NewRequest().SetData([]byte("some-data")),
 			wantResp:    types.NewResponse().SetError(fmt.Errorf("do-error")),
-			sendCh:      "queue",
+			sendCh:      uuid.New().String(),
 			wantErr:     false,
 		},
 		{
@@ -122,7 +123,7 @@ func TestClient_processQueue(t *testing.T) {
 			respChannel: "queue.response",
 			req:         types.NewRequest().SetData([]byte("some-data")),
 			wantResp:    types.NewResponse().SetError(fmt.Errorf("do-error")),
-			sendCh:      "queue",
+			sendCh:      uuid.New().String(),
 			wantErr:     false,
 		},
 		{
@@ -133,6 +134,7 @@ func TestClient_processQueue(t *testing.T) {
 				ResponseError: nil,
 			},
 			req:      nil,
+			sendCh:   uuid.New().String(),
 			wantResp: nil,
 			wantErr:  false,
 		},
@@ -141,10 +143,11 @@ func TestClient_processQueue(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
-			c, err := setupClient(ctx, tt.target)
+			c, err := setupClient(ctx, tt.target, tt.sendCh)
 			require.NoError(t, err)
 			defer func() {
 				_ = c.Stop()
+				time.Sleep(1 * time.Second)
 			}()
 			gotResp, err := sendQueueMessage(t, ctx, tt.req, tt.sendCh, tt.respChannel)
 			if tt.wantErr {
@@ -170,11 +173,11 @@ func TestClient_Init(t *testing.T) {
 				Kind: "",
 				Properties: map[string]string{
 					"address":          "localhost:50000",
-					"client_id":        "some-client-id",
+					"client_id":        "some-clients-id",
 					"auth_token":       "some-auth token",
 					"channel":          "some-channel",
 					"response_channel": "some-response-channel",
-					"concurrency":      "1",
+					"sources":          "1",
 					"batch_size":       "1",
 					"wait_timeout":     "60",
 				},
@@ -227,11 +230,11 @@ func TestClient_Start(t *testing.T) {
 				Kind: "",
 				Properties: map[string]string{
 					"address":          "localhost:50000",
-					"client_id":        "some-client-id",
+					"client_id":        "some-clients-id",
 					"auth_token":       "some-auth token",
 					"channel":          "some-channel",
 					"response_channel": "some-response-channel",
-					"concurrency":      "1",
+					"sources":          "5",
 					"batch_size":       "1",
 					"wait_timeout":     "60",
 				},
@@ -246,11 +249,11 @@ func TestClient_Start(t *testing.T) {
 				Kind: "",
 				Properties: map[string]string{
 					"address":          "localhost:50000",
-					"client_id":        "some-client-id",
+					"client_id":        "some-clients-id",
 					"auth_token":       "some-auth token",
 					"channel":          "some-channel",
 					"response_channel": "some-response-channel",
-					"concurrency":      "1",
+					"sources":          "1",
 					"batch_size":       "1",
 					"wait_timeout":     "60",
 				},

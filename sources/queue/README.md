@@ -15,13 +15,14 @@ Queue source connector configuration properties:
 
 | Properties Key | Required | Description                                            | Example     |
 |:---------------|:---------|:-------------------------------------------------------|:------------|
-| address                    | yes      | kubemq server address (gRPC interface) | kubemq-cluster:50000 |
+| address        | yes      | kubemq server address (gRPC interface) | kubemq-cluster:50000 |
 | client_id      | no       | set client id                                          | "client_id" |
 | auth_token     | no       | set authentication token                               | jwt token   |
 | channel        | yes      | set channel to subscribe                               |             |
+| sources        | no      | set how many concurrent sources to subscribe                               |    1        |
 | response_channel             | no       | set send target response to channel   | "response.channel" |
-| batch_size     | yes      | set how many messages to pull from queue               | "1"         |
-| wait_timeout   | yes      | set how long to wait for messages to arrive in seconds | "60"        |
+| batch_size     | no      | set how many messages to pull from queue               | "1"         |
+| wait_timeout   | no      | set how long to wait for messages to arrive in seconds | "60"        |
 
 
 Example:
@@ -30,7 +31,7 @@ Example:
 bindings:
   - name: kubemq-queue-elastic-search
     source:
-      kind: queue
+      kind: kubemq.queue
       name: kubemq-queue
       properties:
         address: "kubemq-cluster:50000"
@@ -38,6 +39,7 @@ bindings:
         auth_token: ""
         channel: "queue.elastic-search"
         response_channel: "queue.response.elastic"
+        sources: "1"
         batch_size: "1"
         wait_timeout: "60"
     target:

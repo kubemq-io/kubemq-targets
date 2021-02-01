@@ -3,13 +3,14 @@ package queue
 import (
 	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/config"
-	"github.com/nats-io/nuid"
+	"github.com/kubemq-hub/kubemq-targets/pkg/uuid"
 )
 
 const (
 	defaultAddress     = "localhost:50000"
 	defaultBatchSize   = 1
 	defaultWaitTimeout = 60
+	defaultSources     = 1
 )
 
 type options struct {
@@ -18,6 +19,7 @@ type options struct {
 	clientId        string
 	authToken       string
 	channel         string
+	sources         int
 	responseChannel string
 	batchSize       int
 	waitTimeout     int
@@ -32,12 +34,17 @@ func parseOptions(cfg config.Spec) (options, error) {
 	}
 	o.authToken = cfg.Properties.ParseString("auth_token", "")
 
-	o.clientId = cfg.Properties.ParseString("client_id", nuid.Next())
+	o.clientId = cfg.Properties.ParseString("client_id", uuid.New().String())
 
 	o.channel, err = cfg.Properties.MustParseString("channel")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing channel value, %w", err)
 	}
+	o.sources, err = cfg.Properties.ParseIntWithRange("sources", defaultSources, 1, 1024)
+	if err != nil {
+		return options{}, fmt.Errorf("error parsing batch size value, %w", err)
+	}
+
 	o.responseChannel = cfg.Properties.ParseString("response_channel", "")
 
 	o.batchSize, err = cfg.Properties.ParseIntWithRange("batch_size", defaultBatchSize, 1, 1024)
