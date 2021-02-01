@@ -44,6 +44,17 @@ func TestOptions_parseOptions(t *testing.T) {
 			wantErr: false,
 		},
 		{
+			name: "invalid options - bad address",
+			cfg: config.Spec{
+				Name: "kubemq-rpc",
+				Kind: "",
+				Properties: map[string]string{
+					"address": "bad-address",
+				},
+			},
+			wantErr: true,
+		},
+		{
 			name: "invalid options - bad channel",
 			cfg: config.Spec{
 				Name: "kubemq-rpc",

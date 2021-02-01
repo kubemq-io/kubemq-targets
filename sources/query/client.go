@@ -8,8 +8,8 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/middleware"
 	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
+	"github.com/kubemq-hub/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-hub/kubemq-targets/types"
-	"github.com/nats-io/nuid"
 
 	"github.com/kubemq-io/kubemq-go"
 	"time"
@@ -20,10 +20,10 @@ var (
 )
 
 type Client struct {
-	opts   options
-	client *kubemq.Client
-	log    *logger.Logger
-	target middleware.Middleware
+	opts    options
+	clients []*kubemq.Client
+	log     *logger.Logger
+	target  middleware.Middleware
 }
 
 func New() *Client {
@@ -41,17 +41,24 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-	c.client, err = kubemq.NewClient(ctx,
-		kubemq.WithAddress(c.opts.host, c.opts.port),
-		kubemq.WithClientId(c.opts.clientId),
-		kubemq.WithTransportType(kubemq.TransportTypeGRPC),
-		kubemq.WithCheckConnection(true),
-		kubemq.WithAuthToken(c.opts.authToken),
-		kubemq.WithMaxReconnects(c.opts.maxReconnects),
-		kubemq.WithAutoReconnect(c.opts.autoReconnect),
-		kubemq.WithReconnectInterval(c.opts.reconnectIntervalSeconds))
-	if err != nil {
-		return err
+	for i := 0; i < c.opts.sources; i++ {
+		clientId := c.opts.clientId
+		if c.opts.sources > 1 {
+			clientId = fmt.Sprintf("%s-%d", clientId, i)
+		}
+		client, err := kubemq.NewClient(ctx,
+			kubemq.WithAddress(c.opts.host, c.opts.port),
+			kubemq.WithClientId(c.opts.clientId),
+			kubemq.WithTransportType(kubemq.TransportTypeGRPC),
+			kubemq.WithCheckConnection(true),
+			kubemq.WithAuthToken(c.opts.authToken),
+			kubemq.WithMaxReconnects(c.opts.maxReconnects),
+			kubemq.WithAutoReconnect(c.opts.autoReconnect),
+			kubemq.WithReconnectInterval(c.opts.reconnectIntervalSeconds))
+		if err != nil {
+			return err
+		}
+		c.clients = append(c.clients, client)
 	}
 	return nil
 }
@@ -62,52 +69,57 @@ func (c *Client) Start(ctx context.Context, target middleware.Middleware) error 
 	} else {
 		c.target = target
 	}
-	group := nuid.Next()
-	if c.opts.group != "" {
-		group = c.opts.group
+	if c.opts.sources > 1 && c.opts.group == "" {
+		c.opts.group = uuid.New().String()
 	}
 
+	for i := 0; i < len(c.clients); i++ {
+		err := c.runClient(ctx, c.clients[i])
+		if err != nil {
+			return fmt.Errorf("error during start of client %d: %s", i, err.Error())
+		}
+	}
+
+	return nil
+}
+func (c *Client) runClient(ctx context.Context, client *kubemq.Client) error {
 	errCh := make(chan error, 1)
-	queriesCh, err := c.client.SubscribeToQueries(ctx, c.opts.channel, group, errCh)
+	queriesCh, err := client.SubscribeToQueries(ctx, c.opts.channel, c.opts.group, errCh)
 	if err != nil {
 		return fmt.Errorf("error on subscribing to query channel, %w", err)
 	}
 	go func(ctx context.Context, queryCh <-chan *kubemq.QueryReceive, errCh chan error) {
-		c.run(ctx, queriesCh, errCh)
-	}(ctx, queriesCh, errCh)
+		for {
+			select {
+			case query := <-queryCh:
 
-	return nil
-}
+				go func(q *kubemq.QueryReceive) {
+					queryResponse := client.R().
+						SetRequestId(query.Id).
+						SetResponseTo(query.ResponseTo)
+					resp, err := c.processQuery(ctx, query)
+					if err != nil {
+						resp = types.NewResponse().SetError(err)
+					}
+					queryResponse.SetExecutedAt(time.Now()).
+						SetBody(resp.MarshalBinary())
+					err = queryResponse.Send(ctx)
+					if err != nil {
+						c.log.Errorf("error sending query response %s", err.Error())
+					}
+				}(query)
 
-func (c *Client) run(ctx context.Context, queryCh <-chan *kubemq.QueryReceive, errCh chan error) {
-	for {
-		select {
-		case query := <-queryCh:
+			case err := <-errCh:
+				c.log.Errorf("error received from kuebmq server, %s", err.Error())
+				return
+			case <-ctx.Done():
+				return
 
-			go func(q *kubemq.QueryReceive) {
-				queryResponse := c.client.R().
-					SetRequestId(query.Id).
-					SetResponseTo(query.ResponseTo)
-				resp, err := c.processQuery(ctx, query)
-				if err != nil {
-					resp = types.NewResponse().SetError(err)
-				}
-				queryResponse.SetExecutedAt(time.Now()).
-					SetBody(resp.MarshalBinary())
-				err = queryResponse.Send(ctx)
-				if err != nil {
-					c.log.Errorf("error sending query response %s", err.Error())
-				}
-			}(query)
-
-		case err := <-errCh:
-			c.log.Errorf("error received from kuebmq server, %s", err.Error())
-			return
-		case <-ctx.Done():
-			return
-
+			}
 		}
-	}
+
+	}(ctx, queriesCh, errCh)
+	return nil
 }
 
 func (c *Client) processQuery(ctx context.Context, query *kubemq.QueryReceive) (*types.Response, error) {
@@ -122,5 +134,8 @@ func (c *Client) processQuery(ctx context.Context, query *kubemq.QueryReceive) (
 	return resp, nil
 }
 func (c *Client) Stop() error {
-	return c.client.Close()
+	for _, client := range c.clients {
+		_ = client.Close()
+	}
+	return nil
 }
