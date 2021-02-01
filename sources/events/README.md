@@ -20,6 +20,7 @@ Events source connector configuration properties:
 | auth_token                 | no       | set authentication token              | jwt token          |
 | channel                    | yes      | set channel to subscribe              |                    |
 | group                      | no       | set subscriber group                  |                    |
+| sources                    | no       | set how many events sources to subscribe              |    1            |
 | response_channel             | no       | set send target response to channel   | "response.channel" |
 | auto_reconnect             | no       | set auto reconnect on lost connection | "false", "true"    |
 | reconnect_interval_seconds | no       | set reconnection seconds              | "5"                |
@@ -40,6 +41,7 @@ bindings:
         auth_token: ""
         channel: "events.elastic-search"
         group:   ""
+        sources: "1"
         response_channel: "events.response.elastic"
         auto_reconnect: "true"
         reconnect_interval_seconds: "1"

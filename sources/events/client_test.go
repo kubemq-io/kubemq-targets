@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/middleware"
+	"github.com/kubemq-hub/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-hub/kubemq-targets/targets/null"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/kubemq-io/kubemq-go"
-	"github.com/nats-io/nuid"
 	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
@@ -31,6 +31,7 @@ func setupClient(ctx context.Context, target middleware.Middleware) (*Client, er
 			"auto_reconnect":             "true",
 			"reconnect_interval_seconds": "1",
 			"max_reconnects":             "0",
+			"sources":                    "2",
 		},
 	})
 	if err != nil {
@@ -46,7 +47,7 @@ func setupClient(ctx context.Context, target middleware.Middleware) (*Client, er
 func sendEvent(t *testing.T, ctx context.Context, req *types.Request, sendChannel, respChannel string) (*types.Response, error) {
 	client, err := kubemq.NewClient(ctx,
 		kubemq.WithAddress("localhost", 50000),
-		kubemq.WithClientId(nuid.Next()),
+		kubemq.WithClientId(uuid.New().String()),
 		kubemq.WithTransportType(kubemq.TransportTypeGRPC))
 
 	if err != nil {
@@ -167,6 +168,7 @@ func TestClient_Init(t *testing.T) {
 					"auto_reconnect":             "true",
 					"reconnect_interval_seconds": "1",
 					"max_reconnects":             "0",
+					"sources":                    "2",
 				},
 			},
 			wantErr: false,
@@ -224,6 +226,7 @@ func TestClient_Start(t *testing.T) {
 					"auto_reconnect":             "false",
 					"reconnect_interval_seconds": "1",
 					"max_reconnects":             "0",
+					"sources":                    "2",
 				},
 			},
 			wantErr: false,
@@ -235,15 +238,16 @@ func TestClient_Start(t *testing.T) {
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
-					"address":    "localhost:50000",
-					"client_id":  "",
-					"auth_token": "some-auth token",
-					"channel":    "some-channel",
-					"group":      "",
-
+					"address":                    "localhost:50000",
+					"client_id":                  "",
+					"auth_token":                 "some-auth token",
+					"channel":                    "some-channel",
+					"group":                      "",
+					"response_channel":           "",
 					"auto_reconnect":             "true",
 					"reconnect_interval_seconds": "1",
 					"max_reconnects":             "0",
+					"sources":                    "2",
 				},
 			},
 			wantErr: true,

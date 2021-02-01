@@ -37,7 +37,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("sources").
-				SetDescription("Set how many concurrent Query sources to run").
+				SetDescription("Set how many concurrent commands sources to run").
 				SetMust(false).
 				SetDefault("1"),
 		).
