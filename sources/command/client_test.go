@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/middleware"
+	"github.com/kubemq-hub/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-hub/kubemq-targets/targets/null"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/kubemq-io/kubemq-go"
-	"github.com/nats-io/nuid"
 	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
@@ -31,6 +31,7 @@ func setupClient(ctx context.Context, target middleware.Middleware) (*Client, er
 			"auto_reconnect":             "true",
 			"reconnect_interval_seconds": "1",
 			"max_reconnects":             "0",
+			"sources":                    "2",
 		},
 	})
 	if err != nil {
@@ -46,7 +47,7 @@ func setupClient(ctx context.Context, target middleware.Middleware) (*Client, er
 func sendCommand(t *testing.T, ctx context.Context, req *types.Request, sendChannel string, timeout time.Duration) (*types.Response, error) {
 	client, err := kubemq.NewClient(ctx,
 		kubemq.WithAddress("localhost", 50000),
-		kubemq.WithClientId(nuid.Next()),
+		kubemq.WithClientId(uuid.New().String()),
 		kubemq.WithTransportType(kubemq.TransportTypeGRPC))
 	require.NoError(t, err)
 	cmdResponse, err := client.SetCommand(req.ToCommand()).SetChannel(sendChannel).SetTimeout(timeout).Send(ctx)
@@ -162,6 +163,7 @@ func TestClient_Init(t *testing.T) {
 					"auto_reconnect":             "true",
 					"reconnect_interval_seconds": "1",
 					"max_reconnects":             "0",
+					"sources":                    "2",
 				},
 			},
 			wantErr: false,
@@ -219,6 +221,7 @@ func TestClient_Start(t *testing.T) {
 					"auto_reconnect":             "false",
 					"reconnect_interval_seconds": "1",
 					"max_reconnects":             "0",
+					"sources":                    "2",
 				},
 			},
 			wantErr: false,
@@ -238,6 +241,7 @@ func TestClient_Start(t *testing.T) {
 					"auto_reconnect":             "true",
 					"reconnect_interval_seconds": "1",
 					"max_reconnects":             "0",
+					"sources":                    "2",
 				},
 			},
 			wantErr: true,

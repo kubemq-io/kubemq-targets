@@ -23,7 +23,7 @@ Query source connector configuration properties:
 | group                      | no       | set subscriber group                  |                 |
 | auto_reconnect             | no       | set auto reconnect on lost connection | "false", "true" |
 | reconnect_interval_seconds | no       | set reconnection seconds              | "5"             |
-| max_reconnects             | no       | set how many time to reconnect        | "0"             |
+| max_reconnects             | no       | set how many times to reconnect        | "0"             |
 
 
 
