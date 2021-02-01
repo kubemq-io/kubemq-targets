@@ -4,9 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/kubemq-hub/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/kubemq-io/kubemq-go"
-	"github.com/nats-io/nuid"
 	"log"
 	"strconv"
 	"time"
@@ -46,7 +46,7 @@ func newLog(id, data string) *logRecord {
 func main() {
 	client, err := kubemq.NewClient(context.Background(),
 		kubemq.WithAddress("localhost", 50000),
-		kubemq.WithClientId(nuid.Next()),
+		kubemq.WithClientId(uuid.New().String()),
 		kubemq.WithTransportType(kubemq.TransportTypeGRPC))
 	if err != nil {
 		log.Fatal(err)
@@ -108,7 +108,7 @@ func main() {
 	}
 	log.Println(fmt.Sprintf("create log index executed, response: %s", createIndexResponse.Metadata.String()))
 
-	randomKey := nuid.Next()
+	randomKey := uuid.New().String()
 	// set request
 	setRequest := types.NewRequest().
 		SetMetadataKeyValue("method", "set").

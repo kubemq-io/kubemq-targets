@@ -4,8 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-hub/kubemq-targets/types"
-	"github.com/nats-io/nuid"
 	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
@@ -306,7 +306,7 @@ func TestClient_Delete(t *testing.T) {
 			"collection":       "",
 		},
 	})
-	key := nuid.Next()
+	key := uuid.New().String()
 	require.NoError(t, err)
 	setRequest := types.NewRequest().
 		SetMetadataKeyValue("method", "set").

@@ -3,7 +3,7 @@ package mqtt
 import (
 	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/config"
-	"github.com/nats-io/nuid"
+	"github.com/kubemq-hub/kubemq-targets/pkg/uuid"
 )
 
 type options struct {
@@ -22,6 +22,6 @@ func parseOptions(cfg config.Spec) (options, error) {
 	}
 	o.username = cfg.Properties.ParseString("username", "")
 	o.password = cfg.Properties.ParseString("password", "")
-	o.clientId = cfg.Properties.ParseString("client_id", nuid.Next())
+	o.clientId = cfg.Properties.ParseString("client_id", uuid.New().String())
 	return o, nil
 }

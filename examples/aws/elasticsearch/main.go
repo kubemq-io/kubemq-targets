@@ -3,24 +3,23 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/kubemq-hub/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/kubemq-io/kubemq-go"
-	"github.com/nats-io/nuid"
 	"io/ioutil"
 	"log"
 	"time"
 )
 
 type testStructure struct {
-	region       string
+	region string
 
-	json string
-	domain string
-	index string
+	json     string
+	domain   string
+	index    string
 	endpoint string
-	service string
-	id string
-
+	service  string
+	id       string
 }
 
 func getTestStructure() (*testStructure, error) {
@@ -62,19 +61,18 @@ func getTestStructure() (*testStructure, error) {
 	}
 	t.id = string(dat)
 
-
 	return t, nil
 }
 
 func main() {
 	client, err := kubemq.NewClient(context.Background(),
 		kubemq.WithAddress("kubemq-cluster", 50000),
-		kubemq.WithClientId(nuid.Next()),
+		kubemq.WithClientId(uuid.New().String()),
 		kubemq.WithTransportType(kubemq.TransportTypeGRPC))
 	if err != nil {
 		log.Fatal(err)
 	}
-	dat , err :=getTestStructure()
+	dat, err := getTestStructure()
 	if err != nil {
 		log.Fatal(err)
 	}

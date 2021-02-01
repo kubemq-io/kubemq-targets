@@ -3,8 +3,8 @@ package redis
 import (
 	"context"
 	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-hub/kubemq-targets/types"
-	"github.com/nats-io/nuid"
 	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
@@ -30,11 +30,9 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "invalid init - error no url",
 			cfg: config.Spec{
-				Name: "gcp-redis",
-				Kind: "gcp-cache-redis",
-				Properties: map[string]string{
-
-				},
+				Name:       "gcp-redis",
+				Kind:       "gcp-cache-redis",
+				Properties: map[string]string{},
 			},
 			wantErr: true,
 		},
@@ -164,7 +162,7 @@ func TestClient_Delete(t *testing.T) {
 			"url": "redis://localhost:6379",
 		},
 	})
-	key := nuid.Next()
+	key := uuid.New().String()
 	require.NoError(t, err)
 	setRequest := types.NewRequest().
 		SetMetadataKeyValue("method", "set").

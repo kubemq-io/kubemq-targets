@@ -1,4 +1,4 @@
-// +build !windows
+// +build windows
 
 package targets
 
@@ -29,6 +29,7 @@ import (
 	azurpostgres "github.com/kubemq-hub/kubemq-targets/targets/azure/stores/postgres"
 	"github.com/kubemq-hub/kubemq-targets/targets/cache/hazelcast"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/firebase"
+	//"github.com/kubemq-hub/kubemq-targets/targets/messaging/ibmmq"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/nats"
 	"github.com/kubemq-hub/kubemq-targets/targets/storage/hdfs"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/aerospike"
@@ -518,7 +519,7 @@ func Connectors() common.Connectors {
 		rabbitmq.Connector(),
 		kafka.Connector(),
 		activemq.Connector(),
-		ibmmq.Connector(),
+		//ibmmq.Connector(),
 		nats.Connector(),
 		hazelcast.Connector(),
 

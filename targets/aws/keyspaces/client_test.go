@@ -3,8 +3,8 @@ package keyspaces
 import (
 	"context"
 	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-hub/kubemq-targets/types"
-	"github.com/nats-io/nuid"
 	"github.com/stretchr/testify/require"
 	"io/ioutil"
 	"testing"
@@ -618,7 +618,7 @@ func TestClient_Delete(t *testing.T) {
 			"tls":                dat.tlsPath,
 		},
 	})
-	key := nuid.Next()
+	key := uuid.New().String()
 	require.NoError(t, err)
 	setRequest := types.NewRequest().
 		SetMetadataKeyValue("method", "set").
@@ -687,7 +687,7 @@ func TestClient_Do(t *testing.T) {
 			},
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "set").
-				SetMetadataKeyValue("key", nuid.Next()).
+				SetMetadataKeyValue("key", uuid.New().String()).
 				SetMetadataKeyValue("consistency", "LocalQuorum").
 				SetData([]byte("some-data")),
 			wantErr: false,

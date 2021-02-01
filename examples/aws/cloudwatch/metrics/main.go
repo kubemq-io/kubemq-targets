@@ -3,9 +3,9 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/kubemq-hub/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/kubemq-io/kubemq-go"
-	"github.com/nats-io/nuid"
 	"log"
 	"time"
 )
@@ -13,7 +13,7 @@ import (
 func main() {
 	client, err := kubemq.NewClient(context.Background(),
 		kubemq.WithAddress("kubemq-cluster", 50000),
-		kubemq.WithClientId(nuid.Next()),
+		kubemq.WithClientId(uuid.New().String()),
 		kubemq.WithTransportType(kubemq.TransportTypeGRPC))
 	if err != nil {
 		log.Fatal(err)
@@ -21,7 +21,7 @@ func main() {
 	// put Metrics
 	namespace := "Logs"
 
-	b :=[]byte(`[{"Counts":null,"Dimensions":null,"MetricName":"New Metric","StatisticValues":null,"StorageResolution":null,"Timestamp":"2020-08-10T17:09:48.3895822+03:00","Unit":"Count","Value":132,"Values":null}]`)
+	b := []byte(`[{"Counts":null,"Dimensions":null,"MetricName":"New Metric","StatisticValues":null,"StorageResolution":null,"Timestamp":"2020-08-10T17:09:48.3895822+03:00","Unit":"Count","Value":132,"Values":null}]`)
 
 	putRequest := types.NewRequest().
 		SetMetadataKeyValue("method", "put_metrics").
