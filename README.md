@@ -163,6 +163,7 @@ KubeMQ Targets supports all of KubeMQ's messaging patterns: Queue, Events, Event
 | Type                                                                              | Kind                | Configuration                           |
 |:----------------------------------------------------------------------------------|:--------------------|:----------------------------------------|
 | [Queue](https://docs.kubemq.io/learn/message-patterns/queue)                      | kubemq.queue        | [Usage](sources/queue/README.md)        |
+| [Queue-Stream](https://docs.kubemq.io/learn/message-patterns/queue)             | kubemq.queue-stream       | [Usage](sources/queue_stream/README.md)       |
 | [Events](https://docs.kubemq.io/learn/message-patterns/pubsub#events)             | kubemq.events       | [Usage](sources/events/README.md)       |
 | [Events Store](https://docs.kubemq.io/learn/message-patterns/pubsub#events-store) | kubemq.events-store | [Usage](sources/events-store/README.md) |
 | [Command](https://docs.kubemq.io/learn/message-patterns/rpc#commands)             | kubemq.command      | [Usage](sources/command/README.md)      |
@@ -384,6 +385,7 @@ Source section contains source configuration for Binding as follows:
 | name        | sources name (will show up in logs)               | string without white spaces                                   |
 | kind        | source kind type                                  | kubemq.queue                                                  |
 |             |                                                   | kubemq.query                                                  |
+|             |                                                   | kubemq.query-stream                                                  |
 |             |                                                   | kubemq.command                                                |
 |             |                                                   | kubemq.events                                                 |
 |             |                                                   | kubemq.events-store                                           |

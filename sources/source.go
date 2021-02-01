@@ -11,6 +11,7 @@ import (
 	events_store "github.com/kubemq-hub/kubemq-targets/sources/events-store"
 	"github.com/kubemq-hub/kubemq-targets/sources/query"
 	"github.com/kubemq-hub/kubemq-targets/sources/queue"
+	queue_stream "github.com/kubemq-hub/kubemq-targets/sources/queue_stream"
 )
 
 type Source interface {
@@ -52,6 +53,12 @@ func Init(ctx context.Context, cfg config.Spec) (Source, error) {
 			return nil, err
 		}
 		return source, nil
+	case "source.queue-stream", "kubemq.queue-stream":
+		source := queue_stream.New()
+		if err := source.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return source, nil
 
 	default:
 		return nil, fmt.Errorf("invalid kind %s for source", cfg.Kind)
@@ -62,6 +69,7 @@ func Init(ctx context.Context, cfg config.Spec) (Source, error) {
 func Connectors() common.Connectors {
 	return []*common.Connector{
 		queue.Connector(),
+		queue_stream.Connector(),
 		query.Connector(),
 		events.Connector(),
 		events_store.Connector(),
