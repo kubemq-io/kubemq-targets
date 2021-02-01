@@ -48,7 +48,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 		}
 		client, err := kubemq.NewClient(ctx,
 			kubemq.WithAddress(c.opts.host, c.opts.port),
-			kubemq.WithClientId(c.opts.clientId),
+			kubemq.WithClientId(clientId),
 			kubemq.WithTransportType(kubemq.TransportTypeGRPC),
 			kubemq.WithCheckConnection(true),
 			kubemq.WithAuthToken(c.opts.authToken),
