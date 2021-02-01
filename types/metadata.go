@@ -249,7 +249,7 @@ func (m Metadata) MustParseAddress(key, defaultValue string) (string, int, error
 	if host == "" {
 		return "", 0, fmt.Errorf("no valid host found")
 	}
-	if port < 0 {
+	if port <= 0 {
 		return "", 0, fmt.Errorf("no valid port found")
 	}
 	return host, port, nil

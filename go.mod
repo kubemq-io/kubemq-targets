@@ -47,14 +47,14 @@ require (
 	github.com/json-iterator/go v1.1.10
 	github.com/kubemq-hub/builder v0.5.9
 	github.com/kubemq-hub/ibmmq-sdk v0.3.8
-	github.com/kubemq-io/kubemq-go v1.4.4
+	github.com/kubemq-io/kubemq-go v1.4.7
 	github.com/labstack/echo/v4 v4.1.17
 	github.com/lib/pq v1.8.0
 	github.com/minio/minio-go/v7 v7.0.0-20200623213017-e5cd2d129325
 	github.com/mitchellh/mapstructure v1.3.3 // indirect
 	github.com/nats-io/nats-server/v2 v2.1.9 // indirect
 	github.com/nats-io/nats.go v1.10.0
-	github.com/nats-io/nuid v1.0.1
+	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/olivere/elastic/v7 v7.0.20
 	github.com/prometheus/client_golang v1.7.1
 	github.com/spf13/pflag v1.0.5 // indirect
@@ -68,7 +68,7 @@ require (
 	golang.org/x/oauth2 v0.0.0-20200902213428-5d25da1a8d43
 	google.golang.org/api v0.32.0
 	google.golang.org/genproto v0.0.0-20200925023002-c2d885f95484
-	google.golang.org/grpc v1.32.0
+	google.golang.org/grpc v1.35.0
 	gopkg.in/rethinkdb/rethinkdb-go.v6 v6.2.1
 )
 

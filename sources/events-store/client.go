@@ -8,9 +8,9 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/middleware"
 	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
+	"github.com/kubemq-hub/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/kubemq-io/kubemq-go"
-	"github.com/nats-io/nuid"
 )
 
 var (
@@ -18,10 +18,10 @@ var (
 )
 
 type Client struct {
-	opts   options
-	client *kubemq.Client
-	log    *logger.Logger
-	target middleware.Middleware
+	opts    options
+	clients []*kubemq.Client
+	log     *logger.Logger
+	target  middleware.Middleware
 }
 
 func New() *Client {
@@ -39,17 +39,24 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-	c.client, err = kubemq.NewClient(ctx,
-		kubemq.WithAddress(c.opts.host, c.opts.port),
-		kubemq.WithClientId(c.opts.clientId),
-		kubemq.WithTransportType(kubemq.TransportTypeGRPC),
-		kubemq.WithAuthToken(c.opts.authToken),
-		kubemq.WithCheckConnection(true),
-		kubemq.WithMaxReconnects(c.opts.maxReconnects),
-		kubemq.WithAutoReconnect(c.opts.autoReconnect),
-		kubemq.WithReconnectInterval(c.opts.reconnectIntervalSeconds))
-	if err != nil {
-		return err
+	for i := 0; i < c.opts.sources; i++ {
+		clientId := c.opts.clientId
+		if c.opts.sources > 1 {
+			clientId = fmt.Sprintf("%s-%d", clientId, i)
+		}
+		client, err := kubemq.NewClient(ctx,
+			kubemq.WithAddress(c.opts.host, c.opts.port),
+			kubemq.WithClientId(c.opts.clientId),
+			kubemq.WithTransportType(kubemq.TransportTypeGRPC),
+			kubemq.WithCheckConnection(true),
+			kubemq.WithAuthToken(c.opts.authToken),
+			kubemq.WithMaxReconnects(c.opts.maxReconnects),
+			kubemq.WithAutoReconnect(c.opts.autoReconnect),
+			kubemq.WithReconnectInterval(c.opts.reconnectIntervalSeconds))
+		if err != nil {
+			return err
+		}
+		c.clients = append(c.clients, client)
 	}
 	return nil
 }
@@ -60,52 +67,55 @@ func (c *Client) Start(ctx context.Context, target middleware.Middleware) error 
 	} else {
 		c.target = target
 	}
-	group := nuid.Next()
-	if c.opts.group != "" {
-		group = c.opts.group
+	if c.opts.sources > 1 && c.opts.group == "" {
+		c.opts.group = uuid.New().String()
 	}
 
+	for i := 0; i < len(c.clients); i++ {
+		err := c.runClient(ctx, c.clients[i])
+		if err != nil {
+			return fmt.Errorf("error during start of client %d: %s", i, err.Error())
+		}
+	}
+	return nil
+}
+func (c *Client) runClient(ctx context.Context, client *kubemq.Client) error {
 	errCh := make(chan error, 1)
-	eventsCh, err := c.client.SubscribeToEventsStore(ctx, c.opts.channel, group, errCh, kubemq.StartFromNewEvents())
+	eventsCh, err := client.SubscribeToEventsStore(ctx, c.opts.channel, c.opts.group, errCh, kubemq.StartFromNewEvents())
 	if err != nil {
 		return fmt.Errorf("error on subscribing to events channel, %w", err)
 	}
 	go func(ctx context.Context, eventsCh <-chan *kubemq.EventStoreReceive, errCh chan error) {
-		c.run(ctx, eventsCh, errCh)
-	}(ctx, eventsCh, errCh)
-
-	return nil
-}
-
-func (c *Client) run(ctx context.Context, eventsCh <-chan *kubemq.EventStoreReceive, errCh chan error) {
-	for {
-		select {
-		case event := <-eventsCh:
-			go func(event *kubemq.EventStoreReceive) {
-				resp, err := c.processEventStore(ctx, event)
-				if err != nil {
-					resp = types.NewResponse().SetError(err)
-				}
-				if c.opts.responseChannel != "" {
-					sendRes, errSend := c.client.SetEventStore(resp.ToEventStore()).SetChannel(c.opts.responseChannel).Send(ctx)
-					if errSend != nil {
-						c.log.Errorf("error sending event response %s", errSend.Error())
-					} else {
-						if !sendRes.Sent {
-							c.log.Errorf("error sending event response %s", sendRes.Err)
+		for {
+			select {
+			case event := <-eventsCh:
+				go func(event *kubemq.EventStoreReceive) {
+					resp, err := c.processEventStore(ctx, event)
+					if err != nil {
+						resp = types.NewResponse().SetError(err)
+					}
+					if c.opts.responseChannel != "" {
+						sendRes, errSend := client.SetEventStore(resp.ToEventStore()).SetChannel(c.opts.responseChannel).Send(ctx)
+						if errSend != nil {
+							c.log.Errorf("error sending event response %s", errSend.Error())
+						} else {
+							if !sendRes.Sent {
+								c.log.Errorf("error sending event response %s", sendRes.Err)
+							}
 						}
 					}
-				}
-			}(event)
+				}(event)
 
-		case err := <-errCh:
-			c.log.Errorf("error received from kuebmq server, %s", err.Error())
-			return
-		case <-ctx.Done():
-			return
+			case err := <-errCh:
+				c.log.Errorf("error received from kuebmq server, %s", err.Error())
+				return
+			case <-ctx.Done():
+				return
 
+			}
 		}
-	}
+	}(ctx, eventsCh, errCh)
+	return nil
 }
 
 func (c *Client) processEventStore(ctx context.Context, event *kubemq.EventStoreReceive) (*types.Response, error) {
@@ -120,5 +130,8 @@ func (c *Client) processEventStore(ctx context.Context, event *kubemq.EventStore
 	return resp, nil
 }
 func (c *Client) Stop() error {
-	return c.client.Close()
+	for _, client := range c.clients {
+		_ = client.Close()
+	}
+	return nil
 }

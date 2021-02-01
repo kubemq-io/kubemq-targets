@@ -43,7 +43,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 	}
 	o.sources, err = cfg.Properties.ParseIntWithRange("sources", defaultSources, 1, 1024)
 	if err != nil {
-		return options{}, fmt.Errorf("error parsing batch size value, %w", err)
+		return options{}, fmt.Errorf("error parsing sources value, %w", err)
 	}
 	o.responseChannel = cfg.Properties.ParseString("response_channel", "")
 	o.group = cfg.Properties.ParseString("group", "")
