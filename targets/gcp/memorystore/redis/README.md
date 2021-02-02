@@ -1,4 +1,4 @@
-# Kubemq Redis-gcp Target Connector
+# Kubemq GCP-Redis Target Connector
 
 Kubemq redis target connector allows services using kubemq server to access redis server functions such `set`, `get` and `delete`.
 
