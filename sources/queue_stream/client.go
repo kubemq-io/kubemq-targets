@@ -129,11 +129,10 @@ func (c *Client) processQueueMessage() (*types.Response, error) {
 
 		return types.NewResponse().SetError(err), nil
 	}
-	err = msg.Ack()
-	if err != nil {
-		return nil, err
+	if c.opts.resend != "" {
+		return resp, msg.Resend(c.opts.resend)
 	}
-	return resp, nil
+	return resp, msg.Ack()
 }
 
 func (c *Client) Stop() error {

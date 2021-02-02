@@ -44,7 +44,7 @@ func ParseRequest(body []byte) (*Request, error) {
 	req := &Request{}
 	err := json.Unmarshal(body, req)
 	if err != nil {
-		return nil, err
+		return NewRequest().SetData(body), err
 	}
 	return req, nil
 }

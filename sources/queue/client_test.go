@@ -16,7 +16,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets"
 )
 
-func setupClient(ctx context.Context, target middleware.Middleware, ch string) (*Client, error) {
+func setupClient(ctx context.Context, target middleware.Middleware, ch string, requeue string) (*Client, error) {
 	c := New()
 
 	err := c.Init(ctx, config.Spec{
@@ -29,8 +29,9 @@ func setupClient(ctx context.Context, target middleware.Middleware, ch string) (
 			"channel":          ch,
 			"response_channel": "queue.response",
 			"batch_size":       "1",
-			"sources":          "4",
+			"sources":          "1",
 			"wait_timeout":     "60",
+			"max_requeue":      requeue,
 		},
 	})
 	if err != nil {
@@ -85,6 +86,7 @@ func TestClient_processQueue(t *testing.T) {
 		req         *types.Request
 		wantResp    *types.Response
 		sendCh      string
+		requeue     string
 		wantErr     bool
 	}{
 		{
@@ -98,6 +100,7 @@ func TestClient_processQueue(t *testing.T) {
 			req:         types.NewRequest().SetData([]byte("some-data")),
 			wantResp:    types.NewResponse().SetData([]byte("some-data")),
 			sendCh:      uuid.New().String(),
+			requeue:     "0",
 			wantErr:     false,
 		},
 		{
@@ -111,6 +114,7 @@ func TestClient_processQueue(t *testing.T) {
 			req:         types.NewRequest().SetData([]byte("some-data")),
 			wantResp:    types.NewResponse().SetError(fmt.Errorf("do-error")),
 			sendCh:      uuid.New().String(),
+			requeue:     "0",
 			wantErr:     false,
 		},
 		{
@@ -124,6 +128,7 @@ func TestClient_processQueue(t *testing.T) {
 			req:         types.NewRequest().SetData([]byte("some-data")),
 			wantResp:    types.NewResponse().SetError(fmt.Errorf("do-error")),
 			sendCh:      uuid.New().String(),
+			requeue:     "2",
 			wantErr:     false,
 		},
 		{
@@ -135,6 +140,7 @@ func TestClient_processQueue(t *testing.T) {
 			},
 			req:      nil,
 			sendCh:   uuid.New().String(),
+			requeue:  "0",
 			wantResp: nil,
 			wantErr:  false,
 		},
@@ -143,7 +149,7 @@ func TestClient_processQueue(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
-			c, err := setupClient(ctx, tt.target, tt.sendCh)
+			c, err := setupClient(ctx, tt.target, tt.sendCh, tt.requeue)
 			require.NoError(t, err)
 			defer func() {
 				_ = c.Stop()

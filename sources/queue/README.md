@@ -23,6 +23,7 @@ Queue source connector configuration properties:
 | response_channel             | no       | set send target response to channel   | "response.channel" |
 | batch_size     | no      | set how many messages to pull from queue               | "1"         |
 | wait_timeout   | no      | set how long to wait for messages to arrive in seconds | "60"        |
+| max_requeue   | no      | set how many times to requeue the requests due to target error| "0" no requeue       |
 
 
 Example:
@@ -42,6 +43,7 @@ bindings:
         sources: "1"
         batch_size: "1"
         wait_timeout: "60"
+        max_requeue: 0
     target:
       kind: stores.elastic-search
       name: target-elastic-search

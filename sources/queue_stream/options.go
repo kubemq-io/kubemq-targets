@@ -23,6 +23,7 @@ type options struct {
 	sources           int
 	visibilityTimeout int
 	waitTimeout       int
+	resend            string
 }
 
 func parseOptions(cfg config.Spec) (options, error) {
@@ -55,6 +56,6 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing wait timeout value, %w", err)
 	}
-
+	o.resend = cfg.Properties.ParseString("resend", "")
 	return o, nil
 }

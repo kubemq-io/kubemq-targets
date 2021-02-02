@@ -118,6 +118,24 @@ func TestOptions_parseOptions(t *testing.T) {
 			want:    options{},
 			wantErr: true,
 		},
+		{
+			name: "invalid options - bad max_requeue value",
+			cfg: config.Spec{
+				Name: "kubemq-rpc",
+				Kind: "",
+				Properties: map[string]string{
+					"host":         "localhost",
+					"port":         "50000",
+					"channel":      "channel",
+					"sources":      "1",
+					"batch_size":   "1",
+					"wait_timeout": "1",
+					"max_requeue":  "-1",
+				},
+			},
+			want:    options{},
+			wantErr: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

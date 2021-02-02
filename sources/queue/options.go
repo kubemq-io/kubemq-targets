@@ -23,6 +23,7 @@ type options struct {
 	responseChannel string
 	batchSize       int
 	waitTimeout     int
+	maxRequeue      int
 }
 
 func parseOptions(cfg config.Spec) (options, error) {
@@ -55,6 +56,9 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing wait timeout value, %w", err)
 	}
-
+	o.maxRequeue, err = cfg.Properties.ParseIntWithRange("max_requeue", 0, 0, 1024)
+	if err != nil {
+		return options{}, fmt.Errorf("error parsing max requeue value, %w", err)
+	}
 	return o, nil
 }

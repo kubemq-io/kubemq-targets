@@ -23,11 +23,12 @@ const (
 )
 
 type Client struct {
-	opts      options
-	clients   []*kubemq.Client
-	log       *logger.Logger
-	target    middleware.Middleware
-	isStopped bool
+	opts         options
+	clients      []*kubemq.Client
+	log          *logger.Logger
+	target       middleware.Middleware
+	isStopped    bool
+	requeueCache *requeue
 }
 
 func New() *Client {
@@ -44,6 +45,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
+	c.requeueCache = newRequeue(c.opts.maxRequeue)
 	for i := 0; i < c.opts.sources; i++ {
 		clientId := c.opts.clientId
 		if c.opts.sources > 1 {
@@ -88,8 +90,12 @@ func (c *Client) run(ctx context.Context, client *kubemq.Client) {
 			continue
 		}
 		for _, message := range queueMessages {
-			resp := c.processQueueMessage(ctx, message)
-			if c.opts.responseChannel != "" {
+			resp, err := c.processQueueMessage(ctx, message, client)
+			if err != nil {
+				c.log.Error(err.Error())
+				continue
+			}
+			if resp != nil && c.opts.responseChannel != "" {
 				_, errSend := client.SetQueueMessage(resp.ToQueueMessage()).SetChannel(c.opts.responseChannel).Send(ctx)
 				if errSend != nil {
 					c.log.Errorf("error sending response to a queue, %s", errSend.Error())
@@ -116,17 +122,28 @@ func (c *Client) getQueueMessages(ctx context.Context, client *kubemq.Client) ([
 	return receiveResult.Messages, nil
 }
 
-func (c *Client) processQueueMessage(ctx context.Context, msg *kubemq.QueueMessage) *types.Response {
+func (c *Client) processQueueMessage(ctx context.Context, msg *kubemq.QueueMessage, client *kubemq.Client) (*types.Response, error) {
 	req, err := types.ParseRequest(msg.Body)
 	if err != nil {
-		return types.NewResponse().SetError(fmt.Errorf("invalid request format, %w", err))
+		return types.NewResponse().SetError(fmt.Errorf("invalid request format, %w", err)), nil
 	}
 	resp, err := c.target.Do(ctx, req)
-	if err != nil {
-		return types.NewResponse().SetError(err)
+	if err == nil {
+		c.requeueCache.remove(msg.MessageID)
+		return resp, nil
 	}
-	return resp
-
+	if c.requeueCache.isRequeue(msg.MessageID) {
+		_, requeueErr := client.SetQueueMessage(msg).Send(ctx)
+		if requeueErr != nil {
+			c.requeueCache.remove(msg.MessageID)
+			c.log.Errorf("message id %s wasn't requeue due to an error , %s", msg.MessageID, requeueErr.Error())
+			return types.NewResponse().SetError(err), nil
+		}
+		c.log.Infof("message id %s, requeued back to channel", msg.MessageID)
+		return nil, nil
+	} else {
+		return types.NewResponse().SetError(err), nil
+	}
 }
 
 func (c *Client) Stop() error {

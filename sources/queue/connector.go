@@ -36,6 +36,22 @@ func Connector() *common.Connector {
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
+				SetName("client_id").
+				SetDescription("Set Queue connection clients Id").
+				SetMust(false).
+				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("multilines").
+				SetName("auth_token").
+				SetDescription("Set Queue connection authentication token").
+				SetMust(false).
+				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("string").
 				SetName("response_channel").
 				SetDescription("Set Queue response channel").
 				SetMust(false).
@@ -59,18 +75,10 @@ func Connector() *common.Connector {
 		).
 		AddProperty(
 			common.NewProperty().
-				SetKind("string").
-				SetName("client_id").
-				SetDescription("Set Queue connection clients Id").
+				SetKind("int").
+				SetName("max_requeue").
+				SetDescription("Set how many time to requeue a requests do to target error").
 				SetMust(false).
-				SetDefault(""),
-		).
-		AddProperty(
-			common.NewProperty().
-				SetKind("multilines").
-				SetName("auth_token").
-				SetDescription("Set Queue connection authentication token").
-				SetMust(false).
-				SetDefault(""),
+				SetDefault("0"),
 		)
 }

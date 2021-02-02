@@ -23,6 +23,7 @@ Queue source connector configuration properties:
 | response_channel             | no       | set send target response to channel   | "response.channel" |
 | visibility_timeout_seconds     | no      | set how long to hold the message for processing before reject | "3600"         |
 | wait_timeout   | no      | set how long to wait for messages to arrive in seconds | "3600"        |
+| resend   | no      | set to which channel resend the same request on successful target execution| ""        |
 
 
 Example:
@@ -42,6 +43,7 @@ bindings:
         response_channel: "queue.response.elastic"
         visibility_timeout_seconds: "3600"
         wait_timeout: "3600"
+        resend: ""
     target:
       kind: stores.elastic-search
       name: target-elastic-search
