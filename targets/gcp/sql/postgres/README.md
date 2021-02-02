@@ -1,4 +1,4 @@
-# Kubemq Postgres-gcp Target Connector
+# Kubemq GCP-Postgres Target Connector
 
 Kubemq postgres target connector allows services using kubemq server to access postgres database services.
 
