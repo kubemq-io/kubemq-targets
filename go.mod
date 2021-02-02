@@ -45,7 +45,7 @@ require (
 	github.com/hazelcast/hazelcast-go-client v0.6.0
 	github.com/jpillora/backoff v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.10
-	github.com/kubemq-hub/builder v0.5.9
+	github.com/kubemq-hub/builder v0.6.1
 	github.com/kubemq-hub/ibmmq-sdk v0.3.8
 	github.com/kubemq-io/kubemq-go v1.4.7
 	github.com/labstack/echo/v4 v4.1.17
@@ -54,7 +54,6 @@ require (
 	github.com/mitchellh/mapstructure v1.3.3 // indirect
 	github.com/nats-io/nats-server/v2 v2.1.9 // indirect
 	github.com/nats-io/nats.go v1.10.0
-	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/olivere/elastic/v7 v7.0.20
 	github.com/prometheus/client_golang v1.7.1
 	github.com/spf13/pflag v1.0.5 // indirect

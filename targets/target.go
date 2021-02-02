@@ -63,6 +63,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/storage"
 	"github.com/kubemq-hub/kubemq-targets/targets/http"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/activemq"
+	"github.com/kubemq-hub/kubemq-targets/targets/messaging/ibmmq"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/kafka"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/mqtt"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/rabbitmq"
