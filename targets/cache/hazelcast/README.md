@@ -1,4 +1,4 @@
-# Kubemq hazelcast Target Connector
+# Kubemq Hazelcast Target Connector
 
 Kubemq hazelcast target connector allows services using kubemq server to access hazelcast server functions such `set`, `get` and `delete`.
 
