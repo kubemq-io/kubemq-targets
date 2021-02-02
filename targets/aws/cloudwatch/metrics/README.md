@@ -1,4 +1,4 @@
-# Kubemq cloudwatch-metrics target Connector
+# Kubemq CloudWatch Metrics Target Connector
 
 Kubemq cloudwatch-metrics target connector allows services using kubemq server to access aws cloudwatch-metrics service.
 

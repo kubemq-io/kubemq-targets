@@ -1,4 +1,4 @@
-# Kubemq dynamodb target Connector
+# Kubemq DynamoDb Target Connector
 
 Kubemq dynamodb target connector allows services using kubemq server to access aws dynamodb service.
 

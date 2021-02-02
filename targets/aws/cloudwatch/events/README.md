@@ -1,4 +1,4 @@
-# Kubemq cloudwatch-events target Connector
+# Kubemq CloudWatch Events Target Connector
 
 Kubemq cloudwatch-events target connector allows services using kubemq server to access aws cloudwatch-events service.
 

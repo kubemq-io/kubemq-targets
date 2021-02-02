@@ -28,6 +28,7 @@ import (
 	azurmysql "github.com/kubemq-hub/kubemq-targets/targets/azure/stores/mysql"
 	azurpostgres "github.com/kubemq-hub/kubemq-targets/targets/azure/stores/postgres"
 	"github.com/kubemq-hub/kubemq-targets/targets/cache/hazelcast"
+	"github.com/kubemq-hub/kubemq-targets/targets/echo"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/firebase"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/nats"
 	"github.com/kubemq-hub/kubemq-targets/targets/storage/hdfs"
@@ -86,6 +87,12 @@ type Target interface {
 func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 
 	switch cfg.Kind {
+	case "echo":
+		target := echo.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
 	case "aws.sqs":
 		target := sqs.New()
 		if err := target.Init(ctx, cfg); err != nil {
@@ -491,6 +498,7 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 
 func Connectors() common.Connectors {
 	return []*common.Connector{
+		echo.Connector(),
 		// cache
 		redis.Connector(),
 		memcached.Connector(),

@@ -1,4 +1,4 @@
-# Kubemq elasticsearch target Connector
+# Kubemq ElasticSearch Target Connector
 
 Kubemq aws-elasticsearch target connector allows services using kubemq server to access aws elasticsearch service.
 

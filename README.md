@@ -73,6 +73,8 @@ A list of supported targets is below.
 |            | [OpenFaas](https://www.openfaas.com/)                               |serverless.openfaas   | [Usage](targets/serverless/openfass)               | [Example](examples/serverless/openfaas) |
 | Http       |                                                                     |                              |                                                    |                                         |
 |            | Http                                                                |http                  | [Usage](targets/http)                              | [Example](examples/http)                |
+| Testing    |                                                                     |                              |                                                    |                                         |
+|            | Echo                                                                |echo                  | [Usage](targets/echo)                              |                 |
 
 
 

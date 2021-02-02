@@ -1,4 +1,4 @@
-# Kubemq cloudwatch-logs target Connector
+# Kubemq CloudWatch Logs Target Connector
 
 Kubemq cloudwatch-logs target connector allows services using kubemq server to access aws cloudwatch-logs service.
 

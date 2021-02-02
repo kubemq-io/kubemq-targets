@@ -1,4 +1,4 @@
-# Kubemq amazonMQ Target Connector
+# Kubemq AmazonMQ Target Connector
 
 Kubemq AmazonMQ target connector allows services using kubemq server to access AmazonMQ messaging services.
 

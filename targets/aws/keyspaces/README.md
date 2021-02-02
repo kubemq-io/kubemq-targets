@@ -1,4 +1,4 @@
-# Kubemq keyspaces Target Connector
+# Kubemq KeySpaces Target Connector
 
 Kubemq keyspaces target connector allows services using kubemq server to access keyspaces database services.
 
