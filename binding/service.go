@@ -6,6 +6,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
 	"github.com/kubemq-hub/kubemq-targets/pkg/metrics"
+	"github.com/kubemq-hub/kubemq-targets/types"
 	"net/http"
 	"sync"
 	"time"
@@ -16,19 +17,20 @@ const (
 )
 
 type Service struct {
-	sync.Mutex
-	bindings          map[string]*Binder
+	bindings          sync.Map
 	log               *logger.Logger
 	exporter          *metrics.Exporter
 	currentCtx        context.Context
 	currentCancelFunc context.CancelFunc
+	bindingStatus     sync.Map
+	cfg               *config.Config
 }
 
 func New() (*Service, error) {
 	s := &Service{
-		Mutex:    sync.Mutex{},
-		bindings: make(map[string]*Binder),
-		log:      logger.NewLogger("binding-service"),
+		bindings:      sync.Map{},
+		log:           logger.NewLogger("binding-service"),
+		bindingStatus: sync.Map{},
 	}
 	var err error
 	s.exporter, err = metrics.NewExporter()
@@ -39,14 +41,12 @@ func New() (*Service, error) {
 }
 func (s *Service) Start(ctx context.Context, cfg *config.Config) error {
 	s.currentCtx, s.currentCancelFunc = context.WithCancel(ctx)
+	s.cfg = cfg
 	if len(cfg.Bindings) == 0 {
 		return nil
 	}
-	wg := sync.WaitGroup{}
-	wg.Add(len(cfg.Bindings))
 	for _, bindingCfg := range cfg.Bindings {
 		go func(ctx context.Context, cfg config.BindingConfig) {
-			defer wg.Done()
 			err := s.Add(ctx, cfg)
 			if err == nil {
 				return
@@ -61,7 +61,7 @@ func (s *Service) Start(ctx context.Context, cfg *config.Config) error {
 					err := s.Add(ctx, cfg)
 					if err != nil {
 						s.log.Errorf("failed to initialized binding: %s, attempt: %d, error: %s", cfg.Name, count, err.Error())
-					}else {
+					} else {
 						return
 					}
 				case <-ctx.Done():
@@ -70,50 +70,53 @@ func (s *Service) Start(ctx context.Context, cfg *config.Config) error {
 			}
 
 		}(s.currentCtx, bindingCfg)
-
 	}
-	wg.Wait()
 	return nil
 }
 
 func (s *Service) Stop() {
-	for _, binder := range s.bindings {
+	s.currentCancelFunc()
+	s.bindings.Range(func(key, value interface{}) bool {
+		binder := value.(*Binder)
 		err := s.Remove(binder.name)
 		if err != nil {
 			s.log.Error(err)
 		}
-	}
-	s.currentCancelFunc()
+		return true
+	})
+
 }
 func (s *Service) Add(ctx context.Context, cfg config.BindingConfig) error {
-	s.Lock()
-	defer s.Unlock()
+
 	binder := NewBinder()
+	status := newStatus(cfg)
+	s.bindingStatus.Store(cfg.Name, status)
 	err := binder.Init(ctx, cfg, s.exporter)
 	if err != nil {
 		return err
 	}
-
 	err = binder.Start(ctx)
 	if err != nil {
 		return err
 	}
-	s.bindings[cfg.Name] = binder
+	s.bindings.Store(cfg.Name, binder)
+	status.Ready = true
+	s.bindingStatus.Store(cfg.Name, status)
 	return nil
 }
 
 func (s *Service) Remove(name string) error {
-	s.Lock()
-	defer s.Unlock()
-	binder, ok := s.bindings[name]
+	val, ok := s.bindings.Load(name)
 	if !ok {
 		return fmt.Errorf("binding %s no found", name)
 	}
+	binder := val.(*Binder)
 	err := binder.Stop()
 	if err != nil {
 		return err
 	}
-	delete(s.bindings, name)
+	s.bindings.Delete(name)
+	s.bindingStatus.Delete(name)
 	return nil
 }
 
@@ -122,4 +125,30 @@ func (s *Service) PrometheusHandler() http.Handler {
 }
 func (s *Service) Stats() []*metrics.Report {
 	return s.exporter.Store.List()
+}
+func (s *Service) GetStatus() []*Status {
+	var list []*Status
+	for _, binding := range s.cfg.Bindings {
+		val, ok := s.bindingStatus.Load(binding.Name)
+		if ok {
+			list = append(list, val.(*Status))
+		}
+	}
+	return list
+}
+func (s *Service) SendRequest(ctx context.Context, req *Request) *types.Response {
+	val, ok := s.bindings.Load(req.Binding)
+	if !ok {
+		return types.NewResponse().SetError(fmt.Errorf("no such binding, %s", req.Binding))
+	}
+	r, err := types.ParseRequest(req.Payload)
+	if err != nil {
+		return types.NewResponse().SetError(fmt.Errorf("error during parsing request: %s", err.Error()))
+	}
+	binder := val.(*Binder)
+	resp, err := binder.md.Do(ctx, r)
+	if err != nil {
+		return types.NewResponse().SetError(fmt.Errorf("error during executing request: %s", err.Error()))
+	}
+	return resp
 }

@@ -1,13 +1,22 @@
+apiPort: 8090
 bindings:
-- name: hdfs
+- name: echo1
   source:
     kind: kubemq.query
     properties:
       address: localhost:50000
-      channel: query.hdfs
+      channel: query.echo
   target:
-    kind: storage.hdfs
+    kind: echo
+    properties: {}
+  properties: {}
+- name: echo2
+  source:
+    kind: kubemq.query
     properties:
-      address: localhost:9000
-      user: test_user
+      address: localhost:50000
+      channel: query.echo
+  target:
+    kind: echo
+    properties: {}
   properties: {}

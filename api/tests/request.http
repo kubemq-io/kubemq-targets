@@ -1,0 +1,15 @@
+POST http://localhost:8090/bindings/request
+Content-Type: application/json
+
+{
+   "binding": "echo1",
+   "payload": {
+     "metadata": {
+       "method": "get",
+       "url": "https://httpbin.org/get"
+     },
+     "data": null
+   }
+}
+
+###
