@@ -175,8 +175,9 @@ Example:
 ```json
 {
   "metadata": {
-    "method": "remove_bucket",
+    "method": "put",
     "param1": "bucket"
+    "param2: "obejctname"
   },
   "data": "c29tZS1kYXRh"
 }
