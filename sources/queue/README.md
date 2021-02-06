@@ -20,10 +20,11 @@ Queue source connector configuration properties:
 | auth_token     | no       | set authentication token                               | jwt token   |
 | channel        | yes      | set channel to subscribe                               |             |
 | sources        | no      | set how many concurrent sources to subscribe                               |    1        |
+| max_requeue   | yes      | set how many times to requeue the requests due to target error| "0" no requeue       |
 | response_channel             | no       | set send target response to channel   | "response.channel" |
 | batch_size     | no      | set how many messages to pull from queue               | "1"         |
 | wait_timeout   | no      | set how long to wait for messages to arrive in seconds | "60"        |
-| max_requeue   | no      | set how many times to requeue the requests due to target error| "0" no requeue       |
+
 
 
 Example:

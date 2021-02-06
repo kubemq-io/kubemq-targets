@@ -7,7 +7,6 @@ import (
 )
 
 const (
-	defaultAddress     = "localhost:50000"
 	defaultBatchSize   = 1
 	defaultWaitTimeout = 60
 	defaultSources     = 1
@@ -29,7 +28,7 @@ type options struct {
 func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
-	o.host, o.port, err = cfg.Properties.MustParseAddress("address", defaultAddress)
+	o.host, o.port, err = cfg.Properties.MustParseAddress("address", "")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing address value, %w", err)
 	}

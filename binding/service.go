@@ -108,7 +108,7 @@ func (s *Service) Add(ctx context.Context, cfg config.BindingConfig) error {
 func (s *Service) Remove(name string) error {
 	val, ok := s.bindings.Load(name)
 	if !ok {
-		return fmt.Errorf("binding %s no found", name)
+		return fmt.Errorf("binding %s not found", name)
 	}
 	binder := val.(*Binder)
 	err := binder.Stop()

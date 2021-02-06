@@ -19,7 +19,7 @@ Command source connector configuration properties:
 | client_id                  | no       | set client id                                                         | "client_id"     |
 | auth_token                 | no       | set authentication token                                              | jwt token       |
 | channel                    | yes      | set channel to subscribe                                              |                 |
- |sources                    | no       | set how many command sources to subscribe              |    1            |
+ |sources                    | no       | set how many command sources to subscribe              |    "1"            |
 | group                      | no       | set subscriber group                                                  |                 |
 | auto_reconnect             | no       | set auto reconnect on lost connection                                 | "false", "true" |
 | reconnect_interval_seconds | no       | set reconnection seconds                                              | "5"             |
