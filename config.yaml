@@ -2,12 +2,16 @@ apiPort: 8090
 bindings:
 - name: fs
   source:
-    kind: kubemq.queue
+    kind: kubemq.queue-stream
     properties:
       address: localhost:50000
       channel: queue.fs
+      sources: 5
   target:
     kind: storage.filesystem
     properties:
       base_path: "./test-fs"
   properties: {}
+
+
+

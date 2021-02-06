@@ -39,7 +39,7 @@ func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
-	c.log = logger.NewLogger(fmt.Sprintf("kubemq-queue-transactional-source-%s", cfg.Name))
+	c.log = logger.NewLogger("kubemq-queue-source")
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {

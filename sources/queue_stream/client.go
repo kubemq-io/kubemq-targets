@@ -3,7 +3,6 @@ package queue_stream
 import (
 	"context"
 	"errors"
-	"fmt"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/middleware"
@@ -44,7 +43,7 @@ func (c *Client) getKubemqClient(ctx context.Context) (*kubemq.Client, error) {
 	return client, nil
 }
 func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
-	c.log = logger.NewLogger(fmt.Sprintf("kubemq-queue-transactional-source-%s", cfg.Name))
+	c.log = logger.NewLogger("kubemq-queue-stream")
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
