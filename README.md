@@ -40,41 +40,42 @@ A list of supported targets is below.
 
 #### Standalone Services
 
-| Category   | Target                                                              | Kind                         | Configuration                                      | Example                                 |
-|:-----------|:--------------------------------------------------------------------|:-----------------------------|:---------------------------------------------------|:----------------------------------------|
-| Cache      |                                                                     |                              |                                                    |                                         |
-|            | [Redis](https://redis.io/)                                          |cache.redis           | [Usage](targets/cache/redis)                       | [Example](examples/cache/redis)         |
-|            | [Memcached](https://memcached.org/)                                 |cache.memcached       | [Usage](targets/cache/memcached)                   | [Example](examples/cache/memcached)    |
-|            | [Hazelcast](https://hazelcast.com/)                                 |cache.hazelcast       | [Usage](targets/cache/hazelcast)                   | [Example](examples/cache/hazelcast)    |
-| Stores/db  |                                                                     |                              |                                                    |                                         |
-|            | [Postgres](https://www.postgresql.org/)                             |stores.postgres       | [Usage](targets/stores/postgres)                   | [Example](examples/stores/postgres)     |
-|            | [Mysql](https://www.mysql.com/)                                     |stores.mysql          | [Usage](targets/stores/mysql)                      | [Example](examples/stores/mysql)        |
-|            | [MSSql](https://www.microsoft.com/en-us/sql-server/sql-server-2019) |stores.mssql          | [Usage](targets/stores/mssql)                      | [Example](examples/stores/mssql)        |
-|            | [MongoDB](https://www.mongodb.com/)                                 |stores.mongodb        | [Usage](targets/stores/mongodb)                    | [Example](examples/stores/mongodb)      |
-|            | [Elastic Search](https://www.elastic.co/)                           |stores.elastic-search | [Usage](targets/stores/elastic)                    | [Example](examples/stores/elastic)      |
-|            | [Cassandra](https://cassandra.apache.org/)                          |stores.cassandra      | [Usage](targets/stores/cassandra)                  | [Example](examples/stores/cassandra)    |
-|            | [Couchbase](https://www.couchbase.com/)                             |stores.couchbase      | [Usage](targets/stores/couchbase)                  | [Example](examples/stores/couchbase)    |
-|            | [Percona](https://www.percona.com/)                                 |stores.percona        | [Usage](targets/stores/percona)                    | [Example](examples/stores/percona)      |
-|            | [Cockroachdb](https://www.cockroachlabs.com/)                       |stores.cockroachdb    | [Usage](targets/stores/cockroachdb)                | [Example](examples/stores/cockroachdb)  |
-|            | [Aerospike](https://www.aerospike.com/)                             |stores.aerospike      | [Usage](targets/stores/aerospike)                  | [Example](examples/stores/aerospike)    |
-|            | [RethinkDB](https://rethinkdb.com/)                                 |stores.rethinkdb      | [Usage](targets/stores/rethinkdb)                  | [Example](examples/stores/rethinkdb)    |
-|            | [SingleStore](https://www.singlestore.com/)                         |stores.singlestore    | [Usage](targets/stores/singlestore)                     | [Example](examples/stores/singlestore)       |
-| Messaging  |                                                                     |                              |                                                    |                                         |
-|            | [Kafka](https://kafka.apache.org/)                                  |messaging.kafka       | [Usage](targets/messaging/kafka)                   | [Example](examples/messaging/kafka)     |
-|            | [Nats](https://nats.io/)                                            |messaging.nats        | [Usage](targets/messaging/nats)                    | [Example](examples/messaging/nats)     |
-|            | [RabbitMQ](https://www.rabbitmq.com/)                               |messaging.rabbitmq    | [Usage](targets/messaging/rabbitmq)                | [Example](examples/messaging/rabbitmq)  |
-|            | [MQTT](http://mqtt.org/)                                            |messaging.mqtt        | [Usage](targets/messaging/mqtt)                    | [Example](examples/messaging/mqtt)      |
-|            | [ActiveMQ](http://activemq.apache.org/)                             |messaging.activemq    | [Usage](targets/messaging/activemq)                | [Example](examples/messaging/activemq)  |
-|            | [IBM-MQ](https://developer.ibm.com/components/ibm-mq)               |messaging.ibmmq    | [Usage](targets/messaging/ibmmq)                   | [Example](examples/messaging/ibmmq)  |
-| Storage    |                                                                     |                              |                                                    |                                         |
-|            | [Minio/S3](https://min.io/)                                         |storage.minio         | [Usage](targets/storage/minio)                     | [Example](examples/storage/minio)       |
-|            | [hadoop/hdfs](https://hadoop.apache.org/)                           |storage.hdfs         | [Usage](targets/storage/hdfs)                     | [Example](examples/storage/hdfs)       |
-| Serverless |                                                                     |                              |                                                    |                                         |
-|            | [OpenFaas](https://www.openfaas.com/)                               |serverless.openfaas   | [Usage](targets/serverless/openfass)               | [Example](examples/serverless/openfaas) |
-| Http       |                                                                     |                              |                                                    |                                         |
-|            | Http                                                                |http                  | [Usage](targets/http)                              | [Example](examples/http)                |
-| Testing    |                                                                     |                              |                                                    |                                         |
-|            | Echo                                                                |echo                  | [Usage](targets/echo)                              |                 |
+| Category   | Target                                                              | Kind                  | Configuration                        | Example                                 |
+|:-----------|:--------------------------------------------------------------------|:----------------------|:-------------------------------------|:----------------------------------------|
+| Cache      |                                                                     |                       |                                      |                                         |
+|            | [Redis](https://redis.io/)                                          | cache.redis           | [Usage](targets/cache/redis)         | [Example](examples/cache/redis)         |
+|            | [Memcached](https://memcached.org/)                                 | cache.memcached       | [Usage](targets/cache/memcached)     | [Example](examples/cache/memcached)     |
+|            | [Hazelcast](https://hazelcast.com/)                                 | cache.hazelcast       | [Usage](targets/cache/hazelcast)     | [Example](examples/cache/hazelcast)     |
+| Stores/db  |                                                                     |                       |                                      |                                         |
+|            | [Postgres](https://www.postgresql.org/)                             | stores.postgres       | [Usage](targets/stores/postgres)     | [Example](examples/stores/postgres)     |
+|            | [Mysql](https://www.mysql.com/)                                     | stores.mysql          | [Usage](targets/stores/mysql)        | [Example](examples/stores/mysql)        |
+|            | [MSSql](https://www.microsoft.com/en-us/sql-server/sql-server-2019) | stores.mssql          | [Usage](targets/stores/mssql)        | [Example](examples/stores/mssql)        |
+|            | [MongoDB](https://www.mongodb.com/)                                 | stores.mongodb        | [Usage](targets/stores/mongodb)      | [Example](examples/stores/mongodb)      |
+|            | [Elastic Search](https://www.elastic.co/)                           | stores.elastic-search | [Usage](targets/stores/elastic)      | [Example](examples/stores/elastic)      |
+|            | [Cassandra](https://cassandra.apache.org/)                          | stores.cassandra      | [Usage](targets/stores/cassandra)    | [Example](examples/stores/cassandra)    |
+|            | [Couchbase](https://www.couchbase.com/)                             | stores.couchbase      | [Usage](targets/stores/couchbase)    | [Example](examples/stores/couchbase)    |
+|            | [Percona](https://www.percona.com/)                                 | stores.percona        | [Usage](targets/stores/percona)      | [Example](examples/stores/percona)      |
+|            | [Cockroachdb](https://www.cockroachlabs.com/)                       | stores.cockroachdb    | [Usage](targets/stores/cockroachdb)  | [Example](examples/stores/cockroachdb)  |
+|            | [Aerospike](https://www.aerospike.com/)                             | stores.aerospike      | [Usage](targets/stores/aerospike)    | [Example](examples/stores/aerospike)    |
+|            | [RethinkDB](https://rethinkdb.com/)                                 | stores.rethinkdb      | [Usage](targets/stores/rethinkdb)    | [Example](examples/stores/rethinkdb)    |
+|            | [SingleStore](https://www.singlestore.com/)                         | stores.singlestore    | [Usage](targets/stores/singlestore)  | [Example](examples/stores/singlestore)  |
+| Messaging  |                                                                     |                       |                                      |                                         |
+|            | [Kafka](https://kafka.apache.org/)                                  | messaging.kafka       | [Usage](targets/messaging/kafka)     | [Example](examples/messaging/kafka)     |
+|            | [Nats](https://nats.io/)                                            | messaging.nats        | [Usage](targets/messaging/nats)      | [Example](examples/messaging/nats)      |
+|            | [RabbitMQ](https://www.rabbitmq.com/)                               | messaging.rabbitmq    | [Usage](targets/messaging/rabbitmq)  | [Example](examples/messaging/rabbitmq)  |
+|            | [MQTT](http://mqtt.org/)                                            | messaging.mqtt        | [Usage](targets/messaging/mqtt)      | [Example](examples/messaging/mqtt)      |
+|            | [ActiveMQ](http://activemq.apache.org/)                             | messaging.activemq    | [Usage](targets/messaging/activemq)  | [Example](examples/messaging/activemq)  |
+|            | [IBM-MQ](https://developer.ibm.com/components/ibm-mq)               | messaging.ibmmq       | [Usage](targets/messaging/ibmmq)     | [Example](examples/messaging/ibmmq)     |
+| Storage    |                                                                     |                       |                                      |                                         |
+|            | [Minio/S3](https://min.io/)                                         | storage.minio         | [Usage](targets/storage/minio)       | [Example](examples/storage/minio)       |
+|            | [hadoop/hdfs](https://hadoop.apache.org/)                           | storage.hdfs          | [Usage](targets/storage/hdfs)        | [Example](examples/storage/hdfs)        |
+|            | Filesystem                                                          | storage.filesystem    | [Usage](targets/storage/filesystem)  |                                         |
+| Serverless |                                                                     |                       |                                      |                                         |
+|            | [OpenFaas](https://www.openfaas.com/)                               | serverless.openfaas   | [Usage](targets/serverless/openfass) | [Example](examples/serverless/openfaas) |
+| Http       |                                                                     |                       |                                      |                                         |
+|            | Http                                                                | http                  | [Usage](targets/http)                | [Example](examples/http)                |
+| Testing    |                                                                     |                       |                                      |                                         |
+|            | Echo                                                                | echo                  | [Usage](targets/echo)                |                                         |
 
 
 
