@@ -10,7 +10,7 @@ bindings:
   target:
     kind: storage.filesystem
     properties:
-      base_path: "./test-fs"
+      base_path: 'd:\test\target-fs'
   properties: {}
 
 

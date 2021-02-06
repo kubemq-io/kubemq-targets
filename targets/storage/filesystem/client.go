@@ -42,14 +42,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	}
 	switch meta.method {
 	case "save":
-		r, e := c.Save(ctx, meta, req.Data)
-		if e != nil {
-			fmt.Println(e.Error())
-		}
-		if r.IsError {
-			fmt.Println(r.Error)
-		}
-		return r, e
+		return c.Save(ctx, meta, req.Data)
 	case "load":
 		return c.Load(ctx, meta)
 	case "delete":
@@ -61,7 +54,6 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 }
 
 func (c *Client) Save(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
-
 	if _, err := os.Stat(filepath.Join(c.absPath, meta.path)); os.IsNotExist(err) {
 		err := os.MkdirAll(filepath.Join(c.absPath, meta.path), 0600)
 		if err != nil {
