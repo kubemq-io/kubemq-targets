@@ -1,22 +1,13 @@
 apiPort: 8090
 bindings:
-- name: echo1
+- name: fs
   source:
-    kind: kubemq.query
+    kind: kubemq.queue
     properties:
       address: localhost:50000
-      channel: query.echo
+      channel: queue.fs
   target:
-    kind: echo
-    properties: {}
-  properties: {}
-- name: echo2
-  source:
-    kind: kubemq.query
+    kind: storage.filesystem
     properties:
-      address: localhost:50000
-      channel: query.echo
-  target:
-    kind: echo
-    properties: {}
+      base_path: "./test-fs"
   properties: {}

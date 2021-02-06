@@ -11,7 +11,7 @@ The following are required to run the minio target connector:
 
 ## Configuration
 
-Mongodb target connector configuration properties:
+Minio target connector configuration properties:
 
 | Properties Key    | Required | Description                              | Example          |
 |:------------------|:---------|:-----------------------------------------|:-----------------|

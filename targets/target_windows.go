@@ -30,6 +30,8 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/cache/hazelcast"
 	"github.com/kubemq-hub/kubemq-targets/targets/echo"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/firebase"
+	"github.com/kubemq-hub/kubemq-targets/targets/storage/filesystem"
+
 	//"github.com/kubemq-hub/kubemq-targets/targets/messaging/ibmmq"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/nats"
 	"github.com/kubemq-hub/kubemq-targets/targets/storage/hdfs"
@@ -88,6 +90,12 @@ type Target interface {
 func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 
 	switch cfg.Kind {
+	case "storage.filesystem":
+		target := filesystem.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
 	case "echo":
 		target := echo.New()
 		if err := target.Init(ctx, cfg); err != nil {
@@ -534,6 +542,7 @@ func Connectors() common.Connectors {
 		//storage
 		minio.Connector(),
 		hdfs.Connector(),
+		filesystem.Connector(),
 
 		// serverless
 		openfaas.Connector(),
