@@ -9,6 +9,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/minio/minio-go/v7"
+	"github.com/minio/minio-go/v7/pkg/credentials"
 	"io/ioutil"
 )
 
@@ -31,7 +32,10 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	if err != nil {
 		return err
 	}
-	c.s3Client, err = minio.New(c.opts.endpoint, c.opts.accessKeyId, c.opts.secretAccessKey, c.opts.useSSL)
+	c.s3Client, err = minio.New(c.opts.endpoint, &minio.Options{
+		Creds:  credentials.NewStaticV4(c.opts.accessKeyId, c.opts.secretAccessKey, ""),
+		Secure: c.opts.useSSL,
+	})
 	if err != nil {
 		return err
 	}
@@ -65,7 +69,11 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 }
 
 func (c *Client) MakeBucket(ctx context.Context, meta metadata) (*types.Response, error) {
-	err := c.s3Client.MakeBucket(ctx, meta.param1, meta.param2)
+	bucketOptions := minio.MakeBucketOptions{
+		Region:        meta.param2,
+		ObjectLocking: false,
+	}
+	err := c.s3Client.MakeBucket(ctx, meta.param1, bucketOptions)
 	if err != nil {
 		return nil, err
 	}
@@ -107,10 +115,9 @@ func (c *Client) RemoveBucket(ctx context.Context, meta metadata) (*types.Respon
 }
 
 func (c *Client) ListObjects(ctx context.Context, meta metadata) (*types.Response, error) {
-	doneCh := make(chan struct{})
-	defer close(doneCh)
+
 	var objects []minio.ObjectInfo
-	for object := range c.s3Client.ListObjectsV2(ctx, meta.param1, meta.param2, true, doneCh) {
+	for object := range c.s3Client.ListObjects(ctx, meta.param1, minio.ListObjectsOptions{Recursive: true}) {
 		objects = append(objects, object)
 	}
 	data, err := json.Marshal(&objects)
@@ -150,14 +157,17 @@ func (c *Client) Put(ctx context.Context, meta metadata, value []byte) (*types.R
 
 }
 func (c *Client) Remove(ctx context.Context, meta metadata) (*types.Response, error) {
-	err := c.s3Client.RemoveObject(ctx, meta.param1, meta.param2)
+	err := c.s3Client.RemoveObject(ctx, meta.param1, meta.param2, minio.RemoveObjectOptions{
+		GovernanceBypass: false,
+		VersionID:        "",
+		Internal:         minio.AdvancedRemoveOptions{},
+	})
 	if err != nil {
 		return nil, err
 	}
 	return types.NewResponse().
 		SetMetadataKeyValue("result", "ok"), nil
 }
-
 
 func (c *Client) Stop() error {
 	return nil

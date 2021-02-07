@@ -176,8 +176,8 @@ Example:
 {
   "metadata": {
     "method": "put",
-    "param1": "bucket"
-    "param2: "obejctname"
+    "param1": "bucket",
+    "param2": "object-name"
   },
   "data": "c29tZS1kYXRh"
 }
