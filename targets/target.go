@@ -1,4 +1,4 @@
-// +build !windows
+// +build !container
 
 package targets
 
@@ -30,8 +30,10 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/cache/hazelcast"
 	"github.com/kubemq-hub/kubemq-targets/targets/echo"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/firebase"
-	"github.com/kubemq-hub/kubemq-targets/targets/messaging/nats"
 	"github.com/kubemq-hub/kubemq-targets/targets/storage/filesystem"
+
+	//"github.com/kubemq-hub/kubemq-targets/targets/messaging/ibmmq"
+	"github.com/kubemq-hub/kubemq-targets/targets/messaging/nats"
 	"github.com/kubemq-hub/kubemq-targets/targets/storage/hdfs"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/aerospike"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/cockroachdb"
@@ -64,7 +66,6 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/storage"
 	"github.com/kubemq-hub/kubemq-targets/targets/http"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/activemq"
-	"github.com/kubemq-hub/kubemq-targets/targets/messaging/ibmmq"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/kafka"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/mqtt"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/rabbitmq"
@@ -534,7 +535,7 @@ func Connectors() common.Connectors {
 		rabbitmq.Connector(),
 		kafka.Connector(),
 		activemq.Connector(),
-		ibmmq.Connector(),
+		//ibmmq.Connector(),
 		nats.Connector(),
 		hazelcast.Connector(),
 
