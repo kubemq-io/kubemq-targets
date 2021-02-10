@@ -34,7 +34,7 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: stores.filesystem
+      kind: storage.filesystem
       name: target-filesystem
       properties:
         base_path: "./"

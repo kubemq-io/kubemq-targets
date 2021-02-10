@@ -37,8 +37,8 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: .hadoop
-      name: -hadoop
+      kind: storage.hadoop
+      name: hadoop
       properties:
         _key: "id"
         _secret_key: 'json'

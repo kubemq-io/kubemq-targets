@@ -38,11 +38,11 @@ bindings:
         reconnect_interval_seconds: "1"
         max_reconnects: "0"
     target:
-      kind: stores.minio
+      kind: storage.minio
       name: target-minio
       properties:
-        endpoint: "localhost:9001"
-        use_ssl: "true"
+        endpoint: "localhost:9000"
+        use_ssl: "false"
         access_key_id: "minio"
         secret_access_key: "minio123"
 ```
