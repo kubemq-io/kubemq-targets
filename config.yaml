@@ -1,17 +1,35 @@
 apiPort: 8090
+logLevel: info
 bindings:
 - name: fs
   source:
-    kind: kubemq.queue-stream
+    kind: kubemq.queue
     properties:
       address: localhost:50000
       channel: queue.fs
       sources: 5
   target:
-    kind: storage.filesystem
+    kind: storage.minio
+    name: target-minio
     properties:
-      base_path: 'd:\test\target-fs'
+      endpoint: "localhost:9000"
+      use_ssl: "false"
+      access_key_id: "minio"
+      secret_access_key: "minio123"
   properties: {}
+#bindings:
+#  - name: fs
+#    source:
+#      kind: kubemq.queue-stream
+#      properties:
+#        address: localhost:50000
+#        channel: queue.fs
+#        sources: 5
+#    target:
+#      kind: storage.filesystem
+#      properties:
+#        base_path: 'd:\test\target-fs'
+#    properties: {}
 
 
 
