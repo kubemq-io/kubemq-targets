@@ -1,9 +1,11 @@
 package types
 
 import (
+	b64 "encoding/base64"
 	"fmt"
 	jsoniter "github.com/json-iterator/go"
 	"github.com/kubemq-io/kubemq-go"
+	"reflect"
 )
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
@@ -41,12 +43,43 @@ func ParseRequest(body []byte) (*Request, error) {
 	if body == nil {
 		return nil, fmt.Errorf("empty request")
 	}
-	req := &Request{}
+	req := &TransportRequest{}
 	err := json.Unmarshal(body, req)
 	if err != nil {
 		return NewRequest().SetData(body), err
 	}
-	return req, nil
+	switch v := req.Data.(type) {
+	case nil:
+		return &Request{
+			Metadata: req.Metadata,
+			Data:     nil,
+		}, nil
+	case []byte:
+		return &Request{
+			Metadata: req.Metadata,
+			Data:     v,
+		}, nil
+	case string:
+		sDec, err := b64.StdEncoding.DecodeString(v)
+		if err != nil {
+			sDec = []byte(v)
+		}
+		return &Request{
+			Metadata: req.Metadata,
+			Data:     sDec,
+		}, nil
+	case map[string]interface{}:
+		data, err := json.Marshal(v)
+		if err != nil {
+			return nil, fmt.Errorf("error during casting json data, %s", err.Error())
+		}
+		return &Request{
+			Metadata: req.Metadata,
+			Data:     data,
+		}, nil
+	default:
+		return nil, fmt.Errorf("invalid data format, %s", reflect.TypeOf(v))
+	}
 }
 
 func (r *Request) MarshalBinary() []byte {
@@ -79,4 +112,38 @@ func (r *Request) String() string {
 		return ""
 	}
 	return str
+}
+
+type TransportRequest struct {
+	Metadata Metadata    `json:"metadata,omitempty"`
+	Data     interface{} `json:"data,omitempty"`
+}
+
+func NewTransportRequest() *TransportRequest {
+	return &TransportRequest{
+		Metadata: NewMetadata(),
+		Data:     nil,
+	}
+}
+
+func (r *TransportRequest) SetMetadata(value Metadata) *TransportRequest {
+	r.Metadata = value
+	return r
+}
+func (r *TransportRequest) SetMetadataKeyValue(key, value string) *TransportRequest {
+	r.Metadata.Set(key, value)
+	return r
+}
+
+func (r *TransportRequest) SetData(value interface{}) *TransportRequest {
+	r.Data = value
+	return r
+}
+func (r *TransportRequest) ToEvent() *kubemq.Event {
+	return kubemq.NewEvent().
+		SetBody(r.MarshalBinary())
+}
+func (r *TransportRequest) MarshalBinary() []byte {
+	data, _ := json.Marshal(r)
+	return data
 }

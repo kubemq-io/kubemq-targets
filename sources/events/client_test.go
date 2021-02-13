@@ -75,6 +75,7 @@ func sendEvent(t *testing.T, ctx context.Context, req *types.Request, sendChanne
 	}
 	return nil, nil
 }
+
 func TestClient_processEvent(t *testing.T) {
 	tests := []struct {
 		name     string
@@ -141,6 +142,7 @@ func TestClient_processEvent(t *testing.T) {
 				require.Error(t, err)
 				return
 			}
+			fmt.Println(string(tt.wantResp.Data), string(gotResp.Data))
 			require.EqualValues(t, tt.wantResp, gotResp)
 		})
 	}

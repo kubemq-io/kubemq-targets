@@ -124,3 +124,12 @@ func ParseResponse(body []byte) (*Response, error) {
 	}
 	return req, nil
 }
+
+func ParseResponseBody(body []byte) interface{} {
+	j := map[string]interface{}{}
+	parseJsonErr := json.UnmarshalFromString(string(body), &j)
+	if parseJsonErr == nil {
+		return j
+	}
+	return string(body)
+}

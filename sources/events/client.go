@@ -107,7 +107,6 @@ func (c *Client) runClient(ctx context.Context, client *kubemq.Client) error {
 				return
 			case <-ctx.Done():
 				return
-
 			}
 		}
 	}(ctx, eventsCh, errCh)

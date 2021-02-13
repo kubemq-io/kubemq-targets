@@ -3,6 +3,7 @@ package queue_stream
 import (
 	"context"
 	"errors"
+	"fmt"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/middleware"
@@ -118,14 +119,13 @@ func (c *Client) processQueueMessage() (*types.Response, error) {
 
 	req, err := types.ParseRequest(msg.Body)
 	if err != nil {
-		return nil, err
+		return types.NewResponse().SetError(fmt.Errorf("invalid request format, %w", err)), msg.Ack()
 	}
 	resp, err := c.target.Do(ctx, req)
 	if err != nil {
 		if msg.Policy.MaxReceiveCount != msg.Attributes.ReceiveCount {
 			return nil, msg.Reject()
 		}
-
 		return types.NewResponse().SetError(err), nil
 	}
 	if c.opts.resend != "" {

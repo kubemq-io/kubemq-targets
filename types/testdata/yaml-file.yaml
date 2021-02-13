@@ -1,0 +1,15 @@
+autointegrated: false
+currentnamespace: kubemq
+currentstatefulset: kubemq-cluster
+host: 127.0.0.1
+grpcport: 50000
+restport: 9090
+apiport: 8080
+issecured: false
+certfile: ""
+kubeconfigpath: ""
+connectiontype: rest
+defaulttoken: ""
+clientid: ""
+authtokenfile: ""
+licensedata: ""

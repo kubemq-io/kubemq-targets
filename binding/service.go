@@ -136,19 +136,19 @@ func (s *Service) GetStatus() []*Status {
 	}
 	return list
 }
-func (s *Service) SendRequest(ctx context.Context, req *Request) *types.Response {
+func (s *Service) SendRequest(ctx context.Context, req *Request) *Response {
 	val, ok := s.bindings.Load(req.Binding)
 	if !ok {
-		return types.NewResponse().SetError(fmt.Errorf("no such binding, %s", req.Binding))
+		return toResponse(types.NewResponse().SetError(fmt.Errorf("no such binding, %s", req.Binding)))
 	}
 	r, err := types.ParseRequest(req.Payload)
 	if err != nil {
-		return types.NewResponse().SetError(fmt.Errorf("error during parsing request: %s", err.Error()))
+		return toResponse(types.NewResponse().SetError(fmt.Errorf("error during parsing request: %s", err.Error())))
 	}
 	binder := val.(*Binder)
 	resp, err := binder.md.Do(ctx, r)
 	if err != nil {
-		return types.NewResponse().SetError(fmt.Errorf("error during executing request: %s", err.Error()))
+		return toResponse(types.NewResponse().SetError(fmt.Errorf("error during executing request: %s", err.Error())))
 	}
-	return resp
+	return toResponse(resp)
 }
