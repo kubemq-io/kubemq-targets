@@ -1,13 +1,11 @@
-ARG BASE_IMAGE=ubuntu:19.10
+ARG BASE_IMAGE=ubuntu:20.10
 FROM $BASE_IMAGE
 
 ARG GOPATH_ARG="/go"
 
-ENV GOVERSION=1.14 \
+ENV GOVERSION=1.16 \
     GOPATH=$GOPATH_ARG \
     ORG="github.com/ibm-messaging"
-
-
 
 RUN export DEBIAN_FRONTEND=noninteractive \
   && bash -c 'source /etc/os-release; \
@@ -27,8 +25,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     go-dep \
     build-essential \
   && rm -rf /var/lib/apt/lists/*
-RUN wget https://dl.google.com/go/go1.15.5.linux-amd64.tar.gz
-RUN tar -C /usr/local -xzf ./go1.15.5.linux-amd64.tar.gz
+RUN wget https://dl.google.com/go/go1.16.linux-amd64.tar.gz
+RUN tar -C /usr/local -xzf ./go1.16.linux-amd64.tar.gz
 ENV PATH=$PATH:/usr/local/go/bin
 RUN mkdir -p /opt/mqm \
   && chmod a+rx /opt/mqm
