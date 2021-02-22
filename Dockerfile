@@ -1,5 +1,5 @@
 #FROM kubemq/gobuilder as builder
-FROM kubemq/gobuilder-ubuntu as builder
+FROM kubemq/gobuilder-ubuntu:latest as builder
 ARG VERSION
 ARG GIT_COMMIT
 ARG BUILD_TIME
@@ -9,7 +9,7 @@ ENV ADDR=0.0.0.0
 ADD . $GOPATH/github.com/kubemq-hub/kubemq-targets
 WORKDIR $GOPATH/github.com/kubemq-hub/kubemq-targets
 RUN CGO_ENABLED=1 GOOS=linux GOARCH=amd64 go build -tags container -a -mod=vendor -installsuffix cgo -ldflags="-w -s -X main.version=$VERSION" -o kubemq-targets-run .
-FROM registry.access.redhat.com/ubi8/ubi-minimal
+FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
 MAINTAINER KubeMQ info@kubemq.io
 LABEL name="KubeMQ Target Connectors" \
       maintainer="info@kubemq.io" \

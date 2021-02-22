@@ -4,7 +4,7 @@ version: '3'
 
 vars:
   BINARY_NAME: kubemq-targets
-  VERSION: v0.7.1
+  VERSION: v0.7.2
 
 tasks:
   default:
@@ -40,8 +40,8 @@ tasks:
       - go build -o "{{.BINARY_NAME}}.exe" -ldflags "-X main.version={{.VERSION}}"
   docker-builder:
     cmds:
-      - docker build . -f Docker_builder -t kubemq/gobuilder-ubuntu
-      - docker push kubemq/gobuilder-ubuntu
+      - docker build . -f Docker_builder -t kubemq/gobuilder-ubuntu:latest
+      - docker push kubemq/gobuilder-ubuntu:latest
   docker:
     env:
       GOOS: linux
