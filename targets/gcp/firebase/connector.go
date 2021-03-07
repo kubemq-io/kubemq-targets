@@ -16,6 +16,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("project_id").
+				SetTitle("Project ID").
 				SetDescription("Set GCP project ID").
 				SetMust(true).
 				SetDefault(""),
@@ -24,6 +25,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("multilines").
 				SetName("credentials").
+				SetTitle("Json Credentials").
 				SetDescription("Set GCP credentials").
 				SetMust(true).
 				SetDefault(""),
@@ -40,6 +42,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("bool").
 				SetName("db_client").
+				SetTitle("Is DB Client").
 				SetDescription("Set Firebase target is a db client").
 				SetMust(false).
 				SetDefault("false"),
@@ -48,6 +51,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("db_url").
+				SetTitle("DB URL").
 				SetDescription("Set Firebase db url").
 				SetMust(false).
 				SetDefault(""),
@@ -56,6 +60,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("bool").
 				SetName("messaging_client").
+				SetTitle("Is Messaging Client").
 				SetDescription("Set Firebase target is a messaging client").
 				SetMust(false).
 				SetDefault("false"),

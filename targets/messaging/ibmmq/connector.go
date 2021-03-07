@@ -16,6 +16,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("queue_manager_name").
+				SetTitle("Queue Manager Name").
 				SetDescription("Set IBM-MQ queue manager name").
 				SetMust(true).
 				SetDefault(""),
@@ -56,6 +57,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("ttl").
+				SetTitle("TTL").
 				SetDescription("Sets IBM-MQ message time to live (milliseconds)").
 				SetDefault("1000000").
 				SetMax(1000000000).
@@ -84,6 +86,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("tls_client_auth").
+				SetTitle("TLS Client Auth").
 				SetDescription("Set IBM-MQ tls_client_auth").
 				SetDefault("NONE").
 				SetMust(false),
@@ -92,9 +95,10 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("port_number").
+				SetTitle("Port").
 				SetDescription("Set IBM-MQ server port_number").
 				SetDefault("1414").
-				SetMax(10000).
+				SetMax(65355).
 				SetMin(0).
 				SetMust(false),
 		).

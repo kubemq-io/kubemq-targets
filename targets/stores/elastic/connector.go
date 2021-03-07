@@ -16,6 +16,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("urls").
+				SetTitle("Connection URLs").
 				SetDescription("Set Elastic Search Urls").
 				SetMust(true).
 				SetDefault(""),
@@ -40,6 +41,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("bool").
 				SetName("sniff").
+				SetTitle("Use Sniff").
 				SetDescription("Set Elastic Search sniff mode").
 				SetMust(false).
 				SetDefault("false"),

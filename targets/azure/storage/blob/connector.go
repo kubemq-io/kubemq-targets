@@ -52,6 +52,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("try_timeout").
+				SetTitle("Try Timout (milliseconds)").
 				SetDescription("Set Blob Storage try timeout in milliseconds").
 				SetMust(false).
 				SetDefault("1000").

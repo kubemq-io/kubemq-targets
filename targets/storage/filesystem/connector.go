@@ -16,6 +16,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("base_path").
+				SetTitle("Destination Path").
 				SetDescription("Set local file system base path").
 				SetMust(true).
 				SetDefault("./"),

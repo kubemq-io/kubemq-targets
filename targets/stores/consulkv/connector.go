@@ -24,6 +24,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("wait_time").
+				SetTitle("Wait Time (Milliseconds)").
 				SetDescription("Set wait time milliseconds ").
 				SetMust(false).
 				SetDefault("36000").
@@ -74,6 +75,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("bool").
 				SetName("tls").
+				SetTitle("Use TLS").
 				SetDescription("Set if use tls").
 				SetMust(false).
 				SetDefault("false"),
@@ -82,6 +84,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("condition").
 				SetName("tls").
+				SetTitle("Use TLS").
 				SetOptions([]string{"true", "false"}).
 				SetDescription("Set tls conditions").
 				SetMust(true).
@@ -90,12 +93,14 @@ func Connector() *common.Connector {
 					common.NewProperty().
 						SetKind("multilines").
 						SetName("cert_key").
+						SetTitle("Certification Key").
 						SetDescription("Set certificate key").
 						SetMust(false).
 						SetDefault(""),
 					common.NewProperty().
 						SetKind("multilines").
 						SetName("cert_file").
+						SetTitle("Certification File").
 						SetDescription("Set certificate file").
 						SetMust(false).
 						SetDefault(""),

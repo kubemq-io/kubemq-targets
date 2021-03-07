@@ -16,6 +16,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("host").
+				SetTitle("Host Address").
 				SetDescription("Set MQTT broker host").
 				SetMust(true).
 				SetDefault(""),
@@ -40,6 +41,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("client_id").
+				SetTitle("Client ID").
 				SetDescription("Set MQTT broker client id").
 				SetMust(false).
 				SetDefault(""),

@@ -18,6 +18,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("url").
+				SetTitle("Connection URL").
 				SetDescription("Set Couchbase url").
 				SetMust(true).
 				SetDefault(""),
@@ -58,6 +59,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("num_to_replicate").
+				SetTitle("Replication Nodes").
 				SetDescription("Set Couchbase number of nodes to replicate").
 				SetMust(false).
 				SetDefault("1").
@@ -68,6 +70,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("num_to_persist").
+				SetTitle("Persistence Nodes").
 				SetDescription("Set Couchbase number of node to persist").
 				SetMust(false).
 				SetDefault("1").

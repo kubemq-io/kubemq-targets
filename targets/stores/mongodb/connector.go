@@ -17,6 +17,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("host").
+				SetTitle("Host address").
 				SetDescription("Set MongoDB host address").
 				SetMust(true).
 				SetDefault(""),
@@ -83,9 +84,10 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("operation_timeout_seconds").
+				SetTitle("Operation Timeout (Seconds)").
 				SetDescription("Set MongoDB operation timeout seconds").
 				SetMust(false).
-				SetDefault("30").
+				SetDefault("90").
 				SetMin(0).
 				SetMax(math.MaxInt32),
 		).

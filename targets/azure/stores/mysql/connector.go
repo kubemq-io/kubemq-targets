@@ -17,6 +17,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("connection").
+				SetTitle("Connection lifetime String").
 				SetDescription("Set MySQL connection string").
 				SetMust(true).
 				SetDefault("root:mysql@(localhost:3306)/store?charset=utf8&parseTime=True&loc=Local"),
@@ -45,6 +46,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("connection_max_lifetime_seconds").
+				SetTitle("Connection Lifetime (Seconds)").
 				SetDescription("Set MySQL connection max lifetime seconds").
 				SetMust(false).
 				SetDefault("3600").

@@ -17,6 +17,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("project_id").
+				SetTitle("Project ID").
 				SetDescription("Set GCP project ID").
 				SetMust(true).
 				SetDefault(""),
@@ -25,6 +26,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("multilines").
 				SetName("credentials").
+				SetTitle("Json Credentials").
 				SetDescription("Set GCP credentials").
 				SetMust(true).
 				SetDefault(""),

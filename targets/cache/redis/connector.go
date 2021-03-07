@@ -17,9 +17,10 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("url").
+				SetTitle("Connection String").
 				SetDescription("Set Redis url").
 				SetMust(true).
-				SetDefault(""),
+				SetDefault("redis://redis.host:6379"),
 		).
 		AddMetadata(
 			common.NewMetadata().

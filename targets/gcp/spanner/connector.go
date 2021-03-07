@@ -16,6 +16,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("db").
+				SetTitle("Database name").
 				SetDescription("Set GCP Spanner DB").
 				SetMust(true).
 				SetDefault(""),
@@ -24,6 +25,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("multilines").
 				SetName("credentials").
+				SetTitle("Json Credentials").
 				SetDescription("Set GCP credentials").
 				SetMust(true).
 				SetDefault(""),

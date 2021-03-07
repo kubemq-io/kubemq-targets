@@ -16,6 +16,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("endpoint").
+				SetTitle("Endpoint").
 				SetDescription("Set Minio endpoint address").
 				SetMust(true).
 				SetDefault(""),
@@ -24,6 +25,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("bool").
 				SetName("use_ssl").
+				SetTitle("USE SSL").
 				SetDescription("Set Minio SSL connection").
 				SetMust(false).
 				SetDefault("true"),
@@ -32,6 +34,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("access_key_id").
+				SetTitle("Access Key ID").
 				SetDescription("Set Minio access key id").
 				SetMust(false).
 				SetDefault(""),
@@ -40,6 +43,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("multilines").
 				SetName("secret_access_key").
+				SetTitle("Access Key Secret").
 				SetDescription("Set Minio secret access key").
 				SetMust(false).
 				SetDefault(""),

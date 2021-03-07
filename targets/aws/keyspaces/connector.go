@@ -17,6 +17,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("hosts").
+				SetTitle("Hosts Addresses").
 				SetDescription("Set Keyspaces hosts addresses").
 				SetMust(true).
 				SetDefault(""),
@@ -51,6 +52,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("tls").
+				SetTitle("TLS").
 				SetDescription("Set Keyspaces tls download url").
 				SetMust(true).
 				SetDefault(""),
@@ -104,6 +106,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("connect_timeout_seconds").
+				SetTitle("Connect Timeout (Seconds)").
 				SetDescription("Set Keyspaces connection timeout in seconds").
 				SetMust(false).
 				SetDefault("60").
@@ -114,6 +117,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("timeout_seconds").
+				SetTitle("Operation Timeout (Seconds)").
 				SetDescription("Set Keyspaces operation timeout in seconds").
 				SetMust(false).
 				SetDefault("60").

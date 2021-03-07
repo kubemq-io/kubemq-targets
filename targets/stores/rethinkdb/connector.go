@@ -17,6 +17,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("host").
+				SetTitle("Host Address").
 				SetDescription("Set Rethinkdb host address").
 				SetMust(true).
 				SetDefault(""),
@@ -61,6 +62,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("auth_key").
+				SetTitle("Authentication Key").
 				SetDescription("Set Rethinkdb auth key").
 				SetMust(false).
 				SetDefault(""),
@@ -69,6 +71,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("condition").
 				SetName("tls").
+				SetTitle("Use TLS").
 				SetOptions([]string{"true", "false"}).
 				SetDescription("Set tls conditions").
 				SetMust(true).
@@ -77,12 +80,14 @@ func Connector() *common.Connector {
 					common.NewProperty().
 						SetKind("multilines").
 						SetName("cert_key").
+						SetTitle("Certification Key").
 						SetDescription("Set certificate key").
 						SetMust(false).
 						SetDefault(""),
 					common.NewProperty().
 						SetKind("multilines").
 						SetName("cert_file").
+						SetTitle("Certification File").
 						SetDescription("Set certificate file").
 						SetMust(false).
 						SetDefault(""),

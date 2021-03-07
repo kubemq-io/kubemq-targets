@@ -78,6 +78,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("bool").
 				SetName("ssl").
+				SetTitle("Use SSL").
 				SetDescription("Set if use ssl").
 				SetMust(false).
 				SetDefault("false"),
@@ -86,6 +87,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("condition").
 				SetName("ssl").
+				SetTitle("SSL").
 				SetOptions([]string{"true", "false"}).
 				SetDescription("Set ssl conditions").
 				SetMust(true).
@@ -94,12 +96,14 @@ func Connector() *common.Connector {
 					common.NewProperty().
 						SetKind("multilines").
 						SetName("cert_key").
+						SetTitle("Certification Key").
 						SetDescription("Set certificate key").
 						SetMust(false).
 						SetDefault(""),
 					common.NewProperty().
 						SetKind("multilines").
 						SetName("cert_file").
+						SetTitle("Certification File").
 						SetDescription("Set certificate file").
 						SetMust(false).
 						SetDefault(""),

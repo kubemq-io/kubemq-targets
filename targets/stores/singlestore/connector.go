@@ -17,6 +17,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("connection").
+				SetTitle("Connection String").
 				SetDescription("Set MemSQL connection string").
 				SetMust(true).
 				SetDefault(""),
@@ -45,6 +46,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("connection_max_lifetime_seconds").
+				SetTitle("Connection Lifetime (Seconds)").
 				SetDescription("Set MemSQL connection max lifetime seconds").
 				SetMust(false).
 				SetDefault("3600").

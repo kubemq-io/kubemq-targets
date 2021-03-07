@@ -17,6 +17,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("condition").
 				SetName("connection-type").
+				SetTitle("Connection Type").
 				SetDescription("Set Postgres Connection Type").
 				SetMust(true).
 				SetOptions([]string{"Proxy", "Direct"}).
@@ -37,12 +38,14 @@ func Connector() *common.Connector {
 					common.NewProperty().
 						SetKind("string").
 						SetName("db_user").
+						SetTitle("Username").
 						SetDescription("Set Postgres db user").
 						SetMust(true).
 						SetDefault(""),
 					common.NewProperty().
 						SetKind("string").
 						SetName("db_password").
+						SetTitle("Password").
 						SetDescription("Set Postgres db password").
 						SetMust(true).
 						SetDefault(""),
@@ -63,6 +66,7 @@ func Connector() *common.Connector {
 					common.NewProperty().
 						SetKind("string").
 						SetName("connection").
+						SetTitle("Connection String").
 						SetDescription("Set Postgres connection string").
 						SetMust(true).
 						SetDefault("postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable"),
@@ -92,6 +96,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("connection_max_lifetime_seconds").
+				SetTitle("Connection Lifetime (Seconds)").
 				SetDescription("Set Postgres connection max lifetime seconds").
 				SetMust(false).
 				SetDefault("3600").

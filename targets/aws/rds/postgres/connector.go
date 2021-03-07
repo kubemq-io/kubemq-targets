@@ -49,6 +49,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("end_point").
+				SetTitle("Endpoint").
 				SetDescription("Set Postgres end point address").
 				SetMust(true).
 				SetDefault(""),
@@ -57,6 +58,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("db_port").
+				SetTitle("Port").
 				SetDescription("Set Postgres end point port").
 				SetMust(true).
 				SetDefault("5432").
@@ -67,6 +69,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("db_user").
+				SetTitle("Username").
 				SetDescription("Set Postgres db user(should match user created for IAM Access)").
 				SetMust(true).
 				SetDefault(""),
@@ -75,6 +78,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("db_name").
+				SetTitle("Database").
 				SetDescription("Set Postgres db name").
 				SetMust(true).
 				SetDefault(""),
@@ -103,6 +107,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("connection_max_lifetime_seconds").
+				SetTitle("Connection Lifetime (Seconds)").
 				SetDescription("Set Postgres connection max lifetime seconds").
 				SetMust(false).
 				SetDefault("3600").

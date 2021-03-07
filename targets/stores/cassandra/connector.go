@@ -17,6 +17,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("hosts").
+				SetTitle("Hosts Addresses").
 				SetDescription("Set Cassandra hosts addresses").
 				SetMust(true).
 				SetDefault(""),
@@ -86,6 +87,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("connect_timeout_seconds").
+				SetTitle("Connect Timeout (Seconds)").
 				SetDescription("Set Cassandra connection timeout in seconds").
 				SetMust(false).
 				SetDefault("60").
@@ -96,6 +98,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("timeout_seconds").
+				SetTitle("Operation Timeout (Seconds)").
 				SetDescription("Set Cassandra operation timeout in seconds").
 				SetMust(false).
 				SetDefault("60").

@@ -49,6 +49,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("end_point").
+				SetTitle("Endpoint").
 				SetDescription("Set MySQL end point address").
 				SetMust(true).
 				SetDefault(""),
@@ -57,6 +58,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("db_port").
+				SetTitle("Port").
 				SetDescription("Set MySQL end point port").
 				SetMust(true).
 				SetDefault("3306").
@@ -67,6 +69,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("db_user").
+				SetTitle("Username").
 				SetDescription("Set MySQL db user").
 				SetMust(true).
 				SetDefault(""),
@@ -75,6 +78,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("db_name").
+				SetTitle("Database").
 				SetDescription("Set MySQL db name").
 				SetMust(true).
 				SetDefault(""),
@@ -103,6 +107,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("connection_max_lifetime_seconds").
+				SetTitle("Connection Lifetime (Seconds)").
 				SetDescription("Set MySQL connection max lifetime seconds").
 				SetMust(false).
 				SetDefault("3600").

@@ -76,6 +76,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("dead_letter").
+				SetTitle("Dead Letter Queue").
 				SetDescription("Set SQS dead letter queue").
 				SetMust(false).
 				SetDefault(""),

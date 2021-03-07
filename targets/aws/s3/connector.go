@@ -48,17 +48,19 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("bool").
 				SetName("downloader").
+				SetTitle("Allow Downloads").
 				SetDescription("Create S3 downloader instance").
 				SetMust(false).
-				SetDefault("false"),
+				SetDefault("true"),
 		).
 		AddProperty(
 			common.NewProperty().
 				SetKind("bool").
 				SetName("uploader").
+				SetTitle("Allow Uploads").
 				SetDescription("Create S3 uploader instance").
 				SetMust(false).
-				SetDefault("false"),
+				SetDefault("true"),
 		).
 		AddMetadata(
 			common.NewMetadata().

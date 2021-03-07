@@ -17,6 +17,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("host").
+				SetTitle("Host Address").
 				SetDescription("Set Aerospike host address").
 				SetMust(true).
 				SetDefault(""),
@@ -28,7 +29,7 @@ func Connector() *common.Connector {
 				SetDescription("Set Aerospike port address").
 				SetMust(true).
 				SetMin(0).
-				SetMax(math.MaxInt32).
+				SetMax(65355).
 				SetDefault("3000"),
 		).
 		AddProperty(

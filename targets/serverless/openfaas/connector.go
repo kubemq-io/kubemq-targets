@@ -16,6 +16,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("gateway").
+				SetTitle("Gateway Address").
 				SetDescription("Set Openfaas gateway address").
 				SetMust(true).
 				SetDefault("localhost:27017"),

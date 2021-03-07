@@ -16,6 +16,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("url").
+				SetTitle("Connection String").
 				SetDescription("Set nats url connection").
 				SetMust(true),
 		).
@@ -47,6 +48,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("bool").
 				SetName("tls").
+				SetTitle("Use TLS").
 				SetDescription("Set if use tls").
 				SetMust(false).
 				SetDefault("false"),
@@ -63,12 +65,13 @@ func Connector() *common.Connector {
 					common.NewProperty().
 						SetKind("multilines").
 						SetName("cert_key").
+						SetTitle("Certification Key").
 						SetDescription("Set certificate key").
 						SetMust(false).
 						SetDefault(""),
 					common.NewProperty().
 						SetKind("multilines").
-						SetName("cert_file").
+						SetName("Certification File").
 						SetDescription("Set certificate file").
 						SetMust(false).
 						SetDefault(""),

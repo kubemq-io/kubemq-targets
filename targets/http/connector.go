@@ -16,6 +16,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("condition").
 				SetName("auth_type").
+				SetTitle("Authentication Type").
 				SetDescription("Set Auth type").
 				SetMust(true).
 				SetOptions([]string{"No Auth", "Basic", "Token"}).
@@ -24,6 +25,7 @@ func Connector() *common.Connector {
 					common.NewProperty().
 						SetKind("null").
 						SetName("auth_type").
+						SetTitle("Authentication Type").
 						SetDescription("Set Auth type").
 						SetMust(true).
 						SetDefault("no_auth"),
@@ -32,6 +34,7 @@ func Connector() *common.Connector {
 					common.NewProperty().
 						SetKind("null").
 						SetName("auth_type").
+						SetTitle("Authentication Type").
 						SetDescription("Set Auth type").
 						SetMust(true).
 						SetDefault("basic"),
@@ -52,6 +55,7 @@ func Connector() *common.Connector {
 					common.NewProperty().
 						SetKind("null").
 						SetName("auth_type").
+						SetTitle("Authentication Type").
 						SetDescription("Set Auth type").
 						SetMust(true).
 						SetDefault("auth_token"),

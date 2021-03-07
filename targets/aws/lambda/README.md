@@ -89,7 +89,7 @@ Create Lambda:
 | function_name     | yes      | lambda function name                            | string                |
 | data              | yes      | the function code , in byte array               | byte array            |
 | memory_size       | no       | memory_size needed default of 256               | int                   |
-| timeout           | no       | timeout set for task default of 15 (seconds)    | int                   |
+| timeout           | no       | timeout set for task default of 15 (Seconds)    | int                   |
 | description       | no       | function description default of ""              | string                |
 
 

@@ -16,6 +16,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("multilines").
 				SetName("credentials").
+				SetTitle("Json Credentials").
 				SetDescription("Set GCP credentials").
 				SetMust(true).
 				SetDefault(""),

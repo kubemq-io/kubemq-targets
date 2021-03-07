@@ -16,6 +16,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("brokers").
+				SetTitle("Brokers Address").
 				SetDescription("Set MSK brokers list").
 				SetMust(true).
 				SetDefault("localhost:9092"),
@@ -24,6 +25,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("sasl_username").
+				SetTitle("SASL Username").
 				SetDescription("Set MSK username").
 				SetMust(false).
 				SetDefault(""),
@@ -32,6 +34,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("sasl_password").
+				SetTitle("SASL Password").
 				SetDescription("Set MSK password").
 				SetMust(false).
 				SetDefault(""),

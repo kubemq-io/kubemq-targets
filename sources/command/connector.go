@@ -8,10 +8,14 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("kubemq.command").
 		SetDescription("Kubemq Command Source").
+		SetName("KubeMQ Command").
+		SetProvider("").
+		SetCategory("RPC").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
 				SetName("address").
+				SetTitle("KubeMQ Address").
 				SetDescription("Set Kubemq grpc endpoint address").
 				SetMust(true).
 				SetDefault("").
@@ -37,6 +41,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("sources").
+				SetTitle("Concurrent Connections").
 				SetDescription("Set how many concurrent commands sources to run").
 				SetMust(false).
 				SetDefault("1"),
@@ -45,6 +50,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("client_id").
+				SetTitle("Client ID").
 				SetDescription("Set Command connection client Id").
 				SetMust(false).
 				SetDefault(""),
@@ -53,6 +59,7 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("multilines").
 				SetName("auth_token").
+				SetTitle("Authentication Token").
 				SetDescription("Set Command connection authentication token").
 				SetMust(false).
 				SetDefault(""),
@@ -61,7 +68,8 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("bool").
 				SetName("auto_reconnect").
-				SetDescription("Set Query auto reconnection ").
+				SetTitle("Reconnect Automatically").
+				SetDescription("Set auto reconnection ").
 				SetMust(false).
 				SetDefault("true"),
 		).
@@ -69,7 +77,8 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("reconnect_interval_seconds").
-				SetDescription("Set Query auto reconnection interval in seconds ").
+				SetTitle("Reconnection Interval (Seconds)").
+				SetDescription("Set auto reconnection interval in seconds ").
 				SetMust(false).
 				SetDefault("0"),
 		).
@@ -77,7 +86,8 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("int").
 				SetName("max_reconnects").
-				SetDescription("Set Query auto reconnection max reconnects").
+				SetTitle("Max Reconnections").
+				SetDescription("Set auto reconnection max reconnects").
 				SetMust(false).
 				SetDefault("0"),
 		)
