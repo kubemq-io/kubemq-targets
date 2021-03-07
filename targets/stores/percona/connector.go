@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("stores.percona").
 		SetDescription("Percona Target").
+		SetName("Percona").
+		SetProvider("").
+		SetCategory("Store").
+		SetTags("db","sql","mysql").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

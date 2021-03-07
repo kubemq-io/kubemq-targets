@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("stores.cassandra").
 		SetDescription("Cassandra Target").
+		SetName("Cassandra").
+		SetProvider("").
+		SetCategory("Store").
+		SetTags("db","sql","no-sql").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

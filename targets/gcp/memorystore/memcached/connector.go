@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("gcp.cache.memcached").
 		SetDescription("GCP Memory Store Memcached Target").
+		SetName("Memcached").
+		SetProvider("GCP").
+		SetCategory("Cache").
+		SetTags("db","memory-store","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

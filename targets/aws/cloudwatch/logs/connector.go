@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("aws.cloudwatch.logs").
 		SetDescription("AWS Cloudwatch Logs Target").
+		SetName("Cloudwatch Logs").
+		SetProvider("AWS").
+		SetCategory("Observability").
+		SetTags("logs","cloud").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

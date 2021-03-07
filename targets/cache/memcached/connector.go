@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("cache.memcached").
 		SetDescription("Memcached Target").
+		SetName("Memcached").
+		SetProvider("").
+		SetCategory("Cache").
+		SetTags("db").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

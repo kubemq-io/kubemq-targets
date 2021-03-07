@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("gcp.cache.redis").
 		SetDescription("GCP Memory Store Redis Target").
+		SetName("Redis").
+		SetProvider("GCP").
+		SetCategory("Cache").
+		SetTags("db","memory-store","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("azure.storage.files").
 		SetDescription("Azure Files Storage Target").
+		SetName("Files").
+		SetProvider("Azure").
+		SetCategory("Storage").
+		SetTags("filesystem","db","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

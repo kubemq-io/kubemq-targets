@@ -7,5 +7,9 @@ import (
 func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("echo").
-		SetDescription("target for echo each request")
+		SetDescription("target for echo each request").
+	SetName("Echo").
+		SetProvider("").
+		SetCategory("Testing")
+
 }

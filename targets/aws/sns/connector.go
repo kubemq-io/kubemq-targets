@@ -8,6 +8,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("aws.sns").
 		SetDescription("AWS SNS Target").
+		SetName("SNS").
+		SetProvider("AWS").
+		SetCategory("Messaging").
+		SetTags("pub/sub","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

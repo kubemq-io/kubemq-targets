@@ -8,6 +8,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("messaging.activemq").
 		SetDescription("ActiveMQ Messaging Target").
+		SetName("ActiveMQ").
+		SetProvider("").
+		SetCategory("Messaging").
+		SetTags("queue","pub/sub").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

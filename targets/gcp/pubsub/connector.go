@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("gcp.pubsub").
 		SetDescription("GCP PubSub Target").
+		SetName("PubSub").
+		SetProvider("GCP").
+		SetCategory("Messaging").
+		SetTags("streaming","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

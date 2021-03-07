@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("aws.kinesis").
 		SetDescription("AWS Kinesis Target").
+		SetName("Kinesis").
+		SetProvider("AWS").
+		SetCategory("Messaging").
+		SetTags("streaming","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

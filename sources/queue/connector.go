@@ -78,7 +78,7 @@ func Connector() *common.Connector {
 				SetKind("int").
 				SetName("max_requeue").
 				SetDescription("Set how many time to requeue a requests do to target error").
-				SetMust(true).
+				SetMust(false).
 				SetDefault("0"),
 		)
 }

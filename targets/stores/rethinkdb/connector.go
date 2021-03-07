@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("stores.rethinkdb").
 		SetDescription("Rethinkdb Target").
+		SetName("RethinkDB").
+		SetProvider("").
+		SetCategory("Store").
+		SetTags("db","sql").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

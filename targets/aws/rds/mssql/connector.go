@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("aws.rds.mssql").
 		SetDescription("AWS RDS MSSQL Target").
+		SetName("MSSQL").
+		SetProvider("AWS").
+		SetCategory("Store").
+		SetTags("rds","sql","db","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

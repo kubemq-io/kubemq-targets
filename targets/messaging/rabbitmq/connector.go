@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("messaging.rabbitmq").
 		SetDescription("RabbitMQ Messaging Target").
+		SetName("RabbitMQ").
+		SetProvider("").
+		SetCategory("Messaging").
+		SetTags("queue","pub/sub").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

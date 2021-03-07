@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("azure.stores.postgres").
 		SetDescription("Azure Postgres Target").
+		SetName("Postgres").
+		SetProvider("Azure").
+		SetCategory("Store").
+		SetTags("sql","db","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

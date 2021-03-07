@@ -8,6 +8,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("gcp.spanner").
 		SetDescription("GCP Spanner Target").
+		SetName("Spanner").
+		SetProvider("GCP").
+		SetCategory("Store").
+		SetTags("db","sql","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

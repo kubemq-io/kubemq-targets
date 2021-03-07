@@ -8,6 +8,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("aws.dynamodb").
 		SetDescription("AWS Dynamodb Target").
+		SetName("DynamoDB").
+		SetProvider("AWS").
+		SetCategory("Store").
+		SetTags("db","no-sql","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

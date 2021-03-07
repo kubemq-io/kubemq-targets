@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("azure.stores.mysql").
 		SetDescription("Azure MySQL Target").
+		SetName("MySQL").
+		SetProvider("Azure").
+		SetCategory("Store").
+		SetTags("sql","db","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

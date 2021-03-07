@@ -8,6 +8,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("serverless.openfaas").
 		SetDescription("Openfaas Target").
+		SetName("OpenFaas").
+		SetProvider("").
+		SetCategory("Serverless").
+		SetTags("functions").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

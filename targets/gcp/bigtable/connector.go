@@ -8,6 +8,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("gcp.bigtable").
 		SetDescription("GCP Bigtable Target").
+		SetName("Big Table").
+		SetProvider("GCP").
+		SetCategory("Store").
+		SetTags("db","sql","distributed","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

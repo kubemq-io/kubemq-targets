@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("gcp.stores.postgres").
 		SetDescription("GCP Postgres Direct Mode Target").
+		SetName("Postgres").
+		SetProvider("GCP").
+		SetCategory("Store").
+		SetTags("db","sql","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("condition").

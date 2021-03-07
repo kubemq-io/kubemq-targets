@@ -6,6 +6,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("aws.cloudwatch.metrics").
 		SetDescription("AWS Cloudwatch Metrics Target").
+		SetName("Cloudwatch Metrics").
+		SetProvider("AWS").
+		SetCategory("Observability").
+		SetTags("metrics","cloud").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("aws.lambda").
 		SetDescription("AWS Lambda Target").
+		SetName("Lambda").
+		SetProvider("AWS").
+		SetCategory("Serverless").
+		SetTags("faas","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

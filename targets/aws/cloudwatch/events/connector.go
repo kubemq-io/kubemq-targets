@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("aws.cloudwatch.events").
 		SetDescription("AWS Cloudwatch Events Target").
+		SetName("Cloudwatch Events").
+		SetProvider("AWS").
+		SetCategory("Observability").
+		SetTags("events","cloud").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

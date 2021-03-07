@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("azure.stores.azuresql").
 		SetDescription("Azure SQL Target").
+		SetName("MSSQL").
+		SetProvider("Azure").
+		SetCategory("Store").
+		SetTags("sql","db","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

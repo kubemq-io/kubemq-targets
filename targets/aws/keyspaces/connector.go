@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("aws.keyspaces").
 		SetDescription("AWS Keyspaces Target").
+		SetName("Keyspaces").
+		SetProvider("AWS").
+		SetCategory("Store").
+		SetTags("cassandra","db","no-sql","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

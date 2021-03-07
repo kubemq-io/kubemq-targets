@@ -22,8 +22,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "valid request",
 			cfg: config.Spec{
-				Name: "openfass",
-				Kind: "openfass",
+				Name: "openfaas",
+				Kind: "openfaas",
 				Properties: map[string]string{
 					"gateway":  "http://127.0.0.1:31112",
 					"username": "admin",
@@ -39,8 +39,8 @@ func TestClient_Do(t *testing.T) {
 		{
 			name: "invalid request - execution error",
 			cfg: config.Spec{
-				Name: "openfass",
-				Kind: "openfass",
+				Name: "openfaas",
+				Kind: "openfaas",
 				Properties: map[string]string{
 					"gateway":  "http://bad:31112",
 					"username": "admin",
@@ -83,7 +83,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init",
 			cfg: config.Spec{
-				Name: "openfass-target",
+				Name: "openfaas-target",
 				Kind: "",
 				Properties: map[string]string{
 					"gateway":  "http://127.0.0.1:31112",
@@ -96,7 +96,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init - no gateway",
 			cfg: config.Spec{
-				Name: "openfass-target",
+				Name: "openfaas-target",
 				Kind: "",
 				Properties: map[string]string{
 					"username": "admin",
@@ -108,7 +108,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init - no username",
 			cfg: config.Spec{
-				Name: "openfass-target",
+				Name: "openfaas-target",
 				Kind: "",
 				Properties: map[string]string{
 					"gateway":  "http://127.0.0.1:31112",
@@ -120,7 +120,7 @@ func TestClient_Init(t *testing.T) {
 		{
 			name: "init - no password",
 			cfg: config.Spec{
-				Name: "openfass-target",
+				Name: "openfaas-target",
 				Kind: "",
 				Properties: map[string]string{
 					"gateway":  "http://127.0.0.1:31112",

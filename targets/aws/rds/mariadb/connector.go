@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("aws.rds.mariadb").
 		SetDescription("AWS RDS MariaDB Target").
+		SetName("MariaDB").
+		SetProvider("AWS").
+		SetCategory("Store").
+		SetTags("rds","sql","mysql","db","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

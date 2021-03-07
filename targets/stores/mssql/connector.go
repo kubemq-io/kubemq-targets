@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("stores.mssql").
 		SetDescription("MSSQL Target").
+		SetName("MSSQL").
+		SetProvider("").
+		SetCategory("Store").
+		SetTags("db","sql").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

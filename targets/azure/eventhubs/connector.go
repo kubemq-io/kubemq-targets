@@ -8,6 +8,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("azure.eventhubs").
 		SetDescription("Azure EventHubs Target").
+		SetName("EventBus").
+		SetProvider("Azure").
+		SetCategory("Messaging").
+		SetTags("pub/sub","iot","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

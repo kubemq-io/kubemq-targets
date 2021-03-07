@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("gcp.stores.mysql").
 		SetDescription("GCP MySQL Direct Mode Target").
+		SetName("MySQL").
+		SetProvider("GCP").
+		SetCategory("Store").
+		SetTags("db","sql","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("condition").

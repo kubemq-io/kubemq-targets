@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("aws.rds.postgres").
 		SetDescription("AWS RDS Postgres Target").
+		SetName("Postgres").
+		SetProvider("AWS").
+		SetCategory("Store").
+		SetTags("rds","sql","db","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

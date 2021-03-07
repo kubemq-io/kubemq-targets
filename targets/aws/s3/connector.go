@@ -8,6 +8,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("aws.s3").
 		SetDescription("AWS S3 Target").
+		SetName("S3").
+		SetProvider("AWS").
+		SetCategory("Storage").
+		SetTags("filesystem","object","db","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

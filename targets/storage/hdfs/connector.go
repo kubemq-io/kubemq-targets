@@ -8,6 +8,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("storage.hdfs").
 		SetDescription("Hadoop Target").
+		SetName("HDFS").
+		SetProvider("").
+		SetCategory("Storage").
+		SetTags("big data").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

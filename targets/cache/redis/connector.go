@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("cache.redis").
 		SetDescription("Redis Target").
+		SetName("Redis").
+		SetProvider("").
+		SetCategory("Cache").
+		SetTags("db").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

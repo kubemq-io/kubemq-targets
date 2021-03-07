@@ -8,6 +8,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("aws.msk").
 		SetDescription("AWS MSK Target").
+		SetName("MSK").
+		SetProvider("AWS").
+		SetCategory("Messaging").
+		SetTags("kafka","streaming","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

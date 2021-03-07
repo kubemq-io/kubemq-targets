@@ -8,6 +8,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("aws.redshift.service").
 		SetDescription("AWS Redshift Service Target").
+		SetName("Redshift Service").
+		SetProvider("AWS").
+		SetCategory("Store").
+		SetTags("sql","db","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

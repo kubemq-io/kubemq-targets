@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("stores.cockroachdb").
 		SetDescription("Cockroach Target").
+		SetName("CockroachDB").
+		SetProvider("").
+		SetCategory("Store").
+		SetTags("db","sql","postgres").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

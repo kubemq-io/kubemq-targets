@@ -8,6 +8,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("aws.elasticsearch").
 		SetDescription("AWS Elastic Search Target").
+		SetName("Elasticsearch").
+		SetProvider("AWS").
+		SetCategory("Store").
+		SetTags("db","log","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

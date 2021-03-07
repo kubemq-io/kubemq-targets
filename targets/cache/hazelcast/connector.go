@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("cache.hazelcast").
 		SetDescription("hazelcast source properties").
+		SetName("Hazelcast").
+		SetProvider("").
+		SetCategory("Cache").
+		SetTags("db").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

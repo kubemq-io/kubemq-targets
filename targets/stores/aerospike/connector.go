@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("stores.aerospike").
 		SetDescription("Aerospike Target").
+		SetName("Aerospike").
+		SetProvider("").
+		SetCategory("Store").
+		SetTags("db").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

@@ -71,7 +71,7 @@ A list of supported targets is below.
 |            | [hadoop/hdfs](https://hadoop.apache.org/)                           | storage.hdfs          | [Usage](targets/storage/hdfs)        | [Example](examples/storage/hdfs)        |
 |            | Filesystem                                                          | storage.filesystem    | [Usage](targets/storage/filesystem)  |                                         |
 | Serverless |                                                                     |                       |                                      |                                         |
-|            | [OpenFaas](https://www.openfaas.com/)                               | serverless.openfaas   | [Usage](targets/serverless/openfass) | [Example](examples/serverless/openfaas) |
+|            | [OpenFaas](https://www.openfaas.com/)                               | serverless.openfaas   | [Usage](targets/serverless/openfaas) | [Example](examples/serverless/openfaas) |
 | Http       |                                                                     |                       |                                      |                                         |
 |            | Http                                                                | http                  | [Usage](targets/http)                | [Example](examples/http)                |
 | Testing    |                                                                     |                       |                                      |                                         |

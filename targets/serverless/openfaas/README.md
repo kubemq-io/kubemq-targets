@@ -16,7 +16,7 @@ OpenFaas target connector configuration properties:
 | Properties Key | Required | Description               | Example                  |
 |:---------------|:---------|:--------------------------|:-------------------------|
 | gateway        | yes      | OpenFaas gateway address  | "http://localhost:31112" |
-| username       | yes      | OpenFass gateway username | "admin"                  |
+| username       | yes      | Openfaas gateway username | "admin"                  |
 | password       | yes      | OpenFaas gateway password | "password"               |
 
 

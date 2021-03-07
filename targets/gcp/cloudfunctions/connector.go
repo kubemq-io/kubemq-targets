@@ -8,6 +8,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("gcp.cloudfunctions").
 		SetDescription("GCP Cloud Functions Target").
+		SetName("Cloud Functions").
+		SetProvider("GCP").
+		SetCategory("Serverless").
+		SetTags("faas","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

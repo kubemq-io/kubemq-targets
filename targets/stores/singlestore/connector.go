@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("stores.singlestore").
 		SetDescription("MemSQL Target").
+		SetName("Single Store").
+		SetProvider("").
+		SetCategory("Store").
+		SetTags("db","sql","cache").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

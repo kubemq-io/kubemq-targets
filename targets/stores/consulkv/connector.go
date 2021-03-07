@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("stores.consulkv").
 		SetDescription("consulkv source properties").
+		SetName("Consul").
+		SetProvider("").
+		SetCategory("Store").
+		SetTags("db","key-value store","cache").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

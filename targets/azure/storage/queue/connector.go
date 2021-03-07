@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("azure.storage.queue").
 		SetDescription("Azure Queue Storage Target").
+		SetName("Queue").
+		SetProvider("Azure").
+		SetCategory("Storage").
+		SetTags("queue","messaging","db","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

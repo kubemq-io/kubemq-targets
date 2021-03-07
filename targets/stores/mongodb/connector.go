@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("stores.mongodb").
 		SetDescription("MongoDB Target").
+		SetName("MongoDB").
+		SetProvider("").
+		SetCategory("Store").
+		SetTags("db","no-sql").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

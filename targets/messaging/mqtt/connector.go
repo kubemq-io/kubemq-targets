@@ -8,6 +8,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("messaging.mqtt").
 		SetDescription("MQTT Messaging Target").
+		SetName("MQTT").
+		SetProvider("").
+		SetCategory("Messaging").
+		SetTags("iot","pub/sub").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

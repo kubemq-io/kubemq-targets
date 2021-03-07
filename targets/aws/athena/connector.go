@@ -8,6 +8,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("aws.athena").
 		SetDescription("AWS Athena Target").
+		SetName("Athena").
+		SetProvider("AWS").
+		SetCategory("Analytics").
+		SetTags("query","s3","SQL").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

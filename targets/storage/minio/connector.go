@@ -8,6 +8,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("storage.minio").
 		SetDescription("Minio Storage Target").
+		SetName("Minio").
+		SetProvider("").
+		SetCategory("Storage").
+		SetTags("s3").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

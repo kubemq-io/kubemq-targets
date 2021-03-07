@@ -9,6 +9,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("azure.storage.blob").
 		SetDescription("Azure Blob Storage Target").
+		SetName("Blob").
+		SetProvider("Azure").
+		SetCategory("Storage").
+		SetTags("object","db","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

@@ -8,6 +8,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("stores.elasticsearch").
 		SetDescription("Elastic Search Target").
+		SetName("Elasticsearch").
+		SetProvider("").
+		SetCategory("Store").
+		SetTags("db","logs").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

@@ -8,6 +8,10 @@ func Connector() *common.Connector {
 	return common.NewConnector().
 		SetKind("gcp.firebase").
 		SetDescription("GCP Firebase Target").
+		SetName("Firebase").
+		SetProvider("GCP").
+		SetCategory("Store").
+		SetTags("db","no-sql","cloud","managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
