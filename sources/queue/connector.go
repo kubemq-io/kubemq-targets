@@ -18,7 +18,7 @@ func Connector() *common.Connector {
 			SetTitle("KubeMQ Address").
 			SetDescription("Set Kubemq grpc endpoint address").
 			SetMust(true).
-			SetDefault("").
+			SetDefault("kubemq-cluster-grpc:50000").
 			SetLoadedOptions("kubemq-address"),
 		).
 		AddProperty(

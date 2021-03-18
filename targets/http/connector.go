@@ -69,6 +69,14 @@ func Connector() *common.Connector {
 		).
 		AddProperty(
 			common.NewProperty().
+				SetKind("map").
+				SetName("default_headers").
+				SetDescription("Set Default headers  (key1=value1;key2=value2;...)").
+				SetMust(false).
+				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
 				SetKind("string").
 				SetName("proxy").
 				SetDescription("Set Proxy address").
@@ -95,13 +103,6 @@ func Connector() *common.Connector {
 			SetKind("multilines").
 			SetName("client_public_key").
 			SetDescription("Set Client public key").
-			SetMust(false).
-			SetDefault(""),
-	).AddProperty(
-		common.NewProperty().
-			SetKind("map").
-			SetName("default_headers").
-			SetDescription("Set Default headers  (key1=value1;key2=value2;...)").
 			SetMust(false).
 			SetDefault(""),
 	).
