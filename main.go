@@ -10,6 +10,8 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/api"
 	"github.com/kubemq-hub/kubemq-targets/binding"
 	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/pkg/browser"
+	"github.com/kubemq-hub/kubemq-targets/pkg/builder"
 	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
 	"github.com/kubemq-hub/kubemq-targets/sources"
 	"github.com/kubemq-hub/kubemq-targets/targets"
@@ -27,6 +29,7 @@ var (
 var (
 	generateManifest = flag.Bool("manifest", false, "generate source connectors manifest")
 	build            = flag.Bool("build", false, "build sources configuration")
+	buildUrl         = flag.String("get", "", "get config file from url")
 	configFile       = flag.String("config", "config.yaml", "set config file name")
 	log              *logger.Logger
 )
@@ -132,10 +135,30 @@ func run() error {
 		}
 	}
 }
+func downloadUrl() error {
+	c, err := builder.GetBuildManifest(*buildUrl)
+	if err != nil {
+		return err
+	}
+	cfg := &config.Config{}
+	err = yaml.Unmarshal([]byte(c.Spec.Config), &cfg)
+	if err != nil {
+		return err
+	}
+	data, err := yaml.Marshal(cfg)
+	if err != nil {
+		return err
+	}
+	err = ioutil.WriteFile("config.yaml", data, 0644)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 func main() {
 	log = logger.NewLogger("main")
-
 	flag.Parse()
+
 	if *generateManifest {
 		err := saveManifest()
 		if err != nil {
@@ -146,7 +169,16 @@ func main() {
 		os.Exit(0)
 	}
 	if *build {
-		err := buildConfig()
+		err := browser.OpenURL("https://build.kubemq.io/#/targets")
+		if err != nil {
+			log.Error(err)
+			os.Exit(1)
+		} else {
+			os.Exit(0)
+		}
+	}
+	if *buildUrl != "" {
+		err := downloadUrl()
 		if err != nil {
 			log.Error(err)
 			os.Exit(1)

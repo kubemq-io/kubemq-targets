@@ -69,6 +69,7 @@ require (
 	google.golang.org/genproto v0.0.0-20210203152818-3206188e46ba
 	google.golang.org/grpc v1.35.0
 	gopkg.in/rethinkdb/rethinkdb-go.v6 v6.2.1
+	gopkg.in/yaml.v2 v2.3.0
 )
 
 replace github.com/Azure/azure-service-bus-go => github.com/Azure/azure-service-bus-go v0.10.3

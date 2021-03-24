@@ -1,28 +1,13 @@
-apiPort: 8090
+apiPort: 0
 bindings:
-- name: fs
-  source:
-    kind: kubemq.queue
-    properties:
-      address: localhost:50000
-      channel: queue.fs
-      sources: "5"
-  target:
-    kind: storage.minio
-    properties:
-      access_key_id: minio
-      endpoint: localhost:9000
-      secret_access_key: minio123
-      use_ssl: "false"
+- name: target-1
   properties: {}
-- name: http
   source:
     kind: kubemq.queue
     properties:
-      address: localhost:50000
-      channel: queue.http
-      max_requeue: "0"
+      address: kubemq-cluster-grpc:50000
+      channel: asd
   target:
     kind: echo
     properties: {}
-  properties: {}
+logLevel: ""
