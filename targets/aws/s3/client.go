@@ -48,13 +48,8 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 
 	svc := s3.New(sess)
 	c.client = svc
-	if c.opts.downloader {
-		c.downloader = s3manager.NewDownloader(sess)
-	}
-	if c.opts.uploader {
-		c.uploader = s3manager.NewUploader(sess)
-	}
-
+	c.downloader = s3manager.NewDownloader(sess)
+	c.uploader = s3manager.NewUploader(sess)
 	return nil
 }
 

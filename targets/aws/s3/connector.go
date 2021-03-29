@@ -11,7 +11,7 @@ func Connector() *common.Connector {
 		SetName("S3").
 		SetProvider("AWS").
 		SetCategory("Storage").
-		SetTags("filesystem","object","db","cloud","managed").
+		SetTags("filesystem", "object", "db", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
@@ -43,24 +43,6 @@ func Connector() *common.Connector {
 				SetDescription("Set S3 token").
 				SetMust(false).
 				SetDefault(""),
-		).
-		AddProperty(
-			common.NewProperty().
-				SetKind("bool").
-				SetName("downloader").
-				SetTitle("Allow Downloads").
-				SetDescription("Create S3 downloader instance").
-				SetMust(false).
-				SetDefault("true"),
-		).
-		AddProperty(
-			common.NewProperty().
-				SetKind("bool").
-				SetName("uploader").
-				SetTitle("Allow Uploads").
-				SetDescription("Create S3 uploader instance").
-				SetMust(false).
-				SetDefault("true"),
 		).
 		AddMetadata(
 			common.NewMetadata().

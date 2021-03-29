@@ -14,9 +14,6 @@ type options struct {
 	awsSecretKey string
 	region       string
 	token        string
-
-	uploader   bool
-	downloader bool
 }
 
 func parseOptions(cfg config.Spec) (options, error) {
@@ -38,9 +35,6 @@ func parseOptions(cfg config.Spec) (options, error) {
 	}
 
 	o.token = cfg.Properties.ParseString("token", DefaultToken)
-
-	o.downloader = cfg.Properties.ParseBool("downloader", false)
-	o.uploader = cfg.Properties.ParseBool("uploader", false)
 
 	return o, nil
 }
