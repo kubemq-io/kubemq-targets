@@ -3,7 +3,7 @@ module github.com/kubemq-hub/kubemq-targets
 go 1.14
 
 require (
-	cloud.google.com/go v0.76.0
+	cloud.google.com/go v0.78.0
 	cloud.google.com/go/bigquery v1.15.0
 	cloud.google.com/go/bigtable v1.7.1
 	cloud.google.com/go/firestore v1.4.0
@@ -64,10 +64,10 @@ require (
 	go.mongodb.org/mongo-driver v1.4.1
 	go.uber.org/atomic v1.7.0
 	go.uber.org/zap v1.16.0
-	golang.org/x/oauth2 v0.0.0-20210113205817-d3ed898aa8a3
-	google.golang.org/api v0.38.0
-	google.golang.org/genproto v0.0.0-20210203152818-3206188e46ba
-	google.golang.org/grpc v1.35.0
+	golang.org/x/oauth2 v0.0.0-20210220000619-9bb904979d93
+	google.golang.org/api v0.40.0
+	google.golang.org/genproto v0.0.0-20210302174412-5ede27ff9881
+	google.golang.org/grpc v1.36.0
 	gopkg.in/rethinkdb/rethinkdb-go.v6 v6.2.1
 	gopkg.in/yaml.v2 v2.3.0
 )
