@@ -26,8 +26,8 @@ var (
 )
 
 var (
-	generateManifest = flag.Bool("manifest", false, "generate source connectors manifest")
-	build            = flag.Bool("build", false, "build sources configuration")
+	generateManifest = flag.Bool("manifest", false, "generate targets connectors manifest")
+	build            = flag.Bool("build", false, "build target configuration")
 	buildUrl         = flag.String("get", "", "get config file from url")
 	configFile       = flag.String("config", "config.yaml", "set config file name")
 	log              *logger.Logger
