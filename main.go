@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"github.com/ghodss/yaml"
 	"github.com/kubemq-hub/builder/connector/common"
-	connectorTargets "github.com/kubemq-hub/builder/connector/targets"
 	"github.com/kubemq-hub/kubemq-targets/api"
 	"github.com/kubemq-hub/kubemq-targets/binding"
 	"github.com/kubemq-hub/kubemq-targets/config"
@@ -49,31 +48,6 @@ func saveManifest() error {
 		SetSourceConnectors(sourceConnectors).
 		SetTargetConnectors(targetConnectors).
 		Save()
-}
-func loadCfgBindings() []*common.Binding {
-	file, err := ioutil.ReadFile("./config.yaml")
-	if err != nil {
-		return nil
-	}
-	list := &common.Bindings{}
-	err = yaml.Unmarshal(file, list)
-	if err != nil {
-
-		return nil
-	}
-	return list.Bindings
-}
-
-func buildConfig() error {
-	var err error
-	var bindingsYaml []byte
-	loadedOptions := common.NewDefaultOptions().Add("kubemq-address", []string{"localhost:50000", "Other"})
-	if bindingsYaml, err = connectorTargets.NewTarget("kubemq-targets", loadCfgBindings(), loadedOptions, nil).
-		SetManifestFile("./targets-manifest.json").
-		Render(); err != nil {
-		return err
-	}
-	return ioutil.WriteFile("config.yaml", bindingsYaml, 0644)
 }
 
 func run() error {
