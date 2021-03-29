@@ -1,13 +1,13 @@
 module github.com/kubemq-hub/kubemq-targets
 
-go 1.16
+go 1.14
 
 require (
 	cloud.google.com/go v0.76.0
 	cloud.google.com/go/bigquery v1.15.0
 	cloud.google.com/go/bigtable v1.7.1
 	cloud.google.com/go/firestore v1.4.0
-	cloud.google.com/go/pubsub v1.9.1
+	cloud.google.com/go/pubsub v1.10.1
 	cloud.google.com/go/spanner v1.13.0
 	cloud.google.com/go/storage v1.13.0
 	firebase.google.com/go/v4 v4.2.0
