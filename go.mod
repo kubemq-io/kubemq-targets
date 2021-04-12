@@ -41,13 +41,16 @@ require (
 	github.com/gocql/gocql v0.0.0-20200815110948-5378c8f664e9
 	github.com/golang/protobuf v1.4.3
 	github.com/googleapis/gax-go/v2 v2.0.5
-	github.com/hashicorp/consul/api v1.1.0
+	github.com/hashicorp/consul/api v1.3.0
 	github.com/hazelcast/hazelcast-go-client v0.6.0
+	github.com/jackc/pgx v3.6.2+incompatible
+	github.com/jackc/pgx/v4 v4.11.0
+	github.com/jmoiron/sqlx v1.3.3
 	github.com/jpillora/backoff v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.10
 	github.com/kubemq-hub/builder v0.7.2
 	github.com/kubemq-hub/ibmmq-sdk v0.3.8
-	github.com/kubemq-io/kubemq-go v1.4.7
+	github.com/kubemq-io/kubemq-go v1.5.0
 	github.com/labstack/echo/v4 v4.1.17
 	github.com/lib/pq v1.9.0
 	github.com/minio/minio-go/v7 v7.0.8

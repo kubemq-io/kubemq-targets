@@ -36,6 +36,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/aerospike"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/cockroachdb"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/consulkv"
+	"github.com/kubemq-hub/kubemq-targets/targets/stores/crate"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/elastic"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/percona"
 	"github.com/kubemq-hub/kubemq-targets/targets/stores/rethinkdb"
@@ -383,6 +384,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 			return nil, err
 		}
 		return target, nil
+	case "stores.crate":
+		target := crate.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
 	case "stores.elasticsearch":
 		target := elastic.New()
 		if err := target.Init(ctx, cfg); err != nil {
@@ -513,6 +520,7 @@ func Connectors() common.Connectors {
 
 		//stores
 		postgres.Connector(),
+		crate.Connector(),
 		mysql.Connector(),
 		mssql.Connector(),
 		mongodb.Connector(),

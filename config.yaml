@@ -1,12 +1,13 @@
-apiPort: 0
+apiPort: 8081
 bindings:
 - name: target-1
-  properties: {}
+  properties:
+    log_level: info
   source:
-    kind: kubemq.queue
+    kind: kubemq.query
     properties:
-      address: kubemq-cluster-grpc:50000
-      channel: asd
+      address: localhost:50000
+      channel: echo
   target:
     kind: echo
     properties: {}

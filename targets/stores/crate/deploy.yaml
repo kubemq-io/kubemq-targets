@@ -1,0 +1,1 @@
+docker run --publish 4200:4200 --publish 5432:5432 crate -Cdiscovery.type=single-node

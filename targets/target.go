@@ -31,6 +31,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/targets/echo"
 	"github.com/kubemq-hub/kubemq-targets/targets/gcp/firebase"
 	"github.com/kubemq-hub/kubemq-targets/targets/storage/filesystem"
+	"github.com/kubemq-hub/kubemq-targets/targets/stores/crate"
 
 	//"github.com/kubemq-hub/kubemq-targets/targets/messaging/ibmmq"
 	"github.com/kubemq-hub/kubemq-targets/targets/messaging/nats"
@@ -408,6 +409,12 @@ func Init(ctx context.Context, cfg config.Spec) (Target, error) {
 			return nil, err
 		}
 		return target, nil
+	case "stores.crate":
+		target := crate.New()
+		if err := target.Init(ctx, cfg); err != nil {
+			return nil, err
+		}
+		return target, nil
 	case "stores.aerospike":
 		target := aerospike.New()
 		if err := target.Init(ctx, cfg); err != nil {
@@ -514,6 +521,7 @@ func Connectors() common.Connectors {
 
 		//stores
 		postgres.Connector(),
+		crate.Connector(),
 		mysql.Connector(),
 		mssql.Connector(),
 		mongodb.Connector(),
