@@ -43,9 +43,9 @@ require (
 	github.com/googleapis/gax-go/v2 v2.0.5
 	github.com/hashicorp/consul/api v1.3.0
 	github.com/hazelcast/hazelcast-go-client v0.6.0
-	github.com/jackc/pgx v3.6.2+incompatible
-	github.com/jackc/pgx/v4 v4.11.0
-	github.com/jmoiron/sqlx v1.3.3
+	github.com/jackc/pgx v3.6.2+incompatible // indirect
+	github.com/jackc/pgx/v4 v4.11.0 // indirect
+	github.com/jmoiron/sqlx v1.3.3 // indirect
 	github.com/jpillora/backoff v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.10
 	github.com/kubemq-hub/builder v0.7.2
