@@ -40,7 +40,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 	o.readConcurrency = cfg.Properties.ParseString("read_concurrency", "")
 
 	o.params = cfg.Properties.ParseString("params", "")
-	operationTimeoutSeconds, err := cfg.Properties.ParseIntWithRange("operation_timeout_seconds", 2, 0, math.MaxInt32)
+	operationTimeoutSeconds, err := cfg.Properties.ParseIntWithRange("operation_timeout_seconds", 60, 0, math.MaxInt32)
 	if err != nil {
 		return options{}, fmt.Errorf("error operation timeout seconds, %w", err)
 	}

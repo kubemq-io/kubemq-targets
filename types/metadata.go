@@ -197,7 +197,7 @@ func (m Metadata) MustParseInterfaceMap(key string) (map[string]interface{}, err
 		}
 		err := json.Unmarshal([]byte(val), &imap)
 		if err != nil {
-			return imap, fmt.Errorf("invalid json conversion to map[string]string %s", val)
+			return imap, fmt.Errorf("invalid json conversion to map[string]interface %s", val)
 		}
 		return imap, nil
 	} else {

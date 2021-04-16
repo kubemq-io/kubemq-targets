@@ -2,6 +2,7 @@ package mongodb
 
 import (
 	"context"
+	"fmt"
 	"github.com/kubemq-hub/kubemq-targets/config"
 	"github.com/kubemq-hub/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-hub/kubemq-targets/types"
@@ -10,6 +11,20 @@ import (
 	"time"
 )
 
+type testDocument struct {
+	Id      string `json:"_id,omitempty"`
+	String  string `json:"string,omitempty"`
+	Integer string `json:"integer,omitempty"`
+}
+
+func (t *testDocument) data() []byte {
+	data, _ := json.Marshal(t)
+	return data
+}
+func (t *testDocument) dataString() string {
+	data, _ := json.MarshalToString(t)
+	return data
+}
 func TestClient_Init(t *testing.T) {
 	tests := []struct {
 		name    string
@@ -209,11 +224,11 @@ func TestClient_Set_Get(t *testing.T) {
 				},
 			},
 			setRequest: types.NewRequest().
-				SetMetadataKeyValue("method", "set").
+				SetMetadataKeyValue("method", "set_by_key").
 				SetMetadataKeyValue("key", "some-key").
 				SetData([]byte("some-data")),
 			getRequest: types.NewRequest().
-				SetMetadataKeyValue("method", "get").
+				SetMetadataKeyValue("method", "get_by_key").
 				SetMetadataKeyValue("key", "some-key"),
 
 			wantSetResponse: types.NewResponse().
@@ -243,11 +258,11 @@ func TestClient_Set_Get(t *testing.T) {
 				},
 			},
 			setRequest: types.NewRequest().
-				SetMetadataKeyValue("method", "set").
+				SetMetadataKeyValue("method", "set_by_key").
 				SetMetadataKeyValue("key", "some-key").
 				SetData([]byte("some-data")),
 			getRequest: types.NewRequest().
-				SetMetadataKeyValue("method", "get").
+				SetMetadataKeyValue("method", "get_by_key").
 				SetMetadataKeyValue("key", "bad-key"),
 
 			wantSetResponse: types.NewResponse().
@@ -285,7 +300,6 @@ func TestClient_Set_Get(t *testing.T) {
 	}
 }
 func TestClient_Delete(t *testing.T) {
-
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	c := New()
@@ -307,14 +321,14 @@ func TestClient_Delete(t *testing.T) {
 	key := uuid.New().String()
 	require.NoError(t, err)
 	setRequest := types.NewRequest().
-		SetMetadataKeyValue("method", "set").
+		SetMetadataKeyValue("method", "set_by_key").
 		SetMetadataKeyValue("key", key).
 		SetData([]byte("some-data"))
 
 	_, err = c.Do(ctx, setRequest)
 	require.NoError(t, err)
 	getRequest := types.NewRequest().
-		SetMetadataKeyValue("method", "get").
+		SetMetadataKeyValue("method", "get_by_key").
 		SetMetadataKeyValue("key", key)
 	gotGetResponse, err := c.Do(ctx, getRequest)
 	require.NoError(t, err)
@@ -322,7 +336,7 @@ func TestClient_Delete(t *testing.T) {
 	require.EqualValues(t, []byte("some-data"), gotGetResponse.Data)
 
 	delRequest := types.NewRequest().
-		SetMetadataKeyValue("method", "delete").
+		SetMetadataKeyValue("method", "delete_by_key").
 		SetMetadataKeyValue("key", key)
 	_, err = c.Do(ctx, delRequest)
 	require.NoError(t, err)
@@ -356,7 +370,7 @@ func TestClient_Do(t *testing.T) {
 				},
 			},
 			request: types.NewRequest().
-				SetMetadataKeyValue("method", "set").
+				SetMetadataKeyValue("method", "set_by_key").
 				SetMetadataKeyValue("key", "some-key").
 				SetData([]byte("some-data")),
 			wantErr: false,
@@ -402,7 +416,7 @@ func TestClient_Do(t *testing.T) {
 				},
 			},
 			request: types.NewRequest().
-				SetMetadataKeyValue("method", "set").
+				SetMetadataKeyValue("method", "set_by_key").
 				SetData([]byte("some-data")),
 			wantErr: true,
 		},
@@ -420,7 +434,132 @@ func TestClient_Do(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
+}
+
+func TestClient_Insert_Find_Update_Delete(t *testing.T) {
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	c := New()
+	err := c.Init(ctx, config.Spec{
+		Name: "mongodb",
+		Kind: "mongodb",
+		Properties: map[string]string{
+			"host":                      "localhost:27017",
+			"username":                  "admin",
+			"password":                  "password",
+			"database":                  "admin",
+			"collection":                "test",
+			"write_concurrency":         "",
+			"read_concurrency":          "",
+			"params":                    "",
+			"operation_timeout_seconds": "2",
+		},
+	})
+
+	require.NoError(t, err)
+	doc := &testDocument{
+		Id:      uuid.New().String(),
+		String:  "s",
+		Integer: "1",
+	}
+	var docs []*testDocument
+	docs = append(docs, doc)
+	docsData, err := json.Marshal(&docs)
+	require.NoError(t, err)
+	insertRequest := types.NewRequest().
+		SetMetadataKeyValue("method", "insert_many").
+		SetData(docsData)
+	fmt.Println(insertRequest.String())
+	_, err = c.Do(ctx, insertRequest)
+	require.NoError(t, err)
+
+	findFilter := &testDocument{
+		Id: doc.Id,
+	}
+
+	findRequest := types.NewRequest().
+		SetMetadataKeyValue("method", "find").
+		SetMetadataKeyValue("filter", findFilter.dataString())
+
+	findResponse, err := c.Do(ctx, findRequest)
+	require.NoError(t, err)
+	require.NotNil(t, findResponse)
+	receivedDoc := &testDocument{}
+	err = json.Unmarshal(findResponse.Data, receivedDoc)
+	require.NoError(t, err)
+	require.EqualValues(t, doc, receivedDoc)
+
+	updateFilter := &testDocument{
+		Id: doc.Id,
+	}
+	updateDoc := &testDocument{
+		Id:      doc.Id,
+		String:  "b",
+		Integer: "2",
+	}
+	updateRequest := types.NewRequest().
+		SetMetadataKeyValue("method", "update").
+		SetMetadataKeyValue("filter", updateFilter.dataString()).SetData(updateDoc.data())
+	updateResponse, err := c.Do(ctx, updateRequest)
+	require.NoError(t, err)
+	require.NotNil(t, updateResponse)
+
+	findResponse, err = c.Do(ctx, findRequest)
+	require.NoError(t, err)
+	require.NotNil(t, findResponse)
+	receivedDoc2 := &testDocument{}
+	err = json.Unmarshal(findResponse.Data, receivedDoc2)
+	require.NoError(t, err)
+	require.EqualValues(t, updateDoc, receivedDoc2)
+	upsertDoc := &testDocument{
+		Id:      uuid.New().String(),
+		String:  "c",
+		Integer: "3",
+	}
+	upsertFilter := &testDocument{
+		Id: upsertDoc.Id,
+	}
+
+	upsertRequest := types.NewRequest().
+		SetMetadataKeyValue("method", "update").
+		SetMetadataKeyValue("set_upsert", "true").
+		SetMetadataKeyValue("filter", upsertFilter.dataString()).SetData(upsertDoc.data())
+
+	upsertResponse, err := c.Do(ctx, upsertRequest)
+	require.NoError(t, err)
+	require.NotNil(t, upsertResponse)
+
+	findUpsertFilter := &testDocument{
+		Id: upsertDoc.Id,
+	}
+	findUpsertRequest := types.NewRequest().
+		SetMetadataKeyValue("method", "find").
+		SetMetadataKeyValue("filter", findUpsertFilter.dataString())
+	findUpsertResponse, err := c.Do(ctx, findUpsertRequest)
+	require.NoError(t, err)
+	require.NotNil(t, findUpsertResponse)
+	receivedUpsertDoc2 := &testDocument{}
+	err = json.Unmarshal(findUpsertResponse.Data, receivedUpsertDoc2)
+	require.NoError(t, err)
+	require.EqualValues(t, upsertDoc, receivedUpsertDoc2)
+
+	delFilter := &testDocument{
+		Id: upsertDoc.Id,
+	}
+	delRequest := types.NewRequest().
+		SetMetadataKeyValue("method", "delete").
+		SetMetadataKeyValue("filter", delFilter.dataString())
+	delResponse, err := c.Do(ctx, delRequest)
+	require.NoError(t, err)
+	require.NotNil(t, delResponse)
+	delFilter.Id = doc.Id
+	delRequest = types.NewRequest().
+		SetMetadataKeyValue("method", "delete").
+		SetMetadataKeyValue("filter", delFilter.dataString())
+	delResponse, err = c.Do(ctx, delRequest)
+	require.NoError(t, err)
+	require.NotNil(t, delResponse)
+
 }

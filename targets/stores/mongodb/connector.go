@@ -12,7 +12,7 @@ func Connector() *common.Connector {
 		SetName("MongoDB").
 		SetProvider("").
 		SetCategory("Store").
-		SetTags("db","no-sql").
+		SetTags("db", "no-sql").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
@@ -96,7 +96,10 @@ func Connector() *common.Connector {
 				SetName("method").
 				SetKind("string").
 				SetDescription("Set MongoDB execution method").
-				SetOptions([]string{"get", "set", "delete"}).
+				SetOptions([]string{"get_by_key", "set_by_key", "delete_by_key", "find", "find_many",
+					"insert", "insert_many", "update", "update_many", "delete_one",
+					"delete_many", "aggregate", "distinct",
+				}).
 				SetDefault("get").
 				SetMust(true),
 		).
@@ -105,6 +108,21 @@ func Connector() *common.Connector {
 				SetName("key").
 				SetKind("string").
 				SetDescription("Set MongoDB key").
-				SetMust(true),
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("filter").
+				SetKind("string").
+				SetDescription("Set filter").
+				SetMust(false),
+		).
+		AddMetadata(
+			common.NewMetadata().
+				SetName("set_upsert").
+				SetKind("bool").
+				SetDescription("Set Upsert in update mode").
+				SetMust(false),
 		)
+
 }

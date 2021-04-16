@@ -43,11 +43,9 @@ require (
 	github.com/googleapis/gax-go/v2 v2.0.5
 	github.com/hashicorp/consul/api v1.3.0
 	github.com/hazelcast/hazelcast-go-client v0.6.0
-	github.com/jackc/pgx v3.6.2+incompatible // indirect
-	github.com/jackc/pgx/v4 v4.11.0 // indirect
-	github.com/jmoiron/sqlx v1.3.3 // indirect
 	github.com/jpillora/backoff v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.10
+	github.com/kr/pty v1.1.8 // indirect
 	github.com/kubemq-hub/builder v0.7.2
 	github.com/kubemq-hub/ibmmq-sdk v0.3.8
 	github.com/kubemq-io/kubemq-go v1.5.0
@@ -64,9 +62,10 @@ require (
 	github.com/streadway/amqp v1.0.0
 	github.com/stretchr/testify v1.6.1
 	github.com/yuin/gopher-lua v0.0.0-20200816102855-ee81675732da // indirect
-	go.mongodb.org/mongo-driver v1.4.1
+	go.mongodb.org/mongo-driver v1.5.1
 	go.uber.org/atomic v1.7.0
 	go.uber.org/zap v1.16.0
+	golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2 // indirect
 	golang.org/x/oauth2 v0.0.0-20210220000619-9bb904979d93
 	google.golang.org/api v0.40.0
 	google.golang.org/genproto v0.0.0-20210302174412-5ede27ff9881
