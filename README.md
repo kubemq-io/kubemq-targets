@@ -59,7 +59,7 @@ A list of supported targets is below.
 |            | [Aerospike](https://www.aerospike.com/)                             | stores.aerospike      | [Usage](targets/stores/aerospike)    | [Example](examples/stores/aerospike)    |
 |            | [RethinkDB](https://rethinkdb.com/)                                 | stores.rethinkdb      | [Usage](targets/stores/rethinkdb)    | [Example](examples/stores/rethinkdb)    |
 |            | [SingleStore](https://www.singlestore.com/)                         | stores.singlestore    | [Usage](targets/stores/singlestore)  | [Example](examples/stores/singlestore)  |
-|            | [Crate.io](https://crate.io/) |stores.crate     | Similar to postgres   |
+|            | [Crate.io](https://crate.io/) |stores.crate    |[Usage](targets/stores/create) | Similar to postgres   |
 | Messaging  |                                                                     |                       |                                      |                                         |
 |            | [Kafka](https://kafka.apache.org/)                                  | messaging.kafka       | [Usage](targets/messaging/kafka)     | [Example](examples/messaging/kafka)     |
 |            | [Nats](https://nats.io/)                                            | messaging.nats        | [Usage](targets/messaging/nats)      | [Example](examples/messaging/nats)      |
