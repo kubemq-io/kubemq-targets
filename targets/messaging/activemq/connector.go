@@ -11,7 +11,7 @@ func Connector() *common.Connector {
 		SetName("ActiveMQ").
 		SetProvider("").
 		SetCategory("Messaging").
-		SetTags("queue","pub/sub").
+		SetTags("queue", "pub/sub").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
@@ -34,6 +34,14 @@ func Connector() *common.Connector {
 				SetKind("string").
 				SetName("password").
 				SetDescription("Set ActiveMQ password").
+				SetMust(false).
+				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("string").
+				SetName("default_destination").
+				SetDescription("Set ActiveMQ default destination").
 				SetMust(false).
 				SetDefault(""),
 		).

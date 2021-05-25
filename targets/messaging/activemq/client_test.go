@@ -21,7 +21,7 @@ func TestClient_Init(t *testing.T) {
 				Name: "messaging-activemq",
 				Kind: "messaging.activemq",
 				Properties: map[string]string{
-					"host":     "localhost:8161",
+					"host":     "localhost:61613",
 					"username": "admin",
 					"password": "admin",
 				},
@@ -110,6 +110,24 @@ func TestClient_Do(t *testing.T) {
 			wantResponse: types.NewResponse().
 				SetMetadataKeyValue("result", "ok"),
 			wantErr: true,
+		},
+		{
+			name: "valid publish request with default destination",
+			cfg: config.Spec{
+				Name: "messaging-activemq",
+				Kind: "messaging.activemq",
+				Properties: map[string]string{
+					"host":                "localhost:61613",
+					"username":            "",
+					"password":            "",
+					"default_destination": "q1",
+				},
+			},
+			request: types.NewRequest().
+				SetData([]byte("some-data")),
+			wantResponse: types.NewResponse().
+				SetMetadataKeyValue("result", "ok"),
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {

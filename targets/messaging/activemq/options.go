@@ -6,9 +6,10 @@ import (
 )
 
 type options struct {
-	host     string
-	username string
-	password string
+	host               string
+	username           string
+	password           string
+	defaultDestination string
 }
 
 func parseOptions(cfg config.Spec) (options, error) {
@@ -20,5 +21,15 @@ func parseOptions(cfg config.Spec) (options, error) {
 	}
 	o.username = cfg.Properties.ParseString("username", "")
 	o.password = cfg.Properties.ParseString("password", "")
+	o.defaultDestination = cfg.Properties.ParseString("default_destination", "")
 	return o, nil
+}
+func (o options) defaultMetadata() (metadata, bool) {
+	if o.defaultDestination != "" {
+		return metadata{
+			destination: o.defaultDestination,
+		}, true
+	}
+	return metadata{}, false
+
 }

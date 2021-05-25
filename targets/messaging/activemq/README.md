@@ -18,7 +18,7 @@ ActiveMQ target connector configuration properties:
 | host                      | yes      | activemq connection host          | "localhost:1883" |
 | username                      | no      | set activemq username          | "username" |
 | password                      | no      | set activemq password          | "password" |
-
+| default_destination                      | no      | set activemq default destination | "q1" |
 
 Example:
 
@@ -44,6 +44,7 @@ bindings:
         host: "localhost:61613"
         username: "admin"
         password: "admin"
+        default_destination: ""
 ```
 
 ## Usage
