@@ -31,7 +31,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	var err error
 	m.method, err = meta.ParseStringMap("method", methodsMap)
 	if err != nil {
-		m.method="send"
+		m.method = "send"
 	}
 	m.timeToLive = meta.ParseTimeDuration("time_to_live", DefaultTimeToLive)
 	m.contentType = meta.ParseString("content_type", DefaultContentType)
