@@ -6,9 +6,9 @@ import (
 )
 
 type options struct {
-	host     string
-	username string
-	password string
+	host               string
+	username           string
+	password           string
 	defaultDestination string
 }
 

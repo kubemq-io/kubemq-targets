@@ -51,9 +51,13 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 }
 
 func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Response, error) {
-	eventMetadata, err := parseMetadata(request.Metadata, c.opts)
-	if err != nil {
-		return nil, err
+	eventMetadata, ok := c.opts.defaultMetadata()
+	if !ok {
+		var err error
+		eventMetadata, err = parseMetadata(request.Metadata, c.opts)
+		if err != nil {
+			return nil, err
+		}
 	}
 	m := &sqs.SendMessageInput{}
 	c.setMessageMeta(m, eventMetadata)

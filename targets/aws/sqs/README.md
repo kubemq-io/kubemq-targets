@@ -22,6 +22,7 @@ sqs target connector configuration properties:
 | token          | no       | aws token ("default" empty string                                 | "my token"                      |
 | dead_letter    | no       | dead letter queue name (only relevant to SetQueueAttributes)      | "my_dead_letter_queue"          |
 | max_receive    | no       | max receive of queue (only relevant to SetQueueAttributes)        | "0"                              |
+| default_queue    | no       | set SQS default queue        | "q1"                              |
 
 
 Example:
@@ -50,6 +51,7 @@ bindings:
         region:  "instance"
         token:  ""
         retries: "1"
+        default_queue: "q1"
 ```
 
 ## Usage

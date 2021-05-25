@@ -22,6 +22,7 @@ type options struct {
 	deadLetterQueue string
 	token           string
 	defaultDelay    int
+	defaultQueue    string
 }
 
 func parseOptions(cfg config.Spec) (options, error) {
@@ -48,6 +49,18 @@ func parseOptions(cfg config.Spec) (options, error) {
 	o.maxReceiveCount = cfg.Properties.ParseInt("max_receive", DefaultMaxReceive)
 	o.deadLetterQueue = cfg.Properties.ParseString("dead_letter", DefaultDeadLetter)
 	o.token = cfg.Properties.ParseString("token", DefaultToken)
-
+	o.defaultQueue = cfg.Properties.ParseString("default_queue", "")
 	return o, nil
+}
+func (o options) defaultMetadata() (metadata, bool) {
+	if o.defaultQueue != "" {
+
+		return metadata{
+			delay:    o.defaultDelay,
+			tags:     nil,
+			queueURL: o.defaultQueue,
+		}, true
+	}
+	return metadata{}, false
+
 }

@@ -12,7 +12,7 @@ func Connector() *common.Connector {
 		SetName("SQS").
 		SetProvider("AWS").
 		SetCategory("Messaging").
-		SetTags("queue","cloud","managed").
+		SetTags("queue", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
@@ -78,6 +78,15 @@ func Connector() *common.Connector {
 				SetName("dead_letter").
 				SetTitle("Dead Letter Queue").
 				SetDescription("Set SQS dead letter queue").
+				SetMust(false).
+				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("string").
+				SetName("default_queue").
+				SetTitle("Default Queue").
+				SetDescription("Set SQS Default Queue").
 				SetMust(false).
 				SetDefault(""),
 		).
