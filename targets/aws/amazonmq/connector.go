@@ -11,7 +11,7 @@ func Connector() *common.Connector {
 		SetName("AmazonMQ").
 		SetProvider("AWS").
 		SetCategory("Messaging").
-		SetTags("queue","cloud","mq").
+		SetTags("queue", "cloud", "mq").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
@@ -37,6 +37,14 @@ func Connector() *common.Connector {
 				SetMust(true).
 				SetDefault(""),
 		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("string").
+				SetName("default_destination").
+				SetDescription("Set AmazonMQ default destination").
+				SetMust(false).
+				SetDefault(""),
+		).
 		AddMetadata(
 			common.NewMetadata().
 				SetName("destination").
@@ -45,4 +53,3 @@ func Connector() *common.Connector {
 				SetDefault("").
 				SetMust(true),
 		)
-}

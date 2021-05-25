@@ -21,7 +21,7 @@ AmazonMQ target connector configuration properties:
 | host                            | yes      | AmazonMQ connection host (stomp+ssl endpoint)| "localhost:1883" |
 | username                        | no       | set AmazonMQ username                        | "username" |
 | password                        | no       | set AmazonMQ password                        | "password" |
-
+| default_destination                      | no      | set AmazonMQ default destination | "q1" |
 
 Example:
 
@@ -47,6 +47,7 @@ bindings:
         host: "localhost:61613"
         username: "admin"
         password: "admin"
+        default_destination: ""
 ```
 
 ## Usage

@@ -43,11 +43,15 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 }
 
 func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, error) {
-	meta, err := parseMetadata(req.Metadata)
-	if err != nil {
-		return nil, err
+	meta, ok := c.opts.defaultMetadata()
+	if !ok {
+		var err error
+		meta, err = parseMetadata(req.Metadata)
+		if err != nil {
+			return nil, err
+		}
 	}
-	err = c.conn.Send(meta.destination, "text/plain", req.Data)
+	err := c.conn.Send(meta.destination, "text/plain", req.Data)
 	if err != nil {
 		return nil, err
 	}
