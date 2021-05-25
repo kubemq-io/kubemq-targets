@@ -19,6 +19,8 @@ MQTT target connector configuration properties:
 | username                      | no      | set mqtt username          | "username" |
 | password                      | no      | set mqtt password          | "password" |
 | client_id                      | no      | mqtt connection string address          | "client_id" |
+| default_topic                      | no      | set MQTT default topic         | "topic" |
+| default_qos                      | no      | set MQTT default qos        | 0 |
 
 Example:
 
@@ -45,6 +47,8 @@ bindings:
         username: "username"
         password: "password"
         client_id: "client_id"
+        default_topic: "topic"
+        default_qos: 0
 ```
 
 ## Usage

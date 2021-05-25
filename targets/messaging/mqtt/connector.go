@@ -46,6 +46,24 @@ func Connector() *common.Connector {
 				SetMust(false).
 				SetDefault(""),
 		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("string").
+				SetName("default_topic").
+				SetDescription("Set MQTT default topic").
+				SetDefault("").
+				SetMust(false),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("int").
+				SetName("default_qos").
+				SetDescription("Set MQTT default qos level").
+				SetMust(false).
+				SetMin(0).
+				SetMax(2).
+				SetDefault("0"),
+		).
 		AddMetadata(
 			common.NewMetadata().
 				SetKind("string").
