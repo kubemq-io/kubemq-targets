@@ -13,9 +13,13 @@ The following are required to run the rabbitmq target connector:
 
 RabbitMQ target connector configuration properties:
 
-| Properties Key                  | Required | Description                                 | Example                                                                |
-|:--------------------------------|:---------|:--------------------------------------------|:-----------------------------------------------------------------------|
-| url                             | yes      | rabbitmq connection string address          | "amqp://rabbitmq:rabbitmq@localhost:5672/" |
+| Properties Key      | Required | Description                        | Example                                    |
+|:--------------------|:---------|:-----------------------------------|:-------------------------------------------|
+| url                 | yes      | rabbitmq connection string address | "amqp://rabbitmq:rabbitmq@localhost:5672/" |
+| default_exchange    | no       | set default exchange routing | "exchange.1"                               |
+| default_topic       | no       | set default topic routing | "topic1"                                   |
+| default_persistence | no       | set default persistence for messages | "true"                                     |
+
 
 Example:
 
@@ -40,6 +44,9 @@ bindings:
       name: target-rabbitmq
       properties:
         url: "amqp://rabbitmq:rabbitmq@localhost:5672/"
+        default_exchange: "exchange"
+        default_topic: "topic1"
+        default_persistence: "true"
 ```
 
 ## Usage

@@ -21,7 +21,7 @@ func TestClient_Init(t *testing.T) {
 				Name: "messaging-rabbitmq",
 				Kind: "messaging.rabbitmq",
 				Properties: map[string]string{
-					"url": "amqp://guest:guest@localhost:5672/",
+					"url": "amqp://rabbitmq:rabbitmq@localhost:5672/",
 				},
 			},
 			wantErr: false,
@@ -75,7 +75,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "messaging-rabbitmq",
 				Kind: "messaging.rabbitmq",
 				Properties: map[string]string{
-					"url": "amqp://guest:guest@localhost:5672/",
+					"url": "amqp://rabbitmq:rabbitmq@localhost:5672/",
 				},
 			},
 			request: types.NewRequest().
@@ -94,7 +94,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "messaging-rabbitmq",
 				Kind: "messaging.rabbitmq",
 				Properties: map[string]string{
-					"url": "amqp://guest:guest@localhost:5672/",
+					"url": "amqp://rabbitmq:rabbitmq@localhost:5672/",
 				},
 			},
 			request: types.NewRequest().
@@ -109,7 +109,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "messaging-rabbitmq",
 				Kind: "messaging.rabbitmq",
 				Properties: map[string]string{
-					"url": "amqp://guest:guest@localhost:5672/",
+					"url": "amqp://rabbitmq:rabbitmq@localhost:5672/",
 				},
 			},
 			request: types.NewRequest().
@@ -126,7 +126,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "messaging-rabbitmq",
 				Kind: "messaging.rabbitmq",
 				Properties: map[string]string{
-					"url": "amqp://guest:guest@localhost:5672/",
+					"url": "amqp://rabbitmq:rabbitmq@localhost:5672/",
 				},
 			},
 			request: types.NewRequest().
@@ -143,7 +143,7 @@ func TestClient_Do(t *testing.T) {
 				Name: "messaging-rabbitmq",
 				Kind: "messaging.rabbitmq",
 				Properties: map[string]string{
-					"url": "amqp://guest:guest@localhost:5672/",
+					"url": "amqp://rabbitmq:rabbitmq@localhost:5672/",
 				},
 			},
 			request: types.NewRequest().
@@ -153,6 +153,39 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("expiry_seconds", "-1"),
 			wantResponse: nil,
 			wantErr:      true,
+		},
+		{
+			name: "sending with default topic",
+			cfg: config.Spec{
+				Name: "messaging-rabbitmq",
+				Kind: "messaging.rabbitmq",
+				Properties: map[string]string{
+					"url":           "amqp://rabbitmq:rabbitmq@localhost:5672/",
+					"default_topic": "q1",
+				},
+			},
+			request: types.NewRequest().
+				SetData([]byte("some-data")),
+			wantResponse: types.NewResponse().
+				SetMetadataKeyValue("result", "ok"),
+			wantErr: false,
+		},
+		{
+			name: "sending with default exchange",
+			cfg: config.Spec{
+				Name: "messaging-rabbitmq",
+				Kind: "messaging.rabbitmq",
+				Properties: map[string]string{
+					"url":              "amqp://rabbitmq:rabbitmq@localhost:5672/",
+					"default_exchange": "exchange",
+					"default_topic":    "weqwe",
+				},
+			},
+			request: types.NewRequest().
+				SetData([]byte("some-data")),
+			wantResponse: types.NewResponse().
+				SetMetadataKeyValue("result", "ok"),
+			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
@@ -170,6 +203,7 @@ func TestClient_Do(t *testing.T) {
 			require.NoError(t, err)
 			require.NotNil(t, gotResponse)
 			require.EqualValues(t, tt.wantResponse, gotResponse)
+			time.Sleep(2 * time.Second)
 		})
 	}
 }

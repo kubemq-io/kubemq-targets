@@ -12,7 +12,7 @@ func Connector() *common.Connector {
 		SetName("RabbitMQ").
 		SetProvider("").
 		SetCategory("Messaging").
-		SetTags("queue","pub/sub").
+		SetTags("queue", "pub/sub").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
@@ -20,6 +20,30 @@ func Connector() *common.Connector {
 				SetDescription("Set RabbitMQ url connection string").
 				SetMust(true).
 				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("string").
+				SetName("default_exchange").
+				SetDescription("Set Default Exchange for routing").
+				SetMust(false).
+				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("string").
+				SetName("default_topic").
+				SetDescription("Set Default Topic for routing").
+				SetMust(false).
+				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("bool").
+				SetName("default_persistence").
+				SetDescription("Set Default Persistence for routed message").
+				SetMust(false).
+				SetDefault("true"),
 		).
 		AddMetadata(
 			common.NewMetadata().
