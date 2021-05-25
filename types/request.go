@@ -46,7 +46,7 @@ func ParseRequest(body []byte) (*Request, error) {
 	req := &TransportRequest{}
 	err := json.Unmarshal(body, req)
 	if err != nil {
-		return NewRequest().SetData(body), err
+		return NewRequest().SetData(body), nil
 	}
 	switch v := req.Data.(type) {
 	case nil:
