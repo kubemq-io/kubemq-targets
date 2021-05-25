@@ -11,7 +11,7 @@ func Connector() *common.Connector {
 		SetName("File System").
 		SetProvider("").
 		SetCategory("Storage").
-		SetTags("filesystem","s3").
+		SetTags("filesystem").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
