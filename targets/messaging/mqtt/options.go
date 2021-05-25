@@ -7,12 +7,12 @@ import (
 )
 
 type options struct {
-	host     string
-	username string
-	password string
-	clientId string
+	host         string
+	username     string
+	password     string
+	clientId     string
 	defaultTopic string
-	defaultQos int
+	defaultQos   int
 }
 
 func parseOptions(cfg config.Spec) (options, error) {
@@ -33,7 +33,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 	return o, nil
 }
 func (o options) defaultMetadata() (metadata, bool) {
-	if o.defaultTopic != ""  {
+	if o.defaultTopic != "" {
 		return metadata{
 			topic: o.defaultTopic,
 			qos:   o.defaultQos,
