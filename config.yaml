@@ -1,14 +1,18 @@
-apiPort: 8081
+apiPort: 0
 bindings:
 - name: target-1
   properties:
-    log_level: info
+    log_level: debug
   source:
-    kind: kubemq.query
+    kind: kubemq.queue
     properties:
       address: localhost:50000
-      channel: echo
+      channel: rabbit
   target:
-    kind: echo
-    properties: {}
-logLevel: ""
+    kind: messaging.rabbitmq
+    properties:
+      default_exchange: exchange
+      default_persistence: "true"
+      default_topic: q1
+      url: amqp://rabbitmq:rabbitmq@localhost:5672/
+logLevel: "debug"
