@@ -9,6 +9,7 @@ import (
 	consul "github.com/hashicorp/consul/api"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"net"
 	"strings"
@@ -16,7 +17,7 @@ import (
 
 // Client is a Client state store
 type Client struct {
-	name   string
+	log    *logger.Logger
 	client *consul.Client
 	opts   options
 }
@@ -29,8 +30,12 @@ func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
 
-func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
-	c.name = cfg.Name
+func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
+	c.log = log
+	if c.log == nil {
+		c.log = logger.NewLogger(cfg.Kind)
+	}
+
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
@@ -166,9 +171,7 @@ func (c *Client) list(ctx context.Context, meta metadata) (*types.Response, erro
 }
 
 func setConfig(opts options) (*consul.Config, error) {
-	c := &consul.Config{
-
-	}
+	c := &consul.Config{}
 	if opts.address != "" {
 		c.Address = opts.address
 	}
@@ -190,8 +193,7 @@ func setConfig(opts options) (*consul.Config, error) {
 	}
 	if opts.tls {
 
-		tlsClientConfig := &tls.Config{
-		}
+		tlsClientConfig := &tls.Config{}
 
 		tlsClientConfig.InsecureSkipVerify = opts.insecureSkipVerify
 
@@ -222,9 +224,7 @@ func (c *Client) Stop() error {
 }
 
 func (c *Client) createWriteOptions(ctx context.Context) *consul.WriteOptions {
-	o := &consul.WriteOptions{
-
-	}
+	o := &consul.WriteOptions{}
 	o.WithContext(ctx)
 	if c.opts.datacenter != "" {
 		o.Datacenter = c.opts.datacenter
@@ -235,9 +235,7 @@ func (c *Client) createWriteOptions(ctx context.Context) *consul.WriteOptions {
 	return o
 }
 func (c *Client) createQueryOptions(ctx context.Context, meta metadata) *consul.QueryOptions {
-	o := &consul.QueryOptions{
-
-	}
+	o := &consul.QueryOptions{}
 	o.WithContext(ctx)
 	if c.opts.datacenter != "" {
 		o.Datacenter = c.opts.datacenter

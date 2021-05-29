@@ -132,7 +132,7 @@ func TestClient_Init(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			if tt.wantErr {
 				require.Error(t, err)
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
@@ -220,7 +220,7 @@ func TestClient_Create_Column_Family(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg2)
+	err = c.Init(ctx, cfg2, nil)
 	require.NoError(t, err)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -274,7 +274,7 @@ func TestClient_Create_Table(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 35*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg2)
+	err = c.Init(ctx, cfg2, nil)
 	require.NoError(t, err)
 	defer func() {
 		err = c.Stop()
@@ -329,7 +329,7 @@ func TestClient_Delete_Table(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 35*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg2)
+	err = c.Init(ctx, cfg2, nil)
 	require.NoError(t, err)
 	defer func() {
 		err = c.Stop()
@@ -415,7 +415,7 @@ func TestClient_write(t *testing.T) {
 			ctx, cancel := context.WithCancel(context.Background())
 			defer cancel()
 			c := New()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			defer func() {
 				err = c.Stop()
 				require.NoError(t, err)
@@ -515,7 +515,7 @@ func TestClient_Delete_Rows(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Minute)
 			defer cancel()
 			c := New()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			defer func() {
 				_ = c.Stop()
 			}()
@@ -652,7 +652,7 @@ func TestClient_Read_Rows(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
 			c := New()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			defer func() {
 				_ = c.Stop()
 			}()

@@ -44,7 +44,7 @@ func TestClient_createUser(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -99,7 +99,7 @@ func TestClient_retrieveUser(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -172,7 +172,7 @@ func TestClient_listUsers(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -223,7 +223,7 @@ func TestClient_updateUser(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -274,7 +274,7 @@ func TestClient_deleteUser(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string

@@ -7,7 +7,7 @@ The following required to run the -hadoop target connector:
 
 - kubemq cluster
 - hadoop active server
-- kubemq-source deployment
+- kubemq-targets deployment
 
 ## Configuration
 

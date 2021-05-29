@@ -26,7 +26,7 @@ func TestClient_customToken(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -79,7 +79,7 @@ func TestClient_verifyToken(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string

@@ -7,7 +7,7 @@ The following required to run the aws-lambda target connector:
 
 - kubemq cluster
 - aws account with lambda active service
-- kubemq-source deployment
+- kubemq-targets deployment
 
 ## Configuration
 

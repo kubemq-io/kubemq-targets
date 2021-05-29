@@ -7,7 +7,7 @@ The following required to run the aws-sqs target connector:
 
 - kubemq cluster
 - aws account with sqs active service
-- kubemq-source deployment
+- kubemq-targets deployment
 
 ## Configuration
 

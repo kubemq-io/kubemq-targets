@@ -7,7 +7,7 @@ The following required to run the gcp-firestore target connector:
 
 - kubemq cluster
 - gcp-firestore set up in native mode
-- kubemq-source deployment
+- kubemq-targets deployment
 
 ## Configuration
 

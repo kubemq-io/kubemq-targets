@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"io/ioutil"
 	"os"
@@ -22,7 +23,7 @@ func New() *Client {
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
-func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
+func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {

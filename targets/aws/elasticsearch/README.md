@@ -7,7 +7,7 @@ The following required to run the aws-elasticsearch target connector:
 
 - kubemq cluster
 - aws account with elasticsearch active service -elastic service with an active domain
-- kubemq-source deployment
+- kubemq-targets deployment
 
 ## Configuration
 

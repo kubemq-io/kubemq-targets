@@ -17,7 +17,6 @@ import (
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 type Client struct {
-	name   string
 	opts   options
 	client *bigquery.Client
 	log    *logger.Logger
@@ -30,8 +29,12 @@ func New() *Client {
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
-func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
-	c.name = cfg.Name
+func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
+	c.log = log
+	if c.log == nil {
+		c.log = logger.NewLogger(cfg.Kind)
+	}
+
 	c.log = logger.NewLogger(cfg.Name)
 	var err error
 	c.opts, err = parseOptions(cfg)

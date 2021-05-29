@@ -5,6 +5,7 @@ import (
 	"crypto/tls"
 	"fmt"
 	"github.com/kubemq-hub/builder/connector/common"
+	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
 	"strconv"
 
 	kafka "github.com/Shopify/sarama"
@@ -13,7 +14,7 @@ import (
 )
 
 type Client struct {
-	name     string
+	log      *logger.Logger
 	producer kafka.SyncProducer
 	opts     options
 }
@@ -22,8 +23,11 @@ func New() *Client {
 	return &Client{}
 }
 
-func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
-	c.name = cfg.Name
+func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
+	c.log = log
+	if c.log == nil {
+		c.log = logger.NewLogger(cfg.Kind)
+	}
 
 	var err error
 	c.opts, err = parseOptions(cfg)

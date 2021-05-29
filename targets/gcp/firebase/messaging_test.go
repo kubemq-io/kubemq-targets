@@ -294,7 +294,7 @@ func TestClientDo(t *testing.T) {
 			c := New()
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Minute)
 			defer cancel()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			if tt.wantErr {
 				require.Error(t, err)
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)

@@ -81,7 +81,7 @@ func TestClient_Do(t *testing.T) {
 				Name:       "null",
 				Kind:       "",
 				Properties: nil,
-			})
+			}, nil)
 			got, err := c.Do(ctx, tt.req)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Do() error = %v, wantErr %v", err, tt.wantErr)

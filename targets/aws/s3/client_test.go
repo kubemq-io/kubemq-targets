@@ -181,7 +181,7 @@ func TestClient_Init(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			if tt.wantErr {
 				require.Error(t, err)
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
@@ -221,7 +221,7 @@ func TestClient_List_Buckets(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -267,7 +267,7 @@ func TestClient_List_Bucket_Items(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -320,7 +320,7 @@ func TestClient_Create_Bucket(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -424,7 +424,7 @@ func TestClient_Upload_Item(t *testing.T) {
 			} else {
 				cfg.Properties["uploader"] = "true"
 			}
-			err = c.Init(ctx, cfg)
+			err = c.Init(ctx, cfg, nil)
 			require.NoError(t, err)
 			got, err := c.Do(ctx, tt.request)
 			if tt.wantErr {
@@ -511,7 +511,7 @@ func TestClient_Get_Item(t *testing.T) {
 			} else {
 				cfg.Properties["downloader"] = "true"
 			}
-			err = c.Init(ctx, cfg)
+			err = c.Init(ctx, cfg, nil)
 			require.NoError(t, err)
 			got, err := c.Do(ctx, tt.request)
 			if tt.wantErr {
@@ -576,7 +576,7 @@ func TestClient_Delete_Item(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err = c.Init(ctx, cfg)
+			err = c.Init(ctx, cfg, nil)
 			require.NoError(t, err)
 			got, err := c.Do(ctx, tt.request)
 			if tt.wantErr {
@@ -608,7 +608,7 @@ func TestClient_Copy_Items(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -666,7 +666,7 @@ func TestClient_Delete_All_Items(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -720,7 +720,7 @@ func TestClient_Delete_Bucket(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string

@@ -7,7 +7,7 @@ The following required to run the gcp-bigtable target connector:
 
 - kubemq cluster
 - gcp-bigtable set up
-- kubemq-source deployment
+- kubemq-targets deployment
 
 ## Configuration
 

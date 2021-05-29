@@ -10,6 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/go-sql-driver/mysql"
 	"github.com/kubemq-hub/builder/connector/common"
+	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -27,7 +28,7 @@ var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 // Client is a Client state store
 type Client struct {
-	name string
+	log  *logger.Logger
 	db   *sql.DB
 	opts options
 }
@@ -38,9 +39,13 @@ func New() *Client {
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
-func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
+func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 
-	c.name = cfg.Name
+	c.log = log
+	if c.log == nil {
+		c.log = logger.NewLogger(cfg.Kind)
+	}
+
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
@@ -264,4 +269,3 @@ func (c *Client) Stop() error {
 	}
 	return nil
 }
-

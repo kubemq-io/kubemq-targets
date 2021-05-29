@@ -133,7 +133,7 @@ func TestClient_Init(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			if tt.wantErr {
 				require.Error(t, err)
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
@@ -162,7 +162,7 @@ func TestClient_CreateLogStream(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -224,7 +224,7 @@ func TestClient_DescribeLogStream(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -282,7 +282,7 @@ func TestClient_DeleteLogStream(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -353,7 +353,7 @@ func TestClient_PutLogEvent(t *testing.T) {
 	m[currentTime] = "my second message to send"
 	b, err := json.Marshal(m)
 	require.NoError(t, err)
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -430,7 +430,7 @@ func TestClient_GetLogEvent(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -489,7 +489,7 @@ func TestClient_CreateLogEventsGroup(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -548,7 +548,7 @@ func TestClient_DescribeLogEvents(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -598,7 +598,7 @@ func TestClient_DeleteLogGroup(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string

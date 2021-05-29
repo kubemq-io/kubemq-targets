@@ -45,7 +45,7 @@ func TestClient_Init(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			if err := c.Init(ctx, tt.cfg); (err != nil) != tt.wantErr {
+			if err := c.Init(ctx, tt.cfg, nil); (err != nil) != tt.wantErr {
 				t.Errorf("Init() error = %v, wantExecErr %v", err, tt.wantErr)
 				return
 			}
@@ -105,7 +105,7 @@ func TestClient_Do(t *testing.T) {
 			ctx, cancel := context.WithCancel(context.Background())
 			defer cancel()
 			c := New()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			require.NoError(t, err)
 			replaceHeaderValues(tt.request)
 			gotResponse, err := c.Do(ctx, tt.request)

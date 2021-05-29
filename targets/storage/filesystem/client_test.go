@@ -44,7 +44,7 @@ func TestClient_Init(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			if err := c.Init(ctx, tt.cfg); (err != nil) != tt.wantErr {
+			if err := c.Init(ctx, tt.cfg, nil); (err != nil) != tt.wantErr {
 				t.Errorf("Init() error = %v, wantSaveErr %v", err, tt.wantErr)
 				return
 			}
@@ -64,7 +64,7 @@ func TestClient_Files(t *testing.T) {
 		},
 	}
 	c := New()
-	err := c.Init(ctx, cfg)
+	err := c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	save := types.NewRequest().
 		SetMetadataKeyValue("method", "save").

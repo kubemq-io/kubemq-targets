@@ -15,11 +15,10 @@ import (
 )
 
 type Client struct {
-	name       string
+	log        *logger.Logger
 	opts       options
 	queue      jms20subset.Queue
 	jmsContext jms20subset.JMSContext
-	log        *logger.Logger
 	producer   jms20subset.JMSProducer
 }
 
@@ -32,8 +31,12 @@ func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
 
-func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
-	c.name = cfg.Name
+func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
+	c.log = log
+	if c.log == nil {
+		c.log = logger.NewLogger(cfg.Kind)
+	}
+
 	c.log = logger.NewLogger(cfg.Name)
 	var err error
 	c.opts, err = parseOptions(cfg)

@@ -110,7 +110,7 @@ func TestClient_Init(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			if tt.wantErr {
 				require.Error(t, err)
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
@@ -182,7 +182,7 @@ func TestClient_Query(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
 			c := New()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			defer func() {
 				err = c.Stop()
 				require.NoError(t, err)
@@ -278,7 +278,7 @@ func TestClient_Create_Data_Set(t *testing.T) {
 			ctx, cancel := context.WithCancel(context.Background())
 			defer cancel()
 			c := New()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			defer func() {
 				err = c.Stop()
 				require.NoError(t, err)
@@ -355,7 +355,7 @@ func TestClient_Delete_Data_Set(t *testing.T) {
 			ctx, cancel := context.WithCancel(context.Background())
 			defer cancel()
 			c := New()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			defer func() {
 				err = c.Stop()
 				require.NoError(t, err)
@@ -466,7 +466,7 @@ func TestClient_Create_Table(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 			defer cancel()
 			c := New()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			defer func() {
 				err = c.Stop()
 				require.NoError(t, err)
@@ -559,7 +559,7 @@ func TestClient_Delete_Table(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 			defer cancel()
 			c := New()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			defer func() {
 				err = c.Stop()
 				require.NoError(t, err)
@@ -606,7 +606,7 @@ func TestClient_Get_Data_Sets(t *testing.T) {
 			ctx, cancel := context.WithCancel(context.Background())
 			defer cancel()
 			c := New()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			defer func() {
 				err = c.Stop()
 				require.NoError(t, err)
@@ -699,7 +699,7 @@ func TestClient_Get_Table_Info(t *testing.T) {
 			ctx, cancel := context.WithCancel(context.Background())
 			defer cancel()
 			c := New()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			defer func() {
 				err = c.Stop()
 				require.NoError(t, err)
@@ -791,7 +791,7 @@ func TestClient_Insert_To_Table(t *testing.T) {
 			ctx, cancel := context.WithCancel(context.Background())
 			defer cancel()
 			c := New()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			defer func() {
 				err = c.Stop()
 				require.NoError(t, err)

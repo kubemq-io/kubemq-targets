@@ -7,7 +7,7 @@ The following required to run the aws-athena target connector:
 
 - kubemq cluster
 - aws account with athena active service
-- kubemq-source deployment
+- kubemq-targets deployment
 
 ## Configuration
 

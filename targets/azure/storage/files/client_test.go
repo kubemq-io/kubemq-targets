@@ -75,13 +75,13 @@ func TestClient_Init(t *testing.T) {
 				},
 			},
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid init - missing storage_access_key",
 			cfg: config.Spec{
 				Name: "azure-storage-files",
 				Kind: "azure.storage.files",
 				Properties: map[string]string{
-					"storage_account":    dat.storageAccount,
+					"storage_account": dat.storageAccount,
 				},
 			},
 			wantErr: true,
@@ -93,7 +93,7 @@ func TestClient_Init(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			if tt.wantErr {
 				require.Error(t, err)
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
@@ -149,7 +149,7 @@ func TestClient_Create_Item(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 			defer cancel()
 			c := New()
-			err = c.Init(ctx, cfg)
+			err = c.Init(ctx, cfg, nil)
 			require.NoError(t, err)
 			got, err := c.Do(ctx, tt.request)
 			if tt.wantErr {
@@ -213,7 +213,7 @@ func TestClient_Upload_Item(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 			defer cancel()
 			c := New()
-			err = c.Init(ctx, cfg)
+			err = c.Init(ctx, cfg, nil)
 			require.NoError(t, err)
 			got, err := c.Do(ctx, tt.request)
 			if tt.wantErr {
@@ -277,7 +277,7 @@ func TestClient_Get_Item(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 			defer cancel()
 			c := New()
-			err = c.Init(ctx, cfg)
+			err = c.Init(ctx, cfg, nil)
 			require.NoError(t, err)
 			got, err := c.Do(ctx, tt.request)
 			if tt.wantErr {
@@ -359,7 +359,7 @@ func TestClient_Delete_Item(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 			defer cancel()
 			c := New()
-			err = c.Init(ctx, cfg)
+			err = c.Init(ctx, cfg, nil)
 			require.NoError(t, err)
 			got, err := c.Do(ctx, tt.request)
 			if tt.wantErr {

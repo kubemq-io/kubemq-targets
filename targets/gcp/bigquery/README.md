@@ -7,7 +7,7 @@ The following are required to run the gcp-bigquery target connector:
 
 - kubemq cluster
 - gcp-bigquery set up
-- kubemq-source deployment
+- kubemq-targets deployment
 
 ## Configuration
 

@@ -183,7 +183,7 @@ func TestClient_Init(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
 			c := New()
-			err = c.Init(ctx, tt.cfg)
+			err = c.Init(ctx, tt.cfg, nil)
 			if tt.wantErr {
 				require.Error(t, err)
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
@@ -467,7 +467,7 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			ctx, cancel := context.WithCancel(context.Background())
 			defer cancel()
 			c := New()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			require.NoError(t, err)
 			defer func() {
 				err = c.Stop()
@@ -637,7 +637,7 @@ func TestClient_Do(t *testing.T) {
 			ctx, cancel := context.WithCancel(context.Background())
 			defer cancel()
 			c := New()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			require.NoError(t, err)
 			defer func() {
 				err = c.Stop()

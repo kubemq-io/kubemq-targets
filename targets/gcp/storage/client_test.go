@@ -107,7 +107,7 @@ func TestClient_Init(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			if tt.wantErr {
 				require.Error(t, err)
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
@@ -189,7 +189,7 @@ func TestClient_Create_Bucket(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg2)
+	err = c.Init(ctx, cfg2, nil)
 	require.NoError(t, err)
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -272,7 +272,7 @@ func TestClient_Upload_Object(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg2)
+	err = c.Init(ctx, cfg2, nil)
 	require.NoError(t, err)
 	defer func() {
 		err = c.client.Close()
@@ -353,7 +353,7 @@ func TestClient_Delete_Object(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg2)
+	err = c.Init(ctx, cfg2, nil)
 	defer func() {
 		err = c.client.Close()
 		require.NoError(t, err)
@@ -426,7 +426,7 @@ func TestClient_Download_Object(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg2)
+	err = c.Init(ctx, cfg2, nil)
 	defer func() {
 		err = c.client.Close()
 		require.NoError(t, err)
@@ -484,7 +484,7 @@ func TestClient_List_Object(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg2)
+	err = c.Init(ctx, cfg2, nil)
 	defer func() {
 		err = c.client.Close()
 		require.NoError(t, err)
@@ -570,7 +570,7 @@ func TestClient_Rename_Object(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg2)
+	err = c.Init(ctx, cfg2, nil)
 	defer func() {
 		err = c.client.Close()
 		require.NoError(t, err)
@@ -662,7 +662,7 @@ func TestClient_Copy_Object(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg2)
+	err = c.Init(ctx, cfg2, nil)
 	defer func() {
 		err = c.client.Close()
 		require.NoError(t, err)
@@ -745,7 +745,7 @@ func TestClient_Move_Object(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg2)
+	err = c.Init(ctx, cfg2, nil)
 	defer func() {
 		err = c.client.Close()
 		require.NoError(t, err)

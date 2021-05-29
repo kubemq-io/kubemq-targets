@@ -153,7 +153,7 @@ func TestClient_Init(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			if err := c.Init(ctx, tt.cfg); (err != nil) != tt.wantErr {
+			if err := c.Init(ctx, tt.cfg, nil); (err != nil) != tt.wantErr {
 				t.Errorf("Init() error = %v, wantSetErr %v", err, tt.wantErr)
 				return
 			}
@@ -267,7 +267,7 @@ func TestClient_Set_Get(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 			defer cancel()
 			c := New()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			require.NoError(t, err)
 			gotSetResponse, err := c.Do(ctx, tt.setRequest)
 			if tt.wantSetErr {
@@ -305,7 +305,7 @@ func TestClient_Delete(t *testing.T) {
 			"num_to_persist":   "1",
 			"collection":       "",
 		},
-	})
+	}, nil)
 	key := uuid.New().String()
 	require.NoError(t, err)
 	setRequest := types.NewRequest().
@@ -452,7 +452,7 @@ func TestClient_Do(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 			defer cancel()
 			c := New()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			require.NoError(t, err)
 			_, err = c.Do(ctx, tt.request)
 			if tt.wantErr {

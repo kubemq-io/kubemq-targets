@@ -16,7 +16,6 @@ import (
 )
 
 type Client struct {
-	name           string
 	log            *logger.Logger
 	opts           options
 	client         *gf.CloudFunctionsClient
@@ -32,8 +31,12 @@ func New() *Client {
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
-func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
-	c.name = cfg.Name
+func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
+	c.log = log
+	if c.log == nil {
+		c.log = logger.NewLogger(cfg.Kind)
+	}
+
 	c.log = logger.NewLogger(cfg.Name)
 	var err error
 

@@ -77,11 +77,11 @@ func TestClient_Init(t *testing.T) {
 				Name: "messaging-nats",
 				Kind: "messaging.nats",
 				Properties: map[string]string{
-					"url":             dat.url,
-					"username":        dat.username,
-					"password":        dat.password,
-					"token":           dat.password,
-					"tls":             "false",
+					"url":      dat.url,
+					"username": dat.username,
+					"password": dat.password,
+					"token":    dat.password,
+					"tls":      "false",
 				},
 			},
 			wantErr: false,
@@ -92,12 +92,12 @@ func TestClient_Init(t *testing.T) {
 				Name: "messaging-nats",
 				Kind: "messaging.nats",
 				Properties: map[string]string{
-					"username":        dat.username,
-					"password":        dat.password,
-					"token":           dat.password,
-					"tls":             "true",
-					"cert_file":       dat.sslcertificatefile,
-					"cert_key":        dat.sslcertificatekey,
+					"username":  dat.username,
+					"password":  dat.password,
+					"token":     dat.password,
+					"tls":       "true",
+					"cert_file": dat.sslcertificatefile,
+					"cert_key":  dat.sslcertificatekey,
 				},
 			},
 			wantErr: true,
@@ -108,12 +108,12 @@ func TestClient_Init(t *testing.T) {
 				Name: "messaging-nats",
 				Kind: "messaging.nats",
 				Properties: map[string]string{
-					"url":             dat.url,
-					"username":        dat.username,
-					"password":        dat.password,
-					"token":           dat.password,
-					"tls":             "true",
-					"cert_file":       dat.sslcertificatefile,
+					"url":       dat.url,
+					"username":  dat.username,
+					"password":  dat.password,
+					"token":     dat.password,
+					"tls":       "true",
+					"cert_file": dat.sslcertificatefile,
 				},
 			},
 			wantErr: true,
@@ -124,12 +124,12 @@ func TestClient_Init(t *testing.T) {
 				Name: "messaging-nats",
 				Kind: "messaging.nats",
 				Properties: map[string]string{
-					"url":             dat.url,
-					"username":        dat.username,
-					"password":        dat.password,
-					"token":           dat.password,
-					"tls":             "true",
-					"cert_key":        dat.sslcertificatekey,
+					"url":      dat.url,
+					"username": dat.username,
+					"password": dat.password,
+					"token":    dat.password,
+					"tls":      "true",
+					"cert_key": dat.sslcertificatekey,
 				},
 			},
 			wantErr: true,
@@ -140,14 +140,13 @@ func TestClient_Init(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 			defer cancel()
 			c := New()
-			if err := c.Init(ctx, tt.cfg); (err != nil) != tt.wantErr {
+			if err := c.Init(ctx, tt.cfg, nil); (err != nil) != tt.wantErr {
 				t.Errorf("Init() error = %v, wantErr %v", err, tt.wantErr)
 			}
 
 		})
 	}
 }
-
 
 func TestClient_Do(t *testing.T) {
 	dat, err := getTestStructure()
@@ -165,11 +164,11 @@ func TestClient_Do(t *testing.T) {
 				Name: "messaging-nats",
 				Kind: "messaging.nats",
 				Properties: map[string]string{
-					"url":             dat.url,
-					"username":        dat.username,
-					"password":        dat.password,
-					"token":           dat.password,
-					"tls":             "false",
+					"url":      dat.url,
+					"username": dat.username,
+					"password": dat.password,
+					"token":    dat.password,
+					"tls":      "false",
 				},
 			},
 			request: types.NewRequest().
@@ -185,7 +184,7 @@ func TestClient_Do(t *testing.T) {
 			ctx, cancel := context.WithCancel(context.Background())
 			defer cancel()
 			c := New()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			require.NoError(t, err)
 			gotResponse, err := c.Do(ctx, tt.request)
 			if tt.wantErr {
@@ -198,4 +197,3 @@ func TestClient_Do(t *testing.T) {
 		})
 	}
 }
-

@@ -155,7 +155,7 @@ func TestClient_Init(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			if tt.wantErr {
 				require.Error(t, err)
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
@@ -183,7 +183,7 @@ func TestClient_ListStreams(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -227,7 +227,7 @@ func TestClient_ListStreamConsumers(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -272,7 +272,7 @@ func TestClient_CreateStream(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -318,7 +318,7 @@ func TestClient_CreateStreamConsumer(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -364,7 +364,7 @@ func TestClient_ListShards(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -414,7 +414,7 @@ func TestClient_GetShardIterator(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -484,7 +484,7 @@ func TestClient_PutRecord(t *testing.T) {
 	defer cancel()
 	c := New()
 	data := `{"my_result":"ok"}`
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -559,7 +559,7 @@ func TestClient_PutRecords(t *testing.T) {
 	rm["2"] = []byte(data2)
 	b, err := json.Marshal(rm)
 	require.NoError(t, err)
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -605,7 +605,7 @@ func TestClient_GetRecords(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string

@@ -87,7 +87,7 @@ func TestClient_Init(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			if err := c.Init(ctx, tt.cfg); (err != nil) != tt.wantErr {
+			if err := c.Init(ctx, tt.cfg, nil); (err != nil) != tt.wantErr {
 				t.Errorf("Init() error = %v, wantPutErr %v", err, tt.wantErr)
 				return
 			}
@@ -251,7 +251,7 @@ func TestClient_Objects(t *testing.T) {
 			ctx, cancel := context.WithCancel(context.Background())
 			defer cancel()
 			c := New()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			require.NoError(t, err)
 			if tt.putRequest != nil {
 				gotSetResponse, err := c.Do(ctx, tt.putRequest)
@@ -446,7 +446,7 @@ func TestClient_Buckets(t *testing.T) {
 			ctx, cancel := context.WithCancel(context.Background())
 			defer cancel()
 			c := New()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			require.NoError(t, err)
 			if tt.makeRequest != nil {
 				response, err := c.Do(ctx, tt.makeRequest)
@@ -548,7 +548,7 @@ func TestClient_Do(t *testing.T) {
 			ctx, cancel := context.WithCancel(context.Background())
 			defer cancel()
 			c := New()
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			require.NoError(t, err)
 			_, err = c.Do(ctx, tt.request)
 			if tt.wantErr {

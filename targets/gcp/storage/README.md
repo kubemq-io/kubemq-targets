@@ -7,7 +7,7 @@ The following required to run the gcp-storage target connector:
 
 - kubemq cluster
 - gcp-storage set up
-- kubemq-source deployment
+- kubemq-targets deployment
 
 ## Configuration
 

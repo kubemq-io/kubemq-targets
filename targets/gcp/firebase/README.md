@@ -7,7 +7,7 @@ The following required to run the gcp-firebase target connector:
 
 - kubemq cluster
 - gcp-firebase set up
-- kubemq-source deployment
+- kubemq-targets deployment
 
 ## Configuration
 
@@ -147,7 +147,7 @@ The following required to run the gcp-firebase target connector:
 
 - kubemq cluster
 - gcp-firebase set up
-- kubemq-source deployment
+- kubemq-targets deployment
 
 ## Configuration
 

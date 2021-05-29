@@ -7,7 +7,7 @@ The following required to run the aws-dynamodb target connector:
 
 - kubemq cluster
 - aws account with dynamodb active service
-- kubemq-source deployment
+- kubemq-targets deployment
 
 ## Configuration
 

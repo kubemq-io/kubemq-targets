@@ -109,7 +109,7 @@ func TestClient_Init(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			if tt.wantErr {
 				require.Error(t, err)
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
@@ -137,7 +137,7 @@ func TestClient_List(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -180,7 +180,7 @@ func TestClient_CreateTable(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	input := fmt.Sprintf(`{
 					"AttributeDefinitions": [
@@ -265,7 +265,7 @@ func TestClient_InsertItem(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 
 	input := `{
@@ -340,7 +340,7 @@ func TestClient_GetItem(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 
 	input := fmt.Sprintf(`
@@ -410,7 +410,7 @@ func TestClient_UpdateItem(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 
 	input := fmt.Sprintf(`
@@ -482,7 +482,7 @@ func TestClient_DeleteItem(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	input := fmt.Sprintf(
 		`{
@@ -546,7 +546,7 @@ func TestClient_DeleteTable(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 
 	tests := []struct {

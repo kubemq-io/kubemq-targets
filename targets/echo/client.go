@@ -3,6 +3,7 @@ package echo
 import (
 	"context"
 	"github.com/kubemq-hub/builder/connector/common"
+	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
 	"os"
 
 	"github.com/kubemq-hub/kubemq-targets/config"
@@ -28,7 +29,7 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 
 }
 
-func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
+func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	var err error
 	c.host, err = os.Hostname()
 	if err != nil {

@@ -7,7 +7,7 @@ The following are required to run the gcp-spanner target connector:
 
 - kubemq cluster
 - gcp-spanner set up
-- kubemq-source deployment
+- kubemq-targets deployment
 
 ## Configuration
 

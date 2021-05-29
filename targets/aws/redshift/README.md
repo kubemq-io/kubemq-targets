@@ -6,7 +6,7 @@ The following required to run the aws-redshift service target connector:
 
 - kubemq cluster
 - aws account with redshift active service(Not rds, see rds/redshift)
-- kubemq-source deployment
+- kubemq-targets deployment
 
 ## Configuration
 

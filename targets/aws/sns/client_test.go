@@ -138,7 +138,7 @@ func TestClient_Init(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			if tt.wantErr {
 				require.Error(t, err)
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
@@ -180,7 +180,7 @@ func TestClient_List_Topics(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err = c.Init(ctx, cfg)
+			err = c.Init(ctx, cfg, nil)
 			require.NoError(t, err)
 			got, err := c.Do(ctx, tt.request)
 			if tt.wantErr {
@@ -224,7 +224,7 @@ func TestClient_List_Subscriptions(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err = c.Init(ctx, cfg)
+			err = c.Init(ctx, cfg, nil)
 			require.NoError(t, err)
 			got, err := c.Do(ctx, tt.request)
 			if tt.wantErr {
@@ -275,7 +275,7 @@ func TestClient_List_Subscriptions_By_Topic(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err = c.Init(ctx, cfg)
+			err = c.Init(ctx, cfg, nil)
 			require.NoError(t, err)
 			got, err := c.Do(ctx, tt.request)
 			if tt.wantErr {
@@ -337,7 +337,7 @@ func TestClient_Create_Topic(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err = c.Init(ctx, cfg)
+			err = c.Init(ctx, cfg, nil)
 			require.NoError(t, err)
 			got, err := c.Do(ctx, tt.request)
 			if tt.wantErr {
@@ -400,7 +400,7 @@ func TestClient_SendMessage(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err = c.Init(ctx, cfg)
+			err = c.Init(ctx, cfg, nil)
 			require.NoError(t, err)
 			got, err := c.Do(ctx, tt.request)
 			if tt.wantErr {
@@ -489,7 +489,7 @@ func TestClient_Subscribe(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err = c.Init(ctx, cfg)
+			err = c.Init(ctx, cfg, nil)
 			require.NoError(t, err)
 			got, err := c.Do(ctx, tt.request)
 			if tt.wantErr {
@@ -539,7 +539,7 @@ func TestClient_Delete_Topic(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err = c.Init(ctx, cfg)
+			err = c.Init(ctx, cfg, nil)
 			require.NoError(t, err)
 			got, err := c.Do(ctx, tt.request)
 			if tt.wantErr {

@@ -281,7 +281,6 @@ github.com/gobuffalo/syncx v0.0.0-20190224160051-33c29581e754/go.mod h1:HhnNqWY9
 github.com/gocql/gocql v0.0.0-20200815110948-5378c8f664e9 h1:SBOCi413wRa7i5ZET6dmeg8iqpKO/hE+buwIZ7WhNg4=
 github.com/gocql/gocql v0.0.0-20200815110948-5378c8f664e9/go.mod h1:DL0ekTmBSTdlNF25Orwt/JMzqIq3EJ4MVa/J/uK64OY=
 github.com/gogo/protobuf v1.1.1/go.mod h1:r8qH/GZQm5c6nD/R0oafs1akxWv10x8SbQlK7atdtwQ=
-github.com/gogo/protobuf v1.2.0/go.mod h1:r8qH/GZQm5c6nD/R0oafs1akxWv10x8SbQlK7atdtwQ=
 github.com/gogo/protobuf v1.2.1 h1:/s5zKNz0uPFCZ5hddgPdo2TK2TVrUNMn0OOX8/aZMTE=
 github.com/gogo/protobuf v1.2.1/go.mod h1:hp+jE20tsWTFYpLwKvXlhS1hjn+gTNwPg2I6zVXpSg4=
 github.com/golang-sql/civil v0.0.0-20190719163853-cb61b32ac6fe h1:lXe2qZdvpiX5WZkZR4hgp4KJVfY3nMkvmwbVkpv1rVY=
@@ -364,7 +363,6 @@ github.com/gorilla/securecookie v1.1.1 h1:miw7JPhV+b/lAHSXz4qd/nN9jRiAFV5FwjeKyC
 github.com/gorilla/securecookie v1.1.1/go.mod h1:ra0sb63/xPlUeL+yeDciTfxMRAA+MP+HVt/4epWDjd4=
 github.com/gorilla/sessions v1.2.0 h1:S7P+1Hm5V/AT9cjEcUD5uDaQSX0OE577aCXgoaKpYbQ=
 github.com/gorilla/sessions v1.2.0/go.mod h1:dk2InVEVJ0sfLlnXv9EAgkf6ecYs/i80K/zI+bUmuGM=
-github.com/gorilla/websocket v1.4.0/go.mod h1:E7qHFY5m1UJ88s3WnNqhKjPHQ0heANvMoAMk2YaljkQ=
 github.com/gorilla/websocket v1.4.2 h1:+/TMaTYc4QFitKJxsQ7Yye35DkWvkdLcvGKqM+x0Ufc=
 github.com/gorilla/websocket v1.4.2/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
 github.com/grpc-ecosystem/go-grpc-middleware v1.0.0/go.mod h1:FiyG127CGDf3tlThmgyCl78X/SZQqEOJBCDaAfeWzPs=
@@ -490,10 +488,10 @@ github.com/kubemq-hub/builder v0.7.2 h1:h+EvB4Yx4z+YYV9zAYNTniyYAAelWEl1+T9MtnOl
 github.com/kubemq-hub/builder v0.7.2/go.mod h1:13YdFANeN6qmwv4FsB9n7ZLi/9GaTWjCTLzHSJXTm8w=
 github.com/kubemq-hub/ibmmq-sdk v0.3.8 h1:oO7OnzyAYD+4vZT9eKNEDwvQ461i63VXLjvsNkYS1tM=
 github.com/kubemq-hub/ibmmq-sdk v0.3.8/go.mod h1:/3HIHzeCULskG7xzucTHnw2NyxzM8Krtajtzz+9JEjw=
-github.com/kubemq-io/kubemq-go v1.5.0 h1:APjMztE6MvHZjVFpf/C0NBARCtITFmQodeNmK+WvT1Y=
-github.com/kubemq-io/kubemq-go v1.5.0/go.mod h1:thzfdoeKENeeDu7q5azM56x3LNdlYr1Opzoi8x/XgJQ=
-github.com/kubemq-io/protobuf v1.1.0 h1:MaNkRULq/wlU9o9jwx6HORtz2RngpudmxShQ+86CqcU=
-github.com/kubemq-io/protobuf v1.1.0/go.mod h1:WdYSkchIYDxFu2qLBjHY9ma+6tglnERShgGk9MEGW/k=
+github.com/kubemq-io/kubemq-go v1.7.0 h1:ujYHCShuohhH47vEpxEv795bAjohK6WnMbfQv3Xz3M4=
+github.com/kubemq-io/kubemq-go v1.7.0/go.mod h1:WP2VL6bibnCzTmlTKFtb5RWFvB/V9WPl/0psamE/2kI=
+github.com/kubemq-io/protobuf v1.3.1 h1:b4QcnpujV8U3go8pa2+FTESl6ygU6hY8APYibRtyemo=
+github.com/kubemq-io/protobuf v1.3.1/go.mod h1:mzbGBI05R+GhFLD520xweEIvDM+m4nI7ruJDhgEncas=
 github.com/labstack/echo/v4 v4.1.17 h1:PQIBaRplyRy3OjwILGkPg89JRtH2x5bssi59G2EL3fo=
 github.com/labstack/echo/v4 v4.1.17/go.mod h1:Tn2yRQL/UclUalpb5rPdXDevbkJ+lp/2svdyFBg6CHQ=
 github.com/labstack/gommon v0.3.0 h1:JEeO0bvc78PKdyHxloTKiF8BD5iGrH8T6MSeGvSgob0=

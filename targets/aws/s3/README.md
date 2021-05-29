@@ -7,7 +7,7 @@ The following required to run the aws-s3 target connector:
 
 - kubemq cluster
 - aws account with s3 active service
-- kubemq-source deployment
+- kubemq-targets deployment
 
 ## Configuration
 

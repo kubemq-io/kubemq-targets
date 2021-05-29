@@ -95,7 +95,7 @@ func TestClient_Init(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			if tt.wantErr {
 				require.Error(t, err)
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
@@ -123,7 +123,7 @@ func TestClient_putMetrics(t *testing.T) {
 	defer cancel()
 	c := New()
 	b := []byte(`[{"Counts":null,"Dimensions":null,"MetricName":"New Metric","StatisticValues":null,"StorageResolution":null,"Timestamp":"2020-08-12T17:09:48.3895822+03:00","Unit":"Count","Value":131,"Values":null}]`)
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -184,7 +184,7 @@ func TestClient_listMetrics(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string

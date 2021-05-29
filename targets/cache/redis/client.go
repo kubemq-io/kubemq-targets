@@ -6,6 +6,7 @@ import (
 	redisClient "github.com/go-redis/redis/v7"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"strconv"
 	"strings"
@@ -20,7 +21,7 @@ const (
 
 // Client is a Client state store
 type Client struct {
-	name     string
+	log      *logger.Logger
 	redis    *redisClient.Client
 	opts     options
 	replicas int
@@ -32,8 +33,12 @@ func New() *Client {
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
-func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
-	c.name = cfg.Name
+func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
+	c.log = log
+	if c.log == nil {
+		c.log = logger.NewLogger(cfg.Kind)
+	}
+
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {
@@ -52,7 +57,6 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
 	c.replicas, err = c.getConnectedSlaves(ctx)
 	return err
 }
-
 
 func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, error) {
 	meta, err := parseMetadata(req.Metadata)

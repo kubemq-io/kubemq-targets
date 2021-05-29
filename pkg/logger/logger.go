@@ -1,46 +1,67 @@
 package logger
 
 import (
+	"context"
 	"fmt"
-	"go.uber.org/zap/zapcore"
-
+	"github.com/kubemq-hub/kubemq-targets/global"
 	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
+	"os"
+	"path/filepath"
 )
 
-var minLogLevel = zap.InfoLevel
-var defaultZapConfig = zap.Config{
-	Level:             zap.NewAtomicLevelAt(zap.InfoLevel),
-	Development:       false,
-	DisableCaller:     true,
-	DisableStacktrace: true,
-	Sampling:          nil,
-	Encoding:          "json",
-	EncoderConfig: zapcore.EncoderConfig{
-		TimeKey:        "time",
-		LevelKey:       "level",
-		NameKey:        "name",
-		CallerKey:      "caller",
-		MessageKey:     "msg",
-		StacktraceKey:  "stack",
-		LineEnding:     zapcore.DefaultLineEnding,
-		EncodeLevel:    zapcore.CapitalLevelEncoder,
-		EncodeTime:     zapcore.ISO8601TimeEncoder,
-		EncodeDuration: zapcore.StringDurationEncoder,
-		EncodeCaller:   zapcore.FullCallerEncoder,
-	},
-	OutputPaths:      []string{"stderr"},
-	ErrorOutputPaths: []string{"stderr"},
-	InitialFields:    nil,
+var core = initCore()
+var encoderConfig = zapcore.EncoderConfig{
+	TimeKey:        "time",
+	LevelKey:       "level",
+	NameKey:        "name",
+	CallerKey:      "caller",
+	MessageKey:     "msg",
+	StacktraceKey:  "stack",
+	LineEnding:     zapcore.DefaultLineEnding,
+	EncodeLevel:    zapcore.CapitalLevelEncoder,
+	EncodeTime:     zapcore.ISO8601TimeEncoder,
+	EncodeDuration: zapcore.StringDurationEncoder,
+	EncodeCaller:   zapcore.FullCallerEncoder,
 }
 
-func SetLogLevel(value string) {
+func initCore() zapcore.Core {
+	var w zapcore.WriteSyncer
+	std, _, _ := zap.Open("stderr")
+	if global.EnableLogFile {
+		err := os.MkdirAll("./logs", 0660)
+		if err != nil {
+			panic(err.Error())
+		}
+		logR := &LogRotator{
+			Ctx:        context.Background(),
+			Filename:   filepath.Join("./logs/kubemq-targets.log"),
+			MaxSize:    100, // megabytes
+			MaxBackups: 3,
+			MaxAge:     28, //days
+		}
+		w = zap.CombineWriteSyncers(std, logR)
+	} else {
+		w = zap.CombineWriteSyncers(std)
+	}
+	enc := zapcore.NewJSONEncoder(encoderConfig)
+	if global.LoggerType == "console" {
+		enc = zapcore.NewConsoleEncoder(encoderConfig)
+	}
+	return zapcore.NewCore(
+		enc,
+		zapcore.AddSync(w),
+		zapcore.DebugLevel)
+}
+
+func LogLevelToZapLevel(value string) zapcore.Level {
 	switch value {
 	case "debug":
-		minLogLevel = zap.DebugLevel
+		return zap.DebugLevel
 	case "error":
-		minLogLevel = zap.ErrorLevel
+		return zap.ErrorLevel
 	default:
-		minLogLevel = zap.InfoLevel
+		return zap.InfoLevel
 	}
 }
 
@@ -52,10 +73,12 @@ func (l *Logger) Printf(format string, v ...interface{}) {
 	l.Infof(format, v)
 }
 
-func NewLogger(name string) *Logger {
-	cfg := defaultZapConfig
-	cfg.Level = zap.NewAtomicLevelAt(minLogLevel)
-	zapLogger, _ := cfg.Build()
+func NewLogger(name string, level ...string) *Logger {
+	lvlStr := ""
+	if len(level) > 0 {
+		lvlStr = level[0]
+	}
+	zapLogger := zap.New(core, zap.IncreaseLevel(LogLevelToZapLevel(lvlStr)))
 	l := &Logger{
 		SugaredLogger: zapLogger.Sugar().With("source", name),
 	}

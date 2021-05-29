@@ -48,7 +48,7 @@ require (
 	github.com/kr/pty v1.1.8 // indirect
 	github.com/kubemq-hub/builder v0.7.2
 	github.com/kubemq-hub/ibmmq-sdk v0.3.8
-	github.com/kubemq-io/kubemq-go v1.5.0
+	github.com/kubemq-io/kubemq-go v1.7.0
 	github.com/labstack/echo/v4 v4.1.17
 	github.com/lib/pq v1.9.0
 	github.com/minio/minio-go/v7 v7.0.8
@@ -57,7 +57,6 @@ require (
 	github.com/nats-io/nats.go v1.10.0
 	github.com/olivere/elastic/v7 v7.0.22
 	github.com/prometheus/client_golang v1.7.1
-	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/spf13/viper v1.7.1
 	github.com/streadway/amqp v1.0.0
 	github.com/stretchr/testify v1.6.1

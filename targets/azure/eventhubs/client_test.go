@@ -67,7 +67,7 @@ func TestClient_Init(t *testing.T) {
 				},
 			},
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid init - missing end_point",
 			cfg: config.Spec{
 				Name: "azure-eventhubs",
@@ -79,19 +79,19 @@ func TestClient_Init(t *testing.T) {
 				},
 			},
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid init - missing shared_access_key_name",
 			cfg: config.Spec{
 				Name: "azure-eventhubs",
 				Kind: "azure.eventhubs",
 				Properties: map[string]string{
-					"end_point":              dat.endPoint,
-					"shared_access_key":      dat.sharedAccessKey,
-					"entity_path":            dat.entityPath,
+					"end_point":         dat.endPoint,
+					"shared_access_key": dat.sharedAccessKey,
+					"entity_path":       dat.entityPath,
 				},
 			},
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid init - missing shared_access_key",
 			cfg: config.Spec{
 				Name: "azure-eventhubs",
@@ -103,7 +103,7 @@ func TestClient_Init(t *testing.T) {
 				},
 			},
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid init - missing entity_path",
 			cfg: config.Spec{
 				Name: "azure-eventhubs",
@@ -123,7 +123,7 @@ func TestClient_Init(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			if tt.wantErr {
 				require.Error(t, err)
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
@@ -182,7 +182,7 @@ func TestClient_Send(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
 			c := New()
-			err = c.Init(ctx, cfg)
+			err = c.Init(ctx, cfg, nil)
 			require.NoError(t, err)
 			got, err := c.Do(ctx, tt.request)
 			if tt.wantErr {
@@ -253,7 +253,7 @@ func TestClient_SendBatch(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
 			c := New()
-			err = c.Init(ctx, cfg)
+			err = c.Init(ctx, cfg, nil)
 			require.NoError(t, err)
 			got, err := c.Do(ctx, tt.request)
 			if tt.wantErr {

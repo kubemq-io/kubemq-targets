@@ -7,7 +7,7 @@ The following required to run the aws-cloudwatch-metrics target connector:
 
 - kubemq cluster
 - aws account with cloudwatch-metrics active service
-- kubemq-source deployment
+- kubemq-targets deployment
 
 ## Configuration
 

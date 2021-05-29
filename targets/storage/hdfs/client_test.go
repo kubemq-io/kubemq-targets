@@ -67,7 +67,7 @@ func TestClient_Init(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			if tt.wantErr {
 				require.Error(t, err)
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
@@ -94,7 +94,7 @@ func TestClient_Mkdir(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -116,7 +116,7 @@ func TestClient_Mkdir(t *testing.T) {
 				SetMetadataKeyValue("file_mode", "0777").
 				SetMetadataKeyValue("method", "mkdir"),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid mkdir - missing path",
 			request: types.NewRequest().
 				SetMetadataKeyValue("file_mode", "0755").
@@ -160,7 +160,7 @@ func TestClient_Upload(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -199,7 +199,6 @@ func TestClient_Upload(t *testing.T) {
 	}
 }
 
-
 func TestClient_ReadFile(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
@@ -215,7 +214,7 @@ func TestClient_ReadFile(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -262,25 +261,24 @@ func TestClient_Remove_File(t *testing.T) {
 		},
 	}
 	tests := []struct {
-		name        string
-		request     *types.Request
-		wantErr     bool
+		name    string
+		request *types.Request
+		wantErr bool
 	}{
 		{
 			name: "valid Remove item",
 			request: types.NewRequest().
 				SetMetadataKeyValue("file_path", "/test/foo2.txt").
 				SetMetadataKeyValue("method", "remove_file"),
-			wantErr:     false,
+			wantErr: false,
 		},
 		{
 			name: "invalid Remove item - file does not exists",
 			request: types.NewRequest().
 				SetMetadataKeyValue("file_path", "/test/foo2.txt").
 				SetMetadataKeyValue("method", "remove_file"),
-			wantErr:     false,
+			wantErr: false,
 		},
-
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -288,7 +286,7 @@ func TestClient_Remove_File(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err = c.Init(ctx, cfg)
+			err = c.Init(ctx, cfg, nil)
 			require.NoError(t, err)
 			got, err := c.Do(ctx, tt.request)
 			if tt.wantErr {
@@ -317,7 +315,7 @@ func TestClient_Stat(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -330,7 +328,7 @@ func TestClient_Stat(t *testing.T) {
 				SetMetadataKeyValue("file_path", "/test/foo.txt").
 				SetMetadataKeyValue("method", "stat"),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid stat - file does not exists",
 			request: types.NewRequest().
 				SetMetadataKeyValue("file_path", "/test/fake.txt").
@@ -352,7 +350,6 @@ func TestClient_Stat(t *testing.T) {
 	}
 }
 
-
 func TestClient_Rename(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
@@ -368,7 +365,7 @@ func TestClient_Rename(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -382,14 +379,14 @@ func TestClient_Rename(t *testing.T) {
 				SetMetadataKeyValue("old_file_path", "/test/foo2.txt").
 				SetMetadataKeyValue("method", "rename_file"),
 			wantErr: false,
-		},{
+		}, {
 			name: "invalid rename - file does not exists",
 			request: types.NewRequest().
 				SetMetadataKeyValue("file_path", "/test/foo3.txt").
 				SetMetadataKeyValue("old_file_path", "/test/foo2.txt").
 				SetMetadataKeyValue("method", "rename_file"),
 			wantErr: true,
-		},{
+		}, {
 			name: "invalid rename - missing old file path",
 			request: types.NewRequest().
 				SetMetadataKeyValue("file_path", "/test/foo3.txt").
@@ -410,7 +407,6 @@ func TestClient_Rename(t *testing.T) {
 		})
 	}
 }
-
 
 //
 //func TestClient_Get_Item(t *testing.T) {

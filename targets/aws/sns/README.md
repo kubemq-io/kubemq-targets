@@ -7,7 +7,7 @@ The following required to run the aws-sns target connector:
 
 - kubemq cluster
 - aws account with sns active service
-- kubemq-source deployment
+- kubemq-targets deployment
 
 ## Configuration
 

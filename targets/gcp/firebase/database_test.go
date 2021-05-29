@@ -17,18 +17,18 @@ func TestClient_db(t *testing.T) {
 		Name: "gcp-firebase",
 		Kind: "gcp.firebase",
 		Properties: map[string]string{
-			"project_id":  dat.projectID,
-			"credentials": dat.cred,
-			"db_client":   "true",
-			"db_url":      dat.dbName,
-			"auth_client": "false",
+			"project_id":       dat.projectID,
+			"credentials":      dat.cred,
+			"db_client":        "true",
+			"db_url":           dat.dbName,
+			"auth_client":      "false",
 			"messaging_client": "false",
 		},
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
 	c := New()
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	m := make(map[string]interface{})
 	m["some_key"] = "some_value"

@@ -117,7 +117,7 @@ func TestClient_Init(t *testing.T) {
 			defer cancel()
 			c := New()
 
-			err := c.Init(ctx, tt.cfg)
+			err := c.Init(ctx, tt.cfg, nil)
 			if tt.wantErr {
 				require.Error(t, err)
 				t.Logf("init() error = %v, wantSetErr %v", err, tt.wantErr)
@@ -149,7 +149,7 @@ func TestClient_Create_Tags(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -212,7 +212,7 @@ func TestClient_Delete_Tags(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -270,7 +270,7 @@ func TestClient_List_Tags(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -314,7 +314,7 @@ func TestClient_List_Snapshots(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -362,7 +362,7 @@ func TestClient_List_Snapshots_By_Tags_Keys(t *testing.T) {
 	keys = append(keys, &tag)
 	b, err := json.Marshal(keys)
 	require.NoError(t, err)
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -416,7 +416,7 @@ func TestClient_List_Snapshots_By_Tags_Values(t *testing.T) {
 	keys = append(keys, &tag)
 	b, err := json.Marshal(keys)
 	require.NoError(t, err)
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -466,7 +466,7 @@ func TestClient_Describe_Clusters(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -518,7 +518,7 @@ func TestClient_List_Clusters(t *testing.T) {
 	defer cancel()
 	c := New()
 
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -566,7 +566,7 @@ func TestClient_List_Clusters_By_Tags_Keys(t *testing.T) {
 	keys = append(keys, &tag)
 	b, err := json.Marshal(keys)
 	require.NoError(t, err)
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string
@@ -620,7 +620,7 @@ func TestClient_List_Clusters_By_Tags_Values(t *testing.T) {
 	keys = append(keys, &tag)
 	b, err := json.Marshal(keys)
 	require.NoError(t, err)
-	err = c.Init(ctx, cfg)
+	err = c.Init(ctx, cfg, nil)
 	require.NoError(t, err)
 	tests := []struct {
 		name    string

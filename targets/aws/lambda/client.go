@@ -11,11 +11,12 @@ import (
 	"github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
 	"github.com/kubemq-hub/kubemq-targets/types"
 )
 
 type Client struct {
-	name   string
+	log    *logger.Logger
 	opts   options
 	client *lambda.Lambda
 }
@@ -27,8 +28,12 @@ func New() *Client {
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
-func (c *Client) Init(ctx context.Context, cfg config.Spec) error {
-	c.name = cfg.Name
+func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
+	c.log = log
+	if c.log == nil {
+		c.log = logger.NewLogger(cfg.Kind)
+	}
+
 	var err error
 	c.opts, err = parseOptions(cfg)
 	if err != nil {

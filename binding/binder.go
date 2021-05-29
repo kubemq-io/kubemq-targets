@@ -27,6 +27,7 @@ func (b *Binder) buildMiddleware(cfg config.BindingConfig, exporter *metrics.Exp
 	if err != nil {
 		return nil, err
 	}
+	b.log = log.Logger
 	retry, err := middleware.NewRetryMiddleware(cfg.Properties, b.log)
 	if err != nil {
 		return nil, err
@@ -45,17 +46,17 @@ func (b *Binder) buildMiddleware(cfg config.BindingConfig, exporter *metrics.Exp
 func (b *Binder) Init(ctx context.Context, cfg config.BindingConfig, exporter *metrics.Exporter) error {
 	var err error
 	b.name = cfg.Name
-	b.log = logger.NewLogger(b.name)
-	b.target, err = targets.Init(ctx, cfg.Target)
-	if err != nil {
-		return fmt.Errorf("error loading target conntector on binding %s, %w", b.name, err)
-	}
-	b.log.Infof("binding: %s target: initialized successfully", b.name)
 	b.md, err = b.buildMiddleware(cfg, exporter)
 	if err != nil {
 		return fmt.Errorf("error loading middlewares on binding %s, %w", b.name, err)
 	}
-	b.source, err = sources.Init(ctx, cfg.Source)
+	b.target, err = targets.Init(ctx, cfg.Target, nil)
+	if err != nil {
+		return fmt.Errorf("error loading target conntector on binding %s, %w", b.name, err)
+	}
+	b.log.Infof("binding: %s target: initialized successfully", b.name)
+
+	b.source, err = sources.Init(ctx, cfg.Source, nil)
 	if err != nil {
 		return fmt.Errorf("error loading source conntector on binding %s, %w", b.name, err)
 	}

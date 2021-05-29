@@ -7,7 +7,7 @@ The following required to run the gcp-pubsub target connector:
 
 - kubemq cluster
 - gcp-pubsub set up
-- kubemq-source deployment
+- kubemq-targets deployment
 
 ## Configuration
 

@@ -7,7 +7,7 @@ The following required to run the aws-kinesis  target connector:
 
 - kubemq cluster
 - aws account with kinesis active service
-- kubemq-source deployment
+- kubemq-targets deployment
 
 ## Configuration
 

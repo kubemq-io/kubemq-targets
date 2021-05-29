@@ -8,7 +8,7 @@ The following required to run the aws-cloudwatch-logs target connector:
 - kubemq cluster
 - aws account with cloudwatch-logs active service
 - some action will need cloudwatch-logs permission (IAM User)
-- kubemq-source deployment
+- kubemq-targets deployment
 
 ## Configuration
 
