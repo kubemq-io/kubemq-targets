@@ -24,3 +24,39 @@
 2021-05-29T15:43:15.747+0300	ERROR	failed to initialized binding: target-1, attempt: 10, error: error loading target conntector on binding target-1, error dialing rabbitmq, dial tcp [::1]:5672: connectex: No connection could be made because the target machine actively refused it.	{"source": "binding-service"}
 2021-05-29T15:43:19.065+0300	ERROR	failed to initialized binding: target-1, attempt: 11, error: error loading target conntector on binding target-1, error dialing rabbitmq, dial tcp [::1]:5672: connectex: No connection could be made because the target machine actively refused it.	{"source": "binding-service"}
 2021-05-29T16:45:19.660+0300	INFO	generated manifest.json completed	{"source": "main"}
+2021-05-29T17:01:08.027+0300	INFO	starting kubemq targets connector version: 	{"source": "main"}
+2021-05-29T17:01:08.041+0300	INFO	1 bindings loaded	{"source": "config"}
+2021-05-29T17:01:08.064+0300	INFO	binding: target-1 target: initialized successfully	{"source": "target-1"}
+2021-05-29T17:01:08.077+0300	INFO	binding: target-1 source initialized successfully	{"source": "target-1"}
+2021-05-29T17:01:08.077+0300	INFO	binding: target-1, initialized successfully	{"source": "target-1"}
+2021-05-29T17:01:08.078+0300	INFO	binding: target-1, started successfully	{"source": "target-1"}
+2021-05-29T17:04:42.304+0300	INFO	starting kubemq targets connector version: 	{"source": "main"}
+2021-05-29T17:04:42.319+0300	INFO	1 bindings loaded	{"source": "config"}
+2021-05-29T17:04:42.341+0300	INFO	binding: target-1 target: initialized successfully	{"source": "target-1"}
+2021-05-29T17:04:42.351+0300	INFO	binding: target-1 source initialized successfully	{"source": "target-1"}
+2021-05-29T17:04:42.351+0300	INFO	binding: target-1, initialized successfully	{"source": "target-1"}
+2021-05-29T17:04:42.351+0300	INFO	binding: target-1, started successfully	{"source": "target-1"}
+2021-05-29T17:05:18.233+0300	INFO	starting kubemq targets connector version: 	{"source": "main"}
+2021-05-29T17:05:18.248+0300	INFO	1 bindings loaded	{"source": "config"}
+2021-05-29T17:05:18.270+0300	INFO	binding: target-1 target: initialized successfully	{"source": "target-1"}
+2021-05-29T17:05:18.281+0300	INFO	binding: target-1 source initialized successfully	{"source": "target-1"}
+2021-05-29T17:05:18.282+0300	INFO	binding: target-1, initialized successfully	{"source": "target-1"}
+2021-05-29T17:05:18.282+0300	INFO	binding: target-1, started successfully	{"source": "target-1"}
+2021-05-29T17:06:06.536+0300	INFO	starting kubemq targets connector version: 	{"source": "main"}
+2021-05-29T17:06:06.551+0300	INFO	1 bindings loaded	{"source": "config"}
+2021-05-29T17:06:06.575+0300	INFO	binding: target-1 target: initialized successfully	{"source": "target-1"}
+2021-05-29T17:06:06.586+0300	INFO	binding: target-1 source initialized successfully	{"source": "target-1"}
+2021-05-29T17:06:06.586+0300	INFO	binding: target-1, initialized successfully	{"source": "target-1"}
+2021-05-29T17:06:06.586+0300	INFO	binding: target-1, started successfully	{"source": "target-1"}
+2021-05-29T17:06:36.156+0300	ERROR	rpc error: code = Canceled desc = context canceled	{"source": "target-1"}
+2021-05-29T17:06:36.159+0300	INFO	binding: target-1, stopped successfully	{"source": "target-1"}
+2021-05-29T17:10:43.407+0300	INFO	starting kubemq targets connector version: 	{"source": "main"}
+2021-05-29T17:10:43.421+0300	INFO	1 bindings loaded	{"source": "config"}
+2021-05-29T17:10:43.443+0300	INFO	binding: target-1 target: initialized successfully	{"source": "target-1"}
+2021-05-29T17:10:43.459+0300	INFO	binding: target-1 source initialized successfully	{"source": "target-1"}
+2021-05-29T17:10:43.459+0300	INFO	binding: target-1, initialized successfully	{"source": "target-1"}
+2021-05-29T17:10:43.459+0300	INFO	binding: target-1, started successfully	{"source": "target-1"}
+2021-05-29T17:10:45.989+0300	INFO	request: {"data":"bWVzc2FnZQ=="}, response: {"metadata":{"result":"ok"},"data":null,"is_error":false,"error":""}, error:<nil>	{"source": "target-1"}
+2021-05-29T17:12:43.789+0300	ERROR	rpc error: code = Canceled desc = context canceled	{"source": "target-1"}
+2021-05-29T17:12:43.792+0300	INFO	binding: target-1, stopped successfully	{"source": "target-1"}
+2021-05-29T17:15:31.359+0300	INFO	generated manifest.json completed	{"source": "main"}
