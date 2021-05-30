@@ -46,7 +46,7 @@ tasks:
       - go build -o "{{.BINARY_NAME}}.exe" -ldflags "-X main.version={{.VERSION}}"
   docker-builder:
     cmds:
-      - docker build . -f Docker_builder -t kubemq/gobuilder-ubuntu:latest
+      - DOCKER_BUILDKIT=0  docker build . -f Docker_builder -t kubemq/gobuilder-ubuntu:latest
       - docker push kubemq/gobuilder-ubuntu:latest
   docker:
     env:
@@ -55,7 +55,7 @@ tasks:
     cmds:
       - go mod tidy
       - go mod vendor
-      - docker build --build-arg VERSION={{.VERSION}} . -t kubemq/{{.BINARY_NAME}}:{{.VERSION}}
+      - DOCKER_BUILDKIT=0 docker build --build-arg VERSION={{.VERSION}} . -t kubemq/{{.BINARY_NAME}}:{{.VERSION}}
       - docker tag kubemq/{{.BINARY_NAME}}:{{.VERSION}} kubemq/{{.BINARY_NAME}}:latest
   run_docker:
     cmds:
