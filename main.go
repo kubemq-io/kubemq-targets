@@ -1,3 +1,5 @@
+// +build !container
+
 package main
 
 import (
@@ -26,11 +28,14 @@ var (
 )
 
 var (
+	log              *logger.Logger
 	generateManifest = flag.Bool("manifest", false, "generate targets connectors manifest")
-	build            = flag.Bool("build", false, "build target configuration")
+	build            = flag.Bool("build", false, "build targets configuration")
 	buildUrl         = flag.String("get", "", "get config file from url")
 	configFile       = flag.String("config", "config.yaml", "set config file name")
-	log              *logger.Logger
+	svcFlag          = flag.String("service", "", "control the kubemq-targets service")
+	svcUsername      = flag.String("username", "", "kubemq-targets service username")
+	svcPassword      = flag.String("password", "", "kubemq-targets service password")
 )
 
 func saveManifest() error {
@@ -49,8 +54,27 @@ func saveManifest() error {
 		SetTargetConnectors(targetConnectors).
 		Save()
 }
-
-func run() error {
+func downloadUrl() error {
+	c, err := builder.GetBuildManifest(*buildUrl)
+	if err != nil {
+		return err
+	}
+	cfg := &config.Config{}
+	err = yaml.Unmarshal([]byte(c.Spec.Config), &cfg)
+	if err != nil {
+		return err
+	}
+	data, err := yaml.Marshal(cfg)
+	if err != nil {
+		return err
+	}
+	err = ioutil.WriteFile("config.yaml", data, 0644)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+func runInteractive(serviceExit chan bool) error {
 	var gracefulShutdown = make(chan os.Signal, 1)
 	signal.Notify(gracefulShutdown, syscall.SIGTERM)
 	signal.Notify(gracefulShutdown, syscall.SIGINT)
@@ -74,6 +98,7 @@ func run() error {
 	if err != nil {
 		return err
 	}
+
 	apiServer, err := api.Start(ctx, cfg.ApiPort, bindingsService)
 	if err != nil {
 		return err
@@ -84,7 +109,6 @@ func run() error {
 			err = newConfig.Validate()
 			if err != nil {
 				return fmt.Errorf("error on validation new config file: %s", err.Error())
-
 			}
 			bindingsService.Stop()
 			err = bindingsService.Start(ctx, newConfig)
@@ -106,33 +130,14 @@ func run() error {
 			_ = apiServer.Stop()
 			bindingsService.Stop()
 			return nil
+		case <-serviceExit:
+			_ = apiServer.Stop()
+			bindingsService.Stop()
+			return nil
 		}
 	}
 }
-func downloadUrl() error {
-	c, err := builder.GetBuildManifest(*buildUrl)
-	if err != nil {
-		return err
-	}
-	cfg := &config.Config{}
-	err = yaml.Unmarshal([]byte(c.Spec.Config), &cfg)
-	if err != nil {
-		return err
-	}
-	data, err := yaml.Marshal(cfg)
-	if err != nil {
-		return err
-	}
-	err = ioutil.WriteFile("config.yaml", data, 0644)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-func main() {
-	log = logger.NewLogger("main")
-	flag.Parse()
-
+func preRun() {
 	if *generateManifest {
 		err := saveManifest()
 		if err != nil {
@@ -158,10 +163,17 @@ func main() {
 			os.Exit(1)
 		}
 	}
+}
+
+func main() {
+	log = logger.NewLogger("kubemq-targets")
+	flag.Parse()
 	config.SetConfigFile(*configFile)
-	log.Infof("starting kubemq targets connector version: %s", version)
-	if err := run(); err != nil {
+	app := newAppService()
+	if err := app.init(*svcFlag, *svcUsername, *svcPassword); err != nil {
 		log.Error(err)
 		os.Exit(1)
+	} else {
+		os.Exit(0)
 	}
 }

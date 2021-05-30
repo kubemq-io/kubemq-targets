@@ -45,6 +45,7 @@ require (
 	github.com/hazelcast/hazelcast-go-client v0.6.0
 	github.com/jpillora/backoff v1.0.0 // indirect
 	github.com/json-iterator/go v1.1.10
+	github.com/kardianos/service v1.2.0
 	github.com/kr/pty v1.1.8 // indirect
 	github.com/kubemq-hub/builder v0.7.2
 	github.com/kubemq-hub/ibmmq-sdk v0.3.8
