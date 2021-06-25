@@ -30,9 +30,13 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) 
 		return err
 	}
 	if _, err := os.Stat(c.opts.basePath); os.IsNotExist(err) {
-		return fmt.Errorf("base path is not exist")
+		return fmt.Errorf("base path does not exist")
 	}
-	c.absPath, _ = filepath.Abs(c.opts.basePath)
+	c.absPath, err = filepath.Abs(c.opts.basePath)
+	if err!= nil {
+		return err
+	}
+
 	return nil
 }
 

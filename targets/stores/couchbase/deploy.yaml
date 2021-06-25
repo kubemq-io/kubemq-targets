@@ -3,3 +3,10 @@ setup username / password
 couchbase
 couchbase
 create bucket
+
+helm repo add couchbase https://couchbase-partners.github.io/helm-charts/
+helm repo update
+
+helm install couchbase --set cluster.security.password=couchbase --set cluster.security.username=couchbase couchbase/couchbase-operator
+kubectl port-forward --namespace default couchbase-couchbase-cluster-0000 8091:8091
+create bucket

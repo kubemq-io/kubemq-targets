@@ -1,18 +1,26 @@
 apiPort: 0
 bindings:
-- name: target-1
-  properties:
-    log_level: debug
-  source:
-    kind: kubemq.queue
+  - name: target-1
     properties:
-      address: localhost:50000
-      channel: rabbit
-  target:
-    kind: messaging.rabbitmq
+      log_level: debug
+    source:
+      kind: kubemq.query
+      properties:
+        address: localhost:50000
+        channel: e2
+    target:
+      kind: echo
+  #bindings:
+  - name: kubemq-query-filesystem
     properties:
-      default_exchange: exchange
-      default_persistence: "true"
-      default_topic: q1
-      url: amqp://rabbitmq:rabbitmq@localhost:5672/
-logLevel: "debug"
+      log_level: info
+    source:
+      kind: kubemq.queue
+      properties:
+        address: localhost:50000
+        channel: queue.minio
+    target:
+      kind: storage.filesystem
+      properties:
+        base_path: "d:/sync"
+#logLevel: "debug"

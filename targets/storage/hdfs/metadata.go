@@ -8,7 +8,6 @@ import (
 
 type metadata struct {
 	method string
-
 	filePath    string
 	oldFilePath string
 	fileMode    os.FileMode

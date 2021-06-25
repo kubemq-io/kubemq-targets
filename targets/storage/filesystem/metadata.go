@@ -30,5 +30,6 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		return metadata{}, fmt.Errorf("error parsing filename, %w", err)
 	}
 	m.path = meta.ParseString("path", "")
+	m.path=unixNormalize(m.path)
 	return m, nil
 }

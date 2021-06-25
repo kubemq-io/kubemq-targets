@@ -35,8 +35,8 @@ func TestClient_Init(t *testing.T) {
 				Kind: "",
 				Properties: map[string]string{
 					"url":              "localhost",
-					"username":         "couchbase",
-					"password":         "couchbase",
+					"username":         "Administrator",
+					"password":         "SFlFUElv",
 					"bucket":           "bucket",
 					"num_to_replicate": "1",
 					"num_to_persist":   "1",

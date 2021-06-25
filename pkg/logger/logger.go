@@ -26,7 +26,6 @@ var encoderConfig = zapcore.EncoderConfig{
 }
 
 func initCore() zapcore.Core {
-
 	var w zapcore.WriteSyncer
 	std, _, _ := zap.Open("stderr")
 	if global.EnableLogFile {
