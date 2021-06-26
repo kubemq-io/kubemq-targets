@@ -19,9 +19,6 @@ s3 target connector configuration properties:
 | aws_secret_key | yes      | aws secret key                             | aws secret key supplied by aws  |
 | region         | yes      | region                                     | aws region                      |
 | token          | no       | aws token ("default" empty string          | aws token                       |
-| downloader     | no       | if needed to create downloader instance    | true                      |
-| uploader       | no       | if needed to create uploader instance      | false                     |
-
 
 Example:
 
@@ -48,8 +45,6 @@ bindings:
         aws_secret_key: 'json'
         region:  "region"
         token: ""
-        downloader:  "true"
-        uploader:  "true"
 ```
 
 ## Usage

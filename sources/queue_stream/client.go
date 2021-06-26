@@ -11,6 +11,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/types"
 	"github.com/kubemq-io/kubemq-go"
 	"strings"
+	"time"
 )
 
 var (
@@ -86,6 +87,7 @@ func (c *Client) run(ctx context.Context) {
 		if err != nil {
 			if !strings.Contains(err.Error(), "138") {
 				c.log.Error(err.Error())
+				time.Sleep(time.Second)
 			}
 		} else {
 			if resp != nil {

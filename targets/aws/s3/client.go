@@ -272,17 +272,16 @@ func (c *Client) downloadItem(ctx context.Context, meta metadata) (*types.Respon
 		Key:    aws.String(meta.itemName),
 	}
 	buf := aws.NewWriteAtBuffer([]byte{})
-	m, err := c.downloader.DownloadWithContext(ctx, buf, &requestInput)
+	_, err := c.downloader.DownloadWithContext(ctx, buf, &requestInput)
 	if err != nil {
 		return nil, err
 	}
-	b, err := json.Marshal(m)
-	if err != nil {
-		return nil, err
-	}
+
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok").
-			SetData(b),
+			SetMetadataKeyValue("bucket", meta.bucketName).
+			SetMetadataKeyValue("key", meta.itemName).
+			SetData(buf.Bytes()),
 		nil
 }
 func (c *Client) Stop() error {

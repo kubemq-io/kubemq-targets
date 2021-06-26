@@ -96,6 +96,7 @@ func (c *Client) run(ctx context.Context, client *kubemq.Client) {
 			resp, err := c.processQueueMessage(ctx, message, client)
 			if err != nil {
 				c.log.Error(err.Error())
+				time.Sleep(time.Second)
 				continue
 			}
 			if resp != nil && c.opts.responseChannel != "" {
