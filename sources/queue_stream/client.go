@@ -9,8 +9,7 @@ import (
 	"github.com/kubemq-hub/kubemq-targets/middleware"
 	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
 	"github.com/kubemq-hub/kubemq-targets/types"
-	"github.com/kubemq-io/kubemq-go"
-	"strings"
+	"github.com/kubemq-io/kubemq-go/queues_stream"
 	"time"
 )
 
@@ -20,7 +19,7 @@ var (
 
 type Client struct {
 	opts      options
-	client    *kubemq.Client
+	client    *queues_stream.QueuesStreamClient
 	log       *logger.Logger
 	target    middleware.Middleware
 	isStopped bool
@@ -33,17 +32,7 @@ func New() *Client {
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
-func (c *Client) getKubemqClient(ctx context.Context) (*kubemq.Client, error) {
-	client, err := kubemq.NewClient(ctx,
-		kubemq.WithAddress(c.opts.host, c.opts.port),
-		kubemq.WithClientId(c.opts.clientId),
-		kubemq.WithTransportType(kubemq.TransportTypeGRPC),
-		kubemq.WithAuthToken(c.opts.authToken))
-	if err != nil {
-		return nil, err
-	}
-	return client, nil
-}
+
 func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
@@ -54,12 +43,11 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) 
 	if err != nil {
 		return err
 	}
-	c.client, err = kubemq.NewClient(ctx,
-		kubemq.WithAddress(c.opts.host, c.opts.port),
-		kubemq.WithClientId(c.opts.clientId),
-		kubemq.WithTransportType(kubemq.TransportTypeGRPC),
-		kubemq.WithCheckConnection(true),
-		kubemq.WithAuthToken(c.opts.authToken))
+	c.client, err = queues_stream.NewQueuesStreamClient(ctx,
+		queues_stream.WithAddress(c.opts.host, c.opts.port),
+		queues_stream.WithClientId(c.opts.clientId),
+		queues_stream.WithCheckConnection(true),
+		queues_stream.WithAuthToken(c.opts.authToken))
 	if err != nil {
 		return err
 	}
@@ -83,21 +71,10 @@ func (c *Client) run(ctx context.Context) {
 		if c.isStopped {
 			return
 		}
-		resp, err := c.processQueueMessage()
+		err := c.processQueueMessage(ctx)
 		if err != nil {
-			if !strings.Contains(err.Error(), "138") {
-				c.log.Error(err.Error())
-				time.Sleep(time.Second)
-			}
-		} else {
-			if resp != nil {
-				if c.opts.responseChannel != "" {
-					_, errSend := c.client.SetQueueMessage(resp.ToQueueMessage()).SetChannel(c.opts.responseChannel).Send(ctx)
-					if errSend != nil {
-						c.log.Errorf("error sending response to a queue, %s", errSend.Error())
-					}
-				}
-			}
+			c.log.Error(err.Error())
+			time.Sleep(time.Second)
 		}
 		select {
 		case <-ctx.Done():
@@ -107,36 +84,55 @@ func (c *Client) run(ctx context.Context) {
 		}
 	}
 }
-func (c *Client) processQueueMessage() (*types.Response, error) {
-	ctx := context.Background()
-	client, err := c.getKubemqClient(ctx)
+func (c *Client) processQueueMessage(ctx context.Context)  error {
+	pr := queues_stream.NewPollRequest().
+		SetChannel(c.opts.channel).
+		SetMaxItems(c.opts.batchSize).
+		SetWaitTimeout(c.opts.waitTimeout).
+		SetAutoAck(false)
+	pollResp, err := c.client.Poll(ctx, pr)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	stream := client.NewStreamQueueMessage().SetChannel(c.opts.channel)
-	defer func() {
-		stream.Close()
-	}()
-	msg, err := stream.Next(ctx, int32(c.opts.visibilityTimeout), int32(c.opts.waitTimeout))
-	if err != nil {
-		return nil, err
+	if !pollResp.HasMessages() {
+		return nil
 	}
 
-	req, err := types.ParseRequest(msg.Body)
-	if err != nil {
-		return types.NewResponse().SetError(fmt.Errorf("invalid request format, %w", err)), msg.Ack()
-	}
-	resp, err := c.target.Do(ctx, req)
-	if err != nil {
-		if msg.Policy.MaxReceiveCount != msg.Attributes.ReceiveCount {
-			return nil, msg.Reject()
+	for _, message := range pollResp.Messages {
+		req, err := types.ParseRequest(message.Body)
+		if err != nil {
+			_ = message.Ack()
+			return fmt.Errorf("invalid request format, %w", err)
 		}
-		return types.NewResponse().SetError(err), nil
+		resp, err := c.target.Do(ctx, req)
+		if err != nil {
+			if message.Policy.MaxReceiveCount != message.Attributes.ReceiveCount {
+				return message.NAck()
+			}
+			if c.opts.responseChannel != "" {
+				errResp:=types.NewResponse().SetError(err)
+				_, errSend := c.client.Send(ctx, errResp.ToQueueStreamMessage().SetChannel(c.opts.responseChannel))
+				if errSend != nil {
+					c.log.Errorf("error sending response to a queue, %s", errSend.Error())
+				}
+			}
+			return nil
+		}
+		if c.opts.resend != "" {
+			_ = message.ReQueue(c.opts.resend)
+		} else {
+			_ = message.Ack()
+		}
+		if resp != nil {
+			if c.opts.responseChannel != "" {
+				_, errSend := c.client.Send(ctx, resp.ToQueueStreamMessage().SetChannel(c.opts.responseChannel))
+				if errSend != nil {
+					c.log.Errorf("error sending response to a queue, %s", errSend.Error())
+				}
+			}
+		}
 	}
-	if c.opts.resend != "" {
-		return resp, msg.Resend(c.opts.resend)
-	}
-	return resp, msg.Ack()
+	return nil
 }
 
 func (c *Client) Stop() error {

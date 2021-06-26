@@ -21,8 +21,8 @@ type options struct {
 	channel           string
 	responseChannel   string
 	sources           int
-	visibilityTimeout int
-	waitTimeout       int
+	batchSize       int
+	waitTimeout     int
 	resend            string
 }
 
@@ -48,9 +48,9 @@ func parseOptions(cfg config.Spec) (options, error) {
 		return options{}, fmt.Errorf("error parsing sources value, %w", err)
 	}
 
-	o.visibilityTimeout, err = cfg.Properties.ParseIntWithRange("visibility_timeout_seconds", defaultVisibilityTimeout, 1, 24*60*60)
+	o.batchSize, err = cfg.Properties.ParseIntWithRange("batch_size", 1, 1, 1024)
 	if err != nil {
-		return options{}, fmt.Errorf("error parsing visibility timeout value, %w", err)
+		return options{}, fmt.Errorf("error parsing batch size value, %w", err)
 	}
 	o.waitTimeout, err = cfg.Properties.ParseIntWithRange("wait_timeout", defaultWaitTimeout, 1, 24*60*60)
 	if err != nil {

@@ -3,6 +3,7 @@ package types
 import (
 	"fmt"
 	"github.com/kubemq-io/kubemq-go"
+	"github.com/kubemq-io/kubemq-go/queues_stream"
 )
 
 type Response struct {
@@ -65,6 +66,10 @@ func (r *Response) ToQuery() *kubemq.Query {
 
 func (r *Response) ToQueueMessage() *kubemq.QueueMessage {
 	return kubemq.NewQueueMessage().
+		SetBody(r.MarshalBinary())
+}
+func (r *Response) ToQueueStreamMessage() *queues_stream.QueueMessage {
+	return queues_stream.NewQueueMessage().
 		SetBody(r.MarshalBinary())
 }
 func (r *Response) ToResponse() *kubemq.Response {
