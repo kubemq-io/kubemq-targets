@@ -82,7 +82,6 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 		return c.copyItem(ctx, meta)
 	case "get_item":
 		return c.downloadItem(ctx, meta)
-
 	default:
 		return nil, errors.New("invalid method type")
 	}

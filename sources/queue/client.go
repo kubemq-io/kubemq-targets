@@ -122,7 +122,7 @@ func (c *Client) processQueueMessage(ctx context.Context, client *queues_stream.
 		}
 		resp, err := c.target.Do(ctx, req)
 		if err != nil {
-			if message.Policy.MaxReceiveCount != message.Attributes.ReceiveCount {
+			if message.Policy.MaxReceiveCount < 1024 && message.Policy.MaxReceiveCount != message.Attributes.ReceiveCount {
 				return message.NAck()
 			}
 			if c.opts.responseChannel != "" {
@@ -132,7 +132,6 @@ func (c *Client) processQueueMessage(ctx context.Context, client *queues_stream.
 					c.log.Errorf("error sending response to a queue, %s", errSend.Error())
 				}
 			}
-			return nil
 		}
 
 		err = message.Ack()
