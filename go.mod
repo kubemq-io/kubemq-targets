@@ -49,7 +49,7 @@ require (
 	github.com/kr/pty v1.1.8 // indirect
 	github.com/kubemq-hub/builder v0.7.2
 	github.com/kubemq-hub/ibmmq-sdk v0.3.8
-	github.com/kubemq-io/kubemq-go v1.7.0
+	github.com/kubemq-io/kubemq-go v1.7.2
 	github.com/labstack/echo/v4 v4.1.17
 	github.com/lib/pq v1.9.0
 	github.com/minio/minio-go/v7 v7.0.8
@@ -75,5 +75,3 @@ require (
 )
 
 replace github.com/Azure/azure-service-bus-go => github.com/Azure/azure-service-bus-go v0.10.3
-
-//replace github.com/kubemq-hub/builder => ../builder

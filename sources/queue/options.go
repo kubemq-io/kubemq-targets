@@ -7,8 +7,8 @@ import (
 )
 
 const (
-	defaultBatchSize   = 1
-	defaultWaitTimeout = 60
+	defaultAddress     = "localhost:50000"
+	defaultWaitTimeout = 5
 	defaultSources     = 1
 )
 
@@ -18,17 +18,16 @@ type options struct {
 	clientId        string
 	authToken       string
 	channel         string
-	sources         int
 	responseChannel string
+	sources         int
 	batchSize       int
 	waitTimeout     int
-	maxRequeue      int
 }
 
 func parseOptions(cfg config.Spec) (options, error) {
 	o := options{}
 	var err error
-	o.host, o.port, err = cfg.Properties.MustParseAddress("address", "")
+	o.host, o.port, err = cfg.Properties.MustParseAddress("address", defaultAddress)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing address value, %w", err)
 	}
@@ -40,14 +39,14 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing channel value, %w", err)
 	}
-	o.sources, err = cfg.Properties.ParseIntWithRange("sources", defaultSources, 1, 1024)
+	o.responseChannel = cfg.Properties.ParseString("response_channel", "")
+
+	o.sources, err = cfg.Properties.ParseIntWithRange("sources", defaultSources, 1, 100)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing sources value, %w", err)
 	}
 
-	o.responseChannel = cfg.Properties.ParseString("response_channel", "")
-
-	o.batchSize, err = cfg.Properties.ParseIntWithRange("batch_size", defaultBatchSize, 1, 1024)
+	o.batchSize, err = cfg.Properties.ParseIntWithRange("batch_size", 1, 1, 1024)
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing batch size value, %w", err)
 	}
@@ -55,9 +54,6 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing wait timeout value, %w", err)
 	}
-	o.maxRequeue, err = cfg.Properties.ParseIntWithRange("max_requeue", 0, 0, 1024)
-	if err != nil {
-		return options{}, fmt.Errorf("error parsing max requeue value, %w", err)
-	}
+
 	return o, nil
 }
