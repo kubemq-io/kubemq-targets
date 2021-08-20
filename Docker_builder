@@ -3,7 +3,7 @@ FROM $BASE_IMAGE
 
 ARG GOPATH_ARG="/go"
 
-ENV GOVERSION=1.16 \
+ENV GOVERSION=1.17 \
     GOPATH=$GOPATH_ARG \
     ORG="github.com/ibm-messaging"
 
