@@ -123,8 +123,8 @@ Run Lambda:
 |:------------------|:---------|:------------------------------------------------|:-------------------------------------------|
 | method            | yes      | type of method                                  | "run"                     |
 | function_name     | yes      | lambda function name                            | string                |
-| data              | yes      | the run request code , in byte array            | byte array            |
-
+| data              | yes      | the run request code , in byte array, must be base64 encoded json | byte array            |
+| dry-run            | no | run function in dry run mode | "true", "false" | "false"|
 
 
 Example:
@@ -134,8 +134,9 @@ Example:
   "metadata": {
     "method": "run",
     "function_name": "testfunction",
+    "dry-run": "false"
   },
-  "data": "bXkgb2JqZWN0"
+  "data": "eyJ0ZXN0IjogInRlc3QifQ=="
 }
 ```
 

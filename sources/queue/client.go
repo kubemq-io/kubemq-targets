@@ -104,7 +104,7 @@ func (c *Client) processQueueMessage(ctx context.Context, client *queues_stream.
 		SetChannel(c.opts.channel).
 		SetMaxItems(c.opts.batchSize).
 		SetWaitTimeout(c.opts.waitTimeout * 1000).
-		SetAutoAck(false).
+		SetAutoAck(true).
 		SetOnErrorFunc(c.onError)
 	pollResp, err := client.Poll(ctx, pr)
 	if err != nil {
@@ -122,9 +122,6 @@ func (c *Client) processQueueMessage(ctx context.Context, client *queues_stream.
 		}
 		resp, err := c.target.Do(ctx, req)
 		if err != nil {
-			if message.Policy.MaxReceiveCount < 1024 && message.Policy.MaxReceiveCount != message.Attributes.ReceiveCount {
-				return message.NAck()
-			}
 			if c.opts.responseChannel != "" {
 				errResp := types.NewResponse().SetError(err)
 				_, errSend := client.Send(ctx, errResp.ToQueueStreamMessage().SetChannel(c.opts.responseChannel))
@@ -133,12 +130,6 @@ func (c *Client) processQueueMessage(ctx context.Context, client *queues_stream.
 				}
 			}
 		}
-
-		err = message.Ack()
-		if err != nil {
-			return err
-		}
-
 		if resp != nil {
 			if c.opts.responseChannel != "" {
 				_, errSend := client.Send(ctx, resp.ToQueueStreamMessage().SetChannel(c.opts.responseChannel))

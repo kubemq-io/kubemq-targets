@@ -92,6 +92,7 @@ func (c *Client) create(ctx context.Context, meta metadata, data []byte) (*types
 	if data == nil {
 		return nil, fmt.Errorf("data is empty , please add lambda body as []byte")
 	}
+
 	input := &lambda.CreateFunctionInput{
 		Code: &lambda.FunctionCode{
 			ZipFile: data,
@@ -120,8 +121,15 @@ func (c *Client) create(ctx context.Context, meta metadata, data []byte) (*types
 }
 
 func (c *Client) run(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
-
-	result, err := c.client.InvokeWithContext(ctx, &lambda.InvokeInput{FunctionName: aws.String(meta.functionName), Payload: data})
+	if isValid := isJson(data); !isValid {
+		return nil, fmt.Errorf("function payload must be a valid json")
+	}
+	invoke := &lambda.InvokeInput{}
+	invoke.SetFunctionName(meta.functionName).SetPayload(data)
+	if meta.isDryRun {
+		invoke.SetInvocationType("DryRun")
+	}
+	result, err := c.client.InvokeWithContext(ctx, invoke)
 	if err != nil {
 		return nil, err
 	}
@@ -144,6 +152,14 @@ func (c *Client) delete(ctx context.Context, meta metadata) (*types.Response, er
 	return types.NewResponse().
 			SetMetadataKeyValue("result", "ok"),
 		nil
+}
+func isJson(data []byte) bool {
+	if len(data) == 0 {
+		return true
+	}
+	obj := map[string]interface{}{}
+	err := json.Unmarshal(data, &obj)
+	return err == nil
 }
 
 func (c *Client) Stop() error {

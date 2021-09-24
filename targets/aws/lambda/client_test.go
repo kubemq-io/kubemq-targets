@@ -394,3 +394,41 @@ func TestClient_Run(t *testing.T) {
 		})
 	}
 }
+
+func TestClient_isJson(t *testing.T) {
+
+	tests := []struct {
+		name string
+		data []byte
+		want bool
+	}{
+		{
+			name: "empty",
+			data: nil,
+			want: true,
+		},
+		{
+			name: "not-valid",
+			data: []byte("bXkgb2JqZWN0"),
+			want: false,
+		},
+		{
+			name: "not-valid",
+			data: []byte("eyJ0ZXN0IjoidGVzdCJ9"),
+			want: false,
+		},
+		{
+			name: "valid",
+			data: []byte("eyJ0ZXN0IjogInRlc3QifQ=="),
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			if got := isJson(tt.data); got != tt.want {
+				t.Errorf("isJson() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

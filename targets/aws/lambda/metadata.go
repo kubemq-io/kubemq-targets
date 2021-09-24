@@ -22,6 +22,7 @@ type metadata struct {
 	memorySize   int64
 	timeout      int64
 	description  string
+	isDryRun     bool
 }
 
 var methodsMap = map[string]string{
@@ -72,5 +73,6 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 			return metadata{}, fmt.Errorf("error parsing function_name, %w", err)
 		}
 	}
+	m.isDryRun = meta.ParseBool("dry-run", false)
 	return m, nil
 }
