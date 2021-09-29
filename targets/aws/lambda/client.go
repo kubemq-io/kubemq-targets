@@ -125,7 +125,6 @@ func (c *Client) run(ctx context.Context, meta metadata, data []byte) (*types.Re
 		return nil, fmt.Errorf("function payload must be a valid json")
 	}
 	invoke := &lambda.InvokeInput{}
-	invoke.String()
 	invoke.SetFunctionName(meta.functionName).SetPayload(data)
 	if meta.isDryRun {
 		invoke.SetInvocationType("DryRun")
