@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"firebase.google.com/go/v4/messaging"
-	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-io/kubemq-targets/config"
 )
 
 type options struct {

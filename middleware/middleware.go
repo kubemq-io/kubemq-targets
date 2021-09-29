@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"context"
-	"github.com/kubemq-hub/kubemq-targets/pkg/retry"
-	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/kubemq-io/kubemq-targets/pkg/retry"
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 type Middleware interface {

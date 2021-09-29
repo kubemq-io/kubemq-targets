@@ -3,7 +3,7 @@ package keyspaces
 import (
 	"fmt"
 	"github.com/gocql/gocql"
-	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-io/kubemq-targets/config"
 	"math"
 	"time"
 )

@@ -10,9 +10,9 @@ import (
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/lambda"
 	"github.com/kubemq-hub/builder/connector/common"
-	"github.com/kubemq-hub/kubemq-targets/config"
-	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
-	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/kubemq-io/kubemq-targets/config"
+	"github.com/kubemq-io/kubemq-targets/pkg/logger"
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 type Client struct {
@@ -125,6 +125,7 @@ func (c *Client) run(ctx context.Context, meta metadata, data []byte) (*types.Re
 		return nil, fmt.Errorf("function payload must be a valid json")
 	}
 	invoke := &lambda.InvokeInput{}
+	invoke.String()
 	invoke.SetFunctionName(meta.functionName).SetPayload(data)
 	if meta.isDryRun {
 		invoke.SetInvocationType("DryRun")

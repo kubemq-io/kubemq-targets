@@ -1,6 +1,6 @@
-module github.com/kubemq-hub/kubemq-targets
+module github.com/kubemq-io/kubemq-targets
 
-go 1.14
+go 1.17
 
 require (
 	cloud.google.com/go v0.78.0
@@ -72,6 +72,123 @@ require (
 	google.golang.org/grpc v1.36.0
 	gopkg.in/rethinkdb/rethinkdb-go.v6 v6.2.1
 	gopkg.in/yaml.v2 v2.3.0
+)
+
+require (
+	github.com/AlecAivazis/survey/v2 v2.2.7 // indirect
+	github.com/Azure/azure-amqp-common-go/v3 v3.0.0 // indirect
+	github.com/Azure/go-amqp v0.12.6 // indirect
+	github.com/Azure/go-autorest v14.2.0+incompatible // indirect
+	github.com/Azure/go-autorest/autorest/adal v0.9.4 // indirect
+	github.com/Azure/go-autorest/autorest/date v0.3.0 // indirect
+	github.com/Azure/go-autorest/logger v0.2.0 // indirect
+	github.com/Azure/go-autorest/tracing v0.6.0 // indirect
+	github.com/Masterminds/goutils v1.1.0 // indirect
+	github.com/Masterminds/semver v1.5.0 // indirect
+	github.com/Masterminds/sprig v2.22.0+incompatible // indirect
+	github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da // indirect
+	github.com/beorn7/perks v1.0.1 // indirect
+	github.com/cespare/xxhash/v2 v2.1.1 // indirect
+	github.com/couchbase/gocbcore/v9 v9.1.0 // indirect
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/devigned/tab v0.1.1 // indirect
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
+	github.com/eapache/go-resiliency v1.2.0 // indirect
+	github.com/eapache/go-xerial-snappy v0.0.0-20180814174437-776d5712da21 // indirect
+	github.com/eapache/queue v1.1.0 // indirect
+	github.com/go-stack/stack v1.8.0 // indirect
+	github.com/gogo/protobuf v1.2.1 // indirect
+	github.com/golang-sql/civil v0.0.0-20190719163853-cb61b32ac6fe // indirect
+	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
+	github.com/golang/snappy v0.0.1 // indirect
+	github.com/google/go-cmp v0.5.4 // indirect
+	github.com/google/uuid v1.1.2 // indirect
+	github.com/gookit/color v1.3.1 // indirect
+	github.com/gorilla/websocket v1.4.2 // indirect
+	github.com/hailocab/go-hostpool v0.0.0-20160125115350-e80d13ce29ed // indirect
+	github.com/hashicorp/go-cleanhttp v0.5.1 // indirect
+	github.com/hashicorp/go-immutable-radix v1.0.0 // indirect
+	github.com/hashicorp/go-rootcerts v1.0.0 // indirect
+	github.com/hashicorp/go-uuid v1.0.2 // indirect
+	github.com/hashicorp/golang-lru v0.5.1 // indirect
+	github.com/hashicorp/hcl v1.0.0 // indirect
+	github.com/hashicorp/serf v0.8.2 // indirect
+	github.com/huandu/xstrings v1.3.2 // indirect
+	github.com/imdario/mergo v0.3.11 // indirect
+	github.com/jcmturner/aescts/v2 v2.0.0 // indirect
+	github.com/jcmturner/dnsutils/v2 v2.0.0 // indirect
+	github.com/jcmturner/gofork v1.0.0 // indirect
+	github.com/jcmturner/goidentity/v6 v6.0.1 // indirect
+	github.com/jcmturner/gokrb5/v8 v8.4.1 // indirect
+	github.com/jcmturner/rpc/v2 v2.0.2 // indirect
+	github.com/jmespath/go-jmespath v0.4.0 // indirect
+	github.com/josharian/intern v1.0.0 // indirect
+	github.com/jstemmer/go-junit-report v0.9.1 // indirect
+	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
+	github.com/klauspost/compress v1.11.0 // indirect
+	github.com/klauspost/cpuid v1.3.1 // indirect
+	github.com/kubemq-io/protobuf v1.3.1 // indirect
+	github.com/labstack/gommon v0.3.0 // indirect
+	github.com/magiconair/properties v1.8.1 // indirect
+	github.com/mailru/easyjson v0.7.6 // indirect
+	github.com/mattn/go-colorable v0.1.7 // indirect
+	github.com/mattn/go-ieproxy v0.0.1 // indirect
+	github.com/mattn/go-isatty v0.0.12 // indirect
+	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
+	github.com/mgutz/ansi v0.0.0-20170206155736-9520e82c474b // indirect
+	github.com/minio/md5-simd v1.1.0 // indirect
+	github.com/minio/sha256-simd v0.1.1 // indirect
+	github.com/mitchellh/copystructure v1.0.0 // indirect
+	github.com/mitchellh/go-homedir v1.1.0 // indirect
+	github.com/mitchellh/reflectwalk v1.0.0 // indirect
+	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
+	github.com/modern-go/reflect2 v1.0.1 // indirect
+	github.com/nats-io/jwt v1.1.0 // indirect
+	github.com/nats-io/nkeys v0.1.4 // indirect
+	github.com/nats-io/nuid v1.0.1 // indirect
+	github.com/opentracing/opentracing-go v1.2.0 // indirect
+	github.com/pelletier/go-toml v1.7.0 // indirect
+	github.com/pierrec/lz4 v2.5.2+incompatible // indirect
+	github.com/pkg/errors v0.9.1 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/prometheus/client_model v0.2.0 // indirect
+	github.com/prometheus/common v0.10.0 // indirect
+	github.com/prometheus/procfs v0.1.3 // indirect
+	github.com/rcrowley/go-metrics v0.0.0-20200313005456-10cdbea86bc0 // indirect
+	github.com/rs/xid v1.2.1 // indirect
+	github.com/sirupsen/logrus v1.7.0 // indirect
+	github.com/spf13/afero v1.1.2 // indirect
+	github.com/spf13/cast v1.3.0 // indirect
+	github.com/spf13/jwalterweatherman v1.0.0 // indirect
+	github.com/spf13/pflag v1.0.5 // indirect
+	github.com/subosito/gotenv v1.2.0 // indirect
+	github.com/valyala/bytebufferpool v1.0.0 // indirect
+	github.com/valyala/fasttemplate v1.2.1 // indirect
+	github.com/xdg-go/pbkdf2 v1.0.0 // indirect
+	github.com/xdg-go/scram v1.0.2 // indirect
+	github.com/xdg-go/stringprep v1.0.2 // indirect
+	github.com/youmark/pkcs8 v0.0.0-20181117223130-1be2e3e5546d // indirect
+	go.opencensus.io v0.23.0 // indirect
+	go.uber.org/multierr v1.5.0 // indirect
+	golang.org/x/lint v0.0.0-20201208152925-83fdc39ff7b5 // indirect
+	golang.org/x/mod v0.4.1 // indirect
+	golang.org/x/net v0.0.0-20210226172049-e18ecbb05110 // indirect
+	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c // indirect
+	golang.org/x/sys v0.0.0-20210225134936-a50acf3fe073 // indirect
+	golang.org/x/term v0.0.0-20201126162022-7de9c90e9dd1 // indirect
+	golang.org/x/text v0.3.5 // indirect
+	golang.org/x/tools v0.1.0 // indirect
+	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1 // indirect
+	google.golang.org/appengine v1.6.7 // indirect
+	google.golang.org/protobuf v1.25.0 // indirect
+	gopkg.in/cenkalti/backoff.v2 v2.2.1 // indirect
+	gopkg.in/inf.v0 v0.9.1 // indirect
+	gopkg.in/ini.v1 v1.57.0 // indirect
+	gopkg.in/jcmturner/aescts.v1 v1.0.1 // indirect
+	gopkg.in/jcmturner/dnsutils.v1 v1.0.1 // indirect
+	gopkg.in/jcmturner/gokrb5.v7 v7.5.0 // indirect
+	gopkg.in/jcmturner/rpc.v1 v1.1.0 // indirect
+	gopkg.in/yaml.v3 v3.0.0-20200615113413-eeeca48fe776 // indirect
 )
 
 replace github.com/Azure/azure-service-bus-go => github.com/Azure/azure-service-bus-go v0.10.3

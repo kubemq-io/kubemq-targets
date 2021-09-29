@@ -5,12 +5,12 @@ import (
 	"crypto/tls"
 	"fmt"
 	"github.com/kubemq-hub/builder/connector/common"
-	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
+	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"strconv"
 
 	kafka "github.com/Shopify/sarama"
-	"github.com/kubemq-hub/kubemq-targets/config"
-	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/kubemq-io/kubemq-targets/config"
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 type Client struct {

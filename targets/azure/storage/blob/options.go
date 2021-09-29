@@ -3,7 +3,7 @@ package blob
 import (
 	"fmt"
 	"github.com/Azure/azure-storage-blob-go/azblob"
-	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-io/kubemq-targets/config"
 	"time"
 )
 

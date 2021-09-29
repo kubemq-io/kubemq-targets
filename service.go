@@ -4,7 +4,7 @@ package main
 
 import (
 	"github.com/kardianos/service"
-	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
+	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"os"
 )
 

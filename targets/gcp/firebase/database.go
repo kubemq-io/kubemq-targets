@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 
-	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 func (c *Client) dbGet(ctx context.Context, meta metadata) (*types.Response, error) {

@@ -3,7 +3,7 @@ package singlestore
 import (
 	"database/sql"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 var methodsMap = map[string]string{

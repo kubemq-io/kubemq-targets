@@ -3,7 +3,7 @@ package files
 import (
 	"fmt"
 	"github.com/Azure/azure-storage-file-go/azfile"
-	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-io/kubemq-targets/config"
 	"time"
 )
 

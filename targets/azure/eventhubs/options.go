@@ -2,7 +2,7 @@ package eventhubs
 
 import (
 	"fmt"
-	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-io/kubemq-targets/config"
 )
 
 type options struct {

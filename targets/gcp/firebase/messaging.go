@@ -7,7 +7,7 @@ import (
 	"strconv"
 
 	"firebase.google.com/go/v4/messaging"
-	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 type messages struct {

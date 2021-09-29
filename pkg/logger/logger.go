@@ -3,7 +3,7 @@ package logger
 import (
 	"context"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-targets/global"
+	"github.com/kubemq-io/kubemq-targets/global"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"os"

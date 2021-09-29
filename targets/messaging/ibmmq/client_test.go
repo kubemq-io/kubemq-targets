@@ -4,11 +4,11 @@ package ibmmq
 
 import (
 	"context"
-	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/kubemq-io/kubemq-targets/types"
 	"io/ioutil"
 	"time"
 
-	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-io/kubemq-targets/config"
 
 	"github.com/stretchr/testify/require"
 	"testing"

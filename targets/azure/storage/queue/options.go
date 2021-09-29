@@ -3,7 +3,7 @@ package queue
 import (
 	"fmt"
 	"github.com/Azure/azure-storage-queue-go/azqueue"
-	"github.com/kubemq-hub/kubemq-targets/config"
+	"github.com/kubemq-io/kubemq-targets/config"
 	"time"
 )
 

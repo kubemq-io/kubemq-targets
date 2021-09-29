@@ -7,7 +7,7 @@ import (
 	b64 "encoding/base64"
 
 	kafka "github.com/Shopify/sarama"
-	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 const (

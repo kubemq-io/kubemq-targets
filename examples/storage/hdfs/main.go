@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-targets/pkg/uuid"
-	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
+	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/kubemq-io/kubemq-go"
 	"log"
 	"time"

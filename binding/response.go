@@ -1,6 +1,6 @@
 package binding
 
-import "github.com/kubemq-hub/kubemq-targets/types"
+import "github.com/kubemq-io/kubemq-targets/types"
 
 type Response struct {
 	Metadata map[string]string `json:"metadata"`

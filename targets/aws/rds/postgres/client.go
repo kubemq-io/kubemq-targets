@@ -8,14 +8,14 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/service/rds/rdsutils"
 	"github.com/kubemq-hub/builder/connector/common"
-	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
+	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"net/url"
 	"strings"
 	"time"
 
 	jsoniter "github.com/json-iterator/go"
-	"github.com/kubemq-hub/kubemq-targets/config"
-	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/kubemq-io/kubemq-targets/config"
+	"github.com/kubemq-io/kubemq-targets/types"
 	_ "github.com/lib/pq"
 )
 

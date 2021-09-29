@@ -1,7 +1,7 @@
 package echo
 
 import (
-	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 type metadata struct {

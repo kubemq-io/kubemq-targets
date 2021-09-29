@@ -10,7 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/go-sql-driver/mysql"
 	"github.com/kubemq-hub/builder/connector/common"
-	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
+	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"io/ioutil"
 	"net/http"
 	"strconv"
@@ -20,8 +20,8 @@ import (
 	"github.com/aws/aws-sdk-go/service/rds/rdsutils"
 	_ "github.com/go-sql-driver/mysql"
 	jsoniter "github.com/json-iterator/go"
-	"github.com/kubemq-hub/kubemq-targets/config"
-	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/kubemq-io/kubemq-targets/config"
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary

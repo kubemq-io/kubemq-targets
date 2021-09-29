@@ -6,15 +6,15 @@ import (
 	"errors"
 	"fmt"
 	"github.com/kubemq-hub/builder/connector/common"
-	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
+	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"strings"
 	"time"
 
 	_ "github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/dialers/postgres"
 	"github.com/GoogleCloudPlatform/cloudsql-proxy/proxy/proxy"
 	jsoniter "github.com/json-iterator/go"
-	"github.com/kubemq-hub/kubemq-targets/config"
-	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/kubemq-io/kubemq-targets/config"
+	"github.com/kubemq-io/kubemq-targets/types"
 	_ "github.com/lib/pq"
 	"golang.org/x/oauth2/google"
 )

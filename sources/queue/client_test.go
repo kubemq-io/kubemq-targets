@@ -3,17 +3,17 @@ package queue
 import (
 	"context"
 	"fmt"
-	"github.com/kubemq-hub/kubemq-targets/config"
-	"github.com/kubemq-hub/kubemq-targets/middleware"
-	"github.com/kubemq-hub/kubemq-targets/pkg/uuid"
-	"github.com/kubemq-hub/kubemq-targets/targets/null"
-	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/kubemq-io/kubemq-targets/config"
+	"github.com/kubemq-io/kubemq-targets/middleware"
+	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
+	"github.com/kubemq-io/kubemq-targets/targets/null"
+	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/kubemq-io/kubemq-go"
 	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
 
-	"github.com/kubemq-hub/kubemq-targets/targets"
+	"github.com/kubemq-io/kubemq-targets/targets"
 )
 
 func setupClient(ctx context.Context, target middleware.Middleware, channel string) (*Client, error) {

@@ -2,8 +2,8 @@ package percona
 
 import (
 	"context"
-	"github.com/kubemq-hub/kubemq-targets/config"
-	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/kubemq-io/kubemq-targets/config"
+	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
 	"testing"
 	"time"

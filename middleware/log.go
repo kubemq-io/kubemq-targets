@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"fmt"
-	"github.com/kubemq-hub/kubemq-targets/pkg/logger"
-	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/kubemq-io/kubemq-targets/pkg/logger"
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 type LogLevelType string

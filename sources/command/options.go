@@ -2,8 +2,8 @@ package command
 
 import (
 	"fmt"
-	"github.com/kubemq-hub/kubemq-targets/config"
-	"github.com/kubemq-hub/kubemq-targets/pkg/uuid"
+	"github.com/kubemq-io/kubemq-targets/config"
+	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
 	"time"
 )
 

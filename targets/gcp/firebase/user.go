@@ -7,7 +7,7 @@ import (
 	"strconv"
 
 	"firebase.google.com/go/v4/auth"
-	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/kubemq-io/kubemq-targets/types"
 	"google.golang.org/api/iterator"
 )
 

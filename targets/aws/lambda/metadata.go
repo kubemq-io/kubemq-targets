@@ -2,7 +2,7 @@ package lambda
 
 import (
 	"fmt"
-	"github.com/kubemq-hub/kubemq-targets/types"
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 const (
