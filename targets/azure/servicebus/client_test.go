@@ -32,12 +32,12 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.sharedAccessKey = fmt.Sprintf("%s", dat)
+	t.sharedAccessKey = string(dat)
 	dat, err = ioutil.ReadFile("./../../../credentials/azure/servicebus/sharedAccessKeyName.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.sharedAccessKeyName = fmt.Sprintf("%s", dat)
+	t.sharedAccessKeyName = string(dat)
 	dat, err = ioutil.ReadFile("./../../../credentials/azure/servicebus/message.txt")
 	if err != nil {
 		return nil, err

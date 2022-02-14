@@ -42,7 +42,7 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.region = fmt.Sprintf("%s", dat)
+	t.region = string(dat)
 	t.token = ""
 
 	dat, err = ioutil.ReadFile("./../../../credentials/aws/elasticsearch/signer/json.txt")

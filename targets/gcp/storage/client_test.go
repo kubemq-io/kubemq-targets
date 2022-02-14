@@ -69,7 +69,7 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.cred = fmt.Sprintf("%s", dat)
+	t.cred = string(dat)
 	return t, nil
 }
 

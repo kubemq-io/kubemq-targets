@@ -3,7 +3,6 @@ package events
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
@@ -55,24 +54,24 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.detailType = fmt.Sprintf("%s", dat)
+	t.detailType = string(dat)
 	dat, err = ioutil.ReadFile("./../../../../credentials/aws/cloudwatch/events/source.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.source = fmt.Sprintf("%s", dat)
+	t.source = string(dat)
 
 	dat, err = ioutil.ReadFile("./../../../../credentials/aws/cloudwatch/events/rule.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.rule = fmt.Sprintf("%s", dat)
+	t.rule = string(dat)
 
 	dat, err = ioutil.ReadFile("./../../../../credentials/aws/cloudwatch/events/resourceARN.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.resourceARN = fmt.Sprintf("%s", dat)
+	t.resourceARN = string(dat)
 
 	t.id = "my_arn_id"
 

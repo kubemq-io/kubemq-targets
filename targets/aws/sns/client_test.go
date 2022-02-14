@@ -63,24 +63,24 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.region = fmt.Sprintf("%s", dat)
+	t.region = string(dat)
 	t.token = ""
 	dat, err = ioutil.ReadFile("./../../../credentials/aws/sns/topic.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.topic = fmt.Sprintf("%s", dat)
+	t.topic = string(dat)
 
 	dat, err = ioutil.ReadFile("./../../../credentials/aws/sns/message.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.message = fmt.Sprintf("%s", dat)
+	t.message = string(dat)
 	dat, err = ioutil.ReadFile("./../../../credentials/aws/sns/email.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.endPoint = fmt.Sprintf("%s", dat)
+	t.endPoint = string(dat)
 
 	t.protocol = "email"
 

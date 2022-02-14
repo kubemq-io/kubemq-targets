@@ -35,22 +35,22 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.cred = fmt.Sprintf("%s", dat)
+	t.cred = string(dat)
 	dat, err = ioutil.ReadFile("./../../../credentials/token.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.token = fmt.Sprintf("%s", dat)
+	t.token = string(dat)
 	dat, err = ioutil.ReadFile("./../../../credentials/uid.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.uid = fmt.Sprintf("%s", dat)
+	t.uid = string(dat)
 	dat, err = ioutil.ReadFile("./../../../credentials/uid2.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.uid2 = fmt.Sprintf("%s", dat)
+	t.uid2 = string(dat)
 	return t, nil
 }
 

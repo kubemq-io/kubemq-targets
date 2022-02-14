@@ -45,40 +45,40 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.region = fmt.Sprintf("%s", dat)
+	t.region = string(dat)
 	t.token = ""
 	dat, err = ioutil.ReadFile("./../../../../credentials/aws/cloudwatch/logs/logGroupName.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.logGroupName = fmt.Sprintf("%s", dat)
+	t.logGroupName = string(dat)
 
 	dat, err = ioutil.ReadFile("./../../../../credentials/aws/cloudwatch/logs/logStreamName.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.logStreamName = fmt.Sprintf("%s", dat)
+	t.logStreamName = string(dat)
 	dat, err = ioutil.ReadFile("./../../../../credentials/aws/cloudwatch/logs/logGroupPrefix.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.logGroupPrefix = fmt.Sprintf("%s", dat)
+	t.logGroupPrefix = string(dat)
 
 	dat, err = ioutil.ReadFile("./../../../../credentials/aws/cloudwatch/logs/policyName.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.policyName = fmt.Sprintf("%s", dat)
+	t.policyName = string(dat)
 	dat, err = ioutil.ReadFile("./../../../../credentials/aws/cloudwatch/logs/policyDocument.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.policyDocument = fmt.Sprintf("%s", dat)
+	t.policyDocument = string(dat)
 	dat, err = ioutil.ReadFile("./../../../../credentials/aws/cloudwatch/logs/sequenceToken.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.sequenceToken = fmt.Sprintf("%s", dat)
+	t.sequenceToken = string(dat)
 
 	return t, nil
 }

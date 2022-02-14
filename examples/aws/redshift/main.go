@@ -17,7 +17,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	resourceARN := fmt.Sprintf("%s", dat)
+	resourceARN := string(dat)
 	client, err := kubemq.NewClient(context.Background(),
 		kubemq.WithAddress("kubemq-cluster", 50000),
 		kubemq.WithClientId(uuid.New().String()),

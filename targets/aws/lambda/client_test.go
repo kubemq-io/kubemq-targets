@@ -45,7 +45,7 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.region = fmt.Sprintf("%s", dat)
+	t.region = string(dat)
 	t.token = ""
 
 	dat, err = ioutil.ReadFile("./../../../credentials/aws/lambda/zipFileName.txt")
@@ -57,7 +57,7 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.functionName = fmt.Sprintf("%s", dat)
+	t.functionName = string(dat)
 	dat, err = ioutil.ReadFile("./../../../credentials/aws/lambda/handlerName.txt")
 	if err != nil {
 		return nil, err
@@ -72,12 +72,12 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.runtime = fmt.Sprintf("%s", dat)
+	t.runtime = string(dat)
 	dat, err = ioutil.ReadFile("./../../../credentials/aws/lambda/description.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.description = fmt.Sprintf("%s", dat)
+	t.description = string(dat)
 	contents, err := ioutil.ReadFile("./../../../credentials/aws/lambda/lambdaCode.zip")
 	if err != nil {
 		return nil, err

@@ -39,19 +39,19 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.region = fmt.Sprintf("%s", dat)
+	t.region = string(dat)
 	t.token = ""
 
 	dat, err = ioutil.ReadFile("./../../../credentials/aws/redshift-svc/resourceName.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.resourceName = fmt.Sprintf("%s", dat)
+	t.resourceName = string(dat)
 	dat, err = ioutil.ReadFile("./../../../credentials/aws/redshift-svc/resourceARN.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.resourceARN = fmt.Sprintf("%s", dat)
+	t.resourceARN = string(dat)
 	return t, nil
 }
 

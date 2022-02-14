@@ -19,7 +19,7 @@ func TestClient_Init(t *testing.T) {
 	require.NoError(t, err)
 	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
 	require.NoError(t, err)
-	credentials := fmt.Sprintf("%s", dat)
+	credentials := string(dat)
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -81,7 +81,7 @@ func TestClient_Set_Get(t *testing.T) {
 	require.NoError(t, err)
 	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
 	require.NoError(t, err)
-	credentials := fmt.Sprintf("%s", dat)
+	credentials := string(dat)
 	user := map[string]interface{}{
 		"first": "kubemq",
 		"last":  "kubemq-last",
@@ -165,7 +165,7 @@ func TestClient_Delete(t *testing.T) {
 	deleteKey := string(dat)
 	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
 	require.NoError(t, err)
-	credentials := fmt.Sprintf("%s", dat)
+	credentials := string(dat)
 	tests := []struct {
 		name              string
 		cfg               config.Spec
@@ -238,7 +238,7 @@ func TestClient_list(t *testing.T) {
 	projectID := string(dat)
 	dat, err = ioutil.ReadFile("./../../../credentials/google_cred.json")
 	require.NoError(t, err)
-	credentials := fmt.Sprintf("%s", dat)
+	credentials := string(dat)
 	tests := []struct {
 		name    string
 		cfg     config.Spec

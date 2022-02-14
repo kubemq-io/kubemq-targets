@@ -32,17 +32,17 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.storageAccount = fmt.Sprintf("%s", dat)
+	t.storageAccount = string(dat)
 	dat, err = ioutil.ReadFile("./../../../../credentials/azure/storage/queue/serviceURL.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.serviceURL = fmt.Sprintf("%s", dat)
+	t.serviceURL = string(dat)
 	dat, err = ioutil.ReadFile("./../../../../credentials/azure/storage/queue/queueName.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.queueName = fmt.Sprintf("%s", dat)
+	t.queueName = string(dat)
 	t.queueNameWithMetadata = fmt.Sprintf("%smetadata", t.queueName)
 	return t, nil
 }

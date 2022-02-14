@@ -41,7 +41,7 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.region = fmt.Sprintf("%s", dat)
+	t.region = string(dat)
 	t.token = ""
 
 	dat, err = ioutil.ReadFile("./../../../credentials/aws/s3/itemName.txt")
@@ -63,7 +63,7 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.dstBucketName = fmt.Sprintf("%s", dat)
+	t.dstBucketName = string(dat)
 	contents, err := ioutil.ReadFile("./../../../credentials/aws/s3/contents.txt")
 	if err != nil {
 		return nil, err

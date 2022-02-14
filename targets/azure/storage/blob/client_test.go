@@ -32,7 +32,7 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.storageAccount = fmt.Sprintf("%s", dat)
+	t.storageAccount = string(dat)
 	contents, err := ioutil.ReadFile("./../../../../credentials/azure/storage/blob/contents.txt")
 	if err != nil {
 		return nil, err
@@ -42,13 +42,13 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.fileName = fmt.Sprintf("%s", dat)
+	t.fileName = string(dat)
 	dat, err = ioutil.ReadFile("./../../../../credentials/azure/storage/blob/serviceURL.txt")
 	if err != nil {
 		return nil, err
 	}
 	t.fileWithMetadata = fmt.Sprintf("%sWithMetadata", t.fileName)
-	t.serviceURL = fmt.Sprintf("%s", dat)
+	t.serviceURL = string(dat)
 
 	return t, nil
 }

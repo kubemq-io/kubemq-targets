@@ -31,7 +31,7 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.storageAccount = fmt.Sprintf("%s", dat)
+	t.storageAccount = string(dat)
 	contents, err := ioutil.ReadFile("./../../../../credentials/azure/storage/files/contents.txt")
 	if err != nil {
 		return nil, err
@@ -41,7 +41,7 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.serviceURL = fmt.Sprintf("%s", dat)
+	t.serviceURL = string(dat)
 	t.serviceURLWithMeta = fmt.Sprintf("%sWithMetadata.txt", t.serviceURL)
 	return t, nil
 }

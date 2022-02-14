@@ -29,13 +29,13 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.credentials = fmt.Sprintf("%s", dat)
+	t.credentials = string(dat)
 
 	dat, err = ioutil.ReadFile("./../../../credentials/topicID.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.topicID = fmt.Sprintf("%s", dat)
+	t.topicID = string(dat)
 	return t, nil
 }
 
