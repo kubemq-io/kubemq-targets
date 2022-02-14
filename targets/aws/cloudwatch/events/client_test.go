@@ -43,13 +43,13 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.region = fmt.Sprintf("%s", dat)
+	t.region = string(dat)
 	t.token = ""
 	dat, err = ioutil.ReadFile("./../../../../credentials/aws/cloudwatch/events/detail.txt")
 	if err != nil {
 		return nil, err
 	}
-	t.detail = fmt.Sprintf("%s", dat)
+	t.detail = string(dat)
 
 	dat, err = ioutil.ReadFile("./../../../../credentials/aws/cloudwatch/events/detailType.txt")
 	if err != nil {

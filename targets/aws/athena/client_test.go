@@ -2,7 +2,6 @@ package athena
 
 import (
 	"context"
-	"fmt"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
@@ -41,7 +40,7 @@ func getTestStructure() (*testStructure, error) {
 	if err != nil {
 		return nil, err
 	}
-	t.region = fmt.Sprintf("%s", dat)
+	t.region = string(dat)
 	t.token = ""
 
 	dat, err = ioutil.ReadFile("./../../../credentials/aws/athena/query.txt")
