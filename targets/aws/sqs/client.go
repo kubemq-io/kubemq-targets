@@ -66,7 +66,7 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 	}
 	m := &sqs.SendMessageInput{}
 	c.setMessageMeta(m, eventMetadata)
-	m.SetMessageBody(fmt.Sprintf("%s", request.Data))
+	m.SetMessageBody(string(request.Data))
 	tries := 0
 	for tries <= c.opts.retries {
 		r, err := c.client.SendMessageWithContext(ctx, m)

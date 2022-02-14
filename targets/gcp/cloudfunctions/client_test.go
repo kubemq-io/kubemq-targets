@@ -2,7 +2,7 @@ package cloudfunctions
 
 import (
 	"context"
-	"fmt"
+
 	"io/ioutil"
 	"testing"
 	"time"

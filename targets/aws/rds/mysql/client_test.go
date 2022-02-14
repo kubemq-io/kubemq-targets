@@ -2,7 +2,7 @@ package mysql
 
 import (
 	"context"
-	"fmt"
+
 	"io/ioutil"
 	"testing"
 	"time"

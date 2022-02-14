@@ -3,7 +3,7 @@ package bigquery
 import (
 	"cloud.google.com/go/bigquery"
 	"context"
-	"fmt"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"

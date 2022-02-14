@@ -2,7 +2,7 @@ package firebase
 
 import (
 	"context"
-	"fmt"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/stretchr/testify/require"
 	"io/ioutil"

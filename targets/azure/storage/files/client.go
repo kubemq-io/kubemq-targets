@@ -155,7 +155,7 @@ func (c *Client) get(ctx context.Context, meta metadata) (*types.Response, error
 		}
 		return types.NewResponse().
 				SetData(b).
-				SetMetadataKeyValue("file_metadata", fmt.Sprintf("%s", jsonString)).
+				SetMetadataKeyValue("file_metadata", string(jsonString)).
 				SetMetadataKeyValue("result", "ok"),
 			nil
 	}

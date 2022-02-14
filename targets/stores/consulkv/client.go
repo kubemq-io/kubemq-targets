@@ -97,7 +97,7 @@ func (c *Client) get(ctx context.Context, meta metadata) (*types.Response, error
 	return types.NewResponse().
 		SetData(b).
 		SetMetadataKeyValue("result", "ok").
-		SetMetadataKeyValue("query_metadata", fmt.Sprintf("%s", qmeta)).
+		SetMetadataKeyValue("query_metadata", string(qmeta)).
 		SetMetadataKeyValue("key", meta.key), nil
 }
 
@@ -166,7 +166,7 @@ func (c *Client) list(ctx context.Context, meta metadata) (*types.Response, erro
 	return types.NewResponse().
 		SetData(b).
 		SetMetadataKeyValue("result", "ok").
-		SetMetadataKeyValue("query_metadata", fmt.Sprintf("%s", qmeta)).
+		SetMetadataKeyValue("query_metadata", string(qmeta)).
 		SetMetadataKeyValue("key", meta.key), nil
 }
 

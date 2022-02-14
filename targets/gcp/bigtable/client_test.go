@@ -529,7 +529,7 @@ func TestClient_Delete_Rows(t *testing.T) {
 			require.NoError(t, err)
 			require.NotNil(t, gotSetResponse)
 			require.NotEqual(t, gotSetResponse.Metadata["error"], "true")
-			t.Logf("init() error = %v, response %v", err, fmt.Sprintf("%s", gotSetResponse.Data))
+			t.Logf("init() error = %v, response %v", err, string(gotSetResponse.Data))
 		})
 	}
 }
@@ -665,7 +665,7 @@ func TestClient_Read_Rows(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, gotSetResponse)
-			t.Logf("read() error = %v, response %v", err, fmt.Sprintf("%s", gotSetResponse.Data))
+			t.Logf("read() error = %v, response %v", err, string(gotSetResponse.Data))
 		})
 	}
 }
