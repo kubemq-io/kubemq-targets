@@ -36,7 +36,11 @@ func (b *Binder) buildMiddleware(cfg config.BindingConfig, exporter *metrics.Exp
 	if err != nil {
 		return nil, err
 	}
-	md := middleware.Chain(b.target, middleware.RateLimiter(rateLimiter), middleware.Retry(retry), middleware.Metric(met), middleware.Log(log))
+	meta, err := middleware.NewMetadataMiddleware(cfg.Properties)
+	if err != nil {
+		return nil, err
+	}
+	md := middleware.Chain(b.target, middleware.RateLimiter(rateLimiter), middleware.Retry(retry), middleware.Metric(met), middleware.Log(log), middleware.Metadata(meta))
 	return md, nil
 }
 func (b *Binder) Init(ctx context.Context, cfg config.BindingConfig, exporter *metrics.Exporter) error {
