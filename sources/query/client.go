@@ -126,9 +126,15 @@ func (c *Client) runClient(ctx context.Context, client *kubemq.Client) error {
 }
 
 func (c *Client) processQuery(ctx context.Context, query *kubemq.QueryReceive) (*types.Response, error) {
-	req, err := types.ParseRequest(query.Body)
-	if err != nil {
-		return nil, fmt.Errorf("invalid request format, %w", err)
+	var req *types.Request
+	var err error
+	if c.opts.doNotParsePayload {
+		req = types.NewRequest().SetData(query.Body)
+	} else {
+		req, err = types.ParseRequest(query.Body)
+		if err != nil {
+			return nil, fmt.Errorf("invalid request format, %w", err)
+		}
 	}
 	resp, err := c.target.Do(ctx, req)
 	if err != nil {

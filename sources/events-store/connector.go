@@ -31,6 +31,15 @@ func Connector() *common.Connector {
 		).
 		AddProperty(
 			common.NewProperty().
+				SetKind("bool").
+				SetName("do_not_parse_payload").
+				SetTitle("Don't Parse Payload").
+				SetDescription("Allow payload pass-through").
+				SetMust(false).
+				SetDefault("false"),
+		).
+		AddProperty(
+			common.NewProperty().
 				SetKind("string").
 				SetName("group").
 				SetDescription("Set Events-Store channel group").

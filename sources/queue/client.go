@@ -5,11 +5,11 @@ import (
 	"errors"
 	"fmt"
 	"github.com/kubemq-hub/builder/connector/common"
+	"github.com/kubemq-io/kubemq-go/queues_stream"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/middleware"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"github.com/kubemq-io/kubemq-targets/types"
-	"github.com/kubemq-io/kubemq-go/queues_stream"
 	"time"
 )
 
@@ -113,12 +113,16 @@ func (c *Client) processQueueMessage(ctx context.Context, client *queues_stream.
 	if !pollResp.HasMessages() {
 		return nil
 	}
-
 	for _, message := range pollResp.Messages {
-		req, err := types.ParseRequest(message.Body)
-		if err != nil {
-			_ = message.Ack()
-			return fmt.Errorf("invalid request format, %w", err)
+		var req *types.Request
+		var err error
+		if c.opts.doNotParsePayload {
+			req = types.NewRequest().SetData(message.Body)
+		} else {
+			req, err = types.ParseRequest(message.Body)
+			if err != nil {
+				return fmt.Errorf("invalid request format, %w", err)
+			}
 		}
 		resp, err := c.target.Do(ctx, req)
 		if err != nil {

@@ -5,12 +5,12 @@ import (
 	"errors"
 	"fmt"
 	"github.com/kubemq-hub/builder/connector/common"
+	"github.com/kubemq-io/kubemq-go"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/middleware"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-io/kubemq-targets/types"
-	"github.com/kubemq-io/kubemq-go"
 )
 
 var (
@@ -122,9 +122,15 @@ func (c *Client) runClient(ctx context.Context, client *kubemq.Client) error {
 }
 
 func (c *Client) processEventStore(ctx context.Context, event *kubemq.EventStoreReceive) (*types.Response, error) {
-	req, err := types.ParseRequest(event.Body)
-	if err != nil {
-		return nil, fmt.Errorf("invalid request format, %w", err)
+	var req *types.Request
+	var err error
+	if c.opts.doNotParsePayload {
+		req = types.NewRequest().SetData(event.Body)
+	} else {
+		req, err = types.ParseRequest(event.Body)
+		if err != nil {
+			return nil, fmt.Errorf("invalid request format, %w", err)
+		}
 	}
 	resp, err := c.target.Do(ctx, req)
 	if err != nil {
