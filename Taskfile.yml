@@ -4,7 +4,7 @@ version: '3'
 
 vars:
   BINARY_NAME: kubemq-targets
-  VERSION: v1.4.1
+  VERSION: v1.4.2
 tasks:
   default:
     cmds:

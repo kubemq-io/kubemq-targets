@@ -53,6 +53,9 @@ func (c *Client) getTLSConfig() (*tls.Config, error) {
 	tlsCfg := &tls.Config{
 		InsecureSkipVerify: c.opts.insecure,
 	}
+	if c.opts.insecure {
+		c.log.Infof("Rabbitmq connection is configured to skip certificate verification")
+	}
 	if c.opts.caCert != "" {
 		caCertPool := x509.NewCertPool()
 		if !caCertPool.AppendCertsFromPEM([]byte(c.opts.caCert)) {
@@ -60,15 +63,6 @@ func (c *Client) getTLSConfig() (*tls.Config, error) {
 		}
 		tlsCfg.RootCAs = caCertPool
 		c.log.Infof("TLS CA Cert Loaded for RabbitMQ Connection")
-	}
-	if c.opts.clientCertificate != "" && c.opts.clientKey != "" {
-		cert, err := tls.X509KeyPair([]byte(c.opts.clientCertificate), []byte(c.opts.clientKey))
-		if err != nil {
-			return nil, fmt.Errorf("error loading tls client key pair, %s", err.Error())
-		}
-		tlsCfg.Certificates = []tls.Certificate{cert}
-		c.log.Infof("TLS Client Key Pair Loaded for RabbitMQ Connection")
-
 	}
 	return tlsCfg, nil
 }
