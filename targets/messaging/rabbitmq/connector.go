@@ -23,6 +23,38 @@ func Connector() *common.Connector {
 		).
 		AddProperty(
 			common.NewProperty().
+				SetKind("bool").
+				SetName("insecure").
+				SetDescription("Set skip TLS Certificate verification").
+				SetMust(false).
+				SetDefault("false"),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("multilines").
+				SetName("ca_cert").
+				SetDescription("Set TLS CA Certificate").
+				SetMust(false).
+				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("multilines").
+				SetName("client_certificate").
+				SetDescription("Set TLS Client PEM data").
+				SetMust(false).
+				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("multilines").
+				SetName("client_key").
+				SetDescription("Set TLS Client Key PEM data").
+				SetMust(false).
+				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
 				SetKind("string").
 				SetName("default_exchange").
 				SetDescription("Set Default Exchange for routing").

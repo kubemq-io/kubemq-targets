@@ -2,12 +2,15 @@ package rabbitmq
 
 import (
 	"context"
+	"crypto/tls"
+	"crypto/x509"
 	"fmt"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/streadway/amqp"
+	"strings"
 	"sync"
 )
 
@@ -46,12 +49,49 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) 
 	}
 	return nil
 }
-func (c *Client) connect() error {
-	var err error
-	c.conn, err = amqp.Dial(c.opts.url)
-	if err != nil {
-		return fmt.Errorf("error dialing rabbitmq, %w", err)
+func (c *Client) getTLSConfig() (*tls.Config, error) {
+	tlsCfg := &tls.Config{
+		InsecureSkipVerify: c.opts.insecure,
 	}
+	if c.opts.caCert != "" {
+		caCertPool := x509.NewCertPool()
+		if !caCertPool.AppendCertsFromPEM([]byte(c.opts.caCert)) {
+			return nil, fmt.Errorf("error loading Root CA Cert")
+		}
+		tlsCfg.RootCAs = caCertPool
+		c.log.Infof("TLS CA Cert Loaded for RabbitMQ Connection")
+	}
+	if c.opts.clientCertificate != "" && c.opts.clientKey != "" {
+		cert, err := tls.X509KeyPair([]byte(c.opts.clientCertificate), []byte(c.opts.clientKey))
+		if err != nil {
+			return nil, fmt.Errorf("error loading tls client key pair, %s", err.Error())
+		}
+		tlsCfg.Certificates = []tls.Certificate{cert}
+		c.log.Infof("TLS Client Key Pair Loaded for RabbitMQ Connection")
+
+	}
+	return tlsCfg, nil
+}
+func (c *Client) connect() error {
+
+	if strings.HasPrefix(c.opts.url, "amqps://") {
+		tlsCfg, err := c.getTLSConfig()
+		if err != nil {
+			return err
+		}
+		c.conn, err = amqp.DialTLS(c.opts.url, tlsCfg)
+		if err != nil {
+			return fmt.Errorf("error dialing rabbitmq, %w", err)
+		}
+
+	} else {
+		var err error
+		c.conn, err = amqp.Dial(c.opts.url)
+		if err != nil {
+			return fmt.Errorf("error dialing rabbitmq, %w", err)
+		}
+	}
+	var err error
 	c.channel, err = c.conn.Channel()
 	if err != nil {
 		_ = c.conn.Close()
