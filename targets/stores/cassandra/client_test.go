@@ -2,12 +2,13 @@ package cassandra
 
 import (
 	"context"
+	"testing"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"testing"
-	"time"
 )
 
 func TestClient_Init(t *testing.T) {
@@ -141,7 +142,6 @@ func TestClient_Init(t *testing.T) {
 				t.Errorf("Init() error = %v, wantExecErr %v", err, tt.wantErr)
 				return
 			}
-
 		})
 	}
 }
@@ -542,6 +542,7 @@ func TestClient_Query_Exec(t *testing.T) {
 		})
 	}
 }
+
 func TestClient_Delete(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -598,7 +599,6 @@ func TestClient_Delete(t *testing.T) {
 		SetMetadataKeyValue("key", key)
 	_, err = c.Do(ctx, delRequest)
 	require.Error(t, err)
-
 }
 
 func TestClient_Do(t *testing.T) {
@@ -717,7 +717,6 @@ func TestClient_Do(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
 }

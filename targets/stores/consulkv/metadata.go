@@ -2,8 +2,9 @@ package consulkv
 
 import (
 	"fmt"
-	"github.com/kubemq-io/kubemq-targets/types"
 	"time"
+
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 const (
@@ -55,7 +56,6 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	m.allowStale = meta.ParseBool("allow_stale", defaultAllowStale)
 	m.requireConsistent = meta.ParseBool("require_consistent", defaultRequireConsistent)
 	m.useCache = meta.ParseBool("user_cache", defaultUserCache)
-
 
 	maxAge, err := meta.ParseIntWithRange("max_age", defaultMaxAge, 0, 2147483647)
 	if err != nil {

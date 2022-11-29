@@ -19,7 +19,9 @@ RabbitMQ target connector configuration properties:
 | default_exchange    | no       | set default exchange routing | "exchange.1"                               |
 | default_topic       | no       | set default topic routing | "topic1"                                   |
 | default_persistence | no       | set default persistence for messages | "true"                                     |
-
+| ca_cert            | no       | SSL CA certificate                          | pem certificate value                                         |
+| client_certificate | no       | SSL Client certificate (mMTL)               | pem certificate value                                         |
+| client_key         | no       | SSL Client Key (mTLS)                       | pem key value                                                 |
 
 Example:
 

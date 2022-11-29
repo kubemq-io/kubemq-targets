@@ -1,8 +1,9 @@
 package redis
 
 import (
-	"github.com/kubemq-hub/builder/connector/common"
 	"math"
+
+	"github.com/kubemq-hub/builder/connector/common"
 )
 
 func Connector() *common.Connector {
@@ -12,7 +13,7 @@ func Connector() *common.Connector {
 		SetName("Redis").
 		SetProvider("GCP").
 		SetCategory("Cache").
-		SetTags("db","memory-store","cloud","managed").
+		SetTags("db", "memory-store", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

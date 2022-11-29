@@ -55,10 +55,8 @@ func TestMetadata_parseOptions(t *testing.T) {
 			gotOpts, err := parseOptions(tt.meta)
 			if tt.wantErr {
 				require.Error(t, err)
-
 			} else {
 				require.NoError(t, err)
-
 			}
 			require.EqualValues(t, tt.wantOpts, gotOpts)
 		})

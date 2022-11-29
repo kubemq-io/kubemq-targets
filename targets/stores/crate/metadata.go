@@ -3,12 +3,13 @@ package crate
 import (
 	"database/sql"
 	"fmt"
+
 	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 var methodsMap = map[string]string{
-	"query":       "query",
-	"exec":        "exec",
+	"query": "query",
+	"exec":  "exec",
 }
 
 var isolationLevelsMap = map[string]string{

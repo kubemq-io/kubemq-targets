@@ -3,12 +3,13 @@ package hdfs
 import (
 	"context"
 	"errors"
+	"io/ioutil"
+
 	hdfs "github.com/colinmarc/hdfs/v2"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"github.com/kubemq-io/kubemq-targets/types"
-	"io/ioutil"
 )
 
 type Client struct {
@@ -19,11 +20,12 @@ type Client struct {
 
 func New() *Client {
 	return &Client{}
-
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
 func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
@@ -67,7 +69,6 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 }
 
 func (c *Client) writeFile(meta metadata, data []byte) (*types.Response, error) {
-
 	writer, err := c.client.Create(meta.filePath)
 	if err != nil {
 		return nil, err

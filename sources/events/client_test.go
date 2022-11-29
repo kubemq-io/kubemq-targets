@@ -3,15 +3,16 @@ package events
 import (
 	"context"
 	"fmt"
+	"testing"
+	"time"
+
+	"github.com/kubemq-io/kubemq-go"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/middleware"
 	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-io/kubemq-targets/targets/null"
 	"github.com/kubemq-io/kubemq-targets/types"
-	"github.com/kubemq-io/kubemq-go"
 	"github.com/stretchr/testify/require"
-	"testing"
-	"time"
 
 	"github.com/kubemq-io/kubemq-targets/targets"
 )
@@ -44,12 +45,12 @@ func setupClient(ctx context.Context, target middleware.Middleware) (*Client, er
 	time.Sleep(time.Second)
 	return c, nil
 }
+
 func sendEvent(t *testing.T, ctx context.Context, req *types.Request, sendChannel, respChannel string) (*types.Response, error) {
 	client, err := kubemq.NewClient(ctx,
 		kubemq.WithAddress("localhost", 50000),
 		kubemq.WithClientId(uuid.New().String()),
 		kubemq.WithTransportType(kubemq.TransportTypeGRPC))
-
 	if err != nil {
 		return nil, err
 	}
@@ -149,7 +150,6 @@ func TestClient_processEvent(t *testing.T) {
 }
 
 func TestClient_Init(t *testing.T) {
-
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -196,13 +196,11 @@ func TestClient_Init(t *testing.T) {
 			if err := c.Init(ctx, tt.cfg, nil); (err != nil) != tt.wantErr {
 				t.Errorf("Init() error = %v, wantErr %v", err, tt.wantErr)
 			}
-
 		})
 	}
 }
 
 func TestClient_Start(t *testing.T) {
-
 	tests := []struct {
 		name    string
 		target  targets.Target

@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"context"
+
 	"github.com/kubemq-io/kubemq-targets/pkg/retry"
 	"github.com/kubemq-io/kubemq-targets/types"
 )
@@ -45,7 +46,7 @@ func Log(log *LogMiddleware) MiddlewareFunc {
 				if err != nil {
 					log.Errorf("error processing request: %s, response: %s, error:%s", reqStr, resStr, err.Error())
 				} else {
-					log.Infof("successful processing request: %s, response: %s",reqStr, resStr)
+					log.Infof("successful processing request: %s, response: %s", reqStr, resStr)
 				}
 			case "error":
 				reqStr := ""
@@ -64,6 +65,7 @@ func Log(log *LogMiddleware) MiddlewareFunc {
 		})
 	}
 }
+
 func RateLimiter(rl *RateLimitMiddleware) MiddlewareFunc {
 	return func(df Middleware) Middleware {
 		return DoFunc(func(ctx context.Context, request *types.Request) (*types.Response, error) {
@@ -89,6 +91,7 @@ func Retry(r *RetryMiddleware) MiddlewareFunc {
 		})
 	}
 }
+
 func Metric(m *MetricsMiddleware) MiddlewareFunc {
 	return func(df Middleware) Middleware {
 		return DoFunc(func(ctx context.Context, request *types.Request) (*types.Response, error) {
@@ -110,6 +113,18 @@ func Metric(m *MetricsMiddleware) MiddlewareFunc {
 		})
 	}
 }
+
+func Metadata(m *MetadataMiddleware) MiddlewareFunc {
+	return func(df Middleware) Middleware {
+		return DoFunc(func(ctx context.Context, request *types.Request) (*types.Response, error) {
+			for key, val := range m.Metadata {
+				request.SetMetadataKeyValue(key, val)
+			}
+			return df.Do(ctx, request)
+		})
+	}
+}
+
 func Chain(md Middleware, list ...MiddlewareFunc) Middleware {
 	chain := md
 	for _, middleware := range list {

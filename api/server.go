@@ -3,10 +3,11 @@ package api
 import (
 	"context"
 	"fmt"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/binding"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"time"
 )
 
 type Server struct {
@@ -24,14 +25,10 @@ func Start(ctx context.Context, port int, bs *binding.Service) (*Server, error) 
 	s.echoWebServer.HideBanner = true
 
 	s.echoWebServer.GET("/health", func(c echo.Context) error {
-
 		return c.String(200, "ok")
-
 	})
 	s.echoWebServer.GET("/ready", func(c echo.Context) error {
-
 		return c.String(200, "ready")
-
 	})
 	s.echoWebServer.GET("/metrics", echo.WrapHandler(s.bindingService.PrometheusHandler()))
 	s.echoWebServer.GET("/bindings", func(c echo.Context) error {

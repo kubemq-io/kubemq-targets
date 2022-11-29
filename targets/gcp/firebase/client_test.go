@@ -2,12 +2,12 @@ package firebase
 
 import (
 	"context"
-
-	"github.com/kubemq-io/kubemq-targets/config"
-	"github.com/stretchr/testify/require"
 	"io/ioutil"
 	"testing"
 	"time"
+
+	"github.com/kubemq-io/kubemq-targets/config"
+	"github.com/stretchr/testify/require"
 )
 
 type testStructure struct {
@@ -144,7 +144,6 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
 }

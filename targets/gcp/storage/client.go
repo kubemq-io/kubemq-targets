@@ -1,20 +1,22 @@
 package storage
 
 import (
-	"cloud.google.com/go/storage"
 	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
+	"io/ioutil"
+	"os"
+
+	"cloud.google.com/go/storage"
+
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"google.golang.org/api/iterator"
 	"google.golang.org/api/option"
-	"io"
-	"io/ioutil"
-	"os"
 )
 
 type Client struct {
@@ -25,11 +27,12 @@ type Client struct {
 
 func New() *Client {
 	return &Client{}
-
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
 func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {

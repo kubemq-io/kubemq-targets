@@ -3,15 +3,16 @@ package queue
 import (
 	"context"
 	"fmt"
+	"testing"
+	"time"
+
+	"github.com/kubemq-io/kubemq-go"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/middleware"
 	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-io/kubemq-targets/targets/null"
 	"github.com/kubemq-io/kubemq-targets/types"
-	"github.com/kubemq-io/kubemq-go"
 	"github.com/stretchr/testify/require"
-	"testing"
-	"time"
 
 	"github.com/kubemq-io/kubemq-targets/targets"
 )
@@ -23,14 +24,14 @@ func setupClient(ctx context.Context, target middleware.Middleware, channel stri
 		Name: "kubemq-queue",
 		Kind: "",
 		Properties: map[string]string{
-			"address":                    "localhost:50000",
-			"client_id":                  "some-clients-id",
-			"auth_token":                 "",
-			"channel":                    channel,
-			"response_channel":           "queue.stream.response",
+			"address":          "localhost:50000",
+			"client_id":        "some-clients-id",
+			"auth_token":       "",
+			"channel":          channel,
+			"response_channel": "queue.stream.response",
 			"batch_size":       "1",
-			"wait_timeout":               "60",
-			"sources":                    "1",
+			"wait_timeout":     "60",
+			"sources":          "1",
 		},
 	}, nil)
 	if err != nil {
@@ -43,12 +44,12 @@ func setupClient(ctx context.Context, target middleware.Middleware, channel stri
 	time.Sleep(time.Second)
 	return c, nil
 }
+
 func sendQueueMessage(t *testing.T, ctx context.Context, req *types.Request, sendChannel, respChannel string) (*types.Response, error) {
 	client, err := kubemq.NewClient(ctx,
 		kubemq.WithAddress("localhost", 50000),
 		kubemq.WithClientId(uuid.New().String()),
 		kubemq.WithTransportType(kubemq.TransportTypeGRPC))
-
 	if err != nil {
 		return nil, err
 	}
@@ -82,7 +83,6 @@ func sendQueueMessage(t *testing.T, ctx context.Context, req *types.Request, sen
 }
 
 func TestClient_processQueue(t *testing.T) {
-
 	tests := []struct {
 		name        string
 		target      targets.Target
@@ -164,7 +164,6 @@ func TestClient_processQueue(t *testing.T) {
 }
 
 func TestClient_Init(t *testing.T) {
-
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -176,14 +175,14 @@ func TestClient_Init(t *testing.T) {
 				Name: "kubemq-queue",
 				Kind: "",
 				Properties: map[string]string{
-					"address":                    "localhost:50000",
-					"client_id":                  "some-clients-id",
-					"auth_token":                 "some-auth token",
-					"channel":                    "some-channel",
-					"response_channel":           "some-response-channel",
+					"address":          "localhost:50000",
+					"client_id":        "some-clients-id",
+					"auth_token":       "some-auth token",
+					"channel":          "some-channel",
+					"response_channel": "some-response-channel",
 					"batch_size":       "1",
-					"wait_timeout":               "60",
-					"sources":                    "2",
+					"wait_timeout":     "60",
+					"sources":          "2",
 				},
 			},
 			wantErr: false,
@@ -209,13 +208,11 @@ func TestClient_Init(t *testing.T) {
 			if err := c.Init(ctx, tt.cfg, nil); (err != nil) != tt.wantErr {
 				t.Errorf("Init() error = %v, wantErr %v", err, tt.wantErr)
 			}
-
 		})
 	}
 }
 
 func TestClient_Start(t *testing.T) {
-
 	tests := []struct {
 		name    string
 		target  targets.Target
@@ -233,14 +230,14 @@ func TestClient_Start(t *testing.T) {
 				Name: "kubemq-queue",
 				Kind: "",
 				Properties: map[string]string{
-					"address":                    "localhost:50000",
-					"client_id":                  "some-clients-id",
-					"auth_token":                 "some-auth token",
-					"channel":                    "some-channel",
-					"response_channel":           "some-response-channel",
+					"address":          "localhost:50000",
+					"client_id":        "some-clients-id",
+					"auth_token":       "some-auth token",
+					"channel":          "some-channel",
+					"response_channel": "some-response-channel",
 					"batch_size":       "1",
-					"wait_timeout":               "60",
-					"sources":                    "2",
+					"wait_timeout":     "60",
+					"sources":          "2",
 				},
 			},
 			wantErr: false,
@@ -252,14 +249,14 @@ func TestClient_Start(t *testing.T) {
 				Name: "kubemq-queue",
 				Kind: "",
 				Properties: map[string]string{
-					"address":                    "localhost:50000",
-					"client_id":                  "some-clients-id",
-					"auth_token":                 "some-auth token",
-					"channel":                    "some-channel",
-					"response_channel":           "some-response-channel",
+					"address":          "localhost:50000",
+					"client_id":        "some-clients-id",
+					"auth_token":       "some-auth token",
+					"channel":          "some-channel",
+					"response_channel": "some-response-channel",
 					"batch_size":       "1",
-					"wait_timeout":               "60",
-					"sources":                    "2",
+					"wait_timeout":     "60",
+					"sources":          "2",
 				},
 			},
 			wantErr: true,

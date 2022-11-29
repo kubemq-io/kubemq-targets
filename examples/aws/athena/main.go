@@ -3,12 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
-	"github.com/kubemq-io/kubemq-targets/types"
-	"github.com/kubemq-io/kubemq-go"
 	"io/ioutil"
 	"log"
 	"time"
+
+	"github.com/kubemq-io/kubemq-go"
+	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 func main() {
@@ -59,7 +60,7 @@ func main() {
 	}
 	executionCode := qryResponse.Metadata["execution_id"]
 	log.Println(fmt.Sprintf("qry executed, executionCode: %s", executionCode))
-	//Give query time to end
+	// Give query time to end
 	time.Sleep(2 * time.Second)
 	// get query result
 	getResultRequest := types.NewRequest().

@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"testing"
 	"time"
 
 	"github.com/kubemq-io/kubemq-targets/config"
@@ -11,7 +12,6 @@ import (
 
 	"github.com/labstack/echo/v4"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 type payload struct {
@@ -23,11 +23,13 @@ func newPayload(data string) *payload {
 		Body: data,
 	}
 }
+
 func (p *payload) Marshal() []byte {
 	b, _ := json.Marshal(p)
 
 	return b
 }
+
 func unmarshalPayload(data []byte) *payload {
 	if len(data) == 0 {
 		return nil
@@ -68,11 +70,12 @@ func (m *mockHttpServer) start() {
 		_ = m.echo.Start(fmt.Sprintf(":%s", m.port))
 	}()
 	time.Sleep(time.Second)
-
 }
+
 func (m *mockHttpServer) stop(ctx context.Context) {
 	_ = m.echo.Shutdown(ctx)
 }
+
 func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name    string
@@ -284,7 +287,6 @@ func TestClient_Do(t *testing.T) {
 }
 
 func TestClient_Init(t *testing.T) {
-
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -365,7 +367,6 @@ func TestClient_Init(t *testing.T) {
 				t.Errorf("Init() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-
 		})
 	}
 }

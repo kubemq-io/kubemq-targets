@@ -2,12 +2,13 @@ package hdfs
 
 import (
 	"fmt"
-	"github.com/kubemq-io/kubemq-targets/types"
 	"os"
+
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 type metadata struct {
-	method string
+	method      string
 	filePath    string
 	oldFilePath string
 	fileMode    os.FileMode
@@ -39,6 +40,6 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 			return metadata{}, fmt.Errorf("error parsing old_file_path, %w", err)
 		}
 	}
-	m.fileMode = meta.ParseOSFileMode("file_mode", os.FileMode(0755))
+	m.fileMode = meta.ParseOSFileMode("file_mode", os.FileMode(0o755))
 	return m, nil
 }

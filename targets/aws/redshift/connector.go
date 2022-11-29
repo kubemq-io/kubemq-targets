@@ -11,7 +11,7 @@ func Connector() *common.Connector {
 		SetName("Redshift Service").
 		SetProvider("AWS").
 		SetCategory("Store").
-		SetTags("sql","db","cloud","managed").
+		SetTags("sql", "db", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

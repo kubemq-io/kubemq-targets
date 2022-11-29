@@ -2,6 +2,7 @@ package sns
 
 import (
 	"fmt"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 )
 

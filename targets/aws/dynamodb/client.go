@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -22,8 +23,8 @@ type Client struct {
 
 func New() *Client {
 	return &Client{}
-
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
@@ -132,6 +133,7 @@ func (c *Client) deleteTable(ctx context.Context, meta metadata) (*types.Respons
 			SetData(b),
 		nil
 }
+
 func (c *Client) insertItem(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
 	i := map[string]*dynamodb.AttributeValue{}
 	err := json.Unmarshal(data, &i)

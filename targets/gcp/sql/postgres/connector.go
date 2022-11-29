@@ -1,8 +1,9 @@
 package postgres
 
 import (
-	"github.com/kubemq-hub/builder/connector/common"
 	"math"
+
+	"github.com/kubemq-hub/builder/connector/common"
 )
 
 func Connector() *common.Connector {
@@ -12,7 +13,7 @@ func Connector() *common.Connector {
 		SetName("Postgres").
 		SetProvider("GCP").
 		SetCategory("Store").
-		SetTags("db","sql","cloud","managed").
+		SetTags("db", "sql", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("condition").
@@ -51,7 +52,7 @@ func Connector() *common.Connector {
 						SetDefault(""),
 					common.NewProperty().
 						SetKind("multilines").
-				SetName("credentials").
+						SetName("credentials").
 						SetDescription("Set Postgres credentials").
 						SetMust(true).
 						SetDefault(""),

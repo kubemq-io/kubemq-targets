@@ -2,9 +2,10 @@ package files
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/Azure/azure-storage-file-go/azfile"
 	"github.com/kubemq-io/kubemq-targets/config"
-	"time"
 )
 
 const (

@@ -5,6 +5,7 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
+
 	"github.com/hazelcast/hazelcast-go-client"
 	hazelconfig "github.com/hazelcast/hazelcast-go-client/config"
 	"github.com/kubemq-hub/builder/connector/common"
@@ -23,6 +24,7 @@ type Client struct {
 func New() *Client {
 	return &Client{}
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }

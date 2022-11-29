@@ -2,8 +2,9 @@ package percona
 
 import (
 	"fmt"
-	"github.com/kubemq-io/kubemq-targets/config"
 	"math"
+
+	"github.com/kubemq-io/kubemq-targets/config"
 )
 
 const (
@@ -16,7 +17,7 @@ type options struct {
 	connection string
 	// maxIdleConnections sets the maximum number of connections in the idle connection pool
 	maxIdleConnections int
-	//maxOpenConnections sets the maximum number of open connections to the database.
+	// maxOpenConnections sets the maximum number of open connections to the database.
 	maxOpenConnections int
 	// connectionMaxLifetimeSeconds sets the maximum amount of time a connection may be reused.
 	connectionMaxLifetimeSeconds int

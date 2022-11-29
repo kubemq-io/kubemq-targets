@@ -14,7 +14,6 @@ import (
 )
 
 func TestMessageMetadata(t *testing.T) {
-
 	m := &messaging.Message{
 		Topic: "test",
 		Token: "1231231",
@@ -135,8 +134,8 @@ func TestOptionsParse(t *testing.T) {
 		})
 	}
 }
-func TestDefaultMessage(t *testing.T) {
 
+func TestDefaultMessage(t *testing.T) {
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -158,10 +157,11 @@ func TestDefaultMessage(t *testing.T) {
 					"defaultmsg":       `{"topic":"defult"}`,
 				},
 			},
-			wantmsg: &messages{single: &messaging.Message{
-				Topic: "defult",
-				Data:  map[string]string{"key1": "val1"},
-			},
+			wantmsg: &messages{
+				single: &messaging.Message{
+					Topic: "defult",
+					Data:  map[string]string{"key1": "val1"},
+				},
 			},
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "send_message"),
@@ -181,10 +181,11 @@ func TestDefaultMessage(t *testing.T) {
 					"defaultmsg":       `{"topic":"defult"}`,
 				},
 			},
-			wantmsg: &messages{single: &messaging.Message{
-				Topic: "defult",
-				Data:  map[string]string{"key1": "val1"},
-			},
+			wantmsg: &messages{
+				single: &messaging.Message{
+					Topic: "defult",
+					Data:  map[string]string{"key1": "val1"},
+				},
 			},
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "send_message").SetData([]byte(`{"Topic":"defult","data":{"key1":"val1"}}`)),
@@ -207,10 +208,11 @@ func TestDefaultMessage(t *testing.T) {
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "send_message").
 				SetData([]byte(`{"Topic":"newTopic"}`)),
-			wantmsg: &messages{single: &messaging.Message{
-				Topic: "newTopic",
-				Token: "1234",
-			},
+			wantmsg: &messages{
+				single: &messaging.Message{
+					Topic: "newTopic",
+					Token: "1234",
+				},
 			},
 			wantErr: false,
 		},
@@ -231,9 +233,10 @@ func TestDefaultMessage(t *testing.T) {
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "send_message").
 				SetData([]byte(`{"Topic":"newTopic"}`)),
-			wantmsg: &messages{single: &messaging.Message{
-				Topic: "newTopic",
-			},
+			wantmsg: &messages{
+				single: &messaging.Message{
+					Topic: "newTopic",
+				},
 			},
 			wantErr: false,
 		},
@@ -250,16 +253,14 @@ func TestDefaultMessage(t *testing.T) {
 				require.NoError(t, err)
 				require.EqualValues(t, tt.wantmsg, m)
 			}
-			//defult message not changed
+			// defult message not changed
 			oc, _ := parseOptions(tt.cfg)
 			require.EqualValues(t, oc.defaultMessaging, o.defaultMessaging)
-
 		})
 	}
 }
 
 func TestClientDo(t *testing.T) {
-
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 

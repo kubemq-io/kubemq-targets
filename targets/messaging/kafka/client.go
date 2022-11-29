@@ -3,9 +3,10 @@ package kafka
 import (
 	"context"
 	"crypto/tls"
+	"strconv"
+
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
-	"strconv"
 
 	kafka "github.com/Shopify/sarama"
 	"github.com/kubemq-io/kubemq-targets/config"
@@ -57,11 +58,9 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) 
 	}
 
 	return nil
-
 }
 
 func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Response, error) {
-
 	m, err := parseMetadata(request.Metadata, c.opts)
 	if err != nil {
 		return nil, err
@@ -80,8 +79,8 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 		SetMetadataKeyValue("partition", strconv.FormatInt(int64(partition), 10)).
 		SetMetadataKeyValue("offset", strconv.FormatInt(offset, 10))
 	return r, nil
-
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }

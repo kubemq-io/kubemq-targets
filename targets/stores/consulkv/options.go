@@ -2,8 +2,9 @@ package consulkv
 
 import (
 	"fmt"
-	"github.com/kubemq-io/kubemq-targets/config"
 	"time"
+
+	"github.com/kubemq-io/kubemq-targets/config"
 )
 
 const (
@@ -48,7 +49,6 @@ func parseOptions(cfg config.Spec) (options, error) {
 	o.token = cfg.Properties.ParseString("token", defaultToken)
 	o.tokenFile = cfg.Properties.ParseString("token_file", defaultTokenFile)
 	o.insecureSkipVerify = cfg.Properties.ParseBool("insecure_skip_verify", false)
-
 
 	o.tls = cfg.Properties.ParseBool("tls", defaultUseTLS)
 	o.tlscertificatefile = cfg.Properties.ParseString("cert_file", defaultCertFile)

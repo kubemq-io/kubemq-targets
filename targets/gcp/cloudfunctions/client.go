@@ -3,8 +3,9 @@ package cloudfunctions
 import (
 	"context"
 	"fmt"
-	"github.com/kubemq-hub/builder/connector/common"
 	"strings"
+
+	"github.com/kubemq-hub/builder/connector/common"
 
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
@@ -21,16 +22,17 @@ type Client struct {
 	client         *gf.CloudFunctionsClient
 	parrantProject string
 	list           []string
-	//nameFunctions  map[string]string
+	// nameFunctions  map[string]string
 }
 
 func New() *Client {
 	return &Client{}
-
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
 func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
@@ -115,7 +117,6 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 		SetMetadataKeyValue("result", res.Result).
 		SetMetadataKeyValue("execution_id", res.ExecutionId).
 		SetData([]byte(res.Result)), nil
-
 }
 
 func (c *Client) Stop() error {

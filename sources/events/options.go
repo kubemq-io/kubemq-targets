@@ -2,9 +2,10 @@ package events
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
-	"time"
 )
 
 const (
@@ -24,6 +25,7 @@ type options struct {
 	reconnectIntervalSeconds time.Duration
 	maxReconnects            int
 	sources                  int
+	doNotParsePayload        bool
 }
 
 func parseOptions(cfg config.Spec) (options, error) {
@@ -54,5 +56,6 @@ func parseOptions(cfg config.Spec) (options, error) {
 	}
 	o.reconnectIntervalSeconds = time.Duration(interval) * time.Second
 	o.maxReconnects = cfg.Properties.ParseInt("max_reconnects", 0)
+	o.doNotParsePayload = cfg.Properties.ParseBool("do_not_parse_payload", false)
 	return o, nil
 }

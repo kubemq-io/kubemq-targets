@@ -3,13 +3,14 @@ package binding
 import (
 	"context"
 	"fmt"
+	"net/http"
+	"sync"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"github.com/kubemq-io/kubemq-targets/pkg/metrics"
 	"github.com/kubemq-io/kubemq-targets/types"
-	"net/http"
-	"sync"
-	"time"
 )
 
 const (
@@ -39,6 +40,7 @@ func New() (*Service, error) {
 	}
 	return s, nil
 }
+
 func (s *Service) Start(ctx context.Context, cfg *config.Config) error {
 	s.currentCtx, s.currentCancelFunc = context.WithCancel(ctx)
 	s.cfg = cfg
@@ -68,7 +70,6 @@ func (s *Service) Start(ctx context.Context, cfg *config.Config) error {
 					return
 				}
 			}
-
 		}(s.currentCtx, bindingCfg)
 	}
 	return nil
@@ -84,10 +85,9 @@ func (s *Service) Stop() {
 		}
 		return true
 	})
-
 }
-func (s *Service) Add(ctx context.Context, cfg config.BindingConfig) error {
 
+func (s *Service) Add(ctx context.Context, cfg config.BindingConfig) error {
 	binder := NewBinder()
 	status := newStatus(cfg)
 	s.bindingStatus.Store(cfg.Name, status)
@@ -123,9 +123,11 @@ func (s *Service) Remove(name string) error {
 func (s *Service) PrometheusHandler() http.Handler {
 	return s.exporter.PrometheusHandler()
 }
+
 func (s *Service) Stats() []*metrics.Report {
 	return s.exporter.Store.List()
 }
+
 func (s *Service) GetStatus() []*Status {
 	var list []*Status
 	for _, binding := range s.cfg.Bindings {
@@ -136,6 +138,7 @@ func (s *Service) GetStatus() []*Status {
 	}
 	return list
 }
+
 func (s *Service) SendRequest(ctx context.Context, req *Request) *Response {
 	val, ok := s.bindings.Load(req.Binding)
 	if !ok {

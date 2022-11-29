@@ -2,9 +2,9 @@ package hdfs
 
 import (
 	"fmt"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 )
-
 
 type options struct {
 	address string
@@ -18,7 +18,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing address , %w", err)
 	}
-	o.user ,err = cfg.Properties.MustParseString("user")
+	o.user, err = cfg.Properties.MustParseString("user")
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing user , %w", err)
 	}

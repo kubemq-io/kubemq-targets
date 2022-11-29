@@ -9,7 +9,7 @@ func Connector() *common.Connector {
 		SetName("Cloudwatch Metrics").
 		SetProvider("AWS").
 		SetCategory("Observability").
-		SetTags("metrics","cloud").
+		SetTags("metrics", "cloud").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

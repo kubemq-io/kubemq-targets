@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -23,11 +24,12 @@ type Client struct {
 
 func New() *Client {
 	return &Client{}
-
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
 func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
@@ -144,7 +146,6 @@ func (c *Client) run(ctx context.Context, meta metadata, data []byte) (*types.Re
 }
 
 func (c *Client) delete(ctx context.Context, meta metadata) (*types.Response, error) {
-
 	_, err := c.client.DeleteFunctionWithContext(ctx, &lambda.DeleteFunctionInput{FunctionName: aws.String(meta.functionName)})
 	if err != nil {
 		return nil, err
@@ -153,6 +154,7 @@ func (c *Client) delete(ctx context.Context, meta metadata) (*types.Response, er
 			SetMetadataKeyValue("result", "ok"),
 		nil
 }
+
 func isJson(data []byte) bool {
 	if len(data) == 0 {
 		return true

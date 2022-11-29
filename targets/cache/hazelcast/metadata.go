@@ -2,6 +2,7 @@ package hazelcast
 
 import (
 	"fmt"
+
 	"github.com/kubemq-io/kubemq-targets/types"
 )
 

@@ -2,11 +2,12 @@ package consulkv
 
 import (
 	"context"
+	"testing"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"testing"
-	"time"
 )
 
 func TestClient_Init(t *testing.T) {
@@ -37,7 +38,6 @@ func TestClient_Init(t *testing.T) {
 				t.Errorf("Init() error = %v, wantSetErr %v", err, tt.wantErr)
 				return
 			}
-
 		})
 	}
 }
@@ -90,7 +90,6 @@ func TestClient_Put(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
 }
@@ -157,7 +156,6 @@ func TestClient_Get(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, k.Data)
-
 		})
 	}
 }
@@ -210,7 +208,6 @@ func TestClient_Delete(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, k.Data)
-
 		})
 	}
 }
@@ -250,7 +247,6 @@ func TestClient_List(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, k.Data)
-
 		})
 	}
 }

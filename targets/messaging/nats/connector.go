@@ -11,7 +11,7 @@ func Connector() *common.Connector {
 		SetName("NATS").
 		SetProvider("").
 		SetCategory("Messaging").
-		SetTags("queue","pub/sub").
+		SetTags("queue", "pub/sub").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
@@ -78,11 +78,11 @@ func Connector() *common.Connector {
 				}),
 		).
 		AddMetadata(
-		common.NewMetadata().
-			SetKind("string").
-			SetName("subject").
-			SetDescription("Set subject").
-			SetMust(true).
-			SetDefault(""),
+			common.NewMetadata().
+				SetKind("string").
+				SetName("subject").
+				SetDescription("Set subject").
+				SetMust(true).
+				SetDefault(""),
 		)
 }

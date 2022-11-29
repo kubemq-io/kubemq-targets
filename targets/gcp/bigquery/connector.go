@@ -9,7 +9,7 @@ func Connector() *common.Connector {
 		SetName("Big Query").
 		SetProvider("GCP").
 		SetCategory("Store").
-		SetTags("db","sql","cloud","managed").
+		SetTags("db", "sql", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
@@ -33,7 +33,7 @@ func Connector() *common.Connector {
 				SetName("method").
 				SetKind("string").
 				SetDescription("Set GCP BigQuery execution method").
-				SetOptions([]string{"query", "create_data_set", "delete_data_set", "create_table","delete_table", "get_table_info", "get_data_sets", "insert"}).
+				SetOptions([]string{"query", "create_data_set", "delete_data_set", "create_table", "delete_table", "get_table_info", "get_data_sets", "insert"}).
 				SetDefault("query").
 				SetMust(true),
 		).

@@ -6,12 +6,13 @@ import (
 	"crypto/x509"
 	"errors"
 	"fmt"
+	"time"
+
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/nats-io/nats.go"
-	"time"
 )
 
 type Client struct {
@@ -27,6 +28,7 @@ func New() *Client {
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
 func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {

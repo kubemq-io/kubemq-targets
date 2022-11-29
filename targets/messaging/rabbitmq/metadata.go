@@ -2,11 +2,12 @@ package rabbitmq
 
 import (
 	"fmt"
-	"github.com/kubemq-io/kubemq-targets/types"
-	"github.com/streadway/amqp"
 	"math"
 	"strconv"
 	"time"
+
+	"github.com/kubemq-io/kubemq-targets/types"
+	"github.com/streadway/amqp"
 )
 
 type metadata struct {

@@ -6,14 +6,15 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/url"
+	"time"
+
 	"github.com/Azure/azure-pipeline-go/pipeline"
 	"github.com/Azure/azure-storage-file-go/azfile"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"github.com/kubemq-io/kubemq-targets/types"
-	"net/url"
-	"time"
 )
 
 type Client struct {
@@ -24,11 +25,12 @@ type Client struct {
 
 func New() *Client {
 	return &Client{}
-
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
 func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
@@ -77,7 +79,6 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 }
 
 func (c *Client) create(ctx context.Context, meta metadata) (*types.Response, error) {
-
 	URL, err := url.Parse(meta.serviceUrl)
 	if err != nil {
 		return nil, err
@@ -100,7 +101,6 @@ func (c *Client) create(ctx context.Context, meta metadata) (*types.Response, er
 }
 
 func (c *Client) upload(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
-
 	if data == nil {
 		return nil, errors.New("missing data to upload")
 	}
@@ -111,7 +111,8 @@ func (c *Client) upload(ctx context.Context, meta metadata, data []byte) (*types
 	fileURL := azfile.NewFileURL(*URL, c.pipeLine)
 	uploadFileOption := azfile.UploadToAzureFileOptions{
 		RangeSize:   meta.rangeSize,
-		Parallelism: meta.parallelism}
+		Parallelism: meta.parallelism,
+	}
 	if len(meta.fileMetadata) > 0 {
 		uploadFileOption.Metadata = meta.fileMetadata
 	}
@@ -126,7 +127,6 @@ func (c *Client) upload(ctx context.Context, meta metadata, data []byte) (*types
 }
 
 func (c *Client) get(ctx context.Context, meta metadata) (*types.Response, error) {
-
 	URL, err := url.Parse(meta.serviceUrl)
 	if err != nil {
 		return nil, err
@@ -166,7 +166,6 @@ func (c *Client) get(ctx context.Context, meta metadata) (*types.Response, error
 }
 
 func (c *Client) delete(ctx context.Context, meta metadata) (*types.Response, error) {
-
 	URL, err := url.Parse(meta.serviceUrl)
 	if err != nil {
 		return nil, err

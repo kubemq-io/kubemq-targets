@@ -11,7 +11,7 @@ func Connector() *common.Connector {
 		SetName("DynamoDB").
 		SetProvider("AWS").
 		SetCategory("Store").
-		SetTags("db","no-sql","cloud","managed").
+		SetTags("db", "no-sql", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

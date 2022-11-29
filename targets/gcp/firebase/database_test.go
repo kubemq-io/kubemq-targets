@@ -3,11 +3,12 @@ package firebase
 import (
 	"context"
 	"encoding/json"
+	"testing"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"testing"
-	"time"
 )
 
 func TestClient_db(t *testing.T) {
@@ -63,7 +64,8 @@ func TestClient_db(t *testing.T) {
 				SetMetadataKeyValue("ref_path", "test").
 				SetData(bk1),
 			wantErr: false,
-		}, {
+		},
+		{
 			name: "valid db-set - child ref",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "set_db").
@@ -96,7 +98,8 @@ func TestClient_db(t *testing.T) {
 				SetMetadataKeyValue("ref_path", "test").
 				SetMetadataKeyValue("child_ref", "test_child_ref"),
 			wantErr: false,
-		}, {
+		},
+		{
 			name: "valid db-update - no child ref ",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete_db").

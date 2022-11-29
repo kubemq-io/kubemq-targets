@@ -1,8 +1,9 @@
 package kinesis
 
 import (
-	"github.com/kubemq-hub/builder/connector/common"
 	"math"
+
+	"github.com/kubemq-hub/builder/connector/common"
 )
 
 func Connector() *common.Connector {
@@ -12,7 +13,7 @@ func Connector() *common.Connector {
 		SetName("Kinesis").
 		SetProvider("AWS").
 		SetCategory("Messaging").
-		SetTags("streaming","cloud","managed").
+		SetTags("streaming", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

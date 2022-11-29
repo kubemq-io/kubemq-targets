@@ -2,9 +2,10 @@ package blob
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/Azure/azure-storage-blob-go/azblob"
 	"github.com/kubemq-io/kubemq-targets/config"
-	"time"
 )
 
 const (

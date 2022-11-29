@@ -5,17 +5,17 @@ import (
 	"crypto/rand"
 	"encoding/json"
 	"fmt"
-	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
-	"github.com/kubemq-io/kubemq-targets/types"
-	"github.com/kubemq-io/kubemq-go"
 	"io/ioutil"
 	"log"
 	"math/big"
 	"time"
+
+	"github.com/kubemq-io/kubemq-go"
+	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 func main() {
-
 	dat, err := ioutil.ReadFile("./credentials/tableName.txt")
 	if err != nil {
 		log.Fatal(err)
@@ -77,6 +77,7 @@ func main() {
 	}
 	log.Println(fmt.Sprintf("get rows executed, response: %s", getRowsResponse.Data))
 }
+
 func getRandInt64() int64 {
 	nBig, err := rand.Int(rand.Reader, big.NewInt(27))
 	if err != nil {

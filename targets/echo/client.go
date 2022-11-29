@@ -3,9 +3,10 @@ package echo
 import (
 	"context"
 	"fmt"
+	"os"
+
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
-	"os"
 
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
@@ -22,6 +23,7 @@ func New() *Client {
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
 func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Response, error) {
 	m, _ := parseMetadata(request.Metadata)
 	if m.isError {
@@ -35,7 +37,6 @@ func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Respons
 		SetMetadata(request.Metadata).
 		SetMetadataKeyValue("host", c.host).
 		SetData(request.Data), nil
-
 }
 
 func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {

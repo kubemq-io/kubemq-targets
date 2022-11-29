@@ -2,8 +2,9 @@ package couchbase
 
 import (
 	"fmt"
-	"github.com/kubemq-io/kubemq-targets/config"
 	"math"
+
+	"github.com/kubemq-io/kubemq-targets/config"
 )
 
 const (

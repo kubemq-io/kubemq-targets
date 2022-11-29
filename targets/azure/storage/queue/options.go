@@ -2,9 +2,10 @@ package queue
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/Azure/azure-storage-queue-go/azqueue"
 	"github.com/kubemq-io/kubemq-targets/config"
-	"time"
 )
 
 const (

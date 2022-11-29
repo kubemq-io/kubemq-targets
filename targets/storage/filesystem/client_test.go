@@ -2,11 +2,12 @@ package filesystem
 
 import (
 	"context"
+	"testing"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"testing"
-	"time"
 )
 
 func TestClient_Init(t *testing.T) {
@@ -48,12 +49,11 @@ func TestClient_Init(t *testing.T) {
 				t.Errorf("Init() error = %v, wantSaveErr %v", err, tt.wantErr)
 				return
 			}
-
 		})
 	}
 }
-func TestClient_Files(t *testing.T) {
 
+func TestClient_Files(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	cfg := config.Spec{

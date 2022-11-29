@@ -3,12 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
-	"github.com/kubemq-io/kubemq-targets/types"
-	"github.com/kubemq-io/kubemq-go"
 	"io/ioutil"
 	"log"
 	"time"
+
+	"github.com/kubemq-io/kubemq-go"
+	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 type testStructure struct {

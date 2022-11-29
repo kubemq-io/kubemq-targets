@@ -2,12 +2,14 @@ package bigtable
 
 import (
 	"bytes"
-	"cloud.google.com/go/bigtable"
 	"context"
 	"encoding/binary"
 	"encoding/json"
 	"errors"
 	"fmt"
+
+	"cloud.google.com/go/bigtable"
+
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
@@ -24,11 +26,12 @@ type Client struct {
 
 func New() *Client {
 	return &Client{}
-
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
 func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
@@ -95,7 +98,6 @@ func (c *Client) getTables(ctx context.Context) (*types.Response, error) {
 	}
 	if len(tables) <= 0 {
 		return nil, fmt.Errorf("no tables found for this instance")
-
 	}
 	b, err := json.Marshal(tables)
 	if err != nil {

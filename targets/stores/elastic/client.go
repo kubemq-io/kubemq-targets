@@ -3,6 +3,7 @@ package elastic
 import (
 	"context"
 	"fmt"
+
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
@@ -19,9 +20,11 @@ type Client struct {
 func New() *Client {
 	return &Client{}
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
 func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
@@ -51,6 +54,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) 
 
 	return nil
 }
+
 func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, error) {
 	meta, err := parseMetadata(req.Metadata)
 	if err != nil {
@@ -72,8 +76,8 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	default:
 		return nil, fmt.Errorf("invalid method")
 	}
-
 }
+
 func (c *Client) Get(ctx context.Context, meta metadata) (*types.Response, error) {
 	getResp, err := c.elastic.Get().Index(meta.index).Id(meta.id).Do(ctx)
 	if err != nil {
@@ -115,6 +119,7 @@ func (c *Client) IndexExists(ctx context.Context, meta metadata) (*types.Respons
 			SetMetadataKeyValue("exists", fmt.Sprintf("%t", exists)),
 		nil
 }
+
 func (c *Client) IndexCreate(ctx context.Context, meta metadata, value []byte) (*types.Response, error) {
 	result, err := c.elastic.CreateIndex(meta.index).BodyString(string(value)).Do(ctx)
 	if err != nil {
@@ -126,6 +131,7 @@ func (c *Client) IndexCreate(ctx context.Context, meta metadata, value []byte) (
 			SetMetadataKeyValue("index", result.Index),
 		nil
 }
+
 func (c *Client) IndexDelete(ctx context.Context, meta metadata) (*types.Response, error) {
 	result, err := c.elastic.DeleteIndex(meta.index).Do(ctx)
 	if err != nil {
@@ -135,6 +141,7 @@ func (c *Client) IndexDelete(ctx context.Context, meta metadata) (*types.Respons
 			SetMetadataKeyValue("acknowledged", fmt.Sprintf("%t", result.Acknowledged)),
 		nil
 }
+
 func (c *Client) Stop() error {
 	return nil
 }

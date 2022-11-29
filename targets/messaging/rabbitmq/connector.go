@@ -1,8 +1,9 @@
 package rabbitmq
 
 import (
-	"github.com/kubemq-hub/builder/connector/common"
 	"math"
+
+	"github.com/kubemq-hub/builder/connector/common"
 )
 
 func Connector() *common.Connector {
@@ -19,6 +20,22 @@ func Connector() *common.Connector {
 				SetName("url").
 				SetDescription("Set RabbitMQ url connection string").
 				SetMust(true).
+				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("bool").
+				SetName("skip_insecure").
+				SetDescription("Set skip TLS Certificate verification").
+				SetMust(false).
+				SetDefault("false"),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("multilines").
+				SetName("ca_cert").
+				SetDescription("Set TLS CA Certificate").
+				SetMust(false).
 				SetDefault(""),
 		).
 		AddProperty(

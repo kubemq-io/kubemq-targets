@@ -2,6 +2,7 @@ package queue
 
 import (
 	"fmt"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
 )
@@ -13,15 +14,16 @@ const (
 )
 
 type options struct {
-	host            string
-	port            int
-	clientId        string
-	authToken       string
-	channel         string
-	responseChannel string
-	sources         int
-	batchSize       int
-	waitTimeout     int
+	host              string
+	port              int
+	clientId          string
+	authToken         string
+	channel           string
+	responseChannel   string
+	sources           int
+	batchSize         int
+	waitTimeout       int
+	doNotParsePayload bool
 }
 
 func parseOptions(cfg config.Spec) (options, error) {
@@ -54,6 +56,6 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing wait timeout value, %w", err)
 	}
-
+	o.doNotParsePayload = cfg.Properties.ParseBool("do_not_parse_payload", false)
 	return o, nil
 }

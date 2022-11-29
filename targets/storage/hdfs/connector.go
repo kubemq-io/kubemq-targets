@@ -61,5 +61,4 @@ func Connector() *common.Connector {
 				SetMust(false).
 				SetDefault("0777"),
 		)
-
 }

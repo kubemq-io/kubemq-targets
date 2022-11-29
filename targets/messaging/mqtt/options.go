@@ -2,6 +2,7 @@ package mqtt
 
 import (
 	"fmt"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
 )
@@ -32,6 +33,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 	}
 	return o, nil
 }
+
 func (o options) defaultMetadata() (metadata, bool) {
 	if o.defaultTopic != "" {
 		return metadata{
@@ -40,5 +42,4 @@ func (o options) defaultMetadata() (metadata, bool) {
 		}, true
 	}
 	return metadata{}, false
-
 }

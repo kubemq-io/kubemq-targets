@@ -3,13 +3,14 @@ package redis
 import (
 	"context"
 	"fmt"
+	"strconv"
+	"strings"
+
 	redisClient "github.com/go-redis/redis/v7"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"github.com/kubemq-io/kubemq-targets/types"
-	"strconv"
-	"strings"
 )
 
 const (
@@ -30,9 +31,11 @@ type Client struct {
 func New() *Client {
 	return &Client{}
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
 func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
@@ -74,6 +77,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	}
 	return nil, nil
 }
+
 func (c *Client) getConnectedSlaves(ctx context.Context) (int, error) {
 	res, err := c.redis.DoContext(ctx, "INFO", "replication").Result()
 	if err != nil {
@@ -99,10 +103,11 @@ func (c *Client) parseConnectedSlaves(res string) int {
 
 	return 0
 }
+
 func (c *Client) Get(ctx context.Context, meta metadata) (*types.Response, error) {
 	res, err := c.redis.DoContext(ctx, "HGETALL", meta.key).Result() // Prefer values with ETags
 	if err != nil {
-		return c.directGet(ctx, meta.key) //Falls back to original get
+		return c.directGet(ctx, meta.key) // Falls back to original get
 	}
 	if res == nil {
 		return nil, fmt.Errorf("no data found for this key")
@@ -140,6 +145,7 @@ func (c *Client) getKeyVersion(vals []interface{}) (data string, version string,
 	}
 	return data, version, nil
 }
+
 func (c *Client) directGet(ctx context.Context, key string) (*types.Response, error) {
 	res, err := c.redis.DoContext(ctx, "GET", key).Result()
 	if err != nil {
@@ -152,7 +158,6 @@ func (c *Client) directGet(ctx context.Context, key string) (*types.Response, er
 }
 
 func (c *Client) Set(ctx context.Context, meta metadata, value []byte) (*types.Response, error) {
-
 	if meta.concurrency == "last-write" {
 		meta.etag = 0
 	}

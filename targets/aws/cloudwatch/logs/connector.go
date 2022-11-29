@@ -1,8 +1,9 @@
 package logs
 
 import (
-	"github.com/kubemq-hub/builder/connector/common"
 	"math"
+
+	"github.com/kubemq-hub/builder/connector/common"
 )
 
 func Connector() *common.Connector {
@@ -12,7 +13,7 @@ func Connector() *common.Connector {
 		SetName("Cloudwatch Logs").
 		SetProvider("AWS").
 		SetCategory("Observability").
-		SetTags("logs","cloud").
+		SetTags("logs", "cloud").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
@@ -96,5 +97,4 @@ func Connector() *common.Connector {
 				SetMin(0).
 				SetMax(math.MaxInt32),
 		)
-
 }

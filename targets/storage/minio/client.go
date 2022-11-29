@@ -5,13 +5,14 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
-	"io/ioutil"
 )
 
 type Client struct {
@@ -23,9 +24,11 @@ type Client struct {
 func New() *Client {
 	return &Client{}
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
 func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
@@ -120,7 +123,6 @@ func (c *Client) RemoveBucket(ctx context.Context, meta metadata) (*types.Respon
 }
 
 func (c *Client) ListObjects(ctx context.Context, meta metadata) (*types.Response, error) {
-
 	var objects []minio.ObjectInfo
 	for object := range c.s3Client.ListObjects(ctx, meta.param1, minio.ListObjectsOptions{Recursive: true}) {
 		objects = append(objects, object)
@@ -133,6 +135,7 @@ func (c *Client) ListObjects(ctx context.Context, meta metadata) (*types.Respons
 		SetMetadataKeyValue("result", "ok").
 		SetData(data), nil
 }
+
 func (c *Client) Get(ctx context.Context, meta metadata) (*types.Response, error) {
 	object, err := c.s3Client.GetObject(ctx, meta.param1, meta.param2, minio.GetObjectOptions{})
 	if err != nil {
@@ -149,6 +152,7 @@ func (c *Client) Get(ctx context.Context, meta metadata) (*types.Response, error
 		SetMetadataKeyValue("result", "ok").
 		SetData(data), nil
 }
+
 func (c *Client) Put(ctx context.Context, meta metadata, value []byte) (*types.Response, error) {
 	r := bytes.NewReader(value)
 	_, err := c.s3Client.PutObject(ctx, meta.param1, meta.param2, r, int64(r.Len()), minio.PutObjectOptions{
@@ -159,8 +163,8 @@ func (c *Client) Put(ctx context.Context, meta metadata, value []byte) (*types.R
 	}
 	return types.NewResponse().
 		SetMetadataKeyValue("result", "ok"), nil
-
 }
+
 func (c *Client) Remove(ctx context.Context, meta metadata) (*types.Response, error) {
 	err := c.s3Client.RemoveObject(ctx, meta.param1, meta.param2, minio.RemoveObjectOptions{
 		GovernanceBypass: false,

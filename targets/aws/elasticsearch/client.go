@@ -2,13 +2,14 @@ package elasticsearch
 
 import (
 	"context"
-	"github.com/kubemq-hub/builder/connector/common"
-	"github.com/kubemq-io/kubemq-targets/pkg/logger"
-	"github.com/kubemq-io/kubemq-targets/types"
 	"io/ioutil"
 	"net/http"
 	"strings"
 	"time"
+
+	"github.com/kubemq-hub/builder/connector/common"
+	"github.com/kubemq-io/kubemq-targets/pkg/logger"
+	"github.com/kubemq-io/kubemq-targets/types"
 
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	signer "github.com/aws/aws-sdk-go/aws/signer/v4"
@@ -23,8 +24,8 @@ type Client struct {
 
 func New() *Client {
 	return &Client{}
-
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }

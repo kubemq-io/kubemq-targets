@@ -3,14 +3,13 @@ package lambda
 import (
 	"context"
 	"encoding/json"
+	"io/ioutil"
+	"testing"
+	"time"
 
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"io/ioutil"
-
-	"testing"
-	"time"
 )
 
 type testStructure struct {
@@ -154,7 +153,6 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
 }
@@ -396,7 +394,6 @@ func TestClient_Run(t *testing.T) {
 }
 
 func TestClient_isJson(t *testing.T) {
-
 	tests := []struct {
 		name string
 		data []byte
@@ -425,7 +422,6 @@ func TestClient_isJson(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-
 			if got := isJson(tt.data); got != tt.want {
 				t.Errorf("isJson() = %v, want %v", got, tt.want)
 			}

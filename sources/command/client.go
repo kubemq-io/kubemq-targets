@@ -4,18 +4,17 @@ import (
 	"context"
 	"errors"
 	"fmt"
+
 	"github.com/kubemq-hub/builder/connector/common"
+	"github.com/kubemq-io/kubemq-go"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/middleware"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-io/kubemq-targets/types"
-	"github.com/kubemq-io/kubemq-go"
 )
 
-var (
-	errInvalidTarget = errors.New("invalid target received, cannot be nil")
-)
+var errInvalidTarget = errors.New("invalid target received, cannot be nil")
 
 type Client struct {
 	opts    options
@@ -26,11 +25,12 @@ type Client struct {
 
 func New() *Client {
 	return &Client{}
-
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
 func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
@@ -81,6 +81,7 @@ func (c *Client) Start(ctx context.Context, target middleware.Middleware) error 
 	}
 	return nil
 }
+
 func (c *Client) runClient(ctx context.Context, client *kubemq.Client) error {
 	errCh := make(chan error, 1)
 	commandsCh, err := client.SubscribeToCommands(ctx, c.opts.channel, c.opts.group, errCh)
@@ -118,9 +119,15 @@ func (c *Client) runClient(ctx context.Context, client *kubemq.Client) error {
 }
 
 func (c *Client) processCommand(ctx context.Context, command *kubemq.CommandReceive) (*types.Response, error) {
-	req, err := types.ParseRequest(command.Body)
-	if err != nil {
-		return nil, fmt.Errorf("invalid request format, %w", err)
+	var req *types.Request
+	var err error
+	if c.opts.doNotParsePayload {
+		req = types.NewRequest().SetData(command.Body)
+	} else {
+		req, err = types.ParseRequest(command.Body)
+		if err != nil {
+			return nil, fmt.Errorf("invalid request format, %w", err)
+		}
 	}
 	resp, err := c.target.Do(ctx, req)
 	if err != nil {
@@ -128,6 +135,7 @@ func (c *Client) processCommand(ctx context.Context, command *kubemq.CommandRece
 	}
 	return resp, nil
 }
+
 func (c *Client) Stop() error {
 	for _, client := range c.clients {
 		_ = client.Close()

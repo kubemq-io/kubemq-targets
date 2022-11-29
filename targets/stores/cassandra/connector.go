@@ -1,8 +1,9 @@
 package cassandra
 
 import (
-	"github.com/kubemq-hub/builder/connector/common"
 	"math"
+
+	"github.com/kubemq-hub/builder/connector/common"
 )
 
 func Connector() *common.Connector {
@@ -12,7 +13,7 @@ func Connector() *common.Connector {
 		SetName("Cassandra").
 		SetProvider("").
 		SetCategory("Store").
-		SetTags("db","sql","no-sql").
+		SetTags("db", "sql", "no-sql").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

@@ -3,6 +3,7 @@ package azuresql
 import (
 	"database/sql"
 	"fmt"
+
 	"github.com/kubemq-io/kubemq-targets/types"
 )
 

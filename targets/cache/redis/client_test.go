@@ -2,12 +2,13 @@ package redis
 
 import (
 	"context"
+	"testing"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"testing"
-	"time"
 )
 
 func TestClient_Init(t *testing.T) {
@@ -58,10 +59,10 @@ func TestClient_Init(t *testing.T) {
 				t.Errorf("Init() error = %v, wantSetErr %v", err, tt.wantErr)
 				return
 			}
-
 		})
 	}
 }
+
 func TestClient_Set_Get(t *testing.T) {
 	tests := []struct {
 		name            string
@@ -150,8 +151,8 @@ func TestClient_Set_Get(t *testing.T) {
 		})
 	}
 }
-func TestClient_Delete(t *testing.T) {
 
+func TestClient_Delete(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	c := New()
@@ -188,6 +189,7 @@ func TestClient_Delete(t *testing.T) {
 	require.Error(t, err)
 	require.Nil(t, gotGetResponse)
 }
+
 func TestClient_Do(t *testing.T) {
 	tests := []struct {
 		name    string
@@ -274,7 +276,8 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("concurrency", "bad-concurrency").
 				SetData([]byte("some-data")),
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "invalid request - bad consistency",
 			cfg: config.Spec{
 				Name: "redis",
@@ -304,7 +307,6 @@ func TestClient_Do(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
 }

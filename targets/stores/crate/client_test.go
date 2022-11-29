@@ -2,11 +2,12 @@ package crate
 
 import (
 	"context"
+	"testing"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"testing"
-	"time"
 )
 
 type post struct {
@@ -20,6 +21,7 @@ func (p *posts) marshal() []byte {
 	b, _ := json.Marshal(p)
 	return b
 }
+
 func unmarshal(data []byte) *posts {
 	if data == nil {
 		return nil
@@ -171,7 +173,6 @@ func TestClient_Init(t *testing.T) {
 				t.Errorf("Init() error = %v, wantExecErr %v", err, tt.wantErr)
 				return
 			}
-
 		})
 	}
 }
@@ -352,7 +353,8 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 				SetData(allPosts.marshal()),
 			wantExecErr:  false,
 			wantQueryErr: false,
-		}}
+		},
+	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -389,7 +391,6 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			} else {
 				require.EqualValues(t, tt.wantQueryResponse, gotGetResponse)
 			}
-
 		})
 	}
 }
@@ -521,7 +522,6 @@ func TestClient_Do(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
 }

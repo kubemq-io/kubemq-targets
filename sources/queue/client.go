@@ -4,18 +4,17 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
+
 	"github.com/kubemq-hub/builder/connector/common"
+	"github.com/kubemq-io/kubemq-go/queues_stream"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/middleware"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"github.com/kubemq-io/kubemq-targets/types"
-	"github.com/kubemq-io/kubemq-go/queues_stream"
-	"time"
 )
 
-var (
-	errInvalidTarget = errors.New("invalid controller received, cannot be null")
-)
+var errInvalidTarget = errors.New("invalid controller received, cannot be null")
 
 type Client struct {
 	opts      options
@@ -36,18 +35,20 @@ func (c *Client) getQueuesClient(ctx context.Context, id int) (*queues_stream.Qu
 				c.log.Infof(fmt.Sprintf("connection: %d, %s", id, msg))
 			}),
 	)
-
 }
+
 func New() *Client {
 	return &Client{}
-
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
 func (c *Client) onError(err error) {
 	c.log.Error(err.Error())
 }
+
 func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
@@ -99,6 +100,7 @@ func (c *Client) run(ctx context.Context, client *queues_stream.QueuesStreamClie
 		}
 	}
 }
+
 func (c *Client) processQueueMessage(ctx context.Context, client *queues_stream.QueuesStreamClient) error {
 	pr := queues_stream.NewPollRequest().
 		SetChannel(c.opts.channel).
@@ -113,12 +115,16 @@ func (c *Client) processQueueMessage(ctx context.Context, client *queues_stream.
 	if !pollResp.HasMessages() {
 		return nil
 	}
-
 	for _, message := range pollResp.Messages {
-		req, err := types.ParseRequest(message.Body)
-		if err != nil {
-			_ = message.Ack()
-			return fmt.Errorf("invalid request format, %w", err)
+		var req *types.Request
+		var err error
+		if c.opts.doNotParsePayload {
+			req = types.NewRequest().SetData(message.Body)
+		} else {
+			req, err = types.ParseRequest(message.Body)
+			if err != nil {
+				return fmt.Errorf("invalid request format, %w", err)
+			}
 		}
 		resp, err := c.target.Do(ctx, req)
 		if err != nil {

@@ -23,6 +23,5 @@ func parseMetadata(meta types.Metadata, opts options) (metadata, error) {
 	m.project = meta.ParseString("project", "")
 	m.location = meta.ParseString("location", "")
 
-
 	return m, nil
 }

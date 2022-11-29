@@ -2,14 +2,13 @@ package elasticsearch
 
 import (
 	"context"
+	"io/ioutil"
+	"testing"
+	"time"
 
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"io/ioutil"
-
-	"testing"
-	"time"
 )
 
 type testStructure struct {
@@ -133,7 +132,6 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
 }
@@ -172,7 +170,8 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("service", dat.service).
 				SetMetadataKeyValue("id", dat.id),
 			wantErr: false,
-		}, {
+		},
+		{
 			name: "invalid post - missing method",
 			request: types.NewRequest().
 				SetMetadataKeyValue("region", dat.region).
@@ -208,7 +207,8 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("service", dat.service).
 				SetMetadataKeyValue("id", dat.id),
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "invalid post - missing json",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "POST").
@@ -219,7 +219,8 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("service", dat.service).
 				SetMetadataKeyValue("id", dat.id),
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "invalid post - missing domain",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "POST").
@@ -230,7 +231,8 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("service", dat.service).
 				SetMetadataKeyValue("id", dat.id),
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "invalid post - missing endpoint",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "POST").
@@ -241,7 +243,8 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("service", dat.service).
 				SetMetadataKeyValue("id", dat.id),
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "invalid post - missing index",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "POST").
@@ -252,7 +255,8 @@ func TestClient_Do(t *testing.T) {
 				SetMetadataKeyValue("service", dat.service).
 				SetMetadataKeyValue("id", dat.id),
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "invalid post - missing id",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "POST").

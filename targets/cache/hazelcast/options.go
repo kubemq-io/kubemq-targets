@@ -2,8 +2,9 @@ package hazelcast
 
 import (
 	"fmt"
-	"github.com/kubemq-io/kubemq-targets/config"
 	"time"
+
+	"github.com/kubemq-io/kubemq-targets/config"
 )
 
 const (

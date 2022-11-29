@@ -3,6 +3,7 @@ package cassandra
 import (
 	"context"
 	"fmt"
+
 	"github.com/gocql/gocql"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/config"
@@ -22,9 +23,11 @@ type Client struct {
 func New() *Client {
 	return &Client{}
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
 func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
@@ -74,6 +77,7 @@ func (c *Client) tryCreateKeyspace(keyspace string, replicationFactor int) error
 func (c *Client) tryCreateTable(table, keyspace string) error {
 	return c.session.Query(fmt.Sprintf("CREATE TABLE IF NOT EXISTS %s.%s (key text, value blob, PRIMARY KEY (key));", keyspace, table)).Exec()
 }
+
 func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, error) {
 	meta, err := parseMetadata(req.Metadata)
 	if err != nil {
@@ -93,6 +97,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	}
 	return nil, nil
 }
+
 func (c *Client) createSession(consistency gocql.Consistency) (*gocql.Session, error) {
 	session, err := c.cluster.CreateSession()
 	if err != nil {
@@ -102,6 +107,7 @@ func (c *Client) createSession(consistency gocql.Consistency) (*gocql.Session, e
 	session.SetConsistency(consistency)
 	return session, nil
 }
+
 func (c *Client) Get(ctx context.Context, meta metadata) (*types.Response, error) {
 	session := c.session
 
@@ -172,6 +178,7 @@ func (c *Client) Exec(ctx context.Context, meta metadata, value []byte) (*types.
 			SetMetadataKeyValue("result", "ok"),
 		nil
 }
+
 func (c *Client) Query(ctx context.Context, meta metadata, value []byte) (*types.Response, error) {
 	session := c.session
 	switch meta.consistency {
@@ -200,13 +207,12 @@ func (c *Client) Query(ctx context.Context, meta metadata, value []byte) (*types
 	}
 	if len(results) == 0 {
 		return nil, fmt.Errorf("no results for this query")
-
 	}
 	return types.NewResponse().
 		SetData(results[0]["value"].([]byte)).
 		SetMetadataKeyValue("result", "ok"), nil
-
 }
+
 func (c *Client) Set(ctx context.Context, meta metadata, value []byte) (*types.Response, error) {
 	session := c.session
 

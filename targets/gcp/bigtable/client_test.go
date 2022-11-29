@@ -5,13 +5,14 @@ import (
 	"crypto/rand"
 	"encoding/json"
 	"fmt"
-	"github.com/kubemq-io/kubemq-targets/config"
-	"github.com/kubemq-io/kubemq-targets/types"
-	"github.com/stretchr/testify/require"
 	"io/ioutil"
 	"math/big"
 	"testing"
 	"time"
+
+	"github.com/kubemq-io/kubemq-targets/config"
+	"github.com/kubemq-io/kubemq-targets/types"
+	"github.com/stretchr/testify/require"
 )
 
 type testStructure struct {
@@ -31,6 +32,7 @@ func getRandInt64() int64 {
 	}
 	return nBig.Int64()
 }
+
 func getTestStructure() (*testStructure, error) {
 	t := &testStructure{}
 	dat, err := ioutil.ReadFile("./../../../credentials/instance.txt")
@@ -91,7 +93,8 @@ func TestClient_Init(t *testing.T) {
 				},
 			},
 			wantErr: false,
-		}, {
+		},
+		{
 			name: "invalid init-missing-credentials",
 			cfg: config.Spec{
 				Name: "gcp-bigtable",
@@ -581,7 +584,8 @@ func TestClient_Read_Rows(t *testing.T) {
 				SetMetadataKeyValue("table_name", dat.tableName).
 				SetData(bKeys),
 			wantErr: false,
-		}, {
+		},
+		{
 			name: "valid read all rows - column_filter",
 			cfg: config.Spec{
 				Name: "gcp-bigtable",
@@ -614,7 +618,8 @@ func TestClient_Read_Rows(t *testing.T) {
 				SetMetadataKeyValue("column_name", "id").
 				SetMetadataKeyValue("table_name", dat.tableName),
 			wantErr: false,
-		}, {
+		},
+		{
 			name: "invalid read all rows - column_filter - missing column_name",
 			cfg: config.Spec{
 				Name: "gcp-bigtable",
@@ -630,7 +635,8 @@ func TestClient_Read_Rows(t *testing.T) {
 				SetMetadataKeyValue("table_name", dat.tableName).
 				SetData(bKeys),
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "valid read row",
 			cfg: config.Spec{
 				Name: "gcp-bigtable",

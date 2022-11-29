@@ -3,14 +3,15 @@ package elastic
 import (
 	"context"
 	"encoding/json"
+	"os"
+	"testing"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/olivere/elastic/v7"
 	"github.com/stretchr/testify/require"
-	"os"
-	"testing"
-	"time"
 )
 
 const mapping = `{
@@ -46,9 +47,12 @@ func (l *log) marshal() []byte {
 }
 
 func newLog(id, data string) *log {
-	return &log{Id: id,
-		Data: data}
+	return &log{
+		Id:   id,
+		Data: data,
+	}
 }
+
 func TestMain(m *testing.M) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
@@ -145,7 +149,6 @@ func TestClient_Init(t *testing.T) {
 				t.Errorf("Init() error = %v, wantSetErr %v", err, tt.wantErr)
 				return
 			}
-
 		})
 	}
 }
@@ -305,7 +308,6 @@ func TestClient_Set_Get(t *testing.T) {
 }
 
 func TestClient_Delete(t *testing.T) {
-
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	c := New()
@@ -427,7 +429,6 @@ func TestClient_Do(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
 }

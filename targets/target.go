@@ -1,3 +1,4 @@
+//go:build !container
 // +build !container
 
 package targets
@@ -5,6 +6,7 @@ package targets
 import (
 	"context"
 	"fmt"
+
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"github.com/kubemq-io/kubemq-targets/targets/aws/amazonmq"
@@ -90,7 +92,6 @@ type Target interface {
 }
 
 func Init(ctx context.Context, cfg config.Spec, log *logger.Logger) (Target, error) {
-
 	switch cfg.Kind {
 	case "storage.filesystem":
 		target := filesystem.New()
@@ -344,7 +345,7 @@ func Init(ctx context.Context, cfg config.Spec, log *logger.Logger) (Target, err
 			return nil, err
 		}
 		return target, nil
-	//case "messaging.ibmmq":
+	// case "messaging.ibmmq":
 	//	target := ibmmq.New()
 	//	if err := target.Init(ctx, cfg); err != nil {
 	//		return nil, err
@@ -510,7 +511,6 @@ func Init(ctx context.Context, cfg config.Spec, log *logger.Logger) (Target, err
 	default:
 		return nil, fmt.Errorf("invalid kind %s for target %s", cfg.Kind, cfg.Name)
 	}
-
 }
 
 func Connectors() common.Connectors {
@@ -520,7 +520,7 @@ func Connectors() common.Connectors {
 		redis.Connector(),
 		memcached.Connector(),
 
-		//stores
+		// stores
 		postgres.Connector(),
 		crate.Connector(),
 		mysql.Connector(),
@@ -544,11 +544,11 @@ func Connectors() common.Connectors {
 		rabbitmq.Connector(),
 		kafka.Connector(),
 		activemq.Connector(),
-		//ibmmq.Connector(),
+		// ibmmq.Connector(),
 		nats.Connector(),
 		hazelcast.Connector(),
 
-		//storage
+		// storage
 		minio.Connector(),
 		hdfs.Connector(),
 		filesystem.Connector(),

@@ -11,7 +11,7 @@ func Connector() *common.Connector {
 		SetName("Big Table").
 		SetProvider("GCP").
 		SetCategory("Store").
-		SetTags("db","sql","distributed","cloud","managed").
+		SetTags("db", "sql", "distributed", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
@@ -43,7 +43,7 @@ func Connector() *common.Connector {
 				SetName("method").
 				SetKind("string").
 				SetDescription("Set GCP Bigtable execution method").
-				SetOptions([]string{"write", "write_batch", "get_row", "get_all_rows","delete_row", "get_tables", "create_table", "delete_table", "create_column_family", "get_all_rows_by_column"}).
+				SetOptions([]string{"write", "write_batch", "get_row", "get_all_rows", "delete_row", "get_tables", "create_table", "delete_table", "create_column_family", "get_all_rows_by_column"}).
 				SetDefault("write").
 				SetMust(true),
 		).

@@ -2,6 +2,7 @@ package rabbitmq
 
 import (
 	"fmt"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 )
 
@@ -10,6 +11,8 @@ type options struct {
 	defaultExchange    string
 	defaultTopic       string
 	defaultPersistence bool
+	caCert             string
+	insecure           bool
 }
 
 func parseOptions(cfg config.Spec) (options, error) {
@@ -22,7 +25,8 @@ func parseOptions(cfg config.Spec) (options, error) {
 	o.defaultExchange = cfg.Properties.ParseString("default_exchange", "")
 	o.defaultTopic = cfg.Properties.ParseString("default_topic", "")
 	o.defaultPersistence = cfg.Properties.ParseBool("default_persistence", true)
-
+	o.caCert = cfg.Properties.ParseString("ca_cert", "")
+	o.insecure = cfg.Properties.ParseBool("skip_insecure", false)
 	return o, nil
 }
 
@@ -45,5 +49,4 @@ func (o options) defaultMetadata() (metadata, bool) {
 		}, true
 	}
 	return metadata{}, false
-
 }

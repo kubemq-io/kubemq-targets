@@ -1,8 +1,9 @@
 package consulkv
 
 import (
-	"github.com/kubemq-hub/builder/connector/common"
 	"math"
+
+	"github.com/kubemq-hub/builder/connector/common"
 )
 
 func Connector() *common.Connector {
@@ -12,7 +13,7 @@ func Connector() *common.Connector {
 		SetName("Consul").
 		SetProvider("").
 		SetCategory("Store").
-		SetTags("db","key-value store","cache").
+		SetTags("db", "key-value store", "cache").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

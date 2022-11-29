@@ -2,9 +2,10 @@ package couchbase
 
 import (
 	"fmt"
-	"github.com/kubemq-io/kubemq-targets/types"
 	"math"
 	"time"
+
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 const (
@@ -47,5 +48,4 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 	}
 	m.expiry = time.Duration(expirySeconds) * time.Second
 	return m, nil
-
 }

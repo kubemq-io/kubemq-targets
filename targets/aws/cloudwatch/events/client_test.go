@@ -3,13 +3,13 @@ package events
 import (
 	"context"
 	"encoding/json"
+	"io/ioutil"
+	"testing"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"io/ioutil"
-
-	"testing"
-	"time"
 )
 
 type testStructure struct {
@@ -135,7 +135,6 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
 }
