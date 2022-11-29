@@ -1,8 +1,9 @@
 package rethinkdb
 
 import (
-	"github.com/kubemq-hub/builder/connector/common"
 	"math"
+
+	"github.com/kubemq-hub/builder/connector/common"
 )
 
 func Connector() *common.Connector {
@@ -12,7 +13,7 @@ func Connector() *common.Connector {
 		SetName("RethinkDB").
 		SetProvider("").
 		SetCategory("Store").
-		SetTags("db","sql").
+		SetTags("db", "sql").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

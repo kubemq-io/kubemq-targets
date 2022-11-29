@@ -3,13 +3,14 @@ package openfaas
 import (
 	"context"
 	"fmt"
+	"io"
+	"io/ioutil"
+
 	"github.com/go-resty/resty/v2"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"github.com/kubemq-io/kubemq-targets/types"
-	"io"
-	"io/ioutil"
 )
 
 type Client struct {
@@ -25,6 +26,7 @@ func New() *Client {
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
 func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
@@ -41,6 +43,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) 
 	c.client.SetBasicAuth(c.opts.username, c.opts.password)
 	return nil
 }
+
 func readBody(data io.ReadCloser) ([]byte, error) {
 	if data == nil {
 		return nil, nil
@@ -52,6 +55,7 @@ func readBody(data io.ReadCloser) ([]byte, error) {
 	}
 	return b, data.Close()
 }
+
 func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, error) {
 	meta, err := parseMetadata(req.Metadata)
 	if err != nil {

@@ -11,7 +11,7 @@ func Connector() *common.Connector {
 		SetName("Spanner").
 		SetProvider("GCP").
 		SetCategory("Store").
-		SetTags("db","sql","cloud","managed").
+		SetTags("db", "sql", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

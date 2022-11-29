@@ -4,11 +4,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
-	"github.com/kubemq-io/kubemq-targets/types"
-	"github.com/kubemq-io/kubemq-go"
 	"log"
 	"time"
+
+	"github.com/kubemq-io/kubemq-go"
+	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 func getUserStruct() map[string]interface{} {

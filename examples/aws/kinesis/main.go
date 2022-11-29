@@ -3,12 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
-	"github.com/kubemq-io/kubemq-targets/types"
-	"github.com/kubemq-io/kubemq-go"
 	"io/ioutil"
 	"log"
 	"time"
+
+	"github.com/kubemq-io/kubemq-go"
+	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 func main() {
@@ -62,5 +63,4 @@ func main() {
 		log.Fatal(err)
 	}
 	log.Println(fmt.Sprintf("put query executed, response: %s", putResponse.Data))
-
 }

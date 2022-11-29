@@ -2,6 +2,7 @@ package keyspaces
 
 import (
 	"fmt"
+
 	"github.com/kubemq-io/kubemq-targets/types"
 )
 
@@ -53,6 +54,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 
 	return m, nil
 }
+
 func (m metadata) keyspaceTable() string {
 	if m.keyspace != "" && m.table != "" {
 		return fmt.Sprintf("%s.%s", m.keyspace, m.table)

@@ -3,12 +3,13 @@ package sqs
 import (
 	"context"
 	"encoding/json"
-	"github.com/kubemq-io/kubemq-targets/config"
-	"github.com/kubemq-io/kubemq-targets/types"
-	"github.com/stretchr/testify/require"
 	"io/ioutil"
 	"testing"
 	"time"
+
+	"github.com/kubemq-io/kubemq-targets/config"
+	"github.com/kubemq-io/kubemq-targets/types"
+	"github.com/stretchr/testify/require"
 )
 
 type testStructure struct {
@@ -92,7 +93,8 @@ func TestClient_Init(t *testing.T) {
 				},
 			},
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "invalid  init - no aws_key",
 			cfg: config.Spec{
 				Name: "aws-sqs",
@@ -134,7 +136,6 @@ func TestClient_Init(t *testing.T) {
 				t.Errorf("Init() error = %v, wantSetErr %v", err, tt.wantErr)
 				return
 			}
-
 		})
 	}
 }
@@ -220,7 +221,8 @@ func TestClient_Do(t *testing.T) {
 				SetData(validBody),
 
 			wantErr: false,
-		}, {
+		},
+		{
 			name: "invalid send - incorrect signature",
 			cfg: config.Spec{
 				Name: "aws-sqs",
@@ -241,7 +243,8 @@ func TestClient_Do(t *testing.T) {
 			want: nil,
 
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "invalid send - incorrect queue",
 			cfg: config.Spec{
 				Name: "aws-sqs",

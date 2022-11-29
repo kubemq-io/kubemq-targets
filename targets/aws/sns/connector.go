@@ -11,7 +11,7 @@ func Connector() *common.Connector {
 		SetName("SNS").
 		SetProvider("AWS").
 		SetCategory("Messaging").
-		SetTags("pub/sub","cloud","managed").
+		SetTags("pub/sub", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

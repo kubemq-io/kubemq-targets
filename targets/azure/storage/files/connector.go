@@ -1,8 +1,9 @@
 package files
 
 import (
-	"github.com/kubemq-hub/builder/connector/common"
 	"math"
+
+	"github.com/kubemq-hub/builder/connector/common"
 )
 
 func Connector() *common.Connector {
@@ -12,7 +13,7 @@ func Connector() *common.Connector {
 		SetName("Files").
 		SetProvider("Azure").
 		SetCategory("Storage").
-		SetTags("filesystem","db","cloud","managed").
+		SetTags("filesystem", "db", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

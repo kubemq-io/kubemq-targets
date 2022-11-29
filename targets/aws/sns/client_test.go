@@ -4,13 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"testing"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"io/ioutil"
-
-	"testing"
-	"time"
 )
 
 type testStructure struct {
@@ -145,7 +145,6 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
 }
@@ -448,7 +447,8 @@ func TestClient_Subscribe(t *testing.T) {
 				SetMetadataKeyValue("end_point", dat.endPoint).
 				SetData(b),
 			wantErr: false,
-		}, {
+		},
+		{
 			name: "invalid subscribe topic - missing topic",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "subscribe").
@@ -465,7 +465,8 @@ func TestClient_Subscribe(t *testing.T) {
 				SetMetadataKeyValue("return_subscription", dat.returnSubscription).
 				SetMetadataKeyValue("end_point", dat.endPoint),
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "invalid subscribe topic - missing return_subscription",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "subscribe").
@@ -473,7 +474,8 @@ func TestClient_Subscribe(t *testing.T) {
 				SetMetadataKeyValue("protocol", dat.protocol).
 				SetMetadataKeyValue("end_point", dat.endPoint),
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "invalid subscribe topic - missing end_point",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "subscribe").

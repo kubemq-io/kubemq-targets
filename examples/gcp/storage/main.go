@@ -3,12 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
-	"github.com/kubemq-io/kubemq-targets/types"
-	"github.com/kubemq-io/kubemq-go"
 	"io/ioutil"
 	"log"
 	"time"
+
+	"github.com/kubemq-io/kubemq-go"
+	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 type testStructure struct {
@@ -72,5 +73,4 @@ func main() {
 		log.Fatal(err)
 	}
 	log.Println(fmt.Sprintf("upload file request for bucket : %s executed, is_error: %v", dat.bucket, setResponse.IsError))
-
 }

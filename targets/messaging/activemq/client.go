@@ -3,6 +3,7 @@ package activemq
 import (
 	"context"
 	"fmt"
+
 	"github.com/go-stomp/stomp"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/config"
@@ -19,9 +20,11 @@ type Client struct {
 func New() *Client {
 	return &Client{}
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
 func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
@@ -61,6 +64,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	}
 	return types.NewResponse().SetMetadataKeyValue("result", "ok"), nil
 }
+
 func (c *Client) Stop() error {
 	if c.conn != nil {
 		return c.conn.Disconnect()

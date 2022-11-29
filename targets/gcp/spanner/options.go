@@ -2,6 +2,7 @@ package spanner
 
 import (
 	"fmt"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 )
 

@@ -1,9 +1,10 @@
 package servicebus
 
 import (
+	"time"
+
 	"github.com/Azure/azure-service-bus-go"
 	"github.com/kubemq-io/kubemq-targets/types"
-	"time"
 )
 
 const (

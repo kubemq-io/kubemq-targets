@@ -1,8 +1,9 @@
 package queue
 
 import (
-	"github.com/kubemq-hub/builder/connector/common"
 	"math"
+
+	"github.com/kubemq-hub/builder/connector/common"
 )
 
 func Connector() *common.Connector {
@@ -12,7 +13,7 @@ func Connector() *common.Connector {
 		SetName("Queue").
 		SetProvider("Azure").
 		SetCategory("Storage").
-		SetTags("queue","messaging","db","cloud","managed").
+		SetTags("queue", "messaging", "db", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
@@ -84,7 +85,7 @@ func Connector() *common.Connector {
 				SetName("method").
 				SetKind("string").
 				SetDescription("Set Queue Storage execution method").
-				SetOptions([]string{"create", "get_messages_count", "peek", "push","pop", "delete"}).
+				SetOptions([]string{"create", "get_messages_count", "peek", "push", "pop", "delete"}).
 				SetDefault("create").
 				SetMust(true),
 		).

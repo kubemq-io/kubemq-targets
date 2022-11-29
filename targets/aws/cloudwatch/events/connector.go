@@ -1,8 +1,9 @@
 package events
 
 import (
-	"github.com/kubemq-hub/builder/connector/common"
 	"math"
+
+	"github.com/kubemq-hub/builder/connector/common"
 )
 
 func Connector() *common.Connector {
@@ -12,7 +13,7 @@ func Connector() *common.Connector {
 		SetName("Cloudwatch Events").
 		SetProvider("AWS").
 		SetCategory("Observability").
-		SetTags("events","cloud").
+		SetTags("events", "cloud").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

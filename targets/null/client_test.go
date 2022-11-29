@@ -3,11 +3,12 @@ package null
 import (
 	"context"
 	"fmt"
-	"github.com/kubemq-io/kubemq-targets/config"
-	"github.com/kubemq-io/kubemq-targets/types"
 	"reflect"
 	"testing"
 	"time"
+
+	"github.com/kubemq-io/kubemq-targets/config"
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 func TestClient_Do(t *testing.T) {

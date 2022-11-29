@@ -3,11 +3,12 @@ package rethinkdb
 import (
 	"context"
 	"encoding/json"
+	"testing"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"testing"
-	"time"
 )
 
 func TestClient_Init(t *testing.T) {
@@ -76,10 +77,10 @@ func TestClient_Init(t *testing.T) {
 				t.Errorf("Init() error = %v, wantSetErr %v", err, tt.wantErr)
 				return
 			}
-
 		})
 	}
 }
+
 func TestClient_Insert(t *testing.T) {
 	args := make(map[string]interface{})
 	args["id"] = "test_user"
@@ -126,7 +127,8 @@ func TestClient_Insert(t *testing.T) {
 				SetMetadataKeyValue("table", "test").
 				SetData(insert),
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "invalid insert request - missing table name",
 			cfg: config.Spec{
 				Name: "stores-rethinkdb",
@@ -355,7 +357,6 @@ func TestClient_Get(t *testing.T) {
 }
 
 func TestClient_Delete(t *testing.T) {
-
 	tests := []struct {
 		name    string
 		cfg     config.Spec

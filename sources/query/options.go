@@ -2,9 +2,10 @@ package query
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
-	"time"
 )
 
 const (

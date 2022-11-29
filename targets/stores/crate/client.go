@@ -4,14 +4,15 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"strings"
+	"time"
+
 	jsoniter "github.com/json-iterator/go"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"github.com/kubemq-io/kubemq-targets/types"
 	_ "github.com/lib/pq"
-	"strings"
-	"time"
 )
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
@@ -26,9 +27,11 @@ type Client struct {
 func New() *Client {
 	return &Client{}
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
 func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
@@ -69,12 +72,14 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 
 	return nil, nil
 }
+
 func getStatements(data []byte) []string {
 	if data == nil {
 		return nil
 	}
 	return strings.Split(string(data), ";")
 }
+
 func (c *Client) Exec(ctx context.Context, meta metadata, value []byte) (*types.Response, error) {
 	stmts := getStatements(value)
 	if stmts == nil {
@@ -107,11 +112,9 @@ func (c *Client) Query(ctx context.Context, meta metadata, value []byte) (*types
 	return types.NewResponse().
 		SetData(c.rowsToMap(rows)).
 		SetMetadataKeyValue("result", "ok"), nil
-
 }
 
 func (c *Client) rowsToMap(rows *sql.Rows) []byte {
-
 	cols, _ := rows.Columns()
 	var results []map[string]interface{}
 	for rows.Next() {
@@ -138,7 +141,7 @@ func parseToMap(rows *sql.Rows, cols []string) map[string]interface{} {
 	m := make(map[string]interface{})
 	for i, colName := range cols {
 		if values[i] == nil {
-			//m[colName] = nil
+			// m[colName] = nil
 		} else {
 			m[colName] = values[i]
 		}

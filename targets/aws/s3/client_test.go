@@ -2,14 +2,13 @@ package s3
 
 import (
 	"context"
+	"io/ioutil"
+	"testing"
+	"time"
 
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"io/ioutil"
-
-	"testing"
-	"time"
 )
 
 type testStructure struct {
@@ -474,7 +473,8 @@ func TestClient_Get_Item(t *testing.T) {
 				SetMetadataKeyValue("bucket_name", dat.testBucketName),
 			wantErr:       true,
 			setDownloader: true,
-		}, {
+		},
+		{
 			name: "invalid get - item does not exists",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "get_item").
@@ -490,7 +490,8 @@ func TestClient_Get_Item(t *testing.T) {
 				SetMetadataKeyValue("item_name", dat.itemName),
 			wantErr:       true,
 			setDownloader: true,
-		}, {
+		},
+		{
 			name: "invalid upload - missing downloader",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "get_item").

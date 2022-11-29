@@ -11,7 +11,7 @@ func Connector() *common.Connector {
 		SetName("Kafka").
 		SetProvider("").
 		SetCategory("Messaging").
-		SetTags("streaming","pub/sub").
+		SetTags("streaming", "pub/sub").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
@@ -63,5 +63,4 @@ func Connector() *common.Connector {
 				SetDefault("").
 				SetMust(false),
 		)
-
 }

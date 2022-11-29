@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
+
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/middleware"
@@ -12,12 +14,9 @@ import (
 	"github.com/kubemq-io/kubemq-targets/types"
 
 	"github.com/kubemq-io/kubemq-go"
-	"time"
 )
 
-var (
-	errInvalidTarget = errors.New("invalid target received, cannot be nil")
-)
+var errInvalidTarget = errors.New("invalid target received, cannot be nil")
 
 type Client struct {
 	opts    options
@@ -28,13 +27,13 @@ type Client struct {
 
 func New() *Client {
 	return &Client{}
-
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
-func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 
+func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
 		c.log = logger.NewLogger(cfg.Kind)
@@ -85,6 +84,7 @@ func (c *Client) Start(ctx context.Context, target middleware.Middleware) error 
 
 	return nil
 }
+
 func (c *Client) runClient(ctx context.Context, client *kubemq.Client) error {
 	errCh := make(chan error, 1)
 	queriesCh, err := client.SubscribeToQueries(ctx, c.opts.channel, c.opts.group, errCh)
@@ -120,7 +120,6 @@ func (c *Client) runClient(ctx context.Context, client *kubemq.Client) error {
 
 			}
 		}
-
 	}(ctx, queriesCh, errCh)
 	return nil
 }
@@ -142,6 +141,7 @@ func (c *Client) processQuery(ctx context.Context, query *kubemq.QueryReceive) (
 	}
 	return resp, nil
 }
+
 func (c *Client) Stop() error {
 	for _, client := range c.clients {
 		_ = client.Close()

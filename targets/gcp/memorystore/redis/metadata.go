@@ -2,8 +2,9 @@ package redis
 
 import (
 	"fmt"
-	"github.com/kubemq-io/kubemq-targets/types"
 	"math"
+
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 var methodsMap = map[string]string{
@@ -11,11 +12,13 @@ var methodsMap = map[string]string{
 	"set":    "set",
 	"delete": "delete",
 }
+
 var concurrencyMap = map[string]string{
 	"first-write": "first-write",
 	"last-write":  "last-write",
 	"":            "",
 }
+
 var consistencyMap = map[string]string{
 	"strong":   "strong",
 	"eventual": "eventual",

@@ -1,13 +1,13 @@
 package queue
 
 import (
+	"testing"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func TestOptions_parseOptions(t *testing.T) {
-
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -20,25 +20,25 @@ func TestOptions_parseOptions(t *testing.T) {
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
-					"address":                    "localhost:50000",
-					"client_id":                  "some-clients-id",
-					"auth_token":                 "some-auth token",
-					"channel":                    "some-channel",
-					"response_channel":           "some-response-channel",
-					"batch_size": "2",
-					"wait_timeout":               "60",
+					"address":          "localhost:50000",
+					"client_id":        "some-clients-id",
+					"auth_token":       "some-auth token",
+					"channel":          "some-channel",
+					"response_channel": "some-response-channel",
+					"batch_size":       "2",
+					"wait_timeout":     "60",
 				},
 			},
 			want: options{
-				host:              "localhost",
-				port:              50000,
-				clientId:          "some-clients-id",
-				authToken:         "some-auth token",
-				channel:           "some-channel",
-				responseChannel:   "some-response-channel",
-				sources:           1,
-				waitTimeout:       60,
-				batchSize: 2,
+				host:            "localhost",
+				port:            50000,
+				clientId:        "some-clients-id",
+				authToken:       "some-auth token",
+				channel:         "some-channel",
+				responseChannel: "some-response-channel",
+				sources:         1,
+				waitTimeout:     60,
+				batchSize:       2,
 			},
 			wantErr: false,
 		},
@@ -74,9 +74,9 @@ func TestOptions_parseOptions(t *testing.T) {
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
-					"address":                    "localhost:50000",
-					"channel":                    "channel",
-					"sources":                    "1",
+					"address":    "localhost:50000",
+					"channel":    "channel",
+					"sources":    "1",
 					"batch_size": "-1",
 				},
 			},
@@ -89,11 +89,11 @@ func TestOptions_parseOptions(t *testing.T) {
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
-					"address":                    "localhost:50000",
-					"channel":                    "channel",
-					"sources":                    "1",
-					"batch_size": "1",
-					"wait_timeout":               "-1",
+					"address":      "localhost:50000",
+					"channel":      "channel",
+					"sources":      "1",
+					"batch_size":   "1",
+					"wait_timeout": "-1",
 				},
 			},
 			want:    options{},
@@ -105,11 +105,11 @@ func TestOptions_parseOptions(t *testing.T) {
 				Name: "kubemq-rpc",
 				Kind: "",
 				Properties: map[string]string{
-					"address":                    "localhost:50000",
-					"channel":                    "channel",
-					"sources":                    "-1",
-					"batch_size": "1",
-					"wait_timeout":               "1",
+					"address":      "localhost:50000",
+					"channel":      "channel",
+					"sources":      "-1",
+					"batch_size":   "1",
+					"wait_timeout": "1",
 				},
 			},
 			want:    options{},
@@ -121,10 +121,8 @@ func TestOptions_parseOptions(t *testing.T) {
 			got, err := parseOptions(tt.cfg)
 			if tt.wantErr {
 				require.Error(t, err)
-
 			} else {
 				require.NoError(t, err)
-
 			}
 			require.EqualValues(t, got, tt.want)
 		})

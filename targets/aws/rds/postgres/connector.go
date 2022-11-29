@@ -1,8 +1,9 @@
 package postgres
 
 import (
-	"github.com/kubemq-hub/builder/connector/common"
 	"math"
+
+	"github.com/kubemq-hub/builder/connector/common"
 )
 
 func Connector() *common.Connector {
@@ -12,7 +13,7 @@ func Connector() *common.Connector {
 		SetName("Postgres").
 		SetProvider("AWS").
 		SetCategory("Store").
-		SetTags("rds","sql","db","cloud","managed").
+		SetTags("rds", "sql", "db", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

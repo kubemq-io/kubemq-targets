@@ -1,8 +1,9 @@
 package singlestore
 
 import (
-	"github.com/kubemq-hub/builder/connector/common"
 	"math"
+
+	"github.com/kubemq-hub/builder/connector/common"
 )
 
 func Connector() *common.Connector {
@@ -12,7 +13,7 @@ func Connector() *common.Connector {
 		SetName("Single Store").
 		SetProvider("").
 		SetCategory("Store").
-		SetTags("db","sql","cache").
+		SetTags("db", "sql", "cache").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
@@ -71,5 +72,4 @@ func Connector() *common.Connector {
 				SetDefault("Default").
 				SetMust(false),
 		)
-
 }

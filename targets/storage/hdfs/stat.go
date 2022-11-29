@@ -10,10 +10,8 @@ type Stat struct {
 	Name    string    `json:"name"`
 	Size    int64     `json:"size"`
 	ModTime time.Time `json:"mod_time"`
-	IsDir   bool `json:"is_dir"`
+	IsDir   bool      `json:"is_dir"`
 }
-
-
 
 func createStatAsByteArray(o os.FileInfo) ([]byte, error) {
 	s := Stat{
@@ -27,5 +25,4 @@ func createStatAsByteArray(o os.FileInfo) ([]byte, error) {
 		return nil, err
 	}
 	return b, err
-
 }

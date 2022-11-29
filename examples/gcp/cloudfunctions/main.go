@@ -7,9 +7,9 @@ import (
 	"log"
 	"time"
 
+	"github.com/kubemq-io/kubemq-go"
 	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-io/kubemq-targets/types"
-	"github.com/kubemq-io/kubemq-go"
 )
 
 func main() {
@@ -41,5 +41,4 @@ func main() {
 		log.Fatal(err)
 	}
 	log.Println(fmt.Sprintf("publish message, response: %s", publishResponse.Metadata.String()))
-
 }

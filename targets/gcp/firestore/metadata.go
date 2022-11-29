@@ -2,6 +2,7 @@ package firestore
 
 import (
 	"fmt"
+
 	"github.com/kubemq-io/kubemq-targets/types"
 )
 
@@ -31,7 +32,7 @@ func parseMetadata(meta types.Metadata) (metadata, error) {
 		return metadata{}, fmt.Errorf("error on parsing collection value, %w", err)
 	}
 	if m.method == "document_key" || m.method == "delete_document_key" {
-			m.item, err = meta.MustParseString("item")
+		m.item, err = meta.MustParseString("item")
 		if err != nil {
 			return metadata{}, fmt.Errorf("item is required for method: %s,error on parsing item value, %w", m.method, err)
 		}

@@ -33,9 +33,7 @@ func (c *Client) sendMessage(ctx context.Context, req *types.Request, opts optio
 			SetData(data).
 			SetMetadataKeyValue("result", "ok"),
 		nil
-
 }
-
 
 func (c *Client) sendMessageMulti(ctx context.Context, req *types.Request, opts options) (*types.Response, error) {
 	m, err := parseMetadataMessages(req.Data, opts, SendBatch)
@@ -56,5 +54,4 @@ func (c *Client) sendMessageMulti(ctx context.Context, req *types.Request, opts 
 		r.SetMetadataKeyValue(fmt.Sprintf("mesage_%s", res.MessageID), msg)
 	}
 	return r, nil
-
 }

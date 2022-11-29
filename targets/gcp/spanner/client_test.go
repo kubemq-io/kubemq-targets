@@ -3,13 +3,13 @@ package spanner
 import (
 	"context"
 	"encoding/json"
+	"io/ioutil"
+	"testing"
+	"time"
 
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"io/ioutil"
-	"testing"
-	"time"
 )
 
 type testStructure struct {
@@ -74,7 +74,8 @@ func TestClient_Init(t *testing.T) {
 				},
 			},
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "invalid init - missing credentials",
 			cfg: config.Spec{
 				Name: "gcp-spanner",
@@ -102,7 +103,6 @@ func TestClient_Init(t *testing.T) {
 				_ = c.Stop()
 			}()
 			require.NoError(t, err)
-
 		})
 	}
 }

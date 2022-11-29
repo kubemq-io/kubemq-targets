@@ -3,12 +3,13 @@ package mongodb
 import (
 	"context"
 	"fmt"
+	"testing"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"testing"
-	"time"
 )
 
 type testDocument struct {
@@ -21,10 +22,12 @@ func (t *testDocument) data() []byte {
 	data, _ := json.Marshal(t)
 	return data
 }
+
 func (t *testDocument) dataString() string {
 	data, _ := json.MarshalToString(t)
 	return data
 }
+
 func TestClient_Init(t *testing.T) {
 	tests := []struct {
 		name    string
@@ -191,10 +194,10 @@ func TestClient_Init(t *testing.T) {
 				t.Errorf("Init() error = %v, wantSetErr %v", err, tt.wantErr)
 				return
 			}
-
 		})
 	}
 }
+
 func TestClient_Set_Get(t *testing.T) {
 	tests := []struct {
 		name            string
@@ -299,6 +302,7 @@ func TestClient_Set_Get(t *testing.T) {
 		})
 	}
 }
+
 func TestClient_Delete(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -561,5 +565,4 @@ func TestClient_Insert_Find_Update_Delete(t *testing.T) {
 	delResponse, err = c.Do(ctx, delRequest)
 	require.NoError(t, err)
 	require.NotNil(t, delResponse)
-
 }

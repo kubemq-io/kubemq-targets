@@ -7,15 +7,16 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
-	"github.com/aws/aws-sdk-go/aws/credentials"
-	"github.com/go-sql-driver/mysql"
-	"github.com/kubemq-hub/builder/connector/common"
-	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"io/ioutil"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/aws/aws-sdk-go/aws/credentials"
+	"github.com/go-sql-driver/mysql"
+	"github.com/kubemq-hub/builder/connector/common"
+	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 
 	"github.com/aws/aws-sdk-go/service/rds/rdsutils"
 	_ "github.com/go-sql-driver/mysql"
@@ -36,11 +37,12 @@ type Client struct {
 func New() *Client {
 	return &Client{}
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
-func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 
+func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
 		c.log = logger.NewLogger(cfg.Kind)
@@ -107,6 +109,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 
 	return nil, errors.New("invalid method type")
 }
+
 func (c *Client) Exec(ctx context.Context, meta metadata, value []byte) (*types.Response, error) {
 	stmts := getStatements(value)
 	if stmts == nil {
@@ -125,12 +128,14 @@ func (c *Client) Exec(ctx context.Context, meta metadata, value []byte) (*types.
 			SetMetadataKeyValue("result", "ok"),
 		nil
 }
+
 func getStatements(data []byte) []string {
 	if data == nil {
 		return nil
 	}
 	return strings.Split(string(data), ";")
 }
+
 func (c *Client) Transaction(ctx context.Context, meta metadata, value []byte) (*types.Response, error) {
 	stmts := getStatements(value)
 	if stmts == nil {
@@ -184,11 +189,9 @@ func (c *Client) Query(ctx context.Context, meta metadata, value []byte) (*types
 	return types.NewResponse().
 		SetData(c.rowsToMap(rows)).
 		SetMetadataKeyValue("result", "ok"), nil
-
 }
 
 func (c *Client) rowsToMap(rows *sql.Rows) []byte {
-
 	cols, _ := rows.Columns()
 	colsTypes, err := rows.ColumnTypes()
 	if err != nil {
@@ -238,7 +241,7 @@ func parseWithRawBytes(rows *sql.Rows, cols []string, colsTypes []*sql.ColumnTyp
 	return m
 }
 
-//https://github.com/aws/aws-sdk-go/issues/1248
+// https://github.com/aws/aws-sdk-go/issues/1248
 func registerRDSMysqlCerts(c *http.Client) error {
 	resp, err := c.Get("https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem")
 	if err != nil {

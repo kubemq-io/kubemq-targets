@@ -4,11 +4,12 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"testing"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"testing"
-	"time"
 )
 
 func getUserStruct() map[string]interface{} {
@@ -76,7 +77,6 @@ func TestClient_createUser(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, r.Data)
-
 		})
 	}
 }
@@ -249,7 +249,6 @@ func TestClient_updateUser(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, r.Data)
-
 		})
 	}
 }

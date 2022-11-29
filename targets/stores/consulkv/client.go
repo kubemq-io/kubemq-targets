@@ -6,13 +6,14 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net"
+	"strings"
+
 	consul "github.com/hashicorp/consul/api"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"github.com/kubemq-io/kubemq-targets/types"
-	"net"
-	"strings"
 )
 
 // Client is a Client state store
@@ -234,6 +235,7 @@ func (c *Client) createWriteOptions(ctx context.Context) *consul.WriteOptions {
 	}
 	return o
 }
+
 func (c *Client) createQueryOptions(ctx context.Context, meta metadata) *consul.QueryOptions {
 	o := &consul.QueryOptions{}
 	o.WithContext(ctx)

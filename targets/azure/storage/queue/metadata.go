@@ -2,8 +2,9 @@ package queue
 
 import (
 	"fmt"
-	"github.com/kubemq-io/kubemq-targets/types"
 	"time"
+
+	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 const (

@@ -2,7 +2,6 @@ package mysql
 
 import (
 	"context"
-
 	"io/ioutil"
 	"testing"
 	"time"
@@ -71,6 +70,7 @@ func (p *posts) marshal() []byte {
 	b, _ := json.Marshal(p)
 	return b
 }
+
 func unmarshal(data []byte) *posts {
 	if data == nil {
 		return nil
@@ -541,7 +541,6 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			} else {
 				require.EqualValues(t, tt.wantQueryResponse, gotGetResponse)
 			}
-
 		})
 	}
 }
@@ -693,7 +692,6 @@ func TestClient_Do(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
 }

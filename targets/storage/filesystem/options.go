@@ -2,8 +2,9 @@ package filesystem
 
 import (
 	"fmt"
-	"github.com/kubemq-io/kubemq-targets/config"
 	"strings"
+
+	"github.com/kubemq-io/kubemq-targets/config"
 )
 
 type options struct {
@@ -17,10 +18,10 @@ func parseOptions(cfg config.Spec) (options, error) {
 	if err != nil {
 		return options{}, fmt.Errorf("error parsing base_path, %w", err)
 	}
-	o.basePath=unixNormalize(o.basePath)
+	o.basePath = unixNormalize(o.basePath)
 	return o, nil
 }
 
-func unixNormalize(in string) string  {
+func unixNormalize(in string) string {
 	return strings.Replace(in, `\`, "/", -1)
 }

@@ -2,9 +2,9 @@ package nats
 
 import (
 	"fmt"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 )
-
 
 const (
 	defaultUsername = ""
@@ -15,16 +15,15 @@ const (
 	defaultTimeout  = 100
 )
 
-
 type options struct {
-	url            string
-	username       string
-	password       string
-	token          string
-	tls            bool
-	certFile       string
-	certKey        string
-	timeout        int
+	url      string
+	username string
+	password string
+	token    string
+	tls      bool
+	certFile string
+	certKey  string
+	timeout  int
 }
 
 func parseOptions(cfg config.Spec) (options, error) {

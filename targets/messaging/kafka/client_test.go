@@ -17,7 +17,6 @@ func replaceHeaderValues(req *types.Request) {
 		"_replaceHK_", b64.StdEncoding.EncodeToString([]byte("header1")),
 		"_replaceHV_", b64.StdEncoding.EncodeToString([]byte("headervalue1")))
 	req.Metadata["Headers"] = r.Replace(req.Metadata["Headers"])
-
 }
 
 func TestClient_Init(t *testing.T) {
@@ -69,7 +68,6 @@ func TestClient_Init(t *testing.T) {
 				t.Errorf("Init() error = %v, wantExecErr %v", err, tt.wantErr)
 				return
 			}
-
 		})
 	}
 }

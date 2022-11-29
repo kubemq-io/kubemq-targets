@@ -2,9 +2,9 @@ package nats
 
 import (
 	"fmt"
+
 	"github.com/kubemq-io/kubemq-targets/types"
 )
-
 
 type metadata struct {
 	subject string

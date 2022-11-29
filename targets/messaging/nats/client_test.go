@@ -2,14 +2,15 @@ package nats
 
 import (
 	"context"
-	"github.com/kubemq-io/kubemq-targets/types"
 	"io/ioutil"
+	"testing"
 	"time"
+
+	"github.com/kubemq-io/kubemq-targets/types"
 
 	"github.com/kubemq-io/kubemq-targets/config"
 
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 type testStructure struct {
@@ -143,7 +144,6 @@ func TestClient_Init(t *testing.T) {
 			if err := c.Init(ctx, tt.cfg, nil); (err != nil) != tt.wantErr {
 				t.Errorf("Init() error = %v, wantErr %v", err, tt.wantErr)
 			}
-
 		})
 	}
 }

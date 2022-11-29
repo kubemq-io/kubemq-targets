@@ -3,6 +3,7 @@ package sources
 import (
 	"context"
 	"fmt"
+
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/middleware"
@@ -57,7 +58,6 @@ func Init(ctx context.Context, cfg config.Spec, log *logger.Logger) (Source, err
 	default:
 		return nil, fmt.Errorf("invalid kind %s for source", cfg.Kind)
 	}
-
 }
 
 func Connectors() common.Connectors {

@@ -2,13 +2,13 @@ package hdfs
 
 import (
 	"context"
+	"io/ioutil"
+	"testing"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"io/ioutil"
-
-	"testing"
-	"time"
 )
 
 type testStructure struct {
@@ -74,7 +74,6 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
 }
@@ -116,13 +115,15 @@ func TestClient_Mkdir(t *testing.T) {
 				SetMetadataKeyValue("file_mode", "0777").
 				SetMetadataKeyValue("method", "mkdir"),
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "invalid mkdir - missing path",
 			request: types.NewRequest().
 				SetMetadataKeyValue("file_mode", "0755").
 				SetMetadataKeyValue("method", "mkdir"),
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "invalid mkdir invalid file_mode",
 			request: types.NewRequest().
 				SetMetadataKeyValue("file_path", "/test").

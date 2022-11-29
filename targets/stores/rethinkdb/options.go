@@ -2,9 +2,10 @@ package rethinkdb
 
 import (
 	"fmt"
-	"github.com/kubemq-io/kubemq-targets/config"
 	"math"
 	"time"
+
+	"github.com/kubemq-io/kubemq-targets/config"
 )
 
 const (

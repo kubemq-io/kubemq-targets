@@ -3,6 +3,8 @@ package mongodb
 import (
 	"context"
 	"fmt"
+	"strconv"
+
 	jsoniter "github.com/json-iterator/go"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/config"
@@ -13,7 +15,6 @@ import (
 	monogOptions "go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readconcern"
 	"go.mongodb.org/mongo-driver/mongo/writeconcern"
-	"strconv"
 )
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
@@ -38,9 +39,11 @@ type Client struct {
 func New() *Client {
 	return &Client{}
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
 func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
@@ -127,6 +130,7 @@ func (c *Client) getMongoDBClient(ctx context.Context) (*mongo.Client, error) {
 	}
 	return client, nil
 }
+
 func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, error) {
 	meta, err := parseMetadata(req.Metadata)
 	if err != nil {
@@ -162,6 +166,7 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 	}
 	return nil, nil
 }
+
 func (c *Client) FindOne(ctx context.Context, meta metadata) (*types.Response, error) {
 	if len(meta.filter) == 0 {
 		return nil, fmt.Errorf("find one document filter is invalid")
@@ -205,6 +210,7 @@ func (c *Client) Find(ctx context.Context, meta metadata) (*types.Response, erro
 		SetData(data).
 		SetMetadataKeyValue("result", "ok"), nil
 }
+
 func (c *Client) Insert(ctx context.Context, reqData []byte) (*types.Response, error) {
 	var doc interface{}
 
@@ -227,6 +233,7 @@ func (c *Client) Insert(ctx context.Context, reqData []byte) (*types.Response, e
 		SetData(data).
 		SetMetadataKeyValue("result", "ok"), nil
 }
+
 func (c *Client) InsertMany(ctx context.Context, reqData []byte) (*types.Response, error) {
 	var docs []interface{}
 	err := json.Unmarshal(reqData, &docs)
@@ -294,6 +301,7 @@ func (c *Client) UpdateMany(ctx context.Context, meta metadata, reqData []byte) 
 		SetData(data).
 		SetMetadataKeyValue("result", "ok"), nil
 }
+
 func (c *Client) DeleteOne(ctx context.Context, meta metadata) (*types.Response, error) {
 	if len(meta.filter) == 0 {
 		return nil, fmt.Errorf("delete one document filter is invalid")
@@ -349,6 +357,7 @@ func (c *Client) Aggregate(ctx context.Context, reqData []byte) (*types.Response
 		SetData(data).
 		SetMetadataKeyValue("result", "ok"), nil
 }
+
 func (c *Client) Distinct(ctx context.Context, meta metadata) (*types.Response, error) {
 	if meta.fieldName == "" {
 		return nil, fmt.Errorf("distinct field name missing")

@@ -2,13 +2,13 @@ package openfaas
 
 import (
 	"context"
+	"testing"
 	"time"
 
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func TestClient_Do(t *testing.T) {
@@ -74,7 +74,6 @@ func TestClient_Do(t *testing.T) {
 }
 
 func TestClient_Init(t *testing.T) {
-
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -140,7 +139,6 @@ func TestClient_Init(t *testing.T) {
 				t.Errorf("Init() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-
 		})
 	}
 }

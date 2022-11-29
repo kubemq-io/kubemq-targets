@@ -1,8 +1,9 @@
 package keyspaces
 
 import (
-	"github.com/kubemq-hub/builder/connector/common"
 	"math"
+
+	"github.com/kubemq-hub/builder/connector/common"
 )
 
 func Connector() *common.Connector {
@@ -12,7 +13,7 @@ func Connector() *common.Connector {
 		SetName("Keyspaces").
 		SetProvider("AWS").
 		SetCategory("Store").
-		SetTags("cassandra","db","no-sql","cloud","managed").
+		SetTags("cassandra", "db", "no-sql", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").
@@ -129,7 +130,7 @@ func Connector() *common.Connector {
 				SetName("method").
 				SetKind("string").
 				SetDescription("Set Keyspaces execution method").
-				SetOptions([]string{"get", "set", "delete","query","exec"}).
+				SetOptions([]string{"get", "set", "delete", "query", "exec"}).
 				SetDefault("get").
 				SetMust(true),
 		).

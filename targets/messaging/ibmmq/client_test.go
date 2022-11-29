@@ -1,17 +1,19 @@
+//go:build container
 // +build container
 
 package ibmmq
 
 import (
 	"context"
-	"github.com/kubemq-io/kubemq-targets/types"
 	"io/ioutil"
+	"testing"
 	"time"
+
+	"github.com/kubemq-io/kubemq-targets/types"
 
 	"github.com/kubemq-io/kubemq-targets/config"
 
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 type testStructure struct {
@@ -277,7 +279,6 @@ func TestClient_Do(t *testing.T) {
 			request: types.NewRequest().
 				SetData([]byte("some-data")),
 
-
 			wantErr: false,
 		}, {
 			name: "valid - send override queue",
@@ -298,7 +299,6 @@ func TestClient_Do(t *testing.T) {
 			request: types.NewRequest().
 				SetMetadataKeyValue("dynamic_queue", dat.QueueName).
 				SetData([]byte("some-data")),
-
 
 			wantErr: false,
 		}, {

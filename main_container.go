@@ -1,3 +1,4 @@
+//go:build container
 // +build container
 
 package main
@@ -6,18 +7,17 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"os"
+	"os/signal"
+	"syscall"
+
 	"github.com/kubemq-io/kubemq-targets/api"
 	"github.com/kubemq-io/kubemq-targets/binding"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
-	"os"
-	"os/signal"
-	"syscall"
 )
 
-var (
-	version = ""
-)
+var version = ""
 
 var (
 	log        *logger.Logger
@@ -25,7 +25,7 @@ var (
 )
 
 func run() error {
-	var gracefulShutdown = make(chan os.Signal, 1)
+	gracefulShutdown := make(chan os.Signal, 1)
 	signal.Notify(gracefulShutdown, syscall.SIGTERM)
 	signal.Notify(gracefulShutdown, syscall.SIGINT)
 	signal.Notify(gracefulShutdown, syscall.SIGQUIT)
@@ -59,7 +59,6 @@ func run() error {
 			err = newConfig.Validate()
 			if err != nil {
 				return fmt.Errorf("error on validation new config file: %s", err.Error())
-
 			}
 			bindingsService.Stop()
 			err = bindingsService.Start(ctx, newConfig)

@@ -1,13 +1,13 @@
 package events_store
 
 import (
+	"testing"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func TestOptions_parseOptions(t *testing.T) {
-
 	tests := []struct {
 		name    string
 		cfg     config.Spec
@@ -106,7 +106,8 @@ func TestOptions_parseOptions(t *testing.T) {
 				},
 			},
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "valid options - bad sources value",
 			cfg: config.Spec{
 				Name: "kubemq-rpc",

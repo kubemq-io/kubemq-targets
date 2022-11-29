@@ -11,7 +11,7 @@ func Connector() *common.Connector {
 		SetName("Elasticsearch").
 		SetProvider("AWS").
 		SetCategory("Store").
-		SetTags("db","log","cloud","managed").
+		SetTags("db", "log", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

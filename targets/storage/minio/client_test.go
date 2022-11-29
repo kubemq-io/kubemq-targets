@@ -2,11 +2,12 @@ package minio
 
 import (
 	"context"
+	"testing"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"testing"
-	"time"
 )
 
 func TestClient_Init(t *testing.T) {
@@ -91,10 +92,10 @@ func TestClient_Init(t *testing.T) {
 				t.Errorf("Init() error = %v, wantPutErr %v", err, tt.wantErr)
 				return
 			}
-
 		})
 	}
 }
+
 func TestClient_Objects(t *testing.T) {
 	tests := []struct {
 		name               string
@@ -287,6 +288,7 @@ func TestClient_Objects(t *testing.T) {
 		})
 	}
 }
+
 func TestClient_Buckets(t *testing.T) {
 	tests := []struct {
 		name                string
@@ -556,7 +558,6 @@ func TestClient_Do(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
 }

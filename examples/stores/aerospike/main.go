@@ -4,13 +4,14 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"log"
+	"time"
+
 	aero "github.com/aerospike/aerospike-client-go"
+	"github.com/kubemq-io/kubemq-go"
 	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
 	"github.com/kubemq-io/kubemq-targets/targets/stores/aerospike"
 	"github.com/kubemq-io/kubemq-targets/types"
-	"github.com/kubemq-io/kubemq-go"
-	"log"
-	"time"
 )
 
 func main() {

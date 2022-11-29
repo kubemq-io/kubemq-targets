@@ -2,13 +2,13 @@ package null
 
 import (
 	"context"
+	"time"
+
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
-
-	"time"
 )
 
 type Client struct {
@@ -21,6 +21,7 @@ type Client struct {
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
 func (c *Client) Do(ctx context.Context, request *types.Request) (*types.Response, error) {
 	select {
 	case <-time.After(c.Delay):

@@ -2,11 +2,11 @@ package files
 
 import (
 	"fmt"
+
 	"github.com/kubemq-io/kubemq-targets/types"
 )
 
 const (
-
 	DefaultRetryRequests = 1
 	DefaultRangeSize     = 4194304
 	DefaultFileSize      = 1000000
@@ -23,18 +23,16 @@ var methodsMap = map[string]string{
 	"create": "create",
 }
 
-
-
 type metadata struct {
-	method                    string
-	serviceUrl                string
-	rangeSize                 int64
-	parallelism               uint16
-	offset                    int64
-	count                     int64
-	size                      int64
-	maxRetryRequests          int
-	fileMetadata              map[string]string
+	method           string
+	serviceUrl       string
+	rangeSize        int64
+	parallelism      uint16
+	offset           int64
+	count            int64
+	size             int64
+	maxRetryRequests int
+	fileMetadata     map[string]string
 }
 
 func parseMetadata(meta types.Metadata) (metadata, error) {

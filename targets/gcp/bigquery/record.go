@@ -1,10 +1,11 @@
 package bigquery
 
 import (
-	"cloud.google.com/go/bigquery"
 	"crypto/sha256"
 	"encoding/hex"
 	"fmt"
+
+	"cloud.google.com/go/bigquery"
 )
 
 type insertRecords struct {
@@ -30,6 +31,7 @@ func newInsertRecord(payload []byte) (*insertRecords, error) {
 	}
 	return ir, err
 }
+
 func hash(data []byte) string {
 	if data == nil {
 		return ""

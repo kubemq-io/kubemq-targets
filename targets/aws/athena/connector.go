@@ -11,7 +11,7 @@ func Connector() *common.Connector {
 		SetName("Athena").
 		SetProvider("AWS").
 		SetCategory("Analytics").
-		SetTags("query","s3","SQL").
+		SetTags("query", "s3", "SQL").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

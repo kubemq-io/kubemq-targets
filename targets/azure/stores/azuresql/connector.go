@@ -1,8 +1,9 @@
 package azuresql
 
 import (
-	"github.com/kubemq-hub/builder/connector/common"
 	"math"
+
+	"github.com/kubemq-hub/builder/connector/common"
 )
 
 func Connector() *common.Connector {
@@ -12,7 +13,7 @@ func Connector() *common.Connector {
 		SetName("MSSQL").
 		SetProvider("Azure").
 		SetCategory("Store").
-		SetTags("sql","db","cloud","managed").
+		SetTags("sql", "db", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

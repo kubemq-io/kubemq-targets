@@ -2,6 +2,7 @@ package activemq
 
 import (
 	"fmt"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 )
 
@@ -24,6 +25,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 	o.defaultDestination = cfg.Properties.ParseString("default_destination", "")
 	return o, nil
 }
+
 func (o options) defaultMetadata() (metadata, bool) {
 	if o.defaultDestination != "" {
 		return metadata{
@@ -31,5 +33,4 @@ func (o options) defaultMetadata() (metadata, bool) {
 		}, true
 	}
 	return metadata{}, false
-
 }

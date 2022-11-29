@@ -1,15 +1,16 @@
 package bigquery
 
 import (
-	"cloud.google.com/go/bigquery"
 	"context"
+	"io/ioutil"
+	"testing"
+	"time"
+
+	"cloud.google.com/go/bigquery"
 
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"io/ioutil"
-	"testing"
-	"time"
 )
 
 type testStructure struct {
@@ -81,7 +82,8 @@ func TestClient_Init(t *testing.T) {
 				},
 			},
 			wantErr: false,
-		}, {
+		},
+		{
 			name: "invalid init - missing credentials",
 			cfg: config.Spec{
 				Name: "gcp-bigquery",
@@ -120,7 +122,6 @@ func TestClient_Init(t *testing.T) {
 				_ = c.Stop()
 			}()
 			require.NoError(t, err)
-
 		})
 	}
 }

@@ -3,9 +3,10 @@ package types
 import (
 	b64 "encoding/base64"
 	"fmt"
+	"reflect"
+
 	jsoniter "github.com/json-iterator/go"
 	"github.com/kubemq-io/kubemq-go"
-	"reflect"
 )
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
@@ -26,6 +27,7 @@ func (r *Request) SetMetadata(value Metadata) *Request {
 	r.Metadata = value
 	return r
 }
+
 func (r *Request) SetMetadataKeyValue(key, value string) *Request {
 	r.Metadata.Set(key, value)
 	return r
@@ -35,6 +37,7 @@ func (r *Request) SetData(value []byte) *Request {
 	r.Data = value
 	return r
 }
+
 func (r *Request) Size() float64 {
 	return float64(len(r.Data))
 }
@@ -86,26 +89,32 @@ func (r *Request) MarshalBinary() []byte {
 	data, _ := json.Marshal(r)
 	return data
 }
+
 func (r *Request) ToEvent() *kubemq.Event {
 	return kubemq.NewEvent().
 		SetBody(r.MarshalBinary())
 }
+
 func (r *Request) ToEventStore() *kubemq.EventStore {
 	return kubemq.NewEventStore().
 		SetBody(r.MarshalBinary())
 }
+
 func (r *Request) ToCommand() *kubemq.Command {
 	return kubemq.NewCommand().
 		SetBody(r.MarshalBinary())
 }
+
 func (r *Request) ToQuery() *kubemq.Query {
 	return kubemq.NewQuery().
 		SetBody(r.MarshalBinary())
 }
+
 func (r *Request) ToQueueMessage() *kubemq.QueueMessage {
 	return kubemq.NewQueueMessage().
 		SetBody(r.MarshalBinary())
 }
+
 func (r *Request) String() string {
 	str, err := json.MarshalToString(r)
 	if err != nil {
@@ -130,6 +139,7 @@ func (r *TransportRequest) SetMetadata(value Metadata) *TransportRequest {
 	r.Metadata = value
 	return r
 }
+
 func (r *TransportRequest) SetMetadataKeyValue(key, value string) *TransportRequest {
 	r.Metadata.Set(key, value)
 	return r
@@ -139,10 +149,12 @@ func (r *TransportRequest) SetData(value interface{}) *TransportRequest {
 	r.Data = value
 	return r
 }
+
 func (r *TransportRequest) ToEvent() *kubemq.Event {
 	return kubemq.NewEvent().
 		SetBody(r.MarshalBinary())
 }
+
 func (r *TransportRequest) MarshalBinary() []byte {
 	data, _ := json.Marshal(r)
 	return data

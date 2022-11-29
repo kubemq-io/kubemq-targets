@@ -11,7 +11,7 @@ func Connector() *common.Connector {
 		SetName("Storage").
 		SetProvider("GCP").
 		SetCategory("Storage").
-		SetTags("db","filesystem","object","cloud","managed").
+		SetTags("db", "filesystem", "object", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("multilines").

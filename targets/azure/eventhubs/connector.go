@@ -11,7 +11,7 @@ func Connector() *common.Connector {
 		SetName("EventBus").
 		SetProvider("Azure").
 		SetCategory("Messaging").
-		SetTags("pub/sub","iot","cloud","managed").
+		SetTags("pub/sub", "iot", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

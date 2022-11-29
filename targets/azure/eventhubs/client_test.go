@@ -3,14 +3,13 @@ package eventhubs
 import (
 	"context"
 	"encoding/json"
+	"io/ioutil"
+	"testing"
+	"time"
 
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"io/ioutil"
-
-	"testing"
-	"time"
 )
 
 type testStructure struct {
@@ -130,7 +129,6 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
 }
@@ -169,7 +167,8 @@ func TestClient_Send(t *testing.T) {
 				SetMetadataKeyValue("method", "send").
 				SetData(body),
 			wantErr: false,
-		}, {
+		},
+		{
 			name: "invalid send missing body",
 			request: types.NewRequest().
 				SetMetadataKeyValue("properties", `{"tag-1":"test","tag-2":"test2"}`).

@@ -1,8 +1,9 @@
 package servicebus
 
 import (
-	"github.com/kubemq-hub/builder/connector/common"
 	"math"
+
+	"github.com/kubemq-hub/builder/connector/common"
 )
 
 func Connector() *common.Connector {
@@ -12,7 +13,7 @@ func Connector() *common.Connector {
 		SetName("ServiceBus").
 		SetProvider("Azure").
 		SetCategory("Messaging").
-		SetTags("queue","pub/sub","cloud","managed").
+		SetTags("queue", "pub/sub", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

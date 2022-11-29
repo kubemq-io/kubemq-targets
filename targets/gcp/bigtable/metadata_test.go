@@ -1,12 +1,12 @@
 package bigtable
 
 import (
+	"testing"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
-
 
 func TestParseMetaData(t *testing.T) {
 	dat, err := getTestStructure()
@@ -154,7 +154,8 @@ func TestParseMetaData(t *testing.T) {
 			Request: types.NewRequest().
 				SetMetadataKeyValue("method", "get_tables"),
 			wantErr: false,
-		}, {
+		},
+		{
 			name: "invalid method type",
 			cfg: config.Spec{
 				Name: "gcp-bigtable",

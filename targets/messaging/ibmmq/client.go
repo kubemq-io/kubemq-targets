@@ -1,3 +1,4 @@
+//go:build container
 // +build container
 
 package ibmmq
@@ -6,6 +7,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-hub/ibmmq-sdk/mq-golang-jms20/jms20subset"
 	"github.com/kubemq-hub/ibmmq-sdk/mq-golang-jms20/mqjms"
@@ -24,7 +26,6 @@ type Client struct {
 
 func New() *Client {
 	return &Client{}
-
 }
 
 func (c *Client) Connector() *common.Connector {

@@ -4,13 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"testing"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"io/ioutil"
-
-	"testing"
-	"time"
 )
 
 type testStructure struct {
@@ -96,7 +96,6 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
 }
@@ -129,7 +128,8 @@ func TestClient_Create_Queue(t *testing.T) {
 				SetMetadataKeyValue("queue_name", dat.queueName).
 				SetMetadataKeyValue("service_url", dat.serviceURL),
 			wantErr: false,
-		}, {
+		},
+		{
 			name: "valid create queue with queue metadata",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "create").
@@ -145,13 +145,15 @@ func TestClient_Create_Queue(t *testing.T) {
 				SetMetadataKeyValue("queue_name", dat.queueName).
 				SetMetadataKeyValue("service_url", dat.serviceURL),
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "invalid create queue - missing queue name",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "create").
 				SetMetadataKeyValue("service_url", dat.serviceURL),
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "invalid create queue - missing service_url",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "create").
@@ -477,7 +479,8 @@ func TestClient_Delete_Queue(t *testing.T) {
 				SetMetadataKeyValue("queue_name", dat.queueName).
 				SetMetadataKeyValue("service_url", dat.serviceURL),
 			wantErr: false,
-		}, {
+		},
+		{
 			name: "valid create queue with queue metadata",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete").
@@ -492,13 +495,15 @@ func TestClient_Delete_Queue(t *testing.T) {
 				SetMetadataKeyValue("queue_name", dat.queueName).
 				SetMetadataKeyValue("service_url", dat.serviceURL),
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "invalid create queue - missing queue name",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete").
 				SetMetadataKeyValue("service_url", dat.serviceURL),
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "invalid create queue - missing service_url",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete").

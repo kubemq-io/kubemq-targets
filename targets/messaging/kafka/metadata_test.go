@@ -18,7 +18,6 @@ func TestMetadata_parseMeta(t *testing.T) {
 		wantMetadata metadata
 		wantErr      bool
 	}{
-
 		{
 			name: "valid simple",
 			meta: map[string]string{
@@ -62,7 +61,8 @@ func TestMetadata_parseMeta(t *testing.T) {
 				Key: []byte("key"),
 			},
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "invalid Headers_json bad format ",
 			meta: map[string]string{
 				"headers": `[{"Key": "meta1""Value": "badvalue"}]`,
@@ -83,10 +83,8 @@ func TestMetadata_parseMeta(t *testing.T) {
 			meta, err := parseMetadata(tt.meta, options{})
 			if tt.wantErr {
 				require.Error(t, err)
-
 			} else {
 				require.NoError(t, err)
-
 			}
 			require.EqualValues(t, tt.wantMetadata, meta)
 		})

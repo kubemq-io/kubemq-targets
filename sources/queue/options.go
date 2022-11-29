@@ -2,6 +2,7 @@ package queue
 
 import (
 	"fmt"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/uuid"
 )

@@ -1,10 +1,12 @@
 package spanner
 
 import (
-	"cloud.google.com/go/spanner"
 	"encoding/base64"
-	sppb "google.golang.org/genproto/googleapis/spanner/v1"
 	"time"
+
+	"cloud.google.com/go/spanner"
+
+	sppb "google.golang.org/genproto/googleapis/spanner/v1"
 )
 
 type Column struct {
@@ -17,12 +19,12 @@ type Row struct {
 }
 
 func extractDataByType(r *spanner.Row) (*Row, error) {
-	row:= &Row{}
+	row := &Row{}
 	for i := 0; i < r.Size(); i++ {
 		column := &Column{}
 		var col spanner.GenericColumnValue
-		err := r.Column(i,&col)
-		if err != nil{
+		err := r.Column(i, &col)
+		if err != nil {
 			return row, err
 		}
 		column.Name = r.ColumnName(i)

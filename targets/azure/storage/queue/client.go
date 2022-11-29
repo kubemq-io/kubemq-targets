@@ -5,12 +5,13 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/url"
+
 	"github.com/Azure/azure-storage-queue-go/azqueue"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"github.com/kubemq-io/kubemq-targets/types"
-	"net/url"
 )
 
 type Client struct {
@@ -22,11 +23,12 @@ type Client struct {
 
 func New() *Client {
 	return &Client{}
-
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
+
 func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
@@ -70,7 +72,6 @@ func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, e
 }
 
 func (c *Client) create(ctx context.Context, meta metadata) (*types.Response, error) {
-
 	url, err := url.Parse(fmt.Sprintf("%s/%s", meta.serviceUrl, meta.queueName))
 	if err != nil {
 		return nil, err
@@ -112,7 +113,6 @@ func (c *Client) create(ctx context.Context, meta metadata) (*types.Response, er
 }
 
 func (c *Client) delete(ctx context.Context, meta metadata) (*types.Response, error) {
-
 	url, err := url.Parse(fmt.Sprintf("%s/%s", meta.serviceUrl, meta.queueName))
 	if err != nil {
 		return nil, err
@@ -134,7 +134,6 @@ func (c *Client) delete(ctx context.Context, meta metadata) (*types.Response, er
 }
 
 func (c *Client) getMessageCount(ctx context.Context, meta metadata) (*types.Response, error) {
-
 	url, err := url.Parse(fmt.Sprintf("%s/%s", meta.serviceUrl, meta.queueName))
 	if err != nil {
 		return nil, err
@@ -155,7 +154,6 @@ func (c *Client) getMessageCount(ctx context.Context, meta metadata) (*types.Res
 }
 
 func (c *Client) peek(ctx context.Context, meta metadata) (*types.Response, error) {
-
 	url, err := url.Parse(fmt.Sprintf("%s/%s", meta.serviceUrl, meta.queueName))
 	if err != nil {
 		return nil, err
@@ -184,7 +182,6 @@ func (c *Client) peek(ctx context.Context, meta metadata) (*types.Response, erro
 }
 
 func (c *Client) push(ctx context.Context, meta metadata, data []byte) (*types.Response, error) {
-
 	url, err := url.Parse(fmt.Sprintf("%s/%s", meta.serviceUrl, meta.queueName))
 	if err != nil {
 		return nil, err
@@ -208,7 +205,6 @@ func (c *Client) push(ctx context.Context, meta metadata, data []byte) (*types.R
 }
 
 func (c *Client) pop(ctx context.Context, meta metadata) (*types.Response, error) {
-
 	url, err := url.Parse(fmt.Sprintf("%s/%s", meta.serviceUrl, meta.queueName))
 	if err != nil {
 		return nil, err

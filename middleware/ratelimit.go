@@ -2,9 +2,10 @@ package middleware
 
 import (
 	"fmt"
+	"math"
+
 	"github.com/kubemq-io/kubemq-targets/pkg/ratelimit"
 	"github.com/kubemq-io/kubemq-targets/types"
-	"math"
 )
 
 type RateLimitMiddleware struct {
@@ -27,5 +28,4 @@ func NewRateLimitMiddleware(meta types.Metadata) (*RateLimitMiddleware, error) {
 
 func (rl *RateLimitMiddleware) Take() {
 	_ = rl.rateLimiter.Take()
-
 }

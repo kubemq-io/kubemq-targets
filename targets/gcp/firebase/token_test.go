@@ -2,11 +2,12 @@ package firebase
 
 import (
 	"context"
+	"testing"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"testing"
-	"time"
 )
 
 func TestClient_customToken(t *testing.T) {
@@ -57,7 +58,6 @@ func TestClient_customToken(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, r.Data)
-
 		})
 	}
 }
@@ -110,7 +110,6 @@ func TestClient_verifyToken(t *testing.T) {
 			}
 			require.NoError(t, err)
 			require.NotNil(t, r.Data)
-
 		})
 	}
 }

@@ -2,7 +2,6 @@ package cloudfunctions
 
 import (
 	"context"
-
 	"io/ioutil"
 	"testing"
 	"time"
@@ -33,7 +32,6 @@ func getTestStructure() (*testStructure, error) {
 }
 
 func TestClient_Init(t *testing.T) {
-
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	tests := []struct {
@@ -52,7 +50,8 @@ func TestClient_Init(t *testing.T) {
 				},
 			},
 			wantErr: false,
-		}, {
+		},
+		{
 			name: "invalid init-missing-credentials",
 			cfg: config.Spec{
 				Name: "google-pubsub-target",
@@ -88,13 +87,11 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
 }
 
 func TestClient_Do(t *testing.T) {
-
 	dat, err := getTestStructure()
 	require.NoError(t, err)
 	tests := []struct {

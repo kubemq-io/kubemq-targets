@@ -16,5 +16,4 @@ func toResponse(r *types.Response) *Response {
 		IsError:  r.IsError,
 		Error:    r.Error,
 	}
-
 }

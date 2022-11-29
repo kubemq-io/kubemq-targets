@@ -28,7 +28,7 @@ type options struct {
 
 	// maxIdleConnections sets the maximum number of connections in the idle connection pool
 	maxIdleConnections int
-	//maxOpenConnections sets the maximum number of open connections to the database.
+	// maxOpenConnections sets the maximum number of open connections to the database.
 	maxOpenConnections int
 	// connectionMaxLifetimeSeconds sets the maximum amount of time a connection may be reused.
 	connectionMaxLifetimeSeconds int

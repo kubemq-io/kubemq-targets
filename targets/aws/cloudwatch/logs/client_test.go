@@ -3,13 +3,13 @@ package logs
 import (
 	"context"
 	"encoding/json"
+	"io/ioutil"
+	"testing"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"io/ioutil"
-
-	"testing"
-	"time"
 )
 
 type testStructure struct {
@@ -139,12 +139,11 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
 }
 
-//Log Stream
+// Log Stream
 func TestClient_CreateLogStream(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)
@@ -295,14 +294,16 @@ func TestClient_DeleteLogStream(t *testing.T) {
 				SetMetadataKeyValue("log_stream_name", dat.logStreamName).
 				SetMetadataKeyValue("log_group_name", dat.logGroupName),
 			wantErr: false,
-		}, {
+		},
+		{
 			name: "invalid delete - delete_log_event_stream does not exists",
 			request: types.NewRequest().
 				SetMetadataKeyValue("method", "delete_log_event_stream").
 				SetMetadataKeyValue("log_stream_name", dat.logStreamName).
 				SetMetadataKeyValue("log_group_name", dat.logGroupName),
 			wantErr: true,
-		}, {
+		},
+		{
 			name: "invalid delete-missing delete_log_event_stream",
 			request: types.NewRequest().
 				SetMetadataKeyValue("log_stream_name", dat.logStreamName).
@@ -471,7 +472,7 @@ func TestClient_GetLogEvent(t *testing.T) {
 	}
 }
 
-//Log Group
+// Log Group
 func TestClient_CreateLogEventsGroup(t *testing.T) {
 	dat, err := getTestStructure()
 	require.NoError(t, err)

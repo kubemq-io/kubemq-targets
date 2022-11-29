@@ -1,8 +1,9 @@
 package lambda
 
 import (
-	"github.com/kubemq-hub/builder/connector/common"
 	"math"
+
+	"github.com/kubemq-hub/builder/connector/common"
 )
 
 func Connector() *common.Connector {
@@ -12,7 +13,7 @@ func Connector() *common.Connector {
 		SetName("Lambda").
 		SetProvider("AWS").
 		SetCategory("Serverless").
-		SetTags("faas","cloud","managed").
+		SetTags("faas", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

@@ -1,8 +1,9 @@
 package mariadb
 
 import (
-	"github.com/kubemq-hub/builder/connector/common"
 	"math"
+
+	"github.com/kubemq-hub/builder/connector/common"
 )
 
 func Connector() *common.Connector {
@@ -12,7 +13,7 @@ func Connector() *common.Connector {
 		SetName("MariaDB").
 		SetProvider("AWS").
 		SetCategory("Store").
-		SetTags("rds","sql","mysql","db","cloud","managed").
+		SetTags("rds", "sql", "mysql", "db", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

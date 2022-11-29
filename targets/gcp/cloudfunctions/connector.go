@@ -11,7 +11,7 @@ func Connector() *common.Connector {
 		SetName("Cloud Functions").
 		SetProvider("GCP").
 		SetCategory("Serverless").
-		SetTags("faas","cloud","managed").
+		SetTags("faas", "cloud", "managed").
 		AddProperty(
 			common.NewProperty().
 				SetKind("string").

@@ -5,13 +5,14 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
+	"strings"
+	"sync"
+
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/streadway/amqp"
-	"strings"
-	"sync"
 )
 
 type Client struct {
@@ -29,6 +30,7 @@ func New() *Client {
 		channel: nil,
 	}
 }
+
 func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
@@ -49,6 +51,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) 
 	}
 	return nil
 }
+
 func (c *Client) getTLSConfig() (*tls.Config, error) {
 	tlsCfg := &tls.Config{
 		InsecureSkipVerify: c.opts.insecure,
@@ -56,6 +59,7 @@ func (c *Client) getTLSConfig() (*tls.Config, error) {
 	if c.opts.insecure {
 		c.log.Infof("Rabbitmq connection is configured to skip certificate verification")
 	}
+
 	if c.opts.caCert != "" {
 		caCertPool := x509.NewCertPool()
 		if !caCertPool.AppendCertsFromPEM([]byte(c.opts.caCert)) {
@@ -66,8 +70,8 @@ func (c *Client) getTLSConfig() (*tls.Config, error) {
 	}
 	return tlsCfg, nil
 }
-func (c *Client) connect() error {
 
+func (c *Client) connect() error {
 	if strings.HasPrefix(c.opts.url, "amqps://") {
 		tlsCfg, err := c.getTLSConfig()
 		if err != nil {

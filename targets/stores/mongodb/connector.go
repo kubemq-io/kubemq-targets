@@ -1,8 +1,9 @@
 package mongodb
 
 import (
-	"github.com/kubemq-hub/builder/connector/common"
 	"math"
+
+	"github.com/kubemq-hub/builder/connector/common"
 )
 
 func Connector() *common.Connector {
@@ -96,7 +97,8 @@ func Connector() *common.Connector {
 				SetName("method").
 				SetKind("string").
 				SetDescription("Set MongoDB execution method").
-				SetOptions([]string{"get_by_key", "set_by_key", "delete_by_key", "find", "find_many",
+				SetOptions([]string{
+					"get_by_key", "set_by_key", "delete_by_key", "find", "find_many",
 					"insert", "insert_many", "update", "update_many", "delete_one",
 					"delete_many", "aggregate", "distinct",
 				}).
@@ -124,5 +126,4 @@ func Connector() *common.Connector {
 				SetDescription("Set Upsert in update mode").
 				SetMust(false),
 		)
-
 }

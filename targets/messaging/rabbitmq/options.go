@@ -2,6 +2,7 @@ package rabbitmq
 
 import (
 	"fmt"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 )
 
@@ -48,5 +49,4 @@ func (o options) defaultMetadata() (metadata, bool) {
 		}, true
 	}
 	return metadata{}, false
-
 }

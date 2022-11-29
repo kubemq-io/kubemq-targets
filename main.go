@@ -1,3 +1,4 @@
+//go:build !container
 // +build !container
 
 package main
@@ -6,6 +7,11 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"io/ioutil"
+	"os"
+	"os/signal"
+	"syscall"
+
 	"github.com/ghodss/yaml"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/api"
@@ -16,16 +22,9 @@ import (
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"github.com/kubemq-io/kubemq-targets/sources"
 	"github.com/kubemq-io/kubemq-targets/targets"
-	"io/ioutil"
-
-	"os"
-	"os/signal"
-	"syscall"
 )
 
-var (
-	version = ""
-)
+var version = ""
 
 var (
 	log              *logger.Logger
@@ -54,6 +53,7 @@ func saveManifest() error {
 		SetTargetConnectors(targetConnectors).
 		Save()
 }
+
 func downloadUrl() error {
 	c, err := builder.GetBuildManifest(*buildUrl)
 	if err != nil {
@@ -68,14 +68,15 @@ func downloadUrl() error {
 	if err != nil {
 		return err
 	}
-	err = ioutil.WriteFile("config.yaml", data, 0644)
+	err = ioutil.WriteFile("config.yaml", data, 0o644)
 	if err != nil {
 		return err
 	}
 	return nil
 }
+
 func runInteractive(serviceExit chan bool) error {
-	var gracefulShutdown = make(chan os.Signal, 1)
+	gracefulShutdown := make(chan os.Signal, 1)
 	signal.Notify(gracefulShutdown, syscall.SIGTERM)
 	signal.Notify(gracefulShutdown, syscall.SIGINT)
 	signal.Notify(gracefulShutdown, syscall.SIGQUIT)
@@ -137,6 +138,7 @@ func runInteractive(serviceExit chan bool) error {
 		}
 	}
 }
+
 func preRun() {
 	if *generateManifest {
 		err := saveManifest()

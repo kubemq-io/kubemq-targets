@@ -11,7 +11,6 @@ import (
 	"google.golang.org/api/iterator"
 )
 
-
 func (c *Client) createUser(ctx context.Context, data []byte) (*types.Response, error) {
 	p, err := getCreateData(data)
 	if err != nil {

@@ -3,13 +3,13 @@ package firestore
 import (
 	"context"
 	"encoding/json"
+	"io/ioutil"
+	"testing"
+	"time"
 
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"io/ioutil"
-	"testing"
-	"time"
 )
 
 func TestClient_Init(t *testing.T) {
@@ -36,7 +36,8 @@ func TestClient_Init(t *testing.T) {
 				},
 			},
 			wantErr: false,
-		}, {
+		},
+		{
 			name: "invalid init-missing-credentials",
 			cfg: config.Spec{
 				Name: "gcp-firestore",
@@ -70,10 +71,10 @@ func TestClient_Init(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
 }
+
 func TestClient_Set_Get(t *testing.T) {
 	dat, err := ioutil.ReadFile("./../../../credentials/projectID.txt")
 	require.NoError(t, err)

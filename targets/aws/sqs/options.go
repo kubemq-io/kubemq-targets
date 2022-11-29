@@ -2,6 +2,7 @@ package sqs
 
 import (
 	"fmt"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 )
 
@@ -52,9 +53,9 @@ func parseOptions(cfg config.Spec) (options, error) {
 	o.defaultQueue = cfg.Properties.ParseString("default_queue", "")
 	return o, nil
 }
+
 func (o options) defaultMetadata() (metadata, bool) {
 	if o.defaultQueue != "" {
-
 		return metadata{
 			delay:    o.defaultDelay,
 			tags:     nil,
@@ -62,5 +63,4 @@ func (o options) defaultMetadata() (metadata, bool) {
 		}, true
 	}
 	return metadata{}, false
-
 }

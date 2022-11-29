@@ -2,10 +2,11 @@ package keyspaces
 
 import (
 	"fmt"
-	"github.com/gocql/gocql"
-	"github.com/kubemq-io/kubemq-targets/config"
 	"math"
 	"time"
+
+	"github.com/gocql/gocql"
+	"github.com/kubemq-io/kubemq-targets/config"
 )
 
 const (

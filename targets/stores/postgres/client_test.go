@@ -2,11 +2,12 @@ package postgres
 
 import (
 	"context"
+	"testing"
+	"time"
+
 	"github.com/kubemq-io/kubemq-targets/config"
 	"github.com/kubemq-io/kubemq-targets/types"
 	"github.com/stretchr/testify/require"
-	"testing"
-	"time"
 )
 
 type post struct {
@@ -20,6 +21,7 @@ func (p *posts) marshal() []byte {
 	b, _ := json.Marshal(p)
 	return b
 }
+
 func unmarshal(data []byte) *posts {
 	if data == nil {
 		return nil
@@ -171,7 +173,6 @@ func TestClient_Init(t *testing.T) {
 				t.Errorf("Init() error = %v, wantExecErr %v", err, tt.wantErr)
 				return
 			}
-
 		})
 	}
 }
@@ -452,7 +453,6 @@ func TestClient_Query_Exec_Transaction(t *testing.T) {
 			} else {
 				require.EqualValues(t, tt.wantQueryResponse, gotGetResponse)
 			}
-
 		})
 	}
 }
@@ -584,7 +584,6 @@ func TestClient_Do(t *testing.T) {
 				return
 			}
 			require.NoError(t, err)
-
 		})
 	}
 }
