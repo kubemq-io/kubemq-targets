@@ -10,8 +10,6 @@ type options struct {
 	defaultExchange    string
 	defaultTopic       string
 	defaultPersistence bool
-	clientCertificate  string
-	clientKey          string
 	caCert             string
 	insecure           bool
 }
@@ -27,9 +25,7 @@ func parseOptions(cfg config.Spec) (options, error) {
 	o.defaultTopic = cfg.Properties.ParseString("default_topic", "")
 	o.defaultPersistence = cfg.Properties.ParseBool("default_persistence", true)
 	o.caCert = cfg.Properties.ParseString("ca_cert", "")
-	o.clientCertificate = cfg.Properties.ParseString("client_certificate", "")
-	o.clientKey = cfg.Properties.ParseString("client_key", "")
-	o.insecure = cfg.Properties.ParseBool("insecure", false)
+	o.insecure = cfg.Properties.ParseBool("skip_insecure", false)
 	return o, nil
 }
 

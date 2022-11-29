@@ -24,7 +24,7 @@ func Connector() *common.Connector {
 		AddProperty(
 			common.NewProperty().
 				SetKind("bool").
-				SetName("insecure").
+				SetName("skip_insecure").
 				SetDescription("Set skip TLS Certificate verification").
 				SetMust(false).
 				SetDefault("false"),
@@ -34,22 +34,6 @@ func Connector() *common.Connector {
 				SetKind("multilines").
 				SetName("ca_cert").
 				SetDescription("Set TLS CA Certificate").
-				SetMust(false).
-				SetDefault(""),
-		).
-		AddProperty(
-			common.NewProperty().
-				SetKind("multilines").
-				SetName("client_certificate").
-				SetDescription("Set TLS Client PEM data").
-				SetMust(false).
-				SetDefault(""),
-		).
-		AddProperty(
-			common.NewProperty().
-				SetKind("multilines").
-				SetName("client_key").
-				SetDescription("Set TLS Client Key PEM data").
 				SetMust(false).
 				SetDefault(""),
 		).
