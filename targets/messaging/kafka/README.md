@@ -13,13 +13,18 @@ The following are required to run the redis target connector:
 
 Kafka source connector configuration properties:
 
-| Properties Key | Required | Description                                | Example          |
-|:---------------|:---------|:-------------------------------------------|:-----------------|
-| brokers        | yes      | kafka brokers connection, comma separated  | "localhost:9092" |
-| topic          | yes      | kafka stored topic                         | "TestTopic"      |
-| sasl_username  | no       | SASL based authentication with broker      | "user"           |
-| sasl_password  | no       | SASL based authentication with broker      | "pass"           |
-
+| Properties Key     | Required | Description                               | Example                                                       |
+|:-------------------|:---------|:------------------------------------------|:--------------------------------------------------------------|
+| brokers            | yes      | kafka brokers connection, comma separated | "localhost:9092"                                              |
+| topic              | yes      | kafka stored topic                        | "TestTopic"                                                   |
+| sasl_username      | no       | SASL based authentication with broker     | "user"                                                        |
+| sasl_password      | no       | SASL based authentication with broker     | "pass"                                                        |
+| sasl_mechanism     | no       | SASL Mechanism                            | SCRAM-SHA-256, SCRAM-SHA-512, plain, 0Auth bearer, or GSS-API |
+| security_protocol  | no       | Set connection security protocol          | plaintext, SASL-plaintext, SASL-SSL, SSL                      |
+| ca_cert            | no       | SSL CA certificate                        | pem certificate value                                         |
+| client_certificate | no       | SSL Client certificate (mMTL)             | pem certificate value                                         |
+| client_key         | no       | SSL Client Key (mTLS)                     | pem key value                                                 |
+| insecure           | no       | SSL Insecure (Self signed)                | true / false                                                  |
 Example:
 
 ```yaml

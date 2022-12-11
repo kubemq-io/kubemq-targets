@@ -3,6 +3,8 @@ package kafka
 import (
 	"context"
 	"crypto/tls"
+	"crypto/x509"
+	"fmt"
 	"strconv"
 
 	"github.com/kubemq-hub/builder/connector/common"
@@ -38,18 +40,36 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) 
 
 	kc := kafka.NewConfig()
 	kc.Version = kafka.V2_0_0_0
-	kc.Producer.RequiredAcks = kafka.WaitForAll
-	kc.Producer.Retry.Max = 5
-	kc.Producer.Return.Successes = true
-	if c.opts.saslUsername != "" {
-		kc.Net.SASL.Enable = true
+	isSSL, isSASL := c.opts.parseSecurityProtocol()
+
+	if isSASL {
+		kc.Net.SASL.Enable = isSASL
 		kc.Net.SASL.User = c.opts.saslUsername
 		kc.Net.SASL.Password = c.opts.saslPassword
-
+		kc.Net.SASL.Mechanism = c.opts.parseASLMechanism()
+	}
+	if isSSL {
 		kc.Net.TLS.Enable = true
-		kc.Net.TLS.Config = &tls.Config{
-			ClientAuth: 0,
+		tlsCfg := &tls.Config{
+			InsecureSkipVerify: c.opts.insecure,
 		}
+		if c.opts.cacert != "" {
+			caCertPool := x509.NewCertPool()
+			if !caCertPool.AppendCertsFromPEM([]byte(c.opts.cacert)) {
+				return fmt.Errorf("error loading Root CA Cert")
+			}
+			tlsCfg.RootCAs = caCertPool
+			c.log.Infof("TLS CA Cert Loaded for Kafka Connection")
+		}
+		if c.opts.clientCert != "" && c.opts.clientKey != "" {
+			cert, err := tls.X509KeyPair([]byte(c.opts.clientCert), []byte(c.opts.clientKey))
+			if err != nil {
+				return fmt.Errorf("error loading tls client key pair, %s", err.Error())
+			}
+			tlsCfg.Certificates = []tls.Certificate{cert}
+			c.log.Infof("TLS Client Key Pair Loaded for Kafka Connection")
+		}
+		kc.Net.TLS.Config = tlsCfg
 	}
 	c.config = kc
 	c.producer, err = kafka.NewSyncProducer(c.opts.brokers, kc)

@@ -47,6 +47,46 @@ func Connector() *common.Connector {
 				SetMust(true).
 				SetDefault(""),
 		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("string").
+				SetName("sasl_mechanism").
+				SetDescription("Set SASL Mechanism").
+				SetMust(false).
+				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("string").
+				SetName("security_protocol").
+				SetDescription("Set Security Protocol").
+				SetMust(false).
+				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("multilines").
+				SetName("ca_cert").
+				SetDescription("Set TLS CA Certificate").
+				SetMust(false).
+				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("multilines").
+				SetName("client_certificate").
+				SetDescription("Set TLS Client PEM data").
+				SetMust(false).
+				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("multilines").
+				SetName("client_key").
+				SetDescription("Set TLS Client Key PEM data").
+				SetMust(false).
+				SetDefault(""),
+		).
 		AddMetadata(
 			common.NewMetadata().
 				SetName("headers").
