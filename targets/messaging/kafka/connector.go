@@ -87,6 +87,14 @@ func Connector() *common.Connector {
 				SetMust(false).
 				SetDefault(""),
 		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("bool").
+				SetName("insecure").
+				SetDescription("Set self-signed SSL Certificate").
+				SetMust(false).
+				SetDefault("false"),
+		).
 		AddMetadata(
 			common.NewMetadata().
 				SetName("headers").
