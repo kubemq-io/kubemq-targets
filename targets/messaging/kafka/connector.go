@@ -51,7 +51,8 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("sasl_mechanism").
-				SetDescription("Set SASL Mechanism").
+				SetTitle("SASL Mechanism").
+				SetDescription("SCRAM-SHA-256, SCRAM-SHA-512, plain, 0Auth bearer, or GSS-API").
 				SetMust(false).
 				SetDefault(""),
 		).
@@ -59,7 +60,8 @@ func Connector() *common.Connector {
 			common.NewProperty().
 				SetKind("string").
 				SetName("security_protocol").
-				SetDescription("Set Security Protocol").
+				SetTitle("Security Protocol").
+				SetDescription("plaintext, SASL-plaintext, SASL-SSL, SSL").
 				SetMust(false).
 				SetDefault(""),
 		).

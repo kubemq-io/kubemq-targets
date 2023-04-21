@@ -24,8 +24,8 @@ RUN export DEBIAN_FRONTEND=noninteractive \
     go-dep \
     build-essential \
   && rm -rf /var/lib/apt/lists/*
-RUN wget https://go.dev/dl/go1.19.3.linux-amd64.tar.gz
-RUN tar -C /usr/local -xzf ./go1.19.3.linux-amd64.tar.gz
+RUN wget https://go.dev/dl/go1.20.3.linux-amd64.tar.gz
+RUN tar -C /usr/local -xzf ./go1.20.3.linux-amd64.tar.gz
 ENV PATH=$PATH:/usr/local/go/bin
 RUN mkdir -p /opt/mqm \
   && chmod a+rx /opt/mqm
