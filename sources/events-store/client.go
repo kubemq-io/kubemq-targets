@@ -42,9 +42,9 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec, bindingName string, 
 		return err
 	}
 	for i := 0; i < c.opts.sources; i++ {
-		clientId := fmt.Sprintf("kubemq-targets/%s/%s", bindingName, c.opts.clientId)
+		clientId := fmt.Sprintf("kubemq-targets_%s_%s", bindingName, c.opts.clientId)
 		if c.opts.sources > 1 {
-			clientId = fmt.Sprintf("kubemq-targets/%s/%s/%d", bindingName, clientId, i)
+			clientId = fmt.Sprintf("kubemq-targets_%s_%s-%d", bindingName, clientId, i)
 		}
 		client, err := kubemq.NewClient(ctx,
 			kubemq.WithAddress(c.opts.host, c.opts.port),

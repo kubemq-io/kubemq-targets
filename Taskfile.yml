@@ -4,11 +4,12 @@ version: '3'
 
 vars:
   BINARY_NAME: kubemq-targets
-  VERSION: v1.6.2
+  VERSION: v1.6.3
 tasks:
   default:
     cmds:
       - go build -buildmode=exe -o "{{.BINARY_NAME}}.exe"
+      - ./kubemq-targets.exe
   check_update:
     cmds:
       - go list -u -m -json -mod=mod all | go-mod-outdated -update -direct
