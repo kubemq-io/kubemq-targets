@@ -62,7 +62,7 @@ func (b *Binder) Init(ctx context.Context, cfg config.BindingConfig, exporter *m
 	if err != nil {
 		return fmt.Errorf("error loading middlewares on binding %s, %w", b.name, err)
 	}
-	b.source, err = sources.Init(ctx, cfg.Source, b.log)
+	b.source, err = sources.Init(ctx, cfg.Source, cfg.Name, b.log)
 	if err != nil {
 		return fmt.Errorf("error loading source conntector on binding %s, %w", b.name, err)
 	}

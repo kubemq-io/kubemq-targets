@@ -33,7 +33,7 @@ func setupClient(ctx context.Context, target middleware.Middleware, channel stri
 			"wait_timeout":     "60",
 			"sources":          "1",
 		},
-	}, nil)
+	}, "", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -205,7 +205,7 @@ func TestClient_Init(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
 			c := New()
-			if err := c.Init(ctx, tt.cfg, nil); (err != nil) != tt.wantErr {
+			if err := c.Init(ctx, tt.cfg, "", nil); (err != nil) != tt.wantErr {
 				t.Errorf("Init() error = %v, wantErr %v", err, tt.wantErr)
 			}
 		})
@@ -267,7 +267,7 @@ func TestClient_Start(t *testing.T) {
 			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 			defer cancel()
 			c := New()
-			_ = c.Init(ctx, tt.cfg, nil)
+			_ = c.Init(ctx, tt.cfg, "", nil)
 
 			if err := c.Start(ctx, tt.target); (err != nil) != tt.wantErr {
 				t.Errorf("Start() error = %v, wantErr %v", err, tt.wantErr)

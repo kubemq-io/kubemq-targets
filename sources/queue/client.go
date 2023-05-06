@@ -17,16 +17,17 @@ import (
 var errInvalidTarget = errors.New("invalid controller received, cannot be null")
 
 type Client struct {
-	opts      options
-	log       *logger.Logger
-	target    middleware.Middleware
-	isStopped bool
+	opts        options
+	log         *logger.Logger
+	target      middleware.Middleware
+	isStopped   bool
+	bindingName string
 }
 
 func (c *Client) getQueuesClient(ctx context.Context, id int) (*queues_stream.QueuesStreamClient, error) {
 	return queues_stream.NewQueuesStreamClient(ctx,
 		queues_stream.WithAddress(c.opts.host, c.opts.port),
-		queues_stream.WithClientId(c.opts.clientId),
+		queues_stream.WithClientId(fmt.Sprintf("kubemq-targets/%s/%s-%d", c.bindingName, c.opts.clientId, id)),
 		queues_stream.WithCheckConnection(true),
 		queues_stream.WithAutoReconnect(true),
 		queues_stream.WithAuthToken(c.opts.authToken),
@@ -49,7 +50,7 @@ func (c *Client) onError(err error) {
 	c.log.Error(err.Error())
 }
 
-func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
+func (c *Client) Init(ctx context.Context, cfg config.Spec, bindingName string, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
 		c.log = logger.NewLogger(cfg.Kind)
@@ -59,7 +60,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) 
 	if err != nil {
 		return err
 	}
-
+	c.bindingName = bindingName
 	return nil
 }
 

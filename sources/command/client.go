@@ -31,7 +31,7 @@ func (c *Client) Connector() *common.Connector {
 	return Connector()
 }
 
-func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) error {
+func (c *Client) Init(ctx context.Context, cfg config.Spec, bindingName string, log *logger.Logger) error {
 	c.log = log
 	if c.log == nil {
 		c.log = logger.NewLogger(cfg.Kind)
@@ -44,7 +44,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) 
 	for i := 0; i < c.opts.sources; i++ {
 		clientId := c.opts.clientId
 		if c.opts.sources > 1 {
-			clientId = fmt.Sprintf("%s-%d", clientId, i)
+			clientId = fmt.Sprintf("kubemq-bridges/%s/%s/%d", bindingName, clientId, i)
 		}
 		client, err := kubemq.NewClient(ctx,
 			kubemq.WithAddress(c.opts.host, c.opts.port),
