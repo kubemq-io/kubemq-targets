@@ -27,7 +27,7 @@ type Client struct {
 func (c *Client) getQueuesClient(ctx context.Context, id int) (*queues_stream.QueuesStreamClient, error) {
 	return queues_stream.NewQueuesStreamClient(ctx,
 		queues_stream.WithAddress(c.opts.host, c.opts.port),
-		queues_stream.WithClientId(fmt.Sprintf("kubemq-targets/%s/%s-%d", c.bindingName, c.opts.clientId, id)),
+		queues_stream.WithClientId(fmt.Sprintf("kubemq-targets/%s/%s/%d", c.bindingName, c.opts.clientId, id)),
 		queues_stream.WithCheckConnection(true),
 		queues_stream.WithAutoReconnect(true),
 		queues_stream.WithAuthToken(c.opts.authToken),
