@@ -44,7 +44,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec, bindingName string, 
 	for i := 0; i < c.opts.sources; i++ {
 		clientId := c.opts.clientId
 		if c.opts.sources > 1 {
-			clientId = fmt.Sprintf("kubemq-bridges/%s/%s/%d", bindingName, clientId, i)
+			clientId = fmt.Sprintf("kubemq-targets/%s/%s/%d", bindingName, clientId, i)
 		}
 		client, err := kubemq.NewClient(ctx,
 			kubemq.WithAddress(c.opts.host, c.opts.port),
