@@ -15,18 +15,9 @@ Mongodb target connector configuration properties:
 
 | Properties Key            | Required | Description                          | Example                   |
 |:--------------------------|:---------|:-------------------------------------|:--------------------------|
-| host                      | yes      | mongodb host address                 | "localhost:27017"         |
-| username                  | no       | mongodb username                     | "admin"                   |
-| password                  | no       | mongodb password                     | "password"                |
+| url                       | yes      | mongodb host address                 | "localhost:27017"         |
 | database                  | no       | set database name                    | "admin"                   |
 | collection                | no       | set database collection              | "test"                    |
-| params                    | no       | set connection additional parameters | ""                        |
-| write_concurrency         | no       | set write concurrency                | "","majority","1","2"     |
-| read_concurrency          | no       | set read concurrency                 | "","local"                |
-|                           |          |                                      | "","local"                |
-|                           |          |                                      | "majority","available"    |
-|                           |          |                                      | "linearizable","snapshot" |
-| operation_timeout_seconds | no       | set operation timeout in seconds     | "30"                      |
 
 
 
@@ -52,15 +43,9 @@ bindings:
       kind: stores.mongodb
       name: target-mongodb
       properties:
-        host: "localhost:27017"
-        username: "admin"
-        password: "password"
+        url: "localhost:27017"
         database: "admin"
         collection: "test"
-        write_concurrency: "majority"
-        read_concurrency: ""
-        params: ""
-        operation_timeout_seconds: "2"
 ```
 
 ## Usage

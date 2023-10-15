@@ -24,7 +24,7 @@ func NewBinder() *Binder {
 	return &Binder{}
 }
 
-func (b *Binder) buildMiddleware(cfg config.BindingConfig, exporter *metrics.Exporter, log *middleware.LogMiddleware) (middleware.Middleware, error) {
+func (b *Binder) buildMiddleware(cfg config.BindingConfig, exporter *metrics.Exporter) (middleware.Middleware, error) {
 	retry, err := middleware.NewRetryMiddleware(cfg.Properties, b.log)
 	if err != nil {
 		return nil, err
@@ -41,24 +41,21 @@ func (b *Binder) buildMiddleware(cfg config.BindingConfig, exporter *metrics.Exp
 	if err != nil {
 		return nil, err
 	}
-	md := middleware.Chain(b.target, middleware.RateLimiter(rateLimiter), middleware.Retry(retry), middleware.Metric(met), middleware.Log(log), middleware.Metadata(meta))
+	md := middleware.Chain(b.target, middleware.RateLimiter(rateLimiter), middleware.Retry(retry), middleware.Metric(met), middleware.Metadata(meta))
 	return md, nil
 }
 
-func (b *Binder) Init(ctx context.Context, cfg config.BindingConfig, exporter *metrics.Exporter) error {
+func (b *Binder) Init(ctx context.Context, cfg config.BindingConfig, exporter *metrics.Exporter, logLevel string) error {
 	b.name = cfg.Name
-	log, err := middleware.NewLogMiddleware(cfg.Name, cfg.Properties)
-	if err != nil {
-		return err
-	}
-	b.log = log.Logger
+	var err error
+	b.log = logger.NewLogger(fmt.Sprintf("binding-%s", cfg.Name), logLevel)
 
 	b.target, err = targets.Init(ctx, cfg.Target, b.log)
 	if err != nil {
 		return fmt.Errorf("error loading target conntector on binding %s, %w", b.name, err)
 	}
 	b.log.Infof("binding: %s target: initialized successfully", b.name)
-	b.md, err = b.buildMiddleware(cfg, exporter, log)
+	b.md, err = b.buildMiddleware(cfg, exporter)
 	if err != nil {
 		return fmt.Errorf("error loading middlewares on binding %s, %w", b.name, err)
 	}

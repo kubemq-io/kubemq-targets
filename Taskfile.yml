@@ -4,7 +4,7 @@ version: '3'
 
 vars:
   BINARY_NAME: kubemq-targets
-  VERSION: v1.6.3
+  VERSION: v1.7.0
 tasks:
   default:
     cmds:
@@ -12,7 +12,7 @@ tasks:
       - ./kubemq-targets.exe
   check_update:
     cmds:
-      - go list -u -m -json -mod=mod all | go-mod-outdated -update -direct
+      - go-mod-upgrade
   lint:
     cmds:
       - golangci-lint run --disable gocritic --enable misspell

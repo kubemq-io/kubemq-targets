@@ -3,8 +3,6 @@ package mongodb
 import (
 	"context"
 	"fmt"
-	"strconv"
-
 	jsoniter "github.com/json-iterator/go"
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/config"
@@ -13,16 +11,13 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	monogOptions "go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/mongo/readconcern"
-	"go.mongodb.org/mongo-driver/mongo/writeconcern"
 )
 
 var json = jsoniter.ConfigCompatibleWithStandardLibrary
 
 const (
-	id                  = "_id"
-	value               = "value"
-	connectionURIFormat = "mongodb://%s:%s@%s/%s%s"
+	id    = "_id"
+	value = "value"
 )
 
 type Item struct {
@@ -59,68 +54,15 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) 
 	if err != nil {
 		return fmt.Errorf("error in creating mongodb client: %s", err)
 	}
-	wc, err := c.getWriteConcernObject(c.opts.writeConcurrency)
-	if err != nil {
-		_ = c.client.Disconnect(context.Background())
-		return fmt.Errorf("error in getting write concern object: %s", err)
-	}
-	rc, err := c.getReadConcernObject(c.opts.readConcurrency)
-	if err != nil {
-		_ = c.client.Disconnect(context.Background())
-		return fmt.Errorf("error in getting read concern object: %s", err)
-	}
 
-	opts := monogOptions.Collection().SetWriteConcern(wc).SetReadConcern(rc)
-	collection := c.client.Database(c.opts.database).Collection(c.opts.collection, opts)
+	collection := c.client.Database(c.opts.database).Collection(c.opts.collection)
 	c.collection = collection
 	return nil
 }
 
-func (c *Client) getWriteConcernObject(cn string) (*writeconcern.WriteConcern, error) {
-	var wc *writeconcern.WriteConcern
-	if cn != "" {
-		if cn == "majority" {
-			wc = writeconcern.New(writeconcern.WMajority(), writeconcern.J(true), writeconcern.WTimeout(c.opts.operationTimeout))
-		} else {
-			w, err := strconv.Atoi(cn)
-			wc = writeconcern.New(writeconcern.W(w), writeconcern.J(true), writeconcern.WTimeout(c.opts.operationTimeout))
-
-			return wc, err
-		}
-	} else {
-		wc = writeconcern.New(writeconcern.W(1), writeconcern.J(true), writeconcern.WTimeout(c.opts.operationTimeout))
-	}
-
-	return wc, nil
-}
-
-func (c *Client) getReadConcernObject(cn string) (*readconcern.ReadConcern, error) {
-	switch cn {
-	case "local":
-		return readconcern.Local(), nil
-	case "majority":
-		return readconcern.Majority(), nil
-	case "available":
-		return readconcern.Available(), nil
-	case "linearizable":
-		return readconcern.Linearizable(), nil
-	case "snapshot":
-		return readconcern.Snapshot(), nil
-	case "":
-		return readconcern.Local(), nil
-	}
-
-	return nil, fmt.Errorf("readConcern %s not found", cn)
-}
-
 func (c *Client) getMongoDBClient(ctx context.Context) (*mongo.Client, error) {
-	var uri string
-
-	if c.opts.username != "" && c.opts.password != "" {
-		uri = fmt.Sprintf(connectionURIFormat, c.opts.username, c.opts.password, c.opts.host, c.opts.database, c.opts.params)
-	}
-	clientOptions := monogOptions.Client().ApplyURI(uri)
-	client, err := mongo.Connect(ctx, clientOptions)
+	opts := monogOptions.Client().ApplyURI(c.opts.url)
+	client, err := mongo.Connect(ctx, opts)
 	if err != nil {
 		return nil, err
 	}
@@ -172,8 +114,6 @@ func (c *Client) FindOne(ctx context.Context, meta metadata) (*types.Response, e
 		return nil, fmt.Errorf("find one document filter is invalid")
 	}
 	result := map[string]interface{}{}
-	ctx, cancel := context.WithTimeout(ctx, c.opts.operationTimeout)
-	defer cancel()
 	err := c.collection.FindOne(ctx, meta.filter).Decode(&result)
 	if err != nil {
 		return nil, fmt.Errorf("find one error, %s", err.Error())
@@ -192,8 +132,6 @@ func (c *Client) Find(ctx context.Context, meta metadata) (*types.Response, erro
 		return nil, fmt.Errorf("find documents filter is invalid")
 	}
 	results := []map[string]interface{}{}
-	ctx, cancel := context.WithTimeout(ctx, c.opts.operationTimeout)
-	defer cancel()
 	cursor, err := c.collection.Find(ctx, meta.filter)
 	if err != nil {
 		return nil, fmt.Errorf("find error, %s", err.Error())
@@ -218,9 +156,6 @@ func (c *Client) Insert(ctx context.Context, reqData []byte) (*types.Response, e
 	if err != nil {
 		return nil, fmt.Errorf("insert document json parsing error, %s", err.Error())
 	}
-
-	ctx, cancel := context.WithTimeout(ctx, c.opts.operationTimeout)
-	defer cancel()
 	result, err := c.collection.InsertOne(ctx, doc)
 	if err != nil {
 		return nil, fmt.Errorf("insert error, %s", err.Error())
@@ -241,8 +176,6 @@ func (c *Client) InsertMany(ctx context.Context, reqData []byte) (*types.Respons
 		return nil, fmt.Errorf("insert many documents json parsing error, %s", err.Error())
 	}
 
-	ctx, cancel := context.WithTimeout(ctx, c.opts.operationTimeout)
-	defer cancel()
 	results, err := c.collection.InsertMany(ctx, docs)
 	if err != nil {
 		return nil, fmt.Errorf("insert many error, %s", err.Error())
@@ -262,9 +195,6 @@ func (c *Client) UpdateOne(ctx context.Context, meta metadata, reqData []byte) (
 	if err != nil {
 		return nil, fmt.Errorf("update one document json parsing error, %s", err.Error())
 	}
-
-	ctx, cancel := context.WithTimeout(ctx, c.opts.operationTimeout)
-	defer cancel()
 	update := bson.M{"$set": &doc}
 	result, err := c.collection.UpdateOne(ctx, meta.filter, update, monogOptions.Update().SetUpsert(meta.setUpsert))
 	if err != nil {
@@ -286,8 +216,6 @@ func (c *Client) UpdateMany(ctx context.Context, meta metadata, reqData []byte) 
 		return nil, fmt.Errorf("update many document json parsing error, %s", err.Error())
 	}
 
-	ctx, cancel := context.WithTimeout(ctx, c.opts.operationTimeout)
-	defer cancel()
 	update := bson.M{"$set": &doc}
 	result, err := c.collection.UpdateMany(ctx, meta.filter, update, monogOptions.Update().SetUpsert(meta.setUpsert))
 	if err != nil {
@@ -306,8 +234,6 @@ func (c *Client) DeleteOne(ctx context.Context, meta metadata) (*types.Response,
 	if len(meta.filter) == 0 {
 		return nil, fmt.Errorf("delete one document filter is invalid")
 	}
-	ctx, cancel := context.WithTimeout(ctx, c.opts.operationTimeout)
-	defer cancel()
 	result, err := c.collection.DeleteOne(ctx, meta.filter)
 	if err != nil {
 		return nil, fmt.Errorf("delete one document error, %s", err.Error())
@@ -321,8 +247,6 @@ func (c *Client) DeleteMany(ctx context.Context, meta metadata) (*types.Response
 	if len(meta.filter) == 0 {
 		return nil, fmt.Errorf("delete many documents filter is invalid")
 	}
-	ctx, cancel := context.WithTimeout(ctx, c.opts.operationTimeout)
-	defer cancel()
 	result, err := c.collection.DeleteMany(ctx, meta.filter)
 	if err != nil {
 		return nil, fmt.Errorf("delete many documents error, %s", err.Error())
@@ -339,8 +263,6 @@ func (c *Client) Aggregate(ctx context.Context, reqData []byte) (*types.Response
 		return nil, fmt.Errorf("aggregate pipeline json parsing error, %s", err.Error())
 	}
 	results := []map[string]interface{}{}
-	ctx, cancel := context.WithTimeout(ctx, c.opts.operationTimeout)
-	defer cancel()
 	cursor, err := c.collection.Aggregate(ctx, pipeline)
 	if err != nil {
 		return nil, fmt.Errorf("aggregate error, %s", err.Error())
@@ -366,8 +288,6 @@ func (c *Client) Distinct(ctx context.Context, meta metadata) (*types.Response, 
 		return nil, fmt.Errorf("distinct filter is invalid")
 	}
 
-	ctx, cancel := context.WithTimeout(ctx, c.opts.operationTimeout)
-	defer cancel()
 	results, err := c.collection.Distinct(ctx, meta.fieldName, meta.filter)
 	if err != nil {
 		return nil, fmt.Errorf("distinct error, %s", err.Error())
@@ -386,8 +306,6 @@ func (c *Client) Get(ctx context.Context, meta metadata) (*types.Response, error
 		return nil, fmt.Errorf("get by key error, invalid key")
 	}
 	var result Item
-	ctx, cancel := context.WithTimeout(ctx, c.opts.operationTimeout)
-	defer cancel()
 
 	filter := bson.M{id: meta.key}
 	err := c.collection.FindOne(ctx, filter).Decode(&result)
@@ -406,8 +324,6 @@ func (c *Client) Set(ctx context.Context, meta metadata, data []byte) (*types.Re
 	if data == nil {
 		return nil, fmt.Errorf("set by key error, invalid document")
 	}
-	ctx, cancel := context.WithTimeout(ctx, c.opts.operationTimeout)
-	defer cancel()
 	filter := bson.M{id: meta.key}
 	update := bson.M{"$set": bson.M{id: meta.key, value: string(data)}}
 	_, err := c.collection.UpdateOne(ctx, filter, update, monogOptions.Update().SetUpsert(true))
@@ -424,8 +340,7 @@ func (c *Client) Delete(ctx context.Context, meta metadata) (*types.Response, er
 	if meta.key == "" {
 		return nil, fmt.Errorf("delete by key error, invalid key")
 	}
-	ctx, cancel := context.WithTimeout(ctx, c.opts.operationTimeout)
-	defer cancel()
+
 	filter := bson.M{id: meta.key}
 	_, err := c.collection.DeleteOne(ctx, filter)
 	if err != nil {
