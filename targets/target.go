@@ -6,6 +6,7 @@ package targets
 import (
 	"context"
 	"fmt"
+	"github.com/kubemq-io/kubemq-targets/targets/messaging/amqp"
 
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
@@ -22,8 +23,6 @@ import (
 	"github.com/kubemq-io/kubemq-targets/targets/aws/msk"
 	"github.com/kubemq-io/kubemq-targets/targets/aws/s3"
 	"github.com/kubemq-io/kubemq-targets/targets/aws/sns"
-	"github.com/kubemq-io/kubemq-targets/targets/azure/eventhubs"
-	"github.com/kubemq-io/kubemq-targets/targets/azure/servicebus"
 	"github.com/kubemq-io/kubemq-targets/targets/azure/storage/blob"
 	"github.com/kubemq-io/kubemq-targets/targets/azure/storage/files"
 	"github.com/kubemq-io/kubemq-targets/targets/azure/storage/queue"
@@ -345,6 +344,12 @@ func Init(ctx context.Context, cfg config.Spec, log *logger.Logger) (Target, err
 			return nil, err
 		}
 		return target, nil
+	case "messaging.amqp":
+		target := amqp.New()
+		if err := target.Init(ctx, cfg, log); err != nil {
+			return nil, err
+		}
+		return target, nil
 	// case "messaging.ibmmq":
 	//	target := ibmmq.New()
 	//	if err := target.Init(ctx, cfg); err != nil {
@@ -477,18 +482,18 @@ func Init(ctx context.Context, cfg config.Spec, log *logger.Logger) (Target, err
 			return nil, err
 		}
 		return target, nil
-	case "azure.eventhubs":
-		target := eventhubs.New()
-		if err := target.Init(ctx, cfg, log); err != nil {
-			return nil, err
-		}
-		return target, nil
-	case "azure.servicebus":
-		target := servicebus.New()
-		if err := target.Init(ctx, cfg, log); err != nil {
-			return nil, err
-		}
-		return target, nil
+	//case "azure.eventhubs":
+	//	target := eventhubs.New()
+	//	if err := target.Init(ctx, cfg, log); err != nil {
+	//		return nil, err
+	//	}
+	//	return target, nil
+	//case "azure.servicebus":
+	//	target := servicebus.New()
+	//	if err := target.Init(ctx, cfg, log); err != nil {
+	//		return nil, err
+	//	}
+	//	return target, nil
 	case "azure.stores.azuresql":
 		target := azuresql.New()
 		if err := target.Init(ctx, cfg, log); err != nil {
@@ -604,7 +609,8 @@ func Connectors() common.Connectors {
 		queue.Connector(),
 		files.Connector(),
 		blob.Connector(),
-		servicebus.Connector(),
-		eventhubs.Connector(),
+		amqp.Connector(),
+		//servicebus.Connector(),
+		//eventhubs.Connector(),
 	}
 }

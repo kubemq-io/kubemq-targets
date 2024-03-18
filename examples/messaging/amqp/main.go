@@ -20,10 +20,10 @@ func main() {
 		log.Fatal(err)
 	}
 	publishRequest := types.NewRequest().
-		SetMetadataKeyValue("address", "amqp-address").
+		SetMetadataKeyValue("destination", "some-destination").
 		SetData([]byte("some-data"))
 	queryPublishResponse, err := client.SetQuery(publishRequest.ToQuery()).
-		SetChannel("query.amqp").
+		SetChannel("query.activemq").
 		SetTimeout(10 * time.Second).Send(context.Background())
 	if err != nil {
 		log.Fatal(err)

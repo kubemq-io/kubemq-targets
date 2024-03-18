@@ -1,0 +1,2 @@
+run: docker run -d -p 8161:8161 -p 61616:61616 -p 5672:5672 --name artemis vromero/activemq-artemis
+web Console: Access the web console at http://localhost:8161/console (username: artemis, password: simetraehcapa).

@@ -4,7 +4,7 @@ version: '3'
 
 vars:
   BINARY_NAME: kubemq-targets
-  VERSION: v1.7.2
+  VERSION: v1.8.0
   REPO_GCP: europe-docker.pkg.dev/kubemq/images
   REPO_DOCKERHUB: kubemq
 tasks:

@@ -113,7 +113,18 @@ func (m Metadata) ParseInt(key string, defaultValue int) int {
 		return defaultValue
 	}
 }
-
+func (m Metadata) ParseInt64(key string, defaultValue int64) int64 {
+	if val, ok := m[key]; ok && val != "" {
+		parsedVal, err := strconv.ParseInt(val, 10, 64)
+		if err != nil {
+			return defaultValue
+		} else {
+			return parsedVal
+		}
+	} else {
+		return defaultValue
+	}
+}
 func (m Metadata) ParseOSFileMode(key string, defaultValue os.FileMode) os.FileMode {
 	if val, ok := m[key]; ok && val != "" {
 		parsedVal, err := strconv.ParseUint(val, 10, 32)

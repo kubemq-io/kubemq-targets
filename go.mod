@@ -2,7 +2,7 @@ module github.com/kubemq-io/kubemq-targets
 
 go 1.20
 
-//replace github.com/Azure/azure-service-bus-go => github.com/Azure/azure-service-bus-go v0.10.3
+replace github.com/Azure/azure-service-bus-go => github.com/Azure/azure-service-bus-go v0.10.3
 
 require (
 	cloud.google.com/go v0.110.8 // indirect
@@ -189,13 +189,15 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-require cloud.google.com/go/longrunning v0.5.1
+require (
+	cloud.google.com/go/longrunning v0.5.1
+	github.com/Azure/go-amqp v1.0.5
+)
 
 require (
 	cloud.google.com/go/compute/metadata v0.2.3 // indirect
 	cloud.google.com/go/functions v1.15.1 // indirect
 	github.com/Azure/azure-amqp-common-go/v3 v3.0.0 // indirect
-	github.com/Azure/go-amqp v0.12.6 // indirect
 	github.com/Azure/go-autorest v14.2.0+incompatible // indirect
 	github.com/Azure/go-autorest/autorest/adal v0.9.4 // indirect
 	github.com/Azure/go-autorest/autorest/date v0.3.0 // indirect
