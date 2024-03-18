@@ -22,7 +22,7 @@ func TestClient_Init(t *testing.T) {
 				Name: "messaging-amqp",
 				Kind: "messaging.amqp",
 				Properties: map[string]string{
-					"url":      "amqp://localhost:5672/",
+					"url":      "amqp://192.168.50.95:5672/",
 					"username": "artemis",
 					"password": "simetraehcapa",
 				},

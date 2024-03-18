@@ -90,6 +90,7 @@ func (c *Client) connect(ctx context.Context) error {
 }
 
 func (c *Client) Do(ctx context.Context, req *types.Request) (*types.Response, error) {
+	fmt.Println(req)
 	meta, err := parseMetadata(req.Metadata)
 	if err != nil {
 		return nil, err

@@ -1,10 +1,7 @@
 package types
 
 import (
-	b64 "encoding/base64"
 	"fmt"
-	"reflect"
-
 	jsoniter "github.com/json-iterator/go"
 	"github.com/kubemq-io/kubemq-go"
 )
@@ -46,43 +43,17 @@ func ParseRequest(body []byte) (*Request, error) {
 	if body == nil {
 		return nil, fmt.Errorf("empty request")
 	}
+	baseRequest := NewRequest()
+	err := json.Unmarshal(body, baseRequest)
+	if err == nil {
+		return baseRequest, nil
+	}
 	req := &TransportRequest{}
-	err := json.Unmarshal(body, req)
+	err = json.Unmarshal(body, req)
 	if err != nil {
-		return NewRequest().SetData(body), nil
+		return nil, fmt.Errorf("invalid request format, %w", err)
 	}
-	switch v := req.Data.(type) {
-	case nil:
-		return &Request{
-			Metadata: req.Metadata,
-			Data:     nil,
-		}, nil
-	case []byte:
-		return &Request{
-			Metadata: req.Metadata,
-			Data:     v,
-		}, nil
-	case string:
-		sDec, err := b64.StdEncoding.DecodeString(v)
-		if err != nil {
-			sDec = []byte(v)
-		}
-		return &Request{
-			Metadata: req.Metadata,
-			Data:     sDec,
-		}, nil
-	case map[string]interface{}:
-		data, err := json.Marshal(v)
-		if err != nil {
-			return nil, fmt.Errorf("error during casting json data, %s", err.Error())
-		}
-		return &Request{
-			Metadata: req.Metadata,
-			Data:     data,
-		}, nil
-	default:
-		return nil, fmt.Errorf("invalid data format, %s", reflect.TypeOf(v))
-	}
+	return NewRequest().SetMetadata(req.Metadata).SetData(body), nil
 }
 
 func (r *Request) MarshalBinary() []byte {

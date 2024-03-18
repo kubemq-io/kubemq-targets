@@ -4,7 +4,7 @@ version: '3'
 
 vars:
   BINARY_NAME: kubemq-targets
-  VERSION: v1.8.0
+  VERSION: v1.8.1
   REPO_GCP: europe-docker.pkg.dev/kubemq/images
   REPO_DOCKERHUB: kubemq
 tasks:
@@ -26,6 +26,8 @@ tasks:
       GOOS: '{{OS}}'
       GOARCH: '{{ARCH}}'
     cmds:
+      - go mod tidy
+      - go mod vendor
       - go build -tags container -o  "{{.BINARY_NAME}}.exe" -ldflags "-X main.version={{.VERSION}}"
   test:
     cmds:

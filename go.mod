@@ -2,7 +2,7 @@ module github.com/kubemq-io/kubemq-targets
 
 go 1.20
 
-replace github.com/Azure/azure-service-bus-go => github.com/Azure/azure-service-bus-go v0.10.3
+//replace github.com/Azure/azure-service-bus-go => github.com/Azure/azure-service-bus-go v0.10.3
 
 require (
 	cloud.google.com/go v0.110.8 // indirect
@@ -13,7 +13,6 @@ require (
 	cloud.google.com/go/spanner v1.50.0
 	cloud.google.com/go/storage v1.33.0
 	firebase.google.com/go/v4 v4.12.1
-	github.com/Azure/azure-event-hubs-go/v3 v3.3.0
 	github.com/Azure/azure-pipeline-go v0.2.3
 	github.com/Azure/azure-sdk-for-go v46.1.0+incompatible // indirect
 	github.com/Azure/azure-service-bus-go v0.10.3
@@ -125,7 +124,6 @@ require (
 	github.com/jcmturner/rpc/v2 v2.0.3 // indirect
 	github.com/jmespath/go-jmespath v0.4.0 // indirect
 	github.com/josharian/intern v1.0.0 // indirect
-	github.com/jpillora/backoff v1.0.0 // indirect
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 // indirect
 	github.com/klauspost/compress v1.17.0 // indirect
 	github.com/kubemq-io/protobuf v1.3.1 // indirect

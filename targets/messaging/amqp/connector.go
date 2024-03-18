@@ -22,22 +22,6 @@ func Connector() *common.Connector {
 		).
 		AddProperty(
 			common.NewProperty().
-				SetKind("bool").
-				SetName("skip_insecure").
-				SetDescription("Set skip TLS Certificate verification").
-				SetMust(false).
-				SetDefault("false"),
-		).
-		AddProperty(
-			common.NewProperty().
-				SetKind("multilines").
-				SetName("ca_cert").
-				SetDescription("Set TLS CA Certificate").
-				SetMust(false).
-				SetDefault(""),
-		).
-		AddProperty(
-			common.NewProperty().
 				SetKind("string").
 				SetName("username").
 				SetDescription("Set AMQP username").
@@ -49,6 +33,22 @@ func Connector() *common.Connector {
 				SetKind("string").
 				SetName("password").
 				SetDescription("Set AMQP password").
+				SetMust(false).
+				SetDefault(""),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("bool").
+				SetName("skip_insecure").
+				SetDescription("(SSL) Set skip TLS Certificate verification").
+				SetMust(false).
+				SetDefault("false"),
+		).
+		AddProperty(
+			common.NewProperty().
+				SetKind("multilines").
+				SetName("ca_cert").
+				SetDescription("(SSL) Set TLS CA Certificate").
 				SetMust(false).
 				SetDefault(""),
 		)

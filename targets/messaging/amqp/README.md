@@ -85,8 +85,7 @@ Example:
 {
   "metadata": {
     "address": "some-address",
-    "durable": true,
-    "priority": 1,
+    "durable": true
   },
   "data": "U0VMRUNUIGlkLHRpdGxlLGNvbnRlbnQgRlJPTSBwb3N0Ow=="
 }

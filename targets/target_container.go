@@ -7,6 +7,8 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/kubemq-io/kubemq-targets/targets/messaging/amqp"
+
 	"github.com/kubemq-hub/builder/connector/common"
 	"github.com/kubemq-io/kubemq-targets/pkg/logger"
 	"github.com/kubemq-io/kubemq-targets/targets/aws/amazonmq"
@@ -68,7 +70,7 @@ import (
 	"github.com/kubemq-io/kubemq-targets/targets/gcp/storage"
 	"github.com/kubemq-io/kubemq-targets/targets/http"
 	"github.com/kubemq-io/kubemq-targets/targets/messaging/activemq"
-	"github.com/kubemq-io/kubemq-targets/targets/messaging/ibmmq"
+	//"github.com/kubemq-io/kubemq-targets/targets/messaging/ibmmq"
 	"github.com/kubemq-io/kubemq-targets/targets/messaging/kafka"
 	"github.com/kubemq-io/kubemq-targets/targets/messaging/mqtt"
 	"github.com/kubemq-io/kubemq-targets/targets/messaging/rabbitmq"
@@ -482,18 +484,18 @@ func Init(ctx context.Context, cfg config.Spec, log *logger.Logger) (Target, err
 			return nil, err
 		}
 		return target, nil
-	case "azure.eventhubs":
-		target := eventhubs.New()
-		if err := target.Init(ctx, cfg, log); err != nil {
-			return nil, err
-		}
-		return target, nil
-	case "azure.servicebus":
-		target := servicebus.New()
-		if err := target.Init(ctx, cfg, log); err != nil {
-			return nil, err
-		}
-		return target, nil
+	//case "azure.eventhubs":
+	//	target := eventhubs.New()
+	//	if err := target.Init(ctx, cfg, log); err != nil {
+	//		return nil, err
+	//	}
+	//	return target, nil
+	//case "azure.servicebus":
+	//	target := servicebus.New()
+	//	if err := target.Init(ctx, cfg, log); err != nil {
+	//		return nil, err
+	//	}
+	//	return target, nil
 	case "azure.stores.azuresql":
 		target := azuresql.New()
 		if err := target.Init(ctx, cfg, log); err != nil {
@@ -549,10 +551,9 @@ func Connectors() common.Connectors {
 		rabbitmq.Connector(),
 		kafka.Connector(),
 		activemq.Connector(),
-		ibmmq.Connector(),
 		nats.Connector(),
 		hazelcast.Connector(),
-
+		amqp.Connector(),
 		// storage
 		minio.Connector(),
 		hdfs.Connector(),
@@ -609,6 +610,7 @@ func Connectors() common.Connectors {
 		queue.Connector(),
 		files.Connector(),
 		blob.Connector(),
+
 		//servicebus.Connector(),
 		//eventhubs.Connector(),
 	}
