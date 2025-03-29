@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  vernemq:
+    image: vernemq/vernemq:latest
+    container_name: kubemq-vernemq
+    ports:
+      - "1883:1883"       # MQTT
+      - "8888:8888"       # HTTP API/dashboard
+    environment:
+      - DOCKER_VERNEMQ_ACCEPT_EULA=yes
+      - DOCKER_VERNEMQ_ALLOW_ANONYMOUS=on
+      - DOCKER_VERNEMQ_LOG__CONSOLE__LEVEL=info
+      - DOCKER_VERNEMQ_MAX_INFLIGHT_MESSAGES=0
+      - DOCKER_VERNEMQ_MAX_CLIENT_ID_SIZE=100
+      - DOCKER_VERNEMQ_MAX_MESSAGE_SIZE=0
+      - DOCKER_VERNEMQ_PLUGINS__VMQ_PASSWD=off
+    volumes:
+      - vernemq-data:/vernemq/data
+    healthcheck:
+      test: ["CMD", "/vernemq/bin/vernemq", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    restart: unless-stopped
+
+volumes:
+  vernemq-data: 

@@ -86,6 +86,7 @@ func (c *Client) run(ctx context.Context, client *queues_stream.QueuesStreamClie
 	}()
 	for {
 		if c.isStopped {
+			c.log.Info("stopped")
 			return
 		}
 		err := c.processQueueMessage(ctx, client)
@@ -107,7 +108,7 @@ func (c *Client) processQueueMessage(ctx context.Context, client *queues_stream.
 		SetChannel(c.opts.channel).
 		SetMaxItems(c.opts.batchSize).
 		SetWaitTimeout(c.opts.waitTimeout * 1000).
-		SetAutoAck(true).
+		SetAutoAck(false).
 		SetOnErrorFunc(c.onError)
 	pollResp, err := client.Poll(ctx, pr)
 	if err != nil {
@@ -127,6 +128,7 @@ func (c *Client) processQueueMessage(ctx context.Context, client *queues_stream.
 				return fmt.Errorf("invalid request format, %w", err)
 			}
 		}
+		c.log.Infof("received request from queue %s, sending to target", c.opts.channel)
 		resp, err := c.target.Do(ctx, req)
 		if err != nil {
 			if c.opts.responseChannel != "" {
@@ -136,7 +138,14 @@ func (c *Client) processQueueMessage(ctx context.Context, client *queues_stream.
 					c.log.Errorf("error sending response to a queue, %s", errSend.Error())
 				}
 			}
+			c.log.Errorf("error processing request from queue, %s, sending back to the queue", err.Error())
+			_ = message.NAck()
+			time.Sleep(time.Second)
+		} else {
+			c.log.Infof("processed request from queue successfully")
+			_ = message.Ack()
 		}
+
 		if resp != nil {
 			if c.opts.responseChannel != "" {
 				_, errSend := client.Send(ctx, resp.ToQueueStreamMessage().SetChannel(c.opts.responseChannel))

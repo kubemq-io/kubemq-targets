@@ -4,14 +4,14 @@ version: '3'
 
 vars:
   BINARY_NAME: kubemq-targets
-  VERSION: v1.8.1
+  VERSION: v1.9.0
   REPO_GCP: europe-docker.pkg.dev/kubemq/images
   REPO_DOCKERHUB: kubemq
 tasks:
   default:
     cmds:
-      - go build -buildmode=exe -o "{{.BINARY_NAME}}.exe"
-      - ./kubemq-targets.exe
+      - go build -buildmode=exe -o "{{.BINARY_NAME}}"
+      - ./kubemq-targets
   check_update:
     cmds:
       - go-mod-upgrade
@@ -52,15 +52,6 @@ tasks:
     cmds:
       - DOCKER_BUILDKIT=0  docker build . -f Docker_builder -t kubemq/gobuilder-ubuntu:latest
       - docker push kubemq/gobuilder-ubuntu:latest
-  docker:
-    env:
-      GOOS: linux
-      GOARCH: amd64
-    cmds:
-      - go mod tidy
-      - go mod vendor
-      - DOCKER_BUILDKIT=0 docker build --build-arg VERSION={{.VERSION}} . -t kubemq/{{.BINARY_NAME}}:{{.VERSION}}
-      - docker tag kubemq/{{.BINARY_NAME}}:{{.VERSION}} kubemq/{{.BINARY_NAME}}:latest
   run_docker:
     cmds:
       - docker run -it --rm kubemq/{{.BINARY_NAME}}:latest
@@ -93,14 +84,14 @@ tasks:
     cmds:
       - go mod tidy
       - go mod vendor
-      - docker buildx build --platform linux/amd64,linux/arm64 --build-arg VERSION={{.VERSION}} . -t {{.REPO_GCP}}/{{.BINARY_NAME}}:{{.VERSION}} --push
-      - docker pull {{.REPO_GCP}}/{{.BINARY_NAME}}:{{.VERSION}}
+      - docker buildx build --platform linux/amd64 --build-arg VERSION={{.VERSION}} . -t {{.REPO_GCP}}/{{.BINARY_NAME}}:{{.VERSION}} --push
+      - docker pull --platform linux/amd64 {{.REPO_GCP}}/{{.BINARY_NAME}}:{{.VERSION}}
       - docker tag {{.REPO_GCP}}/{{.BINARY_NAME}}:{{.VERSION}} {{.REPO_GCP}}/{{.BINARY_NAME}}:latest
       - docker push {{.REPO_GCP}}/{{.BINARY_NAME}}:latest
-      - docker tag {{.REPO_GCP}}/{{.BINARY_NAME}}:{{.VERSION}} {{.REPO_DOCKERHUB}}/{{.BINARY_NAME}}:{{.VERSION}}
-      - docker tag {{.REPO_GCP}}/{{.BINARY_NAME}}:{{.VERSION}} {{.REPO_DOCKERHUB}}/{{.BINARY_NAME}}:latest
-      - docker push {{.REPO_DOCKERHUB}}/{{.BINARY_NAME}}:{{.VERSION}}
-      - docker push {{.REPO_DOCKERHUB}}/{{.BINARY_NAME}}:latest
+#      - docker tag {{.REPO_GCP}}/{{.BINARY_NAME}}:{{.VERSION}} {{.REPO_DOCKERHUB}}/{{.BINARY_NAME}}:{{.VERSION}}
+#      - docker tag {{.REPO_GCP}}/{{.BINARY_NAME}}:{{.VERSION}} {{.REPO_DOCKERHUB}}/{{.BINARY_NAME}}:latest
+#      - docker push {{.REPO_DOCKERHUB}}/{{.BINARY_NAME}}:{{.VERSION}}
+#      - docker push {{.REPO_DOCKERHUB}}/{{.BINARY_NAME}}:latest
   trivy:
     cmds:
-      - trivy image --exit-code 1 --severity HIGH,CRITICAL kubemq/{{.BINARY_NAME}}:{{.VERSION}}
+      - trivy image --exit-code 1 --severity HIGH,CRITICAL {{.REPO_GCP}}/{{.BINARY_NAME}}:{{.VERSION}}
