@@ -24,8 +24,8 @@ func Connector() *common.Connector {
 				SetKind("multilines").
 				SetName("credentials").
 				SetTitle("Json Credentials").
-				SetDescription("Set GCP credentials").
-				SetMust(true).
+				SetDescription("Set GCP credentials (leave empty to use Application Default Credentials / Workload Identity)").
+				SetMust(false).
 				SetDefault(""),
 		).
 		AddMetadata(
