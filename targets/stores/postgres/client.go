@@ -50,7 +50,7 @@ func (c *Client) Init(ctx context.Context, cfg config.Spec, log *logger.Logger) 
 	err = c.db.PingContext(ctx)
 	if err != nil {
 		_ = c.db.Close()
-		return fmt.Errorf("error reaching postgres at %s: %w", c.opts.connection, err)
+		return fmt.Errorf("error reaching postgres: %w", err) // never echo the connection string: it carries the password
 	}
 	c.db.SetMaxOpenConns(c.opts.maxOpenConnections)
 	c.db.SetMaxIdleConns(c.opts.maxIdleConnections)
